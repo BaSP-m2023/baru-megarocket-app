@@ -1,0 +1,8 @@
+<svg id="Component_7_2" data-name="Component 7 – 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <rect id="Rectangle_11" data-name="Rectangle 11" width="24" height="24" fill="rgba(255,255,255,0)"/>
+  <g id="logo-instagram" transform="translate(4 4)">
+    <circle id="Ellipse_1" data-name="Ellipse 1" cx="0.96" cy="0.96" r="0.96" transform="translate(11.185 2.932)" fill="#212529"/>
+    <path id="Path_6" data-name="Path 6" d="M8,12a4,4,0,1,1,4-4A4,4,0,0,1,8,12ZM8,6a2,2,0,1,0,2,2A2,2,0,0,0,8,6Z" fill="#212529"/>
+    <path id="Path_7" data-name="Path 7" d="M12,16H4a4.214,4.214,0,0,1-4-4V4A4.214,4.214,0,0,1,4,0h8a4.214,4.214,0,0,1,4,4v8A4.214,4.214,0,0,1,12,16ZM4,2A2.265,2.265,0,0,0,2,4v8a2.231,2.231,0,0,0,2,2h8a2.265,2.265,0,0,0,2-2V4a2.265,2.265,0,0,0-2-2Z" fill="#212529"/>
+  </g>
+</svg>

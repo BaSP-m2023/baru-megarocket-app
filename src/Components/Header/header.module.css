@@ -1,0 +1,57 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  height: 50px;
+  background-color: #EA3354;
+}
+
+.brand {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.socialIcon {
+  margin-left: 15px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  min-height: 100px;
+  background-color: #F0F4F9;
+}
+
+.appName {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.rutes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  list-style-type: none;
+}
+
+.rutes > li > a {
+  margin-left: 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: black;
+}
+
+@media screen and (min-width: 750px) {
+  .container {
+    padding: 0 20%;
+  }
+
+  .navbar {
+    padding: 0 20%;
+  }
+}
