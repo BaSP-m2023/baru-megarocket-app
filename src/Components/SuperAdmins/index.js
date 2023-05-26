@@ -9,17 +9,22 @@ function SuperAdmins() {
   const getSuperadmins = async () => {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/`);
     const data = await res.json();
-    console.log(data);
     setSuperadmins(data.data);
   };
   useEffect(() => {
     getSuperadmins();
   }, []);
   //  const addItem = ({ na})
+  const deleteItem = async (id) => {
+    await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
+      method: 'DELETE'
+    });
+    setSuperadmins([...superadmins.filter((superadmin) => superadmin._id !== id)]);
+  };
   return (
     <section className={styles.container}>
       <h2>SuperAdmins</h2>
-      <Table data={superadmins} />
+      <Table data={superadmins} deleteItem={deleteItem} />
       <EditModal />
     </section>
   );
