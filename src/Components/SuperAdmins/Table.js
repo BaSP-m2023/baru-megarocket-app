@@ -1,12 +1,12 @@
 import React from 'react';
-import styles from './table.module.css';
+import './table.module.css';
 import pencil from './assets/pencil.png';
 import trash from './assets/trash.svg';
 
-const Table = () => {
+const Table = ({ data }) => {
   return (
     <table>
-      <thead className={styles.caca}>
+      <thead>
         <tr>
           <th>Name</th>
           <th>Last name</th>
@@ -16,26 +16,20 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Victoria</td>
-          <td>Ecalle</td>
-          <td>victoria@gmail.com</td>
-          <td>holachau123</td>
-          <td>
-            <img src={pencil} width="20px"></img>
-            <img src={trash} width="20px"></img>
-          </td>
-        </tr>
-        <tr>
-          <td>Victoria</td>
-          <td>Ecalle</td>
-          <td>victoria@gmail.com</td>
-          <td>holachau123</td>
-          <td>
-            <img src={pencil} width="20px"></img>
-            <img src={trash} width="20px"></img>
-          </td>
-        </tr>
+        {data.map((item) => {
+          return (
+            <tr key={item.id}>
+              <td>{item.name}</td>
+              <td>{item.lastName}</td>
+              <td>{item.email}</td>
+              <td>{item.password}</td>
+              <td>
+                <img src={pencil} width="20px"></img>
+                <img src={trash} width="20px"></img>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
