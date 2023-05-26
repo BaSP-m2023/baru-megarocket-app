@@ -1,0 +1,36 @@
+.modal{
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: auto;
+  border: 1px solid black;
+
+}
+.modalTitle{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: fit-content;
+  background-color: navy;
+}
+h3{
+  color: white;
+  margin: 0.5%;
+}
+form{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.column1, .column2{
+  display: flex;
+  flex-direction: column;
+}
+.submit{
+  padding: 1% 2%;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  border: none;
+  background: #AACE9B;
+  color: #373867;
+}
