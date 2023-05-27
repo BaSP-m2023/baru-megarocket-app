@@ -1,3 +1,25 @@
+button {
+  width: 130px;
+  height: 36px;
+  align-self: center;
+  margin-right: 60px;
+  background-color: #AACE9B;
+  font-weight: 600;
+  color: #373867;
+  font-size: 1rem;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.container h2 {
+  align-self: flex-start;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #373867;
+  margin-left: 45px;
+}
+
 .container {
   flex: 1;
   display: flex;
@@ -6,43 +28,9 @@
   align-items: center;
 }
 
-h2 {
-  align-self: flex-start;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #373867;
-  margin-left: 45px;
-}
-
-.tableContainer {
-  overflow-y: scroll;
-  padding-right: 15px;
-  height: 50vh;
-  width: 90vw;
-  margin-bottom: 65px;
-}
-
-table {
+.title {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  border-spacing: 0 5px;
 }
 
-tr {
-  height: 40px;
-  text-align: center;
-  color: #373867;
-  background-color: #EBEBEB;
-}
-
-tbody tr {
-  font-size: 1rem;
-  font-weight: 400;
-}
-
-tbody tr:nth-child(odd) {
-  background-color: #FFFFFF; /* Color de fondo para filas impares */
-}
-
-tbody tr:nth-child(even) {
-  background-color: #EBEBEB; /* Color de fondo para filas pares */
-}

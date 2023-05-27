@@ -1,0 +1,31 @@
+table {
+  width: 100%;
+  border-spacing: 0 5px;
+}
+
+tr {
+  height: 40px;
+  text-align: center;
+  color: #373867;
+  background-color: #EBEBEB;
+}
+
+tbody tr {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #FFFFFF;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #EBEBEB;
+}
+
+.tableContainer {
+  overflow-y: scroll;
+  height: 50vh;
+  width: 90vw;
+  margin-bottom: 65px;
+}

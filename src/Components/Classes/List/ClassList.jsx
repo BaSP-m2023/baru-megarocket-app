@@ -1,4 +1,4 @@
-import styles from './classes.module.css';
+import styles from './list.module.css';
 
 function ClassList({ classes }) {
   return (
@@ -8,6 +8,7 @@ function ClassList({ classes }) {
           <tr>
             <th>N°</th>
             <th>Activity</th>
+            <th>Trainer</th>
             <th>Capacity</th>
             <th>Day</th>
             <th>Time</th>
@@ -20,6 +21,7 @@ function ClassList({ classes }) {
               <tr key={item._id}>
                 <td>{index + 1}</td>
                 <td>{item.activity !== null ? item.activity.name : 'Empty'}</td>
+                <td>{item.trainer.length !== 0 ? item.trainer[0].firstName : 'Empty'}</td>
                 <td>{item.capacity}</td>
                 <td>{item.day}</td>
                 <td>{item.time}</td>
