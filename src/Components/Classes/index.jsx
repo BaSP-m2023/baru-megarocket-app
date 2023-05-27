@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 function Projects() {
   const [classes, setClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
-  const [formCreateSwitch, setFormCreateSwitch] = useState(false);
+  const [createdClass, setCreatedClass] = useState(null);
 
   const getClasses = async () => {
     try {
@@ -22,7 +22,31 @@ function Projects() {
     try {
       const response = await fetch(`http://localhost:4000/api/class/${id}`);
       const data = await response.json();
+      console.log(data.data);
       setSelectedClass(data.data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const createClass = async (classes) => {
+    classes.trainer = [classes.trainer];
+    console.log(classes);
+    const bodyClasses = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(classes)
+    };
+    try {
+      const response = await fetch(`http://localhost:4000/api/class/`, bodyClasses);
+      const data = await response.json();
+      if (!data.error) {
+        setCreatedClass(data.data);
+      } else {
+        console.log(data);
+      }
     } catch (error) {
       throw new Error(error);
     }
@@ -32,16 +56,15 @@ function Projects() {
     getClasses();
   }, []);
 
-  console.log(formCreateSwitch);
+  console.log(createdClass);
 
   return (
     <section className={styles.container}>
       <h2>Class List</h2>
       <div>
         <ClassList classes={classes} getById={getById} selectedClass={selectedClass}></ClassList>
-        {selectedClass && formCreateSwitch && <Form selectedClass={selectedClass}></Form>}
+        <Form createClass={createClass}></Form>
       </div>
-      <button onClick={() => setFormCreateSwitch(!formCreateSwitch)}>+ Add New</button>
     </section>
   );
 }

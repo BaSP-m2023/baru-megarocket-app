@@ -41,5 +41,5 @@ tbody tr:nth-child(even):hover {
   overflow-y: scroll;
   height: 50vh;
   width: 90vw;
-  margin-bottom: 65px;
+  margin-bottom: 10px;
 }
