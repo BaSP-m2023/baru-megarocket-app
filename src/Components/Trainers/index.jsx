@@ -19,12 +19,23 @@ const Trainers = () => {
     getTrainers();
   }, []);
 
+  const deleteTrainer = async (id) => {
+    try {
+      await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
+        method: 'DELETE'
+      });
+      setTrainer([...trainers.filter((trainer) => trainer._id !== id)]);
+    } catch (error) {
+      console.log('Error fetching trainers:', error);
+    }
+  };
+
   const activeTrainers = trainers.filter((trainer) => trainer.isActive);
 
   return (
     <section className={styles.container}>
       <h2>Trainers</h2>
-      <Table data={activeTrainers} />
+      <Table data={activeTrainers} deleteTrainer={deleteTrainer} />
     </section>
   );
 };
