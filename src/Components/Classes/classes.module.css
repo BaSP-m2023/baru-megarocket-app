@@ -1,8 +1,8 @@
 button {
+  align-self: flex-end;
   width: 130px;
   height: 36px;
-  align-self: center;
-  margin-right: 60px;
+  margin: 0 60px 50px 0;
   background-color: #AACE9B;
   font-weight: 600;
   color: #373867;
@@ -26,11 +26,5 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.title {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
 }
 

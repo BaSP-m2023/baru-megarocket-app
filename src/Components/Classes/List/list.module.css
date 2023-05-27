@@ -13,14 +13,28 @@ tr {
 tbody tr {
   font-size: 1rem;
   font-weight: 400;
+  cursor: pointer;
 }
 
 tbody tr:nth-child(odd) {
   background-color: #FFFFFF;
 }
 
+tbody tr:nth-child(odd):hover {
+  background-color: #c4bcbc;
+}
+
 tbody tr:nth-child(even) {
   background-color: #EBEBEB;
+}
+
+tbody tr:nth-child(even):hover {
+  background-color: #c0b6b6;
+}
+
+.selected {
+  background-color: #373867 !important;
+  color: #FFFFFF;
 }
 
 .tableContainer {

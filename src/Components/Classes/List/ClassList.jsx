@@ -1,6 +1,6 @@
 import styles from './list.module.css';
 
-function ClassList({ classes }) {
+function ClassList({ classes, getById, selectedClass }) {
   return (
     <div className={styles.tableContainer}>
       <table>
@@ -18,7 +18,11 @@ function ClassList({ classes }) {
         <tbody>
           {classes.length !== 0 &&
             classes.map((item, index) => (
-              <tr key={item._id}>
+              <tr
+                key={item._id}
+                onClick={() => getById(item._id)}
+                className={selectedClass && selectedClass._id === item._id ? styles.selected : ''}
+              >
                 <td>{index + 1}</td>
                 <td>{item.activity !== null ? item.activity.name : 'Empty'}</td>
                 <td>{item.trainer.length !== 0 ? item.trainer[0].firstName : 'Empty'}</td>
