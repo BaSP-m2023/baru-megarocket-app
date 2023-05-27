@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import styles from './form.module.css';
 
-function Form({ createClass }) {
+function Form({ createClass, activities, trainers }) {
   const [formCreateSwitch, setFormCreateSwitch] = useState(false);
+  const [error, setError] = useState(false);
   const [classes, setClasses] = useState({
     activity: '',
     trainer: '',
@@ -30,7 +31,7 @@ function Form({ createClass }) {
         capacity: ''
       });
     } else {
-      setFormCreateSwitch(!formCreateSwitch);
+      setError(!error);
     }
   };
 
@@ -41,64 +42,76 @@ function Form({ createClass }) {
     });
   };
 
+  console.log(error);
+
   return (
-    <div className={styles.formContainer}>
-      {formCreateSwitch ? (
-        <form onSubmit={onSubmit}>
-          <div className={styles.subContainer}>
-            <div className={styles.inputContainer}>
-              <label>Activity</label>
-              <input
-                type="text"
-                value={classes.activity}
-                name="activity"
-                onChange={onChangeInput}
-              />
+    <>
+      <button
+        className={styles.buttonSwitch}
+        onClick={() => setFormCreateSwitch(!formCreateSwitch)}
+      >
+        + Add New
+      </button>
+      <div className={styles.formContainer}>
+        {formCreateSwitch && activities.length !== 0 && trainers.length !== 0 ? (
+          <form onSubmit={onSubmit}>
+            <div className={styles.subContainer}>
+              <div className={styles.inputContainer}>
+                <label>Activity</label>
+                <select value={classes.activity} name="activity" onChange={onChangeInput}>
+                  <option value="">Select an activity</option>
+                  {activities.map((activity) => (
+                    <option key={activity._id} value={activity._id}>
+                      {activity.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className={styles.inputContainer}>
+                <label>Trainer</label>
+                <select value={classes.trainer} name="trainer" onChange={onChangeInput}>
+                  <option value="">Select a trainer</option>
+                  {trainers.map((trainer) => (
+                    <option key={trainer._id} value={trainer._id}>
+                      {trainer.firstName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className={styles.inputContainer}>
+                <label>Day</label>
+                <select name="day" onChange={onChangeInput}>
+                  <option value="">Select a day</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
+                </select>
+              </div>
+              <div className={styles.inputContainer}>
+                <label>Time</label>
+                <input type="time" value={classes.time} name="time" onChange={onChangeInput} />
+              </div>
+              <div className={styles.inputContainer}>
+                <label>Capacity</label>
+                <input
+                  type="number"
+                  value={classes.capacity}
+                  name="capacity"
+                  onChange={onChangeInput}
+                />
+              </div>
+              <div className={styles.buttonContainer}>
+                <button type="submit">Create</button>
+              </div>
             </div>
-            <div className={styles.inputContainer}>
-              <label>Trainer</label>
-              <input type="text" value={classes.trainer} name="trainer" onChange={onChangeInput} />
-            </div>
-            <div className={styles.inputContainer}>
-              <label>Day</label>
-              <select name="day" onChange={onChangeInput}>
-                <option value={classes.day}>{classes.day}</option>
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
-                <option value="Saturday">Saturday</option>
-                <option value="Sunday">Sunday</option>
-              </select>
-            </div>
-            <div className={styles.inputContainer}>
-              <label>Time</label>
-              <input type="time" value={classes.time} name="time" onChange={onChangeInput} />
-            </div>
-            <div className={styles.inputContainer}>
-              <label>Capacity</label>
-              <input
-                type="number"
-                value={classes.capacity}
-                name="capacity"
-                onChange={onChangeInput}
-              />
-            </div>
-            <div className={styles.buttonContainer}>
-              <button type="submit">Create</button>
-            </div>
-          </div>
-        </form>
-      ) : (
-        <button
-          className={styles.buttonSwitch}
-          onClick={() => setFormCreateSwitch(!formCreateSwitch)}
-        >
-          Create{' '}
-        </button>
-      )}
-    </div>
+          </form>
+        ) : null}
+      </div>
+    </>
   );
 }
 
