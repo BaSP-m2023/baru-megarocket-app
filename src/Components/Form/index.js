@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styles from './form.module.css';
 
-const AddMemberModal = ({ open, onClose, addMember }) => {
-  if (!open) return null;
+const memberModal = ({ openAdd, onClose, addMember }) => {
+  if (!openAdd) return null;
 
   const [name, setName] = useState('');
   const [lastName, setLastname] = useState('');
@@ -10,18 +10,40 @@ const AddMemberModal = ({ open, onClose, addMember }) => {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [city, setCity] = useState('');
+  const [dob, setDob] = useState('');
   const [zip, setZip] = useState('');
-  const [status, setStatus] = useState(true);
+  const [isActive, setIsActive] = useState(true);
   const [membership, setMembership] = useState('');
   const [password, setPassword] = useState('');
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    addMember({ name, lastName });
+    addMember({
+      name,
+      lastName,
+      dni,
+      phone,
+      email,
+      city,
+      dob,
+      zip,
+      isActive,
+      membership,
+      password
+    });
 
     // setName('');
     // setLastname('');
+    // setDni('');
+    // setPhone('');
+    // setEmail('');
+    // setCity('');
+    // setDob('');
+    // setZip('');
+    // setIsActive('');
+    // setMembership('');
+    // setPassword('');
   };
 
   return (
@@ -59,6 +81,10 @@ const AddMemberModal = ({ open, onClose, addMember }) => {
             <input type="text" value={city} onChange={(e) => setCity(e.target.value)} />
           </div>
           <div className={styles.label_container}>
+            <label>Date of birth</label>
+            <input type="text" value={dob} onChange={(e) => setDob(e.target.value)} />
+          </div>
+          <div className={styles.label_container}>
             <label>Zip Code</label>
             <input type="number" value={zip} onChange={(e) => setZip(e.target.value)} />
           </div>
@@ -71,11 +97,11 @@ const AddMemberModal = ({ open, onClose, addMember }) => {
             <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           <div className={styles.label_container}>
-            <label>Status</label>
+            <label>Is member active?</label>
             <input
               type="checkbox"
-              value={status}
-              onChange={(e) => setStatus(e.currentTarget.checked)}
+              value={isActive}
+              onChange={(e) => setIsActive(e.currentTarget.checked)}
             />
           </div>
           <input className={styles.save_input} type="submit" value="Add Member" />
@@ -85,4 +111,4 @@ const AddMemberModal = ({ open, onClose, addMember }) => {
   );
 };
 
-export default AddMemberModal;
+export default memberModal;

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import styles from './members.module.css';
 import Table from '../Table';
-import AddMemberModal from '../Form';
+import MemberModal from '../Form';
 
 function Members() {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/member/`)
+    fetch(`${process.env.REACT_APP_API_URL}/api/member`)
       .then((response) => response.json())
       .then((response) => {
         setMembers(response.data);
@@ -15,9 +15,7 @@ function Members() {
   }, []);
 
   const addMember = async (member) => {
-    // const newMeber = { ...member };
-    // setMembers([...members, newMeber]);
-    const res = await fetch(`http://localhost:4000/api/member/`, {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -29,13 +27,13 @@ function Members() {
     setMembers([...members, data]);
   };
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenAdd, setIsOpenAdd] = useState(false);
 
   return (
     <section className={styles.container}>
       <h2>Members</h2>
-      <button onClick={() => setIsOpen(true)}>Add Member</button>
-      <AddMemberModal open={isOpen} onClose={() => setIsOpen(false)} addMember={addMember} />
+      <button onClick={() => setIsOpenAdd(true)}>Add Member</button>
+      <MemberModal openAdd={isOpenAdd} onClose={() => setIsOpenAdd(false)} addMember={addMember} />
       <Table data={members} />
     </section>
   );
