@@ -10,7 +10,7 @@ function Projects() {
   const [activities, setActivities] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState({ error: false, msg: '' });
 
   const getData = async () => {
     try {
@@ -24,6 +24,8 @@ function Projects() {
       setTrainers(dataTrainers.data);
       setActivities(dataActivities);
     } catch (error) {
+      setError({ error: true, msg: error });
+      setShowModal(true);
       throw new Error(error);
     }
   };
@@ -38,6 +40,8 @@ function Projects() {
       const data = await response.json();
       setSelectedClass(data.data);
     } catch (error) {
+      setError({ error: true, msg: error });
+      setShowModal(true);
       throw new Error(error);
     }
   };
@@ -68,13 +72,15 @@ function Projects() {
             capacity: data.capacity
           }
         ]);
-        setError(false);
+        setError({ error: false, msg: '' });
         setShowModal(true);
       } else {
-        setError(true);
+        setError({ error: true, msg: data.message });
         setShowModal(true);
       }
     } catch (error) {
+      setError({ error: true, msg: error });
+      setShowModal(true);
       throw new Error(error);
     }
   };
