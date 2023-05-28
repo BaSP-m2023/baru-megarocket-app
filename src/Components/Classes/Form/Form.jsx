@@ -30,8 +30,9 @@ function Form({ createClass, activities, trainers }) {
         time: '',
         capacity: ''
       });
+      setError(false);
     } else {
-      setError(!error);
+      setError(true);
     }
   };
 
@@ -42,13 +43,14 @@ function Form({ createClass, activities, trainers }) {
     });
   };
 
-  console.log(error);
-
   return (
     <>
       <button
         className={styles.buttonSwitch}
-        onClick={() => setFormCreateSwitch(!formCreateSwitch)}
+        onClick={() => {
+          setFormCreateSwitch(!formCreateSwitch);
+          setError(false);
+        }}
       >
         + Add New
       </button>
@@ -66,6 +68,9 @@ function Form({ createClass, activities, trainers }) {
                     </option>
                   ))}
                 </select>
+                {error && classes.activity === '' ? (
+                  <span className={styles.error}>Field is required</span>
+                ) : null}
               </div>
               <div className={styles.inputContainer}>
                 <label>Trainer</label>
@@ -77,10 +82,13 @@ function Form({ createClass, activities, trainers }) {
                     </option>
                   ))}
                 </select>
+                {error && classes.trainer === '' ? (
+                  <span className={styles.error}>Field is required</span>
+                ) : null}
               </div>
               <div className={styles.inputContainer}>
                 <label>Day</label>
-                <select name="day" onChange={onChangeInput}>
+                <select value={classes.day} name="day" onChange={onChangeInput}>
                   <option value="">Select a day</option>
                   <option value="Monday">Monday</option>
                   <option value="Tuesday">Tuesday</option>
@@ -90,10 +98,16 @@ function Form({ createClass, activities, trainers }) {
                   <option value="Saturday">Saturday</option>
                   <option value="Sunday">Sunday</option>
                 </select>
+                {error && classes.day === '' ? (
+                  <span className={styles.error}>Field is required</span>
+                ) : null}
               </div>
               <div className={styles.inputContainer}>
                 <label>Time</label>
                 <input type="time" value={classes.time} name="time" onChange={onChangeInput} />
+                {error && classes.time === '' ? (
+                  <span className={styles.error}>Field is required</span>
+                ) : null}
               </div>
               <div className={styles.inputContainer}>
                 <label>Capacity</label>
@@ -103,6 +117,9 @@ function Form({ createClass, activities, trainers }) {
                   name="capacity"
                   onChange={onChangeInput}
                 />
+                {error && classes.capacity === '' ? (
+                  <span className={styles.error}>Field is required</span>
+                ) : null}
               </div>
               <div className={styles.buttonContainer}>
                 <button type="submit">Create</button>

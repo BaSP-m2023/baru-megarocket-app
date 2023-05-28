@@ -1,6 +1,7 @@
 import styles from './classes.module.css';
 import ClassList from './List/ClassList';
 import Form from './Form/Form';
+import Modal from './Modal/Modal';
 import { useState, useEffect } from 'react';
 
 function Projects() {
@@ -8,7 +9,8 @@ function Projects() {
   const [trainers, setTrainers] = useState([]);
   const [activities, setActivities] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
-  const [createdClass, setCreatedClass] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState(false);
 
   const getData = async () => {
     try {
@@ -34,31 +36,43 @@ function Projects() {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`);
       const data = await response.json();
-      console.log(data.data);
       setSelectedClass(data.data);
     } catch (error) {
       throw new Error(error);
     }
   };
 
-  const createClass = async (classes) => {
-    classes.trainer = [classes.trainer];
+  const createClass = async (newClass) => {
+    newClass.trainer = [newClass.trainer];
     const bodyClasses = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(classes)
+      body: JSON.stringify(newClass)
     };
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/`, bodyClasses);
       const data = await response.json();
       if (data.length !== 0 && !data.error) {
-        setCreatedClass(data.data);
-        console.log(createdClass);
-        console.log(response.status);
+        setClasses([
+          ...classes,
+          {
+            _id: data._id,
+            activity: {
+              name: data.activity.name
+            },
+            trainer: [{ firstName: data.trainer[0].firstName }],
+            day: data.day,
+            time: data.time,
+            capacity: data.capacity
+          }
+        ]);
+        setError(false);
+        setShowModal(true);
       } else {
-        console.log(data);
+        setError(true);
+        setShowModal(true);
       }
     } catch (error) {
       throw new Error(error);
@@ -69,8 +83,13 @@ function Projects() {
     <section className={styles.container}>
       <h2>Class List</h2>
       <div>
-        <ClassList classes={classes} getById={getById} selectedClass={selectedClass}></ClassList>
+        <ClassList
+          classes={classes && classes}
+          getById={getById}
+          selectedClass={selectedClass}
+        ></ClassList>
         <Form createClass={createClass} trainers={trainers} activities={activities}></Form>
+        <Modal showModal={showModal} error={error} onClose={() => setShowModal(!showModal)}></Modal>
       </div>
     </section>
   );
