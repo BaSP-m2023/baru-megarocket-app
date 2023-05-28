@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './members.module.css';
-import Table from '../Table';
-import MemberModal from '../Form';
+import Table from './Table';
+import MemberModal from './Form';
 
 function Members() {
   const [members, setMembers] = useState([]);
@@ -33,7 +33,7 @@ function Members() {
     <section className={styles.container}>
       <h2>Members</h2>
       <button onClick={() => setIsOpenAdd(true)}>Add Member</button>
-      <MemberModal openAdd={isOpenAdd} onClose={() => setIsOpenAdd(false)} addMember={addMember} />
+      {isOpenAdd && <MemberModal onClose={() => setIsOpenAdd(false)} addMember={addMember} />}
       <Table data={members} />
     </section>
   );
