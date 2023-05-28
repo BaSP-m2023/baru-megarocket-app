@@ -6,8 +6,8 @@ function Modal({ showModal, onClose, error }) {
   return (
     <>
       <div className={styles.modalContainer}>
-        <div className={error ? styles.modalError : styles.modalSuccess}>
-          {error ? (
+        <div className={error.error ? styles.modalError : styles.modalSuccess}>
+          {error.error ? (
             <p className={styles.error}>{error.msg}</p>
           ) : (
             <p className={styles.success}>Class created successfully</p>
