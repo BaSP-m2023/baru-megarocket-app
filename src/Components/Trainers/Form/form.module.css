@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #373867;
+}
+
+.input {
+  width: 50%;
+  height: 1.5rem;
+  margin: 0.5rem;
+  padding: 0 8px;
+  border-radius: 5px;
+  border: 1px solid #373867;
+}
+
+.save {
+  width: 7rem;
+  height: 3rem;
+  margin: 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #373867;
+  background-color: #AACE9B;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 2.3rem;
+}
