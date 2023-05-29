@@ -1,6 +1,22 @@
-.table {
+.table-container {
+  display: flex;
+  flex-direction: column;
   width: 65%;
-  align-self: flex-start;
+  min-height: 40vh;
+}
+
+.table-filter {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+}
+
+.input-filter {
+  border: 1px solid #373867;
+  border-radius: 3px;
+}
+
+.table {
   border-collapse: collapse;
   border-spacing: 15px 15px;
 }
@@ -19,4 +35,8 @@
   width: 17.5px;
   height: 17.5px;
   cursor: pointer;
+}
+
+.empty {
+  text-align: center;
 }

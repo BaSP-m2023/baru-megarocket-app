@@ -1,7 +1,7 @@
 import styles from './table.module.css';
 import ButtonSlider from './ButtonSlider/ButtonSlider';
 
-const Item = ({ member, handleModal }) => {
+const Item = ({ member = { name: 'Nothing match', isActive: false }, handleModal }) => {
   return (
     <tr className={`${styles['table-row']}`}>
       <td>{member.name}</td>
