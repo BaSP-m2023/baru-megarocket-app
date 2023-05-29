@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './form.module.css';
 
 // eslint-disable-next-line no-unused-vars
-const Form = ({ addForm, addItem, members, classes }) => {
+const Form = ({ addForm, addItem, members, classes, onClose }) => {
   const [subscription, setSubscription] = useState({
     classes: '',
     members: '',
@@ -31,12 +31,12 @@ const Form = ({ addForm, addItem, members, classes }) => {
   if (addForm) {
     return (
       <>
-        <form className={styles.form} onSubmit={onSubmit}>
-          <div className={styles.container}>
-            <h2 className="title">Create a New Subscription</h2>
+        <div className={styles.container}>
+          <form className={styles.createForm} onSubmit={onSubmit}>
+            <h2 className={styles.title}>Add Subscription</h2>
             <label className={styles.createForm}>Class:</label>
             <select
-              className={styles.createForm}
+              className={styles.select}
               id="classes"
               name="classes"
               value={subscription.classes}
@@ -52,7 +52,7 @@ const Form = ({ addForm, addItem, members, classes }) => {
             </select>
             <label>Member:</label>
             <select
-              className={styles.createForm}
+              className={styles.select}
               id="members"
               name="members"
               value={subscription.members}
@@ -66,7 +66,7 @@ const Form = ({ addForm, addItem, members, classes }) => {
                 );
               })}
             </select>
-            <label className={styles.createForm}>Date</label>
+            <label className={styles.select}>Date</label>
             <input
               className={styles.input}
               name="date"
@@ -77,8 +77,11 @@ const Form = ({ addForm, addItem, members, classes }) => {
             <button className={styles.btnSubmit} name="ADD" type="submit">
               Submit
             </button>
-          </div>
-        </form>
+            <button onClick={onClose} className={styles.btnClose}>
+              Cancel
+            </button>
+          </form>
+        </div>
       </>
     );
   } else {

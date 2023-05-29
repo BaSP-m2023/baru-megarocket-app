@@ -5,7 +5,9 @@
   justify-content: center;
   align-items: center;
 }
-
+.title{
+  font-size: 4rem;
+}
 .btnDelete {
   padding: 10px 30px;
   margin-top: 20px;

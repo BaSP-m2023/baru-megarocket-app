@@ -82,13 +82,19 @@ const Subscriptions = () => {
 
   return (
     <section className={styles.container}>
-      <h1>Subscription List</h1>
+      <h1 className={styles.Title}>Subscription</h1>
+      <button onClick={() => handleCreate(addForm, setAddForm)}>+</button>
+      <Form
+        addForm={addForm}
+        addItem={addItem}
+        members={members}
+        classes={classes}
+        onClose={() => setAddForm(false)}
+      />
       <div>
         <Table data={subscriptions} />
       </div>
       <div>
-        <button onClick={() => handleCreate(addForm, setAddForm)}>+</button>
-        <Form addForm={addForm} addItem={addItem} members={members} classes={classes} />
         {createModal ? <CreateModal onClose={() => setCreateModal(false)} /> : <div></div>}
         {errorModal ? <ErrorModal onClose={() => setErrorModal(false)} /> : <div></div>}
       </div>
