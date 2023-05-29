@@ -1,0 +1,41 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  height: 120px;
+  width: 400px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.btnEdit{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btnEdit button{
+  width: 80px;
+  height: 25px;
+  color: #373867;
+  background-color: #aace9e;
+  border: none;
+}
+
+h3 {
+  color: #373867;
+}
+
+p {
+  color: #373867;
+  font-weight: 400;
+}
