@@ -93,6 +93,8 @@ function Projects() {
           classes={classes && classes}
           getById={getById}
           selectedClass={selectedClass}
+          trainers={trainers}
+          activities={activities}
         ></ClassList>
         <Form createClass={createClass} trainers={trainers} activities={activities}></Form>
         <Modal showModal={showModal} error={error} onClose={() => setShowModal(!showModal)}></Modal>
