@@ -3,9 +3,9 @@ import styles from './button.module.css';
 
 const Button = ({ show }) => {
   return (
-    <div className={styles.container}>
+    <div>
       <button className={styles.button} onClick={show}>
-        +
+        + Add New
       </button>
     </div>
   );
