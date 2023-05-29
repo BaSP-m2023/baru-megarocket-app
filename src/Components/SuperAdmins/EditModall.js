@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styles from './edit-modal.module.css';
 
-const EditModal = ({ addItem }) => {
+const EditModall = ({ addItem, data }) => {
+  console.log(data);
   const [superadmin, setSuperadmin] = useState({
     name: '',
     lastName: '',
@@ -28,19 +29,14 @@ const EditModal = ({ addItem }) => {
     <>
       <div className={styles.modal}>
         <div className={styles.modalTitle}>
-          <h3>Create superadmin</h3>
+          <h3>Edit superadmin</h3>
           <h3>X</h3>
         </div>
         <div>
           <form onSubmit={onSubmit}>
             <div className={styles.column1}>
               <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                name="name"
-                value={superadmin.name}
-                onChange={onChangeInput}
-              ></input>
+              <input type="text" name="name" value={data.name} onChange={onChangeInput}></input>
               <label htmlFor="lastName">Last name</label>
               <input
                 type="text"
@@ -75,4 +71,4 @@ const EditModal = ({ addItem }) => {
   );
 };
 
-export default EditModal;
+export default EditModall;
