@@ -1,6 +1,12 @@
+import { useState } from 'react';
 import styles from './list.module.css';
 
 function ClassList({ classes, getById, selectedClass }) {
+  const [editEnable, setEditEnable] = useState(false);
+
+  const editActivity = () => {
+    setEditEnable(true);
+  };
   return (
     <div className={styles.tableContainer}>
       <table>
@@ -24,12 +30,56 @@ function ClassList({ classes, getById, selectedClass }) {
                 className={selectedClass && selectedClass._id === item._id ? styles.selected : ''}
               >
                 <td>{index + 1}</td>
-                <td>{item.activity !== null ? item.activity.name : 'Empty'}</td>
-                <td>{item.trainer.length !== 0 ? item.trainer[0].firstName : 'Empty'}</td>
-                <td>{item.capacity}</td>
-                <td>{item.day}</td>
-                <td>{item.time}</td>
-                <td></td>
+                <td>
+                  {editEnable === true && selectedClass && selectedClass._id === item._id ? (
+                    <input className={styles.inputEdit} type="text" />
+                  ) : item && item.activity !== null ? (
+                    item.activity.name
+                  ) : (
+                    'Empty'
+                  )}
+                </td>
+                <td>
+                  {editEnable === true && selectedClass && selectedClass._id === item._id ? (
+                    <input className={styles.inputEdit} type="text" />
+                  ) : item.trainer.length !== 0 ? (
+                    item.trainer[0].firstName
+                  ) : (
+                    'Empty'
+                  )}
+                </td>
+                <td>
+                  {editEnable === true && selectedClass && selectedClass._id === item._id ? (
+                    <input className={styles.inputEdit} type="text" />
+                  ) : (
+                    item.capacity
+                  )}
+                </td>
+                <td>
+                  {editEnable === true && selectedClass && selectedClass._id === item._id ? (
+                    <input className={styles.inputEdit} type="text" />
+                  ) : (
+                    item.day
+                  )}
+                </td>
+                <td>
+                  {editEnable === true && selectedClass && selectedClass._id === item._id ? (
+                    <input className={styles.inputEdit} type="text" />
+                  ) : (
+                    item.time
+                  )}
+                </td>
+
+                <td>
+                  {editEnable === true && selectedClass && selectedClass._id === item._id ? (
+                    <button>Update</button>
+                  ) : (
+                    <>
+                      <button onClick={editActivity}>Edit</button>
+                      <button>Delete X</button>
+                    </>
+                  )}
+                </td>
               </tr>
             ))}
         </tbody>
