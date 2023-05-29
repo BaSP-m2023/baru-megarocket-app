@@ -6,7 +6,6 @@
 
 .container {
   flex: 1;
-  position: relative;
   min-height: 50vh;
   display: flex;
   justify-content: center;

@@ -57,11 +57,11 @@ function Members() {
       });
       const data = await res.json();
       if (res.status === 200) {
-        handleToast({ msg: data.message, className: 'toast-ok' });
+        handleToast({ content: data.message, className: 'toast-ok' });
         setMembers(members.filter((member) => member._id != id));
       }
       if (res.status !== 200) {
-        handleToast({ msg: data.message, className: 'toast-wrong' });
+        handleToast({ content: data.message, className: 'toast-wrong' });
       }
       handleModal();
     } catch (error) {
@@ -78,7 +78,11 @@ function Members() {
       )}
       {modal && <DeleteModal hide={handleModal} onDelete={deleteMember} member={memberToDelete} />}
       {toast && (
-        <Toast handler={handleToast} msg={toastContent.msg} classes={toastContent.className} />
+        <Toast
+          handler={handleToast}
+          content={toastContent.content}
+          classes={toastContent.className}
+        />
       )}
     </section>
   );

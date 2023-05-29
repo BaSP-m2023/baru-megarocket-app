@@ -1,7 +1,7 @@
 import styles from './table.module.css';
 import Item from './Item';
 
-const List = ({ members, handleModal }) => {
+const List = ({ members = [], handleModal }) => {
   return (
     <table className={`${styles.table}`}>
       <thead className={`${styles['table-header']}`}>
