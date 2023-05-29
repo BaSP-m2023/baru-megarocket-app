@@ -1,13 +1,14 @@
 import styles from './super-admins.module.css';
 import EditModal from './EditModal';
-import EditModall from './EditModall';
 import Table from './Table';
 import { useEffect, useState } from 'react';
 
 function SuperAdmins() {
   const [showAddSuperadmin, setshowAddSuperadmin] = useState(false);
-  const [showEditSuperadmin, setshowEditSuperadmin] = useState(false);
+  const [updatingItem, setUpdatingItem] = useState({ name: '', lastName: '', email: '' });
   const [superadmins, setSuperadmins] = useState([]);
+  //const [requestStatus, setRequestStatus] = useState({});
+
   const getSuperadmins = async () => {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/`);
     const data = await res.json();
@@ -26,28 +27,40 @@ function SuperAdmins() {
         },
         body: JSON.stringify(superadmin)
       });
-      console.log(superadmin);
       const data = await res.json();
+      console.log(data);
+      //const msg = await data.message;
       setSuperadmins([...superadmins, data.data]);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateItem = async (id, updatedSuperadmin) => {
-    setshowEditSuperadmin(true);
+  const putItem = async (id, updatedSuperadmin) => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(updatedSuperadmin)
       });
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
+  };
+  const showForm = () => {
+    setshowAddSuperadmin(!showAddSuperadmin);
+    setUpdatingItem({ name: '', lastName: '', email: '' });
+  };
+
+  const update = async (id) => {
+    setshowAddSuperadmin(true);
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
+      method: 'GET'
+    });
+    const data = await res.json();
+    setUpdatingItem(data.data);
   };
 
   const deleteItem = async (id) => {
@@ -62,12 +75,20 @@ function SuperAdmins() {
       <Table
         data={superadmins}
         deleteItem={deleteItem}
-        onAdd={() => setshowAddSuperadmin(!showAddSuperadmin)}
+        showForm={showForm}
+        update={update}
         // onEdit={() => setshowEditSuperadmin(!showEditSuperadmin)}
-        updateItem={updateItem}
+        updatingItem={updatingItem}
       />
-      {showAddSuperadmin && <EditModal addItem={addItem} />}
-      {showEditSuperadmin && <EditModall editItem={updateItem} data={superadmins} />}
+      {showAddSuperadmin && updatingItem && (
+        <EditModal
+          getSuperadmins={getSuperadmins}
+          addItem={addItem}
+          updatingItem={updatingItem}
+          showForm={showForm}
+          putItem={putItem}
+        />
+      )}
     </section>
   );
 }
