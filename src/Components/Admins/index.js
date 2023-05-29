@@ -19,8 +19,17 @@ const Admins = () => {
     getAdmins();
   }, []);
 
-  const deleteAdmin = (id) => {
-    setAdmins([...admins.filter((admin) => admin._id !== id)]);
+  const deleteAdmin = async (id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/delete/${id}`, {
+        method: 'DELETE'
+      });
+      const res = await response.json();
+      console.log(res.message);
+      setAdmins([...admins.filter((admin) => admin._id !== id)]);
+    } catch (error) {
+      error;
+    }
   };
 
   return (

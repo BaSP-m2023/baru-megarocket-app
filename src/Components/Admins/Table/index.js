@@ -1,7 +1,7 @@
 import React from 'react';
 import './table.module.css';
 
-function Table({ admins }) {
+function Table({ admins, deleteAdmin }) {
   return (
     <table>
       <thead>
@@ -24,6 +24,10 @@ function Table({ admins }) {
               <td>{admin.phone}</td>
               <td>{admin.email}</td>
               <td>{admin.city}</td>
+              <td></td>
+              <td>
+                <button onClick={() => deleteAdmin(admin._id)}>X</button>
+              </td>
             </tr>
           );
         })}
