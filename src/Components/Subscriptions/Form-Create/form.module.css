@@ -1,0 +1,45 @@
+.container {
+  padding: 20px;
+  margin: 20px 0 20px 0;
+  box-shadow: 1px 4px 4px black;
+  border-radius: 5px;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title h2 {
+  color: #373867;
+}
+
+.editForm select {
+ padding: 10px;
+}
+
+.editForm label {
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #373867;
+}
+
+.btnSubmit {
+  display: flex;
+  justify-content: center;
+}
+
+.btnSubmit button {
+  padding: 10px 30px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #373867;
+  background-color:#aace9e;
+  border: none;
+}
