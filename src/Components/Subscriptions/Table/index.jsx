@@ -1,8 +1,8 @@
 import React from 'react';
-
+import styles from './table.module.css';
 const Table = ({ data }) => {
   return (
-    <table>
+    <table className={styles.tableContainer}>
       <thead>
         <tr>
           <th>Classes</th>
@@ -13,19 +13,23 @@ const Table = ({ data }) => {
       <tbody>
         {data.length > 0 ? (
           data.map((subscription) => (
-            <tr key={subscription._id}>
-              <td>{`${subscription.classes.day} ${subscription.classes.time}`}</td>
+            <tr className={styles.line} key={subscription._id}>
+              <td
+                className={styles.item}
+              >{`${subscription.classes.day} ${subscription.classes.time}`}</td>
               {!subscription.members ? (
-                <td>{'empty'}</td>
+                <td className={styles.item}>{'empty'}</td>
               ) : (
-                <td>{`${subscription.members.name} ${subscription.members.lastName}`}</td>
+                <td
+                  className={styles.item}
+                >{`${subscription.members.name} ${subscription.members.lastName}`}</td>
               )}
-              <td>{subscription.date}</td>
+              <td className={styles.item}>{subscription.date}</td>
             </tr>
           ))
         ) : (
           <tr>
-            <td colSpan="4">Cannot reach any subscription</td>
+            <td colSpan="4">Cannot find any subscription</td>
           </tr>
         )}
       </tbody>

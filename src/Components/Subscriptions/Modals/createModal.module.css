@@ -19,11 +19,11 @@
 }
 
 .modal h3 {
-  color: green;
+  color: black;
 }
 
 .modal p {
-  color: green;
+  color: black;
   font-weight: 500;
 }
 
@@ -37,5 +37,12 @@
   height: 25px;
   color: white;
   background-color: green;
+  border: none;
+}
+.btnError button{
+  width: 80px;
+  height: 25px;
+  color: white;
+  background-color: red;
   border: none;
 }

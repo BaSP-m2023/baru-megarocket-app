@@ -5,7 +5,7 @@
   border-radius: 5px;
 }
 
-.editForm {
+.createForm {
   display: flex;
   flex-direction: column;
 }
@@ -20,14 +20,12 @@
   color: #373867;
 }
 
-.editForm select {
+.createForm select {
  padding: 10px;
 }
 
-.editForm label {
-  margin-bottom: 10px;
-  font-weight: 500;
-  color: #373867;
+.createForm label {
+  padding: 10px;
 }
 
 .btnSubmit {

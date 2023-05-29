@@ -6,7 +6,7 @@ const Form = ({ addForm, addItem, members, classes }) => {
   const [subscription, setSubscription] = useState({
     classes: '',
     members: '',
-    date: '2023-05-30T00:00:10.000Z'
+    date: new Date().toUTCString
   });
 
   const onChangeInput = (e) => {
@@ -23,7 +23,7 @@ const Form = ({ addForm, addItem, members, classes }) => {
     setSubscription({
       classes: '',
       members: '',
-      date: '2023-05-30T00:00:10.000Z'
+      date: ''
     });
   };
 
@@ -32,9 +32,11 @@ const Form = ({ addForm, addItem, members, classes }) => {
     return (
       <>
         <form className={styles.form} onSubmit={onSubmit}>
-          <div className={styles.formContainer}>
-            <label>Class:</label>
+          <div className={styles.container}>
+            <h2 className="title">Create a New Subscription</h2>
+            <label className={styles.createForm}>Class:</label>
             <select
+              className={styles.createForm}
               id="classes"
               name="classes"
               value={subscription.classes}
@@ -50,6 +52,7 @@ const Form = ({ addForm, addItem, members, classes }) => {
             </select>
             <label>Member:</label>
             <select
+              className={styles.createForm}
               id="members"
               name="members"
               value={subscription.members}
@@ -63,17 +66,17 @@ const Form = ({ addForm, addItem, members, classes }) => {
                 );
               })}
             </select>
-            <div className={styles.formContainer}>
-              <label className={styles.label}>Date</label>
-              <input
-                className={styles.input}
-                name="date"
-                type="string"
-                value={'2023-05-30T00:00:10.000Z'}
-                onChange={onChangeInput}
-              />
-            </div>
-            <input name="ADD" type="submit"></input>
+            <label className={styles.createForm}>Date</label>
+            <input
+              className={styles.input}
+              name="date"
+              type="string"
+              value={subscription.date}
+              onChange={onChangeInput}
+            />
+            <button className={styles.btnSubmit} name="ADD" type="submit">
+              Submit
+            </button>
           </div>
         </form>
       </>

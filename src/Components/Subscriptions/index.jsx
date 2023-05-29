@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import styles from './subscriptions.module.css';
 import Table from './Table';
-import CreateModal from './Modals';
+import { CreateModal, ErrorModal } from './Modals';
 import Form from './Form-Create';
 const Subscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [createModal, setCreateModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
   const [addForm, setAddForm] = useState(false);
   const [classes, setClasses] = useState([]);
   const [members, setMembers] = useState([]);
@@ -36,6 +37,7 @@ const Subscriptions = () => {
       console.log(body);
       if (data.length !== 0 && !data.error) {
         setCreateModal(true);
+        setAddForm(false);
         setSubscriptions([
           ...subscriptions,
           {
@@ -48,6 +50,7 @@ const Subscriptions = () => {
         setError({ error: false, msg: '' });
       } else {
         setError({ error: true, msg: data.message });
+        setErrorModal(true);
       }
     } catch (error) {
       setError({ error: true, msg: error });
@@ -87,6 +90,7 @@ const Subscriptions = () => {
         <button onClick={() => handleCreate(addForm, setAddForm)}>+</button>
         <Form addForm={addForm} addItem={addItem} members={members} classes={classes} />
         {createModal ? <CreateModal onClose={() => setCreateModal(false)} /> : <div></div>}
+        {errorModal ? <ErrorModal onClose={() => setErrorModal(false)} /> : <div></div>}
       </div>
     </section>
   );
