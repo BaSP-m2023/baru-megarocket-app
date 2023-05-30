@@ -58,10 +58,10 @@ function Members() {
       const data = await res.json();
       if (res.status === 200) {
         handleToast({ content: data.message, className: 'toast-ok' });
-        setMembers(members.filter((member) => member._id != id));
+        setMembers(members.filter((member) => member._id !== id));
       }
       if (res.status !== 200) {
-        handleToast({ content: data.message, className: 'toast-wrong' });
+        handleToast({ content: data.msg, className: 'toast-wrong' });
       }
       handleModal();
     } catch (error) {

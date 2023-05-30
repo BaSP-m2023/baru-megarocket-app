@@ -1,24 +1,32 @@
 import styles from './table.module.css';
 import Item from './Item';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const List = ({ members = [], handleModal }) => {
-  const [filter, setFilter] = useState(members);
-
+  useEffect(() => {
+    setFilter(members);
+  }, [members]);
+  const [filter, setFilter] = useState([]);
   const filterList = (value) => {
-    const membersToShow = members.filter((member) =>
-      member.name.toLowerCase().includes(value.toLowerCase())
+    const membersToShow = members.filter(
+      (member) =>
+        member.name.toLowerCase().includes(value) || member.lastName.toLowerCase().includes(value)
     );
     setFilter(membersToShow);
   };
   return (
     <div className={`${styles['table-container']}`}>
       <div className={`${styles['table-filter']}`}>
+        {filter.length === 0 ? (
+          <p className={`${styles['table-error']}`}>There is nothing to match</p>
+        ) : (
+          ''
+        )}
         <input
-          className={`${styles['input-filter']}`}
+          className={`${styles['table-input-filter']}`}
           type="text"
           placeholder="Search by name"
-          onChange={(e) => filterList(e.target.value)}
+          onChange={(e) => filterList(e.target.value.toLowerCase())}
         />
         <img src="/assets/images/search-icon.png" alt="" />
       </div>

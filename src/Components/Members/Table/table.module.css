@@ -11,14 +11,13 @@
   align-self: flex-end;
 }
 
-.input-filter {
+.table-input-filter {
   border: 1px solid #373867;
   border-radius: 3px;
 }
 
 .table {
   border-collapse: collapse;
-  border-spacing: 15px 15px;
 }
 
 .table-header {
@@ -37,6 +36,7 @@
   cursor: pointer;
 }
 
-.empty {
-  text-align: center;
+.table-error {
+  padding-right: 10px;
+  color: #F13312;
 }

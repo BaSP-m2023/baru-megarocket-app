@@ -4,7 +4,9 @@ import ButtonSlider from './ButtonSlider/ButtonSlider';
 const Item = ({ member = { name: 'Nothing match', isActive: false }, handleModal }) => {
   return (
     <tr className={`${styles['table-row']}`}>
-      <td>{member.name}</td>
+      <td>
+        {member.name} {member.lastName}
+      </td>
       <td>
         <ButtonSlider status={member.isActive} />
       </td>
