@@ -46,3 +46,24 @@
   background-color: red;
   border: none;
 }
+
+.btnContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btnDelete {
+  margin-left: 10px;
+  width: 80px;
+  height: 25px;
+  color: white;
+  background-color: red;
+  border: none;
+}
+
+.btnCancel {
+  width: 80px;
+  height: 25px;
+  color: black;
+  border: none;
+}

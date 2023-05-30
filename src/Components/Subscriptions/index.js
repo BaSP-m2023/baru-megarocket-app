@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import styles from './subscriptions.module.css';
 import Table from './Table';
-import { CreateModal, ErrorModal } from './Modals';
+import { ErrorModal } from './Modals';
 const Subscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
-  const [createModal, setCreateModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [classes, setClasses] = useState([]);
   const [members, setMembers] = useState([]);
@@ -46,10 +45,7 @@ const Subscriptions = () => {
       <div>
         <Table data={subscriptions} classes={classes} members={members} />
       </div>
-      <div>
-        {createModal ? <CreateModal onClose={() => setCreateModal(false)} /> : <div></div>}
-        {errorModal ? <ErrorModal onClose={() => setErrorModal(false)} /> : <div></div>}
-      </div>
+      <div>{errorModal ? <ErrorModal onClose={() => setErrorModal(false)} /> : <div></div>}</div>
     </section>
   );
 };

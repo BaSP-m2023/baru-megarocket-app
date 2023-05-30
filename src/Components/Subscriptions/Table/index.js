@@ -3,7 +3,7 @@ import styles from './table.module.css';
 import imgDeleteSubscription from '../assets/delete-icon.png';
 import imgEditSubscription from '../assets/edit-icon.png';
 import Form from '../Form';
-import { DeleteModal } from '../Modals/index';
+import { DeleteModal, ConfirmDeleteModal } from '../Modals/index';
 
 const Table = ({ data }) => {
   const [deletedSubscription, setDeletedSubscription] = useState([]);
@@ -11,6 +11,7 @@ const Table = ({ data }) => {
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -37,11 +38,17 @@ const Table = ({ data }) => {
     }
   };
 
-  const handleDelete = async (event, subscriptionId) => {
-    event.stopPropagation();
+  const handleConfirmDelete = (subscriptionId) => {
+    setEditingSubscriptionId(subscriptionId);
+    setShowConfirmDeleteModal(true);
+    setShowDeleteModal(false);
+  };
+
+  const handleDelete = async (subscriptionId) => {
     try {
       await deleteSubscription(subscriptionId);
       setDeletedSubscription([...deletedSubscription, subscriptionId]);
+      setShowConfirmDeleteModal(false);
       setShowDeleteModal(true);
     } catch (error) {
       throw new Error(error);
@@ -97,7 +104,7 @@ const Table = ({ data }) => {
                 </td>
                 <td
                   className={styles.btnDelete}
-                  onClick={(event) => handleDelete(event, subscription._id)}
+                  onClick={() => handleConfirmDelete(subscription._id)}
                 >
                   <img src={imgDeleteSubscription}></img>
                 </td>
@@ -122,6 +129,12 @@ const Table = ({ data }) => {
             />
           )}
         </div>
+      )}
+      {showConfirmDeleteModal && (
+        <ConfirmDeleteModal
+          onClose={() => setShowConfirmDeleteModal(false)}
+          confirmDelete={() => handleDelete(editingSubscriptionId)}
+        />
       )}
       {showDeleteModal ? <DeleteModal onClose={closeModal} /> : <div></div>}
     </div>
