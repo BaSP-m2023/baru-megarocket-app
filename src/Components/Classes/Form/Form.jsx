@@ -45,15 +45,26 @@ function Form({ createClass, activities, trainers }) {
 
   return (
     <>
-      <button
-        className={styles.buttonSwitch}
-        onClick={() => {
-          setFormCreateSwitch(!formCreateSwitch);
-          setError(false);
-        }}
-      >
-        + Add New
-      </button>
+      {formCreateSwitch ? (
+        <button
+          className={styles.btnClose}
+          onClick={() => {
+            setFormCreateSwitch(!formCreateSwitch);
+            setError(false);
+          }}
+        >
+          x
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            setFormCreateSwitch(!formCreateSwitch);
+          }}
+        >
+          + Add New
+        </button>
+      )}
+
       <div className={styles.formContainer}>
         {formCreateSwitch && activities.length !== 0 && trainers.length !== 0 ? (
           <form onSubmit={onSubmit}>
