@@ -14,7 +14,6 @@ const Form = ({ addForm, addItem, members, classes, onClose }) => {
       [e.target.name]: e.target.value
     });
   };
-  console.log(subscription);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +34,6 @@ const Form = ({ addForm, addItem, members, classes, onClose }) => {
       throw new Error(error);
     }
   };
-  console.log(subscription.classes);
   if (addForm) {
     return (
       <>

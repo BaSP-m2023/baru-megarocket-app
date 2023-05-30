@@ -20,7 +20,6 @@ const Subscriptions = () => {
   }, []);
 
   const addItem = async (newSubscription) => {
-    console.log(newSubscription);
     const body = {
       method: 'POST',
       headers: {
@@ -47,6 +46,7 @@ const Subscriptions = () => {
             date: data.date
           }
         ]);
+        fetchData();
         setError({ error: false, msg: '' });
       } else {
         setError({ error: true, msg: data.message });
@@ -64,9 +64,7 @@ const Subscriptions = () => {
   //     const response = await fetch(
   //       `${process.env.REACT_APP_API_URL}/api/subscription/${idSubscription}`
   //     );
-  //     console.log(idSubscription);
   //     const data = await response.json();
-  //     console.log(data);
   //     setSubscriptionById(data._id);
   //     return data;
   //   } catch (error) {
