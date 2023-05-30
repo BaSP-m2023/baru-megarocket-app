@@ -75,7 +75,7 @@ function ClassList({
       });
 
       if (!response.ok) {
-        throw new Error('Error updating the data');
+        throw new Error('Error updating the data.');
       }
 
       setRenderData((render) => !render);
@@ -94,12 +94,14 @@ function ClassList({
       if (!response.ok) {
         throw new Error('Error deleting the data.');
       }
-
+      setResponseModal({ error: false, msg: 'Class deleted successfully!' });
+      setShowModal(true);
       setRenderData((render) => !render);
 
       return response.json();
     } catch (error) {
-      throw new Error(error.message);
+      setResponseModal({ error: true, msg: error.message });
+      setShowModal(true);
     }
   };
 
