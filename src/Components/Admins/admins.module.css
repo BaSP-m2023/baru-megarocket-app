@@ -5,3 +5,7 @@
   align-items: center;
   flex-direction: column;
 }
+
+.title {
+ color: #373867;
+}

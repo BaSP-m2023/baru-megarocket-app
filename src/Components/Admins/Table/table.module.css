@@ -6,16 +6,17 @@ td {
   border-bottom: 1px solid black;
 } */
 
-table {
+.table {
   width: 95%;
   margin: 0 auto;
+  border-collapse: collapse;
 }
 
-.tr-rows {
-  background-color: #D9D9D9;
+.tr {
+  border-bottom: 1px solid black;
 }
 
-th {
+.th {
   color: #373867;
   width: 20%;
   padding: 13px 22px;
@@ -25,11 +26,17 @@ th {
 }
 
 
-td {
+.td {
   padding: 13px 0;
   vertical-align: middle;
   text-align: center;
   font-size: 10px;
   font-weight: 600;
+}
+
+.button {
+  width: 1rem;
+  padding: 0.25rem;
+  cursor: pointer;
 }
 

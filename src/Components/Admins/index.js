@@ -65,6 +65,7 @@ const Admins = () => {
         const res = await response.json();
         console.log(res);
         setMessageResponse('Admin updated');
+        setShowForm(false);
         setShowModal(true);
         getAdmins();
       } else {
@@ -89,37 +90,47 @@ const Admins = () => {
         const res = await response.json();
         console.log(res);
         setMessageResponse('Admin created');
+        setShowForm(false);
         setShowModal(true);
         getAdmins();
       } else {
         setMessageResponse('Admin could be not created');
+        setShowForm(false);
         setShowModal(true);
       }
     } catch (error) {
       error;
     }
   };
+
+  const closeModal = () => setShowModal(false);
+  const closeForm = () => setShowForm(false);
+
   return (
-    <section className={styles.container}>
-      <h2>Admins</h2>
-      <Table admins={admins} deleteAdmin={deleteAdmin} editButton={editButton} />
-      <Button
-        add={() => {
-          setShowForm(true);
-          setTitle('Add admin');
-        }}
-      />
-      {showForm && (
-        <Form
-          title={title}
-          addAdmin={addAdmin}
-          editAdmin={editAdmin}
-          idToUpdate={idToUpdate}
-          admins={admins}
+    <>
+      <section className={styles.container}>
+        <h2 className={styles.title}>Admins</h2>
+        <Table admins={admins} deleteAdmin={deleteAdmin} editButton={editButton} />
+        <Button
+          add={() => {
+            setShowForm(true);
+            setTitle('Add Admin');
+            setidToUpdate('');
+          }}
         />
-      )}
-      {showModal && <Modal content={messageResponse} />}
-    </section>
+        {showForm && (
+          <Form
+            title={title}
+            addAdmin={addAdmin}
+            editAdmin={editAdmin}
+            idToUpdate={idToUpdate}
+            admins={admins}
+            closeForm={closeForm}
+          />
+        )}
+        {showModal && <Modal content={messageResponse} title={title} closeModal={closeModal} />}
+      </section>
+    </>
   );
 };
 

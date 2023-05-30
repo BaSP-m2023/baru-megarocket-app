@@ -1,5 +1,6 @@
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -12,3 +13,81 @@
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.7);
 }
+
+.formContainer {
+  width: 50%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #232F3E;
+}
+
+.title {
+  color: white;
+  margin: 0.25rem;
+}
+
+.button {
+  background-color: #232F3E;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.form {
+  padding: 0.5rem;
+  background-color: white;
+}
+
+.labelInput {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.label {
+  color: #373867;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.input {
+  height: 1.5rem;
+}
+
+.buttonContainer{
+  display: flex;
+  justify-content: space-around;
+}
+
+.cancelButton {
+  align-self: center;
+  width: 130px;
+  height: 36px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #373867;
+  background-color: white;
+  border: 1px solid  #373867;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.addCreateButton {
+  align-self: center;
+  width: 130px;
+  height: 36px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #373867;
+  background-color: #AACE9B;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
