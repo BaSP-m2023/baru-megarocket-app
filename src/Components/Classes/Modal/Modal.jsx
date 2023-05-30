@@ -1,16 +1,15 @@
 import styles from './modal.module.css';
 
-function Modal({ showModal, onClose, error }) {
-  console.log(error.msg);
+function Modal({ showModal, onClose, responseModal }) {
   if (!showModal) return null;
   return (
     <>
       <div className={styles.modalContainer}>
-        <div className={error.error ? styles.modalError : styles.modalSuccess}>
-          {error.error ? (
-            <p className={styles.error}>{error.msg}</p>
+        <div className={responseModal.error ? styles.modalError : styles.modalSuccess}>
+          {responseModal.error ? (
+            <p className={styles.error}>{responseModal.msg}</p>
           ) : (
-            <p className={styles.success}>Class created successfully</p>
+            <p className={styles.success}>{responseModal.msg}</p>
           )}
           <button className={styles.closeModal} onClick={onClose}>
             X

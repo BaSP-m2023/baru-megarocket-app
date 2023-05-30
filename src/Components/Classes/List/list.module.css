@@ -7,7 +7,7 @@ tr {
   height: 40px;
   text-align: center;
   color: #373867;
-  background-color: #EBEBEB;
+  background-color: #ebebeb;
 }
 
 tbody tr {
@@ -17,7 +17,7 @@ tbody tr {
 }
 
 tbody tr:nth-child(odd) {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 tbody tr:nth-child(odd):hover {
@@ -25,16 +25,20 @@ tbody tr:nth-child(odd):hover {
 }
 
 tbody tr:nth-child(even) {
-  background-color: #EBEBEB;
+  background-color: #ebebeb;
 }
 
 tbody tr:nth-child(even):hover {
   background-color: #c0b6b6;
 }
 
+.filter {
+  margin-bottom: 20px;
+}
+
 .selected {
   background-color: #373867 !important;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .tableContainer {
