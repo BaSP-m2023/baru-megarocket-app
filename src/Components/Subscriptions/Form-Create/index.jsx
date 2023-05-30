@@ -18,11 +18,10 @@ const Form = ({ addForm, addItem, members, classes, onClose }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     try {
-      const isoDate = new Date(subscription.date).toISOString();
       const newSubscription = {
         members: subscription.members,
         classes: subscription.classes,
-        date: isoDate
+        date: subscription.date
       };
       addItem(newSubscription);
       setSubscription({

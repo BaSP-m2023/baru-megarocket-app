@@ -20,18 +20,19 @@ const Subscriptions = () => {
   }, []);
 
   const addItem = async (newSubscription) => {
-    const body = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        classes: newSubscription.classes,
-        members: newSubscription.members,
-        date: newSubscription.date
-      })
-    };
     try {
+      const isoDate = newSubscription.date ? new Date(newSubscription.date).toISOString() : '';
+      const body = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          classes: newSubscription.classes,
+          members: newSubscription.members,
+          date: isoDate
+        })
+      };
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/`, body);
       const data = await response.json();
       if (data.length !== 0 && !data.error) {
