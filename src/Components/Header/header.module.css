@@ -1,15 +1,19 @@
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; 
   align-items: center;
   padding: 0 5%;
-  height: 50px;
-  background-color: #EA3354;
+  height: 130px;
+  background-color: #373867;
 }
 
-.brand {
-  font-weight: bold;
-  font-size: 1rem;
+.logo {
+  width: 80px;
+}
+
+.logo2 {
+  width: 180px;
+  padding: 2rem;
 }
 
 .socialIcon {
@@ -18,11 +22,11 @@
 
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
   padding: 0 5%;
-  min-height: 100px;
-  background-color: #F0F4F9;
+  min-height: 70px;
+  background-color: #D9D9D9;
 }
 
 .appName {
@@ -33,12 +37,14 @@
 .rutes {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: space-evenly;
+  width: 90%;
+  padding: 0;
   list-style-type: none;
 }
 
 .rutes > li > a {
-  margin-left: 15px;
+  margin: 0 10px;
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
@@ -48,10 +54,10 @@
 
 @media screen and (min-width: 750px) {
   .container {
-    padding: 0 20%;
+    padding: 0 2rem;
   }
 
   .navbar {
-    padding: 0 20%;
+    padding: 0 2rem;
   }
 }

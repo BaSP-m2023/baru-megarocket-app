@@ -1,0 +1,75 @@
+.layout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.container {
+  width: 25rem;
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2rem;
+  padding: 1rem;
+}
+
+.title {
+  color: #373867;
+}
+
+.close {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #373867;
+  background-color: #ffffff;
+  border: none;
+}
+
+.message {
+  padding: 1rem;
+  color: #373867;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.submit {
+  width: 5rem;
+  height: 2rem;
+  margin: 1rem;
+  background-color: #AACE9B;
+  border: 0;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #373867;
+  cursor: pointer;
+}
+
+.cancel {
+  width: 5rem;
+  height: 2rem;
+  margin: 1rem;
+  background-color: #ffffff;
+  border: 1px solid #373867;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #373867;
+  cursor: pointer;
+}
