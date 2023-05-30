@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './table.module.css';
-import imgDeleteSubscription from '../assets/delete-icon.png';
-import imgEditSubscription from '../assets/edit-icon.png';
 import Form from '../Form';
 import { DeleteModal, ConfirmDeleteModal } from '../Modals/index';
+const imgDeleteSubscription = process.env.PUBLIC_URL + '/assets/images/delete-icon.png';
+const imgEditSubscription = process.env.PUBLIC_URL + '/assets/images/edit-icon.png';
 
 const Table = ({ data }) => {
   const [deletedSubscription, setDeletedSubscription] = useState([]);
