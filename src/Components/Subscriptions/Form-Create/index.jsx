@@ -34,6 +34,7 @@ const Form = ({ addForm, addItem, members, classes, onClose }) => {
       throw new Error(error);
     }
   };
+  console.log(subscription.classes);
   if (addForm) {
     return (
       <>
@@ -81,11 +82,11 @@ const Form = ({ addForm, addItem, members, classes, onClose }) => {
               onChange={onChangeInput}
             />
             <div>
-              <button className={styles.btnSubmit} name="ADD" type="submit">
-                Submit
-              </button>
               <button onClick={onClose} className={styles.btnClose}>
                 Cancel
+              </button>
+              <button className={styles.btnSubmit} name="ADD" type="submit">
+                Submit
               </button>
             </div>
           </form>

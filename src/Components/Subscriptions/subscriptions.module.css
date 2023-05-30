@@ -14,14 +14,14 @@
   flex-direction: row;
 }
 .btnCreate {
+  margin: 20px;
   align-self: center;
-  width: 260px;
-  height: 72px;
+  padding: 20px 20px 20px 20px;
   font-weight: 600;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #373867;
   background-color: #AACE9B;
   border: 0;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
 }
