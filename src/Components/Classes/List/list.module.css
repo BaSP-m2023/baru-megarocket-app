@@ -46,6 +46,9 @@ tbody tr:nth-child(even):hover {
 button{
   margin:10px
 }
+button img{
+  width: 20px;
+}
 .inputEdit{
-  width: 50%
+  width: 150px
 }

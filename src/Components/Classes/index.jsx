@@ -10,7 +10,8 @@ function Projects() {
   const [activities, setActivities] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [error, setError] = useState({ error: false, msg: '' });
+  const [responseModal, setResponseModal] = useState({ error: false, msg: '' });
+  const [renderData, setRenderData] = useState(false);
 
   const getData = async () => {
     try {
@@ -24,7 +25,7 @@ function Projects() {
       setTrainers(dataTrainers.data);
       setActivities(dataActivities);
     } catch (error) {
-      setError({ error: true, msg: error });
+      setResponseModal({ error: true, msg: error });
       setShowModal(true);
       throw new Error(error);
     }
@@ -32,7 +33,7 @@ function Projects() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [renderData]);
 
   const getById = async (id) => {
     try {
@@ -40,7 +41,7 @@ function Projects() {
       const data = await response.json();
       setSelectedClass(data.data);
     } catch (error) {
-      setError({ error: true, msg: error });
+      setResponseModal({ error: true, msg: error });
       setShowModal(true);
       throw new Error(error);
     }
@@ -72,14 +73,14 @@ function Projects() {
             capacity: data.capacity
           }
         ]);
-        setError({ error: false, msg: '' });
+        setResponseModal({ error: false, msg: '' });
         setShowModal(true);
       } else {
-        setError({ error: true, msg: data.message });
+        setResponseModal({ error: true, msg: data.message });
         setShowModal(true);
       }
     } catch (error) {
-      setError({ error: true, msg: error });
+      setResponseModal({ error: true, msg: error });
       setShowModal(true);
       throw new Error(error);
     }
@@ -93,11 +94,18 @@ function Projects() {
           classes={classes && classes}
           getById={getById}
           selectedClass={selectedClass}
+          setRenderData={setRenderData}
+          setResponseModal={setResponseModal}
+          setShowModal={setShowModal}
           trainers={trainers}
           activities={activities}
         ></ClassList>
         <Form createClass={createClass} trainers={trainers} activities={activities}></Form>
-        <Modal showModal={showModal} error={error} onClose={() => setShowModal(!showModal)}></Modal>
+        <Modal
+          showModal={showModal}
+          responseModal={responseModal}
+          onClose={() => setShowModal(!showModal)}
+        ></Modal>
       </div>
     </section>
   );
