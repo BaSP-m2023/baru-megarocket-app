@@ -3,10 +3,12 @@ import Item from './Item';
 import { useEffect, useState } from 'react';
 
 const List = ({ members = [], handleModal }) => {
+  const [filter, setFilter] = useState([]);
+
   useEffect(() => {
     setFilter(members);
   }, [members]);
-  const [filter, setFilter] = useState([]);
+
   const filterList = (value) => {
     const membersToShow = members.filter(
       (member) =>
@@ -14,6 +16,7 @@ const List = ({ members = [], handleModal }) => {
     );
     setFilter(membersToShow);
   };
+
   return (
     <div className={`${styles['table-container']}`}>
       <div className={`${styles['table-filter']}`}>

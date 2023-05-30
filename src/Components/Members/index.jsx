@@ -25,6 +25,7 @@ function Members() {
   useEffect(() => {
     const getMembers = async () => {
       const membersFromDb = await getAllMembers();
+      console.log(membersFromDb);
       setMembers(membersFromDb);
     };
     getMembers();
@@ -33,10 +34,15 @@ function Members() {
   const getAllMembers = async () => {
     try {
       const res = await fetch(`${process.env.REACT_APP_URL_API}/api/member`);
+      console.log(res);
       const { data } = await res.json();
       return data;
     } catch (error) {
-      console.log(error);
+      handleToast({
+        content: 'Something went wrong :( try again later',
+        className: 'toast-wrong'
+      });
+      return [];
     }
   };
 
@@ -56,13 +62,16 @@ function Members() {
         method: 'DELETE'
       });
       const data = await res.json();
+
       if (res.status === 200) {
         handleToast({ content: data.message, className: 'toast-ok' });
         setMembers(members.filter((member) => member._id !== id));
       }
+
       if (res.status !== 200) {
         handleToast({ content: data.msg, className: 'toast-wrong' });
       }
+
       handleModal();
     } catch (error) {
       console.log(error);
