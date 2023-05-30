@@ -1,7 +1,7 @@
 import styles from './super-admins.module.css';
-import EditModal from './EditModal';
+import Form from './Form/Form';
 import MessageModal from './MessageModal/MessageModal';
-import Table from './Table';
+import Table from './Table/Table';
 import { useEffect, useState } from 'react';
 
 function SuperAdmins() {
@@ -19,6 +19,17 @@ function SuperAdmins() {
   useEffect(() => {
     getSuperadmins();
   }, []);
+  const showForm = () => {
+    setshowAddSuperadmin(!showAddSuperadmin);
+    setUpdatingItem({ name: '', lastName: '', email: '' });
+  };
+
+  const closeModal = () => {
+    setshowModal(false);
+  };
+  const openModal = () => {
+    setshowModal(true);
+  };
 
   const addItem = async (superadmin) => {
     try {
@@ -29,9 +40,7 @@ function SuperAdmins() {
         },
         body: JSON.stringify(superadmin)
       });
-      //const data = res.json();
       getSuperadmins();
-      //setSuperadmins([...superadmins, data.data]);
       if (res.ok) {
         setResMessage('New superadmin created');
         openModal();
@@ -66,24 +75,6 @@ function SuperAdmins() {
       openModal();
     }
   };
-  const showForm = () => {
-    setshowAddSuperadmin(!showAddSuperadmin);
-    setUpdatingItem({ name: '', lastName: '', email: '' });
-  };
-  const update = async (id) => {
-    setshowAddSuperadmin(true);
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
-      method: 'GET'
-    });
-    const data = await res.json();
-    setUpdatingItem(data.data);
-  };
-  const closeModal = () => {
-    setshowModal(false);
-  };
-  const openModal = () => {
-    setshowModal(true);
-  };
 
   const deleteItem = async (id) => {
     try {
@@ -104,6 +95,15 @@ function SuperAdmins() {
     }
   };
 
+  const handleUpdateClick = async (id) => {
+    setshowAddSuperadmin(true);
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
+      method: 'GET'
+    });
+    const data = await res.json();
+    setUpdatingItem(data.data);
+  };
+
   return (
     <section className={styles.container}>
       {showModal && <MessageModal msg={resMessage} onClose={closeModal} />}
@@ -112,11 +112,11 @@ function SuperAdmins() {
         data={superadmins}
         deleteItem={deleteItem}
         showForm={showForm}
-        update={update}
+        handleUpdateClick={handleUpdateClick}
         updatingItem={updatingItem}
       />
-      {showAddSuperadmin && updatingItem && (
-        <EditModal
+      {showAddSuperadmin && (
+        <Form
           getSuperadmins={getSuperadmins}
           addItem={addItem}
           updatingItem={updatingItem}

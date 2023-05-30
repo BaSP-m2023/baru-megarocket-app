@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styles from './edit-modal.module.css';
+import styles from './form.module.css';
 
-const EditModal = ({ addItem, updatingItem, showForm, putItem, getSuperadmins }) => {
+const Form = ({ addItem, updatingItem, showForm, putItem, getSuperadmins }) => {
   const { name, lastName, email } = updatingItem;
   const [superadmin, setSuperadmin] = useState({});
   useEffect(() => {
@@ -82,4 +82,4 @@ const EditModal = ({ addItem, updatingItem, showForm, putItem, getSuperadmins })
   );
 };
 
-export default EditModal;
+export default Form;

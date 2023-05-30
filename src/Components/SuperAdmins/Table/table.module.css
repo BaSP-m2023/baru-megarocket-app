@@ -1,0 +1,30 @@
+table{
+  width: 100%;
+  border-collapse: collapse;
+}
+thead{
+  color: navy
+}
+tr{
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  height: 40px;
+  line-height: 40px;
+  border-bottom: thin solid;
+}
+.addItem{
+  align-self: center;
+  width: 130px;
+  height: 36px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #373867;
+  background-color: #AACE9B;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+img{
+  margin-right: 8px;
+}
