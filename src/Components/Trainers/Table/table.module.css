@@ -1,7 +1,9 @@
-.column {
-  padding: 0 1rem;
+.space {
+  width: 75%;
+  padding: 2rem;
+  border-collapse: collapse;
 }
 
-.space {
-  padding: 2rem;
+.column {
+  padding: 0 1rem;
 }

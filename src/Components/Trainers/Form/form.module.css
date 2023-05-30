@@ -9,8 +9,7 @@
 .flex {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
+  width: 40%;
 }
 
 .label {
@@ -20,9 +19,8 @@
 }
 
 .input {
-  width: 50%;
   height: 1.5rem;
-  margin: 0.5rem;
+  margin: 0.5rem 0;
   padding: 0 8px;
   border-radius: 5px;
   border: 1px solid #373867;
