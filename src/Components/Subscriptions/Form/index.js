@@ -1,6 +1,6 @@
 import styles from './form.module.css';
 import { useState, useEffect } from 'react';
-import { SubscriptionEditedModal, ErrorEdit } from '../Modals/index';
+import { SubscriptionEditedModal, ErrorEdit, EmptyEdit } from '../Modals/index';
 
 function Form({ subscriptionId, onClose, onModalClose, updateTable }) {
   const [valueClass, setValueClass] = useState('');
@@ -11,6 +11,8 @@ function Form({ subscriptionId, onClose, onModalClose, updateTable }) {
   const [dates, setDates] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showServerError, setShowServerError] = useState(false);
+  const [showEmptyEditModal, setShowEmptyEditModal] = useState(false);
+  const [formEnabled, setFormEnabled] = useState(true);
 
   useEffect(() => {
     fetchClasses();
@@ -63,6 +65,11 @@ function Form({ subscriptionId, onClose, onModalClose, updateTable }) {
     if (valueDate) {
       updatedFields.date = valueDate;
     }
+    if (Object.keys(updatedFields).length === 0) {
+      setShowEmptyEditModal(true);
+      setFormEnabled(true);
+      return;
+    }
     const option = {
       method: 'PUT',
       headers: {
@@ -76,6 +83,7 @@ function Form({ subscriptionId, onClose, onModalClose, updateTable }) {
         setShowServerError(true);
       } else {
         setShowModal(true);
+        setFormEnabled(false);
       }
     });
   }
@@ -88,68 +96,82 @@ function Form({ subscriptionId, onClose, onModalClose, updateTable }) {
   const closeModal = () => {
     setShowModal(false);
     setShowServerError(false);
-    updateTable();
+    setShowEmptyEditModal(false);
+    if (showEmptyEditModal) {
+      setFormEnabled(true);
+      setShowEmptyEditModal(false);
+      return;
+    }
     onModalClose();
+    updateTable();
   };
+
   return (
     <div className={styles.container}>
-      <form className={styles.editForm} onSubmit={submitForm}>
-        <div className={styles.title}>
-          <h2>Edit Subscription</h2>
-          <h3>ID: {subscriptionId}</h3>
-        </div>
-        <label>Class:</label>
-        <select id="classes" name="classes" onChange={(event) => setValueClass(event.target.value)}>
-          <option>Choose an option</option>
-          {classes.map((item) => {
-            return (
-              <option key={item._id} value={item._id}>
-                {item.day + ' ' + item.time}
-              </option>
-            );
-          })}
-        </select>
-        <label>Member:</label>
-        <select
-          id="members"
-          name="members"
-          value={valueMember}
-          onChange={(event) => setValueMember(event.target.value)}
-        >
-          <option>Choose an option</option>
-          {members.map((member) => {
-            return (
-              <option key={member._id} value={member._id}>
-                {`${member.name} ${member.lastName}`}
-              </option>
-            );
-          })}
-        </select>
-        <label>Date:</label>
-        <select
-          id="date"
-          name="date"
-          value={valueDate}
-          onChange={(event) => setValueDate(event.target.value)}
-        >
-          <option>Choose an option</option>
-          {dates.map((date) => {
-            return (
-              <option key={date._id} value={date.date}>
-                {formatDate(date.date)}
-              </option>
-            );
-          })}
-        </select>
-        <div className={styles.btnContainer}>
-          <button className={styles.btnCancel} onClick={onClose}>
-            Cancel
-          </button>
-          <button className={styles.btnSubmit}>Submit</button>
-        </div>
-      </form>
+      {formEnabled && (
+        <form className={styles.editForm} onSubmit={submitForm}>
+          <div className={styles.title}>
+            <h2>Edit Subscription</h2>
+            <h3>ID: {subscriptionId}</h3>
+          </div>
+          <label>Class:</label>
+          <select
+            id="classes"
+            name="classes"
+            onChange={(event) => setValueClass(event.target.value)}
+          >
+            <option>Choose an option</option>
+            {classes.map((item) => {
+              return (
+                <option key={item._id} value={item._id}>
+                  {item.day + ' ' + item.time}
+                </option>
+              );
+            })}
+          </select>
+          <label>Member:</label>
+          <select
+            id="members"
+            name="members"
+            value={valueMember}
+            onChange={(event) => setValueMember(event.target.value)}
+          >
+            <option>Choose an option</option>
+            {members.map((member) => {
+              return (
+                <option key={member._id} value={member._id}>
+                  {`${member.name} ${member.lastName}`}
+                </option>
+              );
+            })}
+          </select>
+          <label>Date:</label>
+          <select
+            id="date"
+            name="date"
+            value={valueDate}
+            onChange={(event) => setValueDate(event.target.value)}
+          >
+            <option>Choose an option</option>
+            {dates.map((date) => {
+              return (
+                <option key={date._id} value={date.date}>
+                  {formatDate(date.date)}
+                </option>
+              );
+            })}
+          </select>
+          <div className={styles.btnContainer}>
+            <button className={styles.btnCancel} onClick={onClose}>
+              Cancel
+            </button>
+            <button className={styles.btnSubmit}>Submit</button>
+          </div>
+        </form>
+      )}
       {showModal ? <SubscriptionEditedModal onClose={closeModal} /> : <div></div>}
       {showServerError ? <ErrorEdit onClose={closeModal} /> : <div></div>}
+      {showEmptyEditModal ? <EmptyEdit onClose={closeModal} /> : <div></div>}
     </div>
   );
 }

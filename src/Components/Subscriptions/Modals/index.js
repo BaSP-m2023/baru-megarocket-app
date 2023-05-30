@@ -25,6 +25,20 @@ export function ErrorModal({ onClose }) {
     </div>
   );
 }
+export function ConfirmDeleteModal({ onClose, confirmDelete }) {
+  return (
+    <div className={styles.container}>
+      <div className={styles.modal}>
+        <h3 className={styles.modalError}>Delete Subscription</h3>
+        <p>Do you want delete this subscription?</p>
+        <div className={styles.btnError}>
+          <button onClick={onClose}>No</button>
+          <button onClick={confirmDelete}>Yes</button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function DeleteModal({ onClose }) {
   return (
@@ -32,6 +46,20 @@ export function DeleteModal({ onClose }) {
       <div className={styles.modal}>
         <h3 className={styles.modalError}>Delete Subscription</h3>
         <p>Subscription has been deleted</p>
+        <div className={styles.btnError}>
+          <button onClick={onClose}>Close</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function EmptyEdit({ onClose }) {
+  return (
+    <div className={styles.container}>
+      <div className={styles.modal}>
+        <h3 className={styles.modalError}>Edit Subscription</h3>
+        <p>You have to choose at least one field</p>
         <div className={styles.btnError}>
           <button onClick={onClose}>Close</button>
         </div>

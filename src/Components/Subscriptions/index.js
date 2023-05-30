@@ -8,8 +8,6 @@ const Subscriptions = () => {
   const [errorModal, setErrorModal] = useState(false);
   const [classes, setClasses] = useState([]);
   const [members, setMembers] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState({ error: false, msg: '' });
 
   useEffect(() => {
     addItem();
@@ -21,9 +19,7 @@ const Subscriptions = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`);
       const data = await response.json();
       setSubscriptions(data);
-      setError({ error: false, msg: '' });
     } catch (error) {
-      setError({ error: true, msg: error });
       throw new Error(error);
     }
   };
