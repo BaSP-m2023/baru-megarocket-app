@@ -18,6 +18,15 @@
   border-radius: 5px;
 }
 
+.modal h3 {
+  color: black;
+}
+
+.modal p {
+  color: black;
+  font-weight: 500;
+}
+
 .btnEdit{
   display: flex;
   justify-content: flex-end;
@@ -26,16 +35,14 @@
 .btnEdit button{
   width: 80px;
   height: 25px;
-  color: #373867;
-  background-color: #aace9e;
+  color: white;
+  background-color: green;
   border: none;
 }
-
-h3 {
-  color: #373867;
-}
-
-p {
-  color: #373867;
-  font-weight: 400;
+.btnError button{
+  width: 80px;
+  height: 25px;
+  color: white;
+  background-color: red;
+  border: none;
 }

@@ -1,7 +1,6 @@
 import styles from './form.module.css';
-import { useState, useEffect } from 'react';
-import Modal from '../Modals/editModal';
-import DeleteModal from '../Modals/deleteModal';
+import { useState, useEffect, useRef } from 'react';
+import { SubscriptionEditedModal, ErrorEdit } from '../Modals/index';
 
 function Form({ subscriptionId }) {
   const [valueClass, setValueClass] = useState('');
@@ -12,11 +11,13 @@ function Form({ subscriptionId }) {
   const [dates, setDates] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showServerError, setShowServerError] = useState(false);
+  const selectRef = useRef(null);
 
   useEffect(() => {
     fetchClasses();
     fetchMembers();
     fetchSubscription();
+    selectRef.current.value = 'opcion2';
   }, []);
 
   const fetchClasses = async () => {
@@ -51,18 +52,26 @@ function Form({ subscriptionId }) {
 
   function submitForm(event) {
     event.preventDefault();
+    const updatedFields = {};
+
+    if (valueClass) {
+      updatedFields.classes = valueClass;
+    }
+
+    if (valueMember) {
+      updatedFields.members = valueMember;
+    }
+
+    if (valueDate) {
+      updatedFields.date = valueDate;
+    }
     const option = {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        classes: valueClass,
-        members: valueMember,
-        date: valueDate
-      })
+      body: JSON.stringify(updatedFields)
     };
-
     const id = subscriptionId;
     fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${id}`, option).then((response) => {
       if (response.status !== 200 && response.status !== 201) {
@@ -77,25 +86,24 @@ function Form({ subscriptionId }) {
     setShowModal(false);
     setShowServerError(false);
   };
-
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <h2>Edit Subscription</h2>
-        <h3>{subscriptionId.subscriptionId}</h3>
+        <h3>{subscriptionId}</h3>
       </div>
       <form className={styles.editForm} onSubmit={submitForm}>
         <label>Class:</label>
         <select
+          ref={selectRef}
           id="classes"
           name="classes"
-          value={valueClass}
           onChange={(event) => setValueClass(event.target.value)}
         >
           {classes.map((item) => {
             return (
               <option key={item._id} value={item._id}>
-                {item._id}
+                {item.day + ' ' + item.time}
               </option>
             );
           })}
@@ -124,7 +132,7 @@ function Form({ subscriptionId }) {
         >
           {dates.map((date) => {
             return (
-              <option key={date.date} value={date.date}>
+              <option key={date._id} value={date.date}>
                 {date.date}
               </option>
             );
@@ -134,13 +142,8 @@ function Form({ subscriptionId }) {
           <button>Submit</button>
         </div>
       </form>
-      <Modal show={showModal} closeModal={closeModal} />
-      <DeleteModal
-        show={showServerError}
-        closeModal={closeModal}
-        title="Server Error"
-        message="An error has ocurred"
-      />
+      {showModal ? <SubscriptionEditedModal onClose={closeModal} /> : <div></div>}
+      {showServerError ? <ErrorEdit onClose={closeModal} /> : <div></div>}
     </div>
   );
 }

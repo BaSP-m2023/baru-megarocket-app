@@ -1,107 +1,104 @@
+import { useEffect, useState } from 'react';
 import styles from './subscriptions.module.css';
-import { useState, useEffect } from 'react';
-import Form from './Form';
-import DeleteModal from './Modals/deleteModal';
-
-function Subscriptions() {
-  const [subscriptions, editSubscription] = useState([]);
-  const [editSubscriptionId, setEditSubscriptionId] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+import Table from './Table';
+import { CreateModal, ErrorModal } from './Modals';
+import Form from './Form-Create';
+const Subscriptions = () => {
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [createModal, setCreateModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
+  const [addForm, setAddForm] = useState(false);
+  const [classes, setClasses] = useState([]);
+  const [members, setMembers] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [error, setError] = useState({ error: false, msg: '' });
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  const addItem = async (newSubscription) => {
+    console.log(newSubscription);
+    const body = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        classes: newSubscription.classes,
+        members: newSubscription.members,
+        date: newSubscription.date
+      })
+    };
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/`, body);
+      const data = await response.json();
+      if (data.length !== 0 && !data.error) {
+        setCreateModal(true);
+        setAddForm(false);
+        setSubscriptions([
+          ...subscriptions,
+          {
+            _id: data._id,
+            classes: data.classes._id,
+            members: data.members._id,
+            date: data.date
+          }
+        ]);
+        setError({ error: false, msg: '' });
+      } else {
+        setError({ error: true, msg: data.message });
+        setErrorModal(true);
+      }
+    } catch (error) {
+      setError({ error: true, msg: error });
+      throw new Error(error);
+    }
+  };
   const fetchData = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/`);
+      const resClasses = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`);
+      const resMembers = await fetch(`${process.env.REACT_APP_API_URL}/api/member/`);
       const data = await response.json();
-      const jsonSubscriptions = data.data;
-      editSubscription(jsonSubscriptions);
+      const dataClasses = await resClasses.json();
+      const dataMembers = await resMembers.json();
+      setMembers(dataMembers.data);
+      setSubscriptions(data.data);
+      setClasses(dataClasses.data);
     } catch (error) {
       console.error('Error', error);
     }
   };
-
-  const handleEdit = (subscriptionId) => {
-    setEditSubscriptionId(subscriptionId);
-  };
-
-  const handleDelete = async (event, subscriptionId) => {
-    event.stopPropagation();
-    try {
-      await deleteSubscription(subscriptionId);
-      editSubscription(subscriptions.filter((subscription) => subscription._id !== subscriptionId));
-      setShowDeleteModal(true);
-    } catch (error) {
-      console.error('Error', error);
+  const handleCreate = (addForm, setAddForm) => {
+    if (addForm) {
+      setAddForm(false);
+    } else {
+      setAddForm(true);
     }
-  };
-  const deleteSubscription = async (subscriptionId) => {
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${subscriptionId}`, {
-        method: 'DELETE'
-      });
-      editSubscription(
-        subscriptions.filter((subscriptions) => subscriptions._id !== subscriptionId)
-      );
-    } catch (error) {
-      console.log('Error', error);
-    }
-  };
-
-  const closeModal = () => {
-    setShowDeleteModal(false);
   };
 
   return (
     <section className={styles.container}>
-      <h1>Subscription List</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Class</th>
-            <th>Member</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {subscriptions.length > 0 ? (
-            subscriptions.map((subscription) => (
-              <tr key={subscription._id} onClick={() => handleEdit(subscription._id)}>
-                <td>{subscription.classes._id}</td>
-                <td>
-                  {subscription.members &&
-                    subscription.members.name + subscription.members.lastName}
-                </td>
-                <td>{subscription.date}</td>
-                <td>
-                  <button
-                    className={styles.btnDelete}
-                    onClick={(event) => {
-                      handleDelete(event, subscription._id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">No hay suscripciones disponibles</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      {editSubscriptionId && <Form subscriptionId={editSubscriptionId} />}
-      <DeleteModal
-        show={showDeleteModal}
-        closeModal={closeModal}
-        title="Delete Subscription"
-        message="Subscription has been deleted"
+      <h1 className={styles.Title}>Subscription</h1>
+      <button className={styles.btnCreate} onClick={() => handleCreate(addForm, setAddForm)}>
+        + Add New
+      </button>
+      <Form
+        addForm={addForm}
+        addItem={addItem}
+        members={members}
+        classes={classes}
+        onClose={() => setAddForm(false)}
       />
+      <div>
+        <Table data={subscriptions} />
+      </div>
+      <div>
+        {createModal ? <CreateModal onClose={() => setCreateModal(false)} /> : <div></div>}
+        {errorModal ? <ErrorModal onClose={() => setErrorModal(false)} /> : <div></div>}
+      </div>
     </section>
   );
-}
+};
 export default Subscriptions;
