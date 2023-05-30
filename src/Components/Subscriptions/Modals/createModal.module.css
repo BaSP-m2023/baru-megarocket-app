@@ -7,23 +7,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(0, 0, 0, 0.5);
 }
 
 .modal {
   height: 120px;
   width: 400px;
   padding: 10px;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   border-radius: 5px;
 }
 
 .modal h3 {
-  color: black;
+  color: rgb(0, 0, 0);
 }
 
 .modal p {
-  color: black;
+  color: rgb(0, 0, 0);
   font-weight: 500;
 }
 
@@ -35,14 +35,14 @@
 .btnEdit button{
   width: 80px;
   height: 25px;
-  color: white;
-  background-color: green;
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 146, 0);
   border: none;
 }
 .btnError button{
   width: 80px;
   height: 25px;
-  color: white;
-  background-color: red;
+  color: rgb(255, 255, 255);
+  background-color: rgb(255, 0, 0);
   border: none;
 }

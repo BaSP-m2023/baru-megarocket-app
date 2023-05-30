@@ -6,8 +6,6 @@ import { CreateModal, ErrorModal } from './Modals';
 import Form from './Form-Create';
 const Subscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
-  // const [subscriptionById, setSubscriptionById] = useState([]);
-  //const [subscriptionByIDModal, setSubscriptionByIdModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [addForm, setAddForm] = useState(false);
@@ -59,7 +57,7 @@ const Subscriptions = () => {
       throw new Error(error);
     }
   };
-  //No use for GetByID
+  //No use for GetByID Commented Just in case we need it
   // const getSubscriptionById = async (idSubscription) => {
   //   try {
   //     const response = await fetch(
