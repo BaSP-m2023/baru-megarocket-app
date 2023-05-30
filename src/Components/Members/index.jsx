@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import styles from './members.module.css';
 
@@ -34,7 +35,6 @@ function Members() {
   const getAllMembers = async () => {
     try {
       const res = await fetch(`${process.env.REACT_APP_URL_API}/api/member`);
-      console.log(res);
       const { data } = await res.json();
       return data;
     } catch (error) {
