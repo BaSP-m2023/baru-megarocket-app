@@ -24,15 +24,3 @@
   background-color:#aace9e;
   border: none;
 }
-
-.btnDelete:hover{
-  background-color:#358a19;
-}
-
-td {
-  padding: 0 15px 0 15px;
-}
-
-tr:hover {
-  background-color: #aace9e;
-}

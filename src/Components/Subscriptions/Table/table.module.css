@@ -22,3 +22,27 @@ border-width: 10px;
   color: #373867;
   border-color: #373867
 }
+
+td {
+  padding: 0 15px 0 15px;
+}
+
+.line:hover {
+  background-color: #aace9e;
+}
+
+.btnEdit img{
+  width: 25px;
+}
+
+.btnDelete img{
+  width: 25px;
+}
+
+.btnEdit:hover {
+  background-color: #3d8326;
+}
+
+.btnDelete:hover {
+  background-color: rgb(231, 37, 37);
+}

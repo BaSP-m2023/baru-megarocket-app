@@ -7,22 +7,33 @@ import { DeleteModal } from '../Modals/index';
 
 const Table = ({ data }) => {
   const [deletedSubscription, setDeletedSubscription] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [updatedData, setUpdatedData] = useState([]);
+  const [showForm, setShowForm] = useState(false);
   const formRef = useRef(null);
 
   useEffect(() => {
-    const filteredData = data.filter(
-      (subscription) => !deletedSubscription.includes(subscription._id)
-    );
-    setUpdatedData(filteredData);
+    if (Array.isArray(data)) {
+      const filteredData = data.filter(
+        (subscription) => !deletedSubscription.includes(subscription._id)
+      );
+      setTableData(filteredData);
+    }
   }, [data, deletedSubscription]);
 
   const handleEdit = (subscriptionId) => {
     setEditingSubscriptionId(subscriptionId);
-    if (formRef.current) {
-      formRef.current.scrollIntoView({ behavior: 'smooth' });
+    setShowForm(true);
+  };
+
+  const updateTableData = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`);
+      const data = await response.json();
+      setTableData(data.data);
+    } catch (error) {
+      throw new Error(error);
     }
   };
 
@@ -33,17 +44,23 @@ const Table = ({ data }) => {
       setDeletedSubscription([...deletedSubscription, subscriptionId]);
       setShowDeleteModal(true);
     } catch (error) {
-      console.error('Error', error);
+      throw new Error(error);
     }
   };
+
   const deleteSubscription = async (subscriptionId) => {
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${subscriptionId}`, {
         method: 'DELETE'
       });
     } catch (error) {
-      console.log('Error', error);
+      throw new Error(error);
     }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US');
   };
 
   const closeModal = () => {
@@ -61,9 +78,9 @@ const Table = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {updatedData.length > 0 ? (
-            updatedData.map((subscription, index) => (
-              <tr className={styles.line} key={`${subscription._id}-${index}`}>
+          {tableData.length > 0 ? (
+            tableData.map((subscription) => (
+              <tr className={styles.line} key={subscription._id}>
                 <td
                   className={styles.item}
                 >{`${subscription.classes.day} ${subscription.classes.time}`}</td>
@@ -74,11 +91,14 @@ const Table = ({ data }) => {
                     className={styles.item}
                   >{`${subscription.members.name} ${subscription.members.lastName}`}</td>
                 )}
-                <td className={styles.item}>{subscription.date}</td>
-                <td onClick={() => handleEdit(subscription._id)}>
+                <td className={styles.item}>{formatDate(subscription.date)}</td>
+                <td className={styles.btnEdit} onClick={() => handleEdit(subscription._id)}>
                   <img src={imgEditSubscription}></img>
                 </td>
-                <td onClick={(event) => handleDelete(event, subscription._id)}>
+                <td
+                  className={styles.btnDelete}
+                  onClick={(event) => handleDelete(event, subscription._id)}
+                >
                   <img src={imgDeleteSubscription}></img>
                 </td>
               </tr>
@@ -90,9 +110,19 @@ const Table = ({ data }) => {
           )}
         </tbody>
       </table>
-      <div ref={formRef}>
-        {editingSubscriptionId && <Form subscriptionId={editingSubscriptionId} />}
-      </div>
+      {showForm && (
+        <div ref={formRef}>
+          {editingSubscriptionId && (
+            <Form
+              subscriptionId={editingSubscriptionId}
+              onClose={() => setShowForm(false)}
+              onModalClose={() => setShowForm(false)}
+              showForm={showForm}
+              updateTable={updateTableData}
+            />
+          )}
+        </div>
+      )}
       {showDeleteModal ? <DeleteModal onClose={closeModal} /> : <div></div>}
     </div>
   );
