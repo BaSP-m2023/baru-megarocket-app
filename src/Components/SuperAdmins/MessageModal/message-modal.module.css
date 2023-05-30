@@ -1,0 +1,20 @@
+.modal {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -80%);
+  width: fit-content;
+  padding: 1%;
+  box-shadow: 0px 10px 23px rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  background-color: #AACE9B;
+  color: #373867;
+}
+p{
+  margin-right: 25px;
+}
+button{
+  font-weight: 800;
+}

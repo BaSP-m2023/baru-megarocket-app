@@ -1,5 +1,18 @@
+*{
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  outline: none;
+}
 .container {
   flex: 1;
   justify-content: center;
   align-items: center;
+}
+button{
+  cursor: pointer;
 }

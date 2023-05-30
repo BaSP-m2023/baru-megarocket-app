@@ -4,7 +4,6 @@ import styles from './edit-modal.module.css';
 const EditModal = ({ addItem, updatingItem, showForm, putItem, getSuperadmins }) => {
   const { name, lastName, email } = updatingItem;
   const [superadmin, setSuperadmin] = useState({});
-  //const [requestStatus, setRequestStatus] = useState({});
   useEffect(() => {
     setSuperadmin({
       name,
@@ -29,11 +28,11 @@ const EditModal = ({ addItem, updatingItem, showForm, putItem, getSuperadmins })
     showForm();
   };
   return (
-    <>
-      <div className={styles.modal}>
+    <div className={styles.formBackground}>
+      <div className={styles.container}>
         <div className={styles.modalTitle}>
           <h3>Create superadmin</h3>
-          <h3 onClick={showForm}>X</h3>
+          <button onClick={showForm}>X</button>
         </div>
         <div>
           <form onSubmit={onSubmit}>
@@ -79,7 +78,7 @@ const EditModal = ({ addItem, updatingItem, showForm, putItem, getSuperadmins })
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
