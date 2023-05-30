@@ -1,0 +1,66 @@
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  width: 60%;
+  padding: 20px;
+  background-color: #fefefe;
+  border: 1px solid #888;
+  border-radius: 5px;
+
+}
+
+.p-modal {
+  display: inline-block;
+  color: #49A37B;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.error-title {
+  display: inline-block;
+  color: #F13312;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.error-text {
+  color: #373867;
+  margin-top: 10px;
+  white-space: pre-line;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.dom-validation {
+  color: #373867;
+  margin-top: 10px;
+  white-space: pre-line;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.close {
+  color: #373867;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
