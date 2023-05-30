@@ -5,8 +5,8 @@ const Table = ({ data }) => {
     <div className={styles.container}>
       <h2 className={styles.title}>List</h2>
       <table className={styles.tableContainer}>
-        <thead>
-          <tr className={styles.line}>
+        <thead className={styles.header}>
+          <tr className={styles.header}>
             <th>Classes</th>
             <th>Members</th>
             <th>date</th>

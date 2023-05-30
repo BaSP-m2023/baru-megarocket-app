@@ -7,12 +7,21 @@
 }
 .title{
   font-size: 4rem;
+  text-align: center;
 }
-.btnDelete {
-  padding: 10px 30px;
-  margin-top: 20px;
-  margin-bottom: 10px;
+.containerContent{
+  display: flex;
+  flex-direction: row;
+}
+.btnCreate {
+  align-self: center;
+  width: 260px;
+  height: 72px;
+  font-weight: 600;
+  font-size: 2rem;
   color: #373867;
-  background-color:#aace9e;
-  border: none;
+  background-color: #AACE9B;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
 }

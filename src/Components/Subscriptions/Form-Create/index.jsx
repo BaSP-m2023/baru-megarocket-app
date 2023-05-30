@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import styles from './form.module.css';
 
-// eslint-disable-next-line no-unused-vars
 const Form = ({ addForm, addItem, members, classes, onClose }) => {
   const [subscription, setSubscription] = useState({
     classes: '',
     members: '',
-    date: new Date().toUTCString
+    date: ''
   });
 
   const onChangeInput = (e) => {
@@ -19,14 +18,23 @@ const Form = ({ addForm, addItem, members, classes, onClose }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addItem(subscription);
-    setSubscription({
-      classes: '',
-      members: '',
-      date: ''
-    });
+    try {
+      const isoDate = new Date(subscription.date).toISOString();
+      const newSubscription = {
+        members: subscription.members,
+        classes: subscription.classes,
+        date: isoDate
+      };
+      addItem(newSubscription);
+      setSubscription({
+        classes: '',
+        members: '',
+        date: ''
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
   };
-
   console.log(subscription.classes);
   if (addForm) {
     return (
@@ -61,7 +69,7 @@ const Form = ({ addForm, addItem, members, classes, onClose }) => {
               {members.map((member) => {
                 return (
                   <option key={member._id} value={member._id}>
-                    {`${member.name} ${member.lastName}`}
+                    {`${member.name} ${member.lastName} ${member.email}`}
                   </option>
                 );
               })}
@@ -70,22 +78,24 @@ const Form = ({ addForm, addItem, members, classes, onClose }) => {
             <input
               className={styles.input}
               name="date"
-              type="string"
+              type="date"
               value={subscription.date}
               onChange={onChangeInput}
             />
-            <button className={styles.btnSubmit} name="ADD" type="submit">
-              Submit
-            </button>
-            <button onClick={onClose} className={styles.btnClose}>
-              Cancel
-            </button>
+            <div>
+              <button className={styles.btnSubmit} name="ADD" type="submit">
+                Submit
+              </button>
+              <button onClick={onClose} className={styles.btnClose}>
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </>
     );
   } else {
-    return <div>Create Subscription</div>;
+    return <div></div>;
   }
 };
 export default Form;

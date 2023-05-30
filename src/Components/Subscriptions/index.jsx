@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import styles from './subscriptions.module.css';
 import Table from './Table';
+
 import { CreateModal, ErrorModal } from './Modals';
 import Form from './Form-Create';
 const Subscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
+  // const [subscriptionById, setSubscriptionById] = useState([]);
+  //const [subscriptionByIDModal, setSubscriptionByIdModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [addForm, setAddForm] = useState(false);
   const [classes, setClasses] = useState([]);
   const [members, setMembers] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState({ error: false, msg: '' });
 
   useEffect(() => {
@@ -33,8 +35,6 @@ const Subscriptions = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/`, body);
       const data = await response.json();
-      console.log(data);
-      console.log(body);
       if (data.length !== 0 && !data.error) {
         setCreateModal(true);
         setAddForm(false);
@@ -51,12 +51,29 @@ const Subscriptions = () => {
       } else {
         setError({ error: true, msg: data.message });
         setErrorModal(true);
+        setAddForm(false);
       }
-    } catch (error) {
-      setError({ error: true, msg: error });
+    } catch (e) {
+      setError({ error: true, msg: e });
       throw new Error(error);
     }
   };
+  //No use for GetByID
+  // const getSubscriptionById = async (idSubscription) => {
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_API_URL}/api/subscription/${idSubscription}`
+  //     );
+  //     console.log(idSubscription);
+  //     const data = await response.json();
+  //     console.log(data);
+  //     setSubscriptionById(data._id);
+  //     return data;
+  //   } catch (error) {
+  //     setError({ error: true, msg: error });
+  //     throw new Error(error);
+  //   }
+  // };
   const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/`);
@@ -72,18 +89,9 @@ const Subscriptions = () => {
       console.error('Error', error);
     }
   };
-  const handleCreate = (addForm, setAddForm) => {
-    if (addForm) {
-      setAddForm(false);
-    } else {
-      setAddForm(true);
-    }
-  };
-
   return (
     <section className={styles.container}>
-      <h1 className={styles.Title}>Subscription</h1>
-      <button onClick={() => handleCreate(addForm, setAddForm)}>+</button>
+      <h1 className={styles.title}>Subscription</h1>
       <Form
         addForm={addForm}
         addItem={addItem}
@@ -91,9 +99,17 @@ const Subscriptions = () => {
         classes={classes}
         onClose={() => setAddForm(false)}
       />
-      <div>
-        <Table data={subscriptions} />
+      <div className={styles.containerContent}>
+        <Table className={subscriptions.table} data={subscriptions} />
       </div>
+      <button
+        className={styles.btnCreate}
+        onClick={() => {
+          addForm ? setAddForm(false) : setAddForm(true);
+        }}
+      >
+        + Add New
+      </button>
       <div>
         {createModal ? <CreateModal onClose={() => setCreateModal(false)} /> : <div></div>}
         {errorModal ? <ErrorModal onClose={() => setErrorModal(false)} /> : <div></div>}

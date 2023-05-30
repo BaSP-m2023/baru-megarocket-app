@@ -4,20 +4,26 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: #232F3E;
+}
+.tableContainer{
+  border: #232F3E;
 }
 .title{
   font-size: 2rem;
 }
+.header{
+  margin: 0;
+  font-size: 2.3rem;
+}
 .line {
-font-size: 1.4rem;
-padding: 50px;
+font-size: 2rem;
 border: #373867;
 box-shadow: 0px 1px 0 0 black;
 border-width: 10px;
 }
 .item{
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 40px 80px 20px 30px;
 }
 .tableContainer {
   padding: 10px 30px;
