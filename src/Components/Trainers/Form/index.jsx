@@ -1,18 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
 
-const Form = ({ add }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [dni, setDni] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [salary, setSalary] = useState('');
+const Form = ({ add, edit, onUpdate }) => {
+  const [trainer, setTrainer] = useState({
+    firstName: '',
+    lastName: '',
+    dni: '',
+    phone: '',
+    email: '',
+    password: '',
+    salary: ''
+  });
+
+  useEffect(() => {
+    if (edit) {
+      setTrainer({
+        ...trainer,
+        firstName: edit.firstName,
+        lastName: edit.lastName,
+        dni: edit.dni,
+        phone: edit.phone,
+        email: edit.email,
+        password: edit.password,
+        salary: edit.salary
+      });
+    }
+  }, [edit]);
+
+  const onChangeInput = (e) => {
+    setTrainer({
+      ...trainer,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    add({ firstName, lastName, dni, phone, email, password, salary });
+    if (edit) {
+      onUpdate(edit._id, trainer);
+    } else {
+      add(trainer);
+    }
   };
 
   return (
@@ -22,10 +50,11 @@ const Form = ({ add }) => {
           First Name
         </label>
         <input
+          name="firstName"
           type="text"
           id="firstName"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          value={trainer.firstName}
+          onChange={onChangeInput}
           className={styles.input}
         />
       </div>
@@ -34,10 +63,11 @@ const Form = ({ add }) => {
           Last Name
         </label>
         <input
+          name="lastName"
           type="text"
           id="lastName"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          value={trainer.lastName}
+          onChange={onChangeInput}
           className={styles.input}
         />
       </div>
@@ -46,10 +76,11 @@ const Form = ({ add }) => {
           ID
         </label>
         <input
+          name="dni"
           type="text"
           id="dni"
-          value={dni}
-          onChange={(e) => setDni(e.target.value)}
+          value={trainer.dni}
+          onChange={onChangeInput}
           className={styles.input}
         />
       </div>
@@ -58,10 +89,11 @@ const Form = ({ add }) => {
           Phone Number
         </label>
         <input
+          name="phone"
           type="text"
           id="phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          value={trainer.phone}
+          onChange={onChangeInput}
           className={styles.input}
         />
       </div>
@@ -70,10 +102,11 @@ const Form = ({ add }) => {
           Email
         </label>
         <input
+          name="email"
           type="email"
           id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={trainer.email}
+          onChange={onChangeInput}
           className={styles.input}
         />
       </div>
@@ -82,10 +115,11 @@ const Form = ({ add }) => {
           Password
         </label>
         <input
+          name="password"
           type="password"
           id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={trainer.password}
+          onChange={onChangeInput}
           className={styles.input}
         />
       </div>
@@ -94,16 +128,17 @@ const Form = ({ add }) => {
           Salary
         </label>
         <input
+          name="salary"
           type="text"
           id="salary"
-          value={salary}
-          onChange={(e) => setSalary(e.target.value)}
+          value={trainer.salary}
+          onChange={onChangeInput}
           className={styles.input}
         />
       </div>
       <div>
         <button type="submit" className={styles.save}>
-          Submit
+          {edit ? 'Update' : 'Submit'}
         </button>
       </div>
     </form>

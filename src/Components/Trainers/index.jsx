@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styles from './trainers.module.css';
-import Table from './Table/Table';
+import Table from './Table';
 import Button from './Button';
 import Form from './Form';
-import Modal from './Modal';
-import ResponseModal from './ResponseModal';
+import Modal from './Modals/Modal';
+import ResponseModal from './Modals/ResponseModal';
 
 const Trainers = () => {
   const [showModal, setShowModal] = useState(false);
-  const [trainers, setTrainer] = useState([]);
   const [activeTrainers, setActiveTrainers] = useState([]);
   const [showResponseModal, setShowResponseModal] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
@@ -17,25 +16,41 @@ const Trainers = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`);
       const { data } = await response.json();
-      setTrainer(data);
       setActiveTrainers(data.filter((trainer) => trainer.isActive));
     } catch (error) {
-      console.log('Error fetching trainers:', error);
+      setResponseMessage(`Error fetching trainers: ${error.message}`);
+      setShowResponseModal(true);
     }
   };
   useEffect(() => {
     getTrainers();
   }, []);
 
+  /*   const getTrainer = async (id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`);
+      if (response.ok) {
+        const { data } = await response.json();
+        return data;
+      } else {
+        setResponseMessage('Error getting trainer');
+        setShowResponseModal(true);
+      }
+    } catch (error) {
+      setResponseMessage(`Error fetching trainer: ${error.message}`);
+      setShowResponseModal(true);
+    }
+  }; */
+
   const deleteTrainer = async (id) => {
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
         method: 'DELETE'
       });
-      setTrainer([...trainers.filter((trainer) => trainer._id !== id)]);
       setActiveTrainers(activeTrainers.filter((trainer) => trainer._id !== id));
     } catch (error) {
-      console.log('Error fetching trainers:', error);
+      setResponseMessage(`Error deleting trainer: ${error.message}`);
+      setShowResponseModal(true);
     }
   };
 
@@ -58,7 +73,31 @@ const Trainers = () => {
         setShowResponseModal(true);
       }
     } catch (error) {
-      setResponseMessage('Error adding trainer:', error);
+      setResponseMessage(`Error adding trainer: ${error.message}`);
+      setShowResponseModal(true);
+    }
+  };
+
+  const updTrainer = async (id, updatedTrainer) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedTrainer)
+      });
+      if (response.ok) {
+        setResponseMessage('Trainer updated successfully');
+        setShowResponseModal(true);
+        setShowModal(false);
+        getTrainers();
+      } else {
+        setResponseMessage('Failed to update trainer');
+        setShowResponseModal(true);
+      }
+    } catch (error) {
+      setResponseMessage(`Error updating trainer: ${error.message}`);
       setShowResponseModal(true);
     }
   };
@@ -66,7 +105,16 @@ const Trainers = () => {
   return (
     <section className={styles.container}>
       <h2>Trainers</h2>
-      <Table data={activeTrainers} deleteTrainer={deleteTrainer} />
+      {activeTrainers.length > 0 ? (
+        <Table
+          data={activeTrainers}
+          deleteTrainer={deleteTrainer}
+          /* getTrainer={getTrainer} */
+          updTrainer={updTrainer}
+        />
+      ) : (
+        'There is no trainers to show'
+      )}
       <Button show={() => setShowModal(true)} />
       {showModal && (
         <Modal title="Add trainer" onClose={() => setShowModal(false)}>
