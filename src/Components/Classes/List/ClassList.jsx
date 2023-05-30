@@ -85,6 +85,23 @@ function ClassList({
       throw new Error(error.message);
     }
   };
+  const deleteClass = async (classId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/delete/${classId}`, {
+        method: 'PUT'
+      });
+
+      if (!response.ok) {
+        throw new Error('Error deleting the data.');
+      }
+
+      setRenderData((render) => !render);
+
+      return response.json();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
 
   return (
     <div className={styles.tableContainer}>
@@ -184,7 +201,7 @@ function ClassList({
                           alt="DELETE"
                         />
                       </button>
-                      <button>
+                      <button onClick={() => deleteClass(item._id)}>
                         <img
                           src={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
                           alt="DELETE"
