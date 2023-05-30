@@ -15,8 +15,8 @@ function Form({ createClass, activities, trainers }) {
   const onSubmit = (e) => {
     e.preventDefault();
     if (
-      Object.values(classes).every((el) => {
-        if (el === '') {
+      Object.values(classes).every((prop) => {
+        if (prop === '') {
           return false;
         }
         return true;
@@ -105,7 +105,7 @@ function Form({ createClass, activities, trainers }) {
               <div className={styles.inputContainer}>
                 <label>Time</label>
                 <input type="time" value={classes.time} name="time" onChange={onChangeInput} />
-                {error && classes.time === '' ? (
+                {(error && classes.time === '') || (error && classes.time === 0) ? (
                   <span className={styles.error}>Field is required</span>
                 ) : null}
               </div>
