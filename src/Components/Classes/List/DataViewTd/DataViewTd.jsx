@@ -28,7 +28,7 @@ const DataViewTD = ({
     if (typeInput !== 'select' && typeInput !== 'selectDay' && value <= 0) {
       setErrorMessage('The value cannot be 0 or less.');
     }
-    if (typeInput !== 'select' && typeInput !== 'selectDay' && value === '') {
+    if (typeInput !== 'selectDay' && value === '') {
       setErrorMessage('The value is required');
     }
 
@@ -55,21 +55,27 @@ const DataViewTD = ({
       );
     } else if (!isInputTypeSelectDay) {
       inputElement = (
-        <select className={className} name={typeOptions} onChange={onChange}>
-          {options.map((option) => (
-            <option
-              key={option._id}
-              value={option._id}
-              selected={
-                typeOptions === 'activity'
-                  ? itemData === option.name
-                  : itemData === option.firstName
-              }
-            >
-              {typeOptions === 'activity' ? option.name : option.firstName}
-            </option>
-          ))}
-        </select>
+        <div className={styles.container}>
+          <select className={className} name={typeOptions} onChange={handleInputChange}>
+            <option value="">Select</option>
+            {options.map((option) => (
+              <option
+                key={option._id}
+                value={option._id}
+                selected={
+                  typeOptions === 'activity'
+                    ? itemData === option.name
+                    : itemData === option.firstName
+                }
+              >
+                {typeOptions === 'activity' ? option.name : option.firstName}
+              </option>
+            ))}
+          </select>
+          {typeInput !== 'selectDay' && errorMessage && (
+            <span style={styles.span}>{errorMessage}</span>
+          )}
+        </div>
       );
     } else {
       inputElement = (

@@ -33,7 +33,7 @@ tbody tr:nth-child(even):hover {
 }
 
 .selected {
-  background-color: #373867 !important;
+  background-color: #373867;
   color: #FFFFFF;
 }
 
