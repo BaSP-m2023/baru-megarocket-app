@@ -42,10 +42,17 @@ function ClassList({
 
   const editActivity = (item) => {
     setEditEnable(true);
-
+    let selectedActivity = '';
+    let selectedTrainer = '';
+    if (item.activity) {
+      selectedActivity = item.activity.id;
+    }
+    if (item.trainer) {
+      selectedTrainer = item.trainer.id;
+    }
     setEditedClass({
-      activity: item.activity._id,
-      trainer: item.trainer._id,
+      activity: selectedActivity,
+      trainer: selectedTrainer,
       day: item.day,
       time: item.time,
       capacity: item.capacity
