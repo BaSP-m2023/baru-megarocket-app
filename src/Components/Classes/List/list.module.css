@@ -47,3 +47,12 @@ tbody tr:not(.selected):nth-child(even):hover {
   width: 90vw;
   margin-bottom: 10px;
 }
+button{
+  margin:10px
+}
+button img{
+  width: 20px;
+}
+.inputEdit{
+  width: 150px
+}
