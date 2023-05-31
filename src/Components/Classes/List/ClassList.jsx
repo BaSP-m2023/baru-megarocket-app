@@ -30,7 +30,7 @@ function ClassList({ classes, getById, selectedClass }) {
         onChange={(e) => handleFilter(e)}
       ></input>
       <div className={styles.tableContainer}>
-        <table>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>N°</th>
@@ -48,7 +48,9 @@ function ClassList({ classes, getById, selectedClass }) {
                 <tr
                   key={item._id}
                   onClick={() => getById(item._id)}
-                  className={selectedClass && selectedClass._id === item._id ? styles.selected : ''}
+                  className={`${styles.row} ${
+                    selectedClass && selectedClass._id === item._id ? styles.selected : ''
+                  }`}
                 >
                   <td>{index + 1}</td>
                   <td>{item.activity !== null ? item.activity.name : 'Empty'}</td>
