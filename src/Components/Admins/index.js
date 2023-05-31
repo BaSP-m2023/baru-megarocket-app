@@ -19,7 +19,8 @@ const Admins = () => {
       const res = await response.json();
       setAdmins(res.data);
     } catch (error) {
-      error;
+      setMessageResponse(`Error fetching admins: ${error.message}`);
+      setShowModal(true);
     }
   };
 
@@ -32,11 +33,19 @@ const Admins = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/delete/${id}`, {
         method: 'DELETE'
       });
-      const res = await response.json();
-      console.log(res);
-      setAdmins([...admins.filter((admin) => admin._id !== id)]);
+      if (response.ok) {
+        setTitle('Delete Admin');
+        setMessageResponse('Admin deleted');
+        setShowModal(true);
+        setAdmins([...admins.filter((admin) => admin._id !== id)]);
+      } else {
+        setMessageResponse('Admin could be not deleted');
+        setShowModal(true);
+      }
     } catch (error) {
-      error;
+      setTitle('Delete Admin');
+      setMessageResponse(`Error deleting admins: ${error.message}`);
+      setShowModal(true);
     }
   };
 
@@ -48,7 +57,9 @@ const Admins = () => {
       setShowForm(true);
       setTitle('Edit admin');
     } catch (error) {
-      error;
+      setTitle('Update Admin');
+      setShowModal(true);
+      setMessageResponse(`Error fetching admins: ${error.message}`);
     }
   };
 
@@ -70,10 +81,13 @@ const Admins = () => {
         getAdmins();
       } else {
         setMessageResponse('Admin could be not updated');
+        setShowForm(false);
         setShowModal(true);
       }
     } catch (error) {
-      error;
+      setShowForm(false);
+      setShowModal(true);
+      setMessageResponse(`Error updating admins: ${error.message}`);
     }
   };
 
@@ -99,7 +113,9 @@ const Admins = () => {
         setShowModal(true);
       }
     } catch (error) {
-      error;
+      setMessageResponse(`Error adding admins: ${error.message}`);
+      setShowForm(false);
+      setShowModal(true);
     }
   };
 
@@ -110,7 +126,7 @@ const Admins = () => {
     <>
       <section className={styles.container}>
         <h2 className={styles.title}>Admins</h2>
-        <Table admins={admins} deleteAdmin={deleteAdmin} editButton={editButton} />
+        <Table admins={admins} editButton={editButton} deleteAdmin={deleteAdmin} />
         <Button
           add={() => {
             setShowForm(true);

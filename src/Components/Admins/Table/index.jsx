@@ -1,7 +1,6 @@
-import React from 'react';
 import styles from './table.module.css';
 
-function Table({ admins, deleteAdmin, editButton }) {
+function Table({ admins, editButton, deleteAdmin }) {
   return (
     <table className={styles.table}>
       <thead>
