@@ -12,9 +12,9 @@
   background-color: #AACE9B;
   color: #373867;
 }
-p{
+.text{
   margin-right: 25px;
 }
-button{
+.button{
   font-weight: 800;
 }

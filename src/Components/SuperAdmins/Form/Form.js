@@ -31,21 +31,27 @@ const Form = ({ addItem, updatingItem, showForm, putItem, getSuperadmins }) => {
     <div className={styles.formBackground}>
       <div className={styles.container}>
         <div className={styles.modalTitle}>
-          <h3>Create superadmin</h3>
+          <h3 className={styles.title}>Create superadmin</h3>
           <button onClick={showForm}>X</button>
         </div>
         <div>
-          <form onSubmit={onSubmit}>
+          <form className={styles.form} onSubmit={onSubmit}>
             <div className={styles.column1}>
-              <label htmlFor="name">Name</label>
+              <label className={styles.label} htmlFor="name">
+                Name
+              </label>
               <input
+                className={styles.input}
                 type="text"
                 name="name"
                 value={superadmin.name || ''}
                 onChange={onChangeInput}
               ></input>
-              <label htmlFor="lastName">Last name</label>
+              <label className={styles.label} htmlFor="lastName">
+                Last name
+              </label>
               <input
+                className={styles.input}
                 type="text"
                 name="lastName"
                 value={superadmin.lastName || ''}
@@ -53,8 +59,11 @@ const Form = ({ addItem, updatingItem, showForm, putItem, getSuperadmins }) => {
               ></input>
             </div>
             <div className={styles.column2}>
-              <label htmlFor="email">Email</label>
+              <label className={styles.label} htmlFor="email">
+                Email
+              </label>
               <input
+                className={styles.input}
                 type="text"
                 name="email"
                 value={superadmin.email || ''}
@@ -62,8 +71,11 @@ const Form = ({ addItem, updatingItem, showForm, putItem, getSuperadmins }) => {
               ></input>
               {!updatingItem._id && (
                 <>
-                  <label htmlFor="password">Password</label>
+                  <label className={styles.label} htmlFor="password">
+                    Password
+                  </label>
                   <input
+                    className={styles.input}
                     type="text"
                     name="password"
                     value={superadmin.password || ''}

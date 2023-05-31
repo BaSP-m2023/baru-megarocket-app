@@ -6,25 +6,25 @@ import plus from '../assets/plus.png';
 const Table = ({ data, deleteItem, showForm, handleUpdateClick }) => {
   return (
     <>
-      <table>
+      <table className={styles.container}>
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Last name</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th></th>
+          <tr className={styles.trow}>
+            <th className={styles.thead}>Name</th>
+            <th className={styles.thead}>Last name</th>
+            <th className={styles.thead}>Email</th>
+            <th className={styles.thead}>Password</th>
+            <th className={styles.extrathead}></th>
           </tr>
         </thead>
         <tbody>
           {data.map((item) => {
             return (
               <>
-                <tr key={item._id}>
-                  <td>{item.name}</td>
-                  <td>{item.lastName}</td>
-                  <td>{item.email}</td>
-                  <td>{item.password}</td>
+                <tr key={item._id} className={styles.trow}>
+                  <td className={styles.tdata}>{item.name}</td>
+                  <td className={styles.tdata}>{item.lastName}</td>
+                  <td className={styles.tdata}>{item.email}</td>
+                  <td className={styles.tdata}>{item.password}</td>
                   <td>
                     <button onClick={() => handleUpdateClick(item._id)}>
                       <img src={pencil} width="20px"></img>
@@ -40,7 +40,7 @@ const Table = ({ data, deleteItem, showForm, handleUpdateClick }) => {
         </tbody>
       </table>
       <button className={styles.addItem} onClick={showForm}>
-        <img src={plus}></img>
+        <img className={styles.plus} src={plus}></img>
         Add new
       </button>
     </>

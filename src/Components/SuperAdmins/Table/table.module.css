@@ -1,22 +1,29 @@
-table{
-  width: 100%;
+.container{
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
   border-collapse: collapse;
 }
-thead{
-  color: navy
-}
-tr{
+.trow{
   display: flex;
   justify-content: space-around;
-  align-content: center;
   height: 40px;
-  line-height: 40px;
+  align-items: center;
   border-bottom: thin solid;
 }
+.tdata, .thead{
+  width: 22%;
+  text-align: center;
+}
+.extrathead{
+  width: 40px;
+}
 .addItem{
-  align-self: center;
+  position: relative;
+  left: 73%;
   width: 130px;
   height: 36px;
+  margin: 2%;
   font-weight: 600;
   font-size: 1rem;
   color: #373867;
@@ -25,6 +32,6 @@ tr{
   border-radius: 5px;
   cursor: pointer;
 }
-img{
-  margin-right: 8px;
+.plus{
+  margin-right: 5px;
 }
