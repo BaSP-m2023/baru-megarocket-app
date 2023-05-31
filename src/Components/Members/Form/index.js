@@ -13,7 +13,7 @@ const memberModal = ({ modalOpen, onClose, addMember, data, memberId, updMember 
     city: '',
     dob: '',
     zip: '',
-    isActive: false,
+    isActive: true,
     membership: '',
     password: ''
   });

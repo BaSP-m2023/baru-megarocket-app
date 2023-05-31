@@ -31,8 +31,10 @@ function Members() {
       const data = await res.json();
       setMembers([...members, data]);
       setModalMessageOpen(true);
+      setModalMessage('Member created succesfuly!');
     } else {
-      console.log('error');
+      setModalMessageOpen(true);
+      setModalMessage('Member cant be created');
     }
   };
 
@@ -48,21 +50,26 @@ function Members() {
       getAllMembers();
       setEditMember(null);
       setModalMessageOpen(true);
-      handleClose();
+      setModalMessage('Member updated succesfuly!');
     } else {
-      console.log('error');
+      setModalMessageOpen(true);
+      setModalMessage('Cant update member!');
     }
   };
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editMember, setEditMember] = useState(null);
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
-  console.log(modalMessageOpen);
+  const [modalMessage, setModalMessage] = useState(null);
 
   const handleShow = () => setModalOpen(true);
   const handleClose = () => {
     setModalOpen(false);
     setEditMember(null);
+  };
+
+  const handleMessageClose = () => {
+    setModalMessageOpen(false);
   };
 
   const handleEdit = (id) => {
@@ -83,8 +90,9 @@ function Members() {
         updMember={updMember}
       />
       <Table data={members} editMember={handleEdit} />
-      {/* {modalMessageOpen && <MessageModal />} */}
-      <MessageModal />
+      {modalMessageOpen && (
+        <MessageModal modalMessage={modalMessage} onCloseMessage={() => handleMessageClose()} />
+      )}
     </section>
   );
 }
