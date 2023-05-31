@@ -102,11 +102,16 @@ function SuperAdmins() {
 
   const handleUpdateClick = async (id) => {
     setshowAddSuperadmin(true);
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
-      method: 'GET'
-    });
-    const data = await res.json();
-    setUpdatingItem(data.data);
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
+        method: 'GET'
+      });
+      const data = await res.json();
+      setUpdatingItem(data.data);
+    } catch (error) {
+      setResMessage(error.message);
+      openModal();
+    }
   };
 
   return (
