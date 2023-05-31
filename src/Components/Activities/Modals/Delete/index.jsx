@@ -20,7 +20,7 @@ const DeleteModal = ({ hide, onDelete, activity }) => {
           >
             Submit
           </button>
-          <button className={`${styles.btn} ${styles['btn-cancel']}`} onClick={hide}>
+          <button className={`${styles.btn} ${styles['btn-cancel']}`} onClick={() => hide()}>
             Cancel
           </button>
         </div>

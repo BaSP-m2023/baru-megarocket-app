@@ -52,7 +52,7 @@ const List = ({ activities, handleDelete, handleForm }) => {
           ))}
         </tbody>
       </table>
-      <button className={`${styles['btn-new']}`} onClick={handleForm}>
+      <button className={`${styles['btn-new']}`} onClick={() => handleForm()}>
         + Add new
       </button>
     </div>
