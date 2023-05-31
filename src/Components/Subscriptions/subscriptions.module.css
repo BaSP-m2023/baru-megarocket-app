@@ -5,20 +5,19 @@
   justify-content: center;
   align-items: center;
 }
-.title{
-  font-size: 4rem;
+.title {
+  font-size: 2rem;
   text-align: center;
 }
-.containerContent{
+.containerContent {
   display: flex;
   flex-direction: row;
 }
 .btnCreate {
   margin: 20px;
   align-self: center;
-  padding: 20px 20px 20px 20px;
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: rgb(55, 56, 103);
   background-color: rgb(170, 206, 155);
   border: 0;
