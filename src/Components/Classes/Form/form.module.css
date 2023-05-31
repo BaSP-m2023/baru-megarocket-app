@@ -6,7 +6,8 @@ label {
   font-size: 1rem;
 }
 
-input, select {
+input,
+select {
   width: 25vw;
   height: 30px;
   margin-right: 10px;
@@ -22,10 +23,16 @@ button {
   font-weight: 600;
   font-size: 1rem;
   color: #373867;
-  background-color: #AACE9B;
+  background-color: #aace9b;
   border: 0;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.btnClose {
+  width: 40px;
+  color: rgb(162, 212, 255);
+  background-color: #ac1c1c;
 }
 
 .formContainer {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styles from './form.module.css';
 
 function Form({ createClass, activities, trainers }) {
@@ -15,8 +15,8 @@ function Form({ createClass, activities, trainers }) {
   const onSubmit = (e) => {
     e.preventDefault();
     if (
-      Object.values(classes).every((el) => {
-        if (el === '') {
+      Object.values(classes).every((prop) => {
+        if (prop === '') {
           return false;
         }
         return true;
@@ -45,15 +45,26 @@ function Form({ createClass, activities, trainers }) {
 
   return (
     <>
-      <button
-        className={styles.buttonSwitch}
-        onClick={() => {
-          setFormCreateSwitch(!formCreateSwitch);
-          setError(false);
-        }}
-      >
-        + Add New
-      </button>
+      {formCreateSwitch ? (
+        <button
+          className={styles.btnClose}
+          onClick={() => {
+            setFormCreateSwitch(!formCreateSwitch);
+            setError(false);
+          }}
+        >
+          x
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            setFormCreateSwitch(!formCreateSwitch);
+          }}
+        >
+          + Add New
+        </button>
+      )}
+
       <div className={styles.formContainer}>
         {formCreateSwitch && activities.length !== 0 && trainers.length !== 0 ? (
           <form onSubmit={onSubmit}>
@@ -105,7 +116,7 @@ function Form({ createClass, activities, trainers }) {
               <div className={styles.inputContainer}>
                 <label>Time</label>
                 <input type="time" value={classes.time} name="time" onChange={onChangeInput} />
-                {error && classes.time === '' ? (
+                {(error && classes.time === '') || (error && classes.time === 0) ? (
                   <span className={styles.error}>Field is required</span>
                 ) : null}
               </div>

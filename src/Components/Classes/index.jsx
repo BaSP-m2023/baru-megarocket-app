@@ -2,7 +2,7 @@ import styles from './classes.module.css';
 import ClassList from './List/ClassList';
 import Form from './Form/Form';
 import Modal from './Modal/Modal';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Projects() {
   const [classes, setClasses] = useState([]);
@@ -73,7 +73,7 @@ function Projects() {
             capacity: data.capacity
           }
         ]);
-        setResponseModal({ error: false, msg: '' });
+        setResponseModal({ error: false, msg: 'Class created sucessfully' });
         setShowModal(true);
       } else {
         setResponseModal({ error: true, msg: data.message });
