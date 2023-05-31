@@ -2,7 +2,7 @@ import styles from './classes.module.css';
 import ClassList from './List/ClassList';
 import Form from './Form/Form';
 import Modal from './Modal/Modal';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Projects() {
   const [classes, setClasses] = useState([]);
