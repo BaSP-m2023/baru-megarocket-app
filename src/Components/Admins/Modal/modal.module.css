@@ -10,13 +10,13 @@
   width: 100vw;
   height: 100vh;
   overflow: auto;
-  background-color: rgba(0,0,0,0.7);
+  background-color: #000000b3;
 }
 
 .modalContainer {
   border-radius: 0.5rem;
   width: 30%;
-  background-color: white;
+  background-color: #ffffff;
 }
 
 .header {
@@ -30,7 +30,7 @@
 }
 
 .modalContent {
-  background-color: white;
+  background-color: #ffffff;
 }
 
 .content {
@@ -40,7 +40,7 @@
 }
 
 .close{
-  background-color: white;
+  background-color: #ffffff;
   color: #373867;
   font-weight: bold;
   border: none;

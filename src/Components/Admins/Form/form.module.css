@@ -10,7 +10,7 @@
   width: 100vw;
   height: 100vh;
   overflow: auto;
-  background-color: rgba(0,0,0,0.7);
+  background-color: #000000b3;
 }
 
 .formContainer {
@@ -26,20 +26,20 @@
 }
 
 .title {
-  color: white;
+  color: #ffffff;
   margin: 0.25rem;
 }
 
 .button {
   background-color: #232F3E;
-  color: white;
+  color: #ffffff;
   border: none;
   cursor: pointer;
 }
 
 .form {
   padding: 0.5rem;
-  background-color: white;
+  background-color: #ffffff;
 }
 
 .labelInput {
@@ -71,7 +71,7 @@
   font-weight: 600;
   font-size: 1rem;
   color: #373867;
-  background-color: white;
+  background-color: #ffffff;
   border: 1px solid  #373867;
   border-radius: 5px;
   cursor: pointer;
