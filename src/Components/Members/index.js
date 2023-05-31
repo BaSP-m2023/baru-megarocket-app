@@ -6,6 +6,10 @@ import MessageModal from './Modal';
 
 function Members() {
   const [members, setMembers] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editMember, setEditMember] = useState(null);
+  const [modalMessageOpen, setModalMessageOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState(null);
 
   const getAllMembers = async () => {
     fetch(`${process.env.REACT_APP_API_URL}/api/member`)
@@ -49,6 +53,7 @@ function Members() {
     if (res.status === 200) {
       getAllMembers();
       setEditMember(null);
+      setModalOpen(false);
       setModalMessageOpen(true);
       setModalMessage('Member updated succesfuly!');
     } else {
@@ -56,11 +61,6 @@ function Members() {
       setModalMessage('Cant update member!');
     }
   };
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editMember, setEditMember] = useState(null);
-  const [modalMessageOpen, setModalMessageOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState(null);
 
   const handleShow = () => setModalOpen(true);
   const handleClose = () => {
@@ -89,7 +89,7 @@ function Members() {
         addMember={addMember}
         updMember={updMember}
       />
-      <Table data={members} editMember={handleEdit} />
+      <Table data={members} handleEdit={handleEdit} />
       {modalMessageOpen && (
         <MessageModal modalMessage={modalMessage} onCloseMessage={() => handleMessageClose()} />
       )}

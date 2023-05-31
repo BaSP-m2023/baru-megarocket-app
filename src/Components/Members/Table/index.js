@@ -1,6 +1,6 @@
 import styles from './table.modules.css';
 
-const Table = ({ data }) => {
+const Table = ({ data, handleEdit }) => {
   return (
     <table>
       <thead>
@@ -32,7 +32,9 @@ const Table = ({ data }) => {
               <td>{member.membership}</td>
               <td>{member.password}</td>
               <button className="close_btn">&times;</button>
-              <button className="edit_btn">EDIT</button>
+              <button className="edit_btn" onClick={() => handleEdit(member._id)}>
+                EDIT
+              </button>
             </tr>
           );
         })}

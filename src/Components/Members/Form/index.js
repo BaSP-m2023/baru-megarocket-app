@@ -53,7 +53,6 @@ const memberModal = ({ modalOpen, onClose, addMember, data, memberId, updMember 
   const onSubmit = (e) => {
     e.preventDefault();
     if (memberId) {
-      console.log(memberId);
       updMember(memberId, member);
     } else {
       addMember(member);
