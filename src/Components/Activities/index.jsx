@@ -148,6 +148,9 @@ function Activities() {
       ) : (
         'There are not activities yet :('
       )}
+      <button className={`${styles['btn-new']}`} onClick={() => handleForm()}>
+        + Add new
+      </button>
       {modal && <DeleteModal hide={handleDelete} activity={activity} onDelete={deleteActivity} />}
       {toast && (
         <Toast

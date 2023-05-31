@@ -6,7 +6,7 @@ const Item = ({ activity, handleDelete, handleForm }) => {
     <tr className={`${styles['table-row']}`}>
       <td>{activity.name}</td>
       <td>{activity.description}</td>
-      <td>{activity.isActive ? 'Active' : 'Desactivated'}</td>
+      <td>{activity.isActive ? 'Active' : 'Deactive'}</td>
       <td>
         <img
           className={`${styles['table-buttons']}`}

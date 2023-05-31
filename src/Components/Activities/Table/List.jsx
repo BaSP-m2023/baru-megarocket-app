@@ -40,6 +40,7 @@ const List = ({ activities, handleDelete, handleForm }) => {
             <th>Description</th>
             <th>Status</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -53,9 +54,6 @@ const List = ({ activities, handleDelete, handleForm }) => {
           ))}
         </tbody>
       </table>
-      <button className={`${styles['btn-new']}`} onClick={() => handleForm()}>
-        + Add new
-      </button>
     </div>
   );
 };

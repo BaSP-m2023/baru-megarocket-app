@@ -32,6 +32,7 @@
 
 .table-buttons {
   width: 17.5px;
+  height: 17.5px;
   padding: 0.8em;
   cursor: pointer;
 }
@@ -39,18 +40,4 @@
 .table-error {
   padding-right: 10px;
   color: #F13312;
-}
-
-.btn-new {
-  align-self: center;
-  width: 130px;
-  height: 36px;
-  margin: 15px;
-  border: 0;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  background-color: #AACE9B;
-  color: #373867;
-  cursor: pointer;
 }
