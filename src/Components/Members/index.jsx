@@ -26,7 +26,6 @@ function Members() {
   useEffect(() => {
     const getMembers = async () => {
       const membersFromDb = await getAllMembers();
-      console.log(membersFromDb);
       setMembers(membersFromDb);
     };
     getMembers();
@@ -34,7 +33,7 @@ function Members() {
 
   const getAllMembers = async () => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_URL_API}/api/member`);
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member`);
       const { data } = await res.json();
       return data;
     } catch (error) {
@@ -48,7 +47,7 @@ function Members() {
 
   // const getMember = async (id) => {
   //   try {
-  //     const res = await fetch(`${process.env.REACT_APP_URL_API}/api/member/${id}`);
+  //     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`);
   //     const { data } = await res.json();
   //     setMember(data);
   //   } catch (error) {
@@ -58,7 +57,7 @@ function Members() {
 
   const deleteMember = async (id) => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_URL_API}/api/member/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
         method: 'DELETE'
       });
       const data = await res.json();
