@@ -1,0 +1,23 @@
+.row {
+  border-bottom: 1px solid #cccccc;
+}
+
+.row:hover {
+  background-color: #f4f4f6;
+}
+
+.align {
+  text-align: center;
+  line-height: 2rem;
+}
+
+.edit {
+  width: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.delete {
+  width: 1rem;;
+  cursor: pointer;
+}
