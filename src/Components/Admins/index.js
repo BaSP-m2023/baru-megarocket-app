@@ -1,5 +1,5 @@
 import styles from './admins.module.css';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from './Table';
 import Form from './Form';
 import Modal from './Modal';
@@ -73,8 +73,6 @@ const Admins = () => {
         body: JSON.stringify(adminToUpdate)
       });
       if (response.ok) {
-        const res = await response.json();
-        console.log(res);
         setMessageResponse('Admin updated');
         setShowForm(false);
         setShowModal(true);
@@ -101,8 +99,6 @@ const Admins = () => {
         body: JSON.stringify(adminToAdd)
       });
       if (response.ok) {
-        const res = await response.json();
-        console.log(res);
         setMessageResponse('Admin created');
         setShowForm(false);
         setShowModal(true);
