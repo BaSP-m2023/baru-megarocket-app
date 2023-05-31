@@ -76,7 +76,7 @@ const Form = ({ addItem, updatingItem, showForm, putItem, getSuperadmins }) => {
                   </label>
                   <input
                     className={styles.input}
-                    type="text"
+                    type="password"
                     name="password"
                     value={superadmin.password || ''}
                     onChange={onChangeInput}
