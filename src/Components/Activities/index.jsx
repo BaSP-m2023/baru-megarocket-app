@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './activities.module.css';
 
 import List from './Table/List';
-import DeleteModal from './Modals/Delete/Delete';
+import DeleteModal from './Modals/Delete';
 import Toast from './Toast/Toast';
 import Form from './Modals/Form/Form';
 
@@ -39,7 +39,7 @@ function Activities() {
 
   const getActivities = async () => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_URL_API}/api/activity`);
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity`);
       const data = await res.json();
       return data;
     } catch (error) {
@@ -51,13 +51,81 @@ function Activities() {
     }
   };
 
-  const createActivity = async () => {};
+  const createActivity = async (newActivity) => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(newActivity)
+      });
+      const data = await res.json();
+      if (res.status === 201) {
+        handleToast({
+          content: 'Activity created',
+          className: 'toast-ok'
+        });
+        setActivities([...activities, data]);
+        setForm(!form);
+      }
+      if (res.status === 400) {
+        handleToast({
+          content: data.message,
+          className: 'toast-wrong'
+        });
+      }
+    } catch (error) {
+      handleToast({
+        content: 'Something went wrong :( try again later',
+        className: 'toast-wrong'
+      });
+    }
+  };
 
-  const updateActivity = async () => {};
+  const updateListAfterUpdate = (id, data) => {
+    const act = activities.find((activity) => activity._id === id);
+    const index = activities.indexOf(act);
+    activities[index] = data;
+    setActivities(activities);
+  };
+
+  const updateActivity = async (id, { name, description, isActive }) => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({ name, description, isActive })
+      });
+      const data = await res.json();
+
+      if (res.status === 200) {
+        handleToast({
+          content: 'Activity updated',
+          className: 'toast-ok'
+        });
+        updateListAfterUpdate(id, data);
+        setForm(!form);
+      }
+      if (res.status === 400) {
+        handleToast({
+          content: data.message,
+          className: 'toast-wrong'
+        });
+      }
+    } catch (error) {
+      handleToast({
+        content: 'Something went wrong :( try again later',
+        className: 'toast-wrong'
+      });
+    }
+  };
 
   const deleteActivity = async (id) => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_URL_API}/api/activity/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity/${id}`, {
         method: 'DELETE'
       });
       const { message } = await res.json();

@@ -1,6 +1,8 @@
 .container {
   flex: 1;
   display: flex;
+  min-height: 50vh;
+  margin: 1em;
   flex-direction: column;
   justify-content: center;
   align-items: center;

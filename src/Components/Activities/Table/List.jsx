@@ -38,6 +38,7 @@ const List = ({ activities, handleDelete, handleForm }) => {
           <tr className={`${styles['table-row']}`}>
             <th>Activity</th>
             <th>Description</th>
+            <th>Status</th>
             <th></th>
           </tr>
         </thead>

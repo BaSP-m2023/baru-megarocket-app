@@ -1,17 +1,18 @@
 import styles from './table.module.css';
 
 const Item = ({ activity, handleDelete, handleForm }) => {
-  const { _id, name, description } = activity;
+  const { _id, name, description, isActive } = activity;
   return (
     <tr className={`${styles['table-row']}`}>
       <td>{activity.name}</td>
       <td>{activity.description}</td>
+      <td>{activity.isActive ? 'Active' : 'Desactivated'}</td>
       <td>
         <img
           className={`${styles['table-buttons']}`}
           src="/assets/images/edit-icon.png"
           alt="edit icon"
-          onClick={() => handleForm({ name, description })}
+          onClick={() => handleForm({ _id, name, description, isActive })}
         />
       </td>
       <td>
