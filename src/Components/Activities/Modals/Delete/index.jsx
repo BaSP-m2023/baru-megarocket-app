@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './deleteModal.module.css';
 
 const DeleteModal = ({ hide, onDelete, activity }) => {
