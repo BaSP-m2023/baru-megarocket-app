@@ -12,9 +12,14 @@ function SuperAdmins() {
   const [resMessage, setResMessage] = useState('');
 
   const getSuperadmins = async () => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/`);
-    const data = await res.json();
-    setSuperadmins(data.data);
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/`);
+      const data = await res.json();
+      setSuperadmins(data.data);
+    } catch (error) {
+      setResMessage(error.message);
+      setshowModal(true);
+    }
   };
   useEffect(() => {
     getSuperadmins();
