@@ -11,6 +11,7 @@ function Projects() {
   const [selectedClass, setSelectedClass] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [responseModal, setResponseModal] = useState({ error: false, msg: '' });
+  const [renderData, setRenderData] = useState(false);
 
   const getData = async () => {
     try {
@@ -32,7 +33,7 @@ function Projects() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [renderData]);
 
   const getById = async (id) => {
     try {
@@ -93,6 +94,11 @@ function Projects() {
           classes={classes && classes}
           getById={getById}
           selectedClass={selectedClass}
+          setRenderData={setRenderData}
+          setResponseModal={setResponseModal}
+          setShowModal={setShowModal}
+          trainers={trainers}
+          activities={activities}
         ></ClassList>
         <Form createClass={createClass} trainers={trainers} activities={activities}></Form>
         <Modal
