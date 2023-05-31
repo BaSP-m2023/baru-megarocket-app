@@ -1,7 +1,7 @@
 import styles from './super-admins.module.css';
-import Form from './Form/Form';
-import MessageModal from './MessageModal/MessageModal';
-import Table from './Table/Table';
+import Form from './Form/index';
+import MessageModal from './MessageModal/index';
+import Table from './Table/index';
 import { useEffect, useState } from 'react';
 
 function SuperAdmins() {
