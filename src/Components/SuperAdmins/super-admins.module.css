@@ -1,6 +1,24 @@
-.container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+* {
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+.h2 {
+  margin-left: 42%;
+  padding: 2%;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 35px;
+  color: #373867;
 }
