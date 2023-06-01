@@ -1,0 +1,43 @@
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+  min-height: 40vh;
+}
+
+.table-filter {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+}
+
+.table-input-filter {
+  border: 1px solid #373867;
+  border-radius: 3px;
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.table-header {
+  color: #373867;
+}
+
+.table-row {
+  height: 2.5em;
+  text-align: center;
+  border-bottom: 1px solid #707070;
+}
+
+.table-buttons {
+  width: 17.5px;
+  height: 17.5px;
+  padding: 0.8em;
+  cursor: pointer;
+}
+
+.table-error {
+  padding-right: 10px;
+  color: #F13312;
+}
