@@ -49,10 +49,17 @@
   width: 90vw;
   margin-bottom: 10px;
 }
-button{
-  margin:10px
+.button{
+  margin:10px;
+  border: none;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  outline: none;
 }
-button img{
+.buttonImg{
   width: 20px;
 }
 .inputEdit{

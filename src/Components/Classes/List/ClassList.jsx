@@ -224,19 +224,25 @@ function ClassList({
                   <td>
                     {editEnable === true && selectedClass && selectedClass._id === item._id ? (
                       <>
-                        <button onClick={() => updateClass(item._id)}>Update</button>
-                        <button onClick={cancelEdit}>Cancel</button>
+                        <button className={styles.button} onClick={() => updateClass(item._id)}>
+                          Update
+                        </button>
+                        <button className={styles.button} onClick={cancelEdit}>
+                          Cancel
+                        </button>
                       </>
                     ) : (
                       <>
-                        <button onClick={() => editActivity(item)}>
+                        <button className={styles.button} onClick={() => editActivity(item)}>
                           <img
+                            className={styles.buttonImg}
                             src={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
                             alt="DELETE"
                           />
                         </button>
-                        <button onClick={() => deleteClass(item._id)}>
+                        <button className={styles.button} onClick={() => deleteClass(item._id)}>
                           <img
+                            className={styles.buttonImg}
                             src={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
                             alt="DELETE"
                           />

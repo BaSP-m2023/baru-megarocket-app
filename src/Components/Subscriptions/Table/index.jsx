@@ -89,21 +89,24 @@ const Table = ({ data }) => {
             tableData.map((subscription) => (
               <tr className={styles.line} key={subscription._id}>
                 <td
-                  className={styles.item}
+                  className={`${styles.item} ${styles.td}`}
                 >{`${subscription.classes.day} ${subscription.classes.time}`}</td>
                 {!subscription.members ? (
-                  <td className={styles.item}>{'empty'}</td>
+                  <td className={`${styles.item} ${styles.td}`}>{'empty'}</td>
                 ) : (
                   <td
-                    className={styles.item}
+                    className={`${styles.item} ${styles.td}`}
                   >{`${subscription.members.name} ${subscription.members.lastName}`}</td>
                 )}
-                <td className={styles.item}>{formatDate(subscription.date)}</td>
-                <td className={styles.btnEdit} onClick={() => handleEdit(subscription._id)}>
+                <td className={`${styles.item} ${styles.td}`}>{formatDate(subscription.date)}</td>
+                <td
+                  className={`${styles.btnEdit} ${styles.td}`}
+                  onClick={() => handleEdit(subscription._id)}
+                >
                   <img src={imgEditSubscription}></img>
                 </td>
                 <td
-                  className={styles.btnDelete}
+                  className={`${styles.btnDelete} ${styles.td}`}
                   onClick={() => handleConfirmDelete(subscription._id)}
                 >
                   <img src={imgDeleteSubscription}></img>
@@ -112,7 +115,9 @@ const Table = ({ data }) => {
             ))
           ) : (
             <tr>
-              <td colSpan="4">Cannot find any subscription</td>
+              <td className={styles.td} colSpan="4">
+                Cannot find any subscription
+              </td>
             </tr>
           )}
         </tbody>

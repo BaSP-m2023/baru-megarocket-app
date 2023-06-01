@@ -26,10 +26,10 @@ const Table = ({ data, deleteItem, showForm, handleUpdateClick }) => {
                   <td className={styles.tdata}>{item.email}</td>
                   <td className={styles.tdata}>{item.password}</td>
                   <td>
-                    <button onClick={() => handleUpdateClick(item._id)}>
+                    <button className={styles.button} onClick={() => handleUpdateClick(item._id)}>
                       <img src={pencil} width="20px"></img>
                     </button>
-                    <button onClick={() => deleteItem(item._id)}>
+                    <button className={styles.button} onClick={() => deleteItem(item._id)}>
                       <img src={trash} width="20px"></img>
                     </button>
                   </td>
