@@ -13,7 +13,7 @@ const memberModal = ({ modalOpen, onClose, addMember, data, memberId, updMember 
     city: '',
     dob: '',
     zip: '',
-    isActive: true,
+    isActive: false,
     membership: '',
     password: ''
   });
@@ -33,7 +33,7 @@ const memberModal = ({ modalOpen, onClose, addMember, data, memberId, updMember 
         city: editMember.city,
         dob: editMember.dob,
         zip: editMember.zip,
-        isActive: editMember.isActive,
+        isActive: false,
         membership: editMember.membership,
         password: editMember.password
       };
@@ -46,7 +46,8 @@ const memberModal = ({ modalOpen, onClose, addMember, data, memberId, updMember 
   const onChangeInput = (e) => {
     setMember({
       ...member,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      isActive: e.target.checked
     });
   };
 
@@ -65,7 +66,7 @@ const memberModal = ({ modalOpen, onClose, addMember, data, memberId, updMember 
         city: '',
         dob: '',
         zip: '',
-        isActive: '',
+        isActive: false,
         membership: '',
         password: ''
       });
@@ -115,20 +116,30 @@ const memberModal = ({ modalOpen, onClose, addMember, data, memberId, updMember 
           </div>
           <div className={styles.label_container}>
             <label>Membership</label>
+            <select name="membership" value={member.membership} onChange={onChangeInput}>
+              <option value="placeholder">Select category</option>
+              <option value="classic">Classic</option>
+              <option value="only_classes">Only Classes</option>
+              <option value="black">Black</option>
+            </select>
+          </div>
+          <div className={styles.label_container}>
+            <label>Password</label>
             <input
-              type="text"
-              name="membership"
-              value={member.membership}
+              type="password"
+              name="password"
+              value={member.password}
               onChange={onChangeInput}
             />
           </div>
           <div className={styles.label_container}>
-            <label>Password</label>
-            <input type="text" name="password" value={member.password} onChange={onChangeInput} />
-          </div>
-          <div className={styles.label_container}>
             <label>Is member active?</label>
-            <input type="text" name="isActive" value={member.isActive} onChange={onChangeInput} />
+            <input
+              type="checkbox"
+              name="isActive"
+              value={member.isActive}
+              onChange={onChangeInput}
+            />
           </div>
           <button className={styles.save_input} type="submit">
             {memberId ? 'Update' : 'Submit'}

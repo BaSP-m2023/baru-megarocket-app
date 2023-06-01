@@ -142,7 +142,9 @@ function Members() {
       ) : (
         'There are not members yet :('
       )}
-      <button onClick={() => handleShow()}>Add Member</button>
+      <button className={`${styles['btn-new']}`} onClick={() => handleShow()}>
+        + Add new
+      </button>
       <MemberModal
         memberId={editMember}
         data={members}
