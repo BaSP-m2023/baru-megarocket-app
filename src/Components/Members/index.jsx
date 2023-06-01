@@ -1,27 +1,21 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './members.module.css';
-
+import MemberModal from './Form';
+import MessageModal from './Modal';
 import List from './Table/List';
 import DeleteModal from './Modal/DeleteModal';
 import Toast from './Toast/Toast';
 
 function Members() {
   const [members, setMembers] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editMember, setEditMember] = useState(null);
+  const [modalMessageOpen, setModalMessageOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState(null);
   const [memberToDelete, setMember] = useState({});
   const [modal, setModal] = useState(false);
   const [toast, setToast] = useState(false);
   const [toastContent, setContent] = useState({});
-
-  const handleModal = (member = {}) => {
-    setMember(member);
-    setModal(!modal);
-  };
-
-  const handleToast = (msg) => {
-    setContent(msg);
-    setToast(!toast);
-  };
 
   useEffect(() => {
     const getMembers = async () => {
@@ -55,6 +49,25 @@ function Members() {
   //   }
   // };
 
+  const addMember = async (member) => {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(member)
+    });
+    if (res.status === 201) {
+      const data = await res.json();
+      setMembers([...members, data]);
+      setModalMessageOpen(true);
+      setModalMessage('Member created succesfuly!');
+    } else {
+      setModalMessageOpen(true);
+      setModalMessage('Member cant be created');
+    }
+  };
+
   const deleteMember = async (id) => {
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
@@ -77,13 +90,69 @@ function Members() {
     }
   };
 
+  const updMember = async (id, updatedMember) => {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedMember)
+    });
+    if (res.status === 200) {
+      getAllMembers();
+      setEditMember(null);
+      setModalOpen(false);
+      setModalMessageOpen(true);
+      setModalMessage('Member updated succesfuly!');
+    } else {
+      setModalMessageOpen(true);
+      setModalMessage('Cant update member!');
+    }
+  };
+
+  const handleShow = () => setModalOpen(true);
+  const handleClose = () => {
+    setModalOpen(false);
+    setEditMember(null);
+  };
+
+  const handleMessageClose = () => {
+    setModalMessageOpen(false);
+  };
+
+  const handleEdit = (id) => {
+    setEditMember(id);
+    setModalOpen(true);
+  };
+
+  const handleModal = (member = {}) => {
+    setMember(member);
+    setModal(!modal);
+  };
+
+  const handleToast = (msg) => {
+    setContent(msg);
+    setToast(!toast);
+  };
+
   return (
     <section className={styles.container}>
       {members.length > 0 ? (
-        <List members={members} handleModal={handleModal} />
+        <List members={members} handleModal={handleModal} handleEdit={handleEdit} />
       ) : (
         'There are not members yet :('
       )}
+      <button className={`${styles['btn-new']}`} onClick={() => handleShow()}>
+        + Add new
+      </button>
+      <MemberModal
+        memberId={editMember}
+        data={members}
+        modalOpen={modalOpen}
+        onClose={() => handleClose()}
+        addMember={addMember}
+        updMember={updMember}
+      />
       {modal && <DeleteModal hide={handleModal} onDelete={deleteMember} member={memberToDelete} />}
       {toast && (
         <Toast
@@ -91,6 +160,9 @@ function Members() {
           content={toastContent.content}
           classes={toastContent.className}
         />
+      )}
+      {modalMessageOpen && (
+        <MessageModal modalMessage={modalMessage} onCloseMessage={() => handleMessageClose()} />
       )}
     </section>
   );

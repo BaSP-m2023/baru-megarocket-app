@@ -1,7 +1,7 @@
 import styles from './table.module.css';
 import ButtonSlider from './ButtonSlider/ButtonSlider';
 
-const Item = ({ member = { name: 'Nothing match', isActive: false }, handleModal }) => {
+const Item = ({ member = { name: 'Nothing match', isActive: false }, handleModal, handleEdit }) => {
   return (
     <tr className={`${styles['table-row']}`}>
       <td>
@@ -15,6 +15,7 @@ const Item = ({ member = { name: 'Nothing match', isActive: false }, handleModal
           className={`${styles['table-buttons']}`}
           src="/assets/images/edit-icon.png"
           alt="edit icon"
+          onClick={() => handleEdit(member._id)}
         />
       </td>
       <td>
