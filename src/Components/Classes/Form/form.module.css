@@ -1,4 +1,4 @@
-label {
+.label {
   display: block;
   padding: 5px;
   color: #373867;
@@ -6,8 +6,8 @@ label {
   font-size: 1rem;
 }
 
-input,
-select {
+.input,
+.select {
   width: 25vw;
   height: 30px;
   margin-right: 10px;
@@ -16,7 +16,7 @@ select {
   border-radius: 5px;
 }
 
-button {
+.button {
   align-self: center;
   width: 130px;
   height: 36px;

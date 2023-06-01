@@ -47,7 +47,7 @@ function Form({ createClass, activities, trainers }) {
     <>
       {formCreateSwitch ? (
         <button
-          className={styles.btnClose}
+          className={`${styles.btnClose} ${styles.button}`}
           onClick={() => {
             setFormCreateSwitch(!formCreateSwitch);
             setError(false);
@@ -57,6 +57,7 @@ function Form({ createClass, activities, trainers }) {
         </button>
       ) : (
         <button
+          className={styles.button}
           onClick={() => {
             setFormCreateSwitch(!formCreateSwitch);
           }}
@@ -70,8 +71,13 @@ function Form({ createClass, activities, trainers }) {
           <form onSubmit={onSubmit}>
             <div className={styles.subContainer}>
               <div className={styles.inputContainer}>
-                <label>Activity</label>
-                <select value={classes.activity} name="activity" onChange={onChangeInput}>
+                <label className={styles.label}>Activity</label>
+                <select
+                  value={classes.activity}
+                  name="activity"
+                  className={styles.select}
+                  onChange={onChangeInput}
+                >
                   <option value="">Select an activity</option>
                   {activities.map((activity) => (
                     <option key={activity._id} value={activity._id}>
@@ -84,8 +90,13 @@ function Form({ createClass, activities, trainers }) {
                 ) : null}
               </div>
               <div className={styles.inputContainer}>
-                <label>Trainer</label>
-                <select value={classes.trainer} name="trainer" onChange={onChangeInput}>
+                <label className={styles.label}>Trainer</label>
+                <select
+                  className={styles.select}
+                  value={classes.trainer}
+                  name="trainer"
+                  onChange={onChangeInput}
+                >
                   <option value="">Select a trainer</option>
                   {trainers.map((trainer) => (
                     <option key={trainer._id} value={trainer._id}>
@@ -98,8 +109,13 @@ function Form({ createClass, activities, trainers }) {
                 ) : null}
               </div>
               <div className={styles.inputContainer}>
-                <label>Day</label>
-                <select value={classes.day} name="day" onChange={onChangeInput}>
+                <label className={styles.label}>Day</label>
+                <select
+                  className={styles.select}
+                  value={classes.day}
+                  name="day"
+                  onChange={onChangeInput}
+                >
                   <option value="">Select a day</option>
                   <option value="Monday">Monday</option>
                   <option value="Tuesday">Tuesday</option>
@@ -114,15 +130,22 @@ function Form({ createClass, activities, trainers }) {
                 ) : null}
               </div>
               <div className={styles.inputContainer}>
-                <label>Time</label>
-                <input type="time" value={classes.time} name="time" onChange={onChangeInput} />
+                <label className={styles.label}>Time</label>
+                <input
+                  className={styles.input}
+                  type="time"
+                  value={classes.time}
+                  name="time"
+                  onChange={onChangeInput}
+                />
                 {(error && classes.time === '') || (error && classes.time === 0) ? (
                   <span className={styles.error}>Field is required</span>
                 ) : null}
               </div>
               <div className={styles.inputContainer}>
-                <label>Capacity</label>
+                <label className={styles.label}>Capacity</label>
                 <input
+                  className={styles.input}
                   type="number"
                   value={classes.capacity}
                   name="capacity"
@@ -133,7 +156,9 @@ function Form({ createClass, activities, trainers }) {
                 ) : null}
               </div>
               <div className={styles.buttonContainer}>
-                <button type="submit">Create</button>
+                <button className={styles.button} type="submit">
+                  Create
+                </button>
               </div>
             </div>
           </form>
