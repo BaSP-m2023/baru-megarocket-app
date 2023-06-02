@@ -1,13 +1,13 @@
 import React from 'react';
 import Styles from './button.module.css';
 
-function Button({ onCloseButton, text, img, classNameButton }) {
+function Button({ action, text, img, classNameButton }) {
   return (
-    <div onClick={onCloseButton ? onCloseButton : undefined}>
+    <div onClick={action ? action : undefined}>
       {img ? (
         <img className={Styles.icon} src={img} alt={text} />
       ) : (
-        <button className={`${Styles[classNameButton]}`}>{text}</button>
+        <button className={`${Styles[classNameButton]} ${Styles.button}`}>{text}</button>
       )}
     </div>
   );
