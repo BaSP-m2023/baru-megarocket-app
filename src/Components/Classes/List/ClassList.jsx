@@ -170,7 +170,7 @@ function ClassList({
                     typeInput={'select'}
                     options={activities}
                     typeOptions={'activity'}
-                    className={styles.inputEdit}
+                    className={`${styles.inputEdit}`}
                   />
                   <DataViewTD
                     editEnable={editEnable}
@@ -186,7 +186,7 @@ function ClassList({
                     typeInput={'select'}
                     options={trainers}
                     typeOptions={'trainer'}
-                    className={styles.inputEdit}
+                    className={`${styles.inputEdit}`}
                   />
                   <DataViewTD
                     editEnable={editEnable}
@@ -197,7 +197,7 @@ function ClassList({
                     itemData={item.capacity}
                     typeInput={'number'}
                     typeOptions={'capacity'}
-                    className={styles.inputEdit}
+                    className={`${styles.inputEdit}`}
                   />
                   <DataViewTD
                     editEnable={editEnable}
@@ -208,7 +208,7 @@ function ClassList({
                     itemData={item.day}
                     typeInput={'selectDay'}
                     typeOptions={'day'}
-                    className={styles.inputEdit}
+                    className={`${styles.inputEdit}`}
                   />
                   <DataViewTD
                     editEnable={editEnable}
@@ -219,30 +219,36 @@ function ClassList({
                     itemData={item.time}
                     typeInput={'time'}
                     typeOptions={'time'}
-                    className={styles.inputEdit}
+                    className={`${styles.inputEdit}`}
                   />
                   <td>
                     {editEnable === true && selectedClass && selectedClass._id === item._id ? (
                       <>
-                        <button className={styles.button} onClick={() => updateClass(item._id)}>
+                        <button
+                          className={`${styles.button}`}
+                          onClick={() => updateClass(item._id)}
+                        >
                           Update
                         </button>
-                        <button className={styles.button} onClick={cancelEdit}>
+                        <button className={`${styles.button}`} onClick={cancelEdit}>
                           Cancel
                         </button>
                       </>
                     ) : (
                       <>
-                        <button className={styles.button} onClick={() => editActivity(item)}>
+                        <button className={`${styles.button}`} onClick={() => editActivity(item)}>
                           <img
-                            className={styles.buttonImg}
+                            className={`${styles.buttonImg}`}
                             src={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
                             alt="DELETE"
                           />
                         </button>
-                        <button className={styles.button} onClick={() => deleteClass(item._id)}>
+                        <button
+                          className={`${styles.button}`}
+                          onClick={() => deleteClass(item._id)}
+                        >
                           <img
-                            className={styles.buttonImg}
+                            className={`${styles.buttonImg}`}
                             src={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
                             alt="DELETE"
                           />
