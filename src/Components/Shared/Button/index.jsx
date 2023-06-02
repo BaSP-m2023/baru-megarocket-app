@@ -5,21 +5,9 @@ function Button({ onCloseButton, text, img, classNameButton }) {
   return (
     <div onClick={onCloseButton ? onCloseButton : undefined}>
       {img ? (
-        <img className={Styles.icon} src={img} />
+        <img className={Styles.icon} src={img} alt={text} />
       ) : (
-        <button
-          className={
-            classNameButton === 'deleteButton'
-              ? `${Styles.deleteButton}`
-              : classNameButton === 'addButton'
-              ? `${Styles.addButton}`
-              : classNameButton === 'submitButton'
-              ? `${Styles.submitButton}`
-              : Styles.cancelButton
-          }
-        >
-          {text}
-        </button>
+        <button className={`${Styles[classNameButton]}`}>{text}</button>
       )}
     </div>
   );
