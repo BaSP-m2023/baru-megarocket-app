@@ -6,7 +6,7 @@ function Footer() {
       <div className={styles.license}>
         <div className={styles.copyright}>Copyright © {new Date().getFullYear()} Radium Rocket</div>
         <div>
-          <a target={'_blank'} rel="noreferrer">
+          <a href={'https://www.facebook.com/radiumrocket'} target={'_blank'} rel="noreferrer">
             <img
               className={styles.socialIcon}
               src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`}
