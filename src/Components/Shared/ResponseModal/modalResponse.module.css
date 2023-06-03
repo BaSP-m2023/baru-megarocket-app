@@ -1,0 +1,47 @@
+.toast {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 1em 1em 0 0;
+  display: flex;
+  align-items: center;
+  width: 313px;
+  height: 70px;
+  box-shadow: 0px 10px 23px rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  color: #373867;
+  animation: 0.8s fadeIn;
+}
+
+.toastContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  text-align: left;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.toastCloser {
+  cursor: pointer;
+}
+
+.toastOk {
+  background-color: #AACE9B;
+}
+
+.toastWrong {
+  background-color: #F13312;
+  color: #fff;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
