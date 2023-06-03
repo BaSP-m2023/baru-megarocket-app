@@ -1,4 +1,5 @@
 import styles from './header.module.css';
+import { Link } from 'react-router-dom';
 
 function Header() {
   return (
@@ -21,30 +22,30 @@ function Header() {
       </div>
       <nav className={styles.navbar}>
         <ul className={styles.rutes}>
-          <li>
-            <a href={'/'}>Home</a>
-          </li>
-          <li>
-            <a href={'/activities'}>Activities</a>
-          </li>
-          <li>
-            <a href={'/admins'}>Admins</a>
-          </li>
-          <li>
-            <a href={'/classes'}>Classes</a>
-          </li>
-          <li>
-            <a href={'/members'}>Members</a>
-          </li>
-          <li>
-            <a href={'/subscriptions'}>Subscriptions</a>
-          </li>
-          <li>
-            <a href={'/super-admins'}>Super Admins</a>
-          </li>
-          <li>
-            <a href={'/trainers'}>Trainers</a>
-          </li>
+          <Link to="/" className={styles.a}>
+            Home
+          </Link>
+          <Link to="/activities" className={styles.a}>
+            Activities
+          </Link>
+          <Link to="/admins" className={styles.a}>
+            Admins
+          </Link>
+          <Link to="/classes" className={styles.a}>
+            Classes
+          </Link>
+          <Link to="/members" className={styles.a}>
+            Members
+          </Link>
+          <Link to="/subscriptions" className={styles.a}>
+            Subscriptions
+          </Link>
+          <Link to="/super-admins" className={styles.a}>
+            Super Admins
+          </Link>
+          <Link to="/trainers" className={styles.a}>
+            Trainers
+          </Link>
         </ul>
       </nav>
     </header>
