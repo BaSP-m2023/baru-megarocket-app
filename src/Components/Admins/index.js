@@ -4,6 +4,7 @@ import Table from './Table';
 import Form from './Form';
 import Modal from './Modal';
 import Button from './Button';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
@@ -100,7 +101,6 @@ const Admins = () => {
       });
       if (response.ok) {
         setMessageResponse('Admin created');
-        setShowForm(false);
         setShowModal(true);
         getAdmins();
       } else {
@@ -116,33 +116,36 @@ const Admins = () => {
   };
 
   const closeModal = () => setShowModal(false);
-  const closeForm = () => setShowForm(false);
+  const closeForm = () => {
+    setShowForm(!showForm);
+  };
 
   return (
-    <>
-      <section className={styles.container}>
-        <h2 className={styles.title}>Admins</h2>
-        <Table admins={admins} editButton={editButton} deleteAdmin={deleteAdmin} />
-        <Button
-          add={() => {
-            setShowForm(true);
-            setTitle('Add Admin');
-            setidToUpdate('');
-          }}
-        />
-        {showForm && (
-          <Form
-            title={title}
-            addAdmin={addAdmin}
-            editAdmin={editAdmin}
-            idToUpdate={idToUpdate}
-            admins={admins}
-            closeForm={closeForm}
-          />
-        )}
-        {showModal && <Modal content={messageResponse} title={title} closeModal={closeModal} />}
-      </section>
-    </>
+    <Router>
+      <Switch>
+        <Route exact path={'/admins'}>
+          <section className={styles.container}>
+            <h2 className={styles.title}>Admins</h2>
+            <Table admins={admins} editButton={editButton} deleteAdmin={deleteAdmin} />
+            <Button
+              add={() => {
+                closeForm();
+                setTitle('Add Admin');
+                setidToUpdate('');
+              }}
+            />
+          </section>
+        </Route>
+        <Route path={'/admins/add'}>
+          <Form title="Add admin" addAdmin={addAdmin} idToUpdate={idToUpdate} admins={admins} />
+          {showModal && <Modal content={messageResponse} title={title} closeModal={closeModal} />}
+        </Route>
+        <Route path={'/admins/edit'}>
+          <Form title="Edit Admin" editAdmin={editAdmin} idToUpdate={idToUpdate} admins={admins} />
+          {showModal && <Modal content={messageResponse} title={title} closeModal={closeModal} />}
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 

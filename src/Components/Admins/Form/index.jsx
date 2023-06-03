@@ -1,7 +1,13 @@
 import styles from './form.module.css';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-function Form({ title, addAdmin, editAdmin, idToUpdate, admins, closeForm }) {
+function Form({ title, addAdmin, editAdmin, idToUpdate, admins }) {
+  const history = useHistory();
+  const handleButton = () => {
+    history.push('/admins');
+  };
+
   const [admin, setAdmin] = useState({
     firstName: '',
     lastName: '',
@@ -50,7 +56,7 @@ function Form({ title, addAdmin, editAdmin, idToUpdate, admins, closeForm }) {
       <div className={styles.formContainer}>
         <div className={styles.header}>
           <h2 className={styles.title}>{title}</h2>
-          <button onClick={closeForm} className={styles.button}>
+          <button onClick={handleButton} className={styles.button}>
             X
           </button>
         </div>
@@ -147,7 +153,7 @@ function Form({ title, addAdmin, editAdmin, idToUpdate, admins, closeForm }) {
             />
           </div>
           <div className={styles.buttonContainer}>
-            <button onClick={closeForm} className={styles.cancelButton}>
+            <button onClick={handleButton} className={styles.cancelButton}>
               Cancel
             </button>
             <button className={styles.addCreateButton} type="submit">
