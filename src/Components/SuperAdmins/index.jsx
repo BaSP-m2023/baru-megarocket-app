@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import styles from './super-admins.module.css';
 import Form from './Form/index';
 import MessageModal from './MessageModal/index';
 import Table from './Table/index';
 import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 function SuperAdmins() {
   const [showAddSuperadmin, setshowAddSuperadmin] = useState(false);
@@ -118,22 +120,29 @@ function SuperAdmins() {
     <section className={styles.container}>
       {showModal && <MessageModal msg={resMessage} onClose={closeModal} />}
       <h2 className={styles.h2}>SuperAdmins</h2>
-      <Table
-        data={superadmins}
-        deleteItem={deleteItem}
-        showForm={showForm}
-        handleUpdateClick={handleUpdateClick}
-        updatingItem={updatingItem}
-      />
-      {showAddSuperadmin && (
-        <Form
-          getSuperadmins={getSuperadmins}
-          addItem={addItem}
+
+      <Router>
+        <Table
+          data={superadmins}
+          deleteItem={deleteItem}
+          handleUpdateClick={handleUpdateClick}
           updatingItem={updatingItem}
-          showForm={showForm}
-          putItem={putItem}
         />
-      )}
+
+        <Switch>
+          <Route path="/super-admins/form" exact>
+            <Form addItem={addItem} putItem={putItem} />
+          </Route>
+          <Route path="/super-admins/form:id" exact>
+            <Form addItem={addItem} putItem={putItem} />
+          </Route>
+          {/* getSuperadmins={getSuperadmins}
+        
+        updatingItem={updatingItem}
+        showForm={showForm}
+         */}
+        </Switch>
+      </Router>
     </section>
   );
 }

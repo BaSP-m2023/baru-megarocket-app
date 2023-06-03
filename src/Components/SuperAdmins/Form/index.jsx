@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './form.module.css';
 
-const Form = ({ addItem, updatingItem, showForm, putItem, getSuperadmins }) => {
-  const { name, lastName, email } = updatingItem;
+const Form = ({ addItem, showForm, putItem }) => {
+  const history = useHistory();
+  const goBackHandle = () => {
+    history.goBack();
+  };
+  //const { name, lastName, email } = updatingItem;
+  const { id } = useParams();
   const [superadmin, setSuperadmin] = useState({});
-  useEffect(() => {
-    setSuperadmin({
-      name,
-      lastName,
-      email
+  useEffect(async () => {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
+      method: 'GET'
     });
-  }, [updatingItem]);
+    const data = res.json();
+    const updatingItem = data.data;
+    setSuperadmin({ updatingItem });
+  }, []);
   const onChangeInput = (e) => {
     setSuperadmin({
       ...superadmin,
@@ -19,13 +26,12 @@ const Form = ({ addItem, updatingItem, showForm, putItem, getSuperadmins }) => {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (updatingItem._id) {
-      await putItem(updatingItem._id, superadmin);
+    if (superadmin._id) {
+      await putItem(superadmin._id, superadmin);
     } else {
       addItem(superadmin);
     }
-    getSuperadmins();
-    showForm();
+    goBackHandle();
   };
   return (
     <div className={styles.formBackground}>
@@ -69,7 +75,7 @@ const Form = ({ addItem, updatingItem, showForm, putItem, getSuperadmins }) => {
                 value={superadmin.email || ''}
                 onChange={onChangeInput}
               ></input>
-              {!updatingItem._id && (
+              {!superadmin._id && (
                 <>
                   <label className={styles.label} htmlFor="password">
                     Password
