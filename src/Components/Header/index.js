@@ -22,29 +22,29 @@ function Header() {
       </div>
       <nav className={styles.navbar}>
         <ul className={styles.rutes}>
-          <Link to="/">
-            <a className={styles.a}>Home</a>
+          <Link to="/" className={styles.a}>
+            Home
           </Link>
-          <Link to="/activities">
-            <a className={styles.a}>Activities</a>
+          <Link to="/activities" className={styles.a}>
+            Activities
           </Link>
-          <Link to="/admins">
-            <a className={styles.a}>Admins</a>
+          <Link to="/admins" className={styles.a}>
+            Admins
           </Link>
-          <Link to="/classes">
-            <a className={styles.a}>Classes</a>
+          <Link to="/classes" className={styles.a}>
+            Classes
           </Link>
-          <Link to="/members">
-            <a className={styles.a}>Members</a>
+          <Link to="/members" className={styles.a}>
+            Members
           </Link>
-          <Link to="/subscriptions">
-            <a className={styles.a}>Subscriptions</a>
+          <Link to="/subscriptions" className={styles.a}>
+            Subscriptions
           </Link>
-          <Link to="/super-admins">
-            <a className={styles.a}>Super Admins</a>
+          <Link to="/super-admins" className={styles.a}>
+            Super Admins
           </Link>
-          <Link to="/trainers">
-            <a className={styles.a}>Trainers</a>
+          <Link to="/trainers" className={styles.a}>
+            Trainers
           </Link>
         </ul>
       </nav>
