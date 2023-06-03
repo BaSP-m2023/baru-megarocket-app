@@ -1,14 +1,11 @@
-/* eslint-disable no-unused-vars */
 import styles from './super-admins.module.css';
 import Form from './Form/index';
 import MessageModal from './MessageModal/index';
 import Table from './Table/index';
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function SuperAdmins() {
-  const [showAddSuperadmin, setshowAddSuperadmin] = useState(false);
-  const [updatingItem, setUpdatingItem] = useState({ name: '', lastName: '', email: '' });
   const [superadmins, setSuperadmins] = useState([]);
   const [showModal, setshowModal] = useState(false);
   const [resMessage, setResMessage] = useState('');
@@ -25,11 +22,7 @@ function SuperAdmins() {
   };
   useEffect(() => {
     getSuperadmins();
-  }, []);
-  const showForm = () => {
-    setshowAddSuperadmin(!showAddSuperadmin);
-    setUpdatingItem({ name: '', lastName: '', email: '' });
-  };
+  });
 
   const closeModal = () => {
     setshowModal(false);
@@ -102,45 +95,19 @@ function SuperAdmins() {
     }
   };
 
-  const handleUpdateClick = async (id) => {
-    setshowAddSuperadmin(true);
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
-        method: 'GET'
-      });
-      const data = await res.json();
-      setUpdatingItem(data.data);
-    } catch (error) {
-      setResMessage(error.message);
-      openModal();
-    }
-  };
-
   return (
     <section className={styles.container}>
       {showModal && <MessageModal msg={resMessage} onClose={closeModal} />}
       <h2 className={styles.h2}>SuperAdmins</h2>
-
       <Router>
-        <Table
-          data={superadmins}
-          deleteItem={deleteItem}
-          handleUpdateClick={handleUpdateClick}
-          updatingItem={updatingItem}
-        />
-
+        <Table data={superadmins} deleteItem={deleteItem} />
         <Switch>
-          <Route path="/super-admins/form" exact>
-            <Form addItem={addItem} putItem={putItem} />
+          <Route path="/super-admins/form/:id">
+            <Form putItem={putItem} addItem={addItem} />
           </Route>
-          <Route path="/super-admins/form:id" exact>
-            <Form addItem={addItem} putItem={putItem} />
+          <Route path="/super-admins/form">
+            <Form putItem={putItem} addItem={addItem} />
           </Route>
-          {/* getSuperadmins={getSuperadmins}
-        
-        updatingItem={updatingItem}
-        showForm={showForm}
-         */}
         </Switch>
       </Router>
     </section>
