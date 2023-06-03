@@ -1,4 +1,5 @@
 import styles from './header.module.css';
+import { Link } from 'react-router-dom';
 
 function Header() {
   return (
@@ -21,30 +22,30 @@ function Header() {
       </div>
       <nav className={styles.navbar}>
         <ul className={styles.rutes}>
-          <li>
-            <a href={'/'}>Home</a>
-          </li>
-          <li>
-            <a href={'/activities'}>Activities</a>
-          </li>
-          <li>
-            <a href={'/admins'}>Admins</a>
-          </li>
-          <li>
-            <a href={'/classes'}>Classes</a>
-          </li>
-          <li>
-            <a href={'/members'}>Members</a>
-          </li>
-          <li>
-            <a href={'/subscriptions'}>Subscriptions</a>
-          </li>
-          <li>
-            <a href={'/super-admins'}>Super Admins</a>
-          </li>
-          <li>
-            <a href={'/trainers'}>Trainers</a>
-          </li>
+          <Link to="/">
+            <a className={styles.a}>Home</a>
+          </Link>
+          <Link to="/activities">
+            <a className={styles.a}>Activities</a>
+          </Link>
+          <Link to="/admins">
+            <a className={styles.a}>Admins</a>
+          </Link>
+          <Link to="/classes">
+            <a className={styles.a}>Classes</a>
+          </Link>
+          <Link to="/members">
+            <a className={styles.a}>Members</a>
+          </Link>
+          <Link to="/subscriptions">
+            <a className={styles.a}>Subscriptions</a>
+          </Link>
+          <Link to="/super-admins">
+            <a className={styles.a}>Super Admins</a>
+          </Link>
+          <Link to="/trainers">
+            <a className={styles.a}>Trainers</a>
+          </Link>
         </ul>
       </nav>
     </header>
