@@ -38,7 +38,9 @@ const Form = ({ addItem, showForm, putItem }) => {
       <div className={styles.container}>
         <div className={styles.modalTitle}>
           <h3 className={styles.title}>Create superadmin</h3>
-          <button onClick={showForm}>X</button>
+          <button className={styles.close} onClick={showForm}>
+            X
+          </button>
         </div>
         <div>
           <form className={styles.form} onSubmit={onSubmit}>

@@ -16,7 +16,7 @@
   text-align: center;
 }
 .extrathead{
-  width: 40px;
+  width: 60px;
 }
 .addItem{
   position: relative;
@@ -34,4 +34,15 @@
 }
 .plus{
   margin-right: 5px;
+}
+
+.button{
+  border: none;
+  margin: 10px;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  outline: none;
 }

@@ -39,6 +39,7 @@ const Table = ({ deleteItem, showForm, handleUpdateClick }) => {
         <tbody>
           {superadmins.map((item) => {
             return (
+<<<<<<< HEAD
               <>
                 <tr key={item._id} className={styles.trow}>
                   <td className={styles.tdata}>{item.name}</td>
@@ -57,6 +58,22 @@ const Table = ({ deleteItem, showForm, handleUpdateClick }) => {
                   </td>
                 </tr>
               </>
+=======
+              <tr key={item._id} className={styles.trow}>
+                <td className={styles.tdata}>{item.name}</td>
+                <td className={styles.tdata}>{item.lastName}</td>
+                <td className={styles.tdata}>{item.email}</td>
+                <td className={styles.tdata}>{item.password}</td>
+                <td>
+                  <button className={styles.button} onClick={() => handleUpdateClick(item._id)}>
+                    <img src={pencil} width="20px"></img>
+                  </button>
+                  <button className={styles.button} onClick={() => deleteItem(item._id)}>
+                    <img src={trash} width="20px"></img>
+                  </button>
+                </td>
+              </tr>
+>>>>>>> master
             );
           })}
         </tbody>

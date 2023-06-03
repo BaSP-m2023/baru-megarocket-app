@@ -39,7 +39,7 @@ const DataViewTD = ({
   if (isEditing) {
     if (!isInputTypeSelect && !isInputTypeSelectDay) {
       inputElement = (
-        <div className={styles.container}>
+        <div className={`${styles.container}`}>
           <input
             className={className}
             type={typeInput}
@@ -48,7 +48,7 @@ const DataViewTD = ({
             value={inputValue}
           />
           {typeInput !== 'select' && typeInput !== 'selectDay' && errorMessage && (
-            <span style={styles.span}>{errorMessage}</span>
+            <span className={`${styles.span}`}>{errorMessage}</span>
           )}
         </div>
       );
@@ -72,7 +72,7 @@ const DataViewTD = ({
             ))}
           </select>
           {typeInput !== 'selectDay' && errorMessage && (
-            <span style={styles.span}>{errorMessage}</span>
+            <span className={`${styles.span}`}>{errorMessage}</span>
           )}
         </div>
       );
