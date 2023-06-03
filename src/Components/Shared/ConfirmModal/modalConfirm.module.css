@@ -13,12 +13,10 @@
   flex-direction: column;
   margin: 15% auto;
   width: 400px;
-  min-height: 134px;
   border: 1px solid #37386766;
   border-radius: 4px;
   background-color: #FFFFFF;
   box-shadow: 0px 10px 23px #0000001f;
-  overflow: hidden;
 }
 
 .modalHeader {
@@ -43,25 +41,5 @@
 
 .modalButtons {
   display: flex;
-  flex-direction: row-reverse;
-  padding: 16px;
-  gap: 6px;
-}
-
-.modalButtons .btn {
-  width: 70px;
-  height: 36px;
-  border: 1px solid #373867;
-  border-radius: 5px;
-  color: #373867;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.btnSubmit {
-  background-color: #AACE9B;
-}
-
-.btnCancel {
-  background-color: #FFFFFF;
+  justify-content: center;
 }

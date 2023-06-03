@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './modalConfirm.module.css';
+import Button from '../Button';
 
 const ConfirmModal = ({ children, handleModal, title, onAction }) => {
   return ReactDOM.createPortal(
@@ -14,12 +15,8 @@ const ConfirmModal = ({ children, handleModal, title, onAction }) => {
         </div>
         <p className={styles.modalMessage}>{children}</p>
         <div className={styles.modalButtons}>
-          <button className={`${styles.btn} ${styles.btnSubmit}`} onClick={onAction}>
-            Submit
-          </button>
-          <button className={`${styles.btn} ${styles.btnCancel}`} onClick={handleModal}>
-            Cancel
-          </button>
+          <Button action={handleModal} text={'Cancel'} classNameButton={'cancelButton'} />
+          <Button action={onAction} text={'Submit'} classNameButton={'submitButton'} />
         </div>
       </div>
     </div>,
