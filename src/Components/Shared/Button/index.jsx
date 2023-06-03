@@ -1,13 +1,13 @@
 import React from 'react';
-import Styles from './button.module.css';
+import styles from './button.module.css';
 
 function Button({ action, text, img, classNameButton }) {
   return (
     <div onClick={action ? action : undefined}>
       {img ? (
-        <img className={Styles.icon} src={img} alt={text} />
+        <img className={styles.icon} src={img} alt={text} />
       ) : (
-        <button className={`${Styles[classNameButton]} ${Styles.button}`}>{text}</button>
+        <button className={`${styles.button} ${styles[classNameButton]}`}>{text}</button>
       )}
     </div>
   );
