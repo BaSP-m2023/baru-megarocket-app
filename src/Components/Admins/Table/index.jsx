@@ -1,4 +1,5 @@
 import styles from './table.module.css';
+import { Link } from 'react-router-dom';
 
 function Table({ admins, editButton, deleteAdmin }) {
   return (
@@ -25,18 +26,22 @@ function Table({ admins, editButton, deleteAdmin }) {
               <td className={styles.td}>{admin.city}</td>
               <td></td>
               <td>
-                <img
-                  className={styles.button}
-                  src={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
-                  onClick={() => editButton(admin._id)}
-                />
+                <Link to={`/admins/${admin._id}`}>
+                  <img
+                    className={styles.button}
+                    src={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
+                    onClick={() => editButton(admin._id)}
+                  />
+                </Link>
               </td>
               <td>
-                <img
-                  className={styles.button}
-                  src={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
-                  onClick={() => deleteAdmin(admin._id)}
-                />
+                <Link to={`/admins/${admin._id}`}>
+                  <img
+                    className={styles.button}
+                    src={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
+                    onClick={() => deleteAdmin(admin._id)}
+                  />
+                </Link>
               </td>
             </tr>
           );

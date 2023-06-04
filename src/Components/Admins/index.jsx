@@ -1,10 +1,10 @@
 import styles from './admins.module.css';
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Table from './Table';
 import Form from './Form';
 import Modal from './Modal';
-import Button from './Button';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Button from '../Shared/Button';
 
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
@@ -116,8 +116,12 @@ const Admins = () => {
   };
 
   const closeModal = () => setShowModal(false);
-  const closeForm = () => {
-    setShowForm(!showForm);
+  const closeForm = () => setShowForm(!showForm);
+
+  const add = () => {
+    closeForm();
+    setidToUpdate('');
+    setTitle('Add Admin');
   };
 
   return (
@@ -127,20 +131,16 @@ const Admins = () => {
           <section className={styles.container}>
             <h2 className={styles.title}>Admins</h2>
             <Table admins={admins} editButton={editButton} deleteAdmin={deleteAdmin} />
-            <Button
-              add={() => {
-                closeForm();
-                setTitle('Add Admin');
-                setidToUpdate('');
-              }}
-            />
+            <Link to="/admins/add">
+              <Button action={add} text="Add admin" classNameButton="addButton"></Button>
+            </Link>
           </section>
         </Route>
         <Route path={'/admins/add'}>
           <Form title="Add admin" addAdmin={addAdmin} idToUpdate={idToUpdate} admins={admins} />
           {showModal && <Modal content={messageResponse} title={title} closeModal={closeModal} />}
         </Route>
-        <Route path={'/admins/edit'}>
+        <Route path={'/admins/:id'}>
           <Form title="Edit Admin" editAdmin={editAdmin} idToUpdate={idToUpdate} admins={admins} />
           {showModal && <Modal content={messageResponse} title={title} closeModal={closeModal} />}
         </Route>

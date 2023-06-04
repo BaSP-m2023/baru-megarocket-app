@@ -1,9 +1,10 @@
 import styles from './form.module.css';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 function Form({ title, addAdmin, editAdmin, idToUpdate, admins }) {
   const history = useHistory();
+  const params = useParams();
   const handleButton = () => {
     history.push('/admins');
   };
@@ -19,8 +20,8 @@ function Form({ title, addAdmin, editAdmin, idToUpdate, admins }) {
   });
 
   useEffect(() => {
-    if (idToUpdate) {
-      let adminToUpdate = admins.filter((admin) => idToUpdate === admin._id);
+    if (params.id) {
+      let adminToUpdate = admins.filter((admin) => params.id === admin._id);
       adminToUpdate = adminToUpdate[0];
       const keyAdmins = {
         firstName: adminToUpdate.firstName,
@@ -79,7 +80,7 @@ function Form({ title, addAdmin, editAdmin, idToUpdate, admins }) {
               Last Name
             </label>
             <input
-              id="lastname"
+              id="lastName"
               className={styles.input}
               name="lastName"
               type="text"
