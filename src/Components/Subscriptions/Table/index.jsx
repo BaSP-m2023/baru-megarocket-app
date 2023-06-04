@@ -2,8 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import styles from './table.module.css';
 import Form from '../Form';
 import { DeleteModal, ConfirmDeleteModal } from '../Modals/index';
-const imgDeleteSubscription = process.env.PUBLIC_URL + '/assets/images/delete-icon.png';
-const imgEditSubscription = process.env.PUBLIC_URL + '/assets/images/edit-icon.png';
+import Button from '../../Shared/Button';
 
 const Table = ({ data }) => {
   const [deletedSubscription, setDeletedSubscription] = useState([]);
@@ -38,11 +37,11 @@ const Table = ({ data }) => {
     }
   };
 
-  const handleConfirmDelete = (subscriptionId) => {
-    setEditingSubscriptionId(subscriptionId);
-    setShowConfirmDeleteModal(true);
-    setShowDeleteModal(false);
-  };
+  // const handleConfirmDelete = (subscriptionId) => {
+  //   setEditingSubscriptionId(subscriptionId);
+  //   setShowConfirmDeleteModal(true);
+  //   setShowDeleteModal(false);
+  // };
 
   const handleDelete = async (subscriptionId) => {
     try {
@@ -75,19 +74,20 @@ const Table = ({ data }) => {
   };
 
   return (
-    <div>
-      <table className={styles.tableContainer}>
-        <thead>
+    <div className={styles.container}>
+      <table>
+        <thead className={styles.containerThead}>
           <tr>
-            <th>Classes</th>
-            <th>Members</th>
-            <th>Date</th>
+            <th className={styles.thead}>Classes</th>
+            <th className={styles.thead}>Members</th>
+            <th className={styles.thead}>Date</th>
+            <th className={styles.theadOptions} colSpan="2"></th>
           </tr>
         </thead>
         <tbody>
           {tableData.length > 0 ? (
             tableData.map((subscription) => (
-              <tr className={styles.line} key={subscription._id}>
+              <tr key={subscription._id}>
                 <td
                   className={`${styles.item} ${styles.td}`}
                 >{`${subscription.classes.day} ${subscription.classes.time}`}</td>
@@ -100,16 +100,16 @@ const Table = ({ data }) => {
                 )}
                 <td className={`${styles.item} ${styles.td}`}>{formatDate(subscription.date)}</td>
                 <td
-                  className={`${styles.btnEdit} ${styles.td}`}
                   onClick={() => handleEdit(subscription._id)}
+                  className={`${styles.itemButton} ${styles.itemButtonEdit}`}
                 >
-                  <img src={imgEditSubscription}></img>
+                  <Button img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'} />
                 </td>
                 <td
-                  className={`${styles.btnDelete} ${styles.td}`}
-                  onClick={() => handleConfirmDelete(subscription._id)}
+                  onClick={() => handleDelete(subscription._id)}
+                  className={`${styles.itemButton} ${styles.itemButtonDelete}`}
                 >
-                  <img src={imgDeleteSubscription}></img>
+                  <Button img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'} />
                 </td>
               </tr>
             ))

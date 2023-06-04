@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './subscriptions.module.css';
 import Table from './Table';
+import Button from '../Shared/Button';
 
 import { CreateModal, ErrorModal } from './Modals';
 import Form from './Form-Create';
@@ -99,14 +100,15 @@ const Subscriptions = () => {
       <div className={styles.containerContent}>
         <Table className={subscriptions.table} data={subscriptions} />
       </div>
-      <button
-        className={styles.btnCreate}
-        onClick={() => {
-          addForm ? setAddForm(false) : setAddForm(true);
-        }}
-      >
-        + Add New
-      </button>
+      <div className={styles.buttonContainer}>
+        <Button
+          classNameButton="submitButton"
+          text="+ Add New"
+          action={() => {
+            addForm ? setAddForm(false) : setAddForm(true);
+          }}
+        />
+      </div>
       <div>
         {createModal ? <CreateModal onClose={() => setCreateModal(false)} /> : <div></div>}
         {errorModal ? <ErrorModal onClose={() => setErrorModal(false)} /> : <div></div>}
