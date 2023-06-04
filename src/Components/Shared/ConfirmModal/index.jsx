@@ -3,7 +3,11 @@ import ReactDOM from 'react-dom';
 import styles from './modalConfirm.module.css';
 import Button from '../Button';
 
-const ConfirmModal = ({ children, handler, title, onAction }) => {
+const ConfirmModal = ({ children, handler, title, reason, onAction }) => {
+  const classByReason = {
+    submit: 'submitButton',
+    delete: 'deleteButton'
+  };
   return ReactDOM.createPortal(
     <div className={styles.modal}>
       <div className={styles.modalContent}>
@@ -16,7 +20,11 @@ const ConfirmModal = ({ children, handler, title, onAction }) => {
         <p className={styles.modalMessage}>{children}</p>
         <div className={styles.modalButtons}>
           <Button action={handler} text={'Cancel'} classNameButton={'cancelButton'} />
-          <Button action={onAction} text={'Submit'} classNameButton={'submitButton'} />
+          <Button
+            action={onAction}
+            text={`${reason.charAt(0).toUpperCase()}${reason.substring(1)}`}
+            classNameButton={classByReason[reason]}
+          />
         </div>
       </div>
     </div>,

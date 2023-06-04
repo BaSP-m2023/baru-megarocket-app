@@ -4,8 +4,8 @@ import styles from './modalResponse.module.css';
 
 const ResponseModal = ({ handler, state, message }) => {
   const responseState = {
-    ok: 'toastOk',
-    wrong: 'toastWrong'
+    success: 'toastSuccess',
+    fail: 'toastFail'
   };
   return ReactDOM.createPortal(
     <div className={`${styles.toast} ${styles[responseState[state]]} `}>
