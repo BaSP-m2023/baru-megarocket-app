@@ -7,14 +7,14 @@ function Header() {
       <div className={styles.container}>
         <div>
           <img
-            src="assets/images/logo.png"
+            src={`${process.env.PUBLIC_URL}/assets/images/logo.png`}
             alt="guy flexing on fire logo"
             className={styles.logo}
           />
         </div>
         <div>
           <img
-            src="assets/images/logo2.png"
+            src={`${process.env.PUBLIC_URL}/assets/images/logo2.png`}
             alt="radium rocket words logo"
             className={styles.logo2}
           />
