@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './input.module.css';
 
-function Input({ labelText, value, type, name, change, placeholder, blur }) {
+export function Input({ labelText, value, type, name, change, placeholder, blur }) {
   const checkedValue = type === 'checkbox' ? value || false : undefined;
 
   return (
@@ -21,4 +21,20 @@ function Input({ labelText, value, type, name, change, placeholder, blur }) {
   );
 }
 
-export default Input;
+export function Textarea({ labelText, rows, cols, value, name, change, placeholder, blur }) {
+  return (
+    <>
+      <label className={styles.label}>{labelText}</label>
+      <textarea
+        className={styles.textarea}
+        value={value}
+        name={name}
+        rows={rows}
+        cols={cols}
+        onChange={change}
+        placeholder={placeholder}
+        onBlur={blur}
+      ></textarea>
+    </>
+  );
+}
