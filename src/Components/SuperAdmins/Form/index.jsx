@@ -51,7 +51,7 @@ const Form = ({ addItem, putItem }) => {
     <div className={styles.formBackground}>
       <div className={styles.container}>
         <div className={styles.modalTitle}>
-          <h3 className={styles.title}>Create superadmin</h3>
+          <h3 className={styles.title}>{id ? 'Edit superadmin' : 'Create superadmin'}</h3>
           <button className={styles.close} onClick={goBackHandle}>
             X
           </button>

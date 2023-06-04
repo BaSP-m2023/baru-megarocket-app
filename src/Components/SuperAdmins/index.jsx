@@ -98,7 +98,7 @@ function SuperAdmins() {
   return (
     <section className={styles.container}>
       {showModal && <MessageModal msg={resMessage} onClose={closeModal} />}
-      <h2 className={styles.h2}>SuperAdmins</h2>
+      <h2 className={styles.h2}>Superadmin List</h2>
       <Router>
         <Table data={superadmins} deleteItem={deleteItem} />
         <Switch>
