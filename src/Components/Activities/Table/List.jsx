@@ -4,7 +4,7 @@ import styles from './table.module.css';
 
 import Item from './Item';
 
-const List = ({ activities, handleDelete, handleForm }) => {
+const List = ({ activities, handleDelete }) => {
   const [filter, setFilter] = useState([]);
 
   useEffect(() => {
@@ -46,12 +46,7 @@ const List = ({ activities, handleDelete, handleForm }) => {
         </thead>
         <tbody>
           {filter.map((activity) => (
-            <Item
-              key={activity._id}
-              activity={activity}
-              handleDelete={handleDelete}
-              handleForm={handleForm}
-            />
+            <Item key={activity._id} activity={activity} handleDelete={handleDelete} />
           ))}
         </tbody>
       </table>

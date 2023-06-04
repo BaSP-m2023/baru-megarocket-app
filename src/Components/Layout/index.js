@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Activities from '../Activities';
+import ActivitiesForm from '../Activities/Form';
 import Admins from '../Admins/index';
 import Classes from '../Classes';
 import Members from '../Members';
@@ -21,7 +22,9 @@ function Layout() {
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/activities" component={Activities} />
+          <Route path="/activities" exact component={Activities} />
+          <Route path="/activities/create" component={ActivitiesForm} />
+          <Route path="/activities/edit/:id" component={ActivitiesForm} />
           <Route path="/admins" component={Admins} />
           <Route path="/classes" component={Classes} />
           <Route path="/members" component={Members} />
