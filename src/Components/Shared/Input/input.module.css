@@ -1,0 +1,16 @@
+.input {
+  width: 25vw;
+  height: 30px;
+  margin-right: 10px;
+  color: #373867;
+  border: 1px solid #373867;
+  border-radius: 5px;
+}
+
+.label {
+  display: block;
+  padding: 5px;
+  color: #373867;
+  font-weight: 700;
+  font-size: 1rem;
+}
