@@ -1,7 +1,5 @@
 import styles from './table.module.css';
-import pencil from '../assets/edit-icon.png';
-import trash from '../assets/delete-icon.png';
-import plus from '../assets/plus.png';
+import Button from '../../Shared/Button';
 import { Link } from 'react-router-dom';
 
 const Table = ({ deleteItem, data }) => {
@@ -25,26 +23,22 @@ const Table = ({ deleteItem, data }) => {
                 <td className={styles.tdata}>{item.lastName}</td>
                 <td className={styles.tdata}>{item.email}</td>
                 <td className={styles.tdata}>{item.password}</td>
-                <td>
+                <td className={styles.actionButtons}>
                   <Link to={{ pathname: `super-admins/form/${item._id}` }}>
-                    <button className={styles.button}>
-                      <img src={pencil} width="20px"></img>
-                    </button>
+                    <Button img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`} />
                   </Link>
-                  <button className={styles.button} onClick={() => deleteItem(item._id)}>
-                    <img src={trash} width="20px"></img>
-                  </button>
+                  <Button
+                    img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
+                    action={() => deleteItem(item._id)}
+                  />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <Link to={{ pathname: 'super-admins/form' }}>
-        <button className={styles.addItem}>
-          <img className={styles.plus} src={plus}></img>
-          Add new
-        </button>
+      <Link to={{ pathname: 'super-admins/form' }} className={styles.addItem}>
+        <Button text={'+ Add new'} classNameButton={'addButton'} />
       </Link>
     </>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import styles from './form.module.css';
+import Button from '../../Shared/Button';
 
 const Form = ({ addItem, putItem }) => {
   const [superadmin, setSuperadmin] = useState({});
@@ -105,9 +106,7 @@ const Form = ({ addItem, putItem }) => {
                 </>
               )}
             </div>
-            <button type="submit" className={styles.submit}>
-              Submit
-            </button>
+            <Button text={'Submit'} classNameButton={'submitButton'} />
           </form>
         </div>
       </div>
