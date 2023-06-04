@@ -14,3 +14,23 @@
   font-weight: 700;
   font-size: 1rem;
 }
+
+.label {
+  display: block;
+  padding: 5px;
+  color: #373867;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.textarea {
+  width: 295px;
+  height: 150px;
+  padding: 12px;
+  font-size: 1em;
+  text-align: justify;
+  color: #373867;
+  border: 1px solid #373867;
+  border-radius: 5px;
+  resize: none;
+}
