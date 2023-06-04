@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import styles from './trainers.module.css';
 import Table from './Table';
-import Button from './Button';
+import Button from '../Shared/Button';
 import Form from './Form';
 import Modal from './Modals/Modal';
 import ResponseModal from './Modals/ResponseModal';
+import TrainerRoutes from './routes';
 
 const Trainers = () => {
   const [showModal, setShowModal] = useState(false);
@@ -103,28 +105,28 @@ const Trainers = () => {
   };
 
   return (
-    <section className={styles.container}>
-      <h2>Trainers</h2>
-      {activeTrainers.length > 0 ? (
-        <Table
-          data={activeTrainers}
-          deleteTrainer={deleteTrainer}
-          /* getTrainer={getTrainer} */
-          updTrainer={updTrainer}
-        />
-      ) : (
-        'There is no trainers to show'
-      )}
-      <Button show={() => setShowModal(true)} />
-      {showModal && (
-        <Modal title="Add trainer" onClose={() => setShowModal(false)}>
-          <Form add={addTrainer} />
-        </Modal>
-      )}
-      {showResponseModal && (
-        <ResponseModal text={responseMessage} onClose={() => setShowResponseModal(false)} />
-      )}
-    </section>
+    <Router>
+      <section className={styles.container}>
+        <h2>Trainers</h2>
+        {activeTrainers.length > 0 ? (
+          <Table data={activeTrainers} deleteTrainer={deleteTrainer} updTrainer={updTrainer} />
+        ) : (
+          'There is no trainers to show'
+        )}
+        <TrainerRoutes />
+        <Link to="/trainers/add">
+          <Button action={() => setShowModal(true)} text="+ Add New" classNameButton="addButton" />
+        </Link>
+        {showModal && (
+          <Modal title="Add trainer" onClose={() => setShowModal(false)}>
+            <Form add={addTrainer} />
+          </Modal>
+        )}
+        {showResponseModal && (
+          <ResponseModal text={responseMessage} onClose={() => setShowResponseModal(false)} />
+        )}
+      </section>
+    </Router>
   );
 };
 

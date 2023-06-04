@@ -45,7 +45,7 @@ const Trainer = ({ trainer, deleteTrainer, updTrainer }) => {
       <td>
         <img
           className={styles.edit}
-          src="assets/images/edit-icon.png"
+          src={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
           alt="pencil icon for edit a trainer"
           onClick={handleEditClick}
         />
@@ -53,7 +53,7 @@ const Trainer = ({ trainer, deleteTrainer, updTrainer }) => {
       <td>
         <img
           className={styles.delete}
-          src="assets/images/delete-icon.png"
+          src={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
           onClick={handleDeleteClick}
           alt="trash icon for delete a trainer"
         />
