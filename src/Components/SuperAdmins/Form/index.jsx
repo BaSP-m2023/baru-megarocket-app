@@ -26,9 +26,7 @@ const Form = ({ addItem, putItem }) => {
   };
 
   useEffect(() => {
-    if (id) {
-      getItemById();
-    }
+    id && getItemById();
   }, []);
 
   const onChangeInput = (e) => {
@@ -40,11 +38,7 @@ const Form = ({ addItem, putItem }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (id) {
-      await putItem(id, superadmin);
-    } else {
-      addItem(superadmin);
-    }
+    id ? await putItem(id, superadmin) : addItem(superadmin);
     goBackHandle();
   };
   return (

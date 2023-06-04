@@ -1,8 +1,9 @@
 import styles from './table.module.css';
 import Button from '../../Shared/Button';
 import { Link } from 'react-router-dom';
+//import ConfirmModal from '../Shared/ConfirmModal';
 
-const Table = ({ deleteItem, data }) => {
+const Table = ({ confirmDelete, data }) => {
   return (
     <>
       <table className={styles.container}>
@@ -29,7 +30,7 @@ const Table = ({ deleteItem, data }) => {
                   </Link>
                   <Button
                     img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
-                    action={() => deleteItem(item._id)}
+                    action={() => confirmDelete(item._id)}
                   />
                 </td>
               </tr>
