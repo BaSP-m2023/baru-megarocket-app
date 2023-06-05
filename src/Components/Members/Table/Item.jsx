@@ -1,7 +1,15 @@
 import styles from './table.module.css';
 import ButtonSlider from './ButtonSlider/ButtonSlider';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
-const Item = ({ member = { name: 'Nothing match', isActive: false }, handleModal, handleEdit }) => {
+const Item = ({ member = { name: 'Nothing match', isActive: false }, handleModal }) => {
+  const [memberId, setMemberId] = useState(null);
+
+  const handleEdit = (id) => {
+    setMemberId(id);
+  };
+
   return (
     <tr className={`${styles['table-row']}`}>
       <td>
@@ -11,12 +19,14 @@ const Item = ({ member = { name: 'Nothing match', isActive: false }, handleModal
         <ButtonSlider status={member.isActive} />
       </td>
       <td>
-        <img
-          className={`${styles['table-buttons']}`}
-          src="/assets/images/edit-icon.png"
-          alt="edit icon"
-          onClick={() => handleEdit(member._id)}
-        />
+        <Link to={'/members/edit/' + memberId}>
+          <img
+            className={`${styles['table-buttons']}`}
+            src="/assets/images/edit-icon.png"
+            alt="edit icon"
+            onClick={() => handleEdit(member._id)}
+          />
+        </Link>
       </td>
       <td>
         <img
