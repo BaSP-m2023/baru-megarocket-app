@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 import styles from './form.module.css';
 
@@ -18,6 +18,7 @@ function ClassForm() {
   });
   const location = useLocation();
   const history = useHistory();
+  const { id } = useParams();
   const isCreateRoute = location.pathname.includes('/classes/create');
 
   const getTrainersActivities = async () => {
@@ -29,11 +30,38 @@ function ClassForm() {
       setTrainers(dataTrainers.data);
       setActivities(dataActivities);
     } catch (error) {
-      console.log(error);
+      setResponseModal({ error: true, msg: error });
+      setShowModal(true);
+    }
+  };
+  const getById = async (id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`);
+      const data = await response.json();
+      let selectedActivity = '';
+      let selectedTrainer = '';
+      if (data.data.activity) {
+        selectedActivity = data.data.activity._id;
+      }
+      if (data.data.trainer[0]) {
+        selectedTrainer = data.data.trainer[0]._id;
+      }
+      setClasses({
+        activity: selectedActivity,
+        trainer: selectedTrainer,
+        day: data.data.day,
+        time: data.data.time,
+        capacity: data.data.capacity
+      });
+    } catch (error) {
+      setResponseModal({ error: true, msg: error });
+      setShowModal(true);
+      throw new Error(error);
     }
   };
   useEffect(() => {
     getTrainersActivities();
+    !isCreateRoute && getById(id);
   }, []);
   useEffect(() => {
     if (showModal) {
@@ -71,7 +99,11 @@ function ClassForm() {
     }
   };
 
-  const onSubmit = (e) => {
+  const onClickEditClass = (e) => {
+    e.preventDefault();
+    console.log('hola');
+  };
+  const onClickCreateClass = (e) => {
     e.preventDefault();
     if (
       Object.values(classes).every((prop) => {
@@ -99,7 +131,7 @@ function ClassForm() {
     <>
       <div className={styles.formContainer}>
         {activities.length !== 0 && trainers.length !== 0 ? (
-          <form onSubmit={onSubmit}>
+          <form>
             <div className={styles.subContainer}>
               <div className={styles.inputContainer}>
                 <label className={styles.label}>Activity</label>
@@ -187,7 +219,10 @@ function ClassForm() {
                 ) : null}
               </div>
               <div className={styles.buttonContainer}>
-                <button className={styles.button} type="submit">
+                <button
+                  className={styles.button}
+                  onClick={isCreateRoute ? onClickCreateClass : onClickEditClass}
+                >
                   {isCreateRoute ? 'Create Class' : 'Edit Class'}
                 </button>
               </div>

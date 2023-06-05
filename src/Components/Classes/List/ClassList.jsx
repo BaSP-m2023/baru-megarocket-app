@@ -85,7 +85,7 @@ function ClassList({
                   <td>{item.day}</td>
                   <td>{item.time}</td>
                   <td>
-                    <Link to={'/classes/edit'}>
+                    <Link to={`/classes/edit/${item._id}`}>
                       <button className={`${styles.button}`}>
                         <img
                           className={`${styles.buttonImg}`}
