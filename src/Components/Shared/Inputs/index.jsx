@@ -6,12 +6,14 @@ export function Input({ labelText, value, type, name, change, placeholder, blur 
 
   return (
     <>
-      <label className={styles.label}>{labelText}</label>
+      <label htmlFor={name} className={styles.label}>
+        {labelText}
+      </label>
       <input
         className={type !== 'checkbox' ? styles.input : ''}
         type={type || 'text'}
         value={type !== 'checkbox' ? value : undefined}
-        defaultChecked={checkedValue}
+        checked={checkedValue}
         name={name}
         placeholder={placeholder || ''}
         onBlur={blur && blur}
@@ -24,7 +26,9 @@ export function Input({ labelText, value, type, name, change, placeholder, blur 
 export function Textarea({ labelText, rows, cols, value, name, change, placeholder, blur }) {
   return (
     <>
-      <label className={styles.label}>{labelText}</label>
+      <label htmlFor={name} className={styles.label}>
+        {labelText}
+      </label>
       <textarea
         className={styles.textarea}
         value={value}
