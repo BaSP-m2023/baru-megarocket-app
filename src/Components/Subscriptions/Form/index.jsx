@@ -1,140 +1,232 @@
+import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import { useState, useEffect } from 'react';
-import { SubscriptionEditedModal, ErrorEdit, EmptyEdit } from '../Modals/index';
-
-function Form({ subscriptionId, onClose, onModalClose, updateTable }) {
-  const [valueClass, setValueClass] = useState('');
-  const [valueMember, setValueMember] = useState('');
-  const [valueDate, setValueDate] = useState('');
+import { Link, useParams } from 'react-router-dom';
+import ResponseModal from '../../Shared/ResponseModal';
+import Button from '../../Shared/Button';
+import { Input } from '../../Shared/Inputs';
+const Form = () => {
+  const { id } = useParams();
+  const [subscriptionById, setSubscriptionById] = useState([]);
+  const [state, setState] = useState([]);
   const [classes, setClasses] = useState([]);
   const [members, setMembers] = useState([]);
-  const [dates, setDates] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [showServerError, setShowServerError] = useState(false);
-  const [showEmptyEditModal, setShowEmptyEditModal] = useState(false);
-  const [formEnabled, setFormEnabled] = useState(true);
-
+  const [responseModal, setResponseModal] = useState('');
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [subscription, setSubscription] = useState({
+    classes: '',
+    members: '',
+    date: ''
+  });
   useEffect(() => {
+    fetchSubscriptions();
+    id && fetchSubscriptionById(id);
     fetchClasses();
     fetchMembers();
-    fetchSubscription();
   }, []);
 
-  const fetchClasses = async () => {
+  const fetchSubscriptions = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`);
       const data = await response.json();
-      setClasses(data.data);
+      setSubscriptions(data.data);
     } catch (error) {
       throw new Error(error);
     }
   };
-
+  const fetchClasses = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`);
+      const data = await response.json();
+      const filteredClassesNotDeleted = data.data.filter((item) => !item.deleted);
+      setClasses(filteredClassesNotDeleted);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
   const fetchMembers = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`);
       const data = await response.json();
+
       setMembers(data.data);
     } catch (error) {
       throw new Error(error);
     }
   };
 
-  const fetchSubscription = async () => {
+  const addItem = async (newSubscription) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`);
+      const isoDate = newSubscription.date ? new Date(newSubscription.date).toISOString() : '';
+      const body = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          classes: newSubscription.classes,
+          members: newSubscription.members,
+          date: isoDate
+        })
+      };
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/`, body);
       const data = await response.json();
-      setDates(data.data);
+      if (data.length !== 0 && !data.error) {
+        setResponseModal('Subscription created sucessfully!');
+        setShowModal(true);
+        setState('success');
+        setSubscriptions([
+          ...subscriptions,
+          {
+            _id: data._id,
+            classes: data.classes._id,
+            members: data.members._id,
+            date: data.date
+          }
+        ]);
+      } else {
+        setResponseModal(response.statusText);
+        setState('fail');
+        setShowModal(true);
+      }
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+  const fetchSubscriptionById = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${id}`);
+      const data = await response.json();
+      setSubscription({
+        classes: data.data.classes,
+        members: data.data.members,
+        date: data.data.date
+      });
+      setSubscriptionById(data.data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  const updateItem = async (newSubscription) => {
+    if (newSubscription != subscriptionById) {
+      try {
+        const isoDate = newSubscription.date ? new Date(newSubscription.date).toISOString() : '';
+        const body = {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            classes: newSubscription.classes,
+            members: newSubscription.members,
+            date: isoDate
+          })
+        };
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/subscription/${id}`,
+          body
+        );
+        const data = await response.json();
+        if (data.length !== 0 && !data.error) {
+          setResponseModal('Subscription updated sucessfully!');
+          setShowModal(true);
+          setState('success');
+          setSubscriptions([
+            ...subscriptions,
+            {
+              _id: data._id,
+              classes: data.classes._id,
+              members: data.members._id,
+              date: data.date
+            }
+          ]);
+        } else {
+          setResponseModal('Subscription not Updated!');
+          setShowModal(true);
+          setState('fail');
+        }
+      } catch (e) {
+        throw new Error(e);
+      }
+    } else {
+      setResponseModal('No changes made');
+      setState('fail');
+      setShowModal(true);
+    }
+  };
+  const onChangeInput = (e) => {
+    setSubscription({
+      ...subscription,
+      [e.target.name]: e.target.value
+    });
+    setState('');
+    setResponseModal('');
+    setShowModal(false);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    try {
+      const newSubscription = {
+        members: subscription.members,
+        classes: subscription.classes,
+        date: subscription.date
+      };
+      if (id) {
+        updateItem(newSubscription);
+      } else {
+        addItem(newSubscription);
+      }
+      setSubscription({
+        classes: '',
+        members: '',
+        date: ''
+      });
     } catch (error) {
       throw new Error(error);
     }
   };
 
-  function submitForm(event) {
-    event.preventDefault();
-    const updatedFields = {};
-
-    if (valueClass) {
-      updatedFields.classes = valueClass;
-    }
-
-    if (valueMember) {
-      updatedFields.members = valueMember;
-    }
-
-    if (valueDate) {
-      updatedFields.date = valueDate;
-    }
-    if (Object.keys(updatedFields).length === 0) {
-      setShowEmptyEditModal(true);
-      setFormEnabled(true);
-      return;
-    }
-    const option = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updatedFields)
-    };
-    const id = subscriptionId;
-    fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${id}`, option).then((response) => {
-      if (response.status !== 200 && response.status !== 201) {
-        setShowServerError(true);
-      } else {
-        setShowModal(true);
-        setFormEnabled(false);
-      }
-    });
-  }
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US');
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-    setShowServerError(false);
-    setShowEmptyEditModal(false);
-    if (showEmptyEditModal) {
-      setFormEnabled(true);
-      setShowEmptyEditModal(false);
-      return;
-    }
-    onModalClose();
-    updateTable();
-  };
-
   return (
-    <div className={styles.container}>
-      {formEnabled && (
-        <form className={styles.editForm} onSubmit={submitForm}>
-          <div className={styles.title}>
-            <h2>Edit Subscription</h2>
-            <h3>ID: {subscriptionId}</h3>
-          </div>
+    <>
+      <div className={styles.container}>
+        <form className={styles.createForm} onSubmit={onSubmit}>
+          {!id ? (
+            <h2 className={styles.title}>Add Subscription</h2>
+          ) : (
+            <>
+              <h2 className={styles.title}>Edit Subscription</h2>
+              <h3>ID:{id}</h3>
+            </>
+          )}
           <label>Class:</label>
           <select
+            className={styles.select}
             id="classes"
             name="classes"
-            onChange={(event) => setValueClass(event.target.value)}
+            value={subscription.classes}
+            onChange={onChangeInput}
           >
-            <option>Choose an option</option>
+            {id ? (
+              <option>{`${subscription.classes.day} ${subscription.classes.time}`}</option>
+            ) : (
+              <option>Select a Value</option>
+            )}
             {classes.map((item) => {
               return (
                 <option key={item._id} value={item._id}>
-                  {item.day + ' ' + item.time}
+                  {`${item.day} ${item.time}`}
                 </option>
               );
             })}
           </select>
           <label>Member:</label>
           <select
+            className={styles.select}
             id="members"
             name="members"
-            value={valueMember}
-            onChange={(event) => setValueMember(event.target.value)}
+            value={subscription.members}
+            onChange={onChangeInput}
           >
             <option>Choose an option</option>
             {members.map((member) => {
@@ -145,35 +237,32 @@ function Form({ subscriptionId, onClose, onModalClose, updateTable }) {
               );
             })}
           </select>
-          <label>Date:</label>
-          <select
-            id="date"
+          <Input
+            labelText={'Date'}
+            className={styles.input}
             name="date"
-            value={valueDate}
-            onChange={(event) => setValueDate(event.target.value)}
-          >
-            <option>Choose an option</option>
-            {dates.map((date) => {
-              return (
-                <option key={date._id} value={date.date}>
-                  {formatDate(date.date)}
-                </option>
-              );
-            })}
-          </select>
-          <div className={styles.btnContainer}>
-            <button className={styles.btnCancel} onClick={onClose}>
-              Cancel
-            </button>
-            <button className={styles.btnSubmit}>Submit</button>
+            type="date"
+            value={subscription.date}
+            change={onChangeInput}
+          />
+          <div>
+            <Link to="/subscriptions">
+              <Button classNameButton={'cancelButton'} text={'Cancel'} />
+            </Link>
+            <Button text={'Submit'} classNameButton={'submitButton'} />
           </div>
         </form>
+      </div>
+      {showModal && (
+        <Link to="/subscriptions">
+          <ResponseModal
+            state={state}
+            message={responseModal}
+            handler={() => setShowModal(!showModal)}
+          />
+        </Link>
       )}
-      {showModal ? <SubscriptionEditedModal onClose={closeModal} /> : <div></div>}
-      {showServerError ? <ErrorEdit onClose={closeModal} /> : <div></div>}
-      {showEmptyEditModal ? <EmptyEdit onClose={closeModal} /> : <div></div>}
-    </div>
+    </>
   );
-}
-
+};
 export default Form;
