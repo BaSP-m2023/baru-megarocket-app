@@ -158,7 +158,10 @@ function ClassForm() {
       setError(true);
     }
   };
-
+  const cancelForm = (e) => {
+    e.preventDefault();
+    history.goBack();
+  };
   const onChangeInput = async (e) => {
     await setClasses({
       ...classes,
@@ -258,6 +261,9 @@ function ClassForm() {
             onClick={isCreateRoute ? onClickCreateClass : onClickEditClass}
           >
             {isCreateRoute ? 'Create Class' : 'Edit Class'}
+          </button>
+          <button className={styles.button} onClick={cancelForm}>
+            Cancel
           </button>
         </div>
       </form>
