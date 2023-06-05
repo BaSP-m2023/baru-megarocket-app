@@ -56,7 +56,7 @@ function Projects() {
           'Something went wrong :( try again later'
         )}
         <Link to={'/classes/create'}>
-          <button>+ Add new Class</button>
+          <button className={styles.button}>+ Add new Class</button>
         </Link>
         <Modal
           showModal={showModal}
