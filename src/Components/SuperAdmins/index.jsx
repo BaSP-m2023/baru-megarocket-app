@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import styles from './super-admins.module.css';
 import Form from './Form/index';
 import ResponseModal from '../Shared/ResponseModal';
@@ -10,7 +9,7 @@ import ConfirmModal from '../Shared/ConfirmModal';
 function SuperAdmins() {
   const [superadmins, setSuperadmins] = useState([]);
   const [showModal, setshowModal] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(true);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const [resMessage, setResMessage] = useState('');
   const [state, setSate] = useState('');

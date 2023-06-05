@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
+import { Input } from '../../Shared/Input';
 
 const Form = ({ addItem, putItem }) => {
   const [superadmin, setSuperadmin] = useState({});
@@ -52,54 +53,33 @@ const Form = ({ addItem, putItem }) => {
         </div>
         <div>
           <form className={styles.form} onSubmit={onSubmit}>
-            <div className={styles.column1}>
-              <label className={styles.label} htmlFor="name">
-                Name
-              </label>
-              <input
-                className={styles.input}
-                type="text"
-                name="name"
-                value={superadmin.name || ''}
-                onChange={onChangeInput}
-              ></input>
-              <label className={styles.label} htmlFor="lastName">
-                Last name
-              </label>
-              <input
-                className={styles.input}
-                type="text"
-                name="lastName"
-                value={superadmin.lastName || ''}
-                onChange={onChangeInput}
-              ></input>
-            </div>
-            <div className={styles.column2}>
-              <label className={styles.label} htmlFor="email">
-                Email
-              </label>
-              <input
-                className={styles.input}
-                type="text"
-                name="email"
-                value={superadmin.email || ''}
-                onChange={onChangeInput}
-              ></input>
-              {!id && (
-                <>
-                  <label className={styles.label} htmlFor="password">
-                    Password
-                  </label>
-                  <input
-                    className={styles.input}
-                    type="password"
-                    name="password"
-                    value={superadmin.password || ''}
-                    onChange={onChangeInput}
-                  ></input>{' '}
-                </>
-              )}
-            </div>
+            <Input
+              labelText={'Name'}
+              value={superadmin.name || ''}
+              name={'name'}
+              change={onChangeInput}
+            />
+            <Input
+              labelText={'Last name'}
+              value={superadmin.lastName || ''}
+              name={'lastName'}
+              change={onChangeInput}
+            />
+            <Input
+              labelText={'Email'}
+              value={superadmin.email || ''}
+              name={'lastName'}
+              change={onChangeInput}
+            />
+            {!id && (
+              <Input
+                labelText={'Password'}
+                value={superadmin.password || ''}
+                type={'password'}
+                name={'password'}
+                change={onChangeInput}
+              />
+            )}
             <Button text={'Submit'} classNameButton={'submitButton'} />
           </form>
         </div>
