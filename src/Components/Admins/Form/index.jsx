@@ -13,7 +13,7 @@ function Form() {
   const [showResponseModal, setShowResponseModal] = useState(false);
   const [messageResponse, setMessageResponse] = useState('');
   const [admins, setAdmins] = useState([]);
-  const [stateModal, setStateModal] = useState('success');
+  const [stateResponse, setStateResponse] = useState('success');
   const [admin, setAdmin] = useState({
     firstName: '',
     lastName: '',
@@ -28,7 +28,7 @@ function Form() {
     if (params.id) {
       getAdminsById();
     }
-  }, [params.id]);
+  }, []);
 
   useEffect(() => {
     setAdmin({
@@ -72,11 +72,15 @@ function Form() {
         })
       });
       if (response.ok) {
-        setStateModal('success');
+        setStateResponse('success');
         setMessageResponse('Admin updated');
         setShowResponseModal(true);
+        setTimeout(() => {
+          setShowResponseModal(false);
+          history.push('/admins');
+        }, 2000);
       } else {
-        setStateModal('fail');
+        setStateResponse('fail');
         setMessageResponse('Admin could be not updated');
         setShowResponseModal(true);
       }
@@ -96,15 +100,15 @@ function Form() {
         body: JSON.stringify(adminToAdd)
       });
       if (response.ok) {
-        setStateModal('success');
+        setStateResponse('success');
         setMessageResponse('Admin created');
         setShowResponseModal(true);
         setTimeout(() => {
           setShowResponseModal(false);
           history.push('/admins');
-        }, 1500);
+        }, 2000);
       } else {
-        setStateModal('fail');
+        setStateResponse('fail');
         setMessageResponse('Admin could be not created');
         setShowResponseModal(true);
       }
@@ -119,7 +123,6 @@ function Form() {
       ...admin,
       [e.target.name]: e.target.value
     });
-    console.log(admin);
   };
 
   const onSubmit = (e) => {
@@ -233,13 +236,13 @@ function Form() {
           reason="submit"
           onAction={handleSubmit}
         >
-          Are you sure to {params.id ? 'update' : 'add'} admin?
+          Are you sure you want to {params.id ? 'update' : 'add'} admin?
         </ConfirmModal>
       )}
       {showResponseModal && (
         <ResponseModal
           handler={() => closeResponseModal()}
-          state={stateModal}
+          state={stateResponse}
           message={messageResponse}
         />
       )}

@@ -84,7 +84,7 @@ const Admins = () => {
           reason="delete"
           onAction={() => handleDeleteAdmin()}
         >
-          Are you sure to delete admin?
+          Are you sure you want to delete admin?
         </ConfirmModal>
       )}
       {showResponseModal && (
