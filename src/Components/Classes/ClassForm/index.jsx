@@ -98,10 +98,49 @@ function ClassForm() {
       throw new Error(error);
     }
   };
+  const updateClass = async () => {
+    try {
+      const editedClass = {
+        ...classes,
+        trainer: [classes.trainer]
+      };
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editedClass)
+      });
+      console.log(response);
+      if (!response.ok) {
+        setResponseModal({ error: true, msg: response.data.message });
+        setShowModal(true);
+      }
+      setResponseModal({ error: false, msg: 'Class updated sucessfully' });
+      setShowModal(true);
 
+      return response.json();
+    } catch (error) {
+      setResponseModal({ error: true, msg: error });
+      setShowModal(true);
+      throw new Error(error.message);
+    }
+  };
   const onClickEditClass = (e) => {
     e.preventDefault();
-    console.log('hola');
+    if (
+      Object.values(classes).every((prop) => {
+        if (prop === '') {
+          return false;
+        }
+        return true;
+      })
+    ) {
+      updateClass();
+      setError(false);
+    } else {
+      setError(true);
+    }
   };
   const onClickCreateClass = (e) => {
     e.preventDefault();
