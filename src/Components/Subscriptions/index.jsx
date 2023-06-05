@@ -18,6 +18,7 @@ const Subscriptions = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
+    filterSubscriptions();
     fetchData();
     if (createModal) {
       setTimeout(() => {
@@ -29,7 +30,6 @@ const Subscriptions = () => {
         setErrorModal(false);
       }, 3000);
     }
-    filterSubscriptions();
   }, [createModal, errorModal, subscriptions, searchTerm]);
 
   const addItem = async (newSubscription) => {
