@@ -1,16 +1,21 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import ResponseModal from '../../Shared/ResponseModal';
+import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 const Form = () => {
   const { id } = useParams();
+  const history = useHistory();
   const [subscriptionById, setSubscriptionById] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const [state, setState] = useState([]);
   const [classes, setClasses] = useState([]);
   const [members, setMembers] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [responseModal, setResponseModal] = useState('');
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscription, setSubscription] = useState({
@@ -54,7 +59,14 @@ const Form = () => {
       throw new Error(error);
     }
   };
-
+  const handleShowConfirmModal = async () => {
+    if (!showConfirmModal) {
+      setShowConfirmModal(true);
+      setShowModal(false);
+    } else {
+      setShowConfirmModal(false);
+    }
+  };
   const addItem = async (newSubscription) => {
     try {
       const isoDate = newSubscription.date ? new Date(newSubscription.date).toISOString() : '';
@@ -75,6 +87,10 @@ const Form = () => {
         setResponseModal('Subscription created sucessfully!');
         setShowModal(true);
         setState('success');
+        setTimeout(() => {
+          setShowModal(false);
+          history.goBack();
+        }, 1200);
         setSubscriptions([
           ...subscriptions,
           {
@@ -88,6 +104,7 @@ const Form = () => {
         setResponseModal(response.statusText);
         setState('fail');
         setShowModal(true);
+        setShowConfirmModal(false);
       }
     } catch (e) {
       throw new Error(e);
@@ -102,6 +119,7 @@ const Form = () => {
         members: data.data.members,
         date: data.data.date
       });
+      setLoaded(true);
       setSubscriptionById(data.data);
     } catch (error) {
       throw new Error(error);
@@ -131,6 +149,10 @@ const Form = () => {
           setResponseModal('Subscription updated sucessfully!');
           setShowModal(true);
           setState('success');
+          setTimeout(() => {
+            setShowModal(false);
+            history.goBack();
+          }, 1200);
           setSubscriptions([
             ...subscriptions,
             {
@@ -144,6 +166,7 @@ const Form = () => {
           setResponseModal('Subscription not Updated!');
           setShowModal(true);
           setState('fail');
+          setShowConfirmModal(false);
         }
       } catch (e) {
         throw new Error(e);
@@ -152,6 +175,7 @@ const Form = () => {
       setResponseModal('No changes made');
       setState('fail');
       setShowModal(true);
+      setShowConfirmModal(false);
     }
   };
   const onChangeInput = (e) => {
@@ -166,6 +190,9 @@ const Form = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    handleShowConfirmModal();
+  };
+  const onConfirm = () => {
     try {
       const newSubscription = {
         members: subscription.members,
@@ -207,7 +234,7 @@ const Form = () => {
             value={subscription.classes}
             onChange={onChangeInput}
           >
-            {id ? (
+            {loaded ? (
               <option>{`${subscription.classes.day} ${subscription.classes.time}`}</option>
             ) : (
               <option>Select a Value</option>
@@ -228,7 +255,11 @@ const Form = () => {
             value={subscription.members}
             onChange={onChangeInput}
           >
-            <option>Choose an option</option>
+            {loaded ? (
+              <option>{`${subscription.members.name} ${subscription.members.lastName}`}</option>
+            ) : (
+              <option>Select a Value</option>
+            )}
             {members.map((member) => {
               return (
                 <option key={member._id} value={member._id}>
@@ -242,7 +273,7 @@ const Form = () => {
             className={styles.input}
             name="date"
             type="date"
-            value={subscription.date}
+            value={subscription.date.slice(0, 10)}
             change={onChangeInput}
           />
           <div>
@@ -253,13 +284,19 @@ const Form = () => {
           </div>
         </form>
       </div>
+      {showConfirmModal && (
+        <ConfirmModal
+          handler={() => handleShowConfirmModal()}
+          title={'Are you sure?'}
+          onAction={() => onConfirm()}
+          reason="submit"
+        >
+          We give you a last chance to change your mind
+        </ConfirmModal>
+      )}
       {showModal && (
         <Link to="/subscriptions">
-          <ResponseModal
-            state={state}
-            message={responseModal}
-            handler={() => setShowModal(!showModal)}
-          />
+          <ResponseModal state={state} message={responseModal} />
         </Link>
       )}
     </>
