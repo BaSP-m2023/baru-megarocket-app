@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import styles from './trainers.module.css';
 import Table from './Table';
 import Button from '../Shared/Button';
-import ResponseModal from './Modals/ResponseModal';
+import ResponseModal from '../Shared/ResponseModal';
 
 const Trainers = () => {
   const [activeTrainers, setActiveTrainers] = useState([]);
   const [showResponseModal, setShowResponseModal] = useState(false);
+  const [stateModal, setStateModal] = useState('success');
   const [responseMessage, setResponseMessage] = useState('');
 
   const getTrainers = async () => {
@@ -18,6 +19,10 @@ const Trainers = () => {
     } catch (error) {
       setResponseMessage(`Error fetching trainers: ${error.message}`);
       setShowResponseModal(true);
+      setStateModal('fail');
+      setTimeout(() => {
+        setShowResponseModal(false);
+      }, 3000);
     }
   };
   useEffect(() => {
@@ -26,13 +31,33 @@ const Trainers = () => {
 
   const deleteTrainer = async (id) => {
     try {
-      await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
         method: 'DELETE'
       });
-      setActiveTrainers(activeTrainers.filter((trainer) => trainer._id !== id));
+      const data = await response.json();
+      if (response.ok) {
+        setActiveTrainers(activeTrainers.filter((trainer) => trainer._id !== id));
+        setResponseMessage(data.message);
+        setShowResponseModal(true);
+        setStateModal('success');
+        setTimeout(() => {
+          setShowResponseModal(false);
+        }, 3000);
+      } else {
+        setResponseMessage('Failed to delete trainer');
+        setShowResponseModal(true);
+        setStateModal('fail');
+        setTimeout(() => {
+          setShowResponseModal(false);
+        }, 3000);
+      }
     } catch (error) {
       setResponseMessage(`Error deleting trainer: ${error.message}`);
       setShowResponseModal(true);
+      setStateModal('fail');
+      setTimeout(() => {
+        setShowResponseModal(false);
+      }, 3000);
     }
   };
 
@@ -48,7 +73,11 @@ const Trainers = () => {
         <Button text="+ Add New" classNameButton="addButton" />
       </Link>
       {showResponseModal && (
-        <ResponseModal text={responseMessage} onClose={() => setShowResponseModal(false)} />
+        <ResponseModal
+          message={responseMessage}
+          state={stateModal}
+          handler={() => setShowResponseModal(false)}
+        />
       )}
     </section>
   );

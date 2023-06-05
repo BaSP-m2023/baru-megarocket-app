@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './trainer.module.css';
-import ConfirmModal from '../Modals/ConfirmModal';
+import Button from '../../Shared/Button';
+import ConfirmModal from '../../Shared/ConfirmModal';
 
 const Trainer = ({ trainer, deleteTrainer }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -29,29 +30,29 @@ const Trainer = ({ trainer, deleteTrainer }) => {
       <td className={styles.align}>{trainer.salary}</td>
       <td>
         <Link to={`/trainers/edit/${trainer._id}`}>
-          <img
-            className={styles.edit}
-            src={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
-            alt="pencil icon for edit a trainer"
-          />
+          <Button img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}>
+            <img className={styles.icon} alt="pencil icon for edit a trainer" />
+          </Button>
         </Link>
       </td>
       <td>
-        <img
-          className={styles.delete}
-          src={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
-          onClick={handleDeleteClick}
-          alt="trash icon for delete a trainer"
-        />
+        <Button
+          img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
+          action={handleDeleteClick}
+        >
+          <img className={styles.delete} alt="trash icon for delete a trainer" />
+        </Button>
       </td>
       <td>
         {showDeleteModal && (
           <ConfirmModal
             title="Delete Trainer"
-            message="Are you sure you want to delete this trainer?"
-            onClose={() => setShowDeleteModal(false)}
-            onDelete={handleConfirmDelete}
-          />
+            handler={() => setShowDeleteModal(false)}
+            onAction={handleConfirmDelete}
+            reason={'delete'}
+          >
+            Are you sure you want to delete this trainer?
+          </ConfirmModal>
         )}
       </td>
     </tr>
