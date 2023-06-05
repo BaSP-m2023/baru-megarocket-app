@@ -11,6 +11,8 @@ function ClassList({
   setRenderData
 }) {
   const [filter, setFilter] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedClassToDelete, setSelectedClassToDelete] = useState(null);
 
   const handleFilter = async (e) => {
     await setFilter(e.target.value);
@@ -94,7 +96,13 @@ function ClassList({
                         />
                       </button>
                     </Link>
-                    <button className={`${styles.button}`} onClick={() => deleteClass(item._id)}>
+                    <button
+                      className={`${styles.button}`}
+                      onClick={() => {
+                        setSelectedClassToDelete(item);
+                        setShowDeleteModal(true);
+                      }}
+                    >
                       <img
                         className={`${styles.buttonImg}`}
                         src={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
@@ -107,6 +115,31 @@ function ClassList({
           </tbody>
         </table>
       </div>
+      {showDeleteModal && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <h3>Confirmar Eliminación</h3>
+            <p>¿Estás seguro de que quieres eliminar esta clase?</p>
+            <div className={styles.modalButtons}>
+              <button
+                className={`${styles.button} ${styles.confirmButton}`}
+                onClick={async () => {
+                  await deleteClass(selectedClassToDelete._id);
+                  setShowDeleteModal(false);
+                }}
+              >
+                Confirmar
+              </button>
+              <button
+                className={`${styles.button} ${styles.cancelButton}`}
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
