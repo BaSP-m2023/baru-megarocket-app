@@ -1,7 +1,6 @@
 import styles from './table.module.css';
 import Button from '../../Shared/Button';
 import { Link } from 'react-router-dom';
-//import ConfirmModal from '../Shared/ConfirmModal';
 
 const Table = ({ confirmDelete, data }) => {
   return (

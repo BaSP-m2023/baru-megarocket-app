@@ -9,8 +9,13 @@ import ConfirmModal from '../Shared/ConfirmModal';
 function SuperAdmins() {
   const [superadmins, setSuperadmins] = useState([]);
   const [showModal, setshowModal] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showConfirmAdd, setShowConfirmAdd] = useState(false);
+  const [showConfirmEdit, setShowConfirmEdit] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
+  const [superadminToAdd, setSuperadminToAdd] = useState(null);
+  const [idToEdit, setIdToEdit] = useState(null);
+  const [editedSuperadmin, setEditedSuperadmin] = useState(null);
   const [resMessage, setResMessage] = useState('');
   const [state, setSate] = useState('');
 
@@ -35,21 +40,20 @@ function SuperAdmins() {
   const openModal = () => {
     setshowModal(true);
   };
-  const closeConfirm = () => {
-    setShowConfirm(false);
+  const confirmAdd = async (newSuperadmin) => {
+    setShowConfirmAdd(true);
+    setSuperadminToAdd(newSuperadmin);
   };
-  const openConfirm = () => {
-    setShowConfirm(true);
-  };
-  const addItem = async (superadmin) => {
+  const addItem = async () => {
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(superadmin)
+        body: JSON.stringify(superadminToAdd)
       });
+      setShowConfirmAdd(false);
       getSuperadmins();
       if (res.ok) {
         setSate('success');
@@ -66,16 +70,21 @@ function SuperAdmins() {
       openModal();
     }
   };
-
-  const putItem = async (id, updatedSuperadmin) => {
+  const confirmEdit = (id, updatedSuperadmin) => {
+    setShowConfirmEdit(true);
+    setIdToEdit(id);
+    setEditedSuperadmin(updatedSuperadmin);
+  };
+  const putItem = async () => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${idToEdit}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(updatedSuperadmin)
+        body: JSON.stringify(editedSuperadmin)
       });
+      setShowConfirmEdit(false);
       if (res.ok) {
         setSate('success');
         setResMessage('Superadmin updated');
@@ -92,7 +101,7 @@ function SuperAdmins() {
     }
   };
   const confirmDelete = (id) => {
-    openConfirm();
+    setShowConfirmDelete(true);
     setIdToDelete(id);
   };
   const deleteItem = async () => {
@@ -100,7 +109,7 @@ function SuperAdmins() {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${idToDelete}`, {
         method: 'DELETE'
       });
-      closeConfirm();
+      setShowConfirmDelete(false);
       if (res.ok) {
         setSate('success');
         setResMessage('Superadmin deleted');
@@ -122,11 +131,31 @@ function SuperAdmins() {
     <section className={styles.container}>
       {showModal && <ResponseModal state={state} message={resMessage} handler={closeModal} />}
 
-      {showConfirm && (
+      {showConfirmAdd && (
+        <ConfirmModal
+          title={'New superadmin'}
+          reason={'submit'}
+          handler={() => setShowConfirmAdd(false)}
+          onAction={addItem}
+        >
+          Are you sure you want to add this superadmin?
+        </ConfirmModal>
+      )}
+      {showConfirmEdit && (
+        <ConfirmModal
+          title={'Edit superadmin'}
+          reason={'submit'}
+          handler={() => setShowConfirmEdit(false)}
+          onAction={putItem}
+        >
+          Are you sure you want to edit this superadmin?
+        </ConfirmModal>
+      )}
+      {showConfirmDelete && (
         <ConfirmModal
           title={'Delete superadmin'}
           reason={'delete'}
-          handler={closeConfirm}
+          handler={() => setShowConfirmDelete(false)}
           onAction={deleteItem}
         >
           Are you sure you want to delete this superadmin?
@@ -137,10 +166,10 @@ function SuperAdmins() {
         <Table data={superadmins} deleteItem={deleteItem} confirmDelete={confirmDelete} />
         <Switch>
           <Route path="/super-admins/form/:id">
-            <Form putItem={putItem} addItem={addItem} />
+            <Form putItem={putItem} addItem={addItem} confirmEdit={confirmEdit} />
           </Route>
           <Route path="/super-admins/form">
-            <Form putItem={putItem} addItem={addItem} />
+            <Form addItem={addItem} confirmAdd={confirmAdd} />
           </Route>
         </Switch>
       </Router>

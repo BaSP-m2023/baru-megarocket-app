@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
-import { Input } from '../../Shared/Input';
+import { Input } from '../../Shared/Inputs';
 
-const Form = ({ addItem, putItem }) => {
+const Form = ({ confirmAdd, confirmEdit }) => {
   const [superadmin, setSuperadmin] = useState({});
   const history = useHistory();
   const goBackHandle = () => {
@@ -39,7 +39,7 @@ const Form = ({ addItem, putItem }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    id ? await putItem(id, superadmin) : addItem(superadmin);
+    id ? await confirmEdit(id, superadmin) : confirmAdd(superadmin);
     goBackHandle();
   };
   return (
@@ -68,7 +68,7 @@ const Form = ({ addItem, putItem }) => {
             <Input
               labelText={'Email'}
               value={superadmin.email || ''}
-              name={'lastName'}
+              name={'email'}
               change={onChangeInput}
             />
             {!id && (
