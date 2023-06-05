@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import Modal from '../Modal/Modal';
 import styles from './form.module.css';
 
 function ClassForm() {
   const [trainers, setTrainers] = useState([]);
   const [activities, setActivities] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [responseModal, setResponseModal] = useState({ error: false, msg: '' });
   const [error, setError] = useState(false);
   const [classes, setClasses] = useState({
     activity: '',
@@ -14,8 +17,8 @@ function ClassForm() {
     capacity: ''
   });
   const location = useLocation();
-  const isCreateRoute = location.pathname.includes('/classes/createclass');
   const history = useHistory();
+  const isCreateRoute = location.pathname.includes('/classes/create');
 
   const getTrainersActivities = async () => {
     try {
@@ -32,6 +35,15 @@ function ClassForm() {
   useEffect(() => {
     getTrainersActivities();
   }, []);
+  useEffect(() => {
+    if (showModal) {
+      const timer = setTimeout(() => {
+        history.goBack();
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showModal, history]);
 
   const createClass = async (newClass) => {
     newClass.trainer = [newClass.trainer];
@@ -46,16 +58,15 @@ function ClassForm() {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/`, bodyClasses);
       const data = await response.json();
       if (data.length !== 0 && !data.error) {
-        history.goBack();
-        // setResponseModal({ error: false, msg: 'Class created sucessfully' });
-        // setShowModal(true);
-      } //else {
-      //   setResponseModal({ error: true, msg: data.message });
-      //   setShowModal(true);
-      // }
+        setResponseModal({ error: false, msg: 'Class created sucessfully' });
+        setShowModal(true);
+      } else {
+        setResponseModal({ error: true, msg: data.message });
+        setShowModal(true);
+      }
     } catch (error) {
-      // setResponseModal({ error: true, msg: error });
-      // setShowModal(true);
+      setResponseModal({ error: true, msg: error });
+      setShowModal(true);
       throw new Error(error);
     }
   };
@@ -184,6 +195,11 @@ function ClassForm() {
           </form>
         ) : null}
       </div>
+      <Modal
+        showModal={showModal}
+        responseModal={responseModal}
+        onClose={() => setShowModal(!showModal)}
+      ></Modal>
     </>
   );
 }
