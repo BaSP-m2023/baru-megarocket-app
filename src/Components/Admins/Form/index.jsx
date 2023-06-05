@@ -1,14 +1,9 @@
 import styles from './form.module.css';
-import { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { /* useEffect, */ useState } from 'react';
+import { useHistory /* useParams */ } from 'react-router-dom';
+/* import { Button } from '../../Shared/Button'; */
 
-function Form({ title, addAdmin, editAdmin, idToUpdate, admins }) {
-  const history = useHistory();
-  const params = useParams();
-  const handleButton = () => {
-    history.push('/admins');
-  };
-
+function Form({ title, addAdmin, editAdmin, idToUpdate }) {
   const [admin, setAdmin] = useState({
     firstName: '',
     lastName: '',
@@ -18,11 +13,91 @@ function Form({ title, addAdmin, editAdmin, idToUpdate, admins }) {
     city: '',
     password: ''
   });
+  /*  const [admins, setAdmins] = useState([]); */
+  const history = useHistory();
+  /*  const params = useParams(); */
+  const handleButton = () => {
+    history.push('/admins');
+  };
 
+  /*  const getAdmins = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`);
+      const res = await response.json();
+      setAdmins(res.data);
+    } catch (error) {
+      setMessageResponse(`Error fetching admins: ${error.message}`);
+      setShowModal(true);
+    }
+  }; */
+
+  /*   const editButton = async (id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`);
+      const res = await response.json();
+      setidToUpdate(res.data._id);
+      setShowForm(true);
+      setTitle('Edit admin');
+    } catch (error) {
+      setTitle('Update Admin');
+      setShowModal(true);
+      setMessageResponse(`Error fetching admins: ${error.message}`);
+    }
+  }; */
+
+  /*  const editAdmin = async (idToUpdate, adminToUpdate) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${idToUpdate}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(adminToUpdate)
+      });
+      if (response.ok) {
+        setMessageResponse('Admin updated');
+        setShowForm(false);
+        setShowModal(true);
+        getAdmins();
+      } else {
+        setMessageResponse('Admin could be not updated');
+        setShowForm(false);
+        setShowModal(true);
+      }
+    } catch (error) {
+      setShowForm(false);
+      setShowModal(true);
+      setMessageResponse(`Error updating admins: ${error.message}`);
+    }
+  };
+ */
+  /*  const addAdmin = async (adminToAdd) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(adminToAdd)
+      });
+      if (response.ok) {
+        setMessageResponse('Admin created');
+        setShowResponseModal(true);
+        getAdmins();
+      } else {
+        setMessageResponse('Admin could be not created');
+        setShowResponseModal(true);
+      }
+    } catch (error) {
+      setMessageResponse(`Error adding admins: ${error.message}`);
+      setShowResponseModal(true);
+    }
+  }; */
+  /*
   useEffect(() => {
     if (params.id) {
-      let adminToUpdate = admins.filter((admin) => params.id === admin._id);
-      adminToUpdate = adminToUpdate[0];
+      /* let adminToUpdate = admins.filter((admin) => params.id === admin._id); */
+  /* adminToUpdate = adminToUpdate[0];
       const keyAdmins = {
         firstName: adminToUpdate.firstName,
         lastName: adminToUpdate.lastName,
@@ -32,9 +107,9 @@ function Form({ title, addAdmin, editAdmin, idToUpdate, admins }) {
         city: adminToUpdate.city,
         password: adminToUpdate.password
       };
-      setAdmin(keyAdmins);
-    }
-  }, []);
+      setAdmin(keyAdmins); */
+  /*  }
+  }, []); */
 
   const onChangeInput = (e) => {
     setAdmin({
