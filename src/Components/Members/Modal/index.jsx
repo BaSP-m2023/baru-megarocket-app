@@ -1,16 +1,7 @@
 import React from 'react';
 import styles from './modal.module.css';
-import { useState } from 'react';
 
-const MessageModal = ({ modalMessage, onCloseMessage }) => {
-  const [modalMessageOpen, setModalMessageOpen] = useState(null);
-
-  console.log(modalMessageOpen);
-
-  const handleMessageClose = () => {
-    setModalMessageOpen(false);
-  };
-
+const MessageModal = ({ modalMessage, onCloseMessage, handleMessageClose }) => {
   return (
     <div className={styles.modal} onClick={onCloseMessage}>
       <div className={styles.modal_content}>

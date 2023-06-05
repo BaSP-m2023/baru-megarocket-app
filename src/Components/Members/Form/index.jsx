@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Modal from '../Modal';
 
-const MemberForm = ({ memberId }) => {
+const MemberForm = ({ match }) => {
   const [members, setMembers] = useState([]);
   let [editMember, setEditMember] = useState(null);
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState(null);
+  let memberId = match.params.id;
 
-  const [member, setMember] = useState({
+  let [member, setMember] = useState({
     name: '',
     lastName: '',
     dni: '',
@@ -21,8 +22,6 @@ const MemberForm = ({ memberId }) => {
     membership: '',
     password: ''
   });
-
-  console.log(editMember);
 
   const addMember = async (member) => {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
@@ -61,35 +60,58 @@ const MemberForm = ({ memberId }) => {
     }
   };
 
-  const getMember = async (id) => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`);
-      const { data } = await res.json();
-      setMember(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getMember = async (id) => {
+  //   try {
+  //     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`);
+  //     const { data } = await res.json();
+  //     setMember(data);
+  //     console.log(member);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  if (memberId) {
-    editMember = getMember(memberId);
-    let newEdit = {
-      name: editMember.name,
-      lastName: editMember.lastName,
-      dni: editMember.dni,
-      phone: editMember.phone,
-      email: editMember.email,
-      city: editMember.city,
-      dob: editMember.dob,
-      zip: editMember.zip,
-      isActive: false,
-      membership: editMember.membership,
-      password: editMember.password
+  useEffect(() => {
+    const getMember = async (id) => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`);
+        const { data } = await res.json();
+        setMember({
+          name: data.name,
+          lastName: data.lastName,
+          dni: data.dni,
+          phone: data.phone,
+          email: data.email,
+          city: data.city,
+          dob: data.dob,
+          zip: data.zip,
+          isActive: false,
+          membership: data.membership,
+          password: data.password
+        });
+      } catch (error) {
+        console.log(error);
+      }
     };
-    setMember(newEdit);
-    editMember = null;
-    memberId = null;
-  }
+    if (memberId) {
+      getMember(memberId);
+      editMember = member;
+      let newEdit = {
+        name: editMember.name,
+        lastName: editMember.lastName,
+        dni: editMember.dni,
+        phone: editMember.phone,
+        email: editMember.email,
+        city: editMember.city,
+        dob: editMember.dob,
+        zip: editMember.zip,
+        isActive: false,
+        membership: editMember.membership,
+        password: editMember.password
+      };
+      setMember(newEdit);
+    }
+  }, []);
 
   const onChangeInput = (e) => {
     setMember({
@@ -121,9 +143,9 @@ const MemberForm = ({ memberId }) => {
     }
   };
 
-  // const handleClose = () => {
-  //   setEditMember(null);
-  // };
+  const handleMessageClose = () => {
+    setModalMessageOpen(false);
+  };
 
   return (
     <div className={styles.form_modal} onSubmit={onSubmit}>
@@ -197,7 +219,11 @@ const MemberForm = ({ memberId }) => {
         </form>
       </div>
       {modalMessageOpen && (
-        <Modal modalMessage={modalMessage} modalMessageOpen={modalMessageOpen} />
+        <Modal
+          modalMessage={modalMessage}
+          modalMessageOpen={modalMessageOpen}
+          handleMessageClose={handleMessageClose}
+        />
       )}
     </div>
   );
