@@ -28,7 +28,7 @@ function Table({ admins, handleDeleteButton }) {
                 <td className={styles.td}>{admin.email}</td>
                 <td className={styles.td}>{admin.city}</td>
                 <td></td>
-                <td>
+                <td className={styles.button}>
                   <Link to={`/admins/edit/${admin._id}`}>
                     <Button
                       text="Edit Button"
@@ -37,7 +37,7 @@ function Table({ admins, handleDeleteButton }) {
                     />
                   </Link>
                 </td>
-                <td>
+                <td className={styles.button}>
                   <Button
                     action={() => handleDeleteButton(admin._id)}
                     text="Delete Button"

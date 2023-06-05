@@ -1,6 +1,6 @@
 import styles from './admins.module.css';
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Table from './Table';
 import Button from '../Shared/Button';
 import ConfirmModal from '../Shared/ConfirmModal';
@@ -12,7 +12,6 @@ const Admins = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showResponseModal, setShowResponseModal] = useState(false);
   const [messageResponse, setMessageResponse] = useState('');
-  const history = useHistory();
 
   const getAdmins = async () => {
     try {
@@ -51,10 +50,6 @@ const Admins = () => {
     }
   };
 
-  const add = () => {
-    history.push('/admins/add');
-  };
-
   const handleDeleteButton = (id) => {
     setShowConfirmModal(true);
     setIdToDelete(id);
@@ -79,7 +74,7 @@ const Admins = () => {
         <h2 className={styles.title}>Admins</h2>
         <Table admins={admins} handleDeleteButton={handleDeleteButton} />
         <Link to="/admins/add">
-          <Button action={add} text="Add admin" classNameButton="addButton"></Button>
+          <Button text="Add admin" classNameButton="addButton"></Button>
         </Link>
       </section>
       {showConfirmModal && (
