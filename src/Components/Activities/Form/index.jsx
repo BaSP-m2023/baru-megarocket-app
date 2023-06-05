@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
-import { Input, Textarea } from '../../Shared/Input';
+import { Input, Textarea } from '../../Shared/Inputs';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 
