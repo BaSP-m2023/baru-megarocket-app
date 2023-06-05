@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import styles from './form.module.css';
 
-function Form({ createClass, activities, trainers }) {
-  const [formCreateSwitch, setFormCreateSwitch] = useState(false);
+function ClassForm() {
+  const [trainers, setTrainers] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [error, setError] = useState(false);
   const [classes, setClasses] = useState({
     activity: '',
@@ -11,6 +13,52 @@ function Form({ createClass, activities, trainers }) {
     time: '',
     capacity: ''
   });
+  const location = useLocation();
+  const isCreateRoute = location.pathname.includes('/classes/createclass');
+  const history = useHistory();
+
+  const getTrainersActivities = async () => {
+    try {
+      const resTrainers = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`);
+      const dataTrainers = await resTrainers.json();
+      const resActivities = await fetch(`${process.env.REACT_APP_API_URL}/api/activity`);
+      const dataActivities = await resActivities.json();
+      setTrainers(dataTrainers.data);
+      setActivities(dataActivities);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getTrainersActivities();
+  }, []);
+
+  const createClass = async (newClass) => {
+    newClass.trainer = [newClass.trainer];
+    const bodyClasses = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newClass)
+    };
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/`, bodyClasses);
+      const data = await response.json();
+      if (data.length !== 0 && !data.error) {
+        history.goBack();
+        // setResponseModal({ error: false, msg: 'Class created sucessfully' });
+        // setShowModal(true);
+      } //else {
+      //   setResponseModal({ error: true, msg: data.message });
+      //   setShowModal(true);
+      // }
+    } catch (error) {
+      // setResponseModal({ error: true, msg: error });
+      // setShowModal(true);
+      throw new Error(error);
+    }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -23,13 +71,6 @@ function Form({ createClass, activities, trainers }) {
       })
     ) {
       createClass(classes);
-      setClasses({
-        activity: '',
-        trainer: '',
-        day: '',
-        time: '',
-        capacity: ''
-      });
       setError(false);
     } else {
       setError(true);
@@ -45,29 +86,8 @@ function Form({ createClass, activities, trainers }) {
 
   return (
     <>
-      {formCreateSwitch ? (
-        <button
-          className={`${styles.btnClose} ${styles.button}`}
-          onClick={() => {
-            setFormCreateSwitch(!formCreateSwitch);
-            setError(false);
-          }}
-        >
-          x
-        </button>
-      ) : (
-        <button
-          className={styles.button}
-          onClick={() => {
-            setFormCreateSwitch(!formCreateSwitch);
-          }}
-        >
-          + Add New
-        </button>
-      )}
-
       <div className={styles.formContainer}>
-        {formCreateSwitch && activities.length !== 0 && trainers.length !== 0 ? (
+        {activities.length !== 0 && trainers.length !== 0 ? (
           <form onSubmit={onSubmit}>
             <div className={styles.subContainer}>
               <div className={styles.inputContainer}>
@@ -157,7 +177,7 @@ function Form({ createClass, activities, trainers }) {
               </div>
               <div className={styles.buttonContainer}>
                 <button className={styles.button} type="submit">
-                  Create
+                  {isCreateRoute ? 'Create Class' : 'Edit Class'}
                 </button>
               </div>
             </div>
@@ -168,4 +188,4 @@ function Form({ createClass, activities, trainers }) {
   );
 }
 
-export default Form;
+export default ClassForm;
