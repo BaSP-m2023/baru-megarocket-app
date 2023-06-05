@@ -1,16 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './table.module.css';
 import Form from '../Form';
-import { DeleteModal, ConfirmDeleteModal } from '../Modals/index';
+import ConfirmModal from '../../Shared/ConfirmModal';
+import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 
 const Table = ({ data }) => {
   const [deletedSubscription, setDeletedSubscription] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -20,7 +21,12 @@ const Table = ({ data }) => {
       );
       setTableData(filteredData);
     }
-  }, [data, deletedSubscription]);
+    if (showDeleteModal) {
+      setTimeout(() => {
+        setShowDeleteModal(false);
+      }, 3000);
+    }
+  }, [data, deletedSubscription, showDeleteModal]);
 
   const handleEdit = (subscriptionId) => {
     setEditingSubscriptionId(subscriptionId);
@@ -37,18 +43,18 @@ const Table = ({ data }) => {
     }
   };
 
-  // const handleConfirmDelete = (subscriptionId) => {
-  //   setEditingSubscriptionId(subscriptionId);
-  //   setShowConfirmDeleteModal(true);
-  //   setShowDeleteModal(false);
-  // };
+  const handleConfirmDelete = (subscriptionId) => {
+    setEditingSubscriptionId(subscriptionId);
+    setShowConfirmDeleteModal(true);
+    setShowDeleteModal(false);
+  };
 
   const handleDelete = async (subscriptionId) => {
     try {
       await deleteSubscription(subscriptionId);
       setDeletedSubscription([...deletedSubscription, subscriptionId]);
-      setShowConfirmDeleteModal(false);
       setShowDeleteModal(true);
+      setShowConfirmDeleteModal(false);
     } catch (error) {
       throw new Error(error);
     }
@@ -70,6 +76,7 @@ const Table = ({ data }) => {
   };
 
   const closeModal = () => {
+    setShowConfirmDeleteModal(false);
     setShowDeleteModal(false);
   };
 
@@ -106,7 +113,7 @@ const Table = ({ data }) => {
                   <Button img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'} />
                 </td>
                 <td
-                  onClick={() => handleDelete(subscription._id)}
+                  onClick={() => handleConfirmDelete(subscription._id)}
                   className={`${styles.itemButton} ${styles.itemButtonDelete}`}
                 >
                   <Button img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'} />
@@ -136,12 +143,20 @@ const Table = ({ data }) => {
         </div>
       )}
       {showConfirmDeleteModal && (
-        <ConfirmDeleteModal
-          onClose={() => setShowConfirmDeleteModal(false)}
-          confirmDelete={() => handleDelete(editingSubscriptionId)}
-        />
+        <ConfirmModal
+          title="Delete Subscription"
+          handler={closeModal}
+          onAction={() => handleDelete(editingSubscriptionId)}
+          reason="delete"
+        >
+          <p>Are you sure to delete subscription?</p>
+        </ConfirmModal>
       )}
-      {showDeleteModal ? <DeleteModal onClose={closeModal} /> : <div></div>}
+      {showDeleteModal ? (
+        <ResponseModal handler={closeModal} state="fail" message="Subscription Deleted" />
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

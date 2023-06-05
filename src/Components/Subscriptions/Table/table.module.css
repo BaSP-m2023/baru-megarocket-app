@@ -37,6 +37,7 @@ table {
   width: 5%;
   text-overflow: ellipsis;
   text-align: center;
+  border: 1px solid #ccc;
 }
 
 .itemButtonEdit:hover {

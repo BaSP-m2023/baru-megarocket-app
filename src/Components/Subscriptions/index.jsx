@@ -3,7 +3,7 @@ import styles from './subscriptions.module.css';
 import Table from './Table';
 import Button from '../Shared/Button';
 
-import { CreateModal, ErrorModal } from './Modals';
+import ResponseModal from '../Shared/ResponseModal';
 import Form from './Form-Create';
 const Subscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -16,7 +16,17 @@ const Subscriptions = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+    if (createModal) {
+      setTimeout(() => {
+        setCreateModal(false);
+      }, 3000);
+    }
+    if (errorModal) {
+      setTimeout(() => {
+        setErrorModal(false);
+      }, 3000);
+    }
+  }, [createModal, errorModal]);
 
   const addItem = async (newSubscription) => {
     try {
@@ -110,8 +120,26 @@ const Subscriptions = () => {
         />
       </div>
       <div>
-        {createModal ? <CreateModal onClose={() => setCreateModal(false)} /> : <div></div>}
-        {errorModal ? <ErrorModal onClose={() => setErrorModal(false)} /> : <div></div>}
+        {createModal ? (
+          <ResponseModal
+            handler={() => setCreateModal(false)}
+            state="success"
+            message="Subscription Created"
+          />
+        ) : (
+          <div></div>
+        )}
+      </div>
+      <div>
+        {errorModal ? (
+          <ResponseModal
+            handler={() => setErrorModal(false)}
+            state="fail"
+            message="An error ocurred"
+          />
+        ) : (
+          <div></div>
+        )}
       </div>
     </section>
   );
