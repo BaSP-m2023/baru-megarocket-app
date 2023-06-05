@@ -1,0 +1,30 @@
+.button{
+  width: 8rem;
+  height: 2.8rem;
+  margin: 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.addButton {
+  color: #373867;
+  background-color: #AACE9B;
+}
+.submitButton {
+  color: #373867;
+  background-color: #AACE9B;
+}
+.deleteButton{
+  color: #fdfdfd;
+  background-color: #d10202;
+}
+.cancelButton{
+  color: #fdfdfd;
+  background-color: #878787;
+}
+.icon {
+  width: 1rem;
+  cursor: pointer;
+}
