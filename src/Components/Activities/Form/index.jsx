@@ -1,40 +1,64 @@
 // import React, { useEffect, useState } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
-import styles from './form.module.css';
+import { useState, useEffect } from 'react';
 
+import styles from './form.module.css';
 import Button from '../../Shared/Button';
-import { useState } from 'react';
+import { Input, Textarea } from '../../Shared/Input';
+import ConfirmModal from '../../Shared/ConfirmModal';
+import ResponseModal from '../../Shared/ResponseModal';
 
 const Form = () => {
-  const [activity, setActivity] = useState({
-    name: '',
-    description: '',
-    isActive: false
-  });
-  const params = useParams();
-  console.log(params);
+  const [activity, setActivity] = useState({});
+  const [confirm, setConfirmModal] = useState(false);
+  const [response, setResponseModal] = useState({ show: false, state: '', message: '' });
+  const { id } = useParams();
   const location = useLocation();
 
-  // useEffect(() => {
-  //   if (formType) {
-  //     setActivity({
-  //       name: '',
-  //       description: '',
-  //       isActive: false
-  //     });
-  //   }
-  // }, [activityToUpdate]);
+  const handleConfirm = () => {
+    setConfirmModal(!confirm);
+  };
+
+  const handleResponse = (state, message) => {
+    setResponseModal({ ...response, show: !response.show, state, message });
+  };
+
+  useEffect(() => {
+    if (location.pathname.includes('edit')) {
+      const setupForm = async () => {
+        const { name, description, isActive } = await getActivity(id);
+        setActivity({ name, description, isActive });
+      };
+      setupForm();
+    }
+  }, []);
+
+  const getActivity = async (id) => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity/${id}`);
+      const { data } = await res.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const createActivity = async (newActivity) => {
     try {
-      /*const res = */ await fetch(`${process.env.REACT_APP_API_URL}/api/activity`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
         },
         body: JSON.stringify(newActivity)
       });
-      // const data = await res.json();
+      const data = await res.json();
+      if (res.status === 201) {
+        handleResponse('success', 'Activity created!');
+      }
+      if (res.status === 400) {
+        handleResponse('fail', data.message);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -42,14 +66,23 @@ const Form = () => {
 
   const updateActivity = async (id, { name, description, isActive }) => {
     try {
-      /*const res = */ await fetch(`${process.env.REACT_APP_API_URL}/api/activity/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity/${id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({ name, description, isActive })
       });
-      // const data = await res.json();
+      const data = await res.json();
+      if (res.status === 200) {
+        handleResponse('success', 'Activity updated!');
+      }
+      if (res.status === 404) {
+        handleResponse('fail', data.message);
+      }
+      if (res.status === 400) {
+        handleResponse('fail', data.message);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -63,56 +96,77 @@ const Form = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    location.pathname.includes('create') ? createActivity(activity) : updateActivity(activity);
+    handleConfirm();
+  };
+
+  const onConfirm = () => {
+    handleConfirm();
+    location.pathname.includes('add') ? createActivity(activity) : updateActivity(id, activity);
   };
 
   return (
-    <form onSubmit={onSubmit} className={styles.form}>
-      <div className={`${styles['form-header']}`}>
-        <h3></h3>
+    <section className={styles.formContainer}>
+      <div className={styles.formTitle}>
+        <h2 className={styles.title}>
+          {location.pathname.includes('add') ? 'Add new activity' : `Edit activity `}
+        </h2>
       </div>
-      <div className={`${styles['form-inputs']}`}>
-        <div className={`${styles['form-group']}`}>
-          <label className={`${styles['form-label']}`}>Name</label>
-          <input
-            className={`${styles['form-input']}`}
+      <form onSubmit={onSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <Input
+            labelText="Name"
             type="text"
+            value={activity.name || ''}
             name="name"
-            // value={activity.name || ''}
-            onChange={(e) => handleChanges(e)}
+            change={handleChanges}
+            placeholder={'Name'}
           />
         </div>
-        <div className={`${styles['form-group']}`}>
-          <label className={`${styles['form-label']}`}>Description</label>
-          <textarea
-            className={`${styles['form-textarea']}`}
+        <div className={styles.formGroup}>
+          <Textarea
+            labelText="Description"
+            value={activity.description || ''}
             name="description"
-            // value={activity.description || ''}
-            onChange={(e) => handleChanges(e)}
-          ></textarea>
-        </div>
-        <div className={`${styles['form-group']}`}>
-          <label className={`${styles['form-label']}`}>Is active ?</label>
-          <input
-            type="checkbox"
-            name="isActive"
-            // checked={activity.isActive || false}
-            onChange={(e) => handleChanges(e)}
+            change={handleChanges}
+            placeholder={'Description for the activity'}
           />
         </div>
-      </div>
-      <div className={`${styles['form-buttons']}`}>
-        {/* <input
-          className={`${styles['form-btn']} ${styles['btn-submit']}`}
-          type="submit"
-          value="Submit"
-        /> */}
-        <Button text={'Submit'} classNameButton={'submitButton'} />
-        <Link to="/activities">
-          <Button text={'Cancel'} classNameButton={'cancelButton'} />
-        </Link>
-      </div>
-    </form>
+        <div className={`${styles.formGroup} ${styles.formGroupCheckbox}`}>
+          <Input
+            labelText="Is active?"
+            type="checkbox"
+            value={activity.isActive || false}
+            name="isActive"
+            change={handleChanges}
+          />
+        </div>
+        <div className={styles.formButtons}>
+          <Button text={'Submit'} classNameButton={'submitButton'} />
+          <Link to="/activities">
+            <Button text={'Back'} classNameButton={'cancelButton'} />
+          </Link>
+        </div>
+      </form>
+      {confirm && (
+        <ConfirmModal
+          handler={handleConfirm}
+          title={location.pathname.includes('add') ? 'Add new activity' : 'Edit activity'}
+          reason={'submit'}
+          onAction={() => onConfirm()}
+        >
+          {location.pathname.includes('add')
+            ? 'Are you sure you want to add this activity?'
+            : 'Are you sure you want to edit the activity?'}
+        </ConfirmModal>
+      )}
+      {response.show && (
+        <ResponseModal
+          handler={() => handleResponse()}
+          state={response.state}
+          message={response.message}
+        />
+      )}
+    </section>
   );
 };
 

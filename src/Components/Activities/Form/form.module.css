@@ -1,82 +1,48 @@
-.form {
-  width: 700px;
-  margin: 5% auto;
-  background-color: #FFFFFF;
-}
-
-.form-header {
+.formContainer {
+  flex: 1 1;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 5px 25px;
-  background-color: #232F3E;
-  color: #fff;
+  margin: 1em;
 }
 
-.form-group {
+.form {
+  width: 75%;
+  border-color: #373867;
+  border-style: solid;
+  border-width: 0 1px 1px 1px;
+  border-radius: 4px;
+}
+
+.formGroup {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0 25px;
 }
 
-.form-group:last-of-type {
+.formGroupCheckbox {
   flex-direction: row;
   align-items: center;
 }
 
-.form-group .form-label {
-  padding: 5px 0;
-  color: #373867
-}
-
-.form-group .form-input {
-  width: 295px;
-  height: 25px;
-  border: 1px solid #0000003b;
-  border-radius: 4px;
-  font-size: 1em;
-}
-
-.form-group .form-textarea {
-  width: 295px;
-  height: 150px;
-  padding: 12px;
-  border: 1px solid #0000003b;
-  border-radius: 4px;
-  font-size: 1em;
-  text-align: justify;
-  resize: none;
-}
-
-.form-closer {
-  font-size: 2em;
-  cursor: pointer;
-}
-
-.form-buttons {
+.formButtons {
   display: flex;
   flex-direction: row-reverse;
-  padding: 25px;
-  gap: 20px;
 }
 
-.form-btn {
-  width: 70px;
-  height: 35px;
-  border-radius: 4px;
-  font-weight: 600;
-  color: #373867;
-  cursor: pointer;
+.formTitle {
+  width: 75%;
+  background-color: #373867;
+  color: #fff;
 }
 
-.btn-cancel {
-  background-color: #FFFFFF;
-  border: 1px solid #373867;
+.title {
+  padding: 1em;
+  margin: 0;
+  font-size: 2rem;
 }
 
-.btn-submit {
-  width: 90px;
-  background-color: #AACE9B;
-  border: none;
+.title span {
+  color: #aace9b;
 }
