@@ -6,7 +6,7 @@
   height: auto;
 }
 
-table {
+.tableSubscription {
   flex: 1;
   width: 90%;
   border-collapse: collapse;
@@ -31,6 +31,7 @@ table {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
+  border: 1px solid #ccc;
 }
 
 .itemButton {
@@ -46,9 +47,4 @@ table {
 
 .itemButtonDelete:hover {
   background-color: #d10202;
-}
-
-.td {
-  padding: 8px;
-  border: 1px solid #ccc;
 }

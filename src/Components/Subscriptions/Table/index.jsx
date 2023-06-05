@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Link, useHistory } from 'react-router-dom';
 import styles from './table.module.css';
 import Form from '../Form';
 import ConfirmModal from '../../Shared/ConfirmModal';
@@ -13,6 +14,7 @@ const Table = ({ data }) => {
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const formRef = useRef(null);
+  const history = useHistory();
 
   useEffect(() => {
     if (Array.isArray(data)) {
@@ -78,86 +80,86 @@ const Table = ({ data }) => {
   const closeModal = () => {
     setShowConfirmDeleteModal(false);
     setShowDeleteModal(false);
+    history.goBack();
   };
 
   return (
-    <div className={styles.container}>
-      <table>
-        <thead className={styles.containerThead}>
-          <tr>
-            <th className={styles.thead}>Classes</th>
-            <th className={styles.thead}>Members</th>
-            <th className={styles.thead}>Date</th>
-            <th className={styles.theadOptions} colSpan="2"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.length > 0 ? (
-            tableData.map((subscription) => (
-              <tr key={subscription._id}>
-                <td
-                  className={`${styles.item} ${styles.td}`}
-                >{`${subscription.classes.day} ${subscription.classes.time}`}</td>
-                {!subscription.members ? (
-                  <td className={`${styles.item} ${styles.td}`}>{'empty'}</td>
-                ) : (
-                  <td
-                    className={`${styles.item} ${styles.td}`}
-                  >{`${subscription.members.name} ${subscription.members.lastName}`}</td>
-                )}
-                <td className={`${styles.item} ${styles.td}`}>{formatDate(subscription.date)}</td>
-                <td
-                  onClick={() => handleEdit(subscription._id)}
-                  className={`${styles.itemButton} ${styles.itemButtonEdit}`}
-                >
-                  <Button img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'} />
-                </td>
-                <td
-                  onClick={() => handleConfirmDelete(subscription._id)}
-                  className={`${styles.itemButton} ${styles.itemButtonDelete}`}
-                >
-                  <Button img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'} />
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td className={styles.td} colSpan="4">
-                Cannot find any subscription
-              </td>
+    <Router>
+      <div className={styles.container}>
+        <table className={styles.tableSubscription}>
+          <thead className={styles.containerThead}>
+            <tr className={styles.thead}>
+              <th>Classes</th>
+              <th>Members</th>
+              <th>Date</th>
+              <th colSpan="2"></th>
             </tr>
-          )}
-        </tbody>
-      </table>
-      {showForm && (
-        <div ref={formRef}>
-          {editingSubscriptionId && (
-            <Form
-              subscriptionId={editingSubscriptionId}
-              onClose={() => setShowForm(false)}
-              onModalClose={() => setShowForm(false)}
-              showForm={showForm}
-              updateTable={updateTableData}
-            />
-          )}
-        </div>
-      )}
-      {showConfirmDeleteModal && (
-        <ConfirmModal
-          title="Delete Subscription"
-          handler={closeModal}
-          onAction={() => handleDelete(editingSubscriptionId)}
-          reason="delete"
-        >
-          <p>Are you sure to delete subscription?</p>
-        </ConfirmModal>
-      )}
-      {showDeleteModal ? (
-        <ResponseModal handler={closeModal} state="fail" message="Subscription Deleted" />
-      ) : (
-        <div></div>
-      )}
-    </div>
+          </thead>
+          <tbody>
+            {tableData.length > 0 ? (
+              tableData.map((subscription) => (
+                <tr key={subscription._id} className={styles.item}>
+                  <td>{`${subscription.classes.day} ${subscription.classes.time}`}</td>
+                  {!subscription.members ? (
+                    <td>{'empty'}</td>
+                  ) : (
+                    <td>{`${subscription.members.name} ${subscription.members.lastName}`}</td>
+                  )}
+                  <td>{formatDate(subscription.date)}</td>
+                  <td
+                    onClick={() => handleEdit(subscription._id)}
+                    className={`${styles.itemButton} ${styles.itemButtonEdit}`}
+                  >
+                    <Link to={`/subscription/edit/${subscription._id}`}>
+                      <Button img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'} />
+                    </Link>
+                  </td>
+                  <td
+                    onClick={() => handleConfirmDelete(subscription._id)}
+                    className={`${styles.itemButton} ${styles.itemButtonDelete}`}
+                  >
+                    <Button img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'} />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className={styles.item}>
+                <td colSpan="4">Cannot find any subscription</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+        {showForm && (
+          <div ref={formRef}>
+            {editingSubscriptionId && (
+              <Form
+                subscriptionId={editingSubscriptionId}
+                onClose={() => {
+                  setShowForm(false);
+                  history.push('/subscriptions');
+                }}
+                onModalClose={() => setShowForm(false)}
+                showForm={showForm}
+                updateTable={updateTableData}
+              />
+            )}
+          </div>
+        )}
+        {showConfirmDeleteModal && (
+          <ConfirmModal
+            title="Delete Subscription"
+            handler={closeModal}
+            onAction={() => handleDelete(editingSubscriptionId)}
+            reason="delete"
+          >
+            Are you sure to delete subscription?
+          </ConfirmModal>
+        )}
+        {showDeleteModal && (
+          <ResponseModal handler={closeModal} state="success" message="Subscription Deleted" />
+        )}
+      </div>
+    </Router>
   );
 };
 export default Table;

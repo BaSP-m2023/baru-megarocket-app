@@ -6,3 +6,7 @@
   display: flex;
   justify-content: center;
 }
+.inputSearch {
+  margin-bottom: 20px;
+  margin-left: 5%;
+}
