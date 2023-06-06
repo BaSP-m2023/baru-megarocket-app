@@ -11,7 +11,6 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
   const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [selectedClassToDelete, setSelectedClassToDelete] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const isCreateRoute = location.pathname.includes('/classes/add');
 
   const handleFilter = (e) => {
     setFilter(e.target.value);
@@ -135,14 +134,12 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
 
       {showConfirmModal && (
         <ConfirmModal
-          title={isCreateRoute ? 'Create class' : 'Update class'}
+          title="Delete class"
           handler={() => setShowConfirmModal(false)}
           onAction={handleSubmit}
           reason={'submit'}
         >
-          {isCreateRoute
-            ? 'Are you sure you want to create this class?'
-            : 'Are you sure you want to update this class?'}
+          Are you sure you want to delete this class?
         </ConfirmModal>
       )}
     </>
