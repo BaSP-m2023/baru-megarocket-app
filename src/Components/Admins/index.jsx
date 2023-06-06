@@ -5,6 +5,7 @@ import Table from './Table';
 import Button from '../Shared/Button';
 import ConfirmModal from '../Shared/ConfirmModal';
 import ResponseModal from '../Shared/ResponseModal';
+import { Input } from '../Shared/Inputs';
 
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
@@ -12,6 +13,7 @@ const Admins = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showResponseModal, setShowResponseModal] = useState(false);
   const [messageResponse, setMessageResponse] = useState('');
+  const [filter, setFilter] = useState([]);
 
   const getAdmins = async () => {
     try {
@@ -27,6 +29,10 @@ const Admins = () => {
   useEffect(() => {
     getAdmins();
   }, []);
+
+  useEffect(() => {
+    setFilter(admins);
+  }, [admins]);
 
   const deleteAdmin = async (idToDelete) => {
     try {
@@ -68,11 +74,30 @@ const Admins = () => {
     setShowConfirmModal(false);
   };
 
+  const filterAdmin = (value) => {
+    const adminsToShow = admins.filter(
+      (admin) =>
+        admin.firstName.toLowerCase().includes(value) ||
+        admin.lastName.toLowerCase().includes(value)
+    );
+    setFilter(adminsToShow);
+  };
+
   return (
     <>
       <section className={styles.container}>
         <h2 className={styles.title}>Admins</h2>
-        <Table admins={admins} handleDeleteButton={handleDeleteButton} />
+        <div className={styles.searchContainer}>
+          {filter.length === 0 ? <p className={styles.notFound}>Admin not found!</p> : ''}
+          <Input
+            labelText="search admin"
+            name="search"
+            type="text"
+            placeholder="search admin by name/lastname"
+            change={(e) => filterAdmin(e.target.value.toLowerCase())}
+          />
+        </div>
+        <Table filter={filter} handleDeleteButton={handleDeleteButton} />
         <Link to="/admins/add">
           <Button text="Add admin" classNameButton="addButton"></Button>
         </Link>

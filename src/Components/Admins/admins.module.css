@@ -9,3 +9,14 @@
 .title {
  color: #373867;
 }
+
+.notFound {
+  color: #d10202;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

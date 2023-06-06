@@ -3,7 +3,7 @@ import styles from './table.module.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Table({ admins, handleDeleteButton }) {
+function Table({ filter, handleDeleteButton }) {
   return (
     <>
       <table className={styles.table}>
@@ -18,7 +18,7 @@ function Table({ admins, handleDeleteButton }) {
           </tr>
         </thead>
         <tbody>
-          {admins.map((admin) => {
+          {filter.map((admin) => {
             return (
               <tr className={styles.tr} key={admin._id}>
                 <td className={styles.td}>{admin.firstName}</td>
