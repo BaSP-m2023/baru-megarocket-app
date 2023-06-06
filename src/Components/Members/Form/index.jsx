@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './form.module.css';
 import ConfirmModal from '../../Shared/ConfirmModal';
+import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 
@@ -8,6 +10,10 @@ const MemberForm = ({ match }) => {
   const [members, setMembers] = useState([]);
   let [editMember, setEditMember] = useState(null);
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [stateToast, setStateToast] = useState('');
+  const [messageToast, setMessageToast] = useState('');
+  const history = useHistory();
   let memberId = match.params.id;
 
   let [member, setMember] = useState({
@@ -36,8 +42,17 @@ const MemberForm = ({ match }) => {
       const data = await res.json();
       setMembers([...members, data]);
       setModalMessageOpen(false);
+      handleToast(true, 'success', 'Memeber added!');
+      history.push('/members');
+      setTimeout(() => {
+        handleShowToast(false);
+      }, 1500);
     } else {
       setModalMessageOpen(false);
+      handleToast(true, 'success', 'Memeber cant be added!');
+      setTimeout(() => {
+        handleShowToast(false);
+      }, 1500);
     }
   };
 
@@ -52,8 +67,17 @@ const MemberForm = ({ match }) => {
     if (res.status === 200) {
       setEditMember(null);
       setModalMessageOpen(false);
+      handleToast('success', 'Memeber edited!');
+      history.push('/members');
+      setTimeout(() => {
+        handleShowToast();
+      }, 1500);
     } else {
       setModalMessageOpen(false);
+      handleToast('success', 'Memeber cant be edited!');
+      setTimeout(() => {
+        handleShowToast();
+      }, 1500);
     }
   };
 
@@ -111,9 +135,21 @@ const MemberForm = ({ match }) => {
     e.preventDefault();
     if (memberId) {
       updMember(memberId, member);
+      history.push('/members');
     } else {
       addMember(member);
+      history.push('/members');
     }
+  };
+
+  const handleShowToast = () => {
+    setShowToast(!showToast);
+  };
+
+  const handleToast = (state, message) => {
+    handleShowToast();
+    setStateToast(state);
+    setMessageToast(message);
   };
 
   return (
@@ -121,7 +157,9 @@ const MemberForm = ({ match }) => {
       <div className={styles.modal_content}>
         <div className={styles.modal_header}>
           <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
-          <span className={styles.close_button}>&times;</span>
+          <span className={styles.close_button} onClick={() => history.push('/members')}>
+            &times;
+          </span>
         </div>
         <form className={styles.modal_body}>
           <div className={styles.label_container}>
@@ -130,7 +168,7 @@ const MemberForm = ({ match }) => {
               type="text"
               name="name"
               value={member.name}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.label_container}>
@@ -139,7 +177,7 @@ const MemberForm = ({ match }) => {
               type="text"
               name="lastName"
               value={member.lastName}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.label_container}>
@@ -148,7 +186,7 @@ const MemberForm = ({ match }) => {
               type="number"
               name="dni"
               value={member.dni}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.label_container}>
@@ -157,7 +195,7 @@ const MemberForm = ({ match }) => {
               type="text"
               name="phone"
               value={member.phone}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.label_container}>
@@ -166,7 +204,7 @@ const MemberForm = ({ match }) => {
               type="email"
               name="email"
               value={member.email}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.label_container}>
@@ -175,7 +213,7 @@ const MemberForm = ({ match }) => {
               type="text"
               name="city"
               value={member.city}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.label_container}>
@@ -184,7 +222,7 @@ const MemberForm = ({ match }) => {
               type="text"
               name="dob"
               value={member.dob}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.label_container}>
@@ -193,7 +231,7 @@ const MemberForm = ({ match }) => {
               type="number"
               name="zip"
               value={member.zip}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.label_container}>
@@ -216,7 +254,7 @@ const MemberForm = ({ match }) => {
               type="password"
               name="password"
               value={member.password}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={`${styles.label_container} ${styles.checkbox}`}>
@@ -225,7 +263,7 @@ const MemberForm = ({ match }) => {
               type="checkbox"
               name="isActive"
               value={member.isActive}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
         </form>
@@ -248,6 +286,9 @@ const MemberForm = ({ match }) => {
             ? `Are you sure you wanna edit ${member.name}?`
             : `Are you sure you wanna add ${member.name} to the members list?`}
         </ConfirmModal>
+      )}
+      {showToast && (
+        <ResponseModal handler={handleShowToast} state={stateToast} message={messageToast} />
       )}
     </div>
   );

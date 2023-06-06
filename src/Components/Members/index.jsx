@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styles from './members.module.css';
 import List from './Table/List';
-import DeleteModal from './Modal/DeleteModal';
-import Toast from './Toast/Toast';
-import ConfirmModal from '../Shared/ConfirmModal';
+import ResponseModal from '../Shared/ResponseModal';
 import { Link } from 'react-router-dom';
 
 function Members() {
   const [members, setMembers] = useState([]);
-  const [memberToDelete, setMember] = useState({});
-  const [modal, setModal] = useState(false);
-  const [toast, setToast] = useState(false);
-  const [toastContent, setContent] = useState({});
+  const [showToast, setShowToast] = useState(false);
+  const [stateToast, setStateToast] = useState('');
+  const [messageToast, setMessageToast] = useState('');
 
   useEffect(() => {
     const getMembers = async () => {
@@ -40,60 +37,48 @@ function Members() {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
         method: 'DELETE'
       });
-      const data = await res.json();
 
       if (res.status === 200) {
-        handleToast({ content: data.message, className: 'toast-ok' });
+        handleToast(true, 'success', 'Member deleted!');
         setMembers(members.filter((member) => member._id !== id));
+        setTimeout(() => {
+          handleShowToast(false);
+        }, 1500);
       }
 
       if (res.status !== 200) {
-        handleToast({ content: data.msg, className: 'toast-wrong' });
+        handleToast(true, 'fail', 'Member cant be deleted!');
+        setTimeout(() => {
+          handleShowToast(false);
+        }, 1500);
       }
-
-      handleModal();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleModal = (member = {}) => {
-    setMember(member);
-    setModal(!modal);
+  const handleShowToast = (show) => {
+    setShowToast(show);
   };
 
-  const handleToast = (msg) => {
-    setContent(msg);
-    setToast(!toast);
+  const handleToast = (show, state, message) => {
+    handleShowToast(show);
+    setStateToast(state);
+    setMessageToast(message);
   };
 
   return (
     <section className={styles.container}>
       {members.length > 0 ? (
-        <List members={members} handleModal={handleModal} />
+        <List members={members} deleteMember={deleteMember} />
       ) : (
         'There are not members yet :('
       )}
       <Link to="/members/add">
         <button className={`${styles['btn-new']}`}>+ Add new</button>
       </Link>
-      {modal && <DeleteModal hide={handleModal} onDelete={deleteMember} member={memberToDelete} />}
-      {toast && (
-        <Toast
-          handler={handleToast}
-          content={toastContent.content}
-          classes={toastContent.className}
-        />
-      )}
-      {modal && (
-        <ConfirmModal
-          title="Delete member"
-          handler={handleModal}
-          onAction={deleteMember}
-          reason={'delete'}
-        >
-          Are you sure you wanna delete this member?
-        </ConfirmModal>
+      {showToast && (
+        <ResponseModal handler={handleShowToast} state={stateToast} message={messageToast} />
       )}
     </section>
   );
