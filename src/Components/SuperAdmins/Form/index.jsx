@@ -14,6 +14,9 @@ const SuperAdminsForm = () => {
   const [editedSuperadmin, setEditedSuperadmin] = useState(null);
   const [showModal, setshowModal] = useState(false);
   const [superadmin, setSuperadmin] = useState({});
+  const [resMessage, setResMessage] = useState('');
+  const [state, setState] = useState('');
+
   const history = useHistory();
   const goBackHandle = () => {
     history.goBack();
@@ -22,6 +25,9 @@ const SuperAdminsForm = () => {
 
   const closeModal = () => {
     setshowModal(false);
+  };
+  const openModal = () => {
+    setshowModal(true);
   };
 
   const confirmAdd = async (newSuperadmin) => {
@@ -38,17 +44,19 @@ const SuperAdminsForm = () => {
         body: JSON.stringify(superadminToAdd)
       });
       setShowConfirmAdd(false);
-      goBackHandle();
       if (res.ok) {
+        goBackHandle();
         sessionStorage.setItem('state', 'success');
         sessionStorage.setItem('resMessage', 'New superadmin created');
       } else {
-        sessionStorage.setItem('state', 'fail');
-        sessionStorage.setItem('resMessage', 'Failed to create superadmin');
+        setResMessage('Failed to create superadmin');
+        setState('fail');
+        openModal();
       }
     } catch (error) {
-      sessionStorage.setItem('state', 'fail');
-      sessionStorage.setItem('resMessage', 'Failed to create superadmin');
+      setResMessage('Failed to create superadmin');
+      setState('fail');
+      openModal();
     }
   };
 
@@ -67,17 +75,19 @@ const SuperAdminsForm = () => {
         body: JSON.stringify(editedSuperadmin)
       });
       setShowConfirmEdit(false);
-      goBackHandle();
       if (res.ok) {
+        goBackHandle();
         sessionStorage.setItem('state', 'success');
         sessionStorage.setItem('resMessage', 'Superadmin edited');
       } else {
-        sessionStorage.setItem('state', 'fail');
-        sessionStorage.setItem('resMessage', 'Failed to edit superadmin');
+        setResMessage('Failed to edit superadmin');
+        setState('fail');
+        openModal();
       }
     } catch (error) {
-      sessionStorage.setItem('state', 'fail');
-      sessionStorage.setItem('resMessage', 'Failed to edit superadmin');
+      setResMessage('Failed to edit superadmin');
+      setState('fail');
+      openModal();
     }
   };
 
@@ -113,7 +123,7 @@ const SuperAdminsForm = () => {
 
   return (
     <>
-      {showModal && <ResponseModal handler={closeModal} />}
+      {showModal && <ResponseModal handler={closeModal} state={state} message={resMessage} />}
       {showConfirmAdd && (
         <ConfirmModal
           title={'New superadmin'}
@@ -146,26 +156,26 @@ const SuperAdminsForm = () => {
             <form className={styles.form} onSubmit={onSubmit}>
               <Input
                 labelText={'Name'}
-                value={superadmin.name || ''}
+                value={superadmin.name}
                 name={'name'}
                 change={onChangeInput}
               />
               <Input
                 labelText={'Last name'}
-                value={superadmin.lastName || ''}
+                value={superadmin.lastName}
                 name={'lastName'}
                 change={onChangeInput}
               />
               <Input
                 labelText={'Email'}
-                value={superadmin.email || ''}
+                value={superadmin.email}
                 name={'email'}
                 change={onChangeInput}
               />
               {!id && (
                 <Input
                   labelText={'Password'}
-                  value={superadmin.password || ''}
+                  value={superadmin.password}
                   type={'password'}
                   name={'password'}
                   change={onChangeInput}

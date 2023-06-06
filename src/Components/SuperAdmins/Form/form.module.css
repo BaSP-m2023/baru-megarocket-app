@@ -1,7 +1,7 @@
 .container{
   margin: auto;
   width: 35vw;
-  background-color: white;
+  background-color: #ffffff;
   box-shadow: 0px 10px 23px #1E1E1E;
   border-radius: 5px;
 }
@@ -14,14 +14,14 @@
   background-color: #373867;
 }
 .title{
-  color: white;
+  color: #ffffff;
 }
 .close{
   cursor: pointer;
   font-size: 1rem;
   font-weight: 700;
   color: #ffffff;
-  background-color: transparent;
+  background-color: #373867;
   border-width: 0;
   padding: 0;
 }

@@ -9,7 +9,6 @@ import Subscriptions from '../Subscriptions';
 import SuperAdmins from '../SuperAdmins';
 import SuperAdminsForm from '../SuperAdmins/Form';
 import Trainers from '../Trainers';
-
 import Home from '../Home/index';
 import Header from '../Header/index';
 import Footer from '../Footer/index';

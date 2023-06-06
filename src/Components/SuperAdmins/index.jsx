@@ -11,6 +11,7 @@ function SuperAdmins() {
   const [idToDelete, setIdToDelete] = useState(null);
   const [resMessage, setResMessage] = useState('');
   const [state, setState] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const getSuperadmins = async () => {
     try {
@@ -38,7 +39,7 @@ function SuperAdmins() {
     };
     getResponseFromForm();
     getSuperadmins();
-  });
+  }, [success]);
 
   const confirmDelete = (id) => {
     setShowConfirmDelete(true);
@@ -51,9 +52,10 @@ function SuperAdmins() {
       });
       setShowConfirmDelete(false);
       if (res.ok) {
+        setSuperadmins([...superadmins.filter((superadmin) => superadmin._id !== idToDelete)]);
         sessionStorage.setItem('state', 'success');
         sessionStorage.setItem('resMessage', 'Superadmin deleted');
-        setSuperadmins([...superadmins.filter((superadmin) => superadmin._id !== idToDelete)]);
+        setSuccess(true);
       } else {
         sessionStorage.setItem('state', 'fail');
         sessionStorage.setItem('resMessage', 'Failed to delete superadmin');
