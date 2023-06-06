@@ -32,11 +32,8 @@
   border-bottom: 1px solid #707070;
 }
 
-.tableButtons {
-  width: 17.5px;
-  height: 17.5px;
-  padding: 0.8em;
-  cursor: pointer;
+.tableRow td {
+  padding: 0.8em 0;
 }
 
 .tableError {
