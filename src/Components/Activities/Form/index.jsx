@@ -52,7 +52,7 @@ const Form = () => {
       const { data } = await res.json();
       return data;
     } catch (error) {
-      console.log(error);
+      handleResponse('fail', error);
     }
   };
 
@@ -75,7 +75,7 @@ const Form = () => {
         handleResponse('fail', data.message);
       }
     } catch (error) {
-      console.log(error);
+      handleResponse('fail', error);
     }
   };
 
@@ -104,7 +104,7 @@ const Form = () => {
         handleResponse('fail', data.message);
       }
     } catch (error) {
-      console.log(error);
+      handleResponse('fail', error);
     }
   };
 
