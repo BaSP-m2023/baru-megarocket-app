@@ -6,17 +6,3 @@
   justify-content: center;
   align-items: center;
 }
-
-.btn-new {
-  align-self: center;
-  width: 130px;
-  height: 36px;
-  margin: 15px;
-  border: 0;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  background-color: #AACE9B;
-  color: #373867;
-  cursor: pointer;
-}
