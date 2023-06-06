@@ -13,6 +13,7 @@ import Home from '../Home/index';
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import styles from './layout.module.css';
+import TrainerForm from '../Trainers/Form';
 
 function Layout() {
   return (
@@ -27,7 +28,9 @@ function Layout() {
           <Route path="/members" component={Members} />
           <Route path="/subscriptions" component={Subscriptions} />
           <Route path="/super-admins" component={SuperAdmins} />
-          <Route path="/trainers" component={Trainers} />
+          <Route exact path="/trainers" component={Trainers} />
+          <Route path="/trainers/add" component={TrainerForm} />
+          <Route path="/trainers/edit/:id" component={TrainerForm} />
         </Switch>
         <Footer />
       </div>
