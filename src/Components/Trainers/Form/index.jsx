@@ -171,7 +171,6 @@ const Form = () => {
             type="text"
             value={trainer.firstName}
             change={onChangeInput}
-            className={styles.input}
           />
         </div>
         <div className={styles.flex}>
@@ -181,18 +180,10 @@ const Form = () => {
             type="text"
             value={trainer.lastName}
             change={onChangeInput}
-            className={styles.input}
           />
         </div>
         <div className={styles.flex}>
-          <Input
-            labelText="ID"
-            name="dni"
-            type="text"
-            value={trainer.dni}
-            change={onChangeInput}
-            className={styles.input}
-          />
+          <Input labelText="ID" name="dni" type="text" value={trainer.dni} change={onChangeInput} />
         </div>
         <div className={styles.flex}>
           <Input
@@ -201,7 +192,6 @@ const Form = () => {
             type="text"
             value={trainer.phone}
             change={onChangeInput}
-            className={styles.input}
           />
         </div>
         <div className={styles.flex}>
@@ -211,7 +201,6 @@ const Form = () => {
             type="email"
             value={trainer.email}
             change={onChangeInput}
-            className={styles.input}
           />
         </div>
         <div className={styles.flex}>
@@ -221,7 +210,6 @@ const Form = () => {
             type="password"
             value={trainer.password}
             change={onChangeInput}
-            className={styles.input}
           />
         </div>
         <div className={styles.flex}>
@@ -231,7 +219,6 @@ const Form = () => {
             type="text"
             value={trainer.salary}
             change={onChangeInput}
-            className={styles.input}
           />
         </div>
       </form>
