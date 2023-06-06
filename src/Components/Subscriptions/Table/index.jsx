@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styles from './table.module.css';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
@@ -11,6 +11,7 @@ const Table = ({ data }) => {
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     if (Array.isArray(data)) {
@@ -86,18 +87,18 @@ const Table = ({ data }) => {
                 )}
                 <td>{formatDate(subscription.date)}</td>
                 <td className={`${styles.itemButton} ${styles.itemButtonEdit}`}>
-                  <Link to={`subscriptions/add/${subscription._id}`}>
+                  <Link to={`/subscriptions/edit/${subscription._id}`}>
                     <Button
                       img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
-                      text={'edit subscription'}
+                      action={() => history.push(subscription._id)}
                     />
                   </Link>
                 </td>
-                <td
-                  onClick={() => handleConfirmDelete(subscription._id)}
-                  className={`${styles.itemButton} ${styles.itemButtonDelete}`}
-                >
-                  <Button img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'} />
+                <td className={`${styles.itemButton} ${styles.itemButtonDelete}`}>
+                  <Button
+                    img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
+                    action={() => handleConfirmDelete(subscription._id)}
+                  />
                 </td>
               </tr>
             ))

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import styles from './subscriptions.module.css';
 import Table from './Table';
 import Button from '../Shared/Button';
@@ -32,7 +31,7 @@ const Subscriptions = () => {
   const filterSubscriptions = () => {
     const filtered = subscriptions.filter((subscription) => {
       const fullName =
-        `${subscription.members.name} ${subscription.members.lastName}`.toLowerCase();
+        `${subscription.members?.name} ${subscription.members?.lastName}`.toLowerCase();
       return fullName.includes(searchTerm.toLowerCase());
     });
     setFilteredSubscriptions(filtered);
@@ -63,7 +62,7 @@ const Subscriptions = () => {
         <Table className={subscriptions.table} data={filteredSubscriptions} />
       </div>
       <div className={styles.buttonContainer}>
-        <Link to="subscriptions/add">
+        <Link to="/subscriptions/add">
           <Button classNameButton="submitButton" text="+ Add New" />
         </Link>
       </div>

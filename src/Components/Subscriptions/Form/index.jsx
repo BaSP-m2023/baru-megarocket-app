@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import { Link, useParams, useHistory } from 'react-router-dom';
