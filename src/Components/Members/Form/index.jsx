@@ -42,14 +42,14 @@ const MemberForm = ({ match }) => {
       const data = await res.json();
       setMembers([...members, data]);
       setModalMessageOpen(false);
-      handleToast(true, 'success', 'Memeber added!');
-      history.push('/members');
+      handleToast(true, 'success', 'Member added!');
       setTimeout(() => {
+        history.push('/members');
         handleShowToast(false);
       }, 1500);
     } else {
       setModalMessageOpen(false);
-      handleToast(true, 'success', 'Memeber cant be added!');
+      handleToast(true, 'fail', 'Member cant be added!');
       setTimeout(() => {
         handleShowToast(false);
       }, 1500);
@@ -67,16 +67,16 @@ const MemberForm = ({ match }) => {
     if (res.status === 200) {
       setEditMember(null);
       setModalMessageOpen(false);
-      handleToast('success', 'Memeber edited!');
-      history.push('/members');
+      handleToast(true, 'success', 'Member edited!');
       setTimeout(() => {
-        handleShowToast();
+        history.push('/members');
+        handleShowToast(false);
       }, 1500);
     } else {
       setModalMessageOpen(false);
-      handleToast('success', 'Memeber cant be edited!');
+      handleToast(true, 'fail', 'Member cant be edited!');
       setTimeout(() => {
-        handleShowToast();
+        handleShowToast(false);
       }, 1500);
     }
   };
@@ -135,19 +135,17 @@ const MemberForm = ({ match }) => {
     e.preventDefault();
     if (memberId) {
       updMember(memberId, member);
-      history.push('/members');
     } else {
       addMember(member);
-      history.push('/members');
     }
   };
 
-  const handleShowToast = () => {
-    setShowToast(!showToast);
+  const handleShowToast = (show) => {
+    setShowToast(show);
   };
 
-  const handleToast = (state, message) => {
-    handleShowToast();
+  const handleToast = (show, state, message) => {
+    handleShowToast(show);
     setStateToast(state);
     setMessageToast(message);
   };
