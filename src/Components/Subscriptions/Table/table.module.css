@@ -1,63 +1,50 @@
 .container {
-  flex: 1;
-
   display: flex;
-
   flex-direction: column;
-
-  justify-content: center;
-
   align-items: center;
+  width: auto;
+  height: auto;
+}
+
+.tableSubscription {
+  flex: 1;
+  width: 90%;
+  border-collapse: collapse;
+}
+
+.containerThead {
+  background-color: #f2f2f2;
+}
+.theadOptions {
+  width: auto;
+}
+.containerThead th {
+  text-align: center;
 }
 
 .line {
-  padding: 50px;
-
-  border: #373867;
-
-  box-shadow: 0px 1px 0 0 black;
-
-  border-width: 10px;
+  width: 100%;
 }
 
 .item {
-  padding-left: 20px;
-
-  padding-right: 20px;
+  width: 20%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  border: 1px solid #ccc;
 }
 
-.tableContainer {
-  padding: 10px 30px;
-
-  margin-top: 20px;
-
-  margin-bottom: 10px;
-
-  color: #373867;
-
-  border-color: #373867;
+.itemButton {
+  width: 5%;
+  text-overflow: ellipsis;
+  text-align: center;
+  border: 1px solid #ccc;
 }
 
-.td {
-  padding: 0 15px 0 15px;
-}
-
-.line:hover {
+.itemButtonEdit:hover {
   background-color: #aace9e;
 }
 
-.btnEdit img {
-  width: 25px;
-}
-
-.btnDelete img {
-  width: 25px;
-}
-
-.btnEdit:hover {
-  background-color: #3d8326;
-}
-
-.btnDelete:hover {
-  background-color: rgb(231, 37, 37);
+.itemButtonDelete:hover {
+  background-color: #d10202;
 }

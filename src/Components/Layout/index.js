@@ -6,6 +6,7 @@ import Admins from '../Admins/index';
 import Classes from '../Classes';
 import Members from '../Members';
 import Subscriptions from '../Subscriptions';
+import subscriptionsForm from '../Subscriptions/Form';
 import SuperAdmins from '../SuperAdmins';
 import Trainers from '../Trainers';
 
@@ -27,6 +28,9 @@ function Layout() {
           <Route path="/classes" component={Classes} />
           <Route path="/members" component={Members} />
           <Route path="/subscriptions" component={Subscriptions} />
+          <Route exact path="/subscriptions/form" component={subscriptionsForm} />
+          <Route exact path="/subscriptions/edit/:id" component={subscriptionsForm} />
+          <Route exact path="/subscriptions/add" component={subscriptionsForm} />
           <Route path="/super-admins" component={SuperAdmins} />
           <Route exact path="/trainers" component={Trainers} />
           <Route path="/trainers/add" component={TrainerForm} />
