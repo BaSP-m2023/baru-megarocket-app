@@ -106,13 +106,16 @@ const Table = ({ data }) => {
                   onClick={() => handleEdit(subscription._id)}
                   className={`${styles.itemButton} ${styles.itemButtonEdit}`}
                 >
-                  <Button img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'} />
+                  <Button
+                    img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
+                    action={() => handleEdit(subscription._id)}
+                  />
                 </td>
-                <td
-                  onClick={() => handleConfirmDelete(subscription._id)}
-                  className={`${styles.itemButton} ${styles.itemButtonDelete}`}
-                >
-                  <Button img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'} />
+                <td className={`${styles.itemButton} ${styles.itemButtonDelete}`}>
+                  <Button
+                    img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
+                    action={() => handleConfirmDelete(subscription._id)}
+                  />
                 </td>
               </tr>
             ))

@@ -72,20 +72,6 @@ const Subscriptions = () => {
       throw new Error(error);
     }
   };
-  //No use for GetByID Commented Just in case we need it
-  // const getSubscriptionById = async (idSubscription) => {
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.REACT_APP_API_URL}/api/subscription/${idSubscription}`
-  //     );
-  //     const data = await response.json();
-  //     setSubscriptionById(data._id);
-  //     return data;
-  //   } catch (error) {
-  //     setError({ error: true, msg: error });
-  //     throw new Error(error);
-  //   }
-  // };
 
   const filterSubscriptions = () => {
     const filtered = subscriptions.filter((subscription) => {
