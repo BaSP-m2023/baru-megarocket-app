@@ -18,7 +18,7 @@ function Projects() {
       const dataClasses = await resClasses.json();
       setClasses(dataClasses.data);
     } catch (error) {
-      setResponseModal({ error: true, msg: 'Something went wrong :( try again later' });
+      setResponseModal({ error: true, msg: 'There are not classes yet. Add new ones!!' });
       setShowModal(true);
     }
   };
@@ -53,9 +53,9 @@ function Projects() {
             setShowModal={setShowModal}
           ></ClassList>
         ) : (
-          'Something went wrong :( try again later'
+          'There are not classes yet. Add new ones!!'
         )}
-        <Link to={'/classes/create'}>
+        <Link to={'/classes/add'}>
           <button className={styles.button}>+ Add new Class</button>
         </Link>
         <Modal

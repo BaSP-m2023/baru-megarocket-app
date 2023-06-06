@@ -19,7 +19,7 @@ function ClassForm() {
   const location = useLocation();
   const history = useHistory();
   const { id } = useParams();
-  const isCreateRoute = location.pathname.includes('/classes/create');
+  const isCreateRoute = location.pathname.includes('/classes/add');
 
   const getTrainersActivities = async () => {
     try {
@@ -111,7 +111,6 @@ function ClassForm() {
         },
         body: JSON.stringify(editedClass)
       });
-      console.log(response);
       if (!response.ok) {
         setResponseModal({ error: true, msg: response.data.message });
         setShowModal(true);
@@ -162,8 +161,8 @@ function ClassForm() {
     e.preventDefault();
     history.goBack();
   };
-  const onChangeInput = async (e) => {
-    await setClasses({
+  const onChangeInput = (e) => {
+    setClasses({
       ...classes,
       [e.target.name]: e.target.value
     });
