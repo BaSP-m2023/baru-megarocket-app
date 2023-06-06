@@ -1,5 +1,5 @@
 // import React, { useEffect, useState } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link, useParams, useLocation, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import styles from './form.module.css';
@@ -9,11 +9,20 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 
 const Form = () => {
-  const [activity, setActivity] = useState({});
+  const [activity, setActivity] = useState({ name: '', description: '', isActive: false });
   const [confirm, setConfirmModal] = useState(false);
   const [response, setResponseModal] = useState({ show: false, state: '', message: '' });
   const { id } = useParams();
   const location = useLocation();
+  const history = useHistory();
+
+  const redirectAfterSubmit = {
+    pathname: '/activities',
+    state: {
+      state: '',
+      message: ''
+    }
+  };
 
   const handleConfirm = () => {
     setConfirmModal(!confirm);
@@ -21,6 +30,10 @@ const Form = () => {
 
   const handleResponse = (state, message) => {
     setResponseModal({ ...response, show: !response.show, state, message });
+
+    setTimeout(() => {
+      setResponseModal({});
+    }, 2500);
   };
 
   useEffect(() => {
@@ -54,7 +67,9 @@ const Form = () => {
       });
       const data = await res.json();
       if (res.status === 201) {
-        handleResponse('success', 'Activity created!');
+        redirectAfterSubmit.state.message = 'Activty created';
+        redirectAfterSubmit.state.state = 'success';
+        history.push(redirectAfterSubmit);
       }
       if (res.status === 400) {
         handleResponse('fail', data.message);
@@ -75,10 +90,15 @@ const Form = () => {
       });
       const data = await res.json();
       if (res.status === 200) {
-        handleResponse('success', 'Activity updated!');
+        // handleResponse('success', 'Activity updated!');
+        redirectAfterSubmit.state.message = 'Activity updated!';
+        redirectAfterSubmit.state.state = 'success';
+        history.push(redirectAfterSubmit);
       }
       if (res.status === 404) {
-        handleResponse('fail', data.message);
+        redirectAfterSubmit.state.message = data.message;
+        redirectAfterSubmit.state.state = 'fail';
+        history.push(redirectAfterSubmit);
       }
       if (res.status === 400) {
         handleResponse('fail', data.message);
@@ -99,9 +119,11 @@ const Form = () => {
     handleConfirm();
   };
 
-  const onConfirm = () => {
+  const onConfirm = async () => {
     handleConfirm();
-    location.pathname.includes('add') ? createActivity(activity) : updateActivity(id, activity);
+    location.pathname.includes('add')
+      ? await createActivity(activity)
+      : await updateActivity(id, activity);
   };
 
   return (

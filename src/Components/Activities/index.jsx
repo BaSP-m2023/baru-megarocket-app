@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import styles from './activities.module.css';
 
 import Table from './Table';
@@ -10,9 +10,24 @@ import ResponseModal from '../Shared/ResponseModal';
 function Activities() {
   const [activities, setActivities] = useState([]);
   const [response, setResponseModal] = useState({ show: false, state: '', message: '' });
+  const location = useLocation();
+  const history = useHistory();
 
   const handleResponse = (state, message) => {
     setResponseModal({ ...response, show: !response.show, state, message });
+
+    if (location.state) {
+      setResponseModal({
+        ...response,
+        show: !response.show,
+        state: location.state.state,
+        message: location.state.message
+      });
+    }
+
+    setTimeout(() => {
+      setResponseModal({});
+    }, 2000);
   };
 
   useEffect(() => {
@@ -21,6 +36,13 @@ function Activities() {
       setActivities(activities);
     };
     initializeList();
+  }, []);
+
+  useEffect(() => {
+    if (location.state) {
+      handleResponse();
+    }
+    history.replace({ ...history.location, state: undefined });
   }, []);
 
   const getActivities = async () => {
