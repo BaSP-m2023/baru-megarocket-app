@@ -3,6 +3,7 @@ import styles from './members.module.css';
 import List from './Table/List';
 import DeleteModal from './Modal/DeleteModal';
 import Toast from './Toast/Toast';
+import ConfirmModal from '../Shared/ConfirmModal';
 import { Link } from 'react-router-dom';
 
 function Members() {
@@ -33,16 +34,6 @@ function Members() {
       return [];
     }
   };
-
-  // const getMember = async (id) => {
-  //   try {
-  //     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`);
-  //     const { data } = await res.json();
-  //     setMember(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const deleteMember = async (id) => {
     try {
@@ -93,6 +84,16 @@ function Members() {
           content={toastContent.content}
           classes={toastContent.className}
         />
+      )}
+      {modal && (
+        <ConfirmModal
+          title="Delete member"
+          handler={handleModal}
+          onAction={deleteMember}
+          reason={'delete'}
+        >
+          Are you sure you wanna delete this member?
+        </ConfirmModal>
       )}
     </section>
   );

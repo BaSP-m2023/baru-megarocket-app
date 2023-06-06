@@ -1,9 +1,6 @@
-.label_container {
+.modal_content {
   display: flex;
   flex-direction: column;
-}
-
-.modal_content {
   background-color: #f4f4f4;
   margin: 10% auto;
   margin-top: 30px;
@@ -32,13 +29,10 @@
   border-top-right-radius: 7px;
 }
 
-.modal_body {
+.label_container {
   display: flex;
   flex-direction: column;
-  padding: 10px 20px;
-  font-family: 'Roboto', Arial, serif;
-  font-size: 17px;
-  line-height: 1.6;
+  align-items: center;
 }
 
 .close_button {
@@ -53,11 +47,32 @@
   cursor: pointer;
 }
 
-.save_input {
-  align-self: center;
-  background-color: #aace9b;
-  color: #fff;
-  width: 50%;
-  margin-top: 10px;
-  font-size: 1.2em;
+.modal_body {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  font-family: 'Roboto', Arial, serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.confirm_button {
+  text-align: center;
+}
+
+.input {
+  width: 25vw;
+  height: 30px;
+  margin-right: 10px;
+  color: #373867;
+  border: 1px solid #373867;
+  border-radius: 5px;
+}
+
+.label {
+  display: block;
+  padding: 5px;
+  color: #373867;
+  font-weight: 700;
+  font-size: 1rem;
 }
