@@ -273,7 +273,7 @@ const Form = () => {
             value={subscription.date.slice(0, 10)}
             change={onChangeInput}
           />
-          <div>
+          <div className={styles.buttonsContainer}>
             <Link to="/subscriptions">
               <Button classNameButton={'cancelButton'} text={'Cancel'} />
             </Link>

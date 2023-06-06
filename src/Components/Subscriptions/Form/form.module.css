@@ -53,3 +53,9 @@
 .createForm label {
   padding: 10px;
 }
+
+.buttonsContainer {
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+}
