@@ -83,7 +83,6 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
               <th>Capacity</th>
               <th>Day</th>
               <th>Time</th>
-              <th>Options</th>
             </tr>
           </thead>
           <tbody>
