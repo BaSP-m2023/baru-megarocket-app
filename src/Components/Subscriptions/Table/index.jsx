@@ -86,7 +86,7 @@ const Table = ({ data }) => {
                 )}
                 <td>{formatDate(subscription.date)}</td>
                 <td className={`${styles.itemButton} ${styles.itemButtonEdit}`}>
-                  <Link to={`subscriptions/form/${subscription._id}`}>
+                  <Link to={`subscriptions/add/${subscription._id}`}>
                     <Button
                       img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
                       text={'edit subscription'}

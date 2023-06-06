@@ -221,10 +221,7 @@ const Form = () => {
           {!id ? (
             <h2 className={styles.title}>Add Subscription</h2>
           ) : (
-            <>
-              <h2 className={styles.title}>Edit Subscription</h2>
-              <h3>ID:{id}</h3>
-            </>
+            <h2 className={styles.title}>Edit Subscription</h2>
           )}
           <label>Class:</label>
           <select
