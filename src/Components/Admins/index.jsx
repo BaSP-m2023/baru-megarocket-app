@@ -99,7 +99,7 @@ const Admins = () => {
         </div>
         <Table filter={filter} handleDeleteButton={handleDeleteButton} />
         <Link to="/admins/add">
-          <Button text="Add admin" classNameButton="addButton"></Button>
+          <Button text="+ Add new" classNameButton="addButton"></Button>
         </Link>
       </section>
       {showConfirmModal && (

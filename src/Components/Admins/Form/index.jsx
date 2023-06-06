@@ -34,17 +34,19 @@ function Form() {
     setAdmin({
       firstName: admins.firstName,
       lastName: admins.lastName,
-      dni: '',
-      phone: '',
-      email: '',
-      city: '',
-      password: ''
+      dni: admins.dni,
+      phone: admins.phone,
+      email: admins.email,
+      city: admins.city,
+      password: admins.password
     });
   }, [admins]);
 
   const getAdminsById = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${params.id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${params.id}`, {
+        method: 'GET'
+      });
       const res = await response.json();
       const body = res.data;
       setAdmins(body);
@@ -223,10 +225,14 @@ function Form() {
           </div>
         </form>
         <div className={styles.buttonContainer}>
-          <Link to="/admins">
-            <Button classNameButton="cancelButton" text="Cancel"></Button>
-          </Link>
-          <Button action={handleButton} classNameButton="submitButton" text="Submit"></Button>
+          <div>
+            <Link to="/admins">
+              <Button classNameButton="cancelButton" text="Cancel"></Button>
+            </Link>
+          </div>
+          <div>
+            <Button action={handleButton} classNameButton="submitButton" text="Submit"></Button>
+          </div>
         </div>
       </div>
       {showConfirmModal && (
