@@ -24,7 +24,7 @@ const Table = ({ confirmDelete, data }) => {
                 <td className={styles.tdata}>{item.email}</td>
                 <td className={styles.tdata}>{item.password}</td>
                 <td className={styles.actionButtons}>
-                  <Link to={{ pathname: `super-admins/form/${item._id}` }}>
+                  <Link to={{ pathname: `super-admins/edit/${item._id}` }}>
                     <Button img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`} />
                   </Link>
                   <Button
@@ -37,7 +37,7 @@ const Table = ({ confirmDelete, data }) => {
           })}
         </tbody>
       </table>
-      <Link to={{ pathname: 'super-admins/form' }} className={styles.addItem}>
+      <Link to="/super-admins/add" className={styles.addItem}>
         <Button text={'+ Add new'} classNameButton={'addButton'} />
       </Link>
     </>
