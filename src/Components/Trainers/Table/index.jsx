@@ -2,7 +2,7 @@ import React from 'react';
 import Trainer from '../Trainer';
 import styles from './table.module.css';
 
-const Table = ({ data, deleteTrainer, updTrainer }) => {
+const Table = ({ data, deleteTrainer }) => {
   return (
     <table className={styles.space}>
       <thead>
@@ -17,12 +17,7 @@ const Table = ({ data, deleteTrainer, updTrainer }) => {
       </thead>
       <tbody>
         {data.map((trainer) => (
-          <Trainer
-            key={trainer._id}
-            trainer={trainer}
-            deleteTrainer={deleteTrainer}
-            updTrainer={updTrainer}
-          />
+          <Trainer key={trainer._id} trainer={trainer} deleteTrainer={deleteTrainer} />
         ))}
       </tbody>
     </table>
