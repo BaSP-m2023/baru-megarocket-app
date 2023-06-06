@@ -1,16 +1,43 @@
 import styles from './classes.module.css';
 import ClassList from './List/ClassList';
-import Modal from './Modal/Modal';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import Button from '../Shared/Button';
+// import ConfirmModal from '../Shared/ConfirmModal';
+import ResponseModal from '../Shared/ResponseModal';
 
 function Projects() {
   const [classes, setClasses] = useState([]);
-
+  const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [selectedClass, setSelectedClass] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [responseModal, setResponseModal] = useState({ error: false, msg: '' });
+  const [applyHistory, setApplyHistory] = useState(false);
   const [renderData, setRenderData] = useState(false);
+  const location = useLocation();
+  const history = useHistory();
+
+  const setHistory = () => {
+    if (location.state) {
+      setTimeout(() => {
+        const stateFalsy = {
+          ...location,
+          state: { show: false, state: '', msg: '' }
+        };
+        history.replace(stateFalsy);
+      }, 3000);
+      setShowModal({
+        show: (location.state && location.state.show) || '',
+        msg: (location.state && location.state.msg) || '',
+        state: (location.state && location.state.state) || ''
+      });
+    }
+    setTimeout(() => {
+      setShowModal({
+        show: '',
+        msg: '',
+        state: ''
+      });
+    }, 3000);
+  };
 
   const getData = async () => {
     try {
@@ -18,8 +45,8 @@ function Projects() {
       const dataClasses = await resClasses.json();
       setClasses(dataClasses.data);
     } catch (error) {
-      setResponseModal({ error: true, msg: 'Something went wrong :( try again later' });
-      setShowModal(true);
+      setShowModal({ show: true, state: 'fail', msg: 'Something went wrong :( try again later' });
+      setApplyHistory(true);
     }
   };
 
@@ -27,15 +54,18 @@ function Projects() {
     getData();
   }, [renderData]);
 
+  useEffect(() => {
+    setHistory();
+  }, [applyHistory]);
+
   const getById = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`);
       const data = await response.json();
       setSelectedClass(data.data);
     } catch (error) {
-      setResponseModal({ error: true, msg: error });
-      setShowModal(true);
-      throw new Error(error);
+      setShowModal({ show: true, state: 'fail', msg: 'Something went wrong :( try again later' });
+      setApplyHistory(true);
     }
   };
 
@@ -49,21 +79,21 @@ function Projects() {
             getById={getById}
             selectedClass={selectedClass}
             setRenderData={setRenderData}
-            setResponseModal={setResponseModal}
-            setShowModal={setShowModal}
           ></ClassList>
         ) : (
           'Something went wrong :( try again later'
         )}
-        <Link to={'/classes/create'}>
-          <button>+ Add new Class</button>
+        <Link to={'/classes/add'}>
+          <Button text="+ Add new Class" classNameButton="submitButton" />
         </Link>
-        <Modal
-          showModal={showModal}
-          responseModal={responseModal}
-          onClose={() => setShowModal(!showModal)}
-        ></Modal>
       </div>
+      {showModal.show && (
+        <ResponseModal
+          handler={() => setShowModal({ show: false, msg: '', state: '' })}
+          message={showModal.msg}
+          state={showModal.state}
+        />
+      )}
     </section>
   );
 }

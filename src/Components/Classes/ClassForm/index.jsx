@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
-import Modal from '../Modal/Modal';
 import styles from './form.module.css';
+import Button from '../../Shared/Button';
+import { Input } from '../../Shared/Inputs';
+import ResponseModal from '../../Shared/ResponseModal';
+import ConfirmModal from '../../Shared/ConfirmModal';
 
 function ClassForm() {
   const [trainers, setTrainers] = useState([]);
   const [activities, setActivities] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [responseModal, setResponseModal] = useState({ error: false, msg: '' });
   const [error, setError] = useState(false);
+  const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [classes, setClasses] = useState({
     activity: '',
     trainer: '',
@@ -19,7 +22,17 @@ function ClassForm() {
   const location = useLocation();
   const history = useHistory();
   const { id } = useParams();
-  const isCreateRoute = location.pathname.includes('/classes/create');
+  const isCreateRoute = location.pathname.includes('/classes/add');
+
+  const applyResponse = (msg, state) => {
+    setShowModal({ show: true, msg: msg, state: state });
+    setTimeout(() => {
+      setShowModal({ show: false, msg: '', state: '' });
+      if (state === 'success') {
+        history.push('/classes');
+      }
+    }, 2000);
+  };
 
   const getTrainersActivities = async () => {
     try {
@@ -30,10 +43,10 @@ function ClassForm() {
       setTrainers(dataTrainers.data);
       setActivities(dataActivities);
     } catch (error) {
-      setResponseModal({ error: true, msg: error });
-      setShowModal(true);
+      applyResponse({ msg: 'Something went wrong :(', state: 'fail' });
     }
   };
+
   const getById = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`);
@@ -54,50 +67,40 @@ function ClassForm() {
         capacity: data.data.capacity
       });
     } catch (error) {
-      setResponseModal({ error: true, msg: error });
-      setShowModal(true);
-      throw new Error(error);
+      applyResponse({ msg: 'Something went wrong :(', state: 'fail' });
     }
   };
+
   useEffect(() => {
     getTrainersActivities();
     !isCreateRoute && getById(id);
   }, []);
-  useEffect(() => {
-    if (showModal && !responseModal.error) {
-      const timer = setTimeout(() => {
-        history.goBack();
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [showModal, history]);
 
   const createClass = async (newClass) => {
-    newClass.trainer = [newClass.trainer];
+    const createdClass = {
+      ...newClass,
+      trainer: [newClass.trainer]
+    };
     const bodyClasses = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newClass)
+      body: JSON.stringify(createdClass)
     };
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/`, bodyClasses);
       const data = await response.json();
       if (data.length !== 0 && !data.error) {
-        setResponseModal({ error: false, msg: 'Class created sucessfully' });
-        setShowModal(true);
+        applyResponse('Class sucessfully created', 'success');
       } else {
-        setResponseModal({ error: true, msg: data.message });
-        setShowModal(true);
+        applyResponse(data.message, 'fail');
       }
     } catch (error) {
-      setResponseModal({ error: true, msg: error });
-      setShowModal(true);
-      throw new Error(error);
+      applyResponse('Something went wrong :(', 'fail');
     }
   };
+
   const updateClass = async () => {
     try {
       const editedClass = {
@@ -111,23 +114,17 @@ function ClassForm() {
         },
         body: JSON.stringify(editedClass)
       });
-      console.log(response);
+      const data = await response.json();
       if (!response.ok) {
-        setResponseModal({ error: true, msg: response.data.message });
-        setShowModal(true);
+        return applyResponse(data.message, 'fail');
       }
-      setResponseModal({ error: false, msg: 'Class updated sucessfully' });
-      setShowModal(true);
-
-      return response.json();
+      applyResponse(data.msg, 'success');
     } catch (error) {
-      setResponseModal({ error: true, msg: error });
-      setShowModal(true);
-      throw new Error(error.message);
+      applyResponse('Something went wrong :(', 'fail');
     }
   };
-  const onClickEditClass = (e) => {
-    e.preventDefault();
+
+  const onClickEditClass = () => {
     if (
       Object.values(classes).every((prop) => {
         if (prop === '') {
@@ -142,8 +139,8 @@ function ClassForm() {
       setError(true);
     }
   };
-  const onClickCreateClass = (e) => {
-    e.preventDefault();
+
+  const onClickCreateClass = () => {
     if (
       Object.values(classes).every((prop) => {
         if (prop === '') {
@@ -158,12 +155,33 @@ function ClassForm() {
       setError(true);
     }
   };
+
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setShowConfirmModal(true);
+  };
+
+  const handleSubmit = (e) => {
+    setShowConfirmModal(false);
+    onSubmit(e);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (isCreateRoute) {
+      onClickCreateClass();
+    } else {
+      onClickEditClass();
+    }
+  };
+
   const cancelForm = (e) => {
     e.preventDefault();
     history.goBack();
   };
-  const onChangeInput = async (e) => {
-    await setClasses({
+
+  const onChangeInput = (e) => {
+    setClasses({
       ...classes,
       [e.target.name]: e.target.value
     });
@@ -230,48 +248,59 @@ function ClassForm() {
           ) : null}
         </div>
         <div className={styles.inputContainer}>
-          <label className={styles.label}>Time</label>
-          <input
-            className={styles.input}
+          <Input
+            labelText="Time"
             type="time"
             value={classes.time}
+            placeholder="Time"
             name="time"
-            onChange={onChangeInput}
+            change={onChangeInput}
           />
           {(error && classes.time === '') || (error && classes.time === 0) ? (
             <span className={styles.error}>Field is required</span>
           ) : null}
         </div>
         <div className={styles.inputContainer}>
-          <label className={styles.label}>Capacity</label>
-          <input
-            className={styles.input}
+          <Input
+            labelText="Capacity"
             type="number"
             value={classes.capacity}
             name="capacity"
-            onChange={onChangeInput}
+            placeholder="Capacity"
+            change={onChangeInput}
           />
           {error && classes.capacity === '' ? (
             <span className={styles.error}>Field is required</span>
           ) : null}
         </div>
         <div className={styles.buttonContainer}>
-          <button
-            className={styles.button}
-            onClick={isCreateRoute ? onClickCreateClass : onClickEditClass}
-          >
-            {isCreateRoute ? 'Create Class' : 'Edit Class'}
-          </button>
-          <button className={styles.button} onClick={cancelForm}>
-            Cancel
-          </button>
+          <Button
+            classNameButton="submitButton"
+            text={isCreateRoute ? 'Create' : 'Update'}
+            action={handleConfirmModal}
+          />
+          <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
       </form>
-      <Modal
-        showModal={showModal}
-        responseModal={responseModal}
-        onClose={() => setShowModal(!showModal)}
-      />
+      {showModal.show && (
+        <ResponseModal
+          handler={() => setShowModal({ show: false, msg: '', state: '' })}
+          message={showModal.msg}
+          state={showModal.state}
+        />
+      )}
+      {showConfirmModal && (
+        <ConfirmModal
+          title={isCreateRoute ? 'Create class' : 'Update class'}
+          handler={() => setShowConfirmModal(false)}
+          onAction={handleSubmit}
+          reason={'submit'}
+        >
+          {isCreateRoute
+            ? 'Are you sure you want to create this class?'
+            : 'Are you sure you want to update this class?'}
+        </ConfirmModal>
+      )}
     </section>
   );
 }

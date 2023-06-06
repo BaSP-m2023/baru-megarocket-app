@@ -1,39 +1,47 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './list.module.css';
+import ResponseModal from '../../Shared/ResponseModal';
+import Button from '../../Shared/Button';
+import ConfirmModal from '../../Shared/ConfirmModal';
+import { Input } from '../../Shared/Inputs';
 
-function ClassList({
-  classes,
-  getById,
-  selectedClass,
-  setResponseModal,
-  setShowModal,
-  setRenderData
-}) {
+function ClassList({ classes, getById, selectedClass, setRenderData }) {
   const [filter, setFilter] = useState('');
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [selectedClassToDelete, setSelectedClassToDelete] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const isCreateRoute = location.pathname.includes('/classes/add');
 
-  const handleFilter = async (e) => {
-    await setFilter(e.target.value);
+  const handleFilter = (e) => {
+    setFilter(e.target.value);
   };
+
+  const applyResponse = (data) => {
+    setShowModal({ show: true, msg: data.msg, state: data.state });
+    setTimeout(() => {
+      setShowModal({ show: false, msg: '', state: '' });
+    }, 3000);
+  };
+
   const deleteClass = async (classId) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/delete/${classId}`, {
         method: 'PUT'
       });
-
+      const data = await response.json();
       if (!response.ok) {
-        throw new Error('Error deleting the data.');
+        applyResponse({ msg: 'Error deleting data', state: 'fail' });
       }
-      setResponseModal({ error: false, msg: 'Class deleted successfully!' });
-      setShowModal(true);
+      applyResponse({ msg: 'Class deleted successfully', state: 'success' });
       setRenderData((render) => !render);
-
-      return response.json();
+      return data;
     } catch (error) {
-      setResponseModal({ error: true, msg: error.message });
-      setShowModal(true);
+      setShowModal({
+        show: true,
+        state: 'fail',
+        msg: 'Something went wrong :( try again later'
+      });
     }
   };
   const filteredClassesNotDeleted = classes.filter((item) => !item.deleted);
@@ -50,13 +58,21 @@ function ClassList({
     );
   });
 
+  const handleSubmit = (e) => {
+    setShowConfirmModal(false);
+    onSubmit(e);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (selectedClassToDelete) {
+      deleteClass(selectedClassToDelete._id);
+    }
+  };
+
   return (
     <>
-      <input
-        className={styles.filter}
-        placeholder="Class Filter"
-        onChange={(e) => handleFilter(e)}
-      ></input>
+      <Input placeholder="Class Filter" change={(e) => handleFilter(e)} />
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
@@ -88,57 +104,47 @@ function ClassList({
                   <td>{item.time}</td>
                   <td>
                     <Link to={`/classes/edit/${item._id}`}>
-                      <button className={`${styles.button}`}>
-                        <img
-                          className={`${styles.buttonImg}`}
-                          src={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
-                          alt="EDIT"
-                        />
-                      </button>
-                    </Link>
-                    <button
-                      className={`${styles.button}`}
-                      onClick={() => {
-                        setSelectedClassToDelete(item);
-                        setShowDeleteModal(true);
-                      }}
-                    >
-                      <img
-                        className={`${styles.buttonImg}`}
-                        src={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
-                        alt="DELETE"
+                      <Button
+                        img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
+                        classNameButton={`${styles.button}`}
                       />
-                    </button>
+                    </Link>
+                  </td>
+                  <td>
+                    <Button
+                      img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
+                      classNameButton={`${styles.button}`}
+                      action={() => {
+                        setSelectedClassToDelete(item);
+                        setShowConfirmModal(true);
+                      }}
+                    />
                   </td>
                 </tr>
               ))}
           </tbody>
         </table>
       </div>
-      {showDeleteModal && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <h3>Confirmar Eliminación</h3>
-            <p>¿Estás seguro de que quieres eliminar esta clase?</p>
-            <div className={styles.modalButtons}>
-              <button
-                className={`${styles.button} ${styles.confirmButton}`}
-                onClick={async () => {
-                  await deleteClass(selectedClassToDelete._id);
-                  setShowDeleteModal(false);
-                }}
-              >
-                Confirmar
-              </button>
-              <button
-                className={`${styles.button} ${styles.cancelButton}`}
-                onClick={() => setShowDeleteModal(false)}
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
+
+      {showModal.show && (
+        <ResponseModal
+          handler={() => setShowModal({ show: false, msg: '', state: '' })}
+          message={showModal.msg}
+          state={showModal.state}
+        />
+      )}
+
+      {showConfirmModal && (
+        <ConfirmModal
+          title={isCreateRoute ? 'Create class' : 'Update class'}
+          handler={() => setShowConfirmModal(false)}
+          onAction={handleSubmit}
+          reason={'submit'}
+        >
+          {isCreateRoute
+            ? 'Are you sure you want to create this class?'
+            : 'Are you sure you want to update this class?'}
+        </ConfirmModal>
       )}
     </>
   );
