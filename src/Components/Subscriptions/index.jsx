@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './subscriptions.module.css';
 import Table from './Table';
 import Button from '../Shared/Button';
@@ -120,13 +121,9 @@ const Subscriptions = () => {
         <Table className={subscriptions.table} data={filteredSubscriptions} />
       </div>
       <div className={styles.buttonContainer}>
-        <Button
-          classNameButton="submitButton"
-          text="+ Add New"
-          action={() => {
-            addForm ? setAddForm(false) : setAddForm(true);
-          }}
-        />
+        <Link to="/subscriptions/add">
+          <Button classNameButton="submitButton" text="+ Add New" />
+        </Link>
       </div>
       <div>
         {createModal && (
