@@ -1,43 +1,15 @@
 import styles from './classes.module.css';
 import ClassList from './List/ClassList';
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Button from '../Shared/Button';
-// import ConfirmModal from '../Shared/ConfirmModal';
 import ResponseModal from '../Shared/ResponseModal';
 
 function Projects() {
   const [classes, setClasses] = useState([]);
   const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [selectedClass, setSelectedClass] = useState(null);
-  const [applyHistory, setApplyHistory] = useState(false);
   const [renderData, setRenderData] = useState(false);
-  const location = useLocation();
-  const history = useHistory();
-
-  const setHistory = () => {
-    if (location.state) {
-      setTimeout(() => {
-        const stateFalsy = {
-          ...location,
-          state: { show: false, state: '', msg: '' }
-        };
-        history.replace(stateFalsy);
-      }, 3000);
-      setShowModal({
-        show: (location.state && location.state.show) || '',
-        msg: (location.state && location.state.msg) || '',
-        state: (location.state && location.state.state) || ''
-      });
-    }
-    setTimeout(() => {
-      setShowModal({
-        show: '',
-        msg: '',
-        state: ''
-      });
-    }, 3000);
-  };
 
   const getData = async () => {
     try {
@@ -46,17 +18,12 @@ function Projects() {
       setClasses(dataClasses.data);
     } catch (error) {
       setShowModal({ show: true, state: 'fail', msg: 'Something went wrong :( try again later' });
-      setApplyHistory(true);
     }
   };
 
   useEffect(() => {
     getData();
   }, [renderData]);
-
-  useEffect(() => {
-    setHistory();
-  }, [applyHistory]);
 
   const getById = async (id) => {
     try {
@@ -65,7 +32,6 @@ function Projects() {
       setSelectedClass(data.data);
     } catch (error) {
       setShowModal({ show: true, state: 'fail', msg: 'Something went wrong :( try again later' });
-      setApplyHistory(true);
     }
   };
 
