@@ -89,7 +89,6 @@ const Form = () => {
       });
       const data = await res.json();
       if (res.status === 200) {
-        // handleResponse('success', 'Activity updated!');
         redirectAfterSubmit.state.message = 'Activity updated!';
         redirectAfterSubmit.state.state = 'success';
         history.push(redirectAfterSubmit);

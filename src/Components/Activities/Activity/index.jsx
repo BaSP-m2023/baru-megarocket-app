@@ -26,21 +26,10 @@ const Activity = ({ activity, onDelete }) => {
         <td>{activity.isActive ? 'Active' : 'Deactive'}</td>
         <td>
           <Link to={`${url}/edit/${activity._id}`}>
-            {/* <img
-              className={styles.tableButtons}
-              src="/assets/images/edit-icon.png"
-              alt="edit icon"
-            /> */}
             <Button img="/assets/images/edit-icon.png" text="edit icon" classNameButton="icon" />
           </Link>
         </td>
         <td>
-          {/* <img
-            className={styles.tableButtons}
-            src="/assets/images/delete-icon.png"
-            alt="delete icon"
-            onClick={handleConfirm}
-          /> */}
           <Button
             action={handleConfirm}
             img="/assets/images/delete-icon.png"
