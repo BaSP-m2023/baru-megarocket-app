@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './trainer.module.css';
-import Modal from '../Modals/Modal';
-import ConfirmModal from '../Modals/ConfirmModal';
-import Form from '../Form';
+import Button from '../../Shared/Button';
+import ConfirmModal from '../../Shared/ConfirmModal';
 
-const Trainer = ({ trainer, deleteTrainer, updTrainer }) => {
-  const [showEditModal, setShowEditModal] = useState(false);
+const Trainer = ({ trainer, deleteTrainer }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleDeleteClick = () => {
@@ -21,19 +20,6 @@ const Trainer = ({ trainer, deleteTrainer, updTrainer }) => {
     }
   };
 
-  const handleEditClick = () => {
-    setShowEditModal(true);
-  };
-
-  const handleUpdateTrainer = async (id, updatedTrainer) => {
-    try {
-      await updTrainer(id, updatedTrainer);
-      setShowEditModal(false);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
   return (
     <tr className={styles.row}>
       <td className={styles.align}>{trainer.firstName}</td>
@@ -43,34 +29,30 @@ const Trainer = ({ trainer, deleteTrainer, updTrainer }) => {
       <td className={styles.align}>{trainer.email}</td>
       <td className={styles.align}>{trainer.salary}</td>
       <td>
-        <img
-          className={styles.edit}
-          src="assets/images/edit-icon.png"
-          alt="pencil icon for edit a trainer"
-          onClick={handleEditClick}
-        />
+        <Link to={`/trainers/edit/${trainer._id}`}>
+          <Button img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}>
+            <img className={styles.icon} alt="pencil icon for edit a trainer" />
+          </Button>
+        </Link>
       </td>
       <td>
-        <img
-          className={styles.delete}
-          src="assets/images/delete-icon.png"
-          onClick={handleDeleteClick}
-          alt="trash icon for delete a trainer"
-        />
+        <Button
+          img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
+          action={handleDeleteClick}
+        >
+          <img className={styles.delete} alt="trash icon for delete a trainer" />
+        </Button>
       </td>
       <td>
-        {showEditModal && (
-          <Modal title="Edit Trainer" onClose={() => setShowEditModal(false)}>
-            <Form edit={trainer} onUpdate={handleUpdateTrainer} />
-          </Modal>
-        )}
         {showDeleteModal && (
           <ConfirmModal
             title="Delete Trainer"
-            message="Are you sure you want to delete this trainer?"
-            onClose={() => setShowDeleteModal(false)}
-            onDelete={handleConfirmDelete}
-          />
+            handler={() => setShowDeleteModal(false)}
+            onAction={handleConfirmDelete}
+            reason={'delete'}
+          >
+            Are you sure you want to delete this trainer?
+          </ConfirmModal>
         )}
       </td>
     </tr>
