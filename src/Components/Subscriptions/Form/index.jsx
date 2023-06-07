@@ -225,7 +225,7 @@ const Form = () => {
           onChange={onChangeInput}
         >
           {loaded ? (
-            <option>{`${subscription.classes.day} ${subscription.classes.time}`}</option>
+            <option>{`${subscription?.classes?.day} ${subscription?.classes?.time}`}</option>
           ) : (
             <option>Select a Value</option>
           )}
@@ -246,7 +246,7 @@ const Form = () => {
           onChange={onChangeInput}
         >
           {loaded ? (
-            <option>{`${subscription.members.name} ${subscription.members.lastName}`}</option>
+            <option>{`${subscription?.members?.name} ${subscription?.members?.lastName}`}</option>
           ) : (
             <option className={styles.textArea}>Select a Value</option>
           )}
@@ -262,7 +262,7 @@ const Form = () => {
           labelText={'Date'}
           name="date"
           type="date"
-          value={subscription.date.slice(0, 10)}
+          value={subscription?.date.slice(0, 10)}
           change={onChangeInput}
         />
         <div className={styles.btnContainer}>
