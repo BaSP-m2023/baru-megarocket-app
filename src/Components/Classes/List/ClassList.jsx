@@ -118,8 +118,8 @@ function ClassList({
       {showDeleteModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h3>Confirmar Eliminación</h3>
-            <p>¿Estás seguro de que quieres eliminar esta clase?</p>
+            <h3>Confirm delete</h3>
+            <p>Are you sure you want to delete this class?</p>
             <div className={styles.modalButtons}>
               <button
                 className={`${styles.button} ${styles.confirmButton}`}
@@ -128,13 +128,13 @@ function ClassList({
                   setShowDeleteModal(false);
                 }}
               >
-                Confirmar
+                Confirm
               </button>
               <button
                 className={`${styles.button} ${styles.cancelButton}`}
                 onClick={() => setShowDeleteModal(false)}
               >
-                Cancelar
+                Cancel
               </button>
             </div>
           </div>
