@@ -104,7 +104,6 @@ function ClassForm() {
         ...classes,
         trainer: [classes.trainer]
       };
-      console.log(editedClass);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
         method: 'PUT',
         headers: {
