@@ -1,33 +1,24 @@
 import styles from './classes.module.css';
 import ClassList from './List/ClassList';
-import Form from './Form/Form';
-import Modal from './Modal/Modal';
 import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import Button from '../Shared/Button';
+import ResponseModal from '../Shared/ResponseModal';
 
 function Projects() {
   const [classes, setClasses] = useState([]);
-  const [trainers, setTrainers] = useState([]);
-  const [activities, setActivities] = useState([]);
+  const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [selectedClass, setSelectedClass] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [responseModal, setResponseModal] = useState({ error: false, msg: '' });
   const [renderData, setRenderData] = useState(false);
+  const history = useHistory();
 
   const getData = async () => {
     try {
       const resClasses = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`);
       const dataClasses = await resClasses.json();
-      const resTrainers = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`);
-      const dataTrainers = await resTrainers.json();
-      const resActivities = await fetch(`${process.env.REACT_APP_API_URL}/api/activity`);
-      const dataActivities = await resActivities.json();
       setClasses(dataClasses.data);
-      setTrainers(dataTrainers.data);
-      setActivities(dataActivities);
     } catch (error) {
-      setResponseModal({ error: true, msg: error });
-      setShowModal(true);
-      throw new Error(error);
+      setShowModal({ show: true, state: 'fail', msg: 'Something went wrong :( try again later' });
     }
   };
 
@@ -35,54 +26,31 @@ function Projects() {
     getData();
   }, [renderData]);
 
+  useEffect(() => {
+    if (history.location.state) {
+      setShowModal({
+        show: history.location.state.show || false,
+        msg: history.location.state.msg || '',
+        state: 'success'
+      });
+    }
+    const objHistory = {
+      ...location,
+      state: { show: false, msg: '', state: '' }
+    };
+    setTimeout(() => {
+      setShowModal({ show: history.location.state, msg: '', state: '' });
+    }, 2000);
+    history.replace(objHistory);
+  }, []);
+
   const getById = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`);
       const data = await response.json();
       setSelectedClass(data.data);
     } catch (error) {
-      setResponseModal({ error: true, msg: error });
-      setShowModal(true);
-      throw new Error(error);
-    }
-  };
-
-  const createClass = async (newClass) => {
-    newClass.trainer = [newClass.trainer];
-    const bodyClasses = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newClass)
-    };
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/`, bodyClasses);
-      const data = await response.json();
-      if (data.length !== 0 && !data.error) {
-        setClasses([
-          ...classes,
-          {
-            _id: data._id,
-            activity: {
-              name: data.activity.name
-            },
-            trainer: [{ firstName: data.trainer[0].firstName }],
-            day: data.day,
-            time: data.time,
-            capacity: data.capacity
-          }
-        ]);
-        setResponseModal({ error: false, msg: 'Class created sucessfully' });
-        setShowModal(true);
-      } else {
-        setResponseModal({ error: true, msg: data.message });
-        setShowModal(true);
-      }
-    } catch (error) {
-      setResponseModal({ error: true, msg: error });
-      setShowModal(true);
-      throw new Error(error);
+      setShowModal({ show: true, state: 'fail', msg: 'Something went wrong :( try again later' });
     }
   };
 
@@ -90,23 +58,27 @@ function Projects() {
     <section className={styles.container}>
       <h2>Class List</h2>
       <div>
-        <ClassList
-          classes={classes && classes}
-          getById={getById}
-          selectedClass={selectedClass}
-          setRenderData={setRenderData}
-          setResponseModal={setResponseModal}
-          setShowModal={setShowModal}
-          trainers={trainers}
-          activities={activities}
-        ></ClassList>
-        <Form createClass={createClass} trainers={trainers} activities={activities}></Form>
-        <Modal
-          showModal={showModal}
-          responseModal={responseModal}
-          onClose={() => setShowModal(!showModal)}
-        ></Modal>
+        {classes.length !== 0 ? (
+          <ClassList
+            classes={classes && classes}
+            getById={getById}
+            selectedClass={selectedClass}
+            setRenderData={setRenderData}
+          ></ClassList>
+        ) : (
+          'There are not classes yet. Add new ones!!'
+        )}
+        <Link to={'/classes/add'}>
+          <Button text="+ Add new Class" classNameButton="submitButton" />
+        </Link>
       </div>
+      {showModal.show && (
+        <ResponseModal
+          handler={() => setShowModal({ show: false, msg: '', state: '' })}
+          message={showModal.msg}
+          state={showModal.state}
+        />
+      )}
     </section>
   );
 }
