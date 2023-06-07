@@ -1,9 +1,0 @@
-.span{
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: rgb(254, 49, 49);
-}
-.container{
-  display: flex;
-  flex-direction: column;
-}
