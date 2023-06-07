@@ -1,7 +1,19 @@
 import styles from './form.module.css';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams, Link, useHistory } from 'react-router-dom';
+import Button from '../../Shared/Button';
+import ConfirmModal from '../../Shared/ConfirmModal';
+import ResponseModal from '../../Shared/ResponseModal';
+import { Input } from '../../Shared/Inputs';
 
-function Form({ title, addAdmin, editAdmin, idToUpdate, admins, closeForm }) {
+function Form() {
+  const params = useParams();
+  const history = useHistory();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showResponseModal, setShowResponseModal] = useState(false);
+  const [messageResponse, setMessageResponse] = useState('');
+  const [admins, setAdmins] = useState([]);
+  const [stateResponse, setStateResponse] = useState('success');
   const [admin, setAdmin] = useState({
     firstName: '',
     lastName: '',
@@ -13,21 +25,100 @@ function Form({ title, addAdmin, editAdmin, idToUpdate, admins, closeForm }) {
   });
 
   useEffect(() => {
-    if (idToUpdate) {
-      let adminToUpdate = admins.filter((admin) => idToUpdate === admin._id);
-      adminToUpdate = adminToUpdate[0];
-      const keyAdmins = {
-        firstName: adminToUpdate.firstName,
-        lastName: adminToUpdate.lastName,
-        dni: adminToUpdate.dni,
-        phone: adminToUpdate.phone,
-        email: adminToUpdate.email,
-        city: adminToUpdate.city,
-        password: adminToUpdate.password
-      };
-      setAdmin(keyAdmins);
+    if (params.id) {
+      getAdminsById();
     }
   }, []);
+
+  useEffect(() => {
+    setAdmin({
+      firstName: admins.firstName,
+      lastName: admins.lastName,
+      dni: admins.dni,
+      phone: admins.phone,
+      email: admins.email,
+      city: admins.city,
+      password: admins.password
+    });
+  }, [admins]);
+
+  const getAdminsById = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${params.id}`, {
+        method: 'GET'
+      });
+      const res = await response.json();
+      const body = res.data;
+      setAdmins(body);
+    } catch (error) {
+      setMessageResponse(`Error fetching admins: ${error.message}`);
+      setShowResponseModal(true);
+    }
+  };
+
+  const editAdmin = async (idToUpdate, adminToUpdate) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${idToUpdate}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: adminToUpdate.firstName,
+          lastName: adminToUpdate.lastName,
+          dni: Number(adminToUpdate.dni),
+          phone: Number(adminToUpdate.phone),
+          email: adminToUpdate.email,
+          city: adminToUpdate.city,
+          password: adminToUpdate.password
+        })
+      });
+      if (response.ok) {
+        setStateResponse('success');
+        setMessageResponse('Admin updated');
+        setShowResponseModal(true);
+        setTimeout(() => {
+          setShowResponseModal(false);
+          history.push('/admins');
+        }, 2000);
+      } else {
+        setStateResponse('fail');
+        setMessageResponse('Admin could be not updated');
+        setShowResponseModal(true);
+      }
+    } catch (error) {
+      setShowResponseModal(true);
+      setMessageResponse(`Error updating admins: ${error.message}`);
+    }
+  };
+
+  const addAdmin = async (adminToAdd) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(adminToAdd)
+      });
+      if (response.ok) {
+        setStateResponse('success');
+        setMessageResponse('Admin created');
+        setShowResponseModal(true);
+        setTimeout(() => {
+          setShowResponseModal(false);
+          history.push('/admins');
+        }, 2000);
+      } else {
+        setStateResponse('fail');
+        setMessageResponse('Admin could be not created');
+        setShowResponseModal(true);
+      }
+    } catch (error) {
+      setMessageResponse(`Error adding admins: ${error.message}`);
+      setShowResponseModal(true);
+    }
+  };
 
   const onChangeInput = (e) => {
     setAdmin({
@@ -38,125 +129,130 @@ function Form({ title, addAdmin, editAdmin, idToUpdate, admins, closeForm }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (idToUpdate) {
-      editAdmin(idToUpdate, admin);
+    if (params.id) {
+      editAdmin(params.id, admin);
     } else {
       addAdmin(admin);
     }
   };
 
+  const handleButton = () => {
+    setShowConfirmModal(true);
+  };
+
+  const closeConfirmModal = () => {
+    setShowConfirmModal(false);
+  };
+
+  const closeResponseModal = () => {
+    setShowResponseModal(false);
+  };
+
+  const handleSubmit = (e) => {
+    onSubmit(e);
+    setShowConfirmModal(false);
+  };
+
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.formContainer}>
         <div className={styles.header}>
-          <h2 className={styles.title}>{title}</h2>
-          <button onClick={closeForm} className={styles.button}>
-            X
-          </button>
+          <h2 className={styles.title}>{params.id ? 'Edit Admin' : 'Add admin'}</h2>
         </div>
         <form className={styles.form} onSubmit={onSubmit}>
           <div className={styles.labelInput}>
-            <label className={styles.label} htmlFor="firstName">
-              First Name
-            </label>
-            <input
-              id="firstName"
-              className={styles.input}
+            <Input
+              labelText="First Name"
               name="firstName"
               type="text"
               value={admin.firstName}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.labelInput}>
-            <label className={styles.label} htmlFor="lastName">
-              Last Name
-            </label>
-            <input
-              id="lastname"
-              className={styles.input}
+            <Input
+              labelText="Last Name"
               name="lastName"
               type="text"
               value={admin.lastName}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.labelInput}>
-            <label className={styles.label} htmlFor="dni">
-              DNI
-            </label>
-            <input
-              id="dni"
-              className={styles.input}
+            <Input
+              labelText="DNI"
               name="dni"
               type="text"
               value={admin.dni}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.labelInput}>
-            <label className={styles.label} htmlFor="phone">
-              Phone
-            </label>
-            <input
-              id="phone"
-              className={styles.input}
+            <Input
+              labelText="Phone"
               name="phone"
               type="text"
               value={admin.phone}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.labelInput}>
-            <label className={styles.label} htmlFor="city">
-              City
-            </label>
-            <input
-              id="city"
-              className={styles.input}
+            <Input
+              labelText="City"
               name="city"
               type="text"
               value={admin.city}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.labelInput}>
-            <label className={styles.label} htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              className={styles.input}
+            <Input
+              labelText="Email"
               name="email"
               type="text"
               value={admin.email}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
           <div className={styles.labelInput}>
-            <label className={styles.label} htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              className={styles.input}
+            <Input
+              labelText="Password"
               name="password"
               type="password"
               value={admin.password}
-              onChange={onChangeInput}
+              change={onChangeInput}
             />
           </div>
-          <div className={styles.buttonContainer}>
-            <button onClick={closeForm} className={styles.cancelButton}>
-              Cancel
-            </button>
-            <button className={styles.addCreateButton} type="submit">
-              {title}
-            </button>
-          </div>
         </form>
+        <div className={styles.buttonContainer}>
+          <div>
+            <Link to="/admins">
+              <Button classNameButton="cancelButton" text="Cancel"></Button>
+            </Link>
+          </div>
+          <div>
+            <Button action={handleButton} classNameButton="submitButton" text="Submit"></Button>
+          </div>
+        </div>
       </div>
-    </div>
+      {showConfirmModal && (
+        <ConfirmModal
+          handler={() => closeConfirmModal()}
+          title={params.id ? 'Update Admin' : 'Add admin'}
+          reason="submit"
+          onAction={handleSubmit}
+        >
+          Are you sure you want to {params.id ? 'update' : 'add'} admin?
+        </ConfirmModal>
+      )}
+      {showResponseModal && (
+        <ResponseModal
+          handler={() => closeResponseModal()}
+          state={stateResponse}
+          message={messageResponse}
+        />
+      )}
+    </>
   );
 }
 

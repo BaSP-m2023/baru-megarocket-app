@@ -2,8 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Activities from '../Activities';
+import Admins from '../Admins';
+import AdminsForm from '../Admins/Form';
 import ActivitiesForm from '../Activities/Form';
-import Admins from '../Admins/index';
 import Classes from '../Classes';
 import ClassForm from '../Classes/ClassForm';
 import Members from '../Members';
@@ -24,10 +25,12 @@ function Layout() {
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/admins" component={Admins} />
+          <Route path="/admins/add" component={AdminsForm} />
+          <Route path="/admins/edit/:id" component={AdminsForm} />
           <Route path="/activities" exact component={Activities} />
           <Route path="/activities/add" component={ActivitiesForm} />
           <Route path="/activities/edit/:id" component={ActivitiesForm} />
-          <Route path="/admins" component={Admins} />
           <Route exact path="/classes" component={Classes} />
           <Route exact path="/classes/add" component={ClassForm} />
           <Route exact path="/classes/edit/:id" component={ClassForm} />
