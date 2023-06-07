@@ -92,9 +92,7 @@ const SuperAdminsForm = () => {
   };
 
   const getItemById = async () => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
-      method: 'GET'
-    });
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`);
     const data = await res.json();
     const updatingItem = data.data;
     const { name, lastName, email } = updatingItem;

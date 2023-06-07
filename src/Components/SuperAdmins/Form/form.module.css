@@ -5,7 +5,7 @@
   box-shadow: 0px 10px 23px #1E1E1E;
   border-radius: 5px;
 }
-.modalTitle{
+.titleContainer{
   display: flex;
   justify-content: space-between;
   border-radius: 5px 5px 0px 0px;
