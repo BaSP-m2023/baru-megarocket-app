@@ -14,6 +14,7 @@ const Admins = () => {
   const [showResponseModal, setShowResponseModal] = useState(false);
   const [messageResponse, setMessageResponse] = useState('');
   const [filter, setFilter] = useState([]);
+  const [stateResponse, setStateResponse] = useState('success');
 
   const getAdmins = async () => {
     try {
@@ -43,10 +44,12 @@ const Admins = () => {
         }
       );
       if (response.ok) {
+        setStateResponse('success');
         setMessageResponse('Admin deleted');
         setShowResponseModal(true);
         setAdmins([...admins.filter((admin) => admin._id !== idToDelete)]);
       } else {
+        setStateResponse('fail');
         setMessageResponse('Admin could be not deleted');
         setShowResponseModal(true);
       }
@@ -115,7 +118,7 @@ const Admins = () => {
       {showResponseModal && (
         <ResponseModal
           handler={() => closeResponseModal()}
-          state="fail"
+          state={stateResponse}
           message={messageResponse}
         />
       )}
