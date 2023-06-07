@@ -28,10 +28,15 @@ function ClassForm() {
     setShowModal({ show: true, msg: msg, state: state });
     setTimeout(() => {
       setShowModal({ show: false, msg: '', state: '' });
-      if (state === 'success') {
-        history.push('/classes');
-      }
     }, 2000);
+    if (state === 'success') {
+      const objHistory = {
+        ...location,
+        pathname: '/classes',
+        state: { show: true, msg: msg, state: state }
+      };
+      history.replace(objHistory);
+    }
   };
 
   const getTrainersActivities = async () => {

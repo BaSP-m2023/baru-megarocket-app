@@ -1,7 +1,7 @@
 import styles from './classes.module.css';
 import ClassList from './List/ClassList';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Button from '../Shared/Button';
 import ResponseModal from '../Shared/ResponseModal';
 
@@ -10,6 +10,7 @@ function Projects() {
   const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [selectedClass, setSelectedClass] = useState(null);
   const [renderData, setRenderData] = useState(false);
+  const history = useHistory();
 
   const getData = async () => {
     try {
@@ -24,6 +25,25 @@ function Projects() {
   useEffect(() => {
     getData();
   }, [renderData]);
+
+  useEffect(() => {
+    if (history.location.state) {
+      setShowModal({
+        show: history.location.state.show || false,
+        msg: history.location.state.msg || '',
+        state: 'success'
+      });
+    }
+    const objHistory = {
+      ...location,
+      state: { show: false, msg: '', state: '' }
+    };
+    setTimeout(() => {
+      setShowModal({ show: history.location.state, msg: '', state: '' });
+    }, 2000);
+    history.replace(objHistory);
+    console.log(history.location.state);
+  }, []);
 
   const getById = async (id) => {
     try {
