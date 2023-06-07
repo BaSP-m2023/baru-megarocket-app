@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './members.module.css';
 import List from './Table/List';
 import ResponseModal from '../Shared/ResponseModal';
+import Button from '../Shared/Button';
 import { Link } from 'react-router-dom';
 
 function Members() {
@@ -53,7 +54,10 @@ function Members() {
         }, 1500);
       }
     } catch (error) {
-      console.log(error);
+      handleToast(true, 'fail', error.message);
+      setTimeout(() => {
+        handleShowToast(false);
+      }, 1500);
     }
   };
 
@@ -75,7 +79,7 @@ function Members() {
         'There are not members yet :('
       )}
       <Link to="/members/add">
-        <button className={`${styles['btn-new']}`}>+ Add new</button>
+        <Button classNameButton="addButton" text="Add new member" />
       </Link>
       {showToast && (
         <ResponseModal handler={handleShowToast} state={stateToast} message={messageToast} />

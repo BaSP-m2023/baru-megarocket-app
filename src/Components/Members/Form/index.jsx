@@ -8,7 +8,7 @@ import { Input } from '../../Shared/Inputs';
 
 const MemberForm = ({ match }) => {
   const [members, setMembers] = useState([]);
-  let [editMember, setEditMember] = useState(null);
+  const [editMember, setEditMember] = useState({});
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [stateToast, setStateToast] = useState('');
@@ -16,7 +16,7 @@ const MemberForm = ({ match }) => {
   const history = useHistory();
   let memberId = match.params.id;
 
-  let [member, setMember] = useState({
+  const [member, setMember] = useState({
     name: '',
     lastName: '',
     dni: '',
@@ -65,7 +65,7 @@ const MemberForm = ({ match }) => {
       body: JSON.stringify(updatedMember)
     });
     if (res.status === 200) {
-      setEditMember(null);
+      setEditMember({});
       setModalMessageOpen(false);
       handleToast(true, 'success', 'Member edited!');
       setTimeout(() => {
@@ -100,12 +100,15 @@ const MemberForm = ({ match }) => {
           password: data.password
         });
       } catch (error) {
-        console.log(error);
+        handleToast(true, 'fail', error.message);
+        setTimeout(() => {
+          handleShowToast(false);
+        }, 1500);
       }
     };
     if (memberId) {
       getMember(memberId);
-      editMember = member;
+      setEditMember(member);
       let newEdit = {
         name: editMember.name,
         lastName: editMember.lastName,
@@ -151,15 +154,15 @@ const MemberForm = ({ match }) => {
   };
 
   return (
-    <div className={styles.form_modal}>
-      <div className={styles.modal_content}>
-        <div className={styles.modal_header}>
+    <div className={styles.form}>
+      <div className={styles.content}>
+        <div className={styles.header}>
           <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
           <span className={styles.close_button} onClick={() => history.push('/members')}>
             &times;
           </span>
         </div>
-        <form className={styles.modal_body}>
+        <form className={styles.body}>
           <div className={styles.label_container}>
             <Input
               labelText="Name"

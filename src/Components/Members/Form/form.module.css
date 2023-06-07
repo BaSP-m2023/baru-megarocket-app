@@ -1,4 +1,4 @@
-.modal_content {
+.content {
   display: flex;
   flex-direction: column;
   background-color: #f4f4f4;
@@ -12,14 +12,14 @@
   animation-duration: 1.5s;
 }
 
-.modal_header h2 {
+.header h2 {
   margin: 0;
   align-self: center;
   font-size: 25px;
   line-height: 2;
 }
 
-.modal_header {
+.header {
   display: flex;
   justify-content: space-between;
   background: #373867;
@@ -47,7 +47,7 @@
   cursor: pointer;
 }
 
-.modal_body {
+.body {
   display: flex;
   flex-direction: column;
   padding: 10px 20px;
