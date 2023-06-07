@@ -42,7 +42,6 @@ function Projects() {
       setShowModal({ show: history.location.state, msg: '', state: '' });
     }, 2000);
     history.replace(objHistory);
-    console.log(history.location.state);
   }, []);
 
   const getById = async (id) => {
@@ -67,7 +66,7 @@ function Projects() {
             setRenderData={setRenderData}
           ></ClassList>
         ) : (
-          'Something went wrong :( try again later'
+          'There are not classes yet. Add new ones!!'
         )}
         <Link to={'/classes/add'}>
           <Button text="+ Add new Class" classNameButton="submitButton" />
