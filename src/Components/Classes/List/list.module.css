@@ -34,53 +34,9 @@
   color: #ffffff;
 }
 
-.filter {
-  width: 15vw;
-  height: 30px;
-  margin-right: 10px;
-  color: #373867;
-  border: 1px solid #373867;
-  border-radius: 5px;
-}
-
 .tableContainer {
   overflow-y: scroll;
   height: 50vh;
   width: 90vw;
   margin-bottom: 10px;
-}
-.button{
-  margin:10px;
-  border: none;
-  padding: 0;
-  background: none;
-  color: inherit;
-  font: inherit;
-  line-height: normal;
-  outline: none;
-}
-.buttonImg{
-  width: 20px;
-  height: 20px;
-}
-.inputEdit{
-  width: 150px;
-  height: 30px;
-  margin-right: 10px;
-  color: #373867;
-  border: 1px solid #373867;
-  border-radius: 5px;
-}
-
-.button{
-  align-self: center;
-  width: 100px;
-  height: 36px;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #373867;
-  background-color: #aace9b;
-  border: 0;
-  border-radius: 5px;
-  cursor: pointer;
 }

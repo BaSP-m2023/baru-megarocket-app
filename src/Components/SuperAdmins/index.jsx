@@ -1,15 +1,17 @@
 import styles from './super-admins.module.css';
-import Form from './Form/index';
-import MessageModal from './MessageModal/index';
+import ResponseModal from '../Shared/ResponseModal';
 import Table from './Table/index';
 import { useEffect, useState } from 'react';
+import ConfirmModal from '../Shared/ConfirmModal';
 
 function SuperAdmins() {
-  const [showAddSuperadmin, setshowAddSuperadmin] = useState(false);
-  const [updatingItem, setUpdatingItem] = useState({ name: '', lastName: '', email: '' });
   const [superadmins, setSuperadmins] = useState([]);
   const [showModal, setshowModal] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [idToDelete, setIdToDelete] = useState(null);
   const [resMessage, setResMessage] = useState('');
+  const [state, setState] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const getSuperadmins = async () => {
     try {
@@ -17,123 +19,68 @@ function SuperAdmins() {
       const data = await res.json();
       setSuperadmins(data.data);
     } catch (error) {
+      setState('fail');
       setResMessage(error.message);
-      setshowModal(true);
+      openModal();
     }
   };
-  useEffect(() => {
-    getSuperadmins();
-  }, []);
-  const showForm = () => {
-    setshowAddSuperadmin(!showAddSuperadmin);
-    setUpdatingItem({ name: '', lastName: '', email: '' });
-  };
-
   const closeModal = () => {
     setshowModal(false);
+    sessionStorage.clear();
   };
   const openModal = () => {
     setshowModal(true);
   };
+  useEffect(() => {
+    const getResponseFromForm = () => {
+      setState(sessionStorage.getItem('state'));
+      setResMessage(sessionStorage.getItem('resMessage'));
+      sessionStorage.getItem('state') && openModal();
+    };
+    getResponseFromForm();
+    getSuperadmins();
+  }, [success]);
 
-  const addItem = async (superadmin) => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(superadmin)
-      });
-      getSuperadmins();
-      if (res.ok) {
-        setResMessage('New superadmin created');
-        openModal();
-      } else {
-        setResMessage('Failed to create superadmin');
-        openModal();
-      }
-    } catch (error) {
-      setResMessage(error.message);
-      openModal();
-    }
+  const confirmDelete = (id) => {
+    setShowConfirmDelete(true);
+    setIdToDelete(id);
   };
-
-  const putItem = async (id, updatedSuperadmin) => {
+  const deleteItem = async () => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedSuperadmin)
-      });
-      if (res.ok) {
-        setResMessage('Superadmin updated');
-        openModal();
-      } else {
-        setResMessage('Failed to update superadmin');
-        openModal();
-      }
-    } catch (error) {
-      setResMessage(error.message);
-      openModal();
-    }
-  };
-
-  const deleteItem = async (id) => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${idToDelete}`, {
         method: 'DELETE'
       });
+      setShowConfirmDelete(false);
       if (res.ok) {
-        setResMessage('Superadmin deleted');
-        openModal();
-        setSuperadmins([...superadmins.filter((superadmin) => superadmin._id !== id)]);
+        setSuperadmins([...superadmins.filter((superadmin) => superadmin._id !== idToDelete)]);
+        sessionStorage.setItem('state', 'success');
+        sessionStorage.setItem('resMessage', 'Superadmin deleted');
+        setSuccess(true);
       } else {
-        setResMessage('Failed to delete superadmin');
-        openModal();
+        sessionStorage.setItem('state', 'fail');
+        sessionStorage.setItem('resMessage', 'Failed to delete superadmin');
       }
     } catch (error) {
-      setResMessage(error.message);
-      openModal();
-    }
-  };
-
-  const handleUpdateClick = async (id) => {
-    setshowAddSuperadmin(true);
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`, {
-        method: 'GET'
-      });
-      const data = await res.json();
-      setUpdatingItem(data.data);
-    } catch (error) {
-      setResMessage(error.message);
-      openModal();
+      sessionStorage.setItem('state', 'fail');
+      sessionStorage.setItem('resMessage', 'Failed to delete superadmin');
     }
   };
 
   return (
     <section className={styles.container}>
-      {showModal && <MessageModal msg={resMessage} onClose={closeModal} />}
-      <h2 className={styles.h2}>SuperAdmins</h2>
-      <Table
-        data={superadmins}
-        deleteItem={deleteItem}
-        showForm={showForm}
-        handleUpdateClick={handleUpdateClick}
-        updatingItem={updatingItem}
-      />
-      {showAddSuperadmin && (
-        <Form
-          getSuperadmins={getSuperadmins}
-          addItem={addItem}
-          updatingItem={updatingItem}
-          showForm={showForm}
-          putItem={putItem}
-        />
+      {showModal && <ResponseModal state={state} message={resMessage} handler={closeModal} />}
+      {showConfirmDelete && (
+        <ConfirmModal
+          title={'Delete superadmin'}
+          reason={'delete'}
+          handler={() => setShowConfirmDelete(false)}
+          onAction={deleteItem}
+        >
+          Are you sure you want to delete this superadmin?
+        </ConfirmModal>
       )}
+      <h2 className={styles.h2}>Superadmin List</h2>
+      <Table data={superadmins} confirmDelete={confirmDelete} />
     </section>
   );
 }

@@ -1,33 +1,23 @@
-.container {
+.formContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-  background-color: #000000b3;
-}
-
-.formContainer {
-  width: 50%;
+  width: 100%;
+  padding: 40px 0px;
+  margin: 0 auto;
 }
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 25vw;
   padding: 0.5rem;
+  text-align: center;
   background-color: #232F3E;
 }
 
 .title {
-  color: #ffffff;
   margin: 0.25rem;
+  color: #ffffff;
 }
 
 .button {
@@ -38,6 +28,7 @@
 }
 
 .form {
+  width: 25vw;
   padding: 0.5rem;
   background-color: #ffffff;
 }
@@ -45,23 +36,26 @@
 .labelInput {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 0.5rem;
 }
 
 .label {
+  margin-bottom: 0.2rem;
   color: #373867;
   font-size: 0.75rem;
   font-weight: bold;
-  margin-bottom: 0.2rem;
 }
 
 .input {
-  height: 1.5rem;
+  width: 100%;
 }
 
 .buttonContainer{
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  width: 25vw;
 }
 
 .cancelButton {
@@ -90,3 +84,6 @@
   cursor: pointer;
 }
 
+.disabled {
+  display: none;
+}
