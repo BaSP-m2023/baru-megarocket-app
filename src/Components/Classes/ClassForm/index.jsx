@@ -104,6 +104,7 @@ function ClassForm() {
         ...classes,
         trainer: [classes.trainer]
       };
+      console.log(editedClass);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
         method: 'PUT',
         headers: {
@@ -111,19 +112,18 @@ function ClassForm() {
         },
         body: JSON.stringify(editedClass)
       });
-      console.log(response);
-      if (!response.ok) {
-        setResponseModal({ error: true, msg: response.data.message });
+      const data = await response.json();
+      if (data.length !== 0 && !data.error) {
+        setResponseModal({ error: false, msg: 'Class created sucessfully' });
+        setShowModal(true);
+      } else {
+        setResponseModal({ error: true, msg: data.message });
         setShowModal(true);
       }
-      setResponseModal({ error: false, msg: 'Class updated sucessfully' });
-      setShowModal(true);
-
-      return response.json();
     } catch (error) {
       setResponseModal({ error: true, msg: error });
       setShowModal(true);
-      throw new Error(error.message);
+      throw new Error(error);
     }
   };
   const onClickEditClass = (e) => {
