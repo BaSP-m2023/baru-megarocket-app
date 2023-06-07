@@ -144,7 +144,7 @@ const SuperAdminsForm = () => {
       )}
       <div className={styles.formBackground}>
         <div className={styles.container}>
-          <div className={styles.modalTitle}>
+          <div className={styles.titleContainer}>
             <h3 className={styles.title}>{id ? 'Edit superadmin' : 'Create superadmin'}</h3>
             <button className={styles.close} onClick={goBackHandle}>
               X
