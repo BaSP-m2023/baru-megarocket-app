@@ -6,16 +6,11 @@ import Button from '../Shared/Button';
 import { Input } from '../Shared/Inputs';
 
 import ResponseModal from '../Shared/ResponseModal';
-import Form from './Form-Create';
 const Subscriptions = () => {
   const [filteredSubscriptions, setFilteredSubscriptions] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
   const [createModal, setCreateModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
-  const [addForm, setAddForm] = useState(false);
-  const [classes, setClasses] = useState([]);
-  const [members, setMembers] = useState([]);
-  const [error, setError] = useState({ error: false, msg: '' });
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -33,51 +28,10 @@ const Subscriptions = () => {
     }
   }, [createModal, errorModal, subscriptions, searchTerm]);
 
-  const addItem = async (newSubscription) => {
-    try {
-      const isoDate = newSubscription.date ? new Date(newSubscription.date).toISOString() : '';
-      const body = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          classes: newSubscription.classes,
-          members: newSubscription.members,
-          date: isoDate
-        })
-      };
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/`, body);
-      const data = await response.json();
-      if (data.length !== 0 && !data.error) {
-        setCreateModal(true);
-        setAddForm(false);
-        setSubscriptions([
-          ...subscriptions,
-          {
-            _id: data._id,
-            classes: data.classes._id,
-            members: data.members._id,
-            date: data.date
-          }
-        ]);
-        fetchData();
-        setError({ error: false, msg: '' });
-      } else {
-        setError({ error: true, msg: data.message });
-        setErrorModal(true);
-        setAddForm(false);
-      }
-    } catch (e) {
-      setError({ error: true, msg: e });
-      throw new Error(error);
-    }
-  };
-
   const filterSubscriptions = () => {
     const filtered = subscriptions.filter((subscription) => {
       const fullName =
-        `${subscription.members.name} ${subscription.members.lastName}`.toLowerCase();
+        `${subscription.members?.name} ${subscription.members?.lastName}`.toLowerCase();
       return fullName.includes(searchTerm.toLowerCase());
     });
     setFilteredSubscriptions(filtered);
@@ -86,14 +40,8 @@ const Subscriptions = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/`);
-      const resClasses = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`);
-      const resMembers = await fetch(`${process.env.REACT_APP_API_URL}/api/member/`);
       const data = await response.json();
-      const dataClasses = await resClasses.json();
-      const dataMembers = await resMembers.json();
-      setMembers(dataMembers.data);
       setSubscriptions(data.data);
-      setClasses(dataClasses.data);
     } catch (error) {
       console.error('Error', error);
     }
@@ -101,13 +49,6 @@ const Subscriptions = () => {
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Subscription</h1>
-      <Form
-        addForm={addForm}
-        addItem={addItem}
-        members={members}
-        classes={classes}
-        onClose={() => setAddForm(false)}
-      />
       <div className={styles.inputSearch}>
         <Input
           name="Search Subscription"

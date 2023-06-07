@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './table.module.css';
-import Form from '../Form';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
@@ -10,10 +9,8 @@ const Table = ({ data }) => {
   const [deletedSubscription, setDeletedSubscription] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
-  const [showForm, setShowForm] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const formRef = useRef(null);
   const history = useHistory();
 
   useEffect(() => {
@@ -29,16 +26,6 @@ const Table = ({ data }) => {
       }, 3000);
     }
   }, [data, deletedSubscription, showDeleteModal]);
-
-  const updateTableData = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`);
-      const data = await response.json();
-      setTableData(data.data);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
 
   const handleConfirmDelete = (subscriptionId) => {
     setEditingSubscriptionId(subscriptionId);
@@ -122,21 +109,6 @@ const Table = ({ data }) => {
           )}
         </tbody>
       </table>
-      {showForm && (
-        <div ref={formRef}>
-          {editingSubscriptionId && (
-            <Form
-              subscriptionId={editingSubscriptionId}
-              onClose={() => {
-                setShowForm(false);
-              }}
-              onModalClose={() => setShowForm(false)}
-              showForm={showForm}
-              updateTable={updateTableData}
-            />
-          )}
-        </div>
-      )}
       {showConfirmDeleteModal && (
         <ConfirmModal
           title="Delete Subscription"

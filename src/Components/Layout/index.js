@@ -4,13 +4,13 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Activities from '../Activities';
 import Admins from '../Admins';
 import AdminsForm from '../Admins/Form';
+import ActivitiesForm from '../Activities/Form';
 import Classes from '../Classes';
 import Members from '../Members';
 import Subscriptions from '../Subscriptions';
-import subscriptionsForm from '../Subscriptions/Form';
+import SubscriptionsForm from '../Subscriptions/Form';
 import SuperAdmins from '../SuperAdmins';
 import Trainers from '../Trainers';
-
 import Home from '../Home/index';
 import Header from '../Header/index';
 import Footer from '../Footer/index';
@@ -24,16 +24,17 @@ function Layout() {
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/activities" component={Activities} />
           <Route exact path="/admins" component={Admins} />
           <Route path="/admins/add" component={AdminsForm} />
           <Route path="/admins/edit/:id" component={AdminsForm} />
+          <Route path="/activities" exact component={Activities} />
+          <Route path="/activities/add" component={ActivitiesForm} />
+          <Route path="/activities/edit/:id" component={ActivitiesForm} />
           <Route path="/classes" component={Classes} />
           <Route path="/members" component={Members} />
-          <Route path="/subscriptions" component={Subscriptions} />
-          <Route exact path="/subscriptions/form" component={subscriptionsForm} />
-          <Route exact path="/subscriptions/edit/:id" component={subscriptionsForm} />
-          <Route exact path="/subscriptions/add" component={subscriptionsForm} />
+          <Route exact path="/subscriptions" component={Subscriptions} />
+          <Route path="/subscriptions/edit/:id" component={SubscriptionsForm} />
+          <Route path="/subscriptions/add" component={SubscriptionsForm} />
           <Route path="/super-admins" component={SuperAdmins} />
           <Route exact path="/trainers" component={Trainers} />
           <Route path="/trainers/add" component={TrainerForm} />
