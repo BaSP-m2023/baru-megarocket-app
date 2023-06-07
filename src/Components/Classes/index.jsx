@@ -39,7 +39,7 @@ function Projects() {
       state: { show: false, msg: '', state: '' }
     };
     setTimeout(() => {
-      setShowModal({ show: history.location.state, msg: '', state: '' });
+      setShowModal({ show: false, msg: '', state: '' });
     }, 2000);
     history.replace(objHistory);
   }, []);
