@@ -79,7 +79,11 @@ const Table = ({ data }) => {
           {tableData.length > 0 ? (
             tableData.map((subscription) => (
               <tr key={subscription._id} className={styles.item}>
-                <td>{`${subscription.classes.day} ${subscription.classes.time}`}</td>
+                {!subscription.classes ? (
+                  <td>{'empty'}</td>
+                ) : (
+                  <td>{`${subscription.classes.day} ${subscription.classes.time}`}</td>
+                )}
                 {!subscription.members ? (
                   <td>{'empty'}</td>
                 ) : (
