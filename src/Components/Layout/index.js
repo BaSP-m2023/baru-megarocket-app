@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Activities from '../Activities';
-import Admins from '../Admins';
+import Admins from '../Admins/index';
 import AdminsForm from '../Admins/Form';
 import ActivitiesForm from '../Activities/Form';
 import Classes from '../Classes';
@@ -11,6 +11,7 @@ import Members from '../Members';
 import Subscriptions from '../Subscriptions';
 import SubscriptionsForm from '../Subscriptions/Form';
 import SuperAdmins from '../SuperAdmins';
+import SuperAdminsForm from '../SuperAdmins/Form';
 import Trainers from '../Trainers';
 import Home from '../Home/index';
 import Header from '../Header/index';
@@ -35,10 +36,12 @@ function Layout() {
           <Route exact path="/classes/add" component={ClassForm} />
           <Route exact path="/classes/edit/:id" component={ClassForm} />
           <Route path="/members" component={Members} />
+          <Route exact path="/super-admins" component={SuperAdmins} />
+          <Route exact path="/super-admins/add" component={SuperAdminsForm} />
+          <Route exact path="/super-admins/edit/:id" component={SuperAdminsForm} />
           <Route exact path="/subscriptions" component={Subscriptions} />
           <Route path="/subscriptions/edit/:id" component={SubscriptionsForm} />
           <Route path="/subscriptions/add" component={SubscriptionsForm} />
-          <Route path="/super-admins" component={SuperAdmins} />
           <Route exact path="/trainers" component={Trainers} />
           <Route path="/trainers/add" component={TrainerForm} />
           <Route path="/trainers/edit/:id" component={TrainerForm} />
