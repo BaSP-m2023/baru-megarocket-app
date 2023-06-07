@@ -5,6 +5,7 @@ import Activities from '../Activities';
 import ActivitiesForm from '../Activities/Form';
 import Admins from '../Admins/index';
 import Classes from '../Classes';
+import ClassForm from '../Classes/ClassForm';
 import Members from '../Members';
 import Subscriptions from '../Subscriptions';
 import SubscriptionsForm from '../Subscriptions/Form';
@@ -27,7 +28,9 @@ function Layout() {
           <Route path="/activities/add" component={ActivitiesForm} />
           <Route path="/activities/edit/:id" component={ActivitiesForm} />
           <Route path="/admins" component={Admins} />
-          <Route path="/classes" component={Classes} />
+          <Route exact path="/classes" component={Classes} />
+          <Route exact path="/classes/add" component={ClassForm} />
+          <Route exact path="/classes/edit/:id" component={ClassForm} />
           <Route path="/members" component={Members} />
           <Route exact path="/subscriptions" component={Subscriptions} />
           <Route path="/subscriptions/edit/:id" component={SubscriptionsForm} />
