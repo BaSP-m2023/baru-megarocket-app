@@ -3,22 +3,21 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px 0px;
   width: 100%;
+  padding: 40px 0px;
   margin: 0 auto;
 }
 
 .header {
   width: 25vw;
-  align-items: center;
-  text-align: center;
   padding: 0.5rem;
+  text-align: center;
   background-color: #232F3E;
 }
 
 .title {
-  color: #ffffff;
   margin: 0.25rem;
+  color: #ffffff;
 }
 
 .button {
@@ -37,16 +36,16 @@
 .labelInput {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.5rem;
   justify-content: center;
   align-items: center;
+  margin-bottom: 0.5rem;
 }
 
 .label {
+  margin-bottom: 0.2rem;
   color: #373867;
   font-size: 0.75rem;
   font-weight: bold;
-  margin-bottom: 0.2rem;
 }
 
 .input {
