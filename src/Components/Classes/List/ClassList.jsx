@@ -70,7 +70,7 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <Input placeholder="Class Filter" change={(e) => handleFilter(e)} />
       <div className={styles.tableContainer}>
         <table className={styles.table}>
@@ -142,7 +142,7 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
           Are you sure you want to delete this class?
         </ConfirmModal>
       )}
-    </>
+    </div>
   );
 }
 
