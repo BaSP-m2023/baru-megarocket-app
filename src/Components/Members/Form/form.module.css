@@ -1,38 +1,25 @@
-.label_container {
+.content {
   display: flex;
   flex-direction: column;
-}
-
-.form_modal {
-  display: block;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal_content {
   background-color: #f4f4f4;
   margin: 10% auto;
-  width: 50%;
+  margin-top: 30px;
+  height: 100%;
+  width: 70%;
   border-radius: 7px;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
   animation-name: modalopen;
   animation-duration: 1.5s;
 }
 
-.modal_header h2 {
+.header h2 {
   margin: 0;
   align-self: center;
   font-size: 25px;
   line-height: 2;
 }
 
-.modal_header {
+.header {
   display: flex;
   justify-content: space-between;
   background: #373867;
@@ -42,13 +29,10 @@
   border-top-right-radius: 7px;
 }
 
-.modal_body {
+.label_container {
   display: flex;
   flex-direction: column;
-  padding: 10px 20px;
-  font-family: 'Roboto', Arial, serif;
-  font-size: 17px;
-  line-height: 1.6;
+  align-items: center;
 }
 
 .close_button {
@@ -63,21 +47,32 @@
   cursor: pointer;
 }
 
-.save_input {
-  align-self: center;
-  background-color: #aace9b;
-  color: #fff;
-  width: 50%;
-  margin-top: 10px;
-  font-size: 1.2em;
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  font-family: 'Roboto', Arial, serif;
+  font-size: 17px;
+  line-height: 1.6;
 }
 
-@keyframes modalopen {
-  from {
-    opacity: 0;
-  }
+.confirm_button {
+  text-align: center;
+}
 
-  to {
-    opacity: 1;
-  }
+.input {
+  width: 25vw;
+  height: 30px;
+  margin-right: 10px;
+  color: #373867;
+  border: 1px solid #373867;
+  border-radius: 5px;
+}
+
+.label {
+  display: block;
+  padding: 5px;
+  color: #373867;
+  font-weight: 700;
+  font-size: 1rem;
 }

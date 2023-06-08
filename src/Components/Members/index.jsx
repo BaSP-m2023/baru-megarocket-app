@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styles from './members.module.css';
-import MemberModal from './Form';
-import MessageModal from './Modal';
 import List from './Table/List';
-import DeleteModal from './Modal/DeleteModal';
-import Toast from './Toast/Toast';
+import ResponseModal from '../Shared/ResponseModal';
+import Button from '../Shared/Button';
+import { Link } from 'react-router-dom';
 
 function Members() {
   const [members, setMembers] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editMember, setEditMember] = useState(null);
-  const [modalMessageOpen, setModalMessageOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState(null);
-  const [memberToDelete, setMember] = useState({});
-  const [modal, setModal] = useState(false);
-  const [toast, setToast] = useState(false);
-  const [toastContent, setContent] = useState({});
+  const [showToast, setShowToast] = useState(false);
+  const [stateToast, setStateToast] = useState('');
+  const [messageToast, setMessageToast] = useState('');
 
   useEffect(() => {
     const getMembers = async () => {
@@ -39,130 +33,56 @@ function Members() {
     }
   };
 
-  // const getMember = async (id) => {
-  //   try {
-  //     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`);
-  //     const { data } = await res.json();
-  //     setMember(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const addMember = async (member) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(member)
-    });
-    if (res.status === 201) {
-      const data = await res.json();
-      setMembers([...members, data]);
-      setModalMessageOpen(true);
-      setModalMessage('Member created succesfuly!');
-    } else {
-      setModalMessageOpen(true);
-      setModalMessage('Member cant be created');
-    }
-  };
-
   const deleteMember = async (id) => {
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
         method: 'DELETE'
       });
-      const data = await res.json();
 
       if (res.status === 200) {
-        handleToast({ content: data.message, className: 'toast-ok' });
+        handleToast(true, 'success', 'Member deleted!');
         setMembers(members.filter((member) => member._id !== id));
+        setTimeout(() => {
+          handleShowToast(false);
+        }, 1500);
       }
 
       if (res.status !== 200) {
-        handleToast({ content: data.msg, className: 'toast-wrong' });
+        handleToast(true, 'fail', 'Member cant be deleted!');
+        setTimeout(() => {
+          handleShowToast(false);
+        }, 1500);
       }
-
-      handleModal();
     } catch (error) {
-      console.log(error);
+      handleToast(true, 'fail', error.message);
+      setTimeout(() => {
+        handleShowToast(false);
+      }, 1500);
     }
   };
 
-  const updMember = async (id, updatedMember) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updatedMember)
-    });
-    if (res.status === 200) {
-      getAllMembers();
-      setEditMember(null);
-      setModalOpen(false);
-      setModalMessageOpen(true);
-      setModalMessage('Member updated succesfuly!');
-    } else {
-      setModalMessageOpen(true);
-      setModalMessage('Cant update member!');
-    }
+  const handleShowToast = (show) => {
+    setShowToast(show);
   };
 
-  const handleShow = () => setModalOpen(true);
-  const handleClose = () => {
-    setModalOpen(false);
-    setEditMember(null);
-  };
-
-  const handleMessageClose = () => {
-    setModalMessageOpen(false);
-  };
-
-  const handleEdit = (id) => {
-    setEditMember(id);
-    setModalOpen(true);
-  };
-
-  const handleModal = (member = {}) => {
-    setMember(member);
-    setModal(!modal);
-  };
-
-  const handleToast = (msg) => {
-    setContent(msg);
-    setToast(!toast);
+  const handleToast = (show, state, message) => {
+    handleShowToast(show);
+    setStateToast(state);
+    setMessageToast(message);
   };
 
   return (
     <section className={styles.container}>
       {members.length > 0 ? (
-        <List members={members} handleModal={handleModal} handleEdit={handleEdit} />
+        <List members={members} deleteMember={deleteMember} />
       ) : (
         'There are not members yet :('
       )}
-      <button className={`${styles['btn-new']}`} onClick={() => handleShow()}>
-        + Add new
-      </button>
-      <MemberModal
-        memberId={editMember}
-        data={members}
-        modalOpen={modalOpen}
-        onClose={() => handleClose()}
-        addMember={addMember}
-        updMember={updMember}
-      />
-      {modal && <DeleteModal hide={handleModal} onDelete={deleteMember} member={memberToDelete} />}
-      {toast && (
-        <Toast
-          handler={handleToast}
-          content={toastContent.content}
-          classes={toastContent.className}
-        />
-      )}
-      {modalMessageOpen && (
-        <MessageModal modalMessage={modalMessage} onCloseMessage={() => handleMessageClose()} />
+      <Link to="/members/add">
+        <Button classNameButton="addButton" text="Add new member" />
+      </Link>
+      {showToast && (
+        <ResponseModal handler={handleShowToast} state={stateToast} message={messageToast} />
       )}
     </section>
   );
