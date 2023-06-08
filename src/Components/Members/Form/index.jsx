@@ -42,14 +42,14 @@ const MemberForm = ({ match }) => {
       const data = await res.json();
       setMembers([...members, data]);
       setModalMessageOpen(false);
-      handleToast(true, 'success', 'Member added!');
+      handleToast(true, 'success', 'Member added');
       setTimeout(() => {
         history.push('/members');
         handleShowToast(false);
       }, 1500);
     } else {
       setModalMessageOpen(false);
-      handleToast(true, 'fail', 'Member cant be added!');
+      handleToast(true, 'fail', 'Member cant be added');
       setTimeout(() => {
         handleShowToast(false);
       }, 1500);
@@ -67,14 +67,14 @@ const MemberForm = ({ match }) => {
     if (res.status === 200) {
       setEditMember({});
       setModalMessageOpen(false);
-      handleToast(true, 'success', 'Member edited!');
+      handleToast(true, 'success', 'Member edited');
       setTimeout(() => {
         history.push('/members');
         handleShowToast(false);
       }, 1500);
     } else {
       setModalMessageOpen(false);
-      handleToast(true, 'fail', 'Member cant be edited!');
+      handleToast(true, 'fail', 'Member cant be edited');
       setTimeout(() => {
         handleShowToast(false);
       }, 1500);
@@ -95,7 +95,7 @@ const MemberForm = ({ match }) => {
           city: data.city,
           dob: data.dob,
           zip: data.zip,
-          isActive: false,
+          isActive: data.isActive,
           membership: data.membership,
           password: data.password
         });
@@ -118,7 +118,7 @@ const MemberForm = ({ match }) => {
         city: editMember.city,
         dob: editMember.dob,
         zip: editMember.zip,
-        isActive: false,
+        isActive: editMember.isActive,
         membership: editMember.membership,
         password: editMember.password
       };
@@ -130,7 +130,7 @@ const MemberForm = ({ match }) => {
     setMember({
       ...member,
       [e.target.name]: e.target.value,
-      isActive: e.target.checked
+      isActive: e.currentTarget.checked
     });
   };
 
