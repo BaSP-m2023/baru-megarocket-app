@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 const Table = ({ confirmDelete, data }) => {
   return (
-    <>
-      <table className={styles.container}>
+    <div className={styles.container}>
+      <table className={styles.table}>
         <thead>
           <tr className={styles.trow}>
             <th className={styles.thead}>Name</th>
@@ -40,7 +40,7 @@ const Table = ({ confirmDelete, data }) => {
       <Link to="/super-admins/add" className={styles.addItem}>
         <Button text={'+ Add new'} classNameButton={'addButton'} />
       </Link>
-    </>
+    </div>
   );
 };
 

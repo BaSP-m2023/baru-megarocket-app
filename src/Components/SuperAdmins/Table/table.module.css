@@ -1,6 +1,10 @@
-.container {
-  margin-left: auto;
-  margin-right: auto;
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.table {
   width: 75%;
   border-collapse: collapse;
 }
@@ -21,7 +25,8 @@
 }
 .addItem {
   position: relative;
-  left: 42%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .icon {
