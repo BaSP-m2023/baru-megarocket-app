@@ -57,21 +57,19 @@ function Projects() {
   return (
     <section className={styles.container}>
       <h2>Class List</h2>
-      <div>
-        {classes.length !== 0 ? (
-          <ClassList
-            classes={classes && classes}
-            getById={getById}
-            selectedClass={selectedClass}
-            setRenderData={setRenderData}
-          ></ClassList>
-        ) : (
-          'There are not classes yet. Add new ones!!'
-        )}
-        <Link to={'/classes/add'}>
-          <Button text="+ Add new Class" classNameButton="submitButton" />
-        </Link>
-      </div>
+      {classes.length !== 0 ? (
+        <ClassList
+          classes={classes && classes}
+          getById={getById}
+          selectedClass={selectedClass}
+          setRenderData={setRenderData}
+        ></ClassList>
+      ) : (
+        'There are not classes yet. Add new ones!!'
+      )}
+      <Link to={'/classes/add'} className={styles.addNew}>
+        <Button text="+ Add new" classNameButton="submitButton" />
+      </Link>
       {showModal.show && (
         <ResponseModal
           handler={() => setShowModal({ show: false, msg: '', state: '' })}

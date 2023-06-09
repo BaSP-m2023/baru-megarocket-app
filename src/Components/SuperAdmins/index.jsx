@@ -67,7 +67,7 @@ function SuperAdmins() {
   };
 
   return (
-    <section className={styles.container}>
+    <>
       {showModal && <ResponseModal state={state} message={resMessage} handler={closeModal} />}
       {showConfirmDelete && (
         <ConfirmModal
@@ -79,9 +79,11 @@ function SuperAdmins() {
           Are you sure you want to delete this superadmin?
         </ConfirmModal>
       )}
-      <h2 className={styles.h2}>Superadmin List</h2>
-      <Table data={superadmins} confirmDelete={confirmDelete} />
-    </section>
+      <section className={styles.container}>
+        <h2 className={styles.h2}>Superadmin List</h2>
+        <Table data={superadmins} confirmDelete={confirmDelete} />
+      </section>
+    </>
   );
 }
 
