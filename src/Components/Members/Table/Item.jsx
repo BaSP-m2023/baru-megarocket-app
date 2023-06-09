@@ -31,12 +31,6 @@ const Item = ({ member = { name: 'Nothing match', isActive: false }, deleteMembe
             img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
             action={() => handleModal()}
           />
-          {/* <img
-            className={`${styles['table-buttons']}`}
-            src="/assets/images/delete-icon.png"
-            alt="delete icon"
-            onClick={() => handleModal()}
-          /> */}
         </td>
       </tr>
       {modal && (
