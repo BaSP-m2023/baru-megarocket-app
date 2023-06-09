@@ -48,7 +48,7 @@ function Members() {
       }
 
       if (res.status !== 200) {
-        handleToast(true, 'fail', 'Member cant be deleted!');
+        handleToast(true, 'fail', 'Member cant be deleted');
         setTimeout(() => {
           handleShowToast(false);
         }, 1500);

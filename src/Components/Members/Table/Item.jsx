@@ -3,6 +3,7 @@ import ButtonSlider from './ButtonSlider/ButtonSlider';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import ConfirmModal from '../../Shared/ConfirmModal';
+import Button from '../../Shared/Button';
 
 const Item = ({ member = { name: 'Nothing match', isActive: false }, deleteMember }) => {
   const [modal, setModal] = useState(false);
@@ -22,19 +23,13 @@ const Item = ({ member = { name: 'Nothing match', isActive: false }, deleteMembe
         </td>
         <td>
           <Link to={`/members/edit/${member._id}`}>
-            <img
-              className={`${styles['table-buttons']}`}
-              src="/assets/images/edit-icon.png"
-              alt="edit icon"
-            />
+            <Button img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'} />
           </Link>
         </td>
         <td>
-          <img
-            className={`${styles['table-buttons']}`}
-            src="/assets/images/delete-icon.png"
-            alt="delete icon"
-            onClick={() => handleModal()}
+          <Button
+            img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
+            action={() => handleModal()}
           />
         </td>
       </tr>
