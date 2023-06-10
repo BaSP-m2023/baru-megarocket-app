@@ -1,4 +1,11 @@
-import { GET_CLASS_PENDING, GET_CLASS_SUCCESS, GET_CLASS_ERROR } from './constants';
+import {
+  GET_CLASS_PENDING,
+  GET_CLASS_SUCCESS,
+  GET_CLASS_ERROR,
+  ADD_CLASS_PENDING,
+  ADD_CLASS_SUCCESS,
+  ADD_CLASS_ERROR
+} from './constants';
 
 const INITIAL_STATE = {
   data: [],
@@ -20,6 +27,23 @@ const classReducer = (state = INITIAL_STATE, action) => {
         data: action.payload
       };
     case GET_CLASS_ERROR:
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload
+      };
+    case ADD_CLASS_PENDING:
+      return {
+        ...state,
+        isPending: true
+      };
+    case ADD_CLASS_SUCCESS:
+      return {
+        ...state,
+        isPending: false,
+        data: action.payload
+      };
+    case ADD_CLASS_ERROR:
       return {
         ...state,
         isPending: false,
