@@ -1,33 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTrainers } from '../../Redux/Trainers/thunks';
 import styles from './trainers.module.css';
 import Table from './Table';
+import Loader from '../Shared/Loader';
 import Button from '../Shared/Button';
 import ResponseModal from '../Shared/ResponseModal';
 
 const Trainers = () => {
-  const [activeTrainers, setActiveTrainers] = useState([]);
   const [showResponseModal, setShowResponseModal] = useState(false);
   const [stateModal, setStateModal] = useState('success');
   const [responseMessage, setResponseMessage] = useState('');
 
-  const getTrainers = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`);
-      const { data } = await response.json();
-      setActiveTrainers(data.filter((trainer) => trainer.isActive));
-    } catch (error) {
-      setResponseMessage(`Error fetching trainers: ${error.message}`);
-      setShowResponseModal(true);
-      setStateModal('fail');
-      setTimeout(() => {
-        setShowResponseModal(false);
-      }, 3000);
-    }
-  };
+  const dispatch = useDispatch();
+  const trainers = useSelector((state) => state.trainers.data);
+  const pending = useSelector((state) => state.trainers.isPending);
   useEffect(() => {
-    getTrainers();
-  }, []);
+    getTrainers(dispatch);
+  }, [dispatch]);
 
   const deleteTrainer = async (id) => {
     try {
@@ -36,10 +27,10 @@ const Trainers = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        setActiveTrainers(activeTrainers.filter((trainer) => trainer._id !== id));
         setResponseMessage(data.message);
         setShowResponseModal(true);
         setStateModal('success');
+        getTrainers(dispatch);
         setTimeout(() => {
           setShowResponseModal(false);
         }, 3000);
@@ -64,11 +55,11 @@ const Trainers = () => {
   return (
     <section className={styles.container}>
       <h2>Trainers</h2>
-      {activeTrainers.length > 0 ? (
-        <Table data={activeTrainers} deleteTrainer={deleteTrainer} />
-      ) : (
-        'There is no trainers to show'
-      )}
+      {pending && <Loader />}
+      {!pending && trainers.length > 0 ? (
+        <Table data={trainers} deleteTrainer={deleteTrainer} />
+      ) : null}
+      {!pending && !trainers.length && 'There are no trainers to show'}
       <Link to="/trainers/add">
         <Button text="+ Add New" classNameButton="addButton" />
       </Link>
