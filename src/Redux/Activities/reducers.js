@@ -3,7 +3,10 @@ import * as actionCreator from './constants';
 const INITIAL_STATE = {
   list: [],
   isPending: false,
-  status: ''
+  error: {
+    message: '',
+    error: false
+  }
 };
 
 const activitiesReducer = (state = INITIAL_STATE, action) => {
@@ -15,7 +18,7 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       return { ...state, list: action.payload.list };
     }
     case actionCreator.GET_ACTIVITIES_ERROR: {
-      return { ...state, status: action.payload.error };
+      return { ...state, error: action.payload.error };
     }
     default:
       return state;
