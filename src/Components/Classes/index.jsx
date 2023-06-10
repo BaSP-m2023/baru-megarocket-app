@@ -52,15 +52,15 @@ function Projects() {
     <section className={styles.container}>
       <h2>Class List</h2>
       {pending && <Loader />}
-      {classes.length !== 0 ? (
+      {console.log(classes.length, pending)}
+      {classes.length > 0 && !pending && (
         <ClassList
           classes={classes && classes}
           getById={getById}
           selectedClass={selectedClass}
         ></ClassList>
-      ) : (
-        'There are not classes yet. Add new ones!!'
       )}
+      {!pending && classes.length === 0 && 'There are not classes yet. Add new ones!'}
       <Link to={'/classes/add'} className={styles.addNew}>
         <Button text="+ Add new" classNameButton="submitButton" />
       </Link>
