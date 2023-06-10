@@ -52,7 +52,6 @@ function Projects() {
     <section className={styles.container}>
       <h2>Class List</h2>
       {pending && <Loader />}
-      {console.log(classes.length, pending)}
       {classes.length > 0 && !pending && (
         <ClassList
           classes={classes && classes}
