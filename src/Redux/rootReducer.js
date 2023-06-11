@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import {
   superadminsReducer,
   addSuperadminReducer,
-  editSuperadminReducer
+  editSuperadminReducer,
+  deleteSuperadminReducer
 } from './SuperAdmins/reducers';
 
 // Import reducers below
@@ -10,7 +11,8 @@ import {
 const rootReducers = combineReducers({
   superadmins: superadminsReducer,
   newSuperadmin: addSuperadminReducer,
-  editSuperadmin: editSuperadminReducer
+  editSuperadmin: editSuperadminReducer,
+  deleteSuperadmin: deleteSuperadminReducer
 });
 
 export default rootReducers;

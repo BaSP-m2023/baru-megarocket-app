@@ -7,7 +7,10 @@ import {
   addSuperadminSuccess,
   editSuperadminPending,
   editSuperadminError,
-  editSuperadminSuccess
+  editSuperadminSuccess,
+  deleteSuperadminPending,
+  deleteSuperadminError,
+  deleteSuperadminSuccess
 } from './actions';
 
 export const getSuperadmins = async (dispatch) => {
@@ -66,6 +69,27 @@ export const editSuperadmin = (idToEdit, editedSuperadmin) => {
       }
     } catch (error) {
       dispatch(editSuperadminError('Failed to edit superadmin'));
+    }
+  };
+};
+
+export const deleteSuperadmin = (idToDelete) => {
+  return async (dispatch) => {
+    dispatch(deleteSuperadminPending());
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/super-admins/${idToDelete}`,
+        {
+          method: 'DELETE'
+        }
+      );
+      if (response.ok) {
+        dispatch(deleteSuperadminSuccess(idToDelete));
+      } else {
+        dispatch(deleteSuperadminError('Failed to delete superadmin'));
+      }
+    } catch (error) {
+      dispatch(deleteSuperadminError(error));
     }
   };
 };

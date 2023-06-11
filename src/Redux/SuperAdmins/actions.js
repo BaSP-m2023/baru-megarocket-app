@@ -7,10 +7,10 @@ import {
   ADD_SUPERADMIN_ERROR,
   EDIT_SUPERADMIN_PENDING,
   EDIT_SUPERADMIN_SUCCESS,
-  EDIT_SUPERADMIN_ERROR
-  // DELETE_SUPERADMIN_PENDING,
-  // DELETE_SUPERADMIN_SUCCESS,
-  // DELETE_SUPERADMIN_ERROR
+  EDIT_SUPERADMIN_ERROR,
+  DELETE_SUPERADMIN_PENDING,
+  DELETE_SUPERADMIN_SUCCESS,
+  DELETE_SUPERADMIN_ERROR
 } from './constants';
 
 export const getSuperadminsPending = () => ({
@@ -50,5 +50,19 @@ export const editSuperadminSuccess = () => ({
 
 export const editSuperadminError = (error) => ({
   type: EDIT_SUPERADMIN_ERROR,
+  payload: error
+});
+
+export const deleteSuperadminPending = () => ({
+  type: DELETE_SUPERADMIN_PENDING
+});
+
+export const deleteSuperadminSuccess = (idToDelete) => ({
+  type: DELETE_SUPERADMIN_SUCCESS,
+  payload: idToDelete
+});
+
+export const deleteSuperadminError = (error) => ({
+  type: DELETE_SUPERADMIN_ERROR,
   payload: error
 });

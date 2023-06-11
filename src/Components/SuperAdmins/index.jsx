@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styles from './super-admins.module.css';
 import ResponseModal from '../Shared/ResponseModal';
 import Table from './Table/index';
@@ -8,7 +9,7 @@ function SuperAdmins() {
   const [superadmins, setSuperadmins] = useState([]);
   const [showModal, setshowModal] = useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
-  const [idToDelete, setIdToDelete] = useState(null);
+  // const [idToDelete, setIdToDelete] = useState(null);
   const [resMessage, setResMessage] = useState('');
   const [state, setState] = useState('');
   const [success, setSuccess] = useState(false);
@@ -41,34 +42,34 @@ function SuperAdmins() {
     getSuperadmins();
   }, [success]);
 
-  const confirmDelete = (id) => {
-    setShowConfirmDelete(true);
-    setIdToDelete(id);
-  };
-  const deleteItem = async () => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${idToDelete}`, {
-        method: 'DELETE'
-      });
-      setShowConfirmDelete(false);
-      if (res.ok) {
-        setSuperadmins([...superadmins.filter((superadmin) => superadmin._id !== idToDelete)]);
-        sessionStorage.setItem('state', 'success');
-        sessionStorage.setItem('resMessage', 'Superadmin deleted');
-        setSuccess(true);
-      } else {
-        sessionStorage.setItem('state', 'fail');
-        sessionStorage.setItem('resMessage', 'Failed to delete superadmin');
-      }
-    } catch (error) {
-      sessionStorage.setItem('state', 'fail');
-      sessionStorage.setItem('resMessage', 'Failed to delete superadmin');
-    }
-  };
+  // const confirmDelete = (id) => {
+  //   setShowConfirmDelete(true);
+  //   setIdToDelete(id);
+  // };
+  // const deleteItem = async () => {
+  //   try {
+  //     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${idToDelete}`, {
+  //       method: 'DELETE'
+  //     });
+  //     setShowConfirmDelete(false);
+  //     if (res.ok) {
+  //       setSuperadmins([...superadmins.filter((superadmin) => superadmin._id !== idToDelete)]);
+  //       sessionStorage.setItem('state', 'success');
+  //       sessionStorage.setItem('resMessage', 'Superadmin deleted');
+  //       setSuccess(true);
+  //     } else {
+  //       sessionStorage.setItem('state', 'fail');
+  //       sessionStorage.setItem('resMessage', 'Failed to delete superadmin');
+  //     }
+  //   } catch (error) {
+  //     sessionStorage.setItem('state', 'fail');
+  //     sessionStorage.setItem('resMessage', 'Failed to delete superadmin');
+  //   }
+  // };
 
   return (
     <>
-      {showModal && <ResponseModal state={state} message={resMessage} handler={closeModal} />}
+      {/* {showModal && <ResponseModal state={state} message={resMessage} handler={closeModal} />}
       {showConfirmDelete && (
         <ConfirmModal
           title={'Delete superadmin'}
@@ -78,10 +79,10 @@ function SuperAdmins() {
         >
           Are you sure you want to delete this superadmin?
         </ConfirmModal>
-      )}
+      )} */}
       <section className={styles.container}>
         <h2 className={styles.h2}>Superadmin List</h2>
-        <Table data={superadmins} confirmDelete={confirmDelete} />
+        <Table />
       </section>
     </>
   );
