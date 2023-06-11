@@ -5,9 +5,9 @@ import {
   addTrainerPending,
   addTrainerSuccess,
   addTrainerError,
-  // updateTrainerPending,
-  // updateTrainerSuccess,
-  // updateTrainerError,
+  editTrainerPending,
+  editTrainerSuccess,
+  editTrainerError,
   // deleteTrainerPending,
   // deleteTrainerSuccess,
   // deleteTrainerError,
@@ -55,6 +55,33 @@ export const addTrainer = (trainer, history) => {
     } catch (error) {
       dispatch(addTrainerError(`Error adding trainer: ${error.message}`));
       dispatch(showResponseModal(`Error adding trainer: ${error.message}`, 'fail'));
+    }
+  };
+};
+
+export const updTrainer = (id, updatedTrainer, history) => {
+  return async (dispatch) => {
+    dispatch(editTrainerPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedTrainer)
+      });
+      const data = await response.json();
+      if (response.ok) {
+        dispatch(editTrainerSuccess(data));
+        dispatch(showResponseModal('Trainer edited successfully!', 'success'));
+        history.push('/trainers');
+      } else {
+        dispatch(editTrainerError('Failed to edit trainer'));
+        dispatch(showResponseModal(`Error editing trainer: ${data.message}`, 'fail'));
+      }
+    } catch (error) {
+      dispatch(editTrainerError(`Error editing trainer: ${error.message}`));
+      dispatch(showResponseModal(`Error editing trainer: ${error.message}`, 'fail'));
     }
   };
 };
