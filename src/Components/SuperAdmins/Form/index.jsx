@@ -7,7 +7,7 @@ import { Input } from '../../Shared/Inputs';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSuperadmin } from '../../../Redux/SuperAdmins/thunks';
+import { addSuperadmin, editSuperadmin } from '../../../Redux/SuperAdmins/thunks';
 
 const SuperAdminsForm = () => {
   const [showConfirmAdd, setShowConfirmAdd] = useState(false);
@@ -50,35 +50,15 @@ const SuperAdminsForm = () => {
     openModal();
   };
 
-  const confirmEdit = (id, updatedSuperadmin) => {
+  const confirmEdit = () => {
     setShowConfirmEdit(true);
-    setIdToEdit(id);
-    setEditedSuperadmin(updatedSuperadmin);
   };
-  const putItem = async () => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${idToEdit}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(editedSuperadmin)
-      });
-      setShowConfirmEdit(false);
-      if (res.ok) {
-        goBackHandle();
-        sessionStorage.setItem('state', 'success');
-        sessionStorage.setItem('resMessage', 'Superadmin edited');
-      } else {
-        setResMessage('Failed to edit superadmin');
-        setState('fail');
-        openModal();
-      }
-    } catch (error) {
-      setResMessage('Failed to edit superadmin');
-      setState('fail');
-      openModal();
-    }
+
+  const putItem = (idToEdit, editedSuperadmin) => {
+    dispatch(editSuperadmin(idToEdit, editedSuperadmin));
+    setShowConfirmAdd(false);
+    goBackHandle();
+    openModal();
   };
 
   const getItemById = async () => {
@@ -106,7 +86,7 @@ const SuperAdminsForm = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    id ? confirmEdit(id, superadmin) : confirmAdd();
+    id ? confirmEdit() : confirmAdd();
   };
 
   return (
@@ -127,7 +107,7 @@ const SuperAdminsForm = () => {
           title={'Edit superadmin'}
           reason={'submit'}
           handler={() => setShowConfirmEdit(false)}
-          onAction={putItem}
+          onAction={() => putItem(id, superadmin)}
         >
           Are you sure you want to edit this superadmin?
         </ConfirmModal>

@@ -4,10 +4,10 @@ import {
   GET_SUPERADMINS_ERROR,
   ADD_SUPERADMIN_PENDING,
   ADD_SUPERADMIN_SUCCESS,
-  ADD_SUPERADMIN_ERROR
-  // EDIT_SUPERADMIN_PENDING,
-  // EDIT_SUPERADMIN_SUCCESS,
-  // EDIT_SUPERADMIN_ERROR,
+  ADD_SUPERADMIN_ERROR,
+  EDIT_SUPERADMIN_PENDING,
+  EDIT_SUPERADMIN_SUCCESS,
+  EDIT_SUPERADMIN_ERROR
   // DELETE_SUPERADMIN_PENDING,
   // DELETE_SUPERADMIN_SUCCESS,
   // DELETE_SUPERADMIN_ERROR
@@ -37,5 +37,18 @@ export const addSuperadminSuccess = () => ({
 
 export const addSuperadminError = (error) => ({
   type: ADD_SUPERADMIN_ERROR,
+  payload: error
+});
+
+export const editSuperadminPending = () => ({
+  type: EDIT_SUPERADMIN_PENDING
+});
+
+export const editSuperadminSuccess = () => ({
+  type: EDIT_SUPERADMIN_SUCCESS
+});
+
+export const editSuperadminError = (error) => ({
+  type: EDIT_SUPERADMIN_ERROR,
   payload: error
 });
