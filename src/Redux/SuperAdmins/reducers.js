@@ -10,19 +10,18 @@ import {
   EDIT_SUPERADMIN_ERROR,
   DELETE_SUPERADMIN_PENDING,
   DELETE_SUPERADMIN_SUCCESS,
-  DELETE_SUPERADMIN_ERROR
+  DELETE_SUPERADMIN_ERROR,
+  CLOSE_MESSAGE
 } from './constants';
 
 const initialState = {
   superadmins: [],
   loading: false,
-  error: null
+  error: null,
+  resState: '',
+  resMessage: '',
+  showMessage: false
 };
-
-// const addSuperadminState = {
-//   loading: false,
-//   error: null
-// };
 
 // const editSuperadminState = {
 //   loading: false,
@@ -45,47 +44,41 @@ export const superadminsReducer = (state = initialState, action) => {
     case GET_SUPERADMINS_SUCCESS:
       return {
         ...state,
-        superadmins: action.payload,
-        loading: false
+        superadmins: action.payload.superadmins,
+        loading: false,
+        error: null
       };
     case GET_SUPERADMINS_ERROR:
       return {
         ...state,
         error: action.payload,
-        loading: false
+        loading: false,
+        resState: action.payload.resState,
+        resMessage: action.payload.resMessage,
+        showMessage: true
       };
-    default:
-      return state;
-  }
-};
-
-export const addSuperadminReducer = (state = initialState, action) => {
-  switch (action.type) {
     case ADD_SUPERADMIN_PENDING:
       return {
-        ...state,
-        loading: true,
-        error: null
+        ...state
       };
     case ADD_SUPERADMIN_SUCCESS:
       return {
         ...state,
-        newSuperadmin: action.payload,
-        loading: false
+        loading: false,
+        error: null,
+        resState: action.payload.resState,
+        resMessage: action.payload.resMessage,
+        showMessage: true
       };
     case ADD_SUPERADMIN_ERROR:
       return {
         ...state,
-        error: action.payload,
-        loading: false
+        loading: false,
+        error: true,
+        resState: action.payload.resState,
+        resMessage: action.payload.resMessage,
+        showMessage: true
       };
-    default:
-      return state;
-  }
-};
-
-export const editSuperadminReducer = (state = initialState, action) => {
-  switch (action.type) {
     case EDIT_SUPERADMIN_PENDING:
       return {
         ...state,
@@ -95,21 +88,21 @@ export const editSuperadminReducer = (state = initialState, action) => {
     case EDIT_SUPERADMIN_SUCCESS:
       return {
         ...state,
-        loading: false
+        loading: false,
+        error: null,
+        resState: action.payload.resState,
+        resMessage: action.payload.resMessage,
+        showMessage: true
       };
     case EDIT_SUPERADMIN_ERROR:
       return {
         ...state,
+        loading: false,
         error: action.payload,
-        loading: false
+        resState: action.payload.resState,
+        resMessage: action.payload.resMessage,
+        showMessage: true
       };
-    default:
-      return state;
-  }
-};
-
-export const deleteSuperadminReducer = (state = initialState, action) => {
-  switch (action.type) {
     case DELETE_SUPERADMIN_PENDING:
       return {
         ...state,
@@ -119,13 +112,30 @@ export const deleteSuperadminReducer = (state = initialState, action) => {
     case DELETE_SUPERADMIN_SUCCESS:
       return {
         ...state,
-        superadmins: state.superadmins.filter((superadmin) => superadmin._id !== action.payload)
+        loading: false,
+        error: null,
+        superadmins: state.superadmins.filter((superadmin) => superadmin._id !== action.payload),
+        resState: action.payload.resState,
+        resMessage: action.payload.resMessage,
+        showMessage: true
       };
     case DELETE_SUPERADMIN_ERROR:
       return {
         ...state,
         error: action.payload,
-        loading: false
+        loading: false,
+        resState: action.payload.resState,
+        resMessage: action.payload.resMessage,
+        showMessage: true
+      };
+    case CLOSE_MESSAGE:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        resState: '',
+        resMessage: '',
+        showMessage: false
       };
     default:
       return state;

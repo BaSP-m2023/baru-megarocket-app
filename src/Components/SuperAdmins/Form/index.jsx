@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
@@ -8,58 +9,23 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSuperadmin, editSuperadmin } from '../../../Redux/SuperAdmins/thunks';
+import { closeMessage } from '../../../Redux/SuperAdmins/actions';
 
 const SuperAdminsForm = () => {
   const [showConfirmAdd, setShowConfirmAdd] = useState(false);
-  //const [superadminToAdd, setSuperadminToAdd] = useState(null);
   const [showConfirmEdit, setShowConfirmEdit] = useState(false);
-  const [idToEdit, setIdToEdit] = useState(null);
-  const [editedSuperadmin, setEditedSuperadmin] = useState(null);
-  const [showModal, setshowModal] = useState(false);
   const [superadmin, setSuperadmin] = useState({});
-  const [resMessage, setResMessage] = useState('');
-  const [state, setState] = useState('');
 
   const dispatch = useDispatch();
-
-  const addSuperadminsState = useSelector((state) => state);
-  console.log(addSuperadminsState);
-  console.log('addSuperadminsState');
+  const resState = useSelector((state) => state.superadmins.resState);
+  const resMessage = useSelector((state) => state.superadmins.resMessage);
+  var showMessage = useSelector((state) => state.superadmins.showMessage);
 
   const history = useHistory();
   const goBackHandle = () => {
     history.goBack();
   };
   const { id } = useParams();
-
-  const closeModal = () => {
-    setshowModal(false);
-  };
-  const openModal = () => {
-    setshowModal(true);
-  };
-
-  const confirmAdd = () => {
-    setShowConfirmAdd(true);
-  };
-
-  const addItem = (superadminToAdd) => {
-    dispatch(addSuperadmin(superadminToAdd));
-    setShowConfirmAdd(false);
-    goBackHandle();
-    openModal();
-  };
-
-  const confirmEdit = () => {
-    setShowConfirmEdit(true);
-  };
-
-  const putItem = (idToEdit, editedSuperadmin) => {
-    dispatch(editSuperadmin(idToEdit, editedSuperadmin));
-    setShowConfirmAdd(false);
-    goBackHandle();
-    openModal();
-  };
 
   const getItemById = async () => {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`);
@@ -84,6 +50,31 @@ const SuperAdminsForm = () => {
     });
   };
 
+  const closeModal = () => {
+    dispatch(closeMessage());
+  };
+
+  const confirmAdd = () => {
+    setShowConfirmAdd(true);
+  };
+
+  const addItem = (superadminToAdd) => {
+    dispatch(addSuperadmin(superadminToAdd));
+    setShowConfirmAdd(false);
+    goBackHandle();
+  };
+  //console.log(resState == 'success');
+
+  const confirmEdit = () => {
+    setShowConfirmEdit(true);
+  };
+
+  const putItem = (idToEdit, editedSuperadmin) => {
+    dispatch(editSuperadmin(idToEdit, editedSuperadmin));
+    setShowConfirmAdd(false);
+    goBackHandle();
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     id ? confirmEdit() : confirmAdd();
@@ -91,7 +82,7 @@ const SuperAdminsForm = () => {
 
   return (
     <>
-      {showModal && <ResponseModal handler={closeModal} state={state} message={resMessage} />}
+      {showMessage && <ResponseModal handler={closeModal} state={resState} message={resMessage} />}
       {showConfirmAdd && (
         <ConfirmModal
           title={'New superadmin'}

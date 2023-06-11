@@ -10,17 +10,23 @@ import {
   editSuperadminSuccess,
   deleteSuperadminPending,
   deleteSuperadminError,
-  deleteSuperadminSuccess
+  deleteSuperadminSuccess,
+  closeMessage
 } from './actions';
+
+const responseInfo = { resState: '', resMessage: '', superadmins: [] };
 
 export const getSuperadmins = async (dispatch) => {
   dispatch(getSuperadminsPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/`);
     const data = await response.json();
-    dispatch(getSuperadminsSuccess(data.data));
+    responseInfo.superadmins = data.data;
+    dispatch(getSuperadminsSuccess(responseInfo));
   } catch (error) {
-    dispatch(getSuperadminsError(error.toString()));
+    responseInfo.resState = 'fail';
+    responseInfo.resMessage = error;
+    dispatch(getSuperadminsError(responseInfo));
   }
 };
 
@@ -36,14 +42,21 @@ export const addSuperadmin = (superadminToAdd) => {
         body: JSON.stringify(superadminToAdd)
       });
       if (response.ok) {
-        dispatch(addSuperadminSuccess());
-        sessionStorage.setItem('state', 'success');
-        sessionStorage.setItem('resMessage', 'New superadmin created');
+        responseInfo.resState = 'success';
+        responseInfo.resMessage = 'New superadmin created';
+        dispatch(addSuperadminSuccess(responseInfo));
+        setTimeout(() => dispatch(closeMessage()), 3500);
       } else {
-        dispatch(addSuperadminError('Failed to create superadmin'));
+        responseInfo.resState = 'fail';
+        responseInfo.resMessage = 'Failed to create superadmin';
+        dispatch(addSuperadminError(responseInfo));
+        setTimeout(() => dispatch(closeMessage()), 3500);
       }
     } catch (error) {
-      dispatch(addSuperadminError('Failed to create superadmin'));
+      responseInfo.resState = 'fail';
+      responseInfo.resMessage = 'Failed to create superadmin';
+      dispatch(addSuperadminError(responseInfo));
+      setTimeout(() => dispatch(closeMessage()), 3500);
     }
   };
 };
@@ -63,12 +76,21 @@ export const editSuperadmin = (idToEdit, editedSuperadmin) => {
         }
       );
       if (response.ok) {
-        dispatch(editSuperadminSuccess());
+        responseInfo.resState = 'success';
+        responseInfo.resMessage = 'Superadmin updated';
+        dispatch(editSuperadminSuccess(responseInfo));
+        setTimeout(() => dispatch(closeMessage()), 3500);
       } else {
-        dispatch(editSuperadminError('Failed to edit superadmin'));
+        responseInfo.resState = 'fail';
+        responseInfo.resMessage = 'Failed to edit superadmin';
+        dispatch(editSuperadminError(responseInfo));
+        setTimeout(() => dispatch(closeMessage()), 3500);
       }
     } catch (error) {
-      dispatch(editSuperadminError('Failed to edit superadmin'));
+      responseInfo.resState = 'fail';
+      responseInfo.resMessage = 'Failed to edit superadmin';
+      dispatch(editSuperadminError(responseInfo));
+      setTimeout(() => dispatch(closeMessage()), 3500);
     }
   };
 };
@@ -84,12 +106,22 @@ export const deleteSuperadmin = (idToDelete) => {
         }
       );
       if (response.ok) {
-        dispatch(deleteSuperadminSuccess(idToDelete));
+        responseInfo.resState = 'success';
+        responseInfo.resMessage = 'Superadmin deleted';
+        dispatch(deleteSuperadminSuccess(responseInfo));
+        dispatch(getSuperadmins);
+        setTimeout(() => dispatch(closeMessage()), 3500);
       } else {
-        dispatch(deleteSuperadminError('Failed to delete superadmin'));
+        responseInfo.resState = 'fail';
+        responseInfo.resMessage = 'Failed to delete superadmin';
+        dispatch(deleteSuperadminError(responseInfo));
+        setTimeout(() => dispatch(closeMessage()), 3500);
       }
     } catch (error) {
-      dispatch(deleteSuperadminError(error));
+      responseInfo.resState = 'fail';
+      responseInfo.resMessage = 'Failed to delete superadmin';
+      dispatch(deleteSuperadminError(responseInfo));
+      setTimeout(() => dispatch(closeMessage()), 3500);
     }
   };
 };

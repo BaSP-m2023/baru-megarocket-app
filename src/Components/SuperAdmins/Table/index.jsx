@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import styles from './table.module.css';
 import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
-import ResponseModal from '../../Shared/ResponseModal';
+import Loader from '../../Shared/Loader';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,22 +9,16 @@ import { getSuperadmins, deleteSuperadmin } from '../../../Redux/SuperAdmins/thu
 
 const Table = () => {
   const [idToDelete, setIdToDelete] = useState(null);
-  const [showModal, setshowModal] = useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const dispatch = useDispatch();
+
   const superadminsState = useSelector((state) => state.superadmins);
   const superadmins = superadminsState.superadmins;
+
   useEffect(() => {
     getSuperadmins(dispatch);
-  }, [dispatch, superadmins]);
+  }, [dispatch]);
 
-  const closeModal = () => {
-    setshowModal(false);
-    sessionStorage.clear();
-  };
-  const openModal = () => {
-    setshowModal(true);
-  };
   const confirmDelete = (id) => {
     setShowConfirmDelete(true);
     setIdToDelete(id);
@@ -34,12 +27,10 @@ const Table = () => {
   const deleteItem = () => {
     dispatch(deleteSuperadmin(idToDelete));
     setShowConfirmDelete(false);
-    openModal();
   };
 
   return (
     <div className={styles.container}>
-      {/* {showModal && <ResponseModal state={state} message={resMessage} handler={closeModal} />} */}
       {showConfirmDelete && (
         <ConfirmModal
           title={'Delete superadmin'}
@@ -50,10 +41,8 @@ const Table = () => {
           Are you sure you want to delete this superadmin?
         </ConfirmModal>
       )}
-      {superadmins.loading ? (
-        <p>loading...</p>
-      ) : superadmins.error ? (
-        <p>error</p>
+      {superadminsState.loading ? (
+        <Loader />
       ) : (
         <div className={styles.container}>
           <table className={styles.table}>

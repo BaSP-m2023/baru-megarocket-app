@@ -10,7 +10,8 @@ import {
   EDIT_SUPERADMIN_ERROR,
   DELETE_SUPERADMIN_PENDING,
   DELETE_SUPERADMIN_SUCCESS,
-  DELETE_SUPERADMIN_ERROR
+  DELETE_SUPERADMIN_ERROR,
+  CLOSE_MESSAGE
 } from './constants';
 
 export const getSuperadminsPending = () => ({
@@ -31,8 +32,9 @@ export const addSuperadminPending = () => ({
   type: ADD_SUPERADMIN_PENDING
 });
 
-export const addSuperadminSuccess = () => ({
-  type: ADD_SUPERADMIN_SUCCESS
+export const addSuperadminSuccess = (data) => ({
+  type: ADD_SUPERADMIN_SUCCESS,
+  payload: data
 });
 
 export const addSuperadminError = (error) => ({
@@ -44,8 +46,9 @@ export const editSuperadminPending = () => ({
   type: EDIT_SUPERADMIN_PENDING
 });
 
-export const editSuperadminSuccess = () => ({
-  type: EDIT_SUPERADMIN_SUCCESS
+export const editSuperadminSuccess = (data) => ({
+  type: EDIT_SUPERADMIN_SUCCESS,
+  payload: data
 });
 
 export const editSuperadminError = (error) => ({
@@ -57,12 +60,16 @@ export const deleteSuperadminPending = () => ({
   type: DELETE_SUPERADMIN_PENDING
 });
 
-export const deleteSuperadminSuccess = (idToDelete) => ({
+export const deleteSuperadminSuccess = (data) => ({
   type: DELETE_SUPERADMIN_SUCCESS,
-  payload: idToDelete
+  payload: data
 });
 
 export const deleteSuperadminError = (error) => ({
   type: DELETE_SUPERADMIN_ERROR,
   payload: error
+});
+
+export const closeMessage = () => ({
+  type: CLOSE_MESSAGE
 });
