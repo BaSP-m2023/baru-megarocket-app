@@ -1,9 +1,19 @@
-import { GET_TRAINERS_PENDING, GET_TRAINERS_ERROR, GET_TRAINERS_SUCCESS } from './constants';
+import {
+  GET_TRAINERS_PENDING,
+  GET_TRAINERS_ERROR,
+  GET_TRAINERS_SUCCESS,
+  ADD_TRAINER_PENDING,
+  ADD_TRAINER_SUCCESS,
+  ADD_TRAINER_ERROR,
+  SHOW_RESPONSE_MODAL,
+  HIDE_RESPONSE_MODAL
+} from './constants';
 
 const INITIAL_STATE = {
   data: [],
   isPending: false,
-  error: null
+  error: null,
+  responseModal: false
 };
 
 const trainersReducer = (state = INITIAL_STATE, action) => {
@@ -26,6 +36,38 @@ const trainersReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: false,
         error: action.payload
+      };
+    case ADD_TRAINER_PENDING:
+      return {
+        ...state,
+        isPending: true,
+        error: null
+      };
+    case ADD_TRAINER_SUCCESS:
+      return {
+        ...state,
+        isPending: false,
+        data: [...state.data, action.payload],
+        error: null
+      };
+    case ADD_TRAINER_ERROR:
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload
+      };
+    case SHOW_RESPONSE_MODAL:
+      return {
+        ...state,
+        responseModal: {
+          message: action.payload.message,
+          state: action.payload.state
+        }
+      };
+    case HIDE_RESPONSE_MODAL:
+      return {
+        ...state,
+        responseModal: false
       };
     default:
       return state;
