@@ -7,6 +7,7 @@ import Table from './Table';
 import Loader from '../Shared/Loader';
 import Button from '../Shared/Button';
 import ResponseModal from '../Shared/ResponseModal';
+import { hideResponseModal } from '../../Redux/Trainers/actions';
 
 const Trainers = () => {
   const [showResponseModal, setShowResponseModal] = useState(false);
@@ -16,6 +17,20 @@ const Trainers = () => {
   const dispatch = useDispatch();
   const trainers = useSelector((state) => state.trainers.data);
   const pending = useSelector((state) => state.trainers.isPending);
+  const responseModal = useSelector((state) => state.trainers.responseModal);
+
+  useEffect(() => {
+    if (responseModal) {
+      setShowResponseModal(true);
+      setStateModal(responseModal.state);
+      setResponseMessage(responseModal.message);
+      setTimeout(() => {
+        setShowResponseModal(false);
+        dispatch(hideResponseModal());
+      }, 3000);
+    }
+  }, [responseModal]);
+
   useEffect(() => {
     getTrainers(dispatch);
   }, [dispatch]);
