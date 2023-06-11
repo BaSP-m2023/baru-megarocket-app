@@ -1,21 +1,21 @@
-import { getError, getPending, getSuccess } from './actions';
+import { getActivitiesError, getActivitiesPending, getActivitiesSuccess } from './actions';
 
 export const getActivities = async (dispatch) => {
   try {
-    dispatch(getPending());
+    dispatch(getActivitiesPending());
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/activities`);
+    const { data, message } = await response.json();
 
     if (response.status === 200) {
-      const { data } = await response.json();
-      dispatch(getPending());
-      dispatch(getSuccess(data));
+      dispatch(getActivitiesSuccess(data));
+      dispatch(getActivitiesPending());
     }
+
     if (response.status !== 200) {
-      const { error } = await response.json();
-      throw new Error(error.toString());
+      throw new Error(message);
     }
   } catch (error) {
-    dispatch(getPending());
-    dispatch(getError(error));
+    dispatch(getActivitiesError(error.toString()));
+    dispatch(getActivitiesPending());
   }
 };

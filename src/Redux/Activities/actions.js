@@ -1,23 +1,23 @@
-import * as actions from './constants';
+import * as actionType from './constants';
 
-export const getPending = () => {
+export const getActivitiesPending = () => {
   return {
-    type: actions.GET_ACTIVITIES_PENDING
+    type: actionType.GET_ACTIVITIES_PENDING
   };
 };
 
-export const getSuccess = (list) => {
+export const getActivitiesSuccess = (list) => {
   return {
-    type: actions.GET_ACTIVITIES_SUCCESS,
+    type: actionType.GET_ACTIVITIES_SUCCESS,
     payload: {
       list
     }
   };
 };
 
-export const getError = (error) => {
+export const getActivitiesError = (error) => {
   return {
-    type: actions.GET_ACTIVITIES_ERROR,
+    type: actionType.GET_ACTIVITIES_ERROR,
     payload: {
       error
     }
