@@ -4,10 +4,12 @@ import { combineReducers } from 'redux';
 import trainersReducer from './Trainers/reducers';
 import classReducer from './Classes/reducers';
 import activititesReducer from './Activities/reducers';
+import membersReducer from './Members/reducers';
 
 const rootReducers = combineReducers({
   classes: classReducer,
   trainers: trainersReducer,
+  members: membersReducer,
   activities: activititesReducer
 });
 

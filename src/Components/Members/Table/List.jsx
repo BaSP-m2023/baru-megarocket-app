@@ -1,13 +1,9 @@
 import styles from './table.module.css';
 import Item from './Item';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const List = ({ members = [], handleModal, deleteMember }) => {
+const List = ({ members, handleModal, deleteMember }) => {
   const [filter, setFilter] = useState([]);
-
-  useEffect(() => {
-    setFilter(members);
-  }, [members]);
 
   const filterList = (value) => {
     const membersToShow = members.filter(
@@ -17,10 +13,14 @@ const List = ({ members = [], handleModal, deleteMember }) => {
     setFilter(membersToShow);
   };
 
+  useEffect(() => {
+    setFilter(members);
+  }, [members]);
+
   return (
     <div className={`${styles['table-container']}`}>
       <div className={`${styles['table-filter']}`}>
-        {filter.length === 0 ? (
+        {members.length === 0 ? (
           <p className={`${styles['table-error']}`}>There is nothing to match</p>
         ) : (
           ''
