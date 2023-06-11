@@ -1,4 +1,11 @@
-import { GET_MEMBERS_PENDING, GET_MEMBERS_SUCCESS, GET_MEMBERS_ERROR } from './constants';
+import {
+  GET_MEMBERS_PENDING,
+  GET_MEMBERS_SUCCESS,
+  GET_MEMBERS_ERROR,
+  ADD_MEMBER_PENDING,
+  ADD_MEMBER_SUCCESS,
+  ADD_MEMBER_ERROR
+} from './constants';
 
 const INITIAL_STATE = {
   data: [],
@@ -22,6 +29,26 @@ const reducers = (state = INITIAL_STATE, action) => {
       };
     }
     case GET_MEMBERS_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload
+      };
+    }
+    case ADD_MEMBER_PENDING: {
+      return {
+        ...state,
+        isPending: true
+      };
+    }
+    case ADD_MEMBER_SUCCESS: {
+      return {
+        ...state,
+        isPending: false,
+        data: [...state.data, action.payload]
+      };
+    }
+    case ADD_MEMBER_ERROR: {
       return {
         ...state,
         isPending: false,

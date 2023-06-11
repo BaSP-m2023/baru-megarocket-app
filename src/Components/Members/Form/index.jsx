@@ -5,9 +5,10 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
+import { addMember } from '../../../Redux/Members/thunks';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MemberForm = ({ match }) => {
-  const [members, setMembers] = useState([]);
   const [editMember, setEditMember] = useState({});
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -30,31 +31,31 @@ const MemberForm = ({ match }) => {
     password: ''
   });
 
-  const addMember = async (member) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(member)
-    });
-    if (res.status === 201) {
-      const data = await res.json();
-      setMembers([...members, data]);
-      setModalMessageOpen(false);
-      handleToast(true, 'success', 'Member added');
-      setTimeout(() => {
-        history.push('/members');
-        handleShowToast(false);
-      }, 1500);
-    } else {
-      setModalMessageOpen(false);
-      handleToast(true, 'fail', 'Member cant be added');
-      setTimeout(() => {
-        handleShowToast(false);
-      }, 1500);
-    }
-  };
+  // const addMember = async (member) => {
+  //   const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-type': 'application/json'
+  //     },
+  //     body: JSON.stringify(member)
+  //   });
+  //   if (res.status === 201) {
+  //     const data = await res.json();
+  //     setMembers([...members, data]);
+  //     setModalMessageOpen(false);
+  //     handleToast(true, 'success', 'Member added');
+  //     setTimeout(() => {
+  //       history.push('/members');
+  //       handleShowToast(false);
+  //     }, 1500);
+  //   } else {
+  //     setModalMessageOpen(false);
+  //     handleToast(true, 'fail', 'Member cant be added');
+  //     setTimeout(() => {
+  //       handleShowToast(false);
+  //     }, 1500);
+  //   }
+  // };
 
   const updMember = async (id, updatedMember) => {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
@@ -139,7 +140,7 @@ const MemberForm = ({ match }) => {
     if (memberId) {
       updMember(memberId, member);
     } else {
-      addMember(member);
+      addMember(dispatch, member);
     }
   };
 
@@ -152,6 +153,11 @@ const MemberForm = ({ match }) => {
     setStateToast(state);
     setMessageToast(message);
   };
+
+  const dispatch = useDispatch();
+  const members = useSelector((state) => state.members.data);
+
+  console.log(members);
 
   return (
     <div className={styles.form}>
