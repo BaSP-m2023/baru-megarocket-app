@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
-import { superadminsReducer } from './SuperAdmins/reducers';
+import { superadminsReducer, addSuperadminReducer } from './SuperAdmins/reducers';
 
 // Import reducers below
 
-const rootReducers = combineReducers({ superadmins: superadminsReducer });
+const rootReducers = combineReducers({
+  superadmins: superadminsReducer,
+  newSuperadmin: addSuperadminReducer
+});
 
 export default rootReducers;

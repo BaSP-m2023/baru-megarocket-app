@@ -9,7 +9,6 @@ const Table = ({ confirmDelete }) => {
   const dispatch = useDispatch();
   const superadminsState = useSelector((state) => state.superadmins);
   const superadmins = superadminsState.superadmins;
-  console.log(superadmins);
   useEffect(() => {
     getSuperadmins(dispatch);
   }, [dispatch]);

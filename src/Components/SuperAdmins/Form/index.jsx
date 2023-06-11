@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import styles from './form.module.css';
@@ -5,10 +6,12 @@ import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSuperadmin } from '../../../Redux/SuperAdmins/thunks';
 
 const SuperAdminsForm = () => {
   const [showConfirmAdd, setShowConfirmAdd] = useState(false);
-  const [superadminToAdd, setSuperadminToAdd] = useState(null);
+  //const [superadminToAdd, setSuperadminToAdd] = useState(null);
   const [showConfirmEdit, setShowConfirmEdit] = useState(false);
   const [idToEdit, setIdToEdit] = useState(null);
   const [editedSuperadmin, setEditedSuperadmin] = useState(null);
@@ -16,6 +19,12 @@ const SuperAdminsForm = () => {
   const [superadmin, setSuperadmin] = useState({});
   const [resMessage, setResMessage] = useState('');
   const [state, setState] = useState('');
+
+  const dispatch = useDispatch();
+
+  const addSuperadminsState = useSelector((state) => state);
+  console.log(addSuperadminsState);
+  console.log('addSuperadminsState');
 
   const history = useHistory();
   const goBackHandle = () => {
@@ -30,34 +39,15 @@ const SuperAdminsForm = () => {
     setshowModal(true);
   };
 
-  const confirmAdd = async (newSuperadmin) => {
+  const confirmAdd = () => {
     setShowConfirmAdd(true);
-    setSuperadminToAdd(newSuperadmin);
   };
-  const addItem = async () => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(superadminToAdd)
-      });
-      setShowConfirmAdd(false);
-      if (res.ok) {
-        goBackHandle();
-        sessionStorage.setItem('state', 'success');
-        sessionStorage.setItem('resMessage', 'New superadmin created');
-      } else {
-        setResMessage('Failed to create superadmin');
-        setState('fail');
-        openModal();
-      }
-    } catch (error) {
-      setResMessage('Failed to create superadmin');
-      setState('fail');
-      openModal();
-    }
+
+  const addItem = (superadminToAdd) => {
+    dispatch(addSuperadmin(superadminToAdd));
+    setShowConfirmAdd(false);
+    goBackHandle();
+    openModal();
   };
 
   const confirmEdit = (id, updatedSuperadmin) => {
@@ -116,7 +106,7 @@ const SuperAdminsForm = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    id ? confirmEdit(id, superadmin) : confirmAdd(superadmin);
+    id ? confirmEdit(id, superadmin) : confirmAdd();
   };
 
   return (
@@ -127,7 +117,7 @@ const SuperAdminsForm = () => {
           title={'New superadmin'}
           reason={'submit'}
           handler={() => setShowConfirmAdd(false)}
-          onAction={addItem}
+          onAction={() => addItem(superadmin)}
         >
           Are you sure you want to add this superadmin?
         </ConfirmModal>
@@ -154,26 +144,26 @@ const SuperAdminsForm = () => {
             <form className={styles.form} onSubmit={onSubmit}>
               <Input
                 labelText={'Name'}
-                value={superadmin.name}
+                value={superadmin.name || ''}
                 name={'name'}
                 change={onChangeInput}
               />
               <Input
                 labelText={'Last name'}
-                value={superadmin.lastName}
+                value={superadmin.lastName || ''}
                 name={'lastName'}
                 change={onChangeInput}
               />
               <Input
                 labelText={'Email'}
-                value={superadmin.email}
+                value={superadmin.email || ''}
                 name={'email'}
                 change={onChangeInput}
               />
               {!id && (
                 <Input
                   labelText={'Password'}
-                  value={superadmin.password}
+                  value={superadmin.password || ''}
                   type={'password'}
                   name={'password'}
                   change={onChangeInput}
