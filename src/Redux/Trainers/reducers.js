@@ -5,6 +5,9 @@ import {
   ADD_TRAINER_PENDING,
   ADD_TRAINER_SUCCESS,
   ADD_TRAINER_ERROR,
+  EDIT_TRAINER_PENDING,
+  EDIT_TRAINER_SUCCESS,
+  EDIT_TRAINER_ERROR,
   SHOW_RESPONSE_MODAL,
   HIDE_RESPONSE_MODAL
 } from './constants';
@@ -51,6 +54,27 @@ const trainersReducer = (state = INITIAL_STATE, action) => {
         error: null
       };
     case ADD_TRAINER_ERROR:
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload
+      };
+    case EDIT_TRAINER_PENDING:
+      return {
+        ...state,
+        isPending: true,
+        error: null
+      };
+    case EDIT_TRAINER_SUCCESS:
+      return {
+        ...state,
+        isPending: false,
+        data: state.data.map((trainer) =>
+          trainer.id === action.payload.id ? action.payload : trainer
+        ),
+        error: null
+      };
+    case EDIT_TRAINER_ERROR:
       return {
         ...state,
         isPending: false,

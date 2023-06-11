@@ -5,6 +5,9 @@ import {
   ADD_TRAINER_PENDING,
   ADD_TRAINER_SUCCESS,
   ADD_TRAINER_ERROR,
+  EDIT_TRAINER_PENDING,
+  EDIT_TRAINER_SUCCESS,
+  EDIT_TRAINER_ERROR,
   SHOW_RESPONSE_MODAL,
   HIDE_RESPONSE_MODAL
 } from './constants';
@@ -23,9 +26,8 @@ export const getTrainersError = (error) => ({
   payload: error
 });
 
-export const addTrainerPending = (trainer) => ({
-  type: ADD_TRAINER_PENDING,
-  payload: trainer
+export const addTrainerPending = () => ({
+  type: ADD_TRAINER_PENDING
 });
 
 export const addTrainerSuccess = (trainer) => ({
@@ -37,6 +39,24 @@ export const addTrainerError = (error) => ({
   type: ADD_TRAINER_ERROR,
   payload: error
 });
+
+export const editTrainerPending = () => {
+  return {
+    type: EDIT_TRAINER_PENDING
+  };
+};
+export const editTrainerSuccess = (trainer) => {
+  return {
+    type: EDIT_TRAINER_SUCCESS,
+    payload: trainer
+  };
+};
+export const editTrainerError = (error) => {
+  return {
+    type: EDIT_TRAINER_ERROR,
+    payload: error
+  };
+};
 
 export const showResponseModal = (message, state) => {
   return {
