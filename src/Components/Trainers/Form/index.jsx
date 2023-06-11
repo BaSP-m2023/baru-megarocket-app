@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
 import styles from './form.module.css';
 import { Input } from '../../Shared/Inputs';
+import { addTrainer } from '../../../Redux/Trainers/thunks';
+import { hideResponseModal } from '../../../Redux/Trainers/actions';
 
 const Form = () => {
   const { id } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const responseModal = useSelector((state) => state.trainers.responseModal);
+
   const [showResponseModal, setShowResponseModal] = useState(false);
   const [stateModal, setStateModal] = useState('success');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -71,40 +78,20 @@ const Form = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    id ? updTrainer(selectedTrainer._id, trainer) : addTrainer(trainer);
+    id ? updTrainer(selectedTrainer._id, trainer) : dispatch(addTrainer(trainer, history));
   };
 
-  const addTrainer = async (trainer) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(trainer)
-      });
-      if (response.ok) {
-        setResponseMessage('Trainer added successfully');
-        setShowResponseModal(true);
-        setStateModal('success');
-        setTimeout(() => {
-          setShowResponseModal(false);
-          history.push('/trainers');
-        }, 1500);
-      } else {
-        setResponseMessage('Failed to add trainer');
-        setShowResponseModal(true);
-        setStateModal('fail');
-        setTimeout(() => {
-          setShowResponseModal(false);
-        }, 3000);
-      }
-    } catch (error) {
-      setResponseMessage(`Error adding trainer: ${error.message}`);
+  useEffect(() => {
+    if (responseModal) {
       setShowResponseModal(true);
-      setStateModal('fail');
+      setStateModal(responseModal.state);
+      setResponseMessage(responseModal.message);
+      setTimeout(() => {
+        setShowResponseModal(false);
+        dispatch(hideResponseModal());
+      }, 3000);
     }
-  };
+  }, [responseModal]);
 
   const updTrainer = async (id, updatedTrainer) => {
     try {
