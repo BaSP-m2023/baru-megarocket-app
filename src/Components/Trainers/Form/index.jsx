@@ -6,7 +6,7 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
 import styles from './form.module.css';
 import { Input } from '../../Shared/Inputs';
-import { addTrainer } from '../../../Redux/Trainers/thunks';
+import { addTrainer, updTrainer } from '../../../Redux/Trainers/thunks';
 import { hideResponseModal } from '../../../Redux/Trainers/actions';
 
 const Form = () => {
@@ -14,12 +14,13 @@ const Form = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const trainers = useSelector((state) => state.trainers.data);
+  const trainerToEdit = trainers.find((trainer) => trainer._id === id);
   const responseModal = useSelector((state) => state.trainers.responseModal);
 
   const [showResponseModal, setShowResponseModal] = useState(false);
   const [stateModal, setStateModal] = useState('success');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [selectedTrainer, setSelectedTrainer] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
   const [trainer, setTrainer] = useState({
     firstName: '',
@@ -32,37 +33,18 @@ const Form = () => {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (id) {
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`);
-          const data = await response.json();
-          setSelectedTrainer(data.data);
-        }
-      } catch (error) {
-        setResponseMessage(`Error getting trainer: ${error.message}`);
-        setShowResponseModal(true);
-        setStateModal('fail');
-        setTimeout(() => {
-          setShowResponseModal(false);
-        }, 3000);
-      }
-    };
-
-    fetchData();
-  }, [id]);
-
-  useEffect(() => {
-    setTrainer({
-      firstName: selectedTrainer.firstName || '',
-      lastName: selectedTrainer.lastName || '',
-      dni: selectedTrainer.dni || '',
-      phone: selectedTrainer.phone || '',
-      email: selectedTrainer.email || '',
-      password: selectedTrainer.password || '',
-      salary: selectedTrainer.salary || ''
-    });
-  }, [selectedTrainer]);
+    if (trainerToEdit) {
+      setTrainer({
+        firstName: trainerToEdit.firstName || '',
+        lastName: trainerToEdit.lastName || '',
+        dni: trainerToEdit.dni || '',
+        phone: trainerToEdit.phone || '',
+        email: trainerToEdit.email || '',
+        password: trainerToEdit.password || '',
+        salary: trainerToEdit.salary || ''
+      });
+    }
+  }, [trainerToEdit]);
 
   const onChangeInput = (e) => {
     setTrainer({
@@ -78,7 +60,9 @@ const Form = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    id ? updTrainer(selectedTrainer._id, trainer) : dispatch(addTrainer(trainer, history));
+    id
+      ? dispatch(updTrainer(trainerToEdit._id, trainer, history))
+      : dispatch(addTrainer(trainer, history));
   };
 
   useEffect(() => {
@@ -92,38 +76,6 @@ const Form = () => {
       }, 3000);
     }
   }, [responseModal]);
-
-  const updTrainer = async (id, updatedTrainer) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedTrainer)
-      });
-      if (response.ok) {
-        setResponseMessage('Trainer updated successfully');
-        setShowResponseModal(true);
-        setStateModal('success');
-        setTimeout(() => {
-          setShowResponseModal(false);
-          history.push('/trainers');
-        }, 1500);
-      } else {
-        setResponseMessage('Failed to update trainer');
-        setShowResponseModal(true);
-        setStateModal('fail');
-        setTimeout(() => {
-          setShowResponseModal(false);
-        }, 3000);
-      }
-    } catch (error) {
-      setResponseMessage(`Error updating trainer: ${error.message}`);
-      setShowResponseModal(true);
-      setStateModal('fail');
-    }
-  };
 
   const handleConfirmModal = () => {
     if (validateInputs()) {
