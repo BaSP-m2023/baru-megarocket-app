@@ -47,7 +47,7 @@ const Form = () => {
 
   const getActivity = async (id) => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity/${id}`);
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activities/${id}`);
       const { data } = await res.json();
       return data;
     } catch (error) {
@@ -57,21 +57,21 @@ const Form = () => {
 
   const createActivity = async (newActivity) => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activities`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
         },
         body: JSON.stringify(newActivity)
       });
-      const data = await res.json();
+      const { message } = await res.json();
       if (res.status === 201) {
-        redirectAfterSubmit.state.message = 'Activty created';
+        redirectAfterSubmit.state.message = message;
         redirectAfterSubmit.state.state = 'success';
         history.push(redirectAfterSubmit);
       }
       if (res.status === 400) {
-        handleResponse('fail', data.message);
+        handleResponse('fail', message);
       }
     } catch (error) {
       handleResponse('fail', error);
@@ -80,26 +80,26 @@ const Form = () => {
 
   const updateActivity = async (id, { name, description, isActive }) => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activities/${id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({ name, description, isActive })
       });
-      const data = await res.json();
+      const { message } = await res.json();
       if (res.status === 200) {
-        redirectAfterSubmit.state.message = 'Activity updated!';
+        redirectAfterSubmit.state.message = message;
         redirectAfterSubmit.state.state = 'success';
         history.push(redirectAfterSubmit);
       }
       if (res.status === 404) {
-        redirectAfterSubmit.state.message = data.message;
+        redirectAfterSubmit.state.message = message;
         redirectAfterSubmit.state.state = 'fail';
         history.push(redirectAfterSubmit);
       }
       if (res.status === 400) {
-        handleResponse('fail', data.message);
+        handleResponse('fail', message);
       }
     } catch (error) {
       handleResponse('fail', error);
