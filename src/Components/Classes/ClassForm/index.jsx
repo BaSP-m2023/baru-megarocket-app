@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useHistory, useParams } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
@@ -7,13 +7,11 @@ import { Input } from '../../Shared/Inputs';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import { addClass } from '../../../Redux/Classes/thunks';
-import { getTrainers } from '../../../Redux/Trainers/thunks';
-import { getActivities } from '../../../Redux/Activities/thunks';
 import { responseModal } from '../../../Redux/Classes/actions';
+import { getActivities } from '../../../Redux/Activities/thunks';
+import { getTrainers } from '../../../Redux/Trainers/thunks';
 
 function ClassForm() {
-  const [trainers, setTrainers] = useState([]);
-  const [activities, setActivities] = useState([]);
   const [error, setError] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [classes, setClasses] = useState({
@@ -26,132 +24,28 @@ function ClassForm() {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { id } = useParams();
   const isCreateRoute = location.pathname.includes('/classes/add');
-  const dataClasses = useSelector((state) => state.classes);
   const response = useSelector((state) => state.classes.response);
-  const trainerss = useSelector((state) => state.trainers);
-  const activitiess = useSelector((state) => state);
+  const storeClass = useSelector((state) => state.classes);
+  const trainers = useSelector((state) => state.trainers.data);
+  const activities = useSelector((state) => state.activities.list);
 
   useEffect(() => {
-    getTrainers(dispatch);
     getActivities(dispatch);
-    console.log(activitiess, trainerss);
+    getTrainers(dispatch);
   }, [dispatch]);
-
-  /* const applyResponse = (msg, state) => {
-    setShowModal({ show: true, msg: msg, state: state });
-    setTimeout(() => {
-      setShowModal({ show: false, msg: '', state: '' });
-    }, 2000);
-    if (state === 'success') {
-      const objHistory = {
-        ...location,
-        pathname: '/classes',
-        state: { show: true, msg: msg, state: state }
-      };
-      history.replace(objHistory);
-    }
-  }; */
-
-  const getTrainersActivities = async () => {
-    try {
-      const resTrainers = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`);
-      const dataTrainers = await resTrainers.json();
-      const resActivities = await fetch(`${process.env.REACT_APP_API_URL}/api/activities`);
-      const dataActivities = await resActivities.json();
-      setTrainers(dataTrainers.data);
-      setActivities(dataActivities.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getById = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`);
-      const data = await response.json();
-      let selectedActivity = '';
-      let selectedTrainer = '';
-      if (data.data.activity) {
-        selectedActivity = data.data.activity._id;
-      }
-      if (data.data.trainer[0]) {
-        selectedTrainer = data.data.trainer[0]._id;
-      }
-      setClasses({
-        activity: selectedActivity,
-        trainer: selectedTrainer,
-        day: data.data.day,
-        time: data.data.time,
-        capacity: data.data.capacity
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getTrainersActivities();
-    !isCreateRoute && getById(id);
-  }, []);
 
   const createClass = async (newClass) => {
     addClass(dispatch, newClass);
   };
 
   useEffect(() => {
-    if (dataClasses.error) {
-      dispatch(responseModal({ show: true, msg: dataClasses.error, state: 'fail' }));
-      setTimeout(() => {
-        dispatch(responseModal({ show: false, msg: '', state: '' }));
-      }, 3000);
-    } else {
-      if (dataClasses.createData) {
-        history.push('/classes');
-      }
+    if (storeClass.error) {
+      dispatch(responseModal({ show: true, msg: storeClass.error, state: 'fail' }));
+    } else if (storeClass.createData) {
+      history.push('/classes');
     }
-  }, [dataClasses.createData]);
-
-  const updateClass = async () => {
-    try {
-      const editedClass = {
-        ...classes,
-        trainer: [classes.trainer]
-      };
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(editedClass)
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        // return applyResponse(data.message, 'fail');
-      }
-      //  applyResponse(data.msg, 'success');
-      return data;
-    } catch (error) {
-      //  applyResponse('Something went wrong :(', 'fail');
-    }
-  };
-
-  const onClickEditClass = () => {
-    if (
-      Object.values(classes).every((prop) => {
-        if (prop === '') {
-          return false;
-        }
-        return true;
-      })
-    ) {
-      updateClass();
-      setError(false);
-    } else {
-      setError(true);
-    }
-  };
+  }, [storeClass.createData]);
 
   const onClickCreateClass = () => {
     if (
@@ -184,7 +78,7 @@ function ClassForm() {
     if (isCreateRoute) {
       onClickCreateClass();
     } else {
-      onClickEditClass();
+      //onClickEditClass();
     }
   };
 
@@ -198,10 +92,6 @@ function ClassForm() {
       ...classes,
       [e.target.name]: e.target.value
     });
-  };
-
-  const closeModal = () => {
-    dispatch(responseModal({ show: false, msg: '', state: '' }));
   };
 
   return (
@@ -244,9 +134,9 @@ function ClassForm() {
               </option>
             ))}
           </select>
-          {dataClasses.error && classes.trainer === '' ? (
+          {error && classes.trainer === '' && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.inputContainer}>
           <label className={styles.label}>Day</label>
@@ -300,7 +190,11 @@ function ClassForm() {
         </div>
       </form>
       {response.show && (
-        <ResponseModal handler={closeModal} message={response.msg} state={response.state} />
+        <ResponseModal
+          handler={() => dispatch(responseModal({ show: false, msg: '', state: '' }))}
+          message={response.msg}
+          state={response.state}
+        />
       )}
       {showConfirmModal && (
         <ConfirmModal

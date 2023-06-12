@@ -6,15 +6,11 @@ import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import { Input } from '../../Shared/Inputs';
 
-function ClassList({ classes, getById, selectedClass, setRenderData }) {
+function ClassList({ classes, setRenderData }) {
   const [filter, setFilter] = useState('');
   const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [selectedClassToDelete, setSelectedClassToDelete] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  const handleFilter = (e) => {
-    setFilter(e.target.value);
-  };
 
   const applyResponse = (data) => {
     setShowModal({ show: true, msg: data.msg, state: data.state });
@@ -72,7 +68,7 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
 
   return (
     <div className={styles.container}>
-      <Input placeholder="Class Filter" value={filter} change={(e) => handleFilter(e)} />
+      <Input placeholder="Class Filter" value={filter} change={(e) => setFilter(e.target.value)} />
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
@@ -88,13 +84,7 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
           <tbody>
             {filteredClasses !== 0 &&
               filteredClasses.map((item, index) => (
-                <tr
-                  key={item._id}
-                  onClick={() => getById(item._id)}
-                  className={`${styles.row} ${
-                    selectedClass && selectedClass._id === item._id ? styles.selected : ''
-                  }`}
-                >
+                <tr key={item._id}>
                   <td>{index + 1}</td>
                   <td>{item.activity !== null ? item.activity.name : 'Empty'}</td>
                   <td>{item.trainer ? item.trainer.firstName : 'Empty'}</td>

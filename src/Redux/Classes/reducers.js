@@ -11,6 +11,7 @@ import {
 const INITIAL_STATE = {
   data: [],
   createData: null,
+  classId: {},
   isPending: false,
   response: { show: false, msg: '', state: '' },
   error: null
@@ -59,7 +60,8 @@ const classReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: false,
         response: action.payload,
-        createData: null
+        createData: null,
+        error: false
       };
     default:
       return state;

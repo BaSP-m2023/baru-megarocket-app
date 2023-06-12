@@ -8,12 +8,6 @@ import {
   responseModal
 } from './actions';
 
-const setResponseFalse = (dispatch) => {
-  setTimeout(() => {
-    dispatch(responseModal({ show: false, msg: '', state: '' }));
-  }, 3000);
-};
-
 export const getClasses = async (dispatch) => {
   dispatch(getClassPending());
   try {
@@ -43,15 +37,12 @@ export const addClass = async (dispatch, createdClass) => {
     const data = await response.json();
     if (response.ok) {
       dispatch(postClassSuccess(data.data));
-      dispatch(responseModal({ show: true, msg: data.message, state: 'success' }));
-      return setResponseFalse(dispatch);
+      return dispatch(responseModal({ show: true, msg: data.message, state: 'success' }));
     }
     dispatch(postClassError(data.message));
-    dispatch(responseModal({ show: true, msg: data.message, state: 'fail' }));
-    return setResponseFalse(dispatch);
+    return dispatch(responseModal({ show: true, msg: data.message, state: 'fail' }));
   } catch (error) {
     dispatch(postClassError(error));
-    dispatch(responseModal({ show: true, msg: error, state: 'fail' }));
-    return setResponseFalse(dispatch);
+    return dispatch(responseModal({ show: true, msg: error, state: 'fail' }));
   }
 };
