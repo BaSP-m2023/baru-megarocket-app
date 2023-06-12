@@ -8,6 +8,9 @@ import {
   EDIT_TRAINER_PENDING,
   EDIT_TRAINER_SUCCESS,
   EDIT_TRAINER_ERROR,
+  DELETE_TRAINER_PENDING,
+  DELETE_TRAINER_SUCCESS,
+  DELETE_TRAINER_ERROR,
   SHOW_RESPONSE_MODAL,
   HIDE_RESPONSE_MODAL
 } from './constants';
@@ -54,6 +57,23 @@ export const editTrainerSuccess = (trainer) => {
 export const editTrainerError = (error) => {
   return {
     type: EDIT_TRAINER_ERROR,
+    payload: error
+  };
+};
+export const deleteTrainerPending = () => {
+  return {
+    type: DELETE_TRAINER_PENDING
+  };
+};
+export const deleteTrainerSuccess = (trainer) => {
+  return {
+    type: DELETE_TRAINER_SUCCESS,
+    payload: trainer
+  };
+};
+export const deleteTrainerError = (error) => {
+  return {
+    type: DELETE_TRAINER_ERROR,
     payload: error
   };
 };
