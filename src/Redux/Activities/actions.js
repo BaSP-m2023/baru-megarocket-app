@@ -48,6 +48,30 @@ export const addActivityError = (error) => {
   };
 };
 
+export const editActivityPending = () => {
+  return {
+    type: actionType.EDIT_ACTIVITIES_PENDING
+  };
+};
+
+export const editActivitySuccess = (activityUpdated) => {
+  return {
+    type: actionType.EDIT_ACTIVITIES_SUCCESS,
+    payload: {
+      activityUpdated
+    }
+  };
+};
+
+export const editActivityError = (error) => {
+  return {
+    type: actionType.EDIT_ACTIVITIES_ERROR,
+    payload: {
+      error
+    }
+  };
+};
+
 export const setResponseMessage = ({ message, state }) => {
   return {
     type: actionType.RESPONSE_ACTIVITIES_MESSAGE,

@@ -15,9 +15,6 @@ function Activities() {
   const { list, isPending, response, success } = useSelector((state) => state.activities);
   const [responseModal, setResponseModal] = useState({ show: false, state: '', message: '' });
   const dispatch = useDispatch();
-  // const location = useLocation();
-  // const history = useHistory();
-  // console.log(history);
 
   const handleResponse = () => {
     setResponseModal({
@@ -40,7 +37,7 @@ function Activities() {
     if (success) {
       handleResponse();
     }
-  }, [success]);
+  }, []);
 
   const deleteActivity = async (id) => {
     try {

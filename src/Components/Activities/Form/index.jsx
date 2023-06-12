@@ -3,7 +3,7 @@ import { Link, useParams, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './form.module.css';
 
-import { addActivity } from '../../../Redux/Activities/thunks';
+import { addActivity, editActivity } from '../../../Redux/Activities/thunks';
 
 import Button from '../../Shared/Button';
 import { Input, Textarea } from '../../Shared/Inputs';
@@ -51,34 +51,6 @@ const Form = () => {
     }
   }, [error, success]);
 
-  // const updateActivity = async (id, { name, description, isActive }) => {
-  //   try {
-  //     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activities/${id}`, {
-  //       method: 'PUT',
-  //       headers: {
-  //         'Content-type': 'application/json'
-  //       },
-  //       body: JSON.stringify({ name, description, isActive })
-  //     });
-  //     const { message } = await res.json();
-  //     if (res.status === 200) {
-  //       redirectAfterSubmit.state.message = message;
-  //       redirectAfterSubmit.state.state = 'success';
-  //       history.push(redirectAfterSubmit);
-  //     }
-  //     if (res.status === 404) {
-  //       redirectAfterSubmit.state.message = message;
-  //       redirectAfterSubmit.state.state = 'fail';
-  //       history.push(redirectAfterSubmit);
-  //     }
-  //     if (res.status === 400) {
-  //       handleResponse('fail', message);
-  //     }
-  //   } catch (error) {
-  //     handleResponse('fail', error);
-  //   }
-  // };
-
   const handleChanges = (e) => {
     const target = e.target.name;
     const value = target === 'isActive' ? e.currentTarget.checked : e.target.value;
@@ -94,6 +66,8 @@ const Form = () => {
     handleConfirm();
     if (location.pathname.includes('add')) {
       await addActivity(dispatch, activity);
+    } else {
+      await editActivity(dispatch, id, activity);
     }
   };
 
