@@ -23,3 +23,45 @@ export const getActivitiesError = (error) => {
     }
   };
 };
+
+export const addActivityPending = () => {
+  return {
+    type: actionType.ADD_ACTIVITIES_PENDING
+  };
+};
+
+export const addActivitySuccess = (newActivity) => {
+  return {
+    type: actionType.ADD_ACTIVITIES_SUCCESS,
+    payload: {
+      newActivity
+    }
+  };
+};
+
+export const addActivityError = (error) => {
+  return {
+    type: actionType.ADD_ACTIVITIES_ERROR,
+    payload: {
+      error
+    }
+  };
+};
+
+export const setResponseMessage = ({ message, state }) => {
+  return {
+    type: actionType.RESPONSE_ACTIVITIES_MESSAGE,
+    payload: {
+      response: {
+        message,
+        state
+      }
+    }
+  };
+};
+
+export const resetPrimaryStates = () => {
+  return {
+    type: actionType.RESET_PRIMARY_STATES
+  };
+};

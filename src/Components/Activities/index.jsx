@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './activities.module.css';
 
@@ -12,23 +12,20 @@ import ResponseModal from '../Shared/ResponseModal';
 import Loader from '../Shared/Loader';
 
 function Activities() {
-  const { list, isPending } = useSelector((state) => state.activities);
-  const [response, setResponseModal] = useState({ show: false, state: '', message: '' });
+  const { list, isPending, response, success } = useSelector((state) => state.activities);
+  const [responseModal, setResponseModal] = useState({ show: false, state: '', message: '' });
   const dispatch = useDispatch();
-  const location = useLocation();
-  const history = useHistory();
+  // const location = useLocation();
+  // const history = useHistory();
+  // console.log(history);
 
-  const handleResponse = (state, message) => {
-    setResponseModal({ ...response, show: !response.show, state, message });
-
-    if (location.state) {
-      setResponseModal({
-        ...response,
-        show: !response.show,
-        state: location.state.state,
-        message: location.state.message
-      });
-    }
+  const handleResponse = () => {
+    setResponseModal({
+      ...responseModal,
+      show: !responseModal.show,
+      state: response.state,
+      message: response.message
+    });
 
     setTimeout(() => {
       setResponseModal({});
@@ -40,11 +37,10 @@ function Activities() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (location.state) {
+    if (success) {
       handleResponse();
     }
-    history.replace({ ...history.location, state: undefined });
-  }, []);
+  }, [success]);
 
   const deleteActivity = async (id) => {
     try {
@@ -74,8 +70,12 @@ function Activities() {
 
   return (
     <section className={styles.container}>
-      {response.show && (
-        <ResponseModal handler={handleResponse} state={response.state} message={response.message} />
+      {responseModal.show && (
+        <ResponseModal
+          handler={handleResponse}
+          state={responseModal.state}
+          message={responseModal.message}
+        />
       )}
       {list.length !== 0 ? (
         <Table activities={list} onDelete={deleteActivity} />
