@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../Shared/Loader';
-import { getClasses, setShowModal } from '../../Redux/Classes/thunks';
+import { getClasses } from '../../Redux/Classes/thunks';
 import Button from '../Shared/Button';
 import ResponseModal from '../Shared/ResponseModal';
+import { responseModal } from '../../Redux/Classes/actions';
 
 function Projects() {
   const [selectedClass, setSelectedClass] = useState(null);
@@ -25,7 +26,7 @@ function Projects() {
       const data = await response.json();
       setSelectedClass(data.data);
     } catch (error) {
-      setShowModal(dispatch, { show: true, msg: error, state: 'fail' });
+      dispatch(responseModal({ show: true, msg: error, state: 'fail' }));
     }
   };
 
@@ -46,7 +47,7 @@ function Projects() {
       </Link>
       {response.show && (
         <ResponseModal
-          handler={() => setShowModal(dispatch, { show: false, msg: '', state: '' })}
+          handler={() => dispatch(responseModal({ show: false, msg: '', state: '' }))}
           message={response.msg}
           state={response.state}
         />

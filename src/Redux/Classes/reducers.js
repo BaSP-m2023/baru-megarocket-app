@@ -10,8 +10,9 @@ import {
 
 const INITIAL_STATE = {
   data: [],
+  createData: null,
   isPending: false,
-  response: {},
+  response: { show: false, msg: '', state: '' },
   error: null
 };
 
@@ -43,19 +44,22 @@ const classReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPending: false,
-        data: action.payload
+        createData: action.payload,
+        error: false
       };
     case ADD_CLASS_ERROR:
       return {
         ...state,
         isPending: false,
+        createData: null,
         error: action.payload
       };
     case RESPONSE_MODAL:
       return {
         ...state,
         isPending: false,
-        response: action.payload
+        response: action.payload,
+        createData: null
       };
     default:
       return state;

@@ -7,6 +7,8 @@ import { Input } from '../../Shared/Inputs';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import { addClass } from '../../../Redux/Classes/thunks';
+import { getTrainers } from '../../../Redux/Trainers/thunks';
+import { getActivities } from '../../../Redux/Activities/thunks';
 import { responseModal } from '../../../Redux/Classes/actions';
 
 function ClassForm() {
@@ -26,8 +28,16 @@ function ClassForm() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const isCreateRoute = location.pathname.includes('/classes/add');
-  const classError = useSelector((state) => state.classes.error);
+  const dataClasses = useSelector((state) => state.classes);
   const response = useSelector((state) => state.classes.response);
+  const trainerss = useSelector((state) => state.trainers);
+  const activitiess = useSelector((state) => state);
+
+  useEffect(() => {
+    getTrainers(dispatch);
+    getActivities(dispatch);
+    console.log(activitiess, trainerss);
+  }, [dispatch]);
 
   /* const applyResponse = (msg, state) => {
     setShowModal({ show: true, msg: msg, state: state });
@@ -48,12 +58,12 @@ function ClassForm() {
     try {
       const resTrainers = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`);
       const dataTrainers = await resTrainers.json();
-      const resActivities = await fetch(`${process.env.REACT_APP_API_URL}/api/activity`);
+      const resActivities = await fetch(`${process.env.REACT_APP_API_URL}/api/activities`);
       const dataActivities = await resActivities.json();
       setTrainers(dataTrainers.data);
-      setActivities(dataActivities);
+      setActivities(dataActivities.data);
     } catch (error) {
-      dispatch(responseModal({ show: true, msg: error, state: 'fail' }));
+      console.log(error);
     }
   };
 
@@ -77,7 +87,7 @@ function ClassForm() {
         capacity: data.data.capacity
       });
     } catch (error) {
-      dispatch(responseModal({ show: true, msg: error, state: 'fail' }));
+      console.log(error);
     }
   };
 
@@ -91,13 +101,17 @@ function ClassForm() {
   };
 
   useEffect(() => {
-    if (classError) {
-      dispatch(responseModal({ show: true, msg: classError, state: 'fail' }));
+    if (dataClasses.error) {
+      dispatch(responseModal({ show: true, msg: dataClasses.error, state: 'fail' }));
       setTimeout(() => {
         dispatch(responseModal({ show: false, msg: '', state: '' }));
       }, 3000);
+    } else {
+      if (dataClasses.createData) {
+        history.push('/classes');
+      }
     }
-  }, [classError]);
+  }, [dataClasses.createData]);
 
   const updateClass = async () => {
     try {
@@ -230,7 +244,7 @@ function ClassForm() {
               </option>
             ))}
           </select>
-          {classError && classes.trainer === '' ? (
+          {dataClasses.error && classes.trainer === '' ? (
             <span className={styles.error}>Field is required</span>
           ) : null}
         </div>
@@ -285,7 +299,9 @@ function ClassForm() {
           <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
       </form>
-      {response.show && <ResponseModal handler={closeModal} message={classError} state="fail" />}
+      {response.show && (
+        <ResponseModal handler={closeModal} message={response.msg} state={response.state} />
+      )}
       {showConfirmModal && (
         <ConfirmModal
           title={isCreateRoute ? 'Create class' : 'Update class'}
