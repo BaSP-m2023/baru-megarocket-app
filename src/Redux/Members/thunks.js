@@ -7,7 +7,10 @@ import {
   addMemberError,
   editMemberPending,
   editMemberSuccess,
-  editMemberError
+  editMemberError,
+  deleteMemberPending,
+  deleteMemberSuccess,
+  deleteMemberError
 } from './actions';
 
 export const getMembers = async (dispatch) => {
@@ -32,7 +35,7 @@ export const addMember = async (dispatch, member) => {
       body: JSON.stringify(member)
     });
     const data = await response.json();
-    dispatch(addMemberSuccess(data.data));
+    dispatch(addMemberSuccess(data));
   } catch (error) {
     dispatch(addMemberError(error.toString()));
   }
@@ -52,5 +55,18 @@ export const updateMember = async (dispatch, id, updatedMember) => {
     dispatch(editMemberSuccess(data));
   } catch (error) {
     dispatch(editMemberError(error.toString()));
+  }
+};
+
+export const deleteMember = async (dispatch, id) => {
+  dispatch(deleteMemberPending());
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
+      method: 'DELETE'
+    });
+    const data = await response.json();
+    dispatch(deleteMemberSuccess(data));
+  } catch (error) {
+    dispatch(deleteMemberError(error.toString()));
   }
 };

@@ -7,7 +7,10 @@ import {
   ADD_MEMBER_ERROR,
   EDIT_MEMBER_PENDING,
   EDIT_MEMBER_SUCCESS,
-  EDIT_MEMBER_ERROR
+  EDIT_MEMBER_ERROR,
+  DELETE_MEMBER_PENDING,
+  DELETE_MEMBER_SUCCESS,
+  DELETE_MEMBER_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -75,6 +78,27 @@ const reducers = (state = INITIAL_STATE, action) => {
       };
     }
     case EDIT_MEMBER_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload
+      };
+    }
+    case DELETE_MEMBER_PENDING: {
+      return {
+        ...state,
+        isPending: true
+      };
+    }
+    case DELETE_MEMBER_SUCCESS: {
+      const filteredMembers = state.data.filter((member) => member._id !== action.payload.id);
+      return {
+        ...state,
+        isPending: false,
+        data: filteredMembers
+      };
+    }
+    case DELETE_MEMBER_ERROR: {
       return {
         ...state,
         isPending: false,
