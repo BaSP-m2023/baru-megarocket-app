@@ -6,7 +6,7 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
 import styles from './form.module.css';
 import { Input } from '../../Shared/Inputs';
-import { addTrainer, updTrainer } from '../../../Redux/Trainers/thunks';
+import { addTrainer, getTrainers, updTrainer } from '../../../Redux/Trainers/thunks';
 import { hideResponseModal } from '../../../Redux/Trainers/actions';
 
 const Form = () => {
@@ -44,7 +44,20 @@ const Form = () => {
         salary: trainerToEdit.salary || ''
       });
     }
-  }, [trainerToEdit]);
+    getTrainers(dispatch);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (responseModal) {
+      setShowResponseModal(true);
+      setStateModal(responseModal.state);
+      setResponseMessage(responseModal.message);
+      setTimeout(() => {
+        setShowResponseModal(false);
+        dispatch(hideResponseModal());
+      }, 3000);
+    }
+  }, [responseModal]);
 
   const onChangeInput = (e) => {
     setTrainer({
@@ -64,18 +77,6 @@ const Form = () => {
       ? dispatch(updTrainer(trainerToEdit._id, trainer, history))
       : dispatch(addTrainer(trainer, history));
   };
-
-  useEffect(() => {
-    if (responseModal) {
-      setShowResponseModal(true);
-      setStateModal(responseModal.state);
-      setResponseMessage(responseModal.message);
-      setTimeout(() => {
-        setShowResponseModal(false);
-        dispatch(hideResponseModal());
-      }, 3000);
-    }
-  }, [responseModal]);
 
   const handleConfirmModal = () => {
     if (validateInputs()) {
