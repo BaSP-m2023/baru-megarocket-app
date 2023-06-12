@@ -4,12 +4,14 @@ import {
   GET_CLASS_ERROR,
   ADD_CLASS_PENDING,
   ADD_CLASS_SUCCESS,
-  ADD_CLASS_ERROR
+  ADD_CLASS_ERROR,
+  RESPONSE_MODAL
 } from './constants';
 
 const INITIAL_STATE = {
   data: [],
   isPending: false,
+  response: {},
   error: null
 };
 
@@ -48,6 +50,12 @@ const classReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: false,
         error: action.payload
+      };
+    case RESPONSE_MODAL:
+      return {
+        ...state,
+        isPending: false,
+        response: action.payload
       };
     default:
       return state;

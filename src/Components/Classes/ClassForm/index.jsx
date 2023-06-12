@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
+import { addClass } from '../../../Redux/Classes/thunks';
+import { responseModal } from '../../../Redux/Classes/actions';
 
 function ClassForm() {
   const [trainers, setTrainers] = useState([]);
   const [activities, setActivities] = useState([]);
   const [error, setError] = useState(false);
-  const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [classes, setClasses] = useState({
     activity: '',
@@ -21,10 +23,13 @@ function ClassForm() {
   });
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const isCreateRoute = location.pathname.includes('/classes/add');
+  const classError = useSelector((state) => state.classes.error);
+  const response = useSelector((state) => state.classes.response);
 
-  const applyResponse = (msg, state) => {
+  /* const applyResponse = (msg, state) => {
     setShowModal({ show: true, msg: msg, state: state });
     setTimeout(() => {
       setShowModal({ show: false, msg: '', state: '' });
@@ -37,7 +42,7 @@ function ClassForm() {
       };
       history.replace(objHistory);
     }
-  };
+  }; */
 
   const getTrainersActivities = async () => {
     try {
@@ -48,7 +53,7 @@ function ClassForm() {
       setTrainers(dataTrainers.data);
       setActivities(dataActivities);
     } catch (error) {
-      applyResponse({ msg: 'Something went wrong :(', state: 'fail' });
+      dispatch(responseModal({ show: true, msg: error, state: 'fail' }));
     }
   };
 
@@ -72,7 +77,7 @@ function ClassForm() {
         capacity: data.data.capacity
       });
     } catch (error) {
-      applyResponse({ msg: 'Something went wrong :(', state: 'fail' });
+      dispatch(responseModal({ show: true, msg: error, state: 'fail' }));
     }
   };
 
@@ -82,29 +87,17 @@ function ClassForm() {
   }, []);
 
   const createClass = async (newClass) => {
-    const createdClass = {
-      ...newClass,
-      trainer: [newClass.trainer]
-    };
-    const bodyClasses = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(createdClass)
-    };
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/`, bodyClasses);
-      const data = await response.json();
-      if (data.length !== 0 && !data.error) {
-        applyResponse('Class sucessfully created', 'success');
-      } else {
-        applyResponse(data.message, 'fail');
-      }
-    } catch (error) {
-      applyResponse('Something went wrong :(', 'fail');
-    }
+    addClass(dispatch, newClass);
   };
+
+  useEffect(() => {
+    if (classError) {
+      dispatch(responseModal({ show: true, msg: classError, state: 'fail' }));
+      setTimeout(() => {
+        dispatch(responseModal({ show: false, msg: '', state: '' }));
+      }, 3000);
+    }
+  }, [classError]);
 
   const updateClass = async () => {
     try {
@@ -121,11 +114,12 @@ function ClassForm() {
       });
       const data = await response.json();
       if (!response.ok) {
-        return applyResponse(data.message, 'fail');
+        // return applyResponse(data.message, 'fail');
       }
-      applyResponse(data.msg, 'success');
+      //  applyResponse(data.msg, 'success');
+      return data;
     } catch (error) {
-      applyResponse('Something went wrong :(', 'fail');
+      //  applyResponse('Something went wrong :(', 'fail');
     }
   };
 
@@ -192,6 +186,10 @@ function ClassForm() {
     });
   };
 
+  const closeModal = () => {
+    dispatch(responseModal({ show: false, msg: '', state: '' }));
+  };
+
   return (
     <section className={styles.formContainer}>
       <div className={styles.formTitle}>
@@ -232,7 +230,7 @@ function ClassForm() {
               </option>
             ))}
           </select>
-          {error && classes.trainer === '' ? (
+          {classError && classes.trainer === '' ? (
             <span className={styles.error}>Field is required</span>
           ) : null}
         </div>
@@ -287,13 +285,7 @@ function ClassForm() {
           <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
       </form>
-      {showModal.show && (
-        <ResponseModal
-          handler={() => setShowModal({ show: false, msg: '', state: '' })}
-          message={showModal.msg}
-          state={showModal.state}
-        />
-      )}
+      {response.show && <ResponseModal handler={closeModal} message={classError} state="fail" />}
       {showConfirmModal && (
         <ConfirmModal
           title={isCreateRoute ? 'Create class' : 'Update class'}

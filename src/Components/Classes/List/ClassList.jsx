@@ -43,11 +43,12 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
       });
     }
   };
+
   const filteredClassesNotDeleted = classes.filter((item) => !item.deleted);
 
   const filteredClasses = filteredClassesNotDeleted.filter((item) => {
     const activityName = item.activity && item.activity.name;
-    const trainerName = item.trainer.length !== 0 && item.trainer[0].firstName;
+    const trainerName = item.trainer && item.trainer.firstName;
     if (filter === '') {
       return filteredClassesNotDeleted;
     }
@@ -71,7 +72,7 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
 
   return (
     <div className={styles.container}>
-      <Input placeholder="Class Filter" change={(e) => handleFilter(e)} />
+      <Input placeholder="Class Filter" value={filter} change={(e) => handleFilter(e)} />
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
@@ -96,7 +97,7 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
                 >
                   <td>{index + 1}</td>
                   <td>{item.activity !== null ? item.activity.name : 'Empty'}</td>
-                  <td>{item.trainer.length !== 0 ? item.trainer[0].firstName : 'Empty'}</td>
+                  <td>{item.trainer ? item.trainer.firstName : 'Empty'}</td>
                   <td>{item.capacity}</td>
                   <td>{item.day}</td>
                   <td>{item.time}</td>

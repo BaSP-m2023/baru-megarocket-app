@@ -4,7 +4,8 @@ import {
   GET_CLASS_ERROR,
   ADD_CLASS_PENDING,
   ADD_CLASS_SUCCESS,
-  ADD_CLASS_ERROR
+  ADD_CLASS_ERROR,
+  RESPONSE_MODAL
 } from './constants';
 
 export const getClassPending = () => {
@@ -44,5 +45,12 @@ export const postClassError = (error) => {
   return {
     type: ADD_CLASS_ERROR,
     payload: error
+  };
+};
+
+export const responseModal = (data) => {
+  return {
+    type: RESPONSE_MODAL,
+    payload: data
   };
 };
