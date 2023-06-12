@@ -6,39 +6,10 @@ import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import { Input } from '../../Shared/Inputs';
 
-function ClassList({ classes, setRenderData }) {
+function ClassList({ classes }) {
   const [filter, setFilter] = useState('');
   const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
-  const [selectedClassToDelete, setSelectedClassToDelete] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  const applyResponse = (data) => {
-    setShowModal({ show: true, msg: data.msg, state: data.state });
-    setTimeout(() => {
-      setShowModal({ show: false, msg: '', state: '' });
-    }, 3000);
-  };
-
-  const deleteClass = async (classId) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/delete/${classId}`, {
-        method: 'PUT'
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        applyResponse({ msg: 'Error deleting data', state: 'fail' });
-      }
-      applyResponse({ msg: 'Class deleted successfully', state: 'success' });
-      setRenderData((render) => !render);
-      return data;
-    } catch (error) {
-      setShowModal({
-        show: true,
-        state: 'fail',
-        msg: 'Something went wrong :( try again later'
-      });
-    }
-  };
 
   const filteredClassesNotDeleted = classes.filter((item) => !item.deleted);
 
@@ -54,16 +25,8 @@ function ClassList({ classes, setRenderData }) {
     );
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     setShowConfirmModal(false);
-    onSubmit(e);
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    if (selectedClassToDelete) {
-      deleteClass(selectedClassToDelete._id);
-    }
   };
 
   return (
@@ -104,7 +67,6 @@ function ClassList({ classes, setRenderData }) {
                       img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
                       classNameButton={`${styles.button}`}
                       action={() => {
-                        setSelectedClassToDelete(item);
                         setShowConfirmModal(true);
                       }}
                     />
