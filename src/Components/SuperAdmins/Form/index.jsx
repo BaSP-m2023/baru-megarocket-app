@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import styles from './form.module.css';
@@ -59,20 +57,17 @@ const SuperAdminsForm = () => {
   };
 
   const addItem = (superadminToAdd) => {
-    dispatch(addSuperadmin(superadminToAdd));
+    dispatch(addSuperadmin(superadminToAdd, goBackHandle));
     setShowConfirmAdd(false);
-    goBackHandle();
   };
-  //console.log(resState == 'success');
 
   const confirmEdit = () => {
     setShowConfirmEdit(true);
   };
 
   const putItem = (idToEdit, editedSuperadmin) => {
-    dispatch(editSuperadmin(idToEdit, editedSuperadmin));
-    setShowConfirmAdd(false);
-    goBackHandle();
+    dispatch(editSuperadmin(idToEdit, editedSuperadmin, goBackHandle));
+    setShowConfirmEdit(false);
   };
 
   const onSubmit = async (e) => {

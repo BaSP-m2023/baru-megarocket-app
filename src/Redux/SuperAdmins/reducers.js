@@ -17,41 +17,27 @@ import {
 const initialState = {
   superadmins: [],
   loading: false,
-  error: null,
   resState: '',
   resMessage: '',
   showMessage: false
 };
-
-// const editSuperadminState = {
-//   loading: false,
-//   error: null
-// };
-
-// const deleteSuperadminState = {
-//   loading: false,
-//   error: null
-// };
 
 export const superadminsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SUPERADMINS_PENDING:
       return {
         ...state,
-        loading: true,
-        error: null
+        loading: true
       };
     case GET_SUPERADMINS_SUCCESS:
       return {
         ...state,
         superadmins: action.payload.superadmins,
-        loading: false,
-        error: null
+        loading: false
       };
     case GET_SUPERADMINS_ERROR:
       return {
         ...state,
-        error: action.payload,
         loading: false,
         resState: action.payload.resState,
         resMessage: action.payload.resMessage,
@@ -65,7 +51,6 @@ export const superadminsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: null,
         resState: action.payload.resState,
         resMessage: action.payload.resMessage,
         showMessage: true
@@ -74,7 +59,6 @@ export const superadminsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: true,
         resState: action.payload.resState,
         resMessage: action.payload.resMessage,
         showMessage: true
@@ -82,14 +66,12 @@ export const superadminsReducer = (state = initialState, action) => {
     case EDIT_SUPERADMIN_PENDING:
       return {
         ...state,
-        loading: true,
-        error: null
+        loading: true
       };
     case EDIT_SUPERADMIN_SUCCESS:
       return {
         ...state,
         loading: false,
-        error: null,
         resState: action.payload.resState,
         resMessage: action.payload.resMessage,
         showMessage: true
@@ -98,7 +80,6 @@ export const superadminsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: action.payload,
         resState: action.payload.resState,
         resMessage: action.payload.resMessage,
         showMessage: true
@@ -106,14 +87,12 @@ export const superadminsReducer = (state = initialState, action) => {
     case DELETE_SUPERADMIN_PENDING:
       return {
         ...state,
-        loading: true,
-        error: null
+        loading: true
       };
     case DELETE_SUPERADMIN_SUCCESS:
       return {
         ...state,
         loading: false,
-        error: null,
         superadmins: state.superadmins.filter((superadmin) => superadmin._id !== action.payload),
         resState: action.payload.resState,
         resMessage: action.payload.resMessage,
@@ -122,7 +101,6 @@ export const superadminsReducer = (state = initialState, action) => {
     case DELETE_SUPERADMIN_ERROR:
       return {
         ...state,
-        error: action.payload,
         loading: false,
         resState: action.payload.resState,
         resMessage: action.payload.resMessage,
@@ -132,7 +110,6 @@ export const superadminsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: null,
         resState: '',
         resMessage: '',
         showMessage: false

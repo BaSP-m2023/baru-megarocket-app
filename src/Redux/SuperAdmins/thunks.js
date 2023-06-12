@@ -25,12 +25,12 @@ export const getSuperadmins = async (dispatch) => {
     dispatch(getSuperadminsSuccess(responseInfo));
   } catch (error) {
     responseInfo.resState = 'fail';
-    responseInfo.resMessage = error;
+    responseInfo.resMessage = error.message;
     dispatch(getSuperadminsError(responseInfo));
   }
 };
 
-export const addSuperadmin = (superadminToAdd) => {
+export const addSuperadmin = (superadminToAdd, goBack) => {
   return async (dispatch) => {
     dispatch(addSuperadminPending());
     try {
@@ -42,6 +42,7 @@ export const addSuperadmin = (superadminToAdd) => {
         body: JSON.stringify(superadminToAdd)
       });
       if (response.ok) {
+        goBack();
         responseInfo.resState = 'success';
         responseInfo.resMessage = 'New superadmin created';
         dispatch(addSuperadminSuccess(responseInfo));
@@ -50,18 +51,16 @@ export const addSuperadmin = (superadminToAdd) => {
         responseInfo.resState = 'fail';
         responseInfo.resMessage = 'Failed to create superadmin';
         dispatch(addSuperadminError(responseInfo));
-        setTimeout(() => dispatch(closeMessage()), 3500);
       }
     } catch (error) {
       responseInfo.resState = 'fail';
       responseInfo.resMessage = 'Failed to create superadmin';
       dispatch(addSuperadminError(responseInfo));
-      setTimeout(() => dispatch(closeMessage()), 3500);
     }
   };
 };
 
-export const editSuperadmin = (idToEdit, editedSuperadmin) => {
+export const editSuperadmin = (idToEdit, editedSuperadmin, goBack) => {
   return async (dispatch) => {
     dispatch(editSuperadminPending());
     try {
@@ -76,21 +75,19 @@ export const editSuperadmin = (idToEdit, editedSuperadmin) => {
         }
       );
       if (response.ok) {
+        goBack();
         responseInfo.resState = 'success';
         responseInfo.resMessage = 'Superadmin updated';
         dispatch(editSuperadminSuccess(responseInfo));
-        setTimeout(() => dispatch(closeMessage()), 3500);
       } else {
         responseInfo.resState = 'fail';
         responseInfo.resMessage = 'Failed to edit superadmin';
         dispatch(editSuperadminError(responseInfo));
-        setTimeout(() => dispatch(closeMessage()), 3500);
       }
     } catch (error) {
       responseInfo.resState = 'fail';
       responseInfo.resMessage = 'Failed to edit superadmin';
       dispatch(editSuperadminError(responseInfo));
-      setTimeout(() => dispatch(closeMessage()), 3500);
     }
   };
 };
@@ -110,18 +107,15 @@ export const deleteSuperadmin = (idToDelete) => {
         responseInfo.resMessage = 'Superadmin deleted';
         dispatch(deleteSuperadminSuccess(responseInfo));
         dispatch(getSuperadmins);
-        setTimeout(() => dispatch(closeMessage()), 3500);
       } else {
         responseInfo.resState = 'fail';
         responseInfo.resMessage = 'Failed to delete superadmin';
         dispatch(deleteSuperadminError(responseInfo));
-        setTimeout(() => dispatch(closeMessage()), 3500);
       }
     } catch (error) {
       responseInfo.resState = 'fail';
       responseInfo.resMessage = 'Failed to delete superadmin';
       dispatch(deleteSuperadminError(responseInfo));
-      setTimeout(() => dispatch(closeMessage()), 3500);
     }
   };
 };

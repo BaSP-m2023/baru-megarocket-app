@@ -56,7 +56,7 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              {superadmins.map((item) => {
+              {superadmins?.map((item) => {
                 return (
                   <tr key={item._id} className={styles.trow}>
                     <td className={styles.tdata}>{item.name}</td>
