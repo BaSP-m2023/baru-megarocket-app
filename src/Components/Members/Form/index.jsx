@@ -5,7 +5,7 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
-import { addMember } from '../../../Redux/Members/thunks';
+import { addMember, updateMember } from '../../../Redux/Members/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 
 const MemberForm = ({ match }) => {
@@ -57,30 +57,30 @@ const MemberForm = ({ match }) => {
   //   }
   // };
 
-  const updMember = async (id, updatedMember) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updatedMember)
-    });
-    if (res.status === 200) {
-      setEditMember({});
-      setModalMessageOpen(false);
-      handleToast(true, 'success', 'Member edited');
-      setTimeout(() => {
-        history.push('/members');
-        handleShowToast(false);
-      }, 1500);
-    } else {
-      setModalMessageOpen(false);
-      handleToast(true, 'fail', 'Member cant be edited');
-      setTimeout(() => {
-        handleShowToast(false);
-      }, 1500);
-    }
-  };
+  // const updMember = async (id, updatedMember) => {
+  //   const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(updatedMember)
+  //   });
+  //   if (res.status === 200) {
+  //     setEditMember({});
+  //     setModalMessageOpen(false);
+  //     handleToast(true, 'success', 'Member edited');
+  //     setTimeout(() => {
+  //       history.push('/members');
+  //       handleShowToast(false);
+  //     }, 1500);
+  //   } else {
+  //     setModalMessageOpen(false);
+  //     handleToast(true, 'fail', 'Member cant be edited');
+  //     setTimeout(() => {
+  //       handleShowToast(false);
+  //     }, 1500);
+  //   }
+  // };
 
   useEffect(() => {
     const getMember = async (id) => {
@@ -138,7 +138,7 @@ const MemberForm = ({ match }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (memberId) {
-      updMember(memberId, member);
+      updateMember(dispatch, memberId, member);
     } else {
       addMember(dispatch, member);
     }

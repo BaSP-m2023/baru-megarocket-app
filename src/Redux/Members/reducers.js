@@ -4,7 +4,10 @@ import {
   GET_MEMBERS_ERROR,
   ADD_MEMBER_PENDING,
   ADD_MEMBER_SUCCESS,
-  ADD_MEMBER_ERROR
+  ADD_MEMBER_ERROR,
+  EDIT_MEMBER_PENDING,
+  EDIT_MEMBER_SUCCESS,
+  EDIT_MEMBER_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -49,6 +52,29 @@ const reducers = (state = INITIAL_STATE, action) => {
       };
     }
     case ADD_MEMBER_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload
+      };
+    }
+    case EDIT_MEMBER_PENDING: {
+      return {
+        ...state,
+        isPending: true
+      };
+    }
+    case EDIT_MEMBER_SUCCESS: {
+      let updatedMembers = state.data.map((member) =>
+        member._id === action.payload.id ? action.payload : member
+      );
+      return {
+        ...state,
+        isPending: false,
+        data: updatedMembers
+      };
+    }
+    case EDIT_MEMBER_ERROR: {
       return {
         ...state,
         isPending: false,
