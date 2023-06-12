@@ -4,7 +4,8 @@ import {
   getClassError,
   deleteClassPending,
   deleteClassSuccess,
-  deleteClassError
+  deleteClassError,
+  responseModal
 } from './actions';
 
 export const getClasses = async (dispatch) => {
@@ -30,6 +31,10 @@ export const deleteClass = (classId) => {
       return data;
     } catch (error) {
       dispatch(deleteClassError('Error deleting the Class'));
+      return error;
     }
   };
+};
+export const setShowModal = async (dispatch, data) => {
+  dispatch(responseModal({ show: data.show, msg: data.msg, state: data }));
 };

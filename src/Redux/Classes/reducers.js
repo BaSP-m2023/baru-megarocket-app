@@ -5,13 +5,15 @@ import {
   DELETE_CLASS_PENDING,
   DELETE_CLASS_SUCCESS,
   DELETE_CLASS_ERROR,
-  REFRESH_DATA
+  REFRESH_DATA,
+  RESPONSE_MODAL
 } from './constants';
 
 const INITIAL_STATE = {
   data: [],
   isPending: false,
-  error: null
+  error: null,
+  response: { show: false, msg: '', state: '' }
 };
 
 const classReducer = (state = INITIAL_STATE, action) => {
@@ -49,6 +51,13 @@ const classReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: false,
         error: action.payload
+      };
+    case RESPONSE_MODAL:
+      return {
+        ...state,
+        isPending: false,
+        response: action.payload,
+        error: false
       };
     case REFRESH_DATA:
       return {

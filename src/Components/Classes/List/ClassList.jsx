@@ -5,16 +5,16 @@ import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import { Input } from '../../Shared/Inputs';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteClass } from '../../../Redux/Classes/thunks';
-import { refreshData } from '../../../Redux/Classes/actions';
+import { refreshData, responseModal } from '../../../Redux/Classes/actions';
 
 function ClassList({ classes, getById, selectedClass }) {
   const [filter, setFilter] = useState('');
-  const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [selectedClassToDelete, setSelectedClassToDelete] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const dispatch = useDispatch();
+  const response = useSelector((state) => state.classes.response);
 
   const handleFilter = (e) => {
     setFilter(e.target.value);
@@ -23,8 +23,9 @@ function ClassList({ classes, getById, selectedClass }) {
   const handleDeleteClass = (classId) => {
     dispatch(deleteClass(classId))
       .then((result) => {
+        console.log(result);
         const filterClass = classes.filter((deleted) => deleted._id !== result.data._id);
-        applyResponse({ msg: result.message, state: result.error === false ? 'success' : 'fail' });
+        applyResponse({ msg: result.message, state: !result.error ? 'success' : 'fail' });
         dispatch(refreshData(filterClass));
       })
       .catch(() => {
@@ -35,12 +36,9 @@ function ClassList({ classes, getById, selectedClass }) {
       });
   };
 
-  const applyResponse = ({ msg, state }) => {
-    setShowModal({ show: true, msg, state });
-    console.log(showModal.show);
-    setTimeout(() => {
-      setShowModal({ show: false, msg: '', state: '' });
-    }, 3000);
+  const applyResponse = (data) => {
+    dispatch(responseModal({ show: true, msg: data.msg, state: data.state }));
+    console.log(response);
   };
   const filteredClassesNotDeleted = classes.filter((item) => !item.deleted);
 
@@ -122,11 +120,11 @@ function ClassList({ classes, getById, selectedClass }) {
           </tbody>
         </table>
       </div>
-      {showModal.show && (
+      {response.show && (
         <ResponseModal
-          handler={() => setShowModal({ show: false, msg: '', state: '' })}
-          message={showModal.msg}
-          state={showModal.state}
+          handler={() => dispatch(responseModal({ show: false, msg: '', state: '' }))}
+          message={response.msg}
+          state={response.state}
         />
       )}
 
