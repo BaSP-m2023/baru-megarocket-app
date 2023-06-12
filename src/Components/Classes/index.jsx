@@ -15,7 +15,6 @@ function Projects() {
   const history = useHistory();
   const classes = useSelector((state) => state.classes.data);
   const pending = useSelector((state) => state.classes.isPending);
-
   useEffect(() => {
     getClasses(dispatch);
   }, [dispatch]);
@@ -57,6 +56,7 @@ function Projects() {
           classes={classes && classes}
           getById={getById}
           selectedClass={selectedClass}
+          dispatch={dispatch}
         ></ClassList>
       )}
       {!pending && classes.length === 0 && 'There are not classes yet. Add new ones!'}

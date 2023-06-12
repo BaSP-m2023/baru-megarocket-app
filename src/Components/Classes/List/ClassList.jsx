@@ -5,49 +5,48 @@ import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import { Input } from '../../Shared/Inputs';
+import { useDispatch } from 'react-redux';
+import { deleteClass } from '../../../Redux/Classes/thunks';
+import { refreshData } from '../../../Redux/Classes/actions';
 
-function ClassList({ classes, getById, selectedClass, setRenderData }) {
+function ClassList({ classes, getById, selectedClass }) {
   const [filter, setFilter] = useState('');
   const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [selectedClassToDelete, setSelectedClassToDelete] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const dispatch = useDispatch();
 
   const handleFilter = (e) => {
     setFilter(e.target.value);
   };
 
-  const applyResponse = (data) => {
-    setShowModal({ show: true, msg: data.msg, state: data.state });
+  const handleDeleteClass = (classId) => {
+    dispatch(deleteClass(classId))
+      .then((result) => {
+        const filterClass = classes.filter((deleted) => deleted._id !== result.data._id);
+        applyResponse({ msg: result.message, state: result.error === false ? 'success' : 'fail' });
+        dispatch(refreshData(filterClass));
+      })
+      .catch(() => {
+        applyResponse({ msg: 'Error deleting data', state: 'fail' });
+      })
+      .finally(() => {
+        setSelectedClassToDelete(null);
+      });
+  };
+
+  const applyResponse = ({ msg, state }) => {
+    setShowModal({ show: true, msg, state });
+    console.log(showModal.show);
     setTimeout(() => {
       setShowModal({ show: false, msg: '', state: '' });
     }, 3000);
-  };
-
-  const deleteClass = async (classId) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/delete/${classId}`, {
-        method: 'PUT'
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        applyResponse({ msg: 'Error deleting data', state: 'fail' });
-      }
-      applyResponse({ msg: 'Class deleted successfully', state: 'success' });
-      setRenderData((render) => !render);
-      return data;
-    } catch (error) {
-      setShowModal({
-        show: true,
-        state: 'fail',
-        msg: 'Something went wrong :( try again later'
-      });
-    }
   };
   const filteredClassesNotDeleted = classes.filter((item) => !item.deleted);
 
   const filteredClasses = filteredClassesNotDeleted.filter((item) => {
     const activityName = item.activity && item.activity.name;
-    const trainerName = item.trainer.length !== 0 && item.trainer[0].firstName;
+    const trainerName = item.trainer && item.trainer.firstName;
     if (filter === '') {
       return filteredClassesNotDeleted;
     }
@@ -65,13 +64,13 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
   const onSubmit = (e) => {
     e.preventDefault();
     if (selectedClassToDelete) {
-      deleteClass(selectedClassToDelete._id);
+      handleDeleteClass(selectedClassToDelete._id);
     }
   };
 
   return (
     <div className={styles.container}>
-      <Input placeholder="Class Filter" change={(e) => handleFilter(e)} />
+      <Input placeholder="Class Filter" value={filter} change={(e) => handleFilter(e)} />
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
@@ -96,7 +95,7 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
                 >
                   <td>{index + 1}</td>
                   <td>{item.activity !== null ? item.activity.name : 'Empty'}</td>
-                  <td>{item.trainer.length !== 0 ? item.trainer[0].firstName : 'Empty'}</td>
+                  <td>{item.trainer ? item.trainer.firstName : 'Empty'}</td>
                   <td>{item.capacity}</td>
                   <td>{item.day}</td>
                   <td>{item.time}</td>
@@ -123,7 +122,6 @@ function ClassList({ classes, getById, selectedClass, setRenderData }) {
           </tbody>
         </table>
       </div>
-
       {showModal.show && (
         <ResponseModal
           handler={() => setShowModal({ show: false, msg: '', state: '' })}
