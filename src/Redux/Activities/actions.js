@@ -1,14 +1,26 @@
-import * as actionType from './constants';
+import {
+  GET_ACTIVITIES_PENDING,
+  GET_ACTIVITIES_SUCCESS,
+  GET_ACTIVITIES_ERROR,
+  ADD_ACTIVITIES_PENDING,
+  ADD_ACTIVITIES_SUCCESS,
+  ADD_ACTIVITIES_ERROR,
+  EDIT_ACTIVITIES_PENDING,
+  EDIT_ACTIVITIES_SUCCESS,
+  EDIT_ACTIVITIES_ERROR,
+  RESPONSE_ACTIVITIES_MESSAGE,
+  RESET_PRIMARY_STATES
+} from './constants';
 
 export const getActivitiesPending = () => {
   return {
-    type: actionType.GET_ACTIVITIES_PENDING
+    type: GET_ACTIVITIES_PENDING
   };
 };
 
 export const getActivitiesSuccess = (list) => {
   return {
-    type: actionType.GET_ACTIVITIES_SUCCESS,
+    type: GET_ACTIVITIES_SUCCESS,
     payload: {
       list
     }
@@ -17,7 +29,7 @@ export const getActivitiesSuccess = (list) => {
 
 export const getActivitiesError = (error) => {
   return {
-    type: actionType.GET_ACTIVITIES_ERROR,
+    type: GET_ACTIVITIES_ERROR,
     payload: {
       error
     }
@@ -26,13 +38,13 @@ export const getActivitiesError = (error) => {
 
 export const addActivityPending = () => {
   return {
-    type: actionType.ADD_ACTIVITIES_PENDING
+    type: ADD_ACTIVITIES_PENDING
   };
 };
 
 export const addActivitySuccess = (newActivity) => {
   return {
-    type: actionType.ADD_ACTIVITIES_SUCCESS,
+    type: ADD_ACTIVITIES_SUCCESS,
     payload: {
       newActivity
     }
@@ -41,7 +53,7 @@ export const addActivitySuccess = (newActivity) => {
 
 export const addActivityError = (error) => {
   return {
-    type: actionType.ADD_ACTIVITIES_ERROR,
+    type: ADD_ACTIVITIES_ERROR,
     payload: {
       error
     }
@@ -50,13 +62,13 @@ export const addActivityError = (error) => {
 
 export const editActivityPending = () => {
   return {
-    type: actionType.EDIT_ACTIVITIES_PENDING
+    type: EDIT_ACTIVITIES_PENDING
   };
 };
 
 export const editActivitySuccess = (activityUpdated) => {
   return {
-    type: actionType.EDIT_ACTIVITIES_SUCCESS,
+    type: EDIT_ACTIVITIES_SUCCESS,
     payload: {
       activityUpdated
     }
@@ -65,7 +77,7 @@ export const editActivitySuccess = (activityUpdated) => {
 
 export const editActivityError = (error) => {
   return {
-    type: actionType.EDIT_ACTIVITIES_ERROR,
+    type: EDIT_ACTIVITIES_ERROR,
     payload: {
       error
     }
@@ -74,7 +86,7 @@ export const editActivityError = (error) => {
 
 export const setResponseMessage = ({ message, state }) => {
   return {
-    type: actionType.RESPONSE_ACTIVITIES_MESSAGE,
+    type: RESPONSE_ACTIVITIES_MESSAGE,
     payload: {
       response: {
         message,
@@ -86,6 +98,6 @@ export const setResponseMessage = ({ message, state }) => {
 
 export const resetPrimaryStates = () => {
   return {
-    type: actionType.RESET_PRIMARY_STATES
+    type: RESET_PRIMARY_STATES
   };
 };

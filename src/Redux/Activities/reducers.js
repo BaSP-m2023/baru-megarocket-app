@@ -1,4 +1,16 @@
-import * as actionType from './constants';
+import {
+  GET_ACTIVITIES_PENDING,
+  GET_ACTIVITIES_SUCCESS,
+  GET_ACTIVITIES_ERROR,
+  ADD_ACTIVITIES_PENDING,
+  ADD_ACTIVITIES_SUCCESS,
+  ADD_ACTIVITIES_ERROR,
+  EDIT_ACTIVITIES_PENDING,
+  EDIT_ACTIVITIES_SUCCESS,
+  EDIT_ACTIVITIES_ERROR,
+  RESPONSE_ACTIVITIES_MESSAGE,
+  RESET_PRIMARY_STATES
+} from './constants';
 
 const INITIAL_STATE = {
   list: [],
@@ -13,15 +25,15 @@ const INITIAL_STATE = {
 
 const activitiesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case actionType.GET_ACTIVITIES_PENDING: {
+    case GET_ACTIVITIES_PENDING: {
       return { ...state, isPending: true };
     }
 
-    case actionType.GET_ACTIVITIES_SUCCESS: {
+    case GET_ACTIVITIES_SUCCESS: {
       return { ...state, list: action.payload.list, isPending: false };
     }
 
-    case actionType.GET_ACTIVITIES_ERROR: {
+    case GET_ACTIVITIES_ERROR: {
       return {
         ...state,
         isPending: false,
@@ -30,11 +42,11 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       };
     }
 
-    case actionType.ADD_ACTIVITIES_PENDING: {
+    case ADD_ACTIVITIES_PENDING: {
       return { ...state, isPending: true };
     }
 
-    case actionType.ADD_ACTIVITIES_SUCCESS: {
+    case ADD_ACTIVITIES_SUCCESS: {
       return {
         ...state,
         list: [...state.list, action.payload.newActivity],
@@ -43,7 +55,7 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       };
     }
 
-    case actionType.ADD_ACTIVITIES_ERROR: {
+    case ADD_ACTIVITIES_ERROR: {
       return {
         ...state,
         isPending: false,
@@ -52,11 +64,11 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       };
     }
 
-    case actionType.EDIT_ACTIVITIES_PENDING: {
+    case EDIT_ACTIVITIES_PENDING: {
       return { ...state, isPending: true };
     }
 
-    case actionType.EDIT_ACTIVITIES_SUCCESS: {
+    case EDIT_ACTIVITIES_SUCCESS: {
       const updated = state.list.find(
         (activity) => activity._id === action.payload.activityUpdated._id
       );
@@ -73,7 +85,7 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       };
     }
 
-    case actionType.EDIT_ACTIVITIES_ERROR: {
+    case EDIT_ACTIVITIES_ERROR: {
       return {
         ...state,
         isPending: false,
@@ -82,11 +94,11 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       };
     }
 
-    case actionType.RESPONSE_ACTIVITIES_MESSAGE: {
+    case RESPONSE_ACTIVITIES_MESSAGE: {
       return { ...state, response: action.payload.response };
     }
 
-    case actionType.RESET_PRIMARY_STATES: {
+    case RESET_PRIMARY_STATES: {
       return {
         ...state,
         error: false,
