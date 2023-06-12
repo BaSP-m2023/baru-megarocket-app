@@ -8,9 +8,9 @@ import {
   editTrainerPending,
   editTrainerSuccess,
   editTrainerError,
-  // deleteTrainerPending,
-  // deleteTrainerSuccess,
-  // deleteTrainerError,
+  deleteTrainerPending,
+  deleteTrainerSuccess,
+  deleteTrainerError,
   showResponseModal
 } from './actions';
 
@@ -82,6 +82,29 @@ export const updTrainer = (id, updatedTrainer, history) => {
     } catch (error) {
       dispatch(editTrainerError(`Error editing trainer: ${error.message}`));
       dispatch(showResponseModal(`Error editing trainer: ${error.message}`, 'fail'));
+    }
+  };
+};
+
+export const deleteTrainer = (id) => {
+  return async (dispatch) => {
+    dispatch(deleteTrainerPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
+        method: 'DELETE'
+      });
+      const data = await response.json();
+      if (response.ok) {
+        dispatch(deleteTrainerSuccess(id));
+        dispatch(showResponseModal('Trainer deleted successfully!', 'success'));
+        getTrainers(dispatch);
+      } else {
+        dispatch(deleteTrainerError('Failed to delete trainer'));
+        dispatch(showResponseModal(`Error deleting trainer: ${data.message}`, 'fail'));
+      }
+    } catch (error) {
+      dispatch(deleteTrainerError(`Error deleting trainer: ${error.message}`));
+      dispatch(showResponseModal(`Error deleting trainer: ${error.message}`, 'fail'));
     }
   };
 };
