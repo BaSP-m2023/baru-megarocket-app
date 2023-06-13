@@ -7,13 +7,13 @@ import Loader from '../Shared/Loader';
 import { getClasses } from '../../Redux/Classes/thunks';
 import Button from '../Shared/Button';
 import ResponseModal from '../Shared/ResponseModal';
-import { responseModal } from '../../Redux/Classes/actions';
+import { handleDisplayToast } from '../../Redux/Shared/ResponseToast/actions';
 
 function Projects() {
   const dispatch = useDispatch();
   const classes = useSelector((state) => state.classes);
   const pending = useSelector((state) => state.classes.isPending);
-  const response = useSelector((state) => state.classes.response);
+  const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
     getClasses(dispatch);
@@ -30,11 +30,12 @@ function Projects() {
       <Link to={'/classes/add'} className={styles.addNew}>
         <Button text="+ Add new" classNameButton="submitButton" />
       </Link>
-      {response.show && (
+
+      {show && (
         <ResponseModal
-          handler={() => dispatch(responseModal({ show: false, msg: '', state: '' }))}
-          message={response.msg}
-          state={response.state}
+          handler={() => dispatch(handleDisplayToast(false))}
+          state={state}
+          message={message}
         />
       )}
     </section>

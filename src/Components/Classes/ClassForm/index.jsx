@@ -7,9 +7,9 @@ import { Input } from '../../Shared/Inputs';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import { addClass } from '../../../Redux/Classes/thunks';
-import { responseModal } from '../../../Redux/Classes/actions';
 import { getActivities } from '../../../Redux/Activities/thunks';
 import { getTrainers } from '../../../Redux/Trainers/thunks';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 function ClassForm() {
   const [error, setError] = useState(false);
@@ -25,8 +25,8 @@ function ClassForm() {
   const history = useHistory();
   const dispatch = useDispatch();
   const isCreateRoute = location.pathname.includes('/classes/add');
-  const response = useSelector((state) => state.classes.response);
-  const storeClass = useSelector((state) => state.classes);
+  const success = useSelector((state) => state.classes.success);
+  const { show, message, state } = useSelector((state) => state.toast);
   const trainers = useSelector((state) => state.trainers.data);
   const activities = useSelector((state) => state.activities.list);
 
@@ -35,17 +35,15 @@ function ClassForm() {
     getTrainers(dispatch);
   }, [dispatch]);
 
+  useEffect(() => {
+    if (success) {
+      history.push('/classes');
+    }
+  }, [success]);
+
   const createClass = async (newClass) => {
     addClass(dispatch, newClass);
   };
-
-  useEffect(() => {
-    if (storeClass.error) {
-      dispatch(responseModal({ show: true, msg: storeClass.error, state: 'fail' }));
-    } else if (storeClass.createData) {
-      history.push('/classes');
-    }
-  }, [storeClass.createData]);
 
   const onClickCreateClass = () => {
     if (
@@ -115,9 +113,9 @@ function ClassForm() {
               </option>
             ))}
           </select>
-          {error && classes.activity === '' ? (
+          {error && classes.activity === '' && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.inputContainer}>
           <label className={styles.label}>Trainer</label>
@@ -150,9 +148,7 @@ function ClassForm() {
             <option value="Saturday">Saturday</option>
             <option value="Sunday">Sunday</option>
           </select>
-          {error && classes.day === '' ? (
-            <span className={styles.error}>Field is required</span>
-          ) : null}
+          {error && classes.day === '' && <span className={styles.error}>Field is required</span>}
         </div>
         <div className={styles.inputContainer}>
           <Input
@@ -163,9 +159,9 @@ function ClassForm() {
             name="time"
             change={onChangeInput}
           />
-          {(error && classes.time === '') || (error && classes.time === 0) ? (
+          {((error && classes.time === '') || (error && classes.time === 0)) && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.inputContainer}>
           <Input
@@ -176,9 +172,9 @@ function ClassForm() {
             placeholder="Capacity"
             change={onChangeInput}
           />
-          {error && classes.capacity === '' ? (
+          {error && classes.capacity === '' && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.buttonContainer}>
           <Button
@@ -189,13 +185,15 @@ function ClassForm() {
           <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
       </form>
-      {response.show && (
+
+      {show && (
         <ResponseModal
-          handler={() => dispatch(responseModal({ show: false, msg: '', state: '' }))}
-          message={response.msg}
-          state={response.state}
+          handler={() => dispatch(handleDisplayToast(false))}
+          state={state}
+          message={message}
         />
       )}
+
       {showConfirmModal && (
         <ConfirmModal
           title={isCreateRoute ? 'Create class' : 'Update class'}

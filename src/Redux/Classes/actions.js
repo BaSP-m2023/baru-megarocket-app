@@ -5,7 +5,7 @@ import {
   ADD_CLASS_PENDING,
   ADD_CLASS_SUCCESS,
   ADD_CLASS_ERROR,
-  RESPONSE_MODAL
+  RESET_PRIMARY_STATES
 } from './constants';
 
 export const getClassPending = () => {
@@ -48,9 +48,8 @@ export const postClassError = (error) => {
   };
 };
 
-export const responseModal = (data) => {
+export const resetPrimaryStates = () => {
   return {
-    type: RESPONSE_MODAL,
-    payload: data
+    type: RESET_PRIMARY_STATES
   };
 };
