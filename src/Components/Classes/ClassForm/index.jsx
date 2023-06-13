@@ -39,26 +39,29 @@ function ClassForm() {
   }, [dispatch]);
 
   const getById = (id) => {
-    try {
-      const dataID = data.find((classID) => classID._id === id);
-      let selectedActivity = '';
-      let selectedTrainer = '';
+    const dataID = data.find((classID) => classID._id === id);
+    let selectedActivity = '';
+    let selectedTrainer = '';
+    if (dataID) {
       if (dataID.activity) {
         selectedActivity = dataID.activity._id;
       }
       if (dataID.trainer) {
         selectedTrainer = dataID.trainer._id;
       }
-      setClasses({
-        activity: selectedActivity,
-        trainer: selectedTrainer,
-        day: dataID.day,
-        time: dataID.time,
-        capacity: dataID.capacity
-      });
-    } catch (error) {
-      console.log(error);
+      localStorage.setItem('activity', selectedActivity);
+      localStorage.setItem('trainer', selectedTrainer);
+      localStorage.setItem('day', dataID.day);
+      localStorage.setItem('time', dataID.time);
+      localStorage.setItem('capacity', dataID.capacity);
     }
+    setClasses({
+      activity: localStorage.getItem('activity'),
+      trainer: localStorage.getItem('trainer'),
+      day: localStorage.getItem('day'),
+      time: localStorage.getItem('time'),
+      capacity: localStorage.getItem('capacity')
+    });
   };
 
   const updateClass = () => {
@@ -75,6 +78,7 @@ function ClassForm() {
       })
     ) {
       updateClass();
+      localStorage.clear();
       setError(false);
     } else {
       setError(true);
@@ -102,6 +106,7 @@ function ClassForm() {
 
   const cancelForm = (e) => {
     e.preventDefault();
+    localStorage.clear();
     history.goBack();
   };
 
