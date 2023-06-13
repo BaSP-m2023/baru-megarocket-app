@@ -9,7 +9,10 @@ import {
   EDIT_ACTIVITIES_SUCCESS,
   EDIT_ACTIVITIES_ERROR,
   RESPONSE_ACTIVITIES_MESSAGE,
-  RESET_PRIMARY_STATES
+  RESET_PRIMARY_STATES,
+  DELETE_ACTIVITIES_PENDING,
+  DELETE_ACTIVITIES_SUCCESS,
+  DELETE_ACTIVITIES_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -86,6 +89,32 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
     }
 
     case EDIT_ACTIVITIES_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: true,
+        response: { message: action.payload.error, state: 'fail' }
+      };
+    }
+
+    case DELETE_ACTIVITIES_PENDING: {
+      return {
+        ...state,
+        isPending: true
+      };
+    }
+
+    case DELETE_ACTIVITIES_SUCCESS: {
+      const newList = state.list.filter((activity) => activity._id !== action.payload.idDeleted);
+      return {
+        ...state,
+        list: newList,
+        isPending: false,
+        success: true
+      };
+    }
+
+    case DELETE_ACTIVITIES_ERROR: {
       return {
         ...state,
         isPending: false,

@@ -8,6 +8,9 @@ import {
   editActivityPending,
   editActivitySuccess,
   editActivityError,
+  deleteActivityPending,
+  deleteActivitySuccess,
+  deleteActivityError,
   setResponseMessage,
   resetPrimaryStates
 } from './actions';
@@ -84,5 +87,27 @@ export const editActivity = async (dispatch, id, { name, description, isActive }
     }
   } catch (error) {
     dispatch(editActivityError(error.message));
+  }
+};
+
+export const deleteActivity = async (dispatch, id) => {
+  dispatch(deleteActivityPending());
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/activities/${id}`, {
+      method: 'DELETE'
+    });
+    const { message, error } = await response.json();
+    dispatch(resetPrimaryStates());
+
+    if (!error) {
+      dispatch(deleteActivitySuccess(id));
+      dispatch(setResponseMessage({ message, state: 'success' }));
+    }
+
+    if (error) {
+      throw new Error(message);
+    }
+  } catch (error) {
+    dispatch(deleteActivityError(error.message));
   }
 };

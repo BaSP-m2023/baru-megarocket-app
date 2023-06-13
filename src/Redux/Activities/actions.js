@@ -8,6 +8,9 @@ import {
   EDIT_ACTIVITIES_PENDING,
   EDIT_ACTIVITIES_SUCCESS,
   EDIT_ACTIVITIES_ERROR,
+  DELETE_ACTIVITIES_PENDING,
+  DELETE_ACTIVITIES_SUCCESS,
+  DELETE_ACTIVITIES_ERROR,
   RESPONSE_ACTIVITIES_MESSAGE,
   RESET_PRIMARY_STATES
 } from './constants';
@@ -92,6 +95,30 @@ export const setResponseMessage = ({ message, state }) => {
         message,
         state
       }
+    }
+  };
+};
+
+export const deleteActivityPending = () => {
+  return {
+    type: DELETE_ACTIVITIES_PENDING
+  };
+};
+
+export const deleteActivitySuccess = (idDeleted) => {
+  return {
+    type: DELETE_ACTIVITIES_SUCCESS,
+    payload: {
+      idDeleted
+    }
+  };
+};
+
+export const deleteActivityError = (error) => {
+  return {
+    type: DELETE_ACTIVITIES_ERROR,
+    payload: {
+      error
     }
   };
 };
