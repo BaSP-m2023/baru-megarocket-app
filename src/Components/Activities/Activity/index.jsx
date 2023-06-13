@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { deleteActivity } from '../../../Redux/Activities/thunks';
 
 import styles from '../Table/table.module.css';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
 
-const Activity = ({ activity, onDelete }) => {
+const Activity = ({ activity }) => {
   const [confirm, setConfirmModal] = useState(false);
+  const dispatch = useDispatch();
 
   const handleConfirm = () => {
     setConfirmModal(!confirm);
@@ -14,7 +18,7 @@ const Activity = ({ activity, onDelete }) => {
 
   const onAction = () => {
     handleConfirm();
-    onDelete(activity._id);
+    deleteActivity(dispatch, activity._id);
   };
 
   let { url } = useRouteMatch();
