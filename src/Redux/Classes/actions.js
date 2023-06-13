@@ -8,8 +8,7 @@ import {
   DELETE_CLASS_PENDING,
   DELETE_CLASS_SUCCESS,
   DELETE_CLASS_ERROR,
-  REFRESH_DATA,
-  RESPONSE_MODAL
+  REFRESH_DATA
 } from './constants';
 
 export const getClassPending = () => {
@@ -68,13 +67,6 @@ export const deleteClassError = (error) => {
   return {
     type: DELETE_CLASS_ERROR,
     payload: error
-  };
-};
-
-export const responseModal = (data) => {
-  return {
-    type: RESPONSE_MODAL,
-    payload: data
   };
 };
 

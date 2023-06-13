@@ -1,56 +1,43 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './list.module.css';
-import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import { Input } from '../../Shared/Inputs';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteClass } from '../../../Redux/Classes/thunks';
-import { refreshData, responseModal } from '../../../Redux/Classes/actions';
+import { refreshData } from '../../../Redux/Classes/actions';
 
-function ClassList({ classes, getById, selectedClass }) {
+function ClassList({ classes }) {
   const [filter, setFilter] = useState('');
   const [selectedClassToDelete, setSelectedClassToDelete] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const dispatch = useDispatch();
-  const response = useSelector((state) => state.classes.response);
-
   const handleFilter = (e) => {
     setFilter(e.target.value);
   };
 
   const handleDeleteClass = (classId) => {
     dispatch(deleteClass(classId))
-      .then((result) => {
-        const filterClass = classes.filter((deleted) => deleted._id !== result.data._id);
-        applyResponse({ message: result.message, state: !result.error ? 'success' : 'fail' });
+      .then((dataId) => {
+        const filterClass = classes.filter((deleted) => deleted._id !== dataId);
         dispatch(refreshData(filterClass));
       })
       .catch(() => {
-        applyResponse({ message: 'Error deleting data', state: 'fail' });
+        setSelectedClassToDelete(null);
       })
       .finally(() => {
         setSelectedClassToDelete(null);
       });
   };
 
-  const applyResponse = (data) => {
-    dispatch(responseModal({ show: true, message: data.message, state: data.state }));
-  };
   const filteredClassesNotDeleted = classes.filter((item) => !item.deleted);
 
-  const filteredClasses = filteredClassesNotDeleted.filter((item) => {
-    const activityName = item.activity && item.activity.name;
-    const trainerName = item.trainer && item.trainer.firstName;
-    if (filter === '') {
-      return filteredClassesNotDeleted;
-    }
-    return (
-      (activityName && activityName.toLowerCase().includes(filter)) ||
-      (trainerName && trainerName.toLowerCase().includes(filter))
-    );
-  });
+  const filteredClasses = filteredClassesNotDeleted.filter(
+    (filtro) =>
+      (filtro.activity && filtro.activity.name.toLowerCase().includes(filter)) ||
+      (filtro.trainer && filtro.trainer.firstName.toLowerCase().includes(filter))
+  );
 
   const handleSubmit = (e) => {
     setShowConfirmModal(false);
@@ -82,13 +69,7 @@ function ClassList({ classes, getById, selectedClass }) {
           <tbody>
             {filteredClasses !== 0 &&
               filteredClasses.map((item, index) => (
-                <tr
-                  key={item._id}
-                  onClick={() => getById(item._id)}
-                  className={`${styles.row} ${
-                    selectedClass && selectedClass._id === item._id ? styles.selected : ''
-                  }`}
-                >
+                <tr key={item._id} className={styles.row}>
                   <td>{index + 1}</td>
                   <td>{item.activity !== null ? item.activity.name : 'Empty'}</td>
                   <td>{item.trainer ? item.trainer.firstName : 'Empty'}</td>
@@ -118,14 +99,6 @@ function ClassList({ classes, getById, selectedClass }) {
           </tbody>
         </table>
       </div>
-      {response.show && (
-        <ResponseModal
-          handler={() => dispatch(responseModal({ show: false, message: '', state: '' }))}
-          message={response.message}
-          state={response.state}
-        />
-      )}
-
       {showConfirmModal && (
         <ConfirmModal
           title="Delete class"

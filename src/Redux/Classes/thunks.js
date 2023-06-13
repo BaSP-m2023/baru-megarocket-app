@@ -5,12 +5,12 @@ import {
   deleteClassPending,
   deleteClassSuccess,
   deleteClassError,
-  responseModal,
   putClassPending,
   putClassSuccess,
   putClassError
 } from './actions';
 
+import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
 export const getClasses = async (dispatch) => {
   dispatch(getClassPending());
   try {
@@ -18,10 +18,12 @@ export const getClasses = async (dispatch) => {
     const data = await response.json();
     dispatch(getClassSuccess(data.data));
   } catch (error) {
+    dispatch(handleDisplayToast(true));
+    setContentToast({ message: error.message, state: 'fail' });
     dispatch(getClassError('failed to fetch classes'));
   }
 };
-export const putClass = async (dispatch, classes, id) => {
+export const putClass = async (dispatch, classes, id, history) => {
   dispatch(putClassPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
@@ -31,16 +33,21 @@ export const putClass = async (dispatch, classes, id) => {
       },
       body: JSON.stringify(classes)
     });
-    const data = await response.json();
+    const { data, message, error } = await response.json();
     if (response.ok) {
-      dispatch(putClassSuccess(data.data));
-      return data;
+      history.push('/classes');
+      dispatch(putClassSuccess(data));
+      dispatch(setContentToast({ message, state: 'success' }));
+      dispatch(handleDisplayToast(true));
     }
-    dispatch(putClassError(data.message));
-    return data;
-  } catch (data) {
-    dispatch(putClassError(data));
-    return data;
+    if (error) {
+      throw new Error(message);
+    }
+  } catch (error) {
+    dispatch(putClassError(error.message));
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
+    return error;
   }
 };
 
@@ -51,15 +58,20 @@ export const deleteClass = (classId) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/delete/${classId}`, {
         method: 'DELETE'
       });
-      const data = await response.json();
-      dispatch(deleteClassSuccess(data.data));
-      return data;
+      const { data, message, error } = await response.json();
+      if (!error) {
+        dispatch(deleteClassSuccess(data));
+        dispatch(setContentToast({ message, state: 'success' }));
+        dispatch(handleDisplayToast(true));
+        return data._id;
+      }
+      if (error) {
+        throw new Error(message);
+      }
     } catch (error) {
-      dispatch(deleteClassError('Error deleting the Class'));
-      return error;
+      dispatch(deleteClassError(error.message));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
-};
-export const setShowModal = async (dispatch, data) => {
-  dispatch(responseModal({ show: data.show, message: data.message, state: data }));
 };

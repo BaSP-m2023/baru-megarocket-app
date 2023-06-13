@@ -6,10 +6,10 @@ import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
-import { responseModal } from '../../../Redux/Classes/actions';
 import { getActivities } from '../../../Redux/Activities/thunks';
 import { getTrainers } from '../../../Redux/Trainers/thunks';
 import { putClass } from '../../../Redux/Classes/thunks';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 function ClassForm() {
   const [error, setError] = useState(false);
@@ -27,8 +27,8 @@ function ClassForm() {
   const { id } = useParams();
   const isCreateRoute = location.pathname.includes('/classes/add');
   const dispatch = useDispatch();
-  const response = useSelector((state) => state.classes.response);
-  const storeClass = useSelector((state) => state.classes);
+  const { data } = useSelector((state) => state.classes);
+  const { show, message, state } = useSelector((state) => state.toast);
   const trainers = useSelector((state) => state.trainers.data);
   const activities = useSelector((state) => state.activities.list);
 
@@ -38,21 +38,9 @@ function ClassForm() {
     !isCreateRoute && getById(id);
   }, [dispatch]);
 
-  useEffect(() => {
-    if (storeClass.error) {
-      dispatch(responseModal({ show: true, message: storeClass.error, state: 'fail' }));
-    } else if (storeClass.putClass) {
-      history.push('/classes');
-    }
-  }, [storeClass.putClass]);
-
-  const applyResponse = (data) => {
-    dispatch(responseModal({ show: true, message: data.message, state: data.state }));
-  };
-
   const getById = (id) => {
     try {
-      const dataID = storeClass.data.find((classID) => classID._id === id);
+      const dataID = data.find((classID) => classID._id === id);
       let selectedActivity = '';
       let selectedTrainer = '';
       if (dataID.activity) {
@@ -69,46 +57,12 @@ function ClassForm() {
         capacity: dataID.capacity
       });
     } catch (error) {
-      applyResponse({ message: 'Something went wrong :(', state: 'fail' });
-    }
-  };
-
-  const createClass = async (newClass) => {
-    const createdClass = {
-      ...newClass,
-      trainer: [newClass.trainer]
-    };
-    const bodyClasses = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(createdClass)
-    };
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/`, bodyClasses);
-      const data = await response.json();
-      if (data.length !== 0 && !data.error) {
-        applyResponse('Class sucessfully created', 'success');
-      } else {
-        applyResponse(data.message, 'fail');
-      }
-    } catch (error) {
-      applyResponse('Something went wrong :(', 'fail');
+      console.log(error);
     }
   };
 
   const updateClass = () => {
-    putClass(dispatch, classes, id)
-      .then((result) => {
-        applyResponse({ message: result.message, state: result.error ? 'fail' : 'success' });
-        if (!result.error) {
-          history.push('/classes');
-        }
-      })
-      .catch((error) => {
-        applyResponse({ message: error.message, state: 'fail' });
-      });
+    putClass(dispatch, classes, id, history);
   };
 
   const onClickEditClass = () => {
@@ -121,22 +75,6 @@ function ClassForm() {
       })
     ) {
       updateClass();
-      setError(false);
-    } else {
-      setError(true);
-    }
-  };
-
-  const onClickCreateClass = () => {
-    if (
-      Object.values(classes).every((prop) => {
-        if (prop === '') {
-          return false;
-        }
-        return true;
-      })
-    ) {
-      createClass(classes);
       setError(false);
     } else {
       setError(true);
@@ -156,7 +94,7 @@ function ClassForm() {
   const onSubmit = (e) => {
     e.preventDefault();
     if (isCreateRoute) {
-      onClickCreateClass();
+      // onClickCreateClass();
     } else {
       onClickEditClass();
     }
@@ -269,11 +207,11 @@ function ClassForm() {
           <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
       </form>
-      {response.show && (
+      {show && (
         <ResponseModal
-          handler={() => dispatch(responseModal({ show: false, message: '', state: '' }))}
-          message={response.message}
-          state={response.state}
+          handler={() => dispatch(handleDisplayToast(false))}
+          message={message}
+          state={state}
         />
       )}
 
