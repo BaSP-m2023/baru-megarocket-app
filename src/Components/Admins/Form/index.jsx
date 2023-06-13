@@ -5,15 +5,23 @@ import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import { Input } from '../../Shared/Inputs';
+import { addAdmin, getAdminsById } from '../../../Redux/Admins/thunks';
+import { useDispatch, useSelector } from 'react-redux';
+import { addAdminPending } from '../../../Redux/Admins/actions';
 
 function Form() {
+  const dispatch = useDispatch();
+  const stateRes = useSelector((state) => state.admins.stateRes);
+  const errorResponse = useSelector((state) => state.admins.error);
+  const successMessage = useSelector((state) => state.admins.successMessage);
+  const adminToUpdate = useSelector((state) => state.admins.data);
   const params = useParams();
   const history = useHistory();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showResponseModal, setShowResponseModal] = useState(false);
-  const [messageResponse, setMessageResponse] = useState('');
-  const [admins, setAdmins] = useState([]);
-  const [stateResponse, setStateResponse] = useState('success');
+  /* const [showResponseModal, setShowResponseModal] = useState(false); */
+  /* const [messageResponse, setMessageResponse] = useState(''); */
+  /*  const [admins, setAdmins] = useState([]); */
+  /* const [stateResponse, setStateResponse] = useState('success'); */
   const [admin, setAdmin] = useState({
     firstName: '',
     lastName: '',
@@ -26,23 +34,23 @@ function Form() {
 
   useEffect(() => {
     if (params.id) {
-      getAdminsById();
+      getAdminsById(dispatch, params.id);
     }
   }, []);
 
   useEffect(() => {
     setAdmin({
-      firstName: admins.firstName,
-      lastName: admins.lastName,
-      dni: admins.dni,
-      phone: admins.phone,
-      email: admins.email,
-      city: admins.city,
-      password: admins.password
+      firstName: adminToUpdate.firstName,
+      lastName: adminToUpdate.lastName,
+      dni: adminToUpdate.dni,
+      phone: adminToUpdate.phone,
+      email: adminToUpdate.email,
+      city: adminToUpdate.city,
+      password: adminToUpdate.password
     });
-  }, [admins]);
+  }, [adminToUpdate]);
 
-  const getAdminsById = async () => {
+  /*   const getAdminsById = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${params.id}`, {
         method: 'GET'
@@ -54,7 +62,7 @@ function Form() {
       setMessageResponse(`Error fetching admins: ${error.message}`);
       setShowResponseModal(true);
     }
-  };
+  }; */
 
   const editAdmin = async (idToUpdate, adminToUpdate) => {
     try {
@@ -74,25 +82,25 @@ function Form() {
         })
       });
       if (response.ok) {
-        setStateResponse('success');
-        setMessageResponse('Admin updated');
-        setShowResponseModal(true);
+        /*  setStateResponse('success'); */
+        /* setMessageResponse('Admin updated'); */
+        /* setShowResponseModal(true); */
         setTimeout(() => {
-          setShowResponseModal(false);
+          /* setShowResponseModal(false); */
           history.push('/admins');
         }, 2000);
       } else {
-        setStateResponse('fail');
-        setMessageResponse('Admin could be not updated');
-        setShowResponseModal(true);
+        /* setStateResponse('fail'); */
+        /* setMessageResponse('Admin could be not updated'); */
+        /* setShowResponseModal(true); */
       }
     } catch (error) {
-      setShowResponseModal(true);
-      setMessageResponse(`Error updating admins: ${error.message}`);
+      /* setShowResponseModal(true); */
+      /* setMessageResponse(`Error updating admins: ${error.message}`); */
     }
   };
 
-  const addAdmin = async (adminToAdd) => {
+  /* const addAdmin = async (adminToAdd) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`, {
         method: 'POST',
@@ -118,7 +126,7 @@ function Form() {
       setMessageResponse(`Error adding admins: ${error.message}`);
       setShowResponseModal(true);
     }
-  };
+  }; */
 
   const onChangeInput = (e) => {
     setAdmin({
@@ -132,7 +140,11 @@ function Form() {
     if (params.id) {
       editAdmin(params.id, admin);
     } else {
-      addAdmin(admin);
+      addAdmin(dispatch, admin);
+      setTimeout(() => {
+        history.push('/admins');
+        dispatch(addAdminPending());
+      }, 2000);
     }
   };
 
@@ -145,7 +157,7 @@ function Form() {
   };
 
   const closeResponseModal = () => {
-    setShowResponseModal(false);
+    dispatch(addAdminPending());
   };
 
   const handleSubmit = (e) => {
@@ -245,11 +257,11 @@ function Form() {
           Are you sure you want to {params.id ? 'update' : 'add'} admin?
         </ConfirmModal>
       )}
-      {showResponseModal && (
+      {stateRes && (
         <ResponseModal
           handler={() => closeResponseModal()}
-          state={stateResponse}
-          message={messageResponse}
+          state={stateRes}
+          message={stateRes === 'success' ? successMessage : errorResponse}
         />
       )}
     </>
