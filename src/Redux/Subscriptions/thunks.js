@@ -7,6 +7,8 @@ import {
   deleteSubscriptionError
 } from './actions';
 
+import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+
 export const putSubscription = (
   newSubscription,
   subscriptionById,
@@ -44,12 +46,19 @@ export const putSubscription = (
         });
         setSubscriptions(updatedSubscriptions);
         dispatch(putSubscriptionSuccess(data));
+        dispatch(setContentToast({ message: 'Subscription edited', state: 'success' }));
+        dispatch(handleDisplayToast(true));
       }
       if (response.status === 400) {
-        dispatch(putSubscriptionSuccess(data.message));
+        throw new Error('Subscription not edited');
+      }
+      if (response.status === 404) {
+        throw new Error('An error was ocurred');
       }
     } catch (e) {
       dispatch(putSubscriptionError(e.message));
+      dispatch(setContentToast({ message: e.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };
@@ -62,8 +71,12 @@ export const deleteSubscription = (subscriptionId) => {
         method: 'DELETE'
       });
       dispatch(deleteSubscriptionSuccess(subscriptionId));
+      dispatch(setContentToast({ message: 'Subscription has been deleted', state: 'success' }));
+      dispatch(handleDisplayToast(true));
     } catch (e) {
       dispatch(deleteSubscriptionError(e.message));
+      dispatch(setContentToast({ message: e.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };

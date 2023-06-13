@@ -8,21 +8,23 @@ import { Input } from '../../Shared/Inputs';
 import { useDispatch, useSelector } from 'react-redux';
 import { putSubscription } from '../../../Redux/Subscriptions/thunks';
 import { reset } from '../../../Redux/Subscriptions/actions';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { getClasses } from '../../../Redux/Classes/thunks';
+import { getMembers } from '../../../Redux/Members/thunks';
 import Loader from '../../Shared/Loader';
 const Form = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.subscription.isLoading);
+  const pending = useSelector((state) => state.subscription.isPending);
   const success = useSelector((state) => state.subscription.success);
-  const [showModal, setShowModal] = useState(false);
+  const pendingClasses = useSelector((state) => state.classes.isPending);
+  const pendingMembers = useSelector((state) => state.members.isPending);
+  const classes = useSelector((state) => state.classes.data);
+  const members = useSelector((state) => state.members.data);
+  const { show, message, state } = useSelector((state) => state.toast);
   const { id } = useParams();
   const history = useHistory();
   const [subscriptionById, setSubscriptionById] = useState([]);
-  const [loaded, setLoaded] = useState(false);
-  const [state, setState] = useState('');
-  const [classes, setClasses] = useState([]);
-  const [members, setMembers] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [responseModal, setResponseModal] = useState('');
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscription, setSubscription] = useState({
     classes: '',
@@ -32,8 +34,8 @@ const Form = () => {
   useEffect(() => {
     fetchSubscriptions();
     id && fetchSubscriptionById(id);
-    fetchClasses();
-    fetchMembers();
+    dispatch(getClasses);
+    dispatch(getMembers);
   }, []);
 
   useEffect(() => {
@@ -48,26 +50,6 @@ const Form = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`);
       const data = await response.json();
       setSubscriptions(data.data);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-  const fetchClasses = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`);
-      const data = await response.json();
-      const filteredClassesNotDeleted = data.data.filter((item) => !item.deleted);
-      setClasses(filteredClassesNotDeleted);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-  const fetchMembers = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`);
-      const data = await response.json();
-
-      setMembers(data.data);
     } catch (error) {
       throw new Error(error);
     }
@@ -96,9 +78,6 @@ const Form = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/`, body);
       const data = await response.json();
       if (data.length !== 0 && !data.error) {
-        setShowModal(true);
-        setResponseModal('Subscription created sucessfully!');
-        setState('success');
         setTimeout(() => {
           history.push('/subscriptions');
         }, 1200);
@@ -113,9 +92,6 @@ const Form = () => {
         ]);
       } else {
         setShowConfirmModal(false);
-        setShowModal(true);
-        setResponseModal('Please fill in all fields');
-        setState('fail');
       }
     } catch (e) {
       throw new Error(e);
@@ -130,7 +106,6 @@ const Form = () => {
         members: data.data.members,
         date: data.data.date
       });
-      setLoaded(true);
       setSubscriptionById(data.data);
     } catch (error) {
       throw new Error(error);
@@ -168,7 +143,7 @@ const Form = () => {
     }
   };
 
-  if (isLoading) {
+  if (pending) {
     return (
       <div className={styles.container}>
         <Loader />
@@ -192,7 +167,7 @@ const Form = () => {
           value={subscription.classes}
           onChange={onChangeInput}
         >
-          {loaded ? (
+          {!pendingClasses ? (
             <option>{`${subscription?.classes?.day} ${subscription?.classes?.time}`}</option>
           ) : (
             <option>Select a Value</option>
@@ -213,10 +188,10 @@ const Form = () => {
           value={subscription.members}
           onChange={onChangeInput}
         >
-          {loaded ? (
-            <option>{`${subscription?.members?.name} ${subscription?.members?.lastName}`}</option>
-          ) : (
+          {pendingMembers ? (
             <option className={styles.textArea}>Select a Value</option>
+          ) : (
+            <option>{`${subscription?.members?.name} ${subscription?.members?.lastName}`}</option>
           )}
           {members.map((member) => {
             return (
@@ -250,7 +225,13 @@ const Form = () => {
           We give you a last chance to change your mind
         </ConfirmModal>
       )}
-      {showModal && <ResponseModal state={state} message={responseModal} />}
+      {show && (
+        <ResponseModal
+          handler={() => dispatch(handleDisplayToast(false))}
+          state={state}
+          message={message}
+        />
+      )}
     </>
   );
 };

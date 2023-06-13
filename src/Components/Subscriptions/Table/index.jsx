@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './table.module.css';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
@@ -7,19 +7,17 @@ import Button from '../../Shared/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSubscription } from '../../../Redux/Subscriptions/thunks';
 import { reset } from '../../../Redux/Subscriptions/actions';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 import Loader from '../../Shared/Loader';
 
 const Table = ({ data }) => {
-  const [stateModal, setStateModal] = useState('');
-  const [messageModal, setMessageModal] = useState('');
   const [deletedSubscription, setDeletedSubscription] = useState([]);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const history = useHistory();
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.subscription.isLoading);
+  const pending = useSelector((state) => state.subscription.isPending);
   const success = useSelector((state) => state.subscription.success);
+  const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
     if (success) {
@@ -30,15 +28,11 @@ const Table = ({ data }) => {
   const handleConfirmDelete = (subscriptionId) => {
     setEditingSubscriptionId(subscriptionId);
     setShowConfirmDeleteModal(true);
-    setShowDeleteModal(false);
   };
 
   const handleDelete = (editingSubscriptionId) => {
     dispatch(deleteSubscription(editingSubscriptionId));
     setDeletedSubscription([...deletedSubscription, editingSubscriptionId]);
-    setShowDeleteModal(true);
-    setStateModal('success');
-    setMessageModal('Subscription has been deleted');
     setShowConfirmDeleteModal(false);
   };
 
@@ -49,9 +43,8 @@ const Table = ({ data }) => {
 
   const closeModal = () => {
     setShowConfirmDeleteModal(false);
-    setShowDeleteModal(false);
   };
-  if (isLoading) {
+  if (pending) {
     return (
       <div className={styles.container}>
         <Loader />
@@ -72,7 +65,7 @@ const Table = ({ data }) => {
         <tbody>
           {data.length > 0 ? (
             data.map((subscription) => (
-              <tr key={subscription._id} className={styles.item}>
+              <tr key={subscription?._id} className={styles.item}>
                 {!subscription.classes ? (
                   <td>{'empty'}</td>
                 ) : (
@@ -86,10 +79,7 @@ const Table = ({ data }) => {
                 <td>{formatDate(subscription.date)}</td>
                 <td className={`${styles.itemButton} ${styles.itemButtonEdit}`}>
                   <Link to={`/subscriptions/edit/${subscription._id}`}>
-                    <Button
-                      img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
-                      action={() => history.push(subscription._id)}
-                    />
+                    <Button img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'} />
                   </Link>
                 </td>
                 <td className={`${styles.itemButton} ${styles.itemButtonDelete}`}>
@@ -107,7 +97,7 @@ const Table = ({ data }) => {
           )}
         </tbody>
       </table>
-      {!isLoading && showConfirmDeleteModal && (
+      {showConfirmDeleteModal && (
         <ConfirmModal
           title="Delete Subscription"
           handler={closeModal}
@@ -117,8 +107,12 @@ const Table = ({ data }) => {
           Are you sure to delete subscription?
         </ConfirmModal>
       )}
-      {showDeleteModal && (
-        <ResponseModal handler={closeModal} state={stateModal} message={messageModal} />
+      {show && (
+        <ResponseModal
+          handler={() => dispatch(handleDisplayToast())}
+          state={state}
+          message={message}
+        />
       )}
     </div>
   );

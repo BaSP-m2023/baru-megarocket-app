@@ -20,13 +20,13 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
     case PUT_SUBSCRIPTIONS_PENDING:
       return {
         ...state,
-        isLoading: true,
+        isPending: true,
         error: null
       };
     case PUT_SUBSCRIPTIONS_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        isPending: false,
         data: action.payload,
         success: true,
         error: false
@@ -34,20 +34,20 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
     case PUT_SUBSCRIPTIONS_ERROR:
       return {
         ...state,
-        isLoading: false,
+        isPending: false,
         data: null,
         error: action.payload
       };
     case DELETE_SUBSCRIPTIONS_PENDING:
       return {
         ...state,
-        isLoading: true,
+        isPending: true,
         error: null
       };
     case DELETE_SUBSCRIPTIONS_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        isPending: false,
         data: action.payload,
         success: true,
         error: false
@@ -55,14 +55,14 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
     case DELETE_SUBSCRIPTIONS_ERROR:
       return {
         ...state,
-        isLoading: false,
+        isPending: false,
         data: null,
         error: action.payload
       };
     case RESET_STATE:
       return {
         ...state,
-        isLoading: false,
+        isPending: false,
         success: false,
         error: null
       };

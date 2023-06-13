@@ -4,10 +4,15 @@ import styles from './subscriptions.module.css';
 import Table from './Table';
 import Button from '../Shared/Button';
 import { Input } from '../Shared/Inputs';
+import { handleDisplayToast } from '../../Redux/Shared/ResponseToast/actions';
+import ResponseModal from '../Shared/ResponseModal';
+import { useDispatch, useSelector } from 'react-redux';
 const Subscriptions = () => {
+  const { show, message, state } = useSelector((state) => state.toast);
   const [filteredSubscriptions, setFilteredSubscriptions] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     filterSubscriptions();
@@ -17,7 +22,7 @@ const Subscriptions = () => {
   const filterSubscriptions = () => {
     const filtered = subscriptions.filter((subscription) => {
       const fullName =
-        `${subscription.members?.name} ${subscription.members?.lastName}`.toLowerCase();
+        `${subscription?.members?.name} ${subscription?.members?.lastName}`.toLowerCase();
       return fullName.includes(searchTerm.toLowerCase());
     });
     setFilteredSubscriptions(filtered);
@@ -52,6 +57,13 @@ const Subscriptions = () => {
           <Button classNameButton="submitButton" text="+ Add New" />
         </Link>
       </div>
+      {show && (
+        <ResponseModal
+          handler={() => dispatch(handleDisplayToast(false))}
+          message={message}
+          state={state}
+        />
+      )}
     </section>
   );
 };
