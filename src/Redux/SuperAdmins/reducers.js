@@ -11,15 +11,12 @@ import {
   DELETE_SUPERADMIN_PENDING,
   DELETE_SUPERADMIN_SUCCESS,
   DELETE_SUPERADMIN_ERROR,
-  CLOSE_MESSAGE
+  RESET_PRIMARY_STATES
 } from './constants';
 
 const initialState = {
   superadmins: [],
-  loading: false,
-  resState: '',
-  resMessage: '',
-  showMessage: false
+  loading: false
 };
 
 export const superadminsReducer = (state = initialState, action) => {
@@ -32,16 +29,13 @@ export const superadminsReducer = (state = initialState, action) => {
     case GET_SUPERADMINS_SUCCESS:
       return {
         ...state,
-        superadmins: action.payload.superadmins,
+        superadmins: action.payload,
         loading: false
       };
     case GET_SUPERADMINS_ERROR:
       return {
         ...state,
-        loading: false,
-        resState: action.payload.resState,
-        resMessage: action.payload.resMessage,
-        showMessage: true
+        loading: false
       };
     case ADD_SUPERADMIN_PENDING:
       return {
@@ -50,18 +44,12 @@ export const superadminsReducer = (state = initialState, action) => {
     case ADD_SUPERADMIN_SUCCESS:
       return {
         ...state,
-        loading: false,
-        resState: action.payload.resState,
-        resMessage: action.payload.resMessage,
-        showMessage: true
+        loading: false
       };
     case ADD_SUPERADMIN_ERROR:
       return {
         ...state,
-        loading: false,
-        resState: action.payload.resState,
-        resMessage: action.payload.resMessage,
-        showMessage: true
+        loading: false
       };
     case EDIT_SUPERADMIN_PENDING:
       return {
@@ -71,18 +59,12 @@ export const superadminsReducer = (state = initialState, action) => {
     case EDIT_SUPERADMIN_SUCCESS:
       return {
         ...state,
-        loading: false,
-        resState: action.payload.resState,
-        resMessage: action.payload.resMessage,
-        showMessage: true
+        loading: false
       };
     case EDIT_SUPERADMIN_ERROR:
       return {
         ...state,
-        loading: false,
-        resState: action.payload.resState,
-        resMessage: action.payload.resMessage,
-        showMessage: true
+        loading: false
       };
     case DELETE_SUPERADMIN_PENDING:
       return {
@@ -93,27 +75,20 @@ export const superadminsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        superadmins: state.superadmins.filter((superadmin) => superadmin._id !== action.payload),
-        resState: action.payload.resState,
-        resMessage: action.payload.resMessage,
-        showMessage: true
+        superadmins: state.superadmins.filter((superadmin) => superadmin._id !== action.payload)
       };
     case DELETE_SUPERADMIN_ERROR:
       return {
         ...state,
-        loading: false,
-        resState: action.payload.resState,
-        resMessage: action.payload.resMessage,
-        showMessage: true
+        loading: false
       };
-    case CLOSE_MESSAGE:
+    case RESET_PRIMARY_STATES: {
       return {
         ...state,
-        loading: false,
-        resState: '',
-        resMessage: '',
-        showMessage: false
+        error: false,
+        success: false
       };
+    }
     default:
       return state;
   }

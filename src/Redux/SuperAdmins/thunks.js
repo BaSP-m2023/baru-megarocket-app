@@ -11,9 +11,10 @@ import {
   deleteSuperadminPending,
   deleteSuperadminError,
   deleteSuperadminSuccess,
-  closeMessage
+  resetPrimaryStates
 } from './actions';
 
+import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
 const responseInfo = { resState: '', resMessage: '', superadmins: [] };
 
 export const getSuperadmins = async (dispatch) => {
@@ -21,16 +22,14 @@ export const getSuperadmins = async (dispatch) => {
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/`);
     const data = await response.json();
-    responseInfo.superadmins = data.data;
-    dispatch(getSuperadminsSuccess(responseInfo));
+    dispatch(getSuperadminsSuccess(data.data));
+    dispatch(resetPrimaryStates());
   } catch (error) {
-    responseInfo.resState = 'fail';
-    responseInfo.resMessage = error.message;
-    dispatch(getSuperadminsError(responseInfo));
+    dispatch(getSuperadminsError(error));
   }
 };
 
-export const addSuperadmin = (superadminToAdd, goBack) => {
+export const addSuperadmin = (superadminToAdd, callback) => {
   return async (dispatch) => {
     dispatch(addSuperadminPending());
     try {
@@ -41,26 +40,26 @@ export const addSuperadmin = (superadminToAdd, goBack) => {
         },
         body: JSON.stringify(superadminToAdd)
       });
+      const { message } = await response.json();
+      dispatch(resetPrimaryStates());
+
       if (response.ok) {
-        goBack();
-        responseInfo.resState = 'success';
-        responseInfo.resMessage = 'New superadmin created';
-        dispatch(addSuperadminSuccess(responseInfo));
-        setTimeout(() => dispatch(closeMessage()), 3500);
+        callback();
+        dispatch(addSuperadminSuccess());
+        dispatch(setContentToast({ message, state: 'success' }));
+        dispatch(handleDisplayToast(true));
       } else {
-        responseInfo.resState = 'fail';
-        responseInfo.resMessage = 'Failed to create superadmin';
-        dispatch(addSuperadminError(responseInfo));
+        throw new Error(message);
       }
     } catch (error) {
-      responseInfo.resState = 'fail';
-      responseInfo.resMessage = 'Failed to create superadmin';
-      dispatch(addSuperadminError(responseInfo));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
+      dispatch(addSuperadminError());
     }
   };
 };
 
-export const editSuperadmin = (idToEdit, editedSuperadmin, goBack) => {
+export const editSuperadmin = (idToEdit, editedSuperadmin, callback) => {
   return async (dispatch) => {
     dispatch(editSuperadminPending());
     try {
@@ -74,20 +73,21 @@ export const editSuperadmin = (idToEdit, editedSuperadmin, goBack) => {
           body: JSON.stringify(editedSuperadmin)
         }
       );
+      const { message } = await response.json();
+      dispatch(resetPrimaryStates());
+
       if (response.ok) {
-        goBack();
-        responseInfo.resState = 'success';
-        responseInfo.resMessage = 'Superadmin updated';
-        dispatch(editSuperadminSuccess(responseInfo));
+        callback();
+        dispatch(editSuperadminSuccess());
+        dispatch(setContentToast({ message, state: 'success' }));
+        dispatch(handleDisplayToast(true));
       } else {
-        responseInfo.resState = 'fail';
-        responseInfo.resMessage = 'Failed to edit superadmin';
-        dispatch(editSuperadminError(responseInfo));
+        throw new Error(message);
       }
     } catch (error) {
-      responseInfo.resState = 'fail';
-      responseInfo.resMessage = 'Failed to edit superadmin';
       dispatch(editSuperadminError(responseInfo));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };
@@ -102,20 +102,21 @@ export const deleteSuperadmin = (idToDelete) => {
           method: 'DELETE'
         }
       );
+      const { message } = await response.json();
+      dispatch(resetPrimaryStates());
+
       if (response.ok) {
-        responseInfo.resState = 'success';
-        responseInfo.resMessage = 'Superadmin deleted';
         dispatch(deleteSuperadminSuccess(responseInfo));
         dispatch(getSuperadmins);
+        dispatch(setContentToast({ message, state: 'success' }));
+        dispatch(handleDisplayToast(true));
       } else {
-        responseInfo.resState = 'fail';
-        responseInfo.resMessage = 'Failed to delete superadmin';
-        dispatch(deleteSuperadminError(responseInfo));
+        throw new Error(message);
       }
     } catch (error) {
-      responseInfo.resState = 'fail';
-      responseInfo.resMessage = 'Failed to delete superadmin';
       dispatch(deleteSuperadminError(responseInfo));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };

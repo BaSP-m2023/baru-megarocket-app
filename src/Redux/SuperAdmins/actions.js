@@ -11,7 +11,7 @@ import {
   DELETE_SUPERADMIN_PENDING,
   DELETE_SUPERADMIN_SUCCESS,
   DELETE_SUPERADMIN_ERROR,
-  CLOSE_MESSAGE
+  RESET_PRIMARY_STATES
 } from './constants';
 
 export const getSuperadminsPending = () => ({
@@ -70,6 +70,8 @@ export const deleteSuperadminError = (error) => ({
   payload: error
 });
 
-export const closeMessage = () => ({
-  type: CLOSE_MESSAGE
-});
+export const resetPrimaryStates = () => {
+  return {
+    type: RESET_PRIMARY_STATES
+  };
+};

@@ -2,21 +2,21 @@ import styles from './super-admins.module.css';
 import ResponseModal from '../Shared/ResponseModal';
 import Table from './Table/index';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeMessage } from '../../Redux/SuperAdmins/actions';
+import { handleDisplayToast } from '../../Redux/Shared/ResponseToast/actions';
 
 function SuperAdmins() {
   const dispatch = useDispatch();
-  const resState = useSelector((state) => state.superadmins.resState);
-  const resMessage = useSelector((state) => state.superadmins.resMessage);
-  var showMessage = useSelector((state) => state.superadmins.showMessage);
-
-  const closeModal = () => {
-    dispatch(closeMessage());
-  };
+  const { show, message, state } = useSelector((state) => state.toast);
 
   return (
     <>
-      {showMessage && <ResponseModal state={resState} message={resMessage} handler={closeModal} />}
+      {show && (
+        <ResponseModal
+          state={state}
+          message={message}
+          handler={() => dispatch(handleDisplayToast(false))}
+        />
+      )}
       <section className={styles.container}>
         <h2 className={styles.h2}>Superadmin List</h2>
         <Table />

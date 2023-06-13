@@ -7,22 +7,17 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSuperadmin, editSuperadmin } from '../../../Redux/SuperAdmins/thunks';
-import { closeMessage } from '../../../Redux/SuperAdmins/actions';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 const SuperAdminsForm = () => {
   const [showConfirmAdd, setShowConfirmAdd] = useState(false);
   const [showConfirmEdit, setShowConfirmEdit] = useState(false);
   const [superadmin, setSuperadmin] = useState({});
+  const { show, message, state } = useSelector((state) => state.toast);
 
   const dispatch = useDispatch();
-  const resState = useSelector((state) => state.superadmins.resState);
-  const resMessage = useSelector((state) => state.superadmins.resMessage);
-  var showMessage = useSelector((state) => state.superadmins.showMessage);
 
   const history = useHistory();
-  const goBackHandle = () => {
-    history.goBack();
-  };
   const { id } = useParams();
 
   const getItemById = async () => {
@@ -37,6 +32,10 @@ const SuperAdminsForm = () => {
     });
   };
 
+  const goBack = () => {
+    history.push('/super-admins');
+  };
+
   useEffect(() => {
     id && getItemById();
   }, []);
@@ -48,16 +47,12 @@ const SuperAdminsForm = () => {
     });
   };
 
-  const closeModal = () => {
-    dispatch(closeMessage());
-  };
-
   const confirmAdd = () => {
     setShowConfirmAdd(true);
   };
 
   const addItem = (superadminToAdd) => {
-    dispatch(addSuperadmin(superadminToAdd, goBackHandle));
+    dispatch(addSuperadmin(superadminToAdd, goBack));
     setShowConfirmAdd(false);
   };
 
@@ -66,7 +61,7 @@ const SuperAdminsForm = () => {
   };
 
   const putItem = (idToEdit, editedSuperadmin) => {
-    dispatch(editSuperadmin(idToEdit, editedSuperadmin, goBackHandle));
+    dispatch(editSuperadmin(idToEdit, editedSuperadmin, goBack));
     setShowConfirmEdit(false);
   };
 
@@ -77,7 +72,13 @@ const SuperAdminsForm = () => {
 
   return (
     <>
-      {showMessage && <ResponseModal handler={closeModal} state={resState} message={resMessage} />}
+      {show && (
+        <ResponseModal
+          state={state}
+          message={message}
+          handler={() => dispatch(handleDisplayToast(false))}
+        />
+      )}
       {showConfirmAdd && (
         <ConfirmModal
           title={'New superadmin'}
@@ -102,7 +103,7 @@ const SuperAdminsForm = () => {
         <div className={styles.container}>
           <div className={styles.titleContainer}>
             <h3 className={styles.title}>{id ? 'Edit superadmin' : 'Create superadmin'}</h3>
-            <button className={styles.close} onClick={goBackHandle}>
+            <button className={styles.close} onClick={goBack}>
               X
             </button>
           </div>
