@@ -109,8 +109,7 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         list: newList,
-        isPending: false,
-        success: true
+        isPending: false
       };
     }
 

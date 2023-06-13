@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from './form.module.css';
 
 import { addActivity, editActivity } from '../../../Redux/Activities/thunks';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 import Button from '../../Shared/Button';
 import { Input, Textarea } from '../../Shared/Inputs';
@@ -11,12 +12,12 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 
 const Form = () => {
-  const { list, error, success, response } = useSelector((state) => state.activities);
+  const { list, success } = useSelector((state) => state.activities);
+  const { show, message, state } = useSelector((state) => state.toast);
 
   const [activity, setActivity] = useState({ name: '', description: '', isActive: false });
 
   const [confirm, setConfirmModal] = useState(false);
-  const [responseModal, setResponseModal] = useState(false);
 
   const { id } = useParams();
   const location = useLocation();
@@ -27,14 +28,6 @@ const Form = () => {
     setConfirmModal(!confirm);
   };
 
-  const handleResponse = () => {
-    setResponseModal(!responseModal);
-
-    setTimeout(() => {
-      setResponseModal();
-    }, 2500);
-  };
-
   useEffect(() => {
     if (location.pathname.includes('edit')) {
       const activityToUpdate = list.find((activity) => activity._id === id);
@@ -43,13 +36,10 @@ const Form = () => {
   }, []);
 
   useEffect(() => {
-    if (error) {
-      handleResponse();
-    }
     if (success) {
       history.push('/activities');
     }
-  }, [error, success]);
+  }, [success]);
 
   const handleChanges = (e) => {
     const target = e.target.name;
@@ -126,11 +116,11 @@ const Form = () => {
             : 'Are you sure you want to edit the activity?'}
         </ConfirmModal>
       )}
-      {responseModal && (
+      {show && (
         <ResponseModal
-          handler={() => handleResponse()}
-          state={response.state}
-          message={response.message}
+          handler={() => dispatch(handleDisplayToast(false))}
+          state={state}
+          message={message}
         />
       )}
     </section>

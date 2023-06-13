@@ -11,7 +11,7 @@ const Table = () => {
 
   useEffect(() => {
     setFilter(list);
-  }, [list]);
+  }, []);
 
   const filterList = (value) => {
     const activitiesToShow = list.filter((activity) => activity.name.toLowerCase().includes(value));
