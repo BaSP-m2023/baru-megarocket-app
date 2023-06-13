@@ -7,7 +7,7 @@ import Button from '../../Shared/Button';
 import styles from './form.module.css';
 import { Input } from '../../Shared/Inputs';
 import { addTrainer, getTrainers, updTrainer } from '../../../Redux/Trainers/thunks';
-import { hideResponseModal } from '../../../Redux/Trainers/actions';
+import { responseModal } from '../../../Redux/Shared/ResponseModal/actions';
 
 const Form = () => {
   const { id } = useParams();
@@ -16,12 +16,10 @@ const Form = () => {
 
   const trainers = useSelector((state) => state.trainers.data);
   const trainerToEdit = trainers.find((trainer) => trainer._id === id);
-  const responseModal = useSelector((state) => state.trainers.responseModal);
 
-  const [showResponseModal, setShowResponseModal] = useState(false);
-  const [stateModal, setStateModal] = useState('success');
+  const responseToast = useSelector((state) => state.responseToast.data);
+
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [responseMessage, setResponseMessage] = useState('');
   const [trainer, setTrainer] = useState({
     firstName: '',
     lastName: '',
@@ -31,6 +29,14 @@ const Form = () => {
     password: '',
     salary: ''
   });
+
+  useEffect(() => {
+    dispatch(responseModal({ show: false, message: '', state: '' }));
+  }, []);
+
+  useEffect(() => {
+    getTrainers(dispatch);
+  }, [dispatch]);
 
   useEffect(() => {
     if (trainerToEdit) {
@@ -44,20 +50,7 @@ const Form = () => {
         salary: trainerToEdit.salary || ''
       });
     }
-    getTrainers(dispatch);
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (responseModal) {
-      setShowResponseModal(true);
-      setStateModal(responseModal.state);
-      setResponseMessage(responseModal.message);
-      setTimeout(() => {
-        setShowResponseModal(false);
-        dispatch(hideResponseModal());
-      }, 3000);
-    }
-  }, [responseModal]);
+  }, [trainerToEdit]);
 
   const onChangeInput = (e) => {
     setTrainer({
@@ -82,12 +75,7 @@ const Form = () => {
     if (validateInputs()) {
       setShowConfirmModal(true);
     } else {
-      setResponseMessage('Please fill in all fields');
-      setShowResponseModal(true);
-      setStateModal('fail');
-      setTimeout(() => {
-        setShowResponseModal(false);
-      }, 3000);
+      dispatch(responseModal({ show: true, message: 'Please fill in all fields', state: 'fail' }));
     }
   };
 
@@ -100,67 +88,31 @@ const Form = () => {
     return true;
   };
 
+  const formFields = [
+    { labelText: 'First Name', name: 'firstName', type: 'text' },
+    { labelText: 'Last Name', name: 'lastName', type: 'text' },
+    { labelText: 'ID', name: 'dni', type: 'text' },
+    { labelText: 'Phone', name: 'phone', type: 'text' },
+    { labelText: 'Email', name: 'email', type: 'email' },
+    { labelText: 'Password', name: 'password', type: 'password' },
+    { labelText: 'Salary', name: 'salary', type: 'text' }
+  ];
+
   return (
     <>
       <h2 className={styles.title}>{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
       <form className={styles.container}>
-        <div className={styles.flex}>
-          <Input
-            labelText="First Name"
-            name="firstName"
-            type="text"
-            value={trainer.firstName}
-            change={onChangeInput}
-          />
-        </div>
-        <div className={styles.flex}>
-          <Input
-            labelText="Last Name"
-            name="lastName"
-            type="text"
-            value={trainer.lastName}
-            change={onChangeInput}
-          />
-        </div>
-        <div className={styles.flex}>
-          <Input labelText="ID" name="dni" type="text" value={trainer.dni} change={onChangeInput} />
-        </div>
-        <div className={styles.flex}>
-          <Input
-            labelText="Phone"
-            name="phone"
-            type="text"
-            value={trainer.phone}
-            change={onChangeInput}
-          />
-        </div>
-        <div className={styles.flex}>
-          <Input
-            labelText="Email"
-            name="email"
-            type="email"
-            value={trainer.email}
-            change={onChangeInput}
-          />
-        </div>
-        <div className={styles.flex}>
-          <Input
-            labelText="Password"
-            name="password"
-            type="password"
-            value={trainer.password}
-            change={onChangeInput}
-          />
-        </div>
-        <div className={styles.flex}>
-          <Input
-            labelText="Salary"
-            name="salary"
-            type="text"
-            value={trainer.salary}
-            change={onChangeInput}
-          />
-        </div>
+        {formFields.map((field) => (
+          <div className={styles.flex} key={field.name}>
+            <Input
+              labelText={field.labelText}
+              name={field.name}
+              type={field.type}
+              value={trainer[field.name]}
+              change={onChangeInput}
+            />
+          </div>
+        ))}
       </form>
       <div className={styles.btnContainer}>
         <Button
@@ -183,11 +135,11 @@ const Form = () => {
             : 'Are you sure you want to add this trainer?'}
         </ConfirmModal>
       )}
-      {showResponseModal && (
+      {responseToast?.show && (
         <ResponseModal
-          message={responseMessage}
-          state={stateModal}
-          handler={() => setShowResponseModal(false)}
+          message={responseToast.message}
+          state={responseToast.state}
+          handler={() => dispatch(responseModal({ show: false, message: '', state: '' }))}
         />
       )}
     </>

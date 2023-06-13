@@ -10,9 +10,9 @@ import {
   editTrainerError,
   deleteTrainerPending,
   deleteTrainerSuccess,
-  deleteTrainerError,
-  showResponseModal
+  deleteTrainerError
 } from './actions';
+import { responseModal } from '../Shared/ResponseModal/actions';
 
 export const getTrainers = async (dispatch) => {
   dispatch(getTrainersPending());
@@ -22,11 +22,12 @@ export const getTrainers = async (dispatch) => {
     if (response.ok) {
       dispatch(getTrainersSuccess(data.data));
     } else {
-      dispatch(showResponseModal(`Error fetching trainer: ${data.message}`, 'fail'));
+      dispatch(responseModal({ show: true, message: data.message, state: 'fail' }));
+      dispatch(getTrainersError(data.message));
     }
   } catch (error) {
-    dispatch(getTrainersError(`Error fetching trainer: ${error.message}`));
-    dispatch(showResponseModal(`Error fetching trainer: ${error.message}`, 'fail'));
+    dispatch(getTrainersError(error));
+    dispatch(responseModal({ show: true, message: error, state: 'fail' }));
   }
 };
 
@@ -45,16 +46,16 @@ export const addTrainer = (trainer, history) => {
 
       const data = await response.json();
       if (response.ok) {
+        dispatch(responseModal({ show: true, message: data.message, state: 'success' }));
         dispatch(addTrainerSuccess(data));
-        dispatch(showResponseModal('Trainer added successfully!', 'success'));
         history.push('/trainers');
       } else {
-        dispatch(addTrainerError('Failed to add trainer'));
-        dispatch(showResponseModal(`Error adding trainer: ${data.message}`, 'fail'));
+        dispatch(responseModal({ show: true, message: data.message, state: 'fail' }));
+        dispatch(addTrainerError(data.message));
       }
     } catch (error) {
-      dispatch(addTrainerError(`Error adding trainer: ${error.message}`));
-      dispatch(showResponseModal(`Error adding trainer: ${error.message}`, 'fail'));
+      dispatch(addTrainerError(error));
+      dispatch(responseModal({ show: true, message: error, state: 'fail' }));
     }
   };
 };
@@ -72,16 +73,16 @@ export const updTrainer = (id, updatedTrainer, history) => {
       });
       const data = await response.json();
       if (response.ok) {
+        dispatch(responseModal({ show: true, message: data.message, state: 'success' }));
         dispatch(editTrainerSuccess(data));
-        dispatch(showResponseModal('Trainer edited successfully!', 'success'));
         history.push('/trainers');
       } else {
-        dispatch(editTrainerError('Failed to edit trainer'));
-        dispatch(showResponseModal(`Error editing trainer: ${data.message}`, 'fail'));
+        dispatch(responseModal({ show: true, message: data.message, state: 'fail' }));
+        dispatch(editTrainerError(data.message));
       }
     } catch (error) {
-      dispatch(editTrainerError(`Error editing trainer: ${error.message}`));
-      dispatch(showResponseModal(`Error editing trainer: ${error.message}`, 'fail'));
+      dispatch(editTrainerError(error));
+      dispatch(responseModal({ show: true, message: error, state: 'fail' }));
     }
   };
 };
@@ -95,16 +96,16 @@ export const deleteTrainer = (id) => {
       });
       const data = await response.json();
       if (response.ok) {
+        dispatch(responseModal({ show: true, message: data.message, state: 'success' }));
         dispatch(deleteTrainerSuccess(id));
-        dispatch(showResponseModal('Trainer deleted successfully!', 'success'));
         getTrainers(dispatch);
       } else {
+        dispatch(responseModal({ show: true, message: data.message, state: 'fail' }));
         dispatch(deleteTrainerError('Failed to delete trainer'));
-        dispatch(showResponseModal(`Error deleting trainer: ${data.message}`, 'fail'));
       }
     } catch (error) {
-      dispatch(deleteTrainerError(`Error deleting trainer: ${error.message}`));
-      dispatch(showResponseModal(`Error deleting trainer: ${error.message}`, 'fail'));
+      dispatch(deleteTrainerError(error));
+      dispatch(responseModal({ show: true, message: error, state: 'fail' }));
     }
   };
 };
