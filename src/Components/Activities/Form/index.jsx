@@ -1,110 +1,45 @@
-import { Link, useParams, useLocation, useHistory } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-
+import { Link, useParams, useLocation, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './form.module.css';
+
+import { addActivity, editActivity } from '../../../Redux/Activities/thunks';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+
 import Button from '../../Shared/Button';
 import { Input, Textarea } from '../../Shared/Inputs';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 
 const Form = () => {
+  const { list, success } = useSelector((state) => state.activities);
+  const { show, message, state } = useSelector((state) => state.toast);
+
   const [activity, setActivity] = useState({ name: '', description: '', isActive: false });
+
   const [confirm, setConfirmModal] = useState(false);
-  const [response, setResponseModal] = useState({ show: false, state: '', message: '' });
+
   const { id } = useParams();
   const location = useLocation();
+  const dispatch = useDispatch();
   const history = useHistory();
-
-  const redirectAfterSubmit = {
-    pathname: '/activities',
-    state: {
-      state: '',
-      message: ''
-    }
-  };
 
   const handleConfirm = () => {
     setConfirmModal(!confirm);
   };
 
-  const handleResponse = (state, message) => {
-    setResponseModal({ ...response, show: !response.show, state, message });
-
-    setTimeout(() => {
-      setResponseModal({});
-    }, 2500);
-  };
-
   useEffect(() => {
     if (location.pathname.includes('edit')) {
-      const setupForm = async () => {
-        const { name, description, isActive } = await getActivity(id);
-        setActivity({ name, description, isActive });
-      };
-      setupForm();
+      const activityToUpdate = list.find((activity) => activity._id === id);
+      setActivity(activityToUpdate);
     }
   }, []);
 
-  const getActivity = async (id) => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity/${id}`);
-      const { data } = await res.json();
-      return data;
-    } catch (error) {
-      handleResponse('fail', error);
+  useEffect(() => {
+    if (success) {
+      history.push('/activities');
     }
-  };
-
-  const createActivity = async (newActivity) => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity`, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify(newActivity)
-      });
-      const data = await res.json();
-      if (res.status === 201) {
-        redirectAfterSubmit.state.message = 'Activty created';
-        redirectAfterSubmit.state.state = 'success';
-        history.push(redirectAfterSubmit);
-      }
-      if (res.status === 400) {
-        handleResponse('fail', data.message);
-      }
-    } catch (error) {
-      handleResponse('fail', error);
-    }
-  };
-
-  const updateActivity = async (id, { name, description, isActive }) => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/activity/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({ name, description, isActive })
-      });
-      const data = await res.json();
-      if (res.status === 200) {
-        redirectAfterSubmit.state.message = 'Activity updated!';
-        redirectAfterSubmit.state.state = 'success';
-        history.push(redirectAfterSubmit);
-      }
-      if (res.status === 404) {
-        redirectAfterSubmit.state.message = data.message;
-        redirectAfterSubmit.state.state = 'fail';
-        history.push(redirectAfterSubmit);
-      }
-      if (res.status === 400) {
-        handleResponse('fail', data.message);
-      }
-    } catch (error) {
-      handleResponse('fail', error);
-    }
-  };
+  }, [success]);
 
   const handleChanges = (e) => {
     const target = e.target.name;
@@ -119,9 +54,11 @@ const Form = () => {
 
   const onConfirm = async () => {
     handleConfirm();
-    location.pathname.includes('add')
-      ? await createActivity(activity)
-      : await updateActivity(id, activity);
+    if (location.pathname.includes('add')) {
+      await addActivity(dispatch, activity);
+    } else {
+      await editActivity(dispatch, id, activity);
+    }
   };
 
   return (
@@ -179,11 +116,11 @@ const Form = () => {
             : 'Are you sure you want to edit the activity?'}
         </ConfirmModal>
       )}
-      {response.show && (
+      {show && (
         <ResponseModal
-          handler={() => handleResponse()}
-          state={response.state}
-          message={response.message}
+          handler={() => dispatch(handleDisplayToast(false))}
+          state={state}
+          message={message}
         />
       )}
     </section>

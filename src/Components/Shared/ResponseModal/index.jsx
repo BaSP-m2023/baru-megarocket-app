@@ -1,51 +1,37 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { responseModal } from '../../../Redux/Shared/ResponseModal/actions';
 import styles from './modalResponse.module.css';
 
+import { useDispatch } from 'react-redux';
+import { handleDisplayToast, resetToast } from '../../../Redux/Shared/ResponseToast/actions';
+
 const ResponseModal = ({ handler, state, message }) => {
+  const dispatch = useDispatch();
+
   const responseState = {
     success: 'toastSuccess',
     fail: 'toastFail'
   };
-  const responseToast = useSelector((state) => state.responseToast.data);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch(responseModal({ show: false, message: '', state: '' }));
-    }, 4000);
+      dispatch(handleDisplayToast());
+    }, 3000);
     return () => {
       clearTimeout(timer);
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    const handleClick = (event) => {
-      const modalContent = document.querySelector(`.${styles.toastContent}`);
-      if (modalContent !== event.target) {
-        dispatch(responseModal({ show: false, message: '', state: '' }));
-      }
-    };
-
-    document.addEventListener('click', handleClick);
-    return () => {
-      document.removeEventListener('click', handleClick);
+      dispatch(resetToast());
     };
   }, []);
 
   return ReactDOM.createPortal(
-    responseToast?.show && (
-      <div className={`${styles.toast} ${styles[responseState[state]]} `}>
-        <div className={styles.toastContent}>
-          <p className={styles.message}>{message}</p>
-          <span className={styles.toastCloser} onClick={handler}>
-            &times;
-          </span>
-        </div>
+    <div className={`${styles.toast} ${styles[responseState[state]]}`}>
+      <div className={styles.toastContent}>
+        <p className={styles.message}>{message}</p>
+        <span className={styles.toastCloser} onClick={handler}>
+          &times;
+        </span>
       </div>
-    ),
+    </div>,
     document.body
   );
 };
