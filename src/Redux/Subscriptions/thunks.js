@@ -31,7 +31,7 @@ export const putSubscription = (
         body: body
       });
       const data = await response.json();
-      if (response.ok) {
+      if (response.status === 200) {
         const updatedSubscriptions = subscriptions.map((sub) => {
           if (sub._id === data._id) {
             return {
@@ -45,9 +45,11 @@ export const putSubscription = (
         setSubscriptions(updatedSubscriptions);
         dispatch(putSubscriptionSuccess(data));
       }
+      if (response.status === 400) {
+        dispatch(putSubscriptionSuccess(data.message));
+      }
     } catch (e) {
       dispatch(putSubscriptionError(e.message));
-      throw new Error(e);
     }
   };
 };
@@ -60,9 +62,8 @@ export const deleteSubscription = (subscriptionId) => {
         method: 'DELETE'
       });
       dispatch(deleteSubscriptionSuccess(subscriptionId));
-    } catch (error) {
-      dispatch(deleteSubscriptionError(error.message));
-      throw new Error(error);
+    } catch (e) {
+      dispatch(deleteSubscriptionError(e.message));
     }
   };
 };

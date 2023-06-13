@@ -1,59 +1,70 @@
 import {
-  PUT_MEMBERS_PENDING,
-  PUT_MEMBERS_SUCCESS,
-  PUT_MEMBERS_ERROR,
-  DELETE_MEMBERS_PENDING,
-  DELETE_MEMBERS_SUCCESS,
-  DELETE_MEMBERS_ERROR
+  PUT_SUBSCRIPTIONS_PENDING,
+  PUT_SUBSCRIPTIONS_SUCCESS,
+  PUT_SUBSCRIPTIONS_ERROR,
+  DELETE_SUBSCRIPTIONS_PENDING,
+  DELETE_SUBSCRIPTIONS_SUCCESS,
+  DELETE_SUBSCRIPTIONS_ERROR,
+  RESET_STATE
 } from './constants';
 
 const INITIAL_STATE = {
-  loading: false,
+  isPending: false,
   data: [],
+  success: false,
   error: null
 };
 
 const subscriptionReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case PUT_MEMBERS_PENDING:
+    case PUT_SUBSCRIPTIONS_PENDING:
       return {
         ...state,
-        loading: true,
+        isLoading: true,
         error: null
       };
-    case PUT_MEMBERS_SUCCESS:
+    case PUT_SUBSCRIPTIONS_SUCCESS:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         data: action.payload,
+        success: true,
         error: false
       };
-    case PUT_MEMBERS_ERROR:
+    case PUT_SUBSCRIPTIONS_ERROR:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         data: null,
         error: action.payload
       };
-    case DELETE_MEMBERS_PENDING:
+    case DELETE_SUBSCRIPTIONS_PENDING:
       return {
         ...state,
-        loading: true,
+        isLoading: true,
         error: null
       };
-    case DELETE_MEMBERS_SUCCESS:
+    case DELETE_SUBSCRIPTIONS_SUCCESS:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         data: action.payload,
+        success: true,
         error: false
       };
-    case DELETE_MEMBERS_ERROR:
+    case DELETE_SUBSCRIPTIONS_ERROR:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         data: null,
         error: action.payload
+      };
+    case RESET_STATE:
+      return {
+        ...state,
+        isLoading: false,
+        success: false,
+        error: null
       };
     default:
       return state;

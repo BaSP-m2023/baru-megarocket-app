@@ -2,29 +2,23 @@ import styles from './classes.module.css';
 import ClassList from './List/ClassList';
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useSelector, useDispatch } from 'react-redux';
+import Loader from '../Shared/Loader';
+import { getClasses } from '../../Redux/Classes/thunks';
 import Button from '../Shared/Button';
 import ResponseModal from '../Shared/ResponseModal';
 
 function Projects() {
-  const [classes, setClasses] = useState([]);
   const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [selectedClass, setSelectedClass] = useState(null);
-  const [renderData, setRenderData] = useState(false);
+  const dispatch = useDispatch();
   const history = useHistory();
-
-  const getData = async () => {
-    try {
-      const resClasses = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`);
-      const dataClasses = await resClasses.json();
-      setClasses(dataClasses.data);
-    } catch (error) {
-      setShowModal({ show: true, state: 'fail', msg: 'Something went wrong :( try again later' });
-    }
-  };
+  const classes = useSelector((state) => state.classes.data);
+  const pending = useSelector((state) => state.classes.isPending);
 
   useEffect(() => {
-    getData();
-  }, [renderData]);
+    getClasses(dispatch);
+  }, [dispatch]);
 
   useEffect(() => {
     if (history.location.state) {
@@ -57,16 +51,15 @@ function Projects() {
   return (
     <section className={styles.container}>
       <h2>Class List</h2>
-      {classes.length !== 0 ? (
+      {pending && <Loader />}
+      {classes.length > 0 && !pending && (
         <ClassList
           classes={classes && classes}
           getById={getById}
           selectedClass={selectedClass}
-          setRenderData={setRenderData}
         ></ClassList>
-      ) : (
-        'There are not classes yet. Add new ones!!'
       )}
+      {!pending && classes.length === 0 && 'There are not classes yet. Add new ones!'}
       <Link to={'/classes/add'} className={styles.addNew}>
         <Button text="+ Add new" classNameButton="submitButton" />
       </Link>

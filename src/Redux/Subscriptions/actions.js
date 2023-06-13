@@ -1,44 +1,50 @@
 import {
-  PUT_MEMBERS_PENDING,
-  PUT_MEMBERS_SUCCESS,
-  PUT_MEMBERS_ERROR,
-  DELETE_MEMBERS_PENDING,
-  DELETE_MEMBERS_SUCCESS,
-  DELETE_MEMBERS_ERROR
+  PUT_SUBSCRIPTIONS_PENDING,
+  PUT_SUBSCRIPTIONS_SUCCESS,
+  PUT_SUBSCRIPTIONS_ERROR,
+  DELETE_SUBSCRIPTIONS_PENDING,
+  DELETE_SUBSCRIPTIONS_SUCCESS,
+  DELETE_SUBSCRIPTIONS_ERROR,
+  RESET_STATE
 } from './constants';
 
 export const putSubscriptionPending = () => {
   return {
-    type: PUT_MEMBERS_PENDING
+    type: PUT_SUBSCRIPTIONS_PENDING
   };
 };
 export const putSubscriptionSuccess = (data) => {
   return {
-    type: PUT_MEMBERS_SUCCESS,
+    type: PUT_SUBSCRIPTIONS_SUCCESS,
     payload: data
   };
 };
 export const putSubscriptionError = (error) => {
   return {
-    type: PUT_MEMBERS_ERROR,
+    type: PUT_SUBSCRIPTIONS_ERROR,
     payload: error
   };
 };
 
 export const deleteSubscriptionPending = () => {
   return {
-    type: DELETE_MEMBERS_PENDING
+    type: DELETE_SUBSCRIPTIONS_PENDING
   };
 };
 export const deleteSubscriptionSuccess = (data) => {
   return {
-    type: DELETE_MEMBERS_SUCCESS,
+    type: DELETE_SUBSCRIPTIONS_SUCCESS,
     payload: data
   };
 };
 export const deleteSubscriptionError = (error) => {
   return {
-    type: DELETE_MEMBERS_ERROR,
+    type: DELETE_SUBSCRIPTIONS_ERROR,
     payload: error
+  };
+};
+export const reset = () => {
+  return {
+    type: RESET_STATE
   };
 };
