@@ -11,9 +11,11 @@ import { handleDisplayToast } from '../../Redux/Shared/ResponseToast/actions';
 
 function Projects() {
   const dispatch = useDispatch();
-  const classes = useSelector((state) => state.classes);
-  const pending = useSelector((state) => state.classes.isPending);
+  const { data, isPending } = useSelector((state) => state.classes);
   const { show, message, state } = useSelector((state) => state.toast);
+  const { success } = useSelector((state) => state.classes);
+
+  console.log(success);
 
   useEffect(() => {
     getClasses(dispatch);
@@ -22,15 +24,12 @@ function Projects() {
   return (
     <section className={styles.container}>
       <h2>Class List</h2>
-      {pending && <Loader />}
-      {classes.data.length > 0 && !pending && (
-        <ClassList classes={classes.data && classes.data}></ClassList>
-      )}
-      {!pending && classes.data.length === 0 && 'There are not classes yet. Add new ones!'}
+      {isPending && <Loader />}
+      {data.length > 0 && !isPending && <ClassList classes={data && data}></ClassList>}
+      {!isPending && data.length === 0 && 'There are not classes yet. Add new ones!'}
       <Link to={'/classes/add'} className={styles.addNew}>
         <Button text="+ Add new" classNameButton="submitButton" />
       </Link>
-
       {show && (
         <ResponseModal
           handler={() => dispatch(handleDisplayToast(false))}

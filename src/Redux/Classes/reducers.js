@@ -4,16 +4,14 @@ import {
   GET_CLASS_ERROR,
   ADD_CLASS_PENDING,
   ADD_CLASS_SUCCESS,
-  ADD_CLASS_ERROR,
-  RESET_PRIMARY_STATES
+  ADD_CLASS_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
   data: [],
   classId: {},
   isPending: false,
-  error: false,
-  success: false
+  error: false
 };
 
 const classReducer = (state = INITIAL_STATE, action) => {
@@ -44,8 +42,7 @@ const classReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPending: false,
-        data: [...state.data, action.payload],
-        success: true
+        data: [...state.data, action.payload]
       };
     case ADD_CLASS_ERROR:
       return {
@@ -53,13 +50,6 @@ const classReducer = (state = INITIAL_STATE, action) => {
         isPending: false,
         error: true
       };
-    case RESET_PRIMARY_STATES: {
-      return {
-        ...state,
-        error: false,
-        success: false
-      };
-    }
     default:
       return state;
   }

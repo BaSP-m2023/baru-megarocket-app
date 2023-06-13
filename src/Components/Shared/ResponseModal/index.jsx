@@ -16,10 +16,12 @@ const ResponseModal = ({ handler, state, message }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(handleDisplayToast());
+      console.log('cierra');
     }, 3000);
     return () => {
       clearTimeout(timer);
       dispatch(resetToast());
+      console.log('cierra');
     };
   }, []);
 

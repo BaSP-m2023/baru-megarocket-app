@@ -25,7 +25,6 @@ function ClassForm() {
   const history = useHistory();
   const dispatch = useDispatch();
   const isCreateRoute = location.pathname.includes('/classes/add');
-  const success = useSelector((state) => state.classes.success);
   const { show, message, state } = useSelector((state) => state.toast);
   const trainers = useSelector((state) => state.trainers.data);
   const activities = useSelector((state) => state.activities.list);
@@ -35,14 +34,8 @@ function ClassForm() {
     getTrainers(dispatch);
   }, [dispatch]);
 
-  useEffect(() => {
-    if (success) {
-      history.push('/classes');
-    }
-  }, [success]);
-
   const createClass = async (newClass) => {
-    addClass(dispatch, newClass);
+    addClass(dispatch, newClass, history);
   };
 
   const onClickCreateClass = () => {

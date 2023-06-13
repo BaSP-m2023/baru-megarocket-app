@@ -4,8 +4,7 @@ import {
   GET_CLASS_ERROR,
   ADD_CLASS_PENDING,
   ADD_CLASS_SUCCESS,
-  ADD_CLASS_ERROR,
-  RESET_PRIMARY_STATES
+  ADD_CLASS_ERROR
 } from './constants';
 
 export const getClassPending = () => {
@@ -45,11 +44,5 @@ export const postClassError = (error) => {
   return {
     type: ADD_CLASS_ERROR,
     payload: error
-  };
-};
-
-export const resetPrimaryStates = () => {
-  return {
-    type: RESET_PRIMARY_STATES
   };
 };
