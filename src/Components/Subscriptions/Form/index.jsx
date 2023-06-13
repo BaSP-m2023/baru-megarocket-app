@@ -4,10 +4,15 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
+import Loader from '../../Shared/Loader';
 import { Input } from '../../Shared/Inputs';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSubscriptions, postSubscriptions } from '../../../Redux/Subscriptions/thunks';
+import { reset } from '../../../Redux/Subscriptions/actions';
 const Form = () => {
-  const { id } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const [subscriptionById, setSubscriptionById] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [state, setState] = useState([]);
@@ -16,28 +21,31 @@ const Form = () => {
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [responseModal, setResponseModal] = useState('');
-  const [subscriptions, setSubscriptions] = useState([]);
   const [subscription, setSubscription] = useState({
     classes: '',
     members: '',
     date: ''
   });
+  const success = useSelector((state) => state.subscriptions.success);
+  const pending = useSelector((state) => state.subscriptions.isPending);
+
   useEffect(() => {
-    fetchSubscriptions();
     id && fetchSubscriptionById(id);
     fetchClasses();
     fetchMembers();
   }, []);
 
-  const fetchSubscriptions = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`);
-      const data = await response.json();
-      setSubscriptions(data.data);
-    } catch (error) {
-      throw new Error(error);
+  useEffect(() => {
+    getSubscriptions(dispatch);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(reset());
+      history.push('/subscriptions');
     }
-  };
+  }, [success]);
+
   const fetchClasses = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`);
@@ -66,49 +74,7 @@ const Form = () => {
       setShowConfirmModal(false);
     }
   };
-  const addItem = async (newSubscription) => {
-    try {
-      const isoDate = newSubscription.date ? new Date(newSubscription.date).toISOString() : '';
-      const body = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          classes: newSubscription.classes,
-          members: newSubscription.members,
-          date: isoDate
-        })
-      };
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/`, body);
-      const data = await response.json();
-      if (data.length !== 0 && !data.error) {
-        setResponseModal('Subscription created sucessfully!');
-        setShowModal(true);
-        setState('success');
-        setTimeout(() => {
-          setShowModal(false);
-          history.push('/subscriptions');
-        }, 1200);
-        setSubscriptions([
-          ...subscriptions,
-          {
-            _id: data._id,
-            classes: data.classes._id,
-            members: data.members._id,
-            date: data.date
-          }
-        ]);
-      } else {
-        setResponseModal('Please fill in all fields');
-        setState('fail');
-        setShowModal(true);
-        setShowConfirmModal(false);
-      }
-    } catch (e) {
-      throw new Error(e);
-    }
-  };
+
   const fetchSubscriptionById = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${id}`);
@@ -144,7 +110,7 @@ const Form = () => {
           body
         );
         const data = await response.json();
-        if (data.length !== 0 && !data.error) {
+        if (data?.length !== 0 && !data.error) {
           setResponseModal('Subscription updated sucessfully!');
           setState('success');
           setShowModal(true);
@@ -152,15 +118,6 @@ const Form = () => {
             setShowModal(false);
             history.push('/subscriptions');
           }, 1200);
-          setSubscriptions([
-            ...subscriptions,
-            {
-              _id: data._id,
-              classes: data.classes._id,
-              members: data.members._id,
-              date: data.date
-            }
-          ]);
         } else {
           setShowConfirmModal(false);
           setResponseModal('No Changes Found');
@@ -201,7 +158,8 @@ const Form = () => {
       if (id) {
         updateItem(newSubscription);
       } else {
-        addItem(newSubscription);
+        postSubscriptions(dispatch, newSubscription);
+        setShowConfirmModal(false);
       }
     } catch (error) {
       throw new Error(error);
@@ -210,68 +168,71 @@ const Form = () => {
 
   return (
     <>
-      <form className={styles.container} onSubmit={onSubmit}>
-        {!id ? (
-          <h2 className={styles.title}>Add Subscription</h2>
-        ) : (
-          <h2 className={styles.title}>Edit Subscription</h2>
-        )}
-        <label className={styles.label}>Class</label>
-        <select
-          className={styles.flex}
-          id="classes"
-          name="classes"
-          value={subscription.classes}
-          onChange={onChangeInput}
-        >
-          {loaded ? (
-            <option>{`${subscription?.classes?.day} ${subscription?.classes?.time}`}</option>
+      {pending && <Loader />}
+      {!pending && (
+        <form className={styles.container} onSubmit={onSubmit}>
+          {!id ? (
+            <h2 className={styles.title}>Add Subscription</h2>
           ) : (
-            <option>Select a Value</option>
+            <h2 className={styles.title}>Edit Subscription</h2>
           )}
-          {classes.map((item) => {
-            return (
-              <option key={item._id} value={item._id}>
-                {`${item.day} ${item.time}`}
-              </option>
-            );
-          })}
-        </select>
-        <label className={styles.label}>Member</label>
-        <select
-          className={styles.flex}
-          id="members"
-          name="members"
-          value={subscription.members}
-          onChange={onChangeInput}
-        >
-          {loaded ? (
-            <option>{`${subscription?.members?.name} ${subscription?.members?.lastName}`}</option>
-          ) : (
-            <option className={styles.textArea}>Select a Value</option>
-          )}
-          {members.map((member) => {
-            return (
-              <option key={member._id} value={member._id}>
-                {`${member.name} ${member.lastName}`}
-              </option>
-            );
-          })}
-        </select>
-        <Input
-          labelText={'Date'}
-          name="date"
-          type="date"
-          value={subscription?.date.slice(0, 10)}
-          change={onChangeInput}
-        />
-        <div className={styles.btnContainer}>
-          <Link to="/subscriptions">
-            <Button classNameButton={'cancelButton'} text={'Cancel'} />
-          </Link>
-          <Button text={'Submit'} classNameButton={'submitButton'} />
-        </div>
-      </form>
+          <label className={styles.label}>Class</label>
+          <select
+            className={styles.flex}
+            id="classes"
+            name="classes"
+            value={subscription.classes}
+            onChange={onChangeInput}
+          >
+            {loaded ? (
+              <option>{`${subscription?.classes?.day} ${subscription?.classes?.time}`}</option>
+            ) : (
+              <option>Select a Value</option>
+            )}
+            {classes.map((item) => {
+              return (
+                <option key={item._id} value={item._id}>
+                  {`${item.day} ${item.time}`}
+                </option>
+              );
+            })}
+          </select>
+          <label className={styles.label}>Member</label>
+          <select
+            className={styles.flex}
+            id="members"
+            name="members"
+            value={subscription.members}
+            onChange={onChangeInput}
+          >
+            {loaded ? (
+              <option>{`${subscription?.members?.name} ${subscription?.members?.lastName}`}</option>
+            ) : (
+              <option className={styles.textArea}>Select a Value</option>
+            )}
+            {members.map((member) => {
+              return (
+                <option key={member._id} value={member._id}>
+                  {`${member.name} ${member.lastName}`}
+                </option>
+              );
+            })}
+          </select>
+          <Input
+            labelText={'Date'}
+            name="date"
+            type="date"
+            value={subscription?.date.slice(0, 10)}
+            change={onChangeInput}
+          />
+          <div className={styles.btnContainer}>
+            <Link to="/subscriptions">
+              <Button classNameButton={'cancelButton'} text={'Cancel'} />
+            </Link>
+            <Button text={'Submit'} classNameButton={'submitButton'} />
+          </div>
+        </form>
+      )}
       {showConfirmModal && (
         <ConfirmModal
           handler={() => handleShowConfirmModal()}
@@ -279,7 +240,7 @@ const Form = () => {
           onAction={() => onConfirm()}
           reason="submit"
         >
-          We give you a last chance to change your mind
+          Are you sure ?
         </ConfirmModal>
       )}
       {showModal && (

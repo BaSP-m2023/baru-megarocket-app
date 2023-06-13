@@ -7,19 +7,12 @@ import Button from '../../Shared/Button';
 
 const Table = ({ data }) => {
   const [deletedSubscription, setDeletedSubscription] = useState([]);
-  const [tableData, setTableData] = useState([]);
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
-    if (Array.isArray(data)) {
-      const filteredData = data.filter(
-        (subscription) => !deletedSubscription.includes(subscription._id)
-      );
-      setTableData(filteredData);
-    }
     if (showDeleteModal) {
       setTimeout(() => {
         setShowDeleteModal(false);
@@ -76,18 +69,18 @@ const Table = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {tableData.length > 0 ? (
-            tableData.map((subscription) => (
+          {data?.length > 0 ? (
+            data.map((subscription) => (
               <tr key={subscription._id} className={styles.item}>
                 {!subscription.classes ? (
                   <td>{'empty'}</td>
                 ) : (
-                  <td>{`${subscription.classes.day} ${subscription.classes.time}`}</td>
+                  <td>{`${subscription.classes?.day} ${subscription.classes?.time} ${subscription.classes?.trainers?.name}`}</td>
                 )}
                 {!subscription.members ? (
                   <td>{'empty'}</td>
                 ) : (
-                  <td>{`${subscription.members.name} ${subscription.members.lastName}`}</td>
+                  <td>{`${subscription.members?.name} ${subscription.members?.lastName}`}</td>
                 )}
                 <td>{formatDate(subscription.date)}</td>
                 <td className={`${styles.itemButton} ${styles.itemButtonEdit}`}>
