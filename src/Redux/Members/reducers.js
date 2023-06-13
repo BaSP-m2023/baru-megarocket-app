@@ -16,7 +16,8 @@ import {
 const INITIAL_STATE = {
   data: [],
   isPending: false,
-  error: null
+  error: null,
+  redirect: false
 };
 
 const reducers = (state = INITIAL_STATE, action) => {
@@ -24,7 +25,8 @@ const reducers = (state = INITIAL_STATE, action) => {
     case GET_MEMBERS_PENDING: {
       return {
         ...state,
-        isPending: true
+        isPending: true,
+        redirect: false
       };
     }
     case GET_MEMBERS_SUCCESS: {
@@ -44,14 +46,16 @@ const reducers = (state = INITIAL_STATE, action) => {
     case ADD_MEMBER_PENDING: {
       return {
         ...state,
-        isPending: true
+        isPending: true,
+        redirect: false
       };
     }
     case ADD_MEMBER_SUCCESS: {
       return {
         ...state,
         isPending: false,
-        data: [...state.data, action.payload]
+        data: [...state.data, action.payload],
+        redirect: true
       };
     }
     case ADD_MEMBER_ERROR: {
@@ -64,7 +68,8 @@ const reducers = (state = INITIAL_STATE, action) => {
     case EDIT_MEMBER_PENDING: {
       return {
         ...state,
-        isPending: true
+        isPending: true,
+        redirect: false
       };
     }
     case EDIT_MEMBER_SUCCESS: {
@@ -74,7 +79,8 @@ const reducers = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPending: false,
-        data: updatedMembers
+        data: updatedMembers,
+        redirect: true
       };
     }
     case EDIT_MEMBER_ERROR: {

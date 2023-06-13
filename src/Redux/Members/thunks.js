@@ -66,6 +66,7 @@ export const deleteMember = async (dispatch, id) => {
     });
     const data = await response.json();
     dispatch(deleteMemberSuccess(data));
+    getMembers(dispatch);
   } catch (error) {
     dispatch(deleteMemberError(error.toString()));
   }

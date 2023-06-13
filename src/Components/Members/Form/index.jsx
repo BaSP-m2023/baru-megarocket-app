@@ -5,7 +5,7 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
-import { addMember, updateMember } from '../../../Redux/Members/thunks';
+import { addMember, getMembers, updateMember } from '../../../Redux/Members/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 
 const MemberForm = ({ match }) => {
@@ -156,8 +156,20 @@ const MemberForm = ({ match }) => {
 
   const dispatch = useDispatch();
   const members = useSelector((state) => state.members.data);
+  const redirect = useSelector((state) => state.members.redirect);
 
-  console.log(members);
+  useEffect(() => {
+    getMembers(dispatch);
+  }, []);
+
+  useEffect(() => {
+    if (redirect) {
+      history.push('/members');
+    }
+  }, [redirect]);
+
+  console.log('members', members);
+  console.log('redirect', redirect);
 
   return (
     <div className={styles.form}>
