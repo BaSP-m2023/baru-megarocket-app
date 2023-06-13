@@ -3,18 +3,18 @@ import { useState, useEffect } from 'react';
 import styles from './table.module.css';
 
 import Activity from '../Activity';
+import { useSelector } from 'react-redux';
 
-const Table = ({ activities, onDelete }) => {
+const Table = () => {
   const [filter, setFilter] = useState([]);
+  const { list } = useSelector((state) => state.activities);
 
   useEffect(() => {
-    setFilter(activities);
-  }, [activities]);
+    setFilter(list);
+  }, []);
 
   const filterList = (value) => {
-    const activitiesToShow = activities.filter((activity) =>
-      activity.name.toLowerCase().includes(value)
-    );
+    const activitiesToShow = list.filter((activity) => activity.name.toLowerCase().includes(value));
     setFilter(activitiesToShow);
   };
 
@@ -44,7 +44,7 @@ const Table = ({ activities, onDelete }) => {
           </thead>
           <tbody>
             {filter.map((activity) => (
-              <Activity key={activity._id} activity={activity} onDelete={onDelete} />
+              <Activity key={activity._id} activity={activity} />
             ))}
           </tbody>
         </table>

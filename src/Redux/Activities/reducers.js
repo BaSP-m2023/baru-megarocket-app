@@ -1,21 +1,124 @@
-import * as actionType from './constants';
+import {
+  GET_ACTIVITIES_PENDING,
+  GET_ACTIVITIES_SUCCESS,
+  GET_ACTIVITIES_ERROR,
+  ADD_ACTIVITIES_PENDING,
+  ADD_ACTIVITIES_SUCCESS,
+  ADD_ACTIVITIES_ERROR,
+  EDIT_ACTIVITIES_PENDING,
+  EDIT_ACTIVITIES_SUCCESS,
+  EDIT_ACTIVITIES_ERROR,
+  RESET_PRIMARY_STATES,
+  DELETE_ACTIVITIES_PENDING,
+  DELETE_ACTIVITIES_SUCCESS,
+  DELETE_ACTIVITIES_ERROR
+} from './constants';
 
 const INITIAL_STATE = {
   list: [],
   isPending: false,
-  error: ''
+  error: false,
+  success: false
 };
 
 const activitiesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case actionType.GET_ACTIVITIES_PENDING: {
-      return { ...state, isPending: !state.isPending };
+    case GET_ACTIVITIES_PENDING: {
+      return { ...state, isPending: true };
     }
-    case actionType.GET_ACTIVITIES_SUCCESS: {
-      return { ...state, list: action.payload.list };
+
+    case GET_ACTIVITIES_SUCCESS: {
+      return { ...state, list: action.payload.list, isPending: false };
     }
-    case actionType.GET_ACTIVITIES_ERROR: {
-      return { ...state, error: action.payload.error };
+
+    case GET_ACTIVITIES_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: true
+      };
+    }
+
+    case ADD_ACTIVITIES_PENDING: {
+      return { ...state, isPending: true };
+    }
+
+    case ADD_ACTIVITIES_SUCCESS: {
+      return {
+        ...state,
+        list: [...state.list, action.payload.newActivity],
+        isPending: false,
+        success: true
+      };
+    }
+
+    case ADD_ACTIVITIES_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: true
+      };
+    }
+
+    case EDIT_ACTIVITIES_PENDING: {
+      return { ...state, isPending: true };
+    }
+
+    case EDIT_ACTIVITIES_SUCCESS: {
+      const updated = state.list.find(
+        (activity) => activity._id === action.payload.activityUpdated._id
+      );
+
+      const index = state.list.indexOf(updated);
+
+      state.list[index] = action.payload.activityUpdated;
+
+      return {
+        ...state,
+        list: state.list,
+        isPending: false,
+        success: true
+      };
+    }
+
+    case EDIT_ACTIVITIES_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: true
+      };
+    }
+
+    case DELETE_ACTIVITIES_PENDING: {
+      return {
+        ...state,
+        isPending: true
+      };
+    }
+
+    case DELETE_ACTIVITIES_SUCCESS: {
+      const newList = state.list.filter((activity) => activity._id !== action.payload.idDeleted);
+      return {
+        ...state,
+        list: newList,
+        isPending: false
+      };
+    }
+
+    case DELETE_ACTIVITIES_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: true
+      };
+    }
+
+    case RESET_PRIMARY_STATES: {
+      return {
+        ...state,
+        error: false,
+        success: false
+      };
     }
     default:
       return state;
