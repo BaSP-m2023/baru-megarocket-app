@@ -61,5 +61,5 @@ export const deleteClass = (classId) => {
   };
 };
 export const setShowModal = async (dispatch, data) => {
-  dispatch(responseModal({ show: data.show, msg: data.msg, state: data }));
+  dispatch(responseModal({ show: data.show, message: data.message, state: data }));
 };

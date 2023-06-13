@@ -8,7 +8,6 @@ export const getActivities = async (dispatch) => {
 
     if (response.status === 200) {
       dispatch(getActivitiesSuccess(data));
-      dispatch(getActivitiesPending());
     }
 
     if (response.status !== 200) {

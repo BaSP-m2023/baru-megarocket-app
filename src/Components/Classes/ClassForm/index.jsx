@@ -21,6 +21,7 @@ function ClassForm() {
     time: '',
     capacity: ''
   });
+
   const location = useLocation();
   const history = useHistory();
   const { id } = useParams();
@@ -39,36 +40,36 @@ function ClassForm() {
 
   useEffect(() => {
     if (storeClass.error) {
-      dispatch(responseModal({ show: true, msg: storeClass.error, state: 'fail' }));
+      dispatch(responseModal({ show: true, message: storeClass.error, state: 'fail' }));
     } else if (storeClass.putClass) {
       history.push('/classes');
     }
   }, [storeClass.putClass]);
+
   const applyResponse = (data) => {
-    dispatch(responseModal({ show: true, msg: data.msg, state: data.state }));
+    dispatch(responseModal({ show: true, message: data.message, state: data.state }));
   };
 
-  const getById = async (id) => {
+  const getById = (id) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`);
-      const data = await response.json();
+      const dataID = storeClass.data.find((classID) => classID._id === id);
       let selectedActivity = '';
       let selectedTrainer = '';
-      if (data.data.activity) {
-        selectedActivity = data.data.activity._id;
+      if (dataID.activity) {
+        selectedActivity = dataID.activity._id;
       }
-      if (data.data.trainer) {
-        selectedTrainer = data.data.trainer._id;
+      if (dataID.trainer) {
+        selectedTrainer = dataID.trainer._id;
       }
       setClasses({
         activity: selectedActivity,
         trainer: selectedTrainer,
-        day: data.data.day,
-        time: data.data.time,
-        capacity: data.data.capacity
+        day: dataID.day,
+        time: dataID.time,
+        capacity: dataID.capacity
       });
     } catch (error) {
-      applyResponse({ msg: 'Something went wrong :(', state: 'fail' });
+      applyResponse({ message: 'Something went wrong :(', state: 'fail' });
     }
   };
 
@@ -100,15 +101,13 @@ function ClassForm() {
   const updateClass = () => {
     putClass(dispatch, classes, id)
       .then((result) => {
-        const msg = result.error ? result.message : result.msg;
-        const state = result.error ? 'fail' : 'success';
-        applyResponse({ msg, state });
+        applyResponse({ message: result.message, state: result.error ? 'fail' : 'success' });
         if (!result.error) {
           history.push('/classes');
         }
       })
       .catch((error) => {
-        applyResponse({ msg: error.message, state: 'fail' });
+        applyResponse({ message: error.message, state: 'fail' });
       });
   };
 
@@ -272,8 +271,8 @@ function ClassForm() {
       </form>
       {response.show && (
         <ResponseModal
-          handler={() => dispatch(responseModal({ show: false, msg: '', state: '' }))}
-          message={response.msg}
+          handler={() => dispatch(responseModal({ show: false, message: '', state: '' }))}
+          message={response.message}
           state={response.state}
         />
       )}

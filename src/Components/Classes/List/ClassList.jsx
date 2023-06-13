@@ -24,11 +24,11 @@ function ClassList({ classes, getById, selectedClass }) {
     dispatch(deleteClass(classId))
       .then((result) => {
         const filterClass = classes.filter((deleted) => deleted._id !== result.data._id);
-        applyResponse({ msg: result.message, state: !result.error ? 'success' : 'fail' });
+        applyResponse({ message: result.message, state: !result.error ? 'success' : 'fail' });
         dispatch(refreshData(filterClass));
       })
       .catch(() => {
-        applyResponse({ msg: 'Error deleting data', state: 'fail' });
+        applyResponse({ message: 'Error deleting data', state: 'fail' });
       })
       .finally(() => {
         setSelectedClassToDelete(null);
@@ -36,7 +36,7 @@ function ClassList({ classes, getById, selectedClass }) {
   };
 
   const applyResponse = (data) => {
-    dispatch(responseModal({ show: true, msg: data.msg, state: data.state }));
+    dispatch(responseModal({ show: true, message: data.message, state: data.state }));
   };
   const filteredClassesNotDeleted = classes.filter((item) => !item.deleted);
 
@@ -120,8 +120,8 @@ function ClassList({ classes, getById, selectedClass }) {
       </div>
       {response.show && (
         <ResponseModal
-          handler={() => dispatch(responseModal({ show: false, msg: '', state: '' }))}
-          message={response.msg}
+          handler={() => dispatch(responseModal({ show: false, message: '', state: '' }))}
+          message={response.message}
           state={response.state}
         />
       )}

@@ -9,7 +9,7 @@ import Button from '../Shared/Button';
 import ResponseModal from '../Shared/ResponseModal';
 
 function Projects() {
-  const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
+  const [showModal, setShowModal] = useState({ show: false, message: '', state: '' });
   const [selectedClass, setSelectedClass] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -23,16 +23,16 @@ function Projects() {
     if (history.location.state) {
       setShowModal({
         show: history.location.state.show || false,
-        msg: history.location.state.msg || '',
+        message: history.location.state.message || '',
         state: 'success'
       });
     }
     const objHistory = {
       ...location,
-      state: { show: false, msg: '', state: '' }
+      state: { show: false, message: '', state: '' }
     };
     setTimeout(() => {
-      setShowModal({ show: false, msg: '', state: '' });
+      setShowModal({ show: false, message: '', state: '' });
     }, 2000);
     history.replace(objHistory);
   }, []);
@@ -43,7 +43,11 @@ function Projects() {
       const data = await response.json();
       setSelectedClass(data.data);
     } catch (error) {
-      setShowModal({ show: true, state: 'fail', msg: 'Something went wrong :( try again later' });
+      setShowModal({
+        show: true,
+        state: 'fail',
+        message: 'Something went wrong :( try again later'
+      });
     }
   };
 
@@ -65,8 +69,8 @@ function Projects() {
       </Link>
       {showModal.show && (
         <ResponseModal
-          handler={() => setShowModal({ show: false, msg: '', state: '' })}
-          message={showModal.msg}
+          handler={() => setShowModal({ show: false, message: '', state: '' })}
+          message={showModal.message}
           state={showModal.state}
         />
       )}

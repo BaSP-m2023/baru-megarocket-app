@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   updateData: null,
   isPending: false,
   error: null,
-  response: { show: false, msg: '', state: '' }
+  response: { show: false, message: '', state: '' }
 };
 
 const classReducer = (state = INITIAL_STATE, action) => {
