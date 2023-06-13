@@ -1,7 +1,7 @@
 import {
-  PUT_SUBSCRIPTIONS_PENDING,
-  PUT_SUBSCRIPTIONS_SUCCESS,
-  PUT_SUBSCRIPTIONS_ERROR,
+  EDIT_SUBSCRIPTIONS_PENDING,
+  EDIT_SUBSCRIPTIONS_SUCCESS,
+  EDIT_SUBSCRIPTIONS_ERROR,
   DELETE_SUBSCRIPTIONS_PENDING,
   DELETE_SUBSCRIPTIONS_SUCCESS,
   DELETE_SUBSCRIPTIONS_ERROR,
@@ -17,13 +17,13 @@ const INITIAL_STATE = {
 
 const subscriptionReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case PUT_SUBSCRIPTIONS_PENDING:
+    case EDIT_SUBSCRIPTIONS_PENDING:
       return {
         ...state,
         isPending: true,
         error: null
       };
-    case PUT_SUBSCRIPTIONS_SUCCESS:
+    case EDIT_SUBSCRIPTIONS_SUCCESS:
       return {
         ...state,
         isPending: false,
@@ -31,7 +31,7 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
         success: true,
         error: false
       };
-    case PUT_SUBSCRIPTIONS_ERROR:
+    case EDIT_SUBSCRIPTIONS_ERROR:
       return {
         ...state,
         isPending: false,

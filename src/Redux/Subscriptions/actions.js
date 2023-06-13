@@ -1,7 +1,7 @@
 import {
-  PUT_SUBSCRIPTIONS_PENDING,
-  PUT_SUBSCRIPTIONS_SUCCESS,
-  PUT_SUBSCRIPTIONS_ERROR,
+  EDIT_SUBSCRIPTIONS_PENDING,
+  EDIT_SUBSCRIPTIONS_SUCCESS,
+  EDIT_SUBSCRIPTIONS_ERROR,
   DELETE_SUBSCRIPTIONS_PENDING,
   DELETE_SUBSCRIPTIONS_SUCCESS,
   DELETE_SUBSCRIPTIONS_ERROR,
@@ -10,18 +10,18 @@ import {
 
 export const putSubscriptionPending = () => {
   return {
-    type: PUT_SUBSCRIPTIONS_PENDING
+    type: EDIT_SUBSCRIPTIONS_PENDING
   };
 };
 export const putSubscriptionSuccess = (data) => {
   return {
-    type: PUT_SUBSCRIPTIONS_SUCCESS,
+    type: EDIT_SUBSCRIPTIONS_SUCCESS,
     payload: data
   };
 };
 export const putSubscriptionError = (error) => {
   return {
-    type: PUT_SUBSCRIPTIONS_ERROR,
+    type: EDIT_SUBSCRIPTIONS_ERROR,
     payload: error
   };
 };
