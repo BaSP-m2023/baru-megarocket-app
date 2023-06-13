@@ -1,0 +1,3 @@
+export const SET_DISPLAY_TOAST = 'SET_DISPLAY_TOAST';
+export const SET_CONTENT_TOAST = 'SET_CONTENT_TOAST';
+export const RESET_TOAST = 'RESET_TOAST';
