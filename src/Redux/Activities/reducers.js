@@ -8,7 +8,6 @@ import {
   EDIT_ACTIVITIES_PENDING,
   EDIT_ACTIVITIES_SUCCESS,
   EDIT_ACTIVITIES_ERROR,
-  RESPONSE_ACTIVITIES_MESSAGE,
   RESET_PRIMARY_STATES,
   DELETE_ACTIVITIES_PENDING,
   DELETE_ACTIVITIES_SUCCESS,
@@ -19,11 +18,7 @@ const INITIAL_STATE = {
   list: [],
   isPending: false,
   error: false,
-  success: false,
-  response: {
-    message: '',
-    state: ''
-  }
+  success: false
 };
 
 const activitiesReducer = (state = INITIAL_STATE, action) => {
@@ -40,8 +35,7 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPending: false,
-        error: true,
-        response: { message: action.payload.error, state: 'fail' }
+        error: true
       };
     }
 
@@ -62,8 +56,7 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPending: false,
-        error: true,
-        response: { message: action.payload.error, state: 'fail' }
+        error: true
       };
     }
 
@@ -92,8 +85,7 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPending: false,
-        error: true,
-        response: { message: action.payload.error, state: 'fail' }
+        error: true
       };
     }
 
@@ -117,21 +109,15 @@ const activitiesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPending: false,
-        error: true,
-        response: { message: action.payload.error, state: 'fail' }
+        error: true
       };
-    }
-
-    case RESPONSE_ACTIVITIES_MESSAGE: {
-      return { ...state, response: action.payload.response };
     }
 
     case RESET_PRIMARY_STATES: {
       return {
         ...state,
         error: false,
-        success: false,
-        response: { message: '', state: '' }
+        success: false
       };
     }
     default:

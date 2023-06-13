@@ -11,7 +11,6 @@ import {
   DELETE_ACTIVITIES_PENDING,
   DELETE_ACTIVITIES_SUCCESS,
   DELETE_ACTIVITIES_ERROR,
-  RESPONSE_ACTIVITIES_MESSAGE,
   RESET_PRIMARY_STATES
 } from './constants';
 
@@ -83,18 +82,6 @@ export const editActivityError = (error) => {
     type: EDIT_ACTIVITIES_ERROR,
     payload: {
       error
-    }
-  };
-};
-
-export const setResponseMessage = ({ message, state }) => {
-  return {
-    type: RESPONSE_ACTIVITIES_MESSAGE,
-    payload: {
-      response: {
-        message,
-        state
-      }
     }
   };
 };
