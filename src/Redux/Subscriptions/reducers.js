@@ -5,9 +5,9 @@ import {
   GET_BY_ID_SUBSCRIPTIONS_PENDING,
   GET_BY_ID_SUBSCRIPTIONS_SUCCESS,
   GET_BY_ID_SUBSCRIPTIONS_ERROR,
-  POST_SUBSCRIPTIONS_PENDING,
-  POST_SUBSCRIPTIONS_SUCCESS,
-  POST_SUBSCRIPTIONS_ERROR,
+  ADD_SUBSCRIPTIONS_PENDING,
+  ADD_SUBSCRIPTIONS_SUCCESS,
+  ADD_SUBSCRIPTIONS_ERROR,
   RESET_STATE
 } from './constants';
 
@@ -60,13 +60,13 @@ const reducers = (state = INITIAL_STATE, action) => {
         error: action.payload
       };
     }
-    case POST_SUBSCRIPTIONS_PENDING: {
+    case ADD_SUBSCRIPTIONS_PENDING: {
       return {
         ...state,
         isPending: true
       };
     }
-    case POST_SUBSCRIPTIONS_SUCCESS: {
+    case ADD_SUBSCRIPTIONS_SUCCESS: {
       return {
         ...state,
         isPending: false,
@@ -74,7 +74,7 @@ const reducers = (state = INITIAL_STATE, action) => {
         data: [...state.data, action.payload]
       };
     }
-    case POST_SUBSCRIPTIONS_ERROR: {
+    case ADD_SUBSCRIPTIONS_ERROR: {
       return {
         ...state,
         isPending: false,

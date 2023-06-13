@@ -5,9 +5,9 @@ import {
   getByIdSubscriptionsPending,
   getByIdSubscriptionsSuccess,
   getByIdSubscriptionsError,
-  postSubscriptionsPending,
-  postSubscriptionsSuccess,
-  postSubscriptionsError
+  addSubscriptionsPending,
+  addSubscriptionsSuccess,
+  addSubscriptionsError
 } from './actions';
 
 export const getSubscriptions = async (dispatch) => {
@@ -21,8 +21,8 @@ export const getSubscriptions = async (dispatch) => {
   }
 };
 
-export const postSubscriptions = async (dispatch, newSubscription) => {
-  dispatch(postSubscriptionsPending());
+export const addSubscriptions = async (dispatch, newSubscription) => {
+  dispatch(addSubscriptionsPending());
   try {
     const isoDate = newSubscription.date ? new Date(newSubscription.date).toISOString() : '';
     const body = {
@@ -39,13 +39,13 @@ export const postSubscriptions = async (dispatch, newSubscription) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`, body);
     const data = await response.json();
     if (response.status === 201) {
-      dispatch(postSubscriptionsSuccess(data));
+      dispatch(addSubscriptionsSuccess(data));
     }
     if (response.status === 400) {
       throw new Error(data.message);
     }
   } catch (error) {
-    dispatch(postSubscriptionsError(error.message));
+    dispatch(addSubscriptionsError(error.message));
   }
 };
 export const getByIdSubscriptions = async (dispatch, id) => {

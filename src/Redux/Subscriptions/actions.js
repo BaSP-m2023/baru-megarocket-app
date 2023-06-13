@@ -5,9 +5,9 @@ import {
   GET_BY_ID_SUBSCRIPTIONS_PENDING,
   GET_BY_ID_SUBSCRIPTIONS_SUCCESS,
   GET_BY_ID_SUBSCRIPTIONS_ERROR,
-  POST_SUBSCRIPTIONS_PENDING,
-  POST_SUBSCRIPTIONS_SUCCESS,
-  POST_SUBSCRIPTIONS_ERROR,
+  ADD_SUBSCRIPTIONS_PENDING,
+  ADD_SUBSCRIPTIONS_SUCCESS,
+  ADD_SUBSCRIPTIONS_ERROR,
   RESET_STATE
 } from './constants';
 
@@ -51,19 +51,19 @@ export const getByIdSubscriptionsError = (error) => {
 
 export const postSubscriptionsPending = () => {
   return {
-    type: POST_SUBSCRIPTIONS_PENDING
+    type: ADD_SUBSCRIPTIONS_PENDING
   };
 };
 export const postSubscriptionsSuccess = (data) => {
   return {
-    type: POST_SUBSCRIPTIONS_SUCCESS,
+    type: ADD_SUBSCRIPTIONS_SUCCESS,
     payload: data
   };
 };
 
 export const postSubscriptionsError = (error) => {
   return {
-    type: POST_SUBSCRIPTIONS_ERROR,
+    type: ADD_SUBSCRIPTIONS_ERROR,
     payload: error
   };
 };
