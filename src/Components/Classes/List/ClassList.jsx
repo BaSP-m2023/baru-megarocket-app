@@ -23,7 +23,6 @@ function ClassList({ classes, getById, selectedClass }) {
   const handleDeleteClass = (classId) => {
     dispatch(deleteClass(classId))
       .then((result) => {
-        console.log(result);
         const filterClass = classes.filter((deleted) => deleted._id !== result.data._id);
         applyResponse({ msg: result.message, state: !result.error ? 'success' : 'fail' });
         dispatch(refreshData(filterClass));
@@ -38,7 +37,6 @@ function ClassList({ classes, getById, selectedClass }) {
 
   const applyResponse = (data) => {
     dispatch(responseModal({ show: true, msg: data.msg, state: data.state }));
-    console.log(response);
   };
   const filteredClassesNotDeleted = classes.filter((item) => !item.deleted);
 

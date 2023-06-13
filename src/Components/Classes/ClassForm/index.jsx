@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
+import { responseModal } from '../../../Redux/Classes/actions';
+import { getActivities } from '../../../Redux/Activities/thunks';
+import { getTrainers } from '../../../Redux/Trainers/thunks';
+import { putClass } from '../../../Redux/Classes/thunks';
 
 function ClassForm() {
-  const [trainers, setTrainers] = useState([]);
-  const [activities, setActivities] = useState([]);
   const [error, setError] = useState(false);
-  const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [classes, setClasses] = useState({
     activity: '',
@@ -23,33 +25,27 @@ function ClassForm() {
   const history = useHistory();
   const { id } = useParams();
   const isCreateRoute = location.pathname.includes('/classes/add');
+  const dispatch = useDispatch();
+  const response = useSelector((state) => state.classes.response);
+  const storeClass = useSelector((state) => state.classes);
+  const trainers = useSelector((state) => state.trainers.data);
+  const activities = useSelector((state) => state.activities.list);
 
-  const applyResponse = (msg, state) => {
-    setShowModal({ show: true, msg: msg, state: state });
-    setTimeout(() => {
-      setShowModal({ show: false, msg: '', state: '' });
-    }, 2000);
-    if (state === 'success') {
-      const objHistory = {
-        ...location,
-        pathname: '/classes',
-        state: { show: true, msg: msg, state: state }
-      };
-      history.replace(objHistory);
-    }
-  };
+  useEffect(() => {
+    getActivities(dispatch);
+    getTrainers(dispatch);
+    !isCreateRoute && getById(id);
+  }, [dispatch]);
 
-  const getTrainersActivities = async () => {
-    try {
-      const resTrainers = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`);
-      const dataTrainers = await resTrainers.json();
-      const resActivities = await fetch(`${process.env.REACT_APP_API_URL}/api/activity`);
-      const dataActivities = await resActivities.json();
-      setTrainers(dataTrainers.data);
-      setActivities(dataActivities);
-    } catch (error) {
-      applyResponse({ msg: 'Something went wrong :(', state: 'fail' });
+  useEffect(() => {
+    if (storeClass.error) {
+      dispatch(responseModal({ show: true, msg: storeClass.error, state: 'fail' }));
+    } else if (storeClass.putClass) {
+      history.push('/classes');
     }
+  }, [storeClass.putClass]);
+  const applyResponse = (data) => {
+    dispatch(responseModal({ show: true, msg: data.msg, state: data.state }));
   };
 
   const getById = async (id) => {
@@ -61,8 +57,8 @@ function ClassForm() {
       if (data.data.activity) {
         selectedActivity = data.data.activity._id;
       }
-      if (data.data.trainer[0]) {
-        selectedTrainer = data.data.trainer[0]._id;
+      if (data.data.trainer) {
+        selectedTrainer = data.data.trainer._id;
       }
       setClasses({
         activity: selectedActivity,
@@ -75,11 +71,6 @@ function ClassForm() {
       applyResponse({ msg: 'Something went wrong :(', state: 'fail' });
     }
   };
-
-  useEffect(() => {
-    getTrainersActivities();
-    !isCreateRoute && getById(id);
-  }, []);
 
   const createClass = async (newClass) => {
     const createdClass = {
@@ -106,27 +97,19 @@ function ClassForm() {
     }
   };
 
-  const updateClass = async () => {
-    try {
-      const editedClass = {
-        ...classes,
-        trainer: [classes.trainer]
-      };
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(editedClass)
+  const updateClass = () => {
+    putClass(dispatch, classes, id)
+      .then((result) => {
+        const msg = result.error ? result.message : result.msg;
+        const state = result.error ? 'fail' : 'success';
+        applyResponse({ msg, state });
+        if (!result.error) {
+          history.push('/classes');
+        }
+      })
+      .catch((error) => {
+        applyResponse({ msg: error.message, state: 'fail' });
       });
-      const data = await response.json();
-      if (!response.ok) {
-        return applyResponse(data.message, 'fail');
-      }
-      applyResponse(data.msg, 'success');
-    } catch (error) {
-      applyResponse('Something went wrong :(', 'fail');
-    }
   };
 
   const onClickEditClass = () => {
@@ -287,13 +270,14 @@ function ClassForm() {
           <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
       </form>
-      {showModal.show && (
+      {response.show && (
         <ResponseModal
-          handler={() => setShowModal({ show: false, msg: '', state: '' })}
-          message={showModal.msg}
-          state={showModal.state}
+          handler={() => dispatch(responseModal({ show: false, msg: '', state: '' }))}
+          message={response.msg}
+          state={response.state}
         />
       )}
+
       {showConfirmModal && (
         <ConfirmModal
           title={isCreateRoute ? 'Create class' : 'Update class'}
