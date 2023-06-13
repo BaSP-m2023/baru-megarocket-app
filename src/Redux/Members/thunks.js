@@ -13,6 +13,8 @@ import {
   deleteMemberError
 } from './actions';
 
+import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+
 export const getMembers = async (dispatch) => {
   dispatch(getMembersPending());
   try {
@@ -34,10 +36,20 @@ export const addMember = async (dispatch, member) => {
       },
       body: JSON.stringify(member)
     });
-    const data = await response.json();
-    dispatch(addMemberSuccess(data));
+    const { message, data, error } = await response.json();
+    if (!error) {
+      dispatch(addMemberSuccess(data));
+      dispatch(setContentToast({ message, state: 'success' }));
+      dispatch(handleDisplayToast(true));
+    }
+
+    if (error) {
+      throw new Error(message);
+    }
   } catch (error) {
-    dispatch(addMemberError(error.toString()));
+    dispatch(addMemberError(error.message));
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
   }
 };
 
@@ -51,10 +63,20 @@ export const updateMember = async (dispatch, id, updatedMember) => {
       },
       body: JSON.stringify(updatedMember)
     });
-    const data = await response.json();
-    dispatch(editMemberSuccess(data));
+    const { message, data, error } = await response.json();
+    if (!error) {
+      dispatch(editMemberSuccess(data));
+      dispatch(setContentToast({ message, state: 'success' }));
+      dispatch(handleDisplayToast(true));
+    }
+
+    if (error) {
+      throw new Error(message);
+    }
   } catch (error) {
-    dispatch(editMemberError(error.toString()));
+    dispatch(editMemberError(error.message));
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
   }
 };
 
@@ -64,10 +86,20 @@ export const deleteMember = async (dispatch, id) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
       method: 'DELETE'
     });
-    const data = await response.json();
-    dispatch(deleteMemberSuccess(data));
-    getMembers(dispatch);
+    const { message, data, error } = await response.json();
+    if (!error) {
+      dispatch(deleteMemberSuccess(data));
+      dispatch(setContentToast({ message, state: 'success' }));
+      dispatch(handleDisplayToast(true));
+      getMembers(dispatch);
+    }
+
+    if (error) {
+      throw new Error(message);
+    }
   } catch (error) {
-    dispatch(deleteMemberError(error.toString()));
+    dispatch(deleteMemberError(error.message));
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
   }
 };
