@@ -4,29 +4,15 @@ import styles from './subscriptions.module.css';
 import Table from './Table';
 import Button from '../Shared/Button';
 import { Input } from '../Shared/Inputs';
-
-import ResponseModal from '../Shared/ResponseModal';
 const Subscriptions = () => {
   const [filteredSubscriptions, setFilteredSubscriptions] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
-  const [createModal, setCreateModal] = useState(false);
-  const [errorModal, setErrorModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     filterSubscriptions();
     fetchData();
-    if (createModal) {
-      setTimeout(() => {
-        setCreateModal(false);
-      }, 3000);
-    }
-    if (errorModal) {
-      setTimeout(() => {
-        setErrorModal(false);
-      }, 3000);
-    }
-  }, [createModal, errorModal, subscriptions, searchTerm]);
+  }, [subscriptions, searchTerm]);
 
   const filterSubscriptions = () => {
     const filtered = subscriptions.filter((subscription) => {
@@ -65,24 +51,6 @@ const Subscriptions = () => {
         <Link to="/subscriptions/add">
           <Button classNameButton="submitButton" text="+ Add New" />
         </Link>
-      </div>
-      <div>
-        {createModal && (
-          <ResponseModal
-            handler={() => setCreateModal(false)}
-            state="success"
-            message="Subscription Created"
-          />
-        )}
-      </div>
-      <div>
-        {errorModal && (
-          <ResponseModal
-            handler={() => setErrorModal(false)}
-            state="fail"
-            message="An error ocurred"
-          />
-        )}
       </div>
     </section>
   );
