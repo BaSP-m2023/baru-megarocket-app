@@ -78,7 +78,7 @@ const Form = () => {
     }
   };
 
-  if (pending) {
+  if (pending && id) {
     return (
       <div className={styles.container}>
         <Loader />

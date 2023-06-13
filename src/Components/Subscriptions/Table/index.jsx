@@ -4,6 +4,8 @@ import styles from './table.module.css';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
+import Loader from '../../Shared/Loader';
+import { useSelector } from 'react-redux';
 
 const Table = ({ data }) => {
   const [deletedSubscription, setDeletedSubscription] = useState([]);
@@ -11,6 +13,7 @@ const Table = ({ data }) => {
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const history = useHistory();
+  const pending = useSelector((state) => state.subscriptions.isPending);
 
   useEffect(() => {
     if (showDeleteModal) {
@@ -56,7 +59,13 @@ const Table = ({ data }) => {
     setShowConfirmDeleteModal(false);
     setShowDeleteModal(false);
   };
-
+  if (pending) {
+    return (
+      <div className={styles.container}>
+        <Loader />
+      </div>
+    );
+  }
   return (
     <div className={styles.container}>
       <table className={styles.tableSubscription}>

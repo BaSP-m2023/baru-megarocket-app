@@ -11,7 +11,6 @@ import Table from './Table';
 import Button from '../Shared/Button';
 import { Input } from '../Shared/Inputs';
 import ResponseModal from '../Shared/ResponseModal';
-import Loader from '../Shared/Loader';
 
 const Subscriptions = () => {
   const [filteredSubscriptions, setFilteredSubscriptions] = useState([]);
@@ -19,7 +18,6 @@ const Subscriptions = () => {
 
   const dispatch = useDispatch();
   const subscriptions = useSelector((state) => state.subscriptions.data);
-  const pending = useSelector((state) => state.subscriptions.isPending);
   const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
@@ -38,13 +36,7 @@ const Subscriptions = () => {
     });
     setFilteredSubscriptions(filtered);
   };
-  if (pending) {
-    return (
-      <div className={styles.container}>
-        <Loader />
-      </div>
-    );
-  }
+
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Subscriptions</h1>
@@ -58,12 +50,10 @@ const Subscriptions = () => {
         />
       </div>
       <div className={styles.containerContent}>
-        {subscriptions?.length > 0 && (
-          <Table
-            className={subscriptions.table}
-            data={filteredSubscriptions?.length > 0 ? filteredSubscriptions : subscriptions}
-          />
-        )}
+        <Table
+          className={subscriptions.table}
+          data={filteredSubscriptions?.length > 0 ? filteredSubscriptions : subscriptions}
+        />
       </div>
       <div className={styles.buttonContainer}>
         <Link to="/subscriptions/add">
