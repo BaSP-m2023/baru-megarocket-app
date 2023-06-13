@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { handleDisplayToast } from '../../Redux/Shared/ResponseToast/actions';
 
 import { getSubscriptions } from '../../Redux/Subscriptions/thunks';
 
@@ -14,13 +15,12 @@ import Loader from '../Shared/Loader';
 
 const Subscriptions = () => {
   const [filteredSubscriptions, setFilteredSubscriptions] = useState([]);
-  const [createModal, setCreateModal] = useState(false);
-  const [errorModal, setErrorModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const dispatch = useDispatch();
   const subscriptions = useSelector((state) => state.subscriptions.data);
   const pending = useSelector((state) => state.subscriptions.isPending);
+  const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
     getSubscriptions(dispatch);
@@ -38,6 +38,13 @@ const Subscriptions = () => {
     });
     setFilteredSubscriptions(filtered);
   };
+  if (pending) {
+    return (
+      <div className={styles.container}>
+        <Loader />
+      </div>
+    );
+  }
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Subscriptions</h1>
@@ -51,8 +58,7 @@ const Subscriptions = () => {
         />
       </div>
       <div className={styles.containerContent}>
-        {pending && <Loader />}
-        {!pending && subscriptions?.length > 0 && (
+        {subscriptions?.length > 0 && (
           <Table
             className={subscriptions.table}
             data={filteredSubscriptions?.length > 0 ? filteredSubscriptions : subscriptions}
@@ -64,24 +70,13 @@ const Subscriptions = () => {
           <Button classNameButton="submitButton" text="+ Add New" />
         </Link>
       </div>
-      <div>
-        {createModal && (
-          <ResponseModal
-            handler={() => setCreateModal(false)}
-            state="success"
-            message="Subscription Created"
-          />
-        )}
-      </div>
-      <div>
-        {errorModal && (
-          <ResponseModal
-            handler={() => setErrorModal(false)}
-            state="fail"
-            message="An error ocurred"
-          />
-        )}
-      </div>
+      {show && (
+        <ResponseModal
+          state={state}
+          message={message}
+          handler={() => dispatch(handleDisplayToast())}
+        />
+      )}
     </section>
   );
 };

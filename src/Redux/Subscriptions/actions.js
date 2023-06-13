@@ -49,19 +49,19 @@ export const getByIdSubscriptionsError = (error) => {
   };
 };
 
-export const postSubscriptionsPending = () => {
+export const addSubscriptionsPending = () => {
   return {
     type: ADD_SUBSCRIPTIONS_PENDING
   };
 };
-export const postSubscriptionsSuccess = (data) => {
+export const addSubscriptionsSuccess = (data) => {
   return {
     type: ADD_SUBSCRIPTIONS_SUCCESS,
     payload: data
   };
 };
 
-export const postSubscriptionsError = (error) => {
+export const addSubscriptionsError = (error) => {
   return {
     type: ADD_SUBSCRIPTIONS_ERROR,
     payload: error

@@ -2,146 +2,58 @@ import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import ResponseModal from '../../Shared/ResponseModal';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
 import Loader from '../../Shared/Loader';
 import { Input } from '../../Shared/Inputs';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSubscriptions, addSubscriptions } from '../../../Redux/Subscriptions/thunks';
+import { getByIdSubscriptions, addSubscriptions } from '../../../Redux/Subscriptions/thunks';
 import { reset } from '../../../Redux/Subscriptions/actions';
+import { getClasses } from '../../../Redux/Classes/thunks';
+import { getMembers } from '../../../Redux/Members/thunks';
 const Form = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const [subscriptionById, setSubscriptionById] = useState([]);
-  const [loaded, setLoaded] = useState(false);
-  const [state, setState] = useState([]);
-  const [classes, setClasses] = useState([]);
-  const [members, setMembers] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [responseModal, setResponseModal] = useState('');
   const [subscription, setSubscription] = useState({
     classes: '',
     members: '',
     date: ''
   });
+  const { show, message, state } = useSelector((state) => state.toast);
   const success = useSelector((state) => state.subscriptions.success);
   const pending = useSelector((state) => state.subscriptions.isPending);
-
+  const pendingClasses = useSelector((state) => state.classes.isPending);
+  const classes = useSelector((state) => state.classes.data);
+  const members = useSelector((state) => state.members.data);
   useEffect(() => {
-    id && fetchSubscriptionById(id);
-    fetchClasses();
-    fetchMembers();
+    id && getByIdSubscriptions(id);
+    dispatch(getClasses);
+    dispatch(getMembers);
   }, []);
 
   useEffect(() => {
-    getSubscriptions(dispatch);
-  }, [dispatch]);
-
-  useEffect(() => {
     if (success) {
-      dispatch(reset());
       history.push('/subscriptions');
+      dispatch(reset());
     }
   }, [success]);
 
-  const fetchClasses = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`);
-      const data = await response.json();
-      const filteredClassesNotDeleted = data.data.filter((item) => !item.deleted);
-      setClasses(filteredClassesNotDeleted);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-  const fetchMembers = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`);
-      const data = await response.json();
-
-      setMembers(data.data);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
   const handleShowConfirmModal = async () => {
     if (!showConfirmModal) {
       setShowConfirmModal(true);
-      setShowModal(false);
     } else {
       setShowConfirmModal(false);
     }
   };
 
-  const fetchSubscriptionById = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${id}`);
-      const data = await response.json();
-      setSubscription({
-        classes: data.data.classes,
-        members: data.data.members,
-        date: data.data.date
-      });
-      setLoaded(true);
-      setSubscriptionById(data.data);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-  const updateItem = async (newSubscription) => {
-    if (newSubscription != subscriptionById) {
-      try {
-        const isoDate = newSubscription.date ? new Date(newSubscription.date).toISOString() : '';
-        const body = {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            classes: newSubscription.classes,
-            members: newSubscription.members,
-            date: isoDate
-          })
-        };
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/subscription/${id}`,
-          body
-        );
-        const data = await response.json();
-        if (data?.length !== 0 && !data.error) {
-          setResponseModal('Subscription updated sucessfully!');
-          setState('success');
-          setShowModal(true);
-          setTimeout(() => {
-            setShowModal(false);
-            history.push('/subscriptions');
-          }, 1200);
-        } else {
-          setShowConfirmModal(false);
-          setResponseModal('No Changes Found');
-          setState('fail');
-          setShowModal(true);
-        }
-      } catch (e) {
-        throw new Error(e);
-      }
-    } else {
-      setResponseModal('No changes made');
-      setState('fail');
-      setShowModal(true);
-      setShowConfirmModal(false);
-    }
-  };
   const onChangeInput = (e) => {
     setSubscription({
       ...subscription,
       [e.target.name]: e.target.value
     });
-    setState('');
-    setResponseModal('');
-    setShowModal(false);
   };
 
   const onSubmit = (e) => {
@@ -156,7 +68,7 @@ const Form = () => {
         date: subscription.date
       };
       if (id) {
-        updateItem(newSubscription);
+        addSubscriptions(dispatch, newSubscription);
       } else {
         addSubscriptions(dispatch, newSubscription);
         setShowConfirmModal(false);
@@ -189,7 +101,7 @@ const Form = () => {
           value={subscription.classes}
           onChange={onChangeInput}
         >
-          {loaded ? (
+          {!pendingClasses && id ? (
             <option>{`${subscription?.classes?.day} ${subscription?.classes?.time}`}</option>
           ) : (
             <option>Select a Value</option>
@@ -210,7 +122,7 @@ const Form = () => {
           value={subscription.members}
           onChange={onChangeInput}
         >
-          {loaded ? (
+          {pending ? (
             <option>{`${subscription?.members?.name} ${subscription?.members?.lastName}`}</option>
           ) : (
             <option className={styles.textArea}>Select a Value</option>
@@ -248,10 +160,12 @@ const Form = () => {
           Are you sure ?
         </ConfirmModal>
       )}
-      {showModal && (
-        <Link to="/subscriptions">
-          <ResponseModal state={state} message={responseModal} />
-        </Link>
+      {show && (
+        <ResponseModal
+          state={state}
+          message={message}
+          handler={() => dispatch(handleDisplayToast())}
+        />
       )}
     </>
   );

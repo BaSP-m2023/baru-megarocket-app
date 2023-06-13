@@ -9,6 +9,7 @@ import {
   addSubscriptionsSuccess,
   addSubscriptionsError
 } from './actions';
+import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
 
 export const getSubscriptions = async (dispatch) => {
   dispatch(getSubscriptionsPending());
@@ -40,12 +41,17 @@ export const addSubscriptions = async (dispatch, newSubscription) => {
     const data = await response.json();
     if (response.status === 201) {
       dispatch(addSubscriptionsSuccess(data));
+      dispatch(setContentToast({ message: 'Subscription Created', state: 'success' }));
+      dispatch(handleDisplayToast(true));
     }
+
     if (response.status === 400) {
-      throw new Error(data.message);
+      throw new Error('Subscription not created!');
     }
   } catch (error) {
-    dispatch(addSubscriptionsError(error.message));
+    dispatch(addSubscriptionsError(error));
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
   }
 };
 export const getByIdSubscriptions = async (dispatch, id) => {
