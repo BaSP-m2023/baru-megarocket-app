@@ -1,27 +1,31 @@
 import styles from './admins.module.css';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdmins } from '../../Redux/Admins/thunks';
+import { getAdmins, deleteAdmin } from '../../Redux/Admins/thunks';
 import Loader from '../Shared/Loader';
 import { Link } from 'react-router-dom';
 import Table from './Table';
 import Button from '../Shared/Button';
 import { Input } from '../Shared/Inputs';
-/* import ConfirmModal from '../Shared/ConfirmModal';
-import ResponseModal from '../Shared/ResponseModal'; */
+import ConfirmModal from '../Shared/ConfirmModal';
+import ResponseModal from '../Shared/ResponseModal';
 
 const Admins = () => {
   const [filter, setFilter] = useState([]);
-  /* const [admins, setAdmins] = useState([]); */
-  /* const [idToDelete, setIdToDelete] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showResponseModal, setShowResponseModal] = useState(false);
+  const [idToDelete, setIdToDelete] = useState('');
+  /* const [admins, setAdmins] = useState([]); */
+  /*
   const [messageResponse, setMessageResponse] = useState('');
   const [stateResponse, setStateResponse] = useState('success'); */
 
   const dispatch = useDispatch();
   const admins = useSelector((state) => state.admins.data);
   const pending = useSelector((state) => state.admins.isPending);
+  const stateRes = useSelector((state) => state.admins.stateRes);
+  const errorResponse = useSelector((state) => state.admins.error);
+  const successMessage = useSelector((state) => state.admins.successMessage);
 
   useEffect(() => {
     getAdmins(dispatch);
@@ -66,9 +70,12 @@ const Admins = () => {
     }
   }; */
   /*
-  const handleDeleteButton = (id) => {
-    setShowConfirmModal(true);
-    setIdToDelete(id);
+   */
+
+  const handleDeleteAdmin = () => {
+    deleteAdmin(dispatch, idToDelete);
+    setShowConfirmModal(false);
+    setShowResponseModal(true);
   };
 
   const closeConfirmModal = () => {
@@ -77,12 +84,13 @@ const Admins = () => {
 
   const closeResponseModal = () => {
     setShowResponseModal(false);
+    getAdmins(dispatch);
   };
 
-  const handleDeleteAdmin = () => {
-    deleteAdmin(idToDelete);
-    setShowConfirmModal(false);
-  }; */
+  const handleDeleteButton = (id) => {
+    setShowConfirmModal(true);
+    setIdToDelete(id);
+  };
 
   const filterAdmin = (value) => {
     const adminsToShow = admins.filter(
@@ -108,12 +116,12 @@ const Admins = () => {
           />
         </div>
         {pending && <Loader />}
-        {!pending && <Table filter={filter} /* handleDeleteButton={handleDeleteButton} */ />}
+        {!pending && <Table filter={filter} handleDeleteButton={handleDeleteButton} />}
         <Link to="/admins/add">
           <Button text="+ Add new" classNameButton="addButton"></Button>
         </Link>
       </section>
-      {/* {showConfirmModal && (
+      {showConfirmModal && (
         <ConfirmModal
           handler={() => closeConfirmModal()}
           title="Delete Admin"
@@ -123,13 +131,13 @@ const Admins = () => {
           Are you sure you want to delete admin?
         </ConfirmModal>
       )}
-      {showResponseModal && (
+      {stateRes && showResponseModal && (
         <ResponseModal
           handler={() => closeResponseModal()}
-          state={stateResponse}
-          message={messageResponse}
+          state={stateRes}
+          message={stateRes === 'success' ? successMessage : errorResponse}
         />
-      )} */}
+      )}
     </>
   );
 };

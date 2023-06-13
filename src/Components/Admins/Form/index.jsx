@@ -1,11 +1,11 @@
 import styles from './form.module.css';
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useHistory } from 'react-router-dom';
+import { useParams, Link /* useHistory */ } from 'react-router-dom';
 import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import { Input } from '../../Shared/Inputs';
-import { addAdmin, getAdminsById } from '../../../Redux/Admins/thunks';
+import { addAdmin, getAdminsById, editAdmin } from '../../../Redux/Admins/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAdminPending } from '../../../Redux/Admins/actions';
 
@@ -16,7 +16,8 @@ function Form() {
   const successMessage = useSelector((state) => state.admins.successMessage);
   const adminToUpdate = useSelector((state) => state.admins.data);
   const params = useParams();
-  const history = useHistory();
+  /* const history = useHistory(); */
+  /* console.log(history); */
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   /* const [showResponseModal, setShowResponseModal] = useState(false); */
   /* const [messageResponse, setMessageResponse] = useState(''); */
@@ -64,7 +65,7 @@ function Form() {
     }
   }; */
 
-  const editAdmin = async (idToUpdate, adminToUpdate) => {
+  /* const editAdmin = async (idToUpdate, adminToUpdate) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${idToUpdate}`, {
         method: 'PUT',
@@ -82,23 +83,23 @@ function Form() {
         })
       });
       if (response.ok) {
-        /*  setStateResponse('success'); */
-        /* setMessageResponse('Admin updated'); */
-        /* setShowResponseModal(true); */
+        setStateResponse('success');
+        setMessageResponse('Admin updated');
+        setShowResponseModal(true);
         setTimeout(() => {
-          /* setShowResponseModal(false); */
+          setShowResponseModal(false);
           history.push('/admins');
         }, 2000);
       } else {
-        /* setStateResponse('fail'); */
-        /* setMessageResponse('Admin could be not updated'); */
-        /* setShowResponseModal(true); */
+        setStateResponse('fail');
+        setMessageResponse('Admin could be not updated');
+        setShowResponseModal(true);
       }
     } catch (error) {
-      /* setShowResponseModal(true); */
-      /* setMessageResponse(`Error updating admins: ${error.message}`); */
+      setShowResponseModal(true);
+      setMessageResponse(`Error updating admins: ${error.message}`);
     }
-  };
+  }; */
 
   /* const addAdmin = async (adminToAdd) => {
     try {
@@ -138,13 +139,17 @@ function Form() {
   const onSubmit = (e) => {
     e.preventDefault();
     if (params.id) {
-      editAdmin(params.id, admin);
-    } else {
-      addAdmin(dispatch, admin);
-      setTimeout(() => {
+      editAdmin(dispatch, params.id, admin);
+      /* setTimeout(() => {
         history.push('/admins');
         dispatch(addAdminPending());
-      }, 2000);
+      }, 2000); */
+    } else {
+      addAdmin(dispatch, admin);
+      /*  setTimeout(() => {
+        history.push('/admins');
+        dispatch(addAdminPending());
+      }, 2000); */
     }
   };
 

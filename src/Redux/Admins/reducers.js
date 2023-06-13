@@ -7,7 +7,13 @@ import {
   GET_ADMIN_BY_ID_ERROR,
   ADD_ADMIN_PENDING,
   ADD_ADMIN_SUCCESS,
-  ADD_ADMIN_ERROR
+  ADD_ADMIN_ERROR,
+  EDIT_ADMIN_PENDING,
+  EDIT_ADMIN_SUCCESS,
+  EDIT_ADMIN_ERROR,
+  DELETE_ADMIN_PENDING,
+  DELETE_ADMIN_SUCCESS,
+  DELETE_ADMIN_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -84,6 +90,62 @@ const reducers = (state = INITIAL_STATE, action) => {
       };
     }
     case ADD_ADMIN_ERROR: {
+      return {
+        ...state,
+        data: [],
+        isPending: false,
+        error: action.payload,
+        stateRes: 'fail'
+      };
+    }
+    case EDIT_ADMIN_PENDING: {
+      return {
+        ...state,
+        data: [],
+        isPending: true,
+        error: null,
+        stateRes: null
+      };
+    }
+    case EDIT_ADMIN_SUCCESS: {
+      return {
+        ...state,
+        /* data: [], */
+        isPending: false,
+        error: null,
+        stateRes: 'success',
+        successMessage: action.payload.successMessage
+      };
+    }
+    case EDIT_ADMIN_ERROR: {
+      return {
+        ...state,
+        data: [],
+        isPending: false,
+        error: action.payload,
+        stateRes: 'fail'
+      };
+    }
+    case DELETE_ADMIN_PENDING: {
+      return {
+        ...state,
+        data: [],
+        isPending: false,
+        error: null,
+        stateRes: null
+      };
+    }
+    case DELETE_ADMIN_SUCCESS: {
+      return {
+        ...state,
+        data: [...state.data.filter((admin) => admin._id !== action.payload.id)],
+        isPending: false,
+        error: null,
+        stateRes: 'success',
+        successMessage: action.payload.res
+      };
+    }
+    case DELETE_ADMIN_ERROR: {
       return {
         ...state,
         data: [],
