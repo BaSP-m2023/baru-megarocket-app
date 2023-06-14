@@ -7,7 +7,7 @@ import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 import { addMember, getMembers, updateMember } from '../../../Redux/Members/thunks';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 const MemberForm = ({ match }) => {
   const [editMember, setEditMember] = useState({});
@@ -51,7 +51,8 @@ const MemberForm = ({ match }) => {
           password: data.password
         });
       } catch (error) {
-        console.log(error);
+        dispatch(setContentToast({ message: error.message, state: 'fail' }));
+        dispatch(handleDisplayToast(true));
       }
     };
     if (memberId) {
@@ -96,8 +97,10 @@ const MemberForm = ({ match }) => {
     e.preventDefault();
     if (memberId) {
       updateMember(dispatch, memberId, member);
+      setModalMessageOpen(false);
     } else {
       addMember(dispatch, member);
+      setModalMessageOpen(false);
     }
   };
 

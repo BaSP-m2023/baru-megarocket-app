@@ -25,7 +25,7 @@ function Members() {
       {!pending && members.length > 0 ? <List members={members} /> : null}
       {!pending && members.length === 0 && 'There are no members'}
       <Link to="/members/add">
-        <Button classNameButton="addButton" text="Add new member" />
+        <Button classNameButton="addButton" text="+ Add new" />
       </Link>
       {show && (
         <ResponseModal
