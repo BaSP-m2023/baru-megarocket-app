@@ -16,8 +16,11 @@ const Subscriptions = () => {
 
   useEffect(() => {
     filterSubscriptions();
+  }, [searchTerm, subscriptions]);
+
+  useEffect(() => {
     fetchData();
-  }, [subscriptions, searchTerm]);
+  }, []);
 
   const filterSubscriptions = () => {
     const filtered = subscriptions.filter((subscription) => {

@@ -130,10 +130,8 @@ const Form = () => {
         classes: subscription.classes,
         date: subscription.date
       };
-      if (id) {
-        dispatch(
-          putSubscription(newSubscription, subscriptionById, subscriptions, setSubscriptions, id)
-        );
+      if (id && subscriptionById) {
+        dispatch(putSubscription(newSubscription, id));
         setShowConfirmModal(false);
       } else {
         addItem(newSubscription);

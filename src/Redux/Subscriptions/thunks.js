@@ -9,13 +9,7 @@ import {
 
 import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
 
-export const putSubscription = (
-  newSubscription,
-  subscriptionById,
-  subscriptions,
-  setSubscriptions,
-  id
-) => {
+export const putSubscription = (newSubscription, id) => {
   return async (dispatch) => {
     dispatch(putSubscriptionPending());
     try {
@@ -34,17 +28,6 @@ export const putSubscription = (
       });
       const data = await response.json();
       if (response.status === 200) {
-        const updatedSubscriptions = subscriptions.map((sub) => {
-          if (sub._id === data._id) {
-            return {
-              classes: data.classes,
-              members: data.members,
-              date: data.date
-            };
-          }
-          return sub;
-        });
-        setSubscriptions(updatedSubscriptions);
         dispatch(putSubscriptionSuccess(data));
         dispatch(setContentToast({ message: 'Subscription edited', state: 'success' }));
         dispatch(handleDisplayToast(true));
@@ -67,12 +50,22 @@ export const deleteSubscription = (subscriptionId) => {
   return async (dispatch) => {
     dispatch(deleteSubscriptionPending());
     try {
-      await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${subscriptionId}`, {
-        method: 'DELETE'
-      });
-      dispatch(deleteSubscriptionSuccess(subscriptionId));
-      dispatch(setContentToast({ message: 'Subscription has been deleted', state: 'success' }));
-      dispatch(handleDisplayToast(true));
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/subscription/${subscriptionId}`,
+        {
+          method: 'DELETE'
+        }
+      );
+      if (response.status === 200) {
+        dispatch(deleteSubscriptionSuccess(subscriptionId));
+        dispatch(setContentToast({ message: 'Subscription has been deleted', state: 'success' }));
+        dispatch(handleDisplayToast(true));
+      }
+      if (response.status === 404) {
+        dispatch(deleteSubscriptionError());
+        dispatch(setContentToast({ message: 'Subscription not deleted', state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+      }
     } catch (e) {
       dispatch(deleteSubscriptionError(e.message));
       dispatch(setContentToast({ message: e.message, state: 'fail' }));

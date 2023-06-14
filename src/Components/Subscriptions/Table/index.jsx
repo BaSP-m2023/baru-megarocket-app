@@ -18,7 +18,6 @@ const Table = ({ data }) => {
   const pending = useSelector((state) => state.subscription.isPending);
   const success = useSelector((state) => state.subscription.success);
   const { show, message, state } = useSelector((state) => state.toast);
-
   useEffect(() => {
     if (success) {
       dispatch(reset());
