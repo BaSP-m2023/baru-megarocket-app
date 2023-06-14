@@ -12,22 +12,24 @@ import {
   deleteTrainerSuccess,
   deleteTrainerError
 } from './actions';
-import { responseModal } from '../Shared/ResponseModal/actions';
+import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
 
 export const getTrainers = async (dispatch) => {
   dispatch(getTrainersPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`);
-    const data = await response.json();
-    if (response.ok) {
-      dispatch(getTrainersSuccess(data.data));
+    const { data, message, error } = await response.json();
+    if (!error) {
+      dispatch(getTrainersSuccess(data));
     } else {
-      dispatch(responseModal({ show: true, message: data.message, state: 'fail' }));
-      dispatch(getTrainersError(data.message));
+      dispatch(getTrainersError(message));
+      dispatch(handleDisplayToast(true));
+      dispatch(setContentToast({ message, state: 'fail' }));
     }
   } catch (error) {
     dispatch(getTrainersError(error));
-    dispatch(responseModal({ show: true, message: error, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
   }
 };
 
@@ -44,18 +46,21 @@ export const addTrainer = (trainer, history) => {
         body: JSON.stringify(trainer)
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        dispatch(responseModal({ show: true, message: data.message, state: 'success' }));
-        dispatch(addTrainerSuccess(data));
+      const { data, message, error } = await response.json();
+      if (!error) {
         history.push('/trainers');
+        dispatch(addTrainerSuccess(data));
+        dispatch(handleDisplayToast(true));
+        dispatch(setContentToast({ message, state: 'success' }));
       } else {
-        dispatch(responseModal({ show: true, message: data.message, state: 'fail' }));
-        dispatch(addTrainerError(data.message));
+        dispatch(addTrainerError(message));
+        dispatch(handleDisplayToast(true));
+        dispatch(setContentToast({ message, state: 'fail' }));
       }
     } catch (error) {
       dispatch(addTrainerError(error));
-      dispatch(responseModal({ show: true, message: error, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
     }
   };
 };
@@ -71,18 +76,21 @@ export const updTrainer = (id, updatedTrainer, history) => {
         },
         body: JSON.stringify(updatedTrainer)
       });
-      const data = await response.json();
-      if (response.ok) {
-        dispatch(responseModal({ show: true, message: data.message, state: 'success' }));
-        dispatch(editTrainerSuccess(data));
+      const { data, message, error } = await response.json();
+      if (!error) {
         history.push('/trainers');
+        dispatch(editTrainerSuccess(data));
+        dispatch(handleDisplayToast(true));
+        dispatch(setContentToast({ message, state: 'success' }));
       } else {
-        dispatch(responseModal({ show: true, message: data.message, state: 'fail' }));
-        dispatch(editTrainerError(data.message));
+        dispatch(editTrainerError(message));
+        dispatch(handleDisplayToast(true));
+        dispatch(setContentToast({ message, state: 'fail' }));
       }
     } catch (error) {
       dispatch(editTrainerError(error));
-      dispatch(responseModal({ show: true, message: error, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
     }
   };
 };
@@ -94,18 +102,20 @@ export const deleteTrainer = (id) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
         method: 'DELETE'
       });
-      const data = await response.json();
-      if (response.ok) {
-        dispatch(responseModal({ show: true, message: data.message, state: 'success' }));
-        dispatch(deleteTrainerSuccess(id));
-        getTrainers(dispatch);
+      const { data, message, error } = await response.json();
+      if (!error) {
+        dispatch(deleteTrainerSuccess(data));
+        dispatch(handleDisplayToast(true));
+        dispatch(setContentToast({ message, state: 'success' }));
       } else {
-        dispatch(responseModal({ show: true, message: data.message, state: 'fail' }));
-        dispatch(deleteTrainerError('Failed to delete trainer'));
+        dispatch(deleteTrainerError(message));
+        dispatch(handleDisplayToast(true));
+        dispatch(setContentToast({ message, state: 'fail' }));
       }
     } catch (error) {
       dispatch(deleteTrainerError(error));
-      dispatch(responseModal({ show: true, message: error, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
     }
   };
 };

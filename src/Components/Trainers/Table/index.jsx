@@ -21,7 +21,7 @@ const Table = ({ data = [] }) => {
   return (
     <>
       <div className={styles.filter}>
-        {filter.length === 0 ? <p>There is nothing to match</p> : ''}
+        {filter.length === 0 ? <p>There is no trainer with that name or lastname</p> : ''}
         <div className={`${styles['filter-container']}`}>
           <input
             className={`${styles['filter-input']}`}

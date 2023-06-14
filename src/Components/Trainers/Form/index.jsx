@@ -7,7 +7,7 @@ import Button from '../../Shared/Button';
 import styles from './form.module.css';
 import { Input } from '../../Shared/Inputs';
 import { addTrainer, getTrainers, updTrainer } from '../../../Redux/Trainers/thunks';
-import { responseModal } from '../../../Redux/Shared/ResponseModal/actions';
+import { handleDisplayToast, setContentToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 const Form = () => {
   const { id } = useParams();
@@ -17,7 +17,7 @@ const Form = () => {
   const trainers = useSelector((state) => state.trainers.data);
   const trainerToEdit = trainers.find((trainer) => trainer._id === id);
 
-  const responseToast = useSelector((state) => state.responseToast.data);
+  const { show, message, state } = useSelector((state) => state.toast);
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [trainer, setTrainer] = useState({
@@ -29,10 +29,6 @@ const Form = () => {
     password: '',
     salary: ''
   });
-
-  useEffect(() => {
-    dispatch(responseModal({ show: false, message: '', state: '' }));
-  }, []);
 
   useEffect(() => {
     getTrainers(dispatch);
@@ -75,7 +71,8 @@ const Form = () => {
     if (validateInputs()) {
       setShowConfirmModal(true);
     } else {
-      dispatch(responseModal({ show: true, message: 'Please fill in all fields', state: 'fail' }));
+      dispatch(handleDisplayToast(true));
+      dispatch(setContentToast({ message: 'Please fill in all fields', state: 'fail' }));
     }
   };
 
@@ -135,11 +132,11 @@ const Form = () => {
             : 'Are you sure you want to add this trainer?'}
         </ConfirmModal>
       )}
-      {responseToast?.show && (
+      {show && (
         <ResponseModal
-          message={responseToast.message}
-          state={responseToast.state}
-          handler={() => dispatch(responseModal({ show: false, message: '', state: '' }))}
+          message={message}
+          state={state}
+          handler={() => dispatch(handleDisplayToast(false))}
         />
       )}
     </>

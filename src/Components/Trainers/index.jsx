@@ -7,13 +7,13 @@ import Table from './Table';
 import Loader from '../Shared/Loader';
 import Button from '../Shared/Button';
 import ResponseModal from '../Shared/ResponseModal';
-import { responseModal } from '../../Redux/Shared/ResponseModal/actions';
+import { handleDisplayToast } from '../../Redux/Shared/ResponseToast/actions';
 
 const Trainers = () => {
   const dispatch = useDispatch();
   const trainers = useSelector((state) => state.trainers.data);
   const pending = useSelector((state) => state.trainers.isPending);
-  const responseToast = useSelector((state) => state.responseToast.data);
+  const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
     getTrainers(dispatch);
@@ -28,11 +28,11 @@ const Trainers = () => {
       <Link to="/trainers/add">
         <Button text="+ Add New" classNameButton="addButton" />
       </Link>
-      {responseToast?.show && (
+      {show && (
         <ResponseModal
-          message={responseToast.message}
-          state={responseToast.state}
-          handler={() => dispatch(responseModal({ show: false, message: '', state: '' }))}
+          message={message}
+          state={state}
+          handler={() => dispatch(handleDisplayToast(false))}
         />
       )}
     </section>
