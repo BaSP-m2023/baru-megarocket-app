@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
 import styles from './form.module.css';
 import { Input } from '../../Shared/Inputs';
+import { addTrainer, getTrainers, updTrainer } from '../../../Redux/Trainers/thunks';
+import { handleDisplayToast, setContentToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 const Form = () => {
   const { id } = useParams();
   const history = useHistory();
-  const [showResponseModal, setShowResponseModal] = useState(false);
-  const [stateModal, setStateModal] = useState('success');
+  const dispatch = useDispatch();
+
+  const trainers = useSelector((state) => state.trainers.data);
+  const trainerToEdit = trainers.find((trainer) => trainer._id === id);
+
+  const { show, message, state } = useSelector((state) => state.toast);
+
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [selectedTrainer, setSelectedTrainer] = useState(false);
-  const [responseMessage, setResponseMessage] = useState('');
   const [trainer, setTrainer] = useState({
     firstName: '',
     lastName: '',
@@ -25,37 +31,22 @@ const Form = () => {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (id) {
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`);
-          const data = await response.json();
-          setSelectedTrainer(data.data);
-        }
-      } catch (error) {
-        setResponseMessage(`Error getting trainer: ${error.message}`);
-        setShowResponseModal(true);
-        setStateModal('fail');
-        setTimeout(() => {
-          setShowResponseModal(false);
-        }, 3000);
-      }
-    };
-
-    fetchData();
-  }, [id]);
+    getTrainers(dispatch);
+  }, [dispatch]);
 
   useEffect(() => {
-    setTrainer({
-      firstName: selectedTrainer.firstName || '',
-      lastName: selectedTrainer.lastName || '',
-      dni: selectedTrainer.dni || '',
-      phone: selectedTrainer.phone || '',
-      email: selectedTrainer.email || '',
-      password: selectedTrainer.password || '',
-      salary: selectedTrainer.salary || ''
-    });
-  }, [selectedTrainer]);
+    if (trainerToEdit) {
+      setTrainer({
+        firstName: trainerToEdit.firstName || '',
+        lastName: trainerToEdit.lastName || '',
+        dni: trainerToEdit.dni || '',
+        phone: trainerToEdit.phone || '',
+        email: trainerToEdit.email || '',
+        password: trainerToEdit.password || '',
+        salary: trainerToEdit.salary || ''
+      });
+    }
+  }, [trainerToEdit]);
 
   const onChangeInput = (e) => {
     setTrainer({
@@ -71,83 +62,17 @@ const Form = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    id ? updTrainer(selectedTrainer._id, trainer) : addTrainer(trainer);
-  };
-
-  const addTrainer = async (trainer) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(trainer)
-      });
-      if (response.ok) {
-        setResponseMessage('Trainer added successfully');
-        setShowResponseModal(true);
-        setStateModal('success');
-        setTimeout(() => {
-          setShowResponseModal(false);
-          history.push('/trainers');
-        }, 1500);
-      } else {
-        setResponseMessage('Failed to add trainer');
-        setShowResponseModal(true);
-        setStateModal('fail');
-        setTimeout(() => {
-          setShowResponseModal(false);
-        }, 3000);
-      }
-    } catch (error) {
-      setResponseMessage(`Error adding trainer: ${error.message}`);
-      setShowResponseModal(true);
-      setStateModal('fail');
-    }
-  };
-
-  const updTrainer = async (id, updatedTrainer) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedTrainer)
-      });
-      if (response.ok) {
-        setResponseMessage('Trainer updated successfully');
-        setShowResponseModal(true);
-        setStateModal('success');
-        setTimeout(() => {
-          setShowResponseModal(false);
-          history.push('/trainers');
-        }, 1500);
-      } else {
-        setResponseMessage('Failed to update trainer');
-        setShowResponseModal(true);
-        setStateModal('fail');
-        setTimeout(() => {
-          setShowResponseModal(false);
-        }, 3000);
-      }
-    } catch (error) {
-      setResponseMessage(`Error updating trainer: ${error.message}`);
-      setShowResponseModal(true);
-      setStateModal('fail');
-    }
+    id
+      ? dispatch(updTrainer(trainerToEdit._id, trainer, history))
+      : dispatch(addTrainer(trainer, history));
   };
 
   const handleConfirmModal = () => {
     if (validateInputs()) {
       setShowConfirmModal(true);
     } else {
-      setResponseMessage('Please fill in all fields');
-      setShowResponseModal(true);
-      setStateModal('fail');
-      setTimeout(() => {
-        setShowResponseModal(false);
-      }, 3000);
+      dispatch(handleDisplayToast(true));
+      dispatch(setContentToast({ message: 'Please fill in all fields', state: 'fail' }));
     }
   };
 
@@ -160,67 +85,31 @@ const Form = () => {
     return true;
   };
 
+  const formFields = [
+    { labelText: 'First Name', name: 'firstName', type: 'text' },
+    { labelText: 'Last Name', name: 'lastName', type: 'text' },
+    { labelText: 'ID', name: 'dni', type: 'text' },
+    { labelText: 'Phone', name: 'phone', type: 'text' },
+    { labelText: 'Email', name: 'email', type: 'email' },
+    { labelText: 'Password', name: 'password', type: 'password' },
+    { labelText: 'Salary', name: 'salary', type: 'text' }
+  ];
+
   return (
     <>
       <h2 className={styles.title}>{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
       <form className={styles.container}>
-        <div className={styles.flex}>
-          <Input
-            labelText="First Name"
-            name="firstName"
-            type="text"
-            value={trainer.firstName}
-            change={onChangeInput}
-          />
-        </div>
-        <div className={styles.flex}>
-          <Input
-            labelText="Last Name"
-            name="lastName"
-            type="text"
-            value={trainer.lastName}
-            change={onChangeInput}
-          />
-        </div>
-        <div className={styles.flex}>
-          <Input labelText="ID" name="dni" type="text" value={trainer.dni} change={onChangeInput} />
-        </div>
-        <div className={styles.flex}>
-          <Input
-            labelText="Phone"
-            name="phone"
-            type="text"
-            value={trainer.phone}
-            change={onChangeInput}
-          />
-        </div>
-        <div className={styles.flex}>
-          <Input
-            labelText="Email"
-            name="email"
-            type="email"
-            value={trainer.email}
-            change={onChangeInput}
-          />
-        </div>
-        <div className={styles.flex}>
-          <Input
-            labelText="Password"
-            name="password"
-            type="password"
-            value={trainer.password}
-            change={onChangeInput}
-          />
-        </div>
-        <div className={styles.flex}>
-          <Input
-            labelText="Salary"
-            name="salary"
-            type="text"
-            value={trainer.salary}
-            change={onChangeInput}
-          />
-        </div>
+        {formFields.map((field) => (
+          <div className={styles.flex} key={field.name}>
+            <Input
+              labelText={field.labelText}
+              name={field.name}
+              type={field.type}
+              value={trainer[field.name]}
+              change={onChangeInput}
+            />
+          </div>
+        ))}
       </form>
       <div className={styles.btnContainer}>
         <Button
@@ -243,11 +132,11 @@ const Form = () => {
             : 'Are you sure you want to add this trainer?'}
         </ConfirmModal>
       )}
-      {showResponseModal && (
+      {show && (
         <ResponseModal
-          message={responseMessage}
-          state={stateModal}
-          handler={() => setShowResponseModal(false)}
+          message={message}
+          state={state}
+          handler={() => dispatch(handleDisplayToast(false))}
         />
       )}
     </>
