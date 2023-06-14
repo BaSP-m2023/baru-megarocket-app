@@ -10,9 +10,7 @@ import {
   EDIT_TRAINER_ERROR,
   DELETE_TRAINER_PENDING,
   DELETE_TRAINER_SUCCESS,
-  DELETE_TRAINER_ERROR,
-  SHOW_RESPONSE_MODAL,
-  HIDE_RESPONSE_MODAL
+  DELETE_TRAINER_ERROR
 } from './constants';
 
 export const getTrainersPending = () => ({
@@ -75,21 +73,5 @@ export const deleteTrainerError = (error) => {
   return {
     type: DELETE_TRAINER_ERROR,
     payload: error
-  };
-};
-
-export const showResponseModal = (message, state) => {
-  return {
-    type: SHOW_RESPONSE_MODAL,
-    payload: {
-      message,
-      state
-    }
-  };
-};
-
-export const hideResponseModal = () => {
-  return {
-    type: HIDE_RESPONSE_MODAL
   };
 };

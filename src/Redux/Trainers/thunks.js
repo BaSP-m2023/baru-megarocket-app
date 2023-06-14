@@ -107,6 +107,7 @@ export const deleteTrainer = (id) => {
         dispatch(deleteTrainerSuccess(data));
         dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'success' }));
+        getTrainers(dispatch);
       } else {
         dispatch(deleteTrainerError(message));
         dispatch(handleDisplayToast(true));

@@ -10,9 +10,7 @@ import {
   EDIT_TRAINER_ERROR,
   DELETE_TRAINER_PENDING,
   DELETE_TRAINER_SUCCESS,
-  DELETE_TRAINER_ERROR,
-  SHOW_RESPONSE_MODAL,
-  HIDE_RESPONSE_MODAL
+  DELETE_TRAINER_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -101,19 +99,6 @@ const trainersReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: false,
         error: action.payload
-      };
-    case SHOW_RESPONSE_MODAL:
-      return {
-        ...state,
-        responseModal: {
-          message: action.payload.message,
-          state: action.payload.state
-        }
-      };
-    case HIDE_RESPONSE_MODAL:
-      return {
-        ...state,
-        responseModal: false
       };
     default:
       return state;
