@@ -2,7 +2,7 @@ import styles from './table.module.css';
 import Item from './Item';
 import { useState, useEffect } from 'react';
 
-const List = ({ members, handleModal, deleteMember }) => {
+const List = ({ members, handleModal }) => {
   const [filter, setFilter] = useState([]);
 
   const filterList = (value) => {
@@ -43,12 +43,7 @@ const List = ({ members, handleModal, deleteMember }) => {
         </thead>
         <tbody>
           {filter.map((member) => (
-            <Item
-              deleteMember={deleteMember}
-              key={member._id}
-              member={member}
-              handleModal={handleModal}
-            />
+            <Item key={member._id} member={member} handleModal={handleModal} />
           ))}
         </tbody>
       </table>

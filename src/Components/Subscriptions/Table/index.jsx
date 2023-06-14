@@ -4,22 +4,18 @@ import styles from './table.module.css';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
+import Loader from '../../Shared/Loader';
+import { useSelector } from 'react-redux';
 
 const Table = ({ data }) => {
   const [deletedSubscription, setDeletedSubscription] = useState([]);
-  const [tableData, setTableData] = useState([]);
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const history = useHistory();
+  const pending = useSelector((state) => state.subscriptions.isPending);
 
   useEffect(() => {
-    if (Array.isArray(data)) {
-      const filteredData = data.filter(
-        (subscription) => !deletedSubscription.includes(subscription._id)
-      );
-      setTableData(filteredData);
-    }
     if (showDeleteModal) {
       setTimeout(() => {
         setShowDeleteModal(false);
@@ -63,7 +59,13 @@ const Table = ({ data }) => {
     setShowConfirmDeleteModal(false);
     setShowDeleteModal(false);
   };
-
+  if (pending) {
+    return (
+      <div className={styles.container}>
+        <Loader />
+      </div>
+    );
+  }
   return (
     <div className={styles.container}>
       <table className={styles.tableSubscription}>
@@ -76,18 +78,18 @@ const Table = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {tableData.length > 0 ? (
-            tableData.map((subscription) => (
+          {data?.length > 0 ? (
+            data.map((subscription) => (
               <tr key={subscription._id} className={styles.item}>
                 {!subscription.classes ? (
                   <td>{'empty'}</td>
                 ) : (
-                  <td>{`${subscription.classes.day} ${subscription.classes.time}`}</td>
+                  <td>{`${subscription.classes?.day} ${subscription.classes?.time} ${subscription.classes?.trainers?.name}`}</td>
                 )}
                 {!subscription.members ? (
                   <td>{'empty'}</td>
                 ) : (
-                  <td>{`${subscription.members.name} ${subscription.members.lastName}`}</td>
+                  <td>{`${subscription.members?.name} ${subscription.members?.lastName}`}</td>
                 )}
                 <td>{formatDate(subscription.date)}</td>
                 <td className={`${styles.itemButton} ${styles.itemButtonEdit}`}>
