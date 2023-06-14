@@ -22,11 +22,15 @@ function Members() {
   return (
     <section className={styles.container}>
       {pending && <Loader />}
-      {!pending && members.length > 0 ? <List members={members} /> : null}
       {!pending && members.length === 0 && 'There are no members'}
-      <Link to="/members/add">
-        <Button classNameButton="addButton" text="+ Add new" />
-      </Link>
+      {!pending && members.length > 0 ? (
+        <>
+          <List members={members} />
+          <Link Link to="/members/add">
+            <Button classNameButton="addButton" text="+ Add new" />
+          </Link>
+        </>
+      ) : null}
       {show && (
         <ResponseModal
           handler={() => dispatch(handleDisplayToast(false))}
