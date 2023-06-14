@@ -15,7 +15,6 @@ import {
 } from './actions';
 
 import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
-const responseInfo = { resState: '', resMessage: '', superadmins: [] };
 
 export const getSuperadmins = async (dispatch) => {
   dispatch(getSuperadminsPending());
@@ -85,7 +84,7 @@ export const editSuperadmin = (idToEdit, editedSuperadmin, callback) => {
         throw new Error(message);
       }
     } catch (error) {
-      dispatch(editSuperadminError(responseInfo));
+      dispatch(editSuperadminError());
       dispatch(setContentToast({ message: error.message, state: 'fail' }));
       dispatch(handleDisplayToast(true));
     }
@@ -106,7 +105,7 @@ export const deleteSuperadmin = (idToDelete) => {
       dispatch(resetPrimaryStates());
 
       if (response.ok) {
-        dispatch(deleteSuperadminSuccess(responseInfo));
+        dispatch(deleteSuperadminSuccess());
         dispatch(getSuperadmins);
         dispatch(setContentToast({ message, state: 'success' }));
         dispatch(handleDisplayToast(true));
@@ -114,7 +113,7 @@ export const deleteSuperadmin = (idToDelete) => {
         throw new Error(message);
       }
     } catch (error) {
-      dispatch(deleteSuperadminError(responseInfo));
+      dispatch(deleteSuperadminError());
       dispatch(setContentToast({ message: error.message, state: 'fail' }));
       dispatch(handleDisplayToast(true));
     }
