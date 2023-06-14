@@ -16,6 +16,8 @@ import {
   deleteAdminError
 } from './actions';
 
+import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+
 export const getAdmins = async (dispatch) => {
   dispatch(getAdminsPending());
   try {
@@ -53,17 +55,22 @@ export const addAdmin = async (dispatch, adminToAdd) => {
     });
     const res = await response.json();
     if (response.ok) {
-      dispatch(addAdminSuccess({ adminCreated: res, successMessage: 'admin created' }));
+      dispatch(addAdminSuccess(res.data));
+      dispatch(setContentToast({ message: res.message, state: 'success' }));
+      dispatch(handleDisplayToast(true));
     } else {
-      dispatch(addAdminError(res.message));
+      dispatch(addAdminError(res));
+      dispatch(setContentToast({ message: res.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   } catch (error) {
-    dispatch(addAdminError(error.message));
+    dispatch(addAdminError(error));
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
   }
 };
 
 export const editAdmin = async (dispatch, id, adminToUpdate) => {
-  console.log(adminToUpdate);
   dispatch(editAdminPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`, {
@@ -71,32 +78,22 @@ export const editAdmin = async (dispatch, id, adminToUpdate) => {
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({
-        firstName: adminToUpdate.firstName,
-        lastName: adminToUpdate.lastName,
-        dni: adminToUpdate.dni,
-        phone: adminToUpdate.phone,
-        email: adminToUpdate.email,
-        city: adminToUpdate.city,
-        password: adminToUpdate.password
-      })
+      body: JSON.stringify(adminToUpdate)
     });
     const res = await response.json();
     if (response.ok) {
-      dispatch(editAdminSuccess({ adminUpdated: res, successMessage: 'admin updated' }));
-      /*  setStateResponse('success'); */
-      /* setMessageResponse('Admin updated'); */
-      /* setShowResponseModal(true); */
+      dispatch(editAdminSuccess(res.data));
+      dispatch(setContentToast({ message: res.message, state: 'success' }));
+      dispatch(handleDisplayToast(true));
     } else {
-      dispatch(editAdminError(res.errors ? res.errors : res.message));
-      /* setStateResponse('fail'); */
-      /* setMessageResponse('Admin could be not updated'); */
-      /* setShowResponseModal(true); */
+      dispatch(editAdminError(res.message));
+      dispatch(setContentToast({ message: res.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   } catch (error) {
     dispatch(editAdminError(error.message));
-    /* setShowResponseModal(true); */
-    /* setMessageResponse(`Error updating admins: ${error.message}`); */
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
   }
 };
 
@@ -108,22 +105,18 @@ export const deleteAdmin = async (dispatch, id) => {
     });
     const res = await response.json();
     if (response.ok) {
-      /* setStateResponse('success');
-      setMessageResponse('Admin deleted');
-      setShowResponseModal(true);
-      */
-      dispatch(deleteAdminSuccess(res.message, id));
+      dispatch(deleteAdminSuccess(id));
+      dispatch(setContentToast({ message: res.message, state: 'success' }));
+      dispatch(handleDisplayToast(true));
+      getAdmins(dispatch);
     } else {
-      console.log(res, 'else res');
       dispatch(deleteAdminError(res));
-      /* setStateResponse('fail');
-      setMessageResponse('Admin could be not deleted');
-      setShowResponseModal(true); */
+      dispatch(setContentToast({ message: res, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   } catch (error) {
-    console.log(error, 'error');
     dispatch(deleteAdminError(error.message));
-    /* setMessageResponse(`Error deleting admins: ${error.message}`);
-    setShowResponseModal(true); */
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
   }
 };

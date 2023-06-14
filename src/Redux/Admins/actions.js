@@ -13,7 +13,8 @@ import {
   EDIT_ADMIN_ERROR,
   DELETE_ADMIN_PENDING,
   DELETE_ADMIN_SUCCESS,
-  DELETE_ADMIN_ERROR
+  DELETE_ADMIN_ERROR,
+  RESET_STATE
 } from './constants';
 
 export const getAdminsPending = () => {
@@ -102,10 +103,10 @@ export const deleteAdminPending = () => {
   };
 };
 
-export const deleteAdminSuccess = (res, id) => {
+export const deleteAdminSuccess = (admin) => {
   return {
     type: DELETE_ADMIN_SUCCESS,
-    payload: { res, id }
+    payload: admin
   };
 };
 
@@ -113,5 +114,11 @@ export const deleteAdminError = (error) => {
   return {
     type: DELETE_ADMIN_ERROR,
     payload: error
+  };
+};
+
+export const resetState = () => {
+  return {
+    type: RESET_STATE
   };
 };

@@ -9,23 +9,16 @@ import Button from '../Shared/Button';
 import { Input } from '../Shared/Inputs';
 import ConfirmModal from '../Shared/ConfirmModal';
 import ResponseModal from '../Shared/ResponseModal';
+import { handleDisplayToast } from '../../Redux/Shared/ResponseToast/actions';
 
 const Admins = () => {
   const [filter, setFilter] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showResponseModal, setShowResponseModal] = useState(false);
   const [idToDelete, setIdToDelete] = useState('');
-  /* const [admins, setAdmins] = useState([]); */
-  /*
-  const [messageResponse, setMessageResponse] = useState('');
-  const [stateResponse, setStateResponse] = useState('success'); */
-
   const dispatch = useDispatch();
   const admins = useSelector((state) => state.admins.data);
   const pending = useSelector((state) => state.admins.isPending);
-  const stateRes = useSelector((state) => state.admins.stateRes);
-  const errorResponse = useSelector((state) => state.admins.error);
-  const successMessage = useSelector((state) => state.admins.successMessage);
+  const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
     getAdmins(dispatch);
@@ -35,47 +28,9 @@ const Admins = () => {
     setFilter(admins);
   }, [admins]);
 
-  /*   const getAdmins = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`);
-      const res = await response.json();
-      setAdmins(res.data);
-    } catch (error) {
-      setMessageResponse(`Error fetching admins: ${error.message}`);
-      setShowResponseModal(true);
-    }
-  }; */
-
-  /* const deleteAdmin = async (idToDelete) => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/admins/delete/${idToDelete}`,
-        {
-          method: 'DELETE'
-        }
-      );
-      if (response.ok) {
-        setStateResponse('success');
-        setMessageResponse('Admin deleted');
-        setShowResponseModal(true);
-        setAdmins([...admins.filter((admin) => admin._id !== idToDelete)]);
-      } else {
-        setStateResponse('fail');
-        setMessageResponse('Admin could be not deleted');
-        setShowResponseModal(true);
-      }
-    } catch (error) {
-      setMessageResponse(`Error deleting admins: ${error.message}`);
-      setShowResponseModal(true);
-    }
-  }; */
-  /*
-   */
-
   const handleDeleteAdmin = () => {
     deleteAdmin(dispatch, idToDelete);
     setShowConfirmModal(false);
-    setShowResponseModal(true);
   };
 
   const closeConfirmModal = () => {
@@ -83,8 +38,7 @@ const Admins = () => {
   };
 
   const closeResponseModal = () => {
-    setShowResponseModal(false);
-    getAdmins(dispatch);
+    dispatch(handleDisplayToast(false));
   };
 
   const handleDeleteButton = (id) => {
@@ -131,12 +85,8 @@ const Admins = () => {
           Are you sure you want to delete admin?
         </ConfirmModal>
       )}
-      {stateRes && showResponseModal && (
-        <ResponseModal
-          handler={() => closeResponseModal()}
-          state={stateRes}
-          message={stateRes === 'success' ? successMessage : errorResponse}
-        />
+      {show && (
+        <ResponseModal handler={() => closeResponseModal()} state={state} message={message} />
       )}
     </>
   );
