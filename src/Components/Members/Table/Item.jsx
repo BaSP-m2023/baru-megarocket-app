@@ -4,13 +4,17 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
+import { deleteMember } from '../../../Redux/Members/thunks';
+import { useDispatch } from 'react-redux';
 
-const Item = ({ member = { name: 'Nothing match', isActive: false }, deleteMember }) => {
+const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
   const [modal, setModal] = useState(false);
 
   const handleModal = () => {
     setModal(!modal);
   };
+
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -37,7 +41,7 @@ const Item = ({ member = { name: 'Nothing match', isActive: false }, deleteMembe
         <ConfirmModal
           title="Delete member"
           handler={handleModal}
-          onAction={() => deleteMember(member._id)}
+          onAction={() => deleteMember(dispatch, member._id)}
           reason={'delete'}
         >
           Are you sure you wanna delete this member?
