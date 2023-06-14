@@ -21,12 +21,12 @@ const Table = ({ data = [] }) => {
   return (
     <>
       <div className={styles.filter}>
-        {filter.length === 0 ? <p>There is no trainer with that name or lastname</p> : ''}
+        {filter.length === 0 ? <p>There is no trainer with that name or last name</p> : ''}
         <div className={`${styles['filter-container']}`}>
           <input
             className={`${styles['filter-input']}`}
             type="text"
-            placeholder="Search by Name or Lastname"
+            placeholder="Search by name or last name"
             onChange={(e) => filterList(e.target.value.toLowerCase())}
           />
           <img src={`${process.env.PUBLIC_URL}/assets/images/search-icon.png`} alt="" />
