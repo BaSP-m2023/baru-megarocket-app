@@ -7,14 +7,16 @@ import trainersReducer from './Trainers/reducers';
 import classReducer from './Classes/reducers';
 import activititesReducer from './Activities/reducers';
 import membersReducer from './Members/reducers';
+import subscriptionsReducer from './Subscriptions/reducers';
 
 const rootReducers = combineReducers({
+  activity: activititesReducer,
   subscription: subscriptionReducer,
   toast: toastReducer,
   classes: classReducer,
-  trainers: trainersReducer,
   members: membersReducer,
-  activities: activititesReducer
+  subscriptions: subscriptionsReducer,
+  trainers: trainersReducer
 });
 
 export default rootReducers;

@@ -5,12 +5,21 @@ import {
   DELETE_SUBSCRIPTIONS_PENDING,
   DELETE_SUBSCRIPTIONS_SUCCESS,
   DELETE_SUBSCRIPTIONS_ERROR,
+  GET_SUBSCRIPTIONS_PENDING,
+  GET_SUBSCRIPTIONS_SUCCESS,
+  GET_SUBSCRIPTIONS_ERROR,
+  GET_BY_ID_SUBSCRIPTIONS_PENDING,
+  GET_BY_ID_SUBSCRIPTIONS_SUCCESS,
+  GET_BY_ID_SUBSCRIPTIONS_ERROR,
+  ADD_SUBSCRIPTIONS_PENDING,
+  ADD_SUBSCRIPTIONS_SUCCESS,
+  ADD_SUBSCRIPTIONS_ERROR,
   RESET_STATE
 } from './constants';
 
 const INITIAL_STATE = {
-  isPending: false,
   data: [],
+  isPending: false,
   success: false,
   error: null
 };
@@ -59,13 +68,77 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
         data: null,
         error: action.payload
       };
-    case RESET_STATE:
+    case GET_SUBSCRIPTIONS_PENDING: {
+      return {
+        ...state,
+        isPending: true
+      };
+    }
+    case GET_SUBSCRIPTIONS_SUCCESS: {
+      return {
+        ...state,
+        isPending: false,
+        data: action.payload,
+        success: true
+      };
+    }
+    case GET_SUBSCRIPTIONS_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload
+      };
+    }
+    case GET_BY_ID_SUBSCRIPTIONS_PENDING: {
+      return {
+        ...state,
+        isPending: true
+      };
+    }
+    case GET_BY_ID_SUBSCRIPTIONS_SUCCESS: {
+      return {
+        ...state,
+        isPending: false,
+        data: action.payload,
+        success: true
+      };
+    }
+    case GET_BY_ID_SUBSCRIPTIONS_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload
+      };
+    }
+    case ADD_SUBSCRIPTIONS_PENDING: {
+      return {
+        ...state,
+        isPending: true
+      };
+    }
+    case ADD_SUBSCRIPTIONS_SUCCESS: {
+      return {
+        ...state,
+        isPending: false,
+        success: true,
+        data: [...state.data, action.payload]
+      };
+    }
+    case ADD_SUBSCRIPTIONS_ERROR: {
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload
+      };
+    }
+    case RESET_STATE: {
       return {
         ...state,
         isPending: false,
         success: false,
         error: null
       };
+    }
     default:
       return state;
   }

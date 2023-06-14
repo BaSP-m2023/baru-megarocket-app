@@ -11,27 +11,35 @@ import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions'
 import Loader from '../../Shared/Loader';
 
 const Table = ({ data }) => {
-  const [deletedSubscription, setDeletedSubscription] = useState([]);
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
-  const pending = useSelector((state) => state.subscription.isPending);
+  const pending = useSelector((state) => state.subscriptions.isPending);
   const success = useSelector((state) => state.subscription.success);
   const { show, message, state } = useSelector((state) => state.toast);
+
   useEffect(() => {
     if (success) {
       dispatch(reset());
     }
-  }, [success]);
+  }, []);
+
+  useEffect(() => {
+    if (showDeleteModal) {
+      setTimeout(() => {
+        setShowDeleteModal(false);
+      }, 3000);
+    }
+  }, [data, showDeleteModal]);
 
   const handleConfirmDelete = (subscriptionId) => {
     setEditingSubscriptionId(subscriptionId);
     setShowConfirmDeleteModal(true);
   };
 
-  const handleDelete = (editingSubscriptionId) => {
-    dispatch(deleteSubscription(editingSubscriptionId));
-    setDeletedSubscription([...deletedSubscription, editingSubscriptionId]);
+  const handleDelete = (subscriptionId) => {
+    dispatch(deleteSubscription(subscriptionId));
     setShowConfirmDeleteModal(false);
   };
 
@@ -62,18 +70,18 @@ const Table = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.length > 0 ? (
+          {data?.length > 0 ? (
             data.map((subscription) => (
-              <tr key={subscription?._id} className={styles.item}>
+              <tr key={subscription._id} className={styles.item}>
                 {!subscription.classes ? (
                   <td>{'empty'}</td>
                 ) : (
-                  <td>{`${subscription.classes.day} ${subscription.classes.time}`}</td>
+                  <td>{`${subscription.classes?.day} ${subscription.classes?.time} ${subscription.classes?.trainers?.name}`}</td>
                 )}
                 {!subscription.members ? (
                   <td>{'empty'}</td>
                 ) : (
-                  <td>{`${subscription.members.name} ${subscription.members.lastName}`}</td>
+                  <td>{`${subscription.members?.name} ${subscription.members?.lastName}`}</td>
                 )}
                 <td>{formatDate(subscription.date)}</td>
                 <td className={`${styles.itemButton} ${styles.itemButtonEdit}`}>
