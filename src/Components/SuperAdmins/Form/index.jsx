@@ -14,22 +14,16 @@ const SuperAdminsForm = () => {
   const [showConfirmEdit, setShowConfirmEdit] = useState(false);
   const [superadmin, setSuperadmin] = useState({});
   const { show, message, state } = useSelector((state) => state.toast);
-
+  const superadmins = useSelector((state) => state.superadmins.superadmins);
   const dispatch = useDispatch();
 
   const history = useHistory();
   const { id } = useParams();
 
-  const getItemById = async () => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/${id}`);
-    const data = await res.json();
-    const updatingItem = data.data;
-    const { name, lastName, email } = updatingItem;
-    setSuperadmin({
-      name,
-      lastName,
-      email
-    });
+  const findById = async () => {
+    const superadmin = superadmins?.find((superadmin) => superadmin._id === id);
+    const { name, lastName, email } = superadmin;
+    setSuperadmin({ name, lastName, email });
   };
 
   const goBack = () => {
@@ -37,7 +31,7 @@ const SuperAdminsForm = () => {
   };
 
   useEffect(() => {
-    id && getItemById();
+    id && findById();
   }, []);
 
   const onChangeInput = (e) => {
