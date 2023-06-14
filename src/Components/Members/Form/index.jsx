@@ -5,16 +5,18 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
+import { addMember, getMembers, updateMember } from '../../../Redux/Members/thunks';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleDisplayToast, setContentToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 const MemberForm = ({ match }) => {
-  const [members, setMembers] = useState([]);
   const [editMember, setEditMember] = useState({});
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [stateToast, setStateToast] = useState('');
-  const [messageToast, setMessageToast] = useState('');
   const history = useHistory();
   let memberId = match.params.id;
+  const dispatch = useDispatch();
+  const redirect = useSelector((state) => state.members.redirect);
+  const { show, message, state } = useSelector((state) => state.toast);
 
   const [member, setMember] = useState({
     name: '',
@@ -29,57 +31,6 @@ const MemberForm = ({ match }) => {
     membership: '',
     password: ''
   });
-
-  const addMember = async (member) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(member)
-    });
-    if (res.status === 201) {
-      const data = await res.json();
-      setMembers([...members, data]);
-      setModalMessageOpen(false);
-      handleToast(true, 'success', 'Member added');
-      setTimeout(() => {
-        history.push('/members');
-        handleShowToast(false);
-      }, 1500);
-    } else {
-      setModalMessageOpen(false);
-      handleToast(true, 'fail', 'Member cant be added');
-      setTimeout(() => {
-        handleShowToast(false);
-      }, 1500);
-    }
-  };
-
-  const updMember = async (id, updatedMember) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updatedMember)
-    });
-    if (res.status === 200) {
-      setEditMember({});
-      setModalMessageOpen(false);
-      handleToast(true, 'success', 'Member edited');
-      setTimeout(() => {
-        history.push('/members');
-        handleShowToast(false);
-      }, 1500);
-    } else {
-      setModalMessageOpen(false);
-      handleToast(true, 'fail', 'Member cant be edited');
-      setTimeout(() => {
-        handleShowToast(false);
-      }, 1500);
-    }
-  };
 
   useEffect(() => {
     const getMember = async (id) => {
@@ -100,10 +51,8 @@ const MemberForm = ({ match }) => {
           password: data.password
         });
       } catch (error) {
-        handleToast(true, 'fail', error.message);
-        setTimeout(() => {
-          handleShowToast(false);
-        }, 1500);
+        dispatch(setContentToast({ message: error.message, state: 'fail' }));
+        dispatch(handleDisplayToast(true));
       }
     };
     if (memberId) {
@@ -126,6 +75,16 @@ const MemberForm = ({ match }) => {
     }
   }, []);
 
+  useEffect(() => {
+    getMembers(dispatch);
+  }, []);
+
+  useEffect(() => {
+    if (redirect) {
+      history.push('/members');
+    }
+  }, [redirect]);
+
   const onChangeInput = (e) => {
     setMember({
       ...member,
@@ -137,20 +96,12 @@ const MemberForm = ({ match }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (memberId) {
-      updMember(memberId, member);
+      updateMember(dispatch, memberId, member);
+      setModalMessageOpen(false);
     } else {
-      addMember(member);
+      addMember(dispatch, member);
+      setModalMessageOpen(false);
     }
-  };
-
-  const handleShowToast = (show) => {
-    setShowToast(show);
-  };
-
-  const handleToast = (show, state, message) => {
-    handleShowToast(show);
-    setStateToast(state);
-    setMessageToast(message);
   };
 
   return (
@@ -288,8 +239,12 @@ const MemberForm = ({ match }) => {
             : `Are you sure you wanna add ${member.name} to the members list?`}
         </ConfirmModal>
       )}
-      {showToast && (
-        <ResponseModal handler={handleShowToast} state={stateToast} message={messageToast} />
+      {show && (
+        <ResponseModal
+          handler={() => dispatch(handleDisplayToast(false))}
+          state={state}
+          message={message}
+        />
       )}
     </div>
   );
