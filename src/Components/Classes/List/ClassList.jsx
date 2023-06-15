@@ -4,26 +4,56 @@ import styles from './list.module.css';
 import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import { Input } from '../../Shared/Inputs';
+import { useDispatch } from 'react-redux';
+import { deleteClass } from '../../../Redux/Classes/thunks';
+import { refreshData } from '../../../Redux/Classes/actions';
 
 function ClassList({ classes }) {
   const [filter, setFilter] = useState('');
+  const [selectedClassToDelete, setSelectedClassToDelete] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const dispatch = useDispatch();
+  const handleFilter = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const handleDeleteClass = (classId) => {
+    dispatch(deleteClass(classId))
+      .then((dataId) => {
+        const filterClass = classes.filter((deleted) => deleted._id !== dataId);
+        dispatch(refreshData(filterClass));
+      })
+      .catch(() => {
+        setSelectedClassToDelete(null);
+      })
+      .finally(() => {
+        setSelectedClassToDelete(null);
+      });
+  };
 
   const filteredClassesNotDeleted = classes.filter((item) => !item.deleted);
 
   const filteredClasses = filteredClassesNotDeleted.filter(
     (filtro) =>
-      (filtro.activity && filtro.activity?.name?.toLowerCase().includes(filter)) ||
-      (filtro.trainer && filtro.trainer?.firstName?.toLowerCase().includes(filter))
+      (filtro.activity && filtro?.activity?.name?.toLowerCase().includes(filter)) ||
+      (filtro.trainer && filtro?.trainer?.firstName?.toLowerCase().includes(filter))
   );
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     setShowConfirmModal(false);
+    onSubmit(e);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (selectedClassToDelete) {
+      handleDeleteClass(selectedClassToDelete._id);
+    }
   };
 
   return (
     <div className={styles.container}>
-      <Input placeholder="Class Filter" value={filter} change={(e) => setFilter(e.target.value)} />
+      <Input placeholder="Class Filter" value={filter} change={(e) => handleFilter(e)} />
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
@@ -59,6 +89,7 @@ function ClassList({ classes }) {
                       img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
                       classNameButton={`${styles.button}`}
                       action={() => {
+                        setSelectedClassToDelete(item);
                         setShowConfirmModal(true);
                       }}
                     />
@@ -68,7 +99,6 @@ function ClassList({ classes }) {
           </tbody>
         </table>
       </div>
-
       {showConfirmModal && (
         <ConfirmModal
           title="Delete class"

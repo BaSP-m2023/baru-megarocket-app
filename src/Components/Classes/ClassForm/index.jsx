@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
-import { addClass } from '../../../Redux/Classes/thunks';
 import { getActivities } from '../../../Redux/Activities/thunks';
 import { getTrainers } from '../../../Redux/Trainers/thunks';
+import { putClass, addClass } from '../../../Redux/Classes/thunks';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 function ClassForm() {
@@ -23,8 +23,10 @@ function ClassForm() {
   });
   const location = useLocation();
   const history = useHistory();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const isCreateRoute = location.pathname.includes('/classes/add');
+  const { data } = useSelector((state) => state.classes);
   const { show, message, state } = useSelector((state) => state.toast);
   const trainers = useSelector((state) => state.trainers.data);
   const activities = useSelector((state) => state.activities.list);
@@ -32,10 +34,41 @@ function ClassForm() {
   useEffect(() => {
     getActivities(dispatch);
     getTrainers(dispatch);
+    !isCreateRoute && getById(id);
   }, [dispatch]);
 
   const createClass = async (newClass) => {
     addClass(dispatch, newClass, history);
+  };
+
+  const getById = (id) => {
+    const dataID = data.find((classID) => classID._id === id);
+    let selectedActivity = '';
+    let selectedTrainer = '';
+    if (dataID) {
+      if (dataID.activity) {
+        selectedActivity = dataID.activity._id;
+      }
+      if (dataID.trainer) {
+        selectedTrainer = dataID.trainer._id;
+      }
+      localStorage.setItem('activity', selectedActivity);
+      localStorage.setItem('trainer', selectedTrainer);
+      localStorage.setItem('day', dataID.day);
+      localStorage.setItem('time', dataID.time);
+      localStorage.setItem('capacity', dataID.capacity);
+    }
+    setClasses({
+      activity: localStorage.getItem('activity'),
+      trainer: localStorage.getItem('trainer'),
+      day: localStorage.getItem('day'),
+      time: localStorage.getItem('time'),
+      capacity: localStorage.getItem('capacity')
+    });
+  };
+
+  const updateClass = () => {
+    putClass(dispatch, classes, id, history);
   };
 
   const onClickCreateClass = () => {
@@ -48,6 +81,24 @@ function ClassForm() {
       })
     ) {
       createClass(classes);
+      localStorage.clear();
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
+
+  const onClickEditClass = () => {
+    if (
+      Object.values(classes).every((prop) => {
+        if (prop === '') {
+          return false;
+        }
+        return true;
+      })
+    ) {
+      updateClass();
+      localStorage.clear();
       setError(false);
     } else {
       setError(true);
@@ -69,12 +120,13 @@ function ClassForm() {
     if (isCreateRoute) {
       onClickCreateClass();
     } else {
-      //onClickEditClass();
+      onClickEditClass();
     }
   };
 
   const cancelForm = (e) => {
     e.preventDefault();
+    localStorage.clear();
     history.goBack();
   };
 
@@ -178,15 +230,13 @@ function ClassForm() {
           <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
       </form>
-
       {show && (
         <ResponseModal
           handler={() => dispatch(handleDisplayToast(false))}
-          state={state}
           message={message}
+          state={state}
         />
       )}
-
       {showConfirmModal && (
         <ConfirmModal
           title={isCreateRoute ? 'Create class' : 'Update class'}
