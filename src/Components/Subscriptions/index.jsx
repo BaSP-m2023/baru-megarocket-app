@@ -11,6 +11,7 @@ import Table from './Table';
 import Button from '../Shared/Button';
 import { Input } from '../Shared/Inputs';
 import ResponseModal from '../Shared/ResponseModal';
+import { reset } from '../../Redux/Subscriptions/actions';
 
 const Subscriptions = () => {
   const { show, message, state } = useSelector((state) => state.toast);
@@ -26,7 +27,11 @@ const Subscriptions = () => {
 
   useEffect(() => {
     filterSubscriptions();
-  }, [searchTerm]);
+  }, [searchTerm, subscriptions]);
+
+  useEffect(() => {
+    dispatch(reset());
+  }, []);
 
   const filterSubscriptions = () => {
     const filtered = subscriptions?.filter((subscription) => {
@@ -50,10 +55,7 @@ const Subscriptions = () => {
         />
       </div>
       <div className={styles.containerContent}>
-        <Table
-          className={subscriptions.table}
-          data={filteredSubscriptions?.length > 0 ? filteredSubscriptions : subscriptions}
-        />
+        <Table className={subscriptions.table} data={filteredSubscriptions} />
       </div>
       <div className={styles.buttonContainer}>
         <Link to="/subscriptions/add">

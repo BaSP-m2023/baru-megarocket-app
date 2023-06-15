@@ -9,8 +9,8 @@ import Loader from '../../Shared/Loader';
 import { Input } from '../../Shared/Inputs';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getByIdSubscriptions,
   addSubscriptions,
+  getSubscriptions,
   putSubscription
 } from '../../../Redux/Subscriptions/thunks';
 import { reset } from '../../../Redux/Subscriptions/actions';
@@ -30,15 +30,25 @@ const Form = () => {
   const success = useSelector((state) => state.subscriptions.success);
   const pending = useSelector((state) => state.subscriptions.isPending);
   const pendingClasses = useSelector((state) => state.classes.isPending);
-  const pendingMembers = useSelector((state) => state.members.is);
+  const pendingMembers = useSelector((state) => state.members.isPending);
   const classes = useSelector((state) => state.classes.data);
   const members = useSelector((state) => state.members.data);
+  const subscriptions = useSelector((state) => state.subscriptions.data);
+  const subscriptionById = subscriptions.find((subscriptionId) => subscriptionId._id === id);
   useEffect(() => {
-    id && getByIdSubscriptions(dispatch, id);
     dispatch(getClasses);
     dispatch(getMembers);
+    dispatch(getSubscriptions);
   }, []);
-
+  useEffect(() => {
+    if (subscriptionById) {
+      setSubscription({
+        classes: subscriptionById.classes || '',
+        members: subscriptionById.members || '',
+        date: subscriptionById.date || ''
+      });
+    }
+  }, [subscriptionById]);
   useEffect(() => {
     if (success) {
       history.push('/subscriptions');
@@ -53,7 +63,6 @@ const Form = () => {
       setShowConfirmModal(false);
     }
   };
-
   const onChangeInput = (e) => {
     setSubscription({
       ...subscription,
@@ -67,16 +76,27 @@ const Form = () => {
   };
   const onConfirm = () => {
     try {
-      const newSubscription = {
+      const newAddSubscription = {
         members: subscription.members,
         classes: subscription.classes,
         date: subscription.date
       };
+      const newEditSubscription = {
+        members:
+          typeof subscription.members === 'string'
+            ? subscription.members
+            : subscription.members._id,
+        classes:
+          typeof subscription.classes === 'string'
+            ? subscription.classes
+            : subscription.classes._id,
+        date: subscription.date
+      };
       if (id) {
-        putSubscription(dispatch, newSubscription, getByIdSubscriptions(dispatch, id));
+        putSubscription(dispatch, newEditSubscription, id);
         setShowConfirmModal(false);
       } else {
-        addSubscriptions(dispatch, newSubscription);
+        addSubscriptions(dispatch, newAddSubscription);
         setShowConfirmModal(false);
       }
     } catch (error) {

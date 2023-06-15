@@ -2,9 +2,6 @@ import {
   getSubscriptionsPending,
   getSubscriptionsSuccess,
   getSubscriptionsError,
-  getByIdSubscriptionsPending,
-  getByIdSubscriptionsSuccess,
-  getByIdSubscriptionsError,
   addSubscriptionsPending,
   addSubscriptionsSuccess,
   addSubscriptionsError,
@@ -29,18 +26,18 @@ export const getSubscriptions = async (dispatch) => {
   }
 };
 
-export const addSubscriptions = async (dispatch, newSubscription) => {
+export const addSubscriptions = async (dispatch, newAddSubscription) => {
   dispatch(addSubscriptionsPending());
   try {
-    const isoDate = newSubscription.date ? new Date(newSubscription.date).toISOString() : '';
+    const isoDate = newAddSubscription.date ? new Date(newAddSubscription.date).toISOString() : '';
     const body = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        classes: newSubscription.classes,
-        members: newSubscription.members,
+        classes: newAddSubscription.classes,
+        members: newAddSubscription.members,
         date: isoDate
       })
     };
@@ -61,24 +58,16 @@ export const addSubscriptions = async (dispatch, newSubscription) => {
     dispatch(handleDisplayToast(true));
   }
 };
-export const getByIdSubscriptions = async (dispatch, id) => {
-  dispatch(getByIdSubscriptionsPending());
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${id}`);
-    const data = await response.json();
-    dispatch(getByIdSubscriptionsSuccess(data));
-  } catch (error) {
-    dispatch(getByIdSubscriptionsError(error.toString()));
-  }
-};
 
-export const putSubscription = async (dispatch, newSubscription, id) => {
+export const putSubscription = async (dispatch, newEditSubscription, id) => {
   dispatch(putSubscriptionPending());
   try {
-    const isoDate = newSubscription.date ? new Date(newSubscription.date).toISOString() : '';
+    const isoDate = newEditSubscription.date
+      ? new Date(newEditSubscription.date).toISOString()
+      : '';
     const body = JSON.stringify({
-      classes: newSubscription.classes,
-      members: newSubscription.members,
+      classes: newEditSubscription.classes,
+      members: newEditSubscription.members,
       date: isoDate
     });
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${id}`, {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './table.module.css';
 import ConfirmModal from '../../Shared/ConfirmModal';
@@ -6,32 +6,15 @@ import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSubscription } from '../../../Redux/Subscriptions/thunks';
-import { reset } from '../../../Redux/Subscriptions/actions';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 import Loader from '../../Shared/Loader';
 
 const Table = ({ data }) => {
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const pending = useSelector((state) => state.subscriptions.isPending);
-  const success = useSelector((state) => state.subscription.success);
   const { show, message, state } = useSelector((state) => state.toast);
-
-  useEffect(() => {
-    if (success) {
-      dispatch(reset());
-    }
-  }, []);
-
-  useEffect(() => {
-    if (showDeleteModal) {
-      setTimeout(() => {
-        setShowDeleteModal(false);
-      }, 3000);
-    }
-  }, [data, showDeleteModal]);
 
   const handleConfirmDelete = (subscriptionId) => {
     setEditingSubscriptionId(subscriptionId);
@@ -45,7 +28,8 @@ const Table = ({ data }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US');
+    date.setDate(date.getDate() + 1);
+    return date.toLocaleDateString();
   };
 
   const closeModal = () => {
@@ -76,7 +60,7 @@ const Table = ({ data }) => {
                 {!subscription.classes ? (
                   <td>{'empty'}</td>
                 ) : (
-                  <td>{`${subscription.classes?.day} ${subscription.classes?.time} ${subscription.classes?.trainers?.name}`}</td>
+                  <td>{`${subscription.classes?.day} ${subscription.classes?.time}`}</td>
                 )}
                 {!subscription.members ? (
                   <td>{'empty'}</td>

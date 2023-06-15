@@ -8,9 +8,6 @@ import {
   GET_SUBSCRIPTIONS_PENDING,
   GET_SUBSCRIPTIONS_SUCCESS,
   GET_SUBSCRIPTIONS_ERROR,
-  GET_BY_ID_SUBSCRIPTIONS_PENDING,
-  GET_BY_ID_SUBSCRIPTIONS_SUCCESS,
-  GET_BY_ID_SUBSCRIPTIONS_ERROR,
   ADD_SUBSCRIPTIONS_PENDING,
   ADD_SUBSCRIPTIONS_SUCCESS,
   ADD_SUBSCRIPTIONS_ERROR,
@@ -24,7 +21,7 @@ const INITIAL_STATE = {
   error: null
 };
 
-const subscriptionReducer = (state = INITIAL_STATE, action) => {
+const subscriptionsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case EDIT_SUBSCRIPTIONS_PENDING:
       return {
@@ -32,14 +29,17 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
         isPending: true,
         error: null
       };
-    case EDIT_SUBSCRIPTIONS_SUCCESS:
+    case EDIT_SUBSCRIPTIONS_SUCCESS: {
       return {
         ...state,
         isPending: false,
-        data: action.payload,
+        data: state.data.map((subscription) =>
+          subscription._id === action.payload._id ? action.payload : subscription
+        ),
         success: true,
         error: false
       };
+    }
     case EDIT_SUBSCRIPTIONS_ERROR:
       return {
         ...state,
@@ -53,14 +53,18 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
         isPending: true,
         error: null
       };
-    case DELETE_SUBSCRIPTIONS_SUCCESS:
+    case DELETE_SUBSCRIPTIONS_SUCCESS: {
+      const newListSubscription = state.data.filter(
+        (subscription) => subscription._id !== action.payload
+      );
       return {
         ...state,
         isPending: false,
-        data: action.payload,
+        data: newListSubscription,
         success: true,
         error: false
       };
+    }
     case DELETE_SUBSCRIPTIONS_ERROR:
       return {
         ...state,
@@ -78,32 +82,10 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPending: false,
-        data: action.payload,
-        success: true
+        data: action.payload
       };
     }
     case GET_SUBSCRIPTIONS_ERROR: {
-      return {
-        ...state,
-        isPending: false,
-        error: action.payload
-      };
-    }
-    case GET_BY_ID_SUBSCRIPTIONS_PENDING: {
-      return {
-        ...state,
-        isPending: true
-      };
-    }
-    case GET_BY_ID_SUBSCRIPTIONS_SUCCESS: {
-      return {
-        ...state,
-        isPending: false,
-        data: action.payload,
-        success: true
-      };
-    }
-    case GET_BY_ID_SUBSCRIPTIONS_ERROR: {
       return {
         ...state,
         isPending: false,
@@ -144,4 +126,4 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default subscriptionReducer;
+export default subscriptionsReducer;
