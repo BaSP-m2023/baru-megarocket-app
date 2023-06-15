@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
+import { getActivities } from '../../../Redux/Activities/thunks';
+import { getTrainers } from '../../../Redux/Trainers/thunks';
+import { putClass, addClass } from '../../../Redux/Classes/thunks';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 function ClassForm() {
-  const [trainers, setTrainers] = useState([]);
-  const [activities, setActivities] = useState([]);
   const [error, setError] = useState(false);
-  const [showModal, setShowModal] = useState({ show: false, msg: '', state: '' });
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [classes, setClasses] = useState({
     activity: '',
@@ -22,110 +24,67 @@ function ClassForm() {
   const location = useLocation();
   const history = useHistory();
   const { id } = useParams();
+  const dispatch = useDispatch();
   const isCreateRoute = location.pathname.includes('/classes/add');
-
-  const applyResponse = (msg, state) => {
-    setShowModal({ show: true, msg: msg, state: state });
-    setTimeout(() => {
-      setShowModal({ show: false, msg: '', state: '' });
-    }, 2000);
-    if (state === 'success') {
-      const objHistory = {
-        ...location,
-        pathname: '/classes',
-        state: { show: true, msg: msg, state: state }
-      };
-      history.replace(objHistory);
-    }
-  };
-
-  const getTrainersActivities = async () => {
-    try {
-      const resTrainers = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`);
-      const dataTrainers = await resTrainers.json();
-      const resActivities = await fetch(`${process.env.REACT_APP_API_URL}/api/activity`);
-      const dataActivities = await resActivities.json();
-      setTrainers(dataTrainers.data);
-      setActivities(dataActivities);
-    } catch (error) {
-      applyResponse({ msg: 'Something went wrong :(', state: 'fail' });
-    }
-  };
-
-  const getById = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`);
-      const data = await response.json();
-      let selectedActivity = '';
-      let selectedTrainer = '';
-      if (data.data.activity) {
-        selectedActivity = data.data.activity._id;
-      }
-      if (data.data.trainer[0]) {
-        selectedTrainer = data.data.trainer[0]._id;
-      }
-      setClasses({
-        activity: selectedActivity,
-        trainer: selectedTrainer,
-        day: data.data.day,
-        time: data.data.time,
-        capacity: data.data.capacity
-      });
-    } catch (error) {
-      applyResponse({ msg: 'Something went wrong :(', state: 'fail' });
-    }
-  };
+  const { data } = useSelector((state) => state.classes);
+  const { show, message, state } = useSelector((state) => state.toast);
+  const trainers = useSelector((state) => state.trainers.data);
+  const activities = useSelector((state) => state.activities.list);
 
   useEffect(() => {
-    getTrainersActivities();
+    getActivities(dispatch);
+    getTrainers(dispatch);
     !isCreateRoute && getById(id);
-  }, []);
+  }, [dispatch]);
 
   const createClass = async (newClass) => {
-    const createdClass = {
-      ...newClass,
-      trainer: [newClass.trainer]
-    };
-    const bodyClasses = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(createdClass)
-    };
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/`, bodyClasses);
-      const data = await response.json();
-      if (data.length !== 0 && !data.error) {
-        applyResponse('Class sucessfully created', 'success');
-      } else {
-        applyResponse(data.message, 'fail');
-      }
-    } catch (error) {
-      applyResponse('Something went wrong :(', 'fail');
-    }
+    addClass(dispatch, newClass, history);
   };
 
-  const updateClass = async () => {
-    try {
-      const editedClass = {
-        ...classes,
-        trainer: [classes.trainer]
-      };
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(editedClass)
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        return applyResponse(data.message, 'fail');
+  const getById = (id) => {
+    const dataID = data.find((classID) => classID._id === id);
+    let selectedActivity = '';
+    let selectedTrainer = '';
+    if (dataID) {
+      if (dataID.activity) {
+        selectedActivity = dataID.activity._id;
       }
-      applyResponse(data.msg, 'success');
-    } catch (error) {
-      applyResponse('Something went wrong :(', 'fail');
+      if (dataID.trainer) {
+        selectedTrainer = dataID.trainer._id;
+      }
+      localStorage.setItem('activity', selectedActivity);
+      localStorage.setItem('trainer', selectedTrainer);
+      localStorage.setItem('day', dataID.day);
+      localStorage.setItem('time', dataID.time);
+      localStorage.setItem('capacity', dataID.capacity);
+    }
+    setClasses({
+      activity: localStorage.getItem('activity'),
+      trainer: localStorage.getItem('trainer'),
+      day: localStorage.getItem('day'),
+      time: localStorage.getItem('time'),
+      capacity: localStorage.getItem('capacity')
+    });
+  };
+
+  const updateClass = () => {
+    putClass(dispatch, classes, id, history);
+  };
+
+  const onClickCreateClass = () => {
+    if (
+      Object.values(classes).every((prop) => {
+        if (prop === '') {
+          return false;
+        }
+        return true;
+      })
+    ) {
+      createClass(classes);
+      localStorage.clear();
+      setError(false);
+    } else {
+      setError(true);
     }
   };
 
@@ -139,22 +98,7 @@ function ClassForm() {
       })
     ) {
       updateClass();
-      setError(false);
-    } else {
-      setError(true);
-    }
-  };
-
-  const onClickCreateClass = () => {
-    if (
-      Object.values(classes).every((prop) => {
-        if (prop === '') {
-          return false;
-        }
-        return true;
-      })
-    ) {
-      createClass(classes);
+      localStorage.clear();
       setError(false);
     } else {
       setError(true);
@@ -182,6 +126,7 @@ function ClassForm() {
 
   const cancelForm = (e) => {
     e.preventDefault();
+    localStorage.clear();
     history.goBack();
   };
 
@@ -213,9 +158,9 @@ function ClassForm() {
               </option>
             ))}
           </select>
-          {error && classes.activity === '' ? (
+          {error && classes.activity === '' && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.inputContainer}>
           <label className={styles.label}>Trainer</label>
@@ -232,9 +177,9 @@ function ClassForm() {
               </option>
             ))}
           </select>
-          {error && classes.trainer === '' ? (
+          {error && classes.trainer === '' && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.inputContainer}>
           <label className={styles.label}>Day</label>
@@ -248,9 +193,7 @@ function ClassForm() {
             <option value="Saturday">Saturday</option>
             <option value="Sunday">Sunday</option>
           </select>
-          {error && classes.day === '' ? (
-            <span className={styles.error}>Field is required</span>
-          ) : null}
+          {error && classes.day === '' && <span className={styles.error}>Field is required</span>}
         </div>
         <div className={styles.inputContainer}>
           <Input
@@ -261,9 +204,9 @@ function ClassForm() {
             name="time"
             change={onChangeInput}
           />
-          {(error && classes.time === '') || (error && classes.time === 0) ? (
+          {((error && classes.time === '') || (error && classes.time === 0)) && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.inputContainer}>
           <Input
@@ -274,9 +217,9 @@ function ClassForm() {
             placeholder="Capacity"
             change={onChangeInput}
           />
-          {error && classes.capacity === '' ? (
+          {error && classes.capacity === '' && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.buttonContainer}>
           <Button
@@ -287,11 +230,11 @@ function ClassForm() {
           <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
       </form>
-      {showModal.show && (
+      {show && (
         <ResponseModal
-          handler={() => setShowModal({ show: false, msg: '', state: '' })}
-          message={showModal.msg}
-          state={showModal.state}
+          handler={() => dispatch(handleDisplayToast(false))}
+          message={message}
+          state={state}
         />
       )}
       {showConfirmModal && (

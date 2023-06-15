@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { deleteTrainer } from '../../../Redux/Trainers/thunks';
 import styles from './trainer.module.css';
 import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
 
-const Trainer = ({ trainer, deleteTrainer }) => {
+const Trainer = ({ trainer }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleDeleteClick = () => {
     setShowDeleteModal(true);
   };
 
-  const handleConfirmDelete = async () => {
-    try {
-      await deleteTrainer(trainer._id);
-      setShowDeleteModal(false);
-    } catch (error) {
-      throw new Error(error);
-    }
+  const handleConfirmDelete = () => {
+    dispatch(deleteTrainer(trainer._id));
+    setShowDeleteModal(false);
   };
 
   return (
@@ -27,7 +27,6 @@ const Trainer = ({ trainer, deleteTrainer }) => {
       <td className={styles.align}>{trainer.dni}</td>
       <td className={styles.align}>{trainer.phone}</td>
       <td className={styles.align}>{trainer.email}</td>
-      <td className={styles.align}>{trainer.salary}</td>
       <td>
         <Link to={`/trainers/edit/${trainer._id}`}>
           <Button img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}>
