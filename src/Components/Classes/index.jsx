@@ -13,9 +13,6 @@ function Projects() {
   const dispatch = useDispatch();
   const { data, isPending } = useSelector((state) => state.classes);
   const { show, message, state } = useSelector((state) => state.toast);
-  const { success } = useSelector((state) => state.classes);
-
-  console.log(success);
 
   useEffect(() => {
     getClasses(dispatch);
