@@ -8,13 +8,16 @@ import { getClasses } from '../../Redux/Classes/thunks';
 import Button from '../Shared/Button';
 import ResponseModal from '../Shared/ResponseModal';
 import { handleDisplayToast } from '../../Redux/Shared/ResponseToast/actions';
+
 function Projects() {
   const dispatch = useDispatch();
   const { data, isPending } = useSelector((state) => state.classes);
   const { show, message, state } = useSelector((state) => state.toast);
+
   useEffect(() => {
     getClasses(dispatch);
   }, [dispatch]);
+
   return (
     <section className={styles.container}>
       <h2>Class List</h2>
