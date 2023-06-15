@@ -27,7 +27,6 @@ const Trainer = ({ trainer }) => {
       <td className={styles.align}>{trainer.dni}</td>
       <td className={styles.align}>{trainer.phone}</td>
       <td className={styles.align}>{trainer.email}</td>
-      <td className={styles.align}>{trainer.salary}</td>
       <td>
         <Link to={`/trainers/edit/${trainer._id}`}>
           <Button img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}>
