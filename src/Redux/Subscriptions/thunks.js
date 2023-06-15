@@ -5,9 +5,9 @@ import {
   addSubscriptionsPending,
   addSubscriptionsSuccess,
   addSubscriptionsError,
-  putSubscriptionSuccess,
-  putSubscriptionPending,
-  putSubscriptionError,
+  editSubscriptionSuccess,
+  editSubscriptionPending,
+  editSubscriptionError,
   deleteSubscriptionSuccess,
   deleteSubscriptionPending,
   deleteSubscriptionError
@@ -22,7 +22,9 @@ export const getSubscriptions = async (dispatch) => {
     const data = await response.json();
     dispatch(getSubscriptionsSuccess(data.data));
   } catch (error) {
-    dispatch(getSubscriptionsError(error.toString()));
+    dispatch(getSubscriptionsError(error.message));
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
   }
 };
 
@@ -59,8 +61,8 @@ export const addSubscriptions = async (dispatch, newAddSubscription) => {
   }
 };
 
-export const putSubscription = async (dispatch, newEditSubscription, id) => {
-  dispatch(putSubscriptionPending());
+export const editSubscription = async (dispatch, newEditSubscription, id) => {
+  dispatch(editSubscriptionPending());
   try {
     const isoDate = newEditSubscription.date
       ? new Date(newEditSubscription.date).toISOString()
@@ -79,7 +81,7 @@ export const putSubscription = async (dispatch, newEditSubscription, id) => {
     });
     const data = await response.json();
     if (response.status === 200) {
-      dispatch(putSubscriptionSuccess(data));
+      dispatch(editSubscriptionSuccess(data));
       dispatch(setContentToast({ message: 'Subscription edited', state: 'success' }));
       dispatch(handleDisplayToast(true));
     }
@@ -90,7 +92,7 @@ export const putSubscription = async (dispatch, newEditSubscription, id) => {
       throw new Error('An error was ocurred');
     }
   } catch (e) {
-    dispatch(putSubscriptionError(e.message));
+    dispatch(editSubscriptionError(e.message));
     dispatch(setContentToast({ message: e.message, state: 'fail' }));
     dispatch(handleDisplayToast(true));
   }

@@ -14,18 +14,18 @@ import {
   RESET_STATE
 } from './constants';
 
-export const putSubscriptionPending = () => {
+export const editSubscriptionPending = () => {
   return {
     type: EDIT_SUBSCRIPTIONS_PENDING
   };
 };
-export const putSubscriptionSuccess = (data) => {
+export const editSubscriptionSuccess = (data) => {
   return {
     type: EDIT_SUBSCRIPTIONS_SUCCESS,
     payload: data
   };
 };
-export const putSubscriptionError = (error) => {
+export const editSubscriptionError = (error) => {
   return {
     type: EDIT_SUBSCRIPTIONS_ERROR,
     payload: error

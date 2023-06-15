@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   addSubscriptions,
   getSubscriptions,
-  putSubscription
+  editSubscription
 } from '../../../Redux/Subscriptions/thunks';
 import { reset } from '../../../Redux/Subscriptions/actions';
 import { getClasses } from '../../../Redux/Classes/thunks';
@@ -93,7 +93,7 @@ const Form = () => {
         date: subscription.date
       };
       if (id) {
-        putSubscription(dispatch, newEditSubscription, id);
+        editSubscription(dispatch, newEditSubscription, id);
         setShowConfirmModal(false);
       } else {
         addSubscriptions(dispatch, newAddSubscription);
