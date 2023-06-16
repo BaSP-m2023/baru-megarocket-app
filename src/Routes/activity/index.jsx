@@ -1,3 +1,3 @@
-import Activties from 'Components/Activities';
+import Activities from 'Components/Activities';
 
-export default Activties;
+export default Activities;

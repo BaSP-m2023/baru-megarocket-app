@@ -1,3 +1,3 @@
-import ActivtiesForm from 'Components/Activities/Form';
+import ActivitiesForm from 'Components/Activities/Form';
 
-export default ActivtiesForm;
+export default ActivitiesForm;
