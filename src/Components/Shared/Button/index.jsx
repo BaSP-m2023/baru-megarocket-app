@@ -5,7 +5,7 @@ function Button({ action, text, img, classNameButton }) {
   return (
     <div>
       {img ? (
-        <img className={styles.icon} src={img} alt={text} />
+        <img className={styles.icon} src={img} alt={text} onClick={action ? action : undefined} />
       ) : (
         <button
           className={`${styles.button} ${styles[classNameButton]}`}
