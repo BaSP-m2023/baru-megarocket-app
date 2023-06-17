@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './input.module.css';
 
-export function Input({ labelText, value, type, name, change, placeholder, blur }) {
+export function Input({ labelText, value, type, name, change, placeholder, blur, disabled }) {
   const checkedValue = type === 'checkbox' ? value || false : undefined;
 
   return (
@@ -18,6 +18,7 @@ export function Input({ labelText, value, type, name, change, placeholder, blur 
         placeholder={placeholder || ''}
         onBlur={blur && blur}
         onChange={change && change}
+        disabled={disabled || false}
       />
     </>
   );

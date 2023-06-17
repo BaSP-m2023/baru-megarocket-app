@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Activities from '../Activities';
 import Admins from '../Admins/index';
 import AdminsForm from '../Admins/Form';
+import AdminProfile from '../Admins/Profile/Profile';
 import ActivitiesForm from '../Activities/Form';
 import Classes from '../Classes';
 import ClassForm from '../Classes/ClassForm';
@@ -30,6 +31,7 @@ function Layout() {
           <Route exact path="/admins" component={Admins} />
           <Route path="/admins/add" component={AdminsForm} />
           <Route path="/admins/edit/:id" component={AdminsForm} />
+          <Route path="/admins/profile" component={AdminProfile} />
           <Route path="/activities" exact component={Activities} />
           <Route path="/activities/add" component={ActivitiesForm} />
           <Route path="/activities/edit/:id" component={ActivitiesForm} />

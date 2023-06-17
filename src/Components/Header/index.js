@@ -46,6 +46,9 @@ function Header() {
           <Link to="/trainers" className={styles.a}>
             Trainers
           </Link>
+          <Link to="/admins/profile" className={styles.a}>
+            Profile
+          </Link>
         </ul>
       </nav>
     </header>
