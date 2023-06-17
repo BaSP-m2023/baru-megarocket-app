@@ -15,7 +15,6 @@ function Login() {
       .then((data) => {
         // eslint-disable-next-line no-unused-vars
         const { password, __v, ...resObj } = data;
-        localStorage.setItem('isLogged', true);
         Object.entries(resObj).every(([key, value]) => {
           localStorage.setItem(key, value);
           return true;

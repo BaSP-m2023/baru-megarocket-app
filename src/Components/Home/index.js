@@ -29,7 +29,6 @@ function Home() {
       return;
     }
   }, []);
-  console.log(login);
 
   const handleLogout = () => {
     keys.forEach((key) => {
@@ -40,7 +39,7 @@ function Home() {
 
   return (
     <>
-      <button onClick={handleLogout}>Logout</button>
+      {login.isLogged && <p onClick={handleLogout}>Logout</p>}
       <section className={styles.container}>
         <h2>Home</h2>
         <div className={styles.buttonContainer}>
