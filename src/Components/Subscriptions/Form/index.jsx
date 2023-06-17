@@ -3,6 +3,7 @@ import styles from './form.module.css';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import ResponseModal from '../../Shared/ResponseModal';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { useForm } from 'react-hook-form';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
 import Loader from '../../Shared/Loader';
@@ -21,10 +22,15 @@ const Form = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [subscription, setSubscription] = useState({
-    classes: '',
-    members: '',
-    date: ''
+  const [subscriptionById, setSubscriptionById] = useState([]);
+
+  const {
+    register,
+    handleSubmit
+    // watch,
+    // formState: { errors }
+  } = useForm({
+    defaultValues: { classes: '', members: '', date: '' }
   });
   const { show, message, state } = useSelector((state) => state.toast);
   const success = useSelector((state) => state.subscriptions.success);
@@ -34,21 +40,17 @@ const Form = () => {
   const classes = useSelector((state) => state.classes.data);
   const members = useSelector((state) => state.members.data);
   const subscriptions = useSelector((state) => state.subscriptions.data);
-  const subscriptionById = subscriptions.find((subscriptionId) => subscriptionId._id === id);
   useEffect(() => {
     dispatch(getClasses);
     dispatch(getMembers);
     dispatch(getSubscriptions);
   }, []);
   useEffect(() => {
-    if (subscriptionById) {
-      setSubscription({
-        classes: subscriptionById.classes || '',
-        members: subscriptionById.members || '',
-        date: subscriptionById.date || ''
-      });
+    if (id) {
+      setSubscriptionById(subscriptions.find((subscriptionId) => subscriptionId._id === id));
     }
-  }, [subscriptionById]);
+  }, [subscriptions]);
+
   useEffect(() => {
     if (success) {
       history.push('/subscriptions');
@@ -63,34 +65,22 @@ const Form = () => {
       setShowConfirmModal(false);
     }
   };
-  const onChangeInput = (e) => {
-    setSubscription({
-      ...subscription,
-      [e.target.name]: e.target.value
-    });
-  };
 
   const onSubmit = (e) => {
     e.preventDefault();
     handleShowConfirmModal();
   };
-  const onConfirm = () => {
+  const onConfirm = (data) => {
     try {
       const newAddSubscription = {
-        members: subscription.members,
-        classes: subscription.classes,
-        date: subscription.date
+        members: data.members,
+        classes: data.classes,
+        date: data.date
       };
       const newEditSubscription = {
-        members:
-          typeof subscription.members === 'string'
-            ? subscription.members
-            : subscription.members._id,
-        classes:
-          typeof subscription.classes === 'string'
-            ? subscription.classes
-            : subscription.classes._id,
-        date: subscription.date
+        members: typeof data.members === 'string' ? data.members : data.members._id,
+        classes: typeof data.classes === 'string' ? data.classes : data.classes._id,
+        date: data.date
       };
       if (id) {
         editSubscription(dispatch, newEditSubscription, id);
@@ -120,15 +110,9 @@ const Form = () => {
           <h2 className={styles.title}>Edit Subscription</h2>
         )}
         <label className={styles.label}>Class</label>
-        <select
-          className={styles.flex}
-          id="classes"
-          name="classes"
-          value={subscription.classes}
-          onChange={onChangeInput}
-        >
+        <select className={styles.flex} id="classes" name="classes" {...register('classes')}>
           {!pendingClasses && id ? (
-            <option>{`${subscription?.classes?.day} ${subscription?.classes?.time}`}</option>
+            <option>{`${subscriptionById?.classes?.day} ${subscriptionById?.classes?.time}`}</option>
           ) : (
             <option>Select a Value</option>
           )}
@@ -141,17 +125,11 @@ const Form = () => {
           })}
         </select>
         <label className={styles.label}>Member</label>
-        <select
-          className={styles.flex}
-          id="members"
-          name="members"
-          value={subscription.members}
-          onChange={onChangeInput}
-        >
+        <select className={styles.flex} id="members" name="members" {...register('members')}>
           {pendingMembers || !id ? (
             <option className={styles.textArea}>Select a Value</option>
           ) : (
-            <option>{`${subscription?.members?.name} ${subscription?.members?.lastName}`}</option>
+            <option>{`${subscriptionById?.members?.name} ${subscriptionById?.members?.lastName}`}</option>
           )}
           {members.map((member) => {
             return (
@@ -161,13 +139,7 @@ const Form = () => {
             );
           })}
         </select>
-        <Input
-          labelText={'Date'}
-          name="date"
-          type="date"
-          value={subscription?.date.slice(0, 10)}
-          change={onChangeInput}
-        />
+        <Input labelText={'Date'} name="date" type="date" register={register} />
         <div className={styles.btnContainer}>
           <Link to="/subscriptions">
             <Button classNameButton={'cancelButton'} text={'Cancel'} />
@@ -180,7 +152,7 @@ const Form = () => {
         <ConfirmModal
           handler={() => handleShowConfirmModal()}
           title={'Are you sure?'}
-          onAction={() => onConfirm()}
+          onAction={handleSubmit(onConfirm)}
           reason="submit"
         >
           Are you sure ?
