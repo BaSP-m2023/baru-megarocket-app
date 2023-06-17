@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styles from './home.module.css';
 import Button from 'Components/Shared/Button';
+import { loginMemberSuccess, logoutMember } from 'Redux/LoginMembers/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Home() {
-  const [login, setLogin] = useState({ isLogged: false, data: null });
+  const dispatch = useDispatch();
+  const { isLogged, data } = useSelector((state) => state.loginMembers);
+  console.log(data);
   const keys = [
     '_id',
     'name',
@@ -20,36 +24,37 @@ function Home() {
   ];
 
   useEffect(() => {
-    if (localStorage.getItem('_id')) {
+    if (localStorage.length !== 0) {
       let user = [];
       keys.forEach((key) => {
         user.push({ key, value: localStorage.getItem(key) });
       });
-      setLogin({ isLogged: true, data: user });
-      return;
+      dispatch(loginMemberSuccess(user));
     }
   }, []);
 
   const handleLogout = () => {
     keys.forEach((key) => {
       localStorage.removeItem(key);
-      setLogin({ isLogged: false, data: null });
     });
+    dispatch(logoutMember());
   };
 
   return (
     <>
-      {login.isLogged && <p onClick={handleLogout}>Logout</p>}
+      {isLogged && <p onClick={handleLogout}>Logout</p>}
       <section className={styles.container}>
         <h2>Home</h2>
-        <div className={styles.buttonContainer}>
-          <Link to="/signup">
-            <Button text="SignUp" />
-          </Link>
-          <Link to="/login">
-            <Button text="Login" />
-          </Link>
-        </div>
+        {!isLogged && (
+          <div className={styles.buttonContainer}>
+            <Link to="/signup">
+              <Button text="SignUp" />
+            </Link>
+            <Link to="/login">
+              <Button text="Login" />
+            </Link>
+          </div>
+        )}
       </section>
     </>
   );

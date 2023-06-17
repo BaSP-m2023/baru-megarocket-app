@@ -1,9 +1,15 @@
-import { LOGIN_MEMBER_PENDING, LOGIN_MEMBER_SUCCESS, LOGIN_MEMBER_ERROR } from './constants';
+import {
+  LOGIN_MEMBER_PENDING,
+  LOGIN_MEMBER_SUCCESS,
+  LOGIN_MEMBER_ERROR,
+  LOGOUT_MEMBER
+} from './constants';
 
 const INITIAL_STATE = {
   data: [],
   isPending: false,
-  error: false
+  error: false,
+  isLogged: false
 };
 
 const loginMembersReducer = (state = INITIAL_STATE, action) => {
@@ -17,6 +23,7 @@ const loginMembersReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPending: false,
+        isLogged: true,
         data: action.payload
       };
     case LOGIN_MEMBER_ERROR:
@@ -24,6 +31,11 @@ const loginMembersReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: false,
         error: true
+      };
+    case LOGOUT_MEMBER:
+      return {
+        ...state,
+        isLogged: false
       };
     default:
       return state;

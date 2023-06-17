@@ -1,4 +1,9 @@
-import { LOGIN_MEMBER_PENDING, LOGIN_MEMBER_SUCCESS, LOGIN_MEMBER_ERROR } from './constants';
+import {
+  LOGIN_MEMBER_PENDING,
+  LOGIN_MEMBER_SUCCESS,
+  LOGIN_MEMBER_ERROR,
+  LOGOUT_MEMBER
+} from './constants';
 
 export const loginMemberPending = () => {
   return {
@@ -17,5 +22,11 @@ export const loginMemberError = (error) => {
   return {
     type: LOGIN_MEMBER_ERROR,
     payload: error
+  };
+};
+
+export const logoutMember = () => {
+  return {
+    type: LOGOUT_MEMBER
   };
 };

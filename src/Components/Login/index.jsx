@@ -9,9 +9,9 @@ function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    await loginMembers(dispatch)
+    loginMembers(dispatch)
       .then((data) => {
         // eslint-disable-next-line no-unused-vars
         const { password, __v, ...resObj } = data;
@@ -29,18 +29,20 @@ function Login() {
   return (
     <section className={styles.formContainer}>
       <form className={styles.form}>
-        <h2>MegaRocket</h2>
-        <h3>Login</h3>
+        <div className={styles.titleContainer}>
+          <h2 className={styles.h2}>MegaRocket</h2>
+          <h3 className={styles.h3}>Login</h3>
+        </div>
         <div className={styles.inputContainer}>
           <Input labelText="Email" type="email" placeholder="Email" name="email" />
         </div>
         <div className={styles.inputContainer}>
           <Input labelText="Password" type="password" name="password" placeholder="Password" />
         </div>
-        <div className={styles.inputContainer}>
+        <div className={styles.buttonContainer}>
           <Button action={handleLogin} text="Login" classNameButton="submitButton" />
           <Link to="/">
-            <Button text="Cancel" classNameButton="cancelButton" />
+            <Button text="Home" classNameButton="cancelButton" />
           </Link>
         </div>
       </form>
