@@ -35,8 +35,8 @@ function ClassList({ classes }) {
 
   const filteredClasses = filteredClassesNotDeleted.filter(
     (filtro) =>
-      (filtro.activity && filtro.activity.name.toLowerCase().includes(filter)) ||
-      (filtro.trainer && filtro.trainer.firstName.toLowerCase().includes(filter))
+      (filtro.activity && filtro?.activity?.name?.toLowerCase().includes(filter)) ||
+      (filtro.trainer && filtro?.trainer?.firstName?.toLowerCase().includes(filter))
   );
 
   const handleSubmit = (e) => {

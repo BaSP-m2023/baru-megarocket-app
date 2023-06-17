@@ -13,25 +13,24 @@ import { Input } from '../Shared/Inputs';
 import ResponseModal from '../Shared/ResponseModal';
 
 const Subscriptions = () => {
+  const { show, message, state } = useSelector((state) => state.toast);
   const [filteredSubscriptions, setFilteredSubscriptions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-
   const dispatch = useDispatch();
-  const subscriptions = useSelector((state) => state.subscriptions.data);
-  const { show, message, state } = useSelector((state) => state.toast);
 
+  const subscriptions = useSelector((state) => state.subscriptions.data);
   useEffect(() => {
     getSubscriptions(dispatch);
   }, [dispatch]);
 
   useEffect(() => {
     filterSubscriptions();
-  }, [searchTerm]);
+  }, [searchTerm, subscriptions]);
 
   const filterSubscriptions = () => {
     const filtered = subscriptions?.filter((subscription) => {
       const fullName =
-        `${subscription.members?.name} ${subscription.members?.lastName}`.toLowerCase();
+        `${subscription?.members?.name} ${subscription?.members?.lastName}`.toLowerCase();
       return fullName.includes(searchTerm.toLowerCase());
     });
     setFilteredSubscriptions(filtered);
@@ -50,10 +49,7 @@ const Subscriptions = () => {
         />
       </div>
       <div className={styles.containerContent}>
-        <Table
-          className={subscriptions.table}
-          data={filteredSubscriptions?.length > 0 ? filteredSubscriptions : subscriptions}
-        />
+        <Table className={subscriptions.table} data={filteredSubscriptions} />
       </div>
       <div className={styles.buttonContainer}>
         <Link to="/subscriptions/add">

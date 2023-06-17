@@ -3,11 +3,15 @@ import styles from './button.module.css';
 
 function Button({ action, text, img, classNameButton, disabled }) {
   return (
-    <div onClick={action ? action : undefined}>
+    <div>
       {img ? (
-        <img className={styles.icon} src={img} alt={text} />
+        <img className={styles.icon} src={img} alt={text} onClick={action ? action : undefined} />
       ) : (
-        <button className={`${styles.button} ${styles[classNameButton]}`} disabled={disabled}>
+        <button
+          className={`${styles.button} ${styles[classNameButton]}`}
+          onClick={action ? action : undefined}
+          disabled={disabled}
+        >
           {text}
         </button>
       )}

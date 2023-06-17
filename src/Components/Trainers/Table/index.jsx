@@ -40,7 +40,6 @@ const Table = ({ data = [] }) => {
             <th className={styles.column}>DNI</th>
             <th className={styles.column}>Phone Number</th>
             <th className={styles.column}>Email</th>
-            <th className={styles.column}>Salary</th>
           </tr>
         </thead>
         <tbody>

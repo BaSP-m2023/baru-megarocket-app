@@ -1,4 +1,4 @@
-.button{
+.button {
   width: 8rem;
   height: 2.8rem;
   margin: 2rem;
@@ -10,17 +10,17 @@
 }
 .addButton {
   color: #373867;
-  background-color: #AACE9B;
+  background-color: #aace9b;
 }
 .submitButton {
   color: #373867;
-  background-color: #AACE9B;
+  background-color: #aace9b;
 }
-.deleteButton{
+.deleteButton {
   color: #fdfdfd;
   background-color: #d10202;
 }
-.cancelButton{
+.cancelButton {
   color: #fdfdfd;
   background-color: #878787;
 }

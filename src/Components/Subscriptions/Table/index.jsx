@@ -1,63 +1,39 @@
-import { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './table.module.css';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteSubscription } from '../../../Redux/Subscriptions/thunks';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 import Loader from '../../Shared/Loader';
-import { useSelector } from 'react-redux';
 
 const Table = ({ data }) => {
-  const [deletedSubscription, setDeletedSubscription] = useState([]);
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const history = useHistory();
+  const dispatch = useDispatch();
   const pending = useSelector((state) => state.subscriptions.isPending);
-
-  useEffect(() => {
-    if (showDeleteModal) {
-      setTimeout(() => {
-        setShowDeleteModal(false);
-      }, 3000);
-    }
-  }, [data, deletedSubscription, showDeleteModal]);
+  const { show, message, state } = useSelector((state) => state.toast);
 
   const handleConfirmDelete = (subscriptionId) => {
     setEditingSubscriptionId(subscriptionId);
     setShowConfirmDeleteModal(true);
-    setShowDeleteModal(false);
   };
 
-  const handleDelete = async (subscriptionId) => {
-    try {
-      await deleteSubscription(subscriptionId);
-      setDeletedSubscription([...deletedSubscription, subscriptionId]);
-      setShowDeleteModal(true);
-      setShowConfirmDeleteModal(false);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
-  const deleteSubscription = async (subscriptionId) => {
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${subscriptionId}`, {
-        method: 'DELETE'
-      });
-    } catch (error) {
-      throw new Error(error);
-    }
+  const handleDelete = (subscriptionId) => {
+    dispatch(deleteSubscription(subscriptionId));
+    setShowConfirmDeleteModal(false);
   };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US');
+    date.setDate(date.getDate() + 1);
+    return date.toLocaleDateString();
   };
 
   const closeModal = () => {
     setShowConfirmDeleteModal(false);
-    setShowDeleteModal(false);
   };
   if (pending) {
     return (
@@ -84,7 +60,7 @@ const Table = ({ data }) => {
                 {!subscription.classes ? (
                   <td>{'empty'}</td>
                 ) : (
-                  <td>{`${subscription.classes?.day} ${subscription.classes?.time} ${subscription.classes?.trainers?.name}`}</td>
+                  <td>{`${subscription.classes?.day} ${subscription.classes?.time}`}</td>
                 )}
                 {!subscription.members ? (
                   <td>{'empty'}</td>
@@ -94,10 +70,7 @@ const Table = ({ data }) => {
                 <td>{formatDate(subscription.date)}</td>
                 <td className={`${styles.itemButton} ${styles.itemButtonEdit}`}>
                   <Link to={`/subscriptions/edit/${subscription._id}`}>
-                    <Button
-                      img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
-                      action={() => history.push(subscription._id)}
-                    />
+                    <Button img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'} />
                   </Link>
                 </td>
                 <td className={`${styles.itemButton} ${styles.itemButtonDelete}`}>
@@ -125,8 +98,12 @@ const Table = ({ data }) => {
           Are you sure to delete subscription?
         </ConfirmModal>
       )}
-      {showDeleteModal && (
-        <ResponseModal handler={closeModal} state="success" message="Subscription Deleted" />
+      {show && (
+        <ResponseModal
+          handler={() => dispatch(handleDisplayToast())}
+          state={state}
+          message={message}
+        />
       )}
     </div>
   );

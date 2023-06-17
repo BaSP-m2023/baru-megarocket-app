@@ -2,14 +2,35 @@ import {
   GET_SUBSCRIPTIONS_PENDING,
   GET_SUBSCRIPTIONS_SUCCESS,
   GET_SUBSCRIPTIONS_ERROR,
-  GET_BY_ID_SUBSCRIPTIONS_PENDING,
-  GET_BY_ID_SUBSCRIPTIONS_SUCCESS,
-  GET_BY_ID_SUBSCRIPTIONS_ERROR,
   ADD_SUBSCRIPTIONS_PENDING,
   ADD_SUBSCRIPTIONS_SUCCESS,
   ADD_SUBSCRIPTIONS_ERROR,
+  EDIT_SUBSCRIPTIONS_PENDING,
+  EDIT_SUBSCRIPTIONS_SUCCESS,
+  EDIT_SUBSCRIPTIONS_ERROR,
+  DELETE_SUBSCRIPTIONS_PENDING,
+  DELETE_SUBSCRIPTIONS_SUCCESS,
+  DELETE_SUBSCRIPTIONS_ERROR,
   RESET_STATE
 } from './constants';
+
+export const editSubscriptionPending = () => {
+  return {
+    type: EDIT_SUBSCRIPTIONS_PENDING
+  };
+};
+export const editSubscriptionSuccess = (data) => {
+  return {
+    type: EDIT_SUBSCRIPTIONS_SUCCESS,
+    payload: data
+  };
+};
+export const editSubscriptionError = (error) => {
+  return {
+    type: EDIT_SUBSCRIPTIONS_ERROR,
+    payload: error
+  };
+};
 
 export const getSubscriptionsPending = () => {
   return {
@@ -30,25 +51,24 @@ export const getSubscriptionsError = (error) => {
     payload: error
   };
 };
-export const getByIdSubscriptionsPending = () => {
+
+export const deleteSubscriptionPending = () => {
   return {
-    type: GET_BY_ID_SUBSCRIPTIONS_PENDING
+    type: DELETE_SUBSCRIPTIONS_PENDING
   };
 };
-
-export const getByIdSubscriptionsSuccess = (data) => {
+export const deleteSubscriptionSuccess = (data) => {
   return {
-    type: GET_BY_ID_SUBSCRIPTIONS_SUCCESS,
+    type: DELETE_SUBSCRIPTIONS_SUCCESS,
     payload: data
   };
 };
-export const getByIdSubscriptionsError = (error) => {
+export const deleteSubscriptionError = (error) => {
   return {
-    type: GET_BY_ID_SUBSCRIPTIONS_ERROR,
+    type: DELETE_SUBSCRIPTIONS_ERROR,
     payload: error
   };
 };
-
 export const addSubscriptionsPending = () => {
   return {
     type: ADD_SUBSCRIPTIONS_PENDING

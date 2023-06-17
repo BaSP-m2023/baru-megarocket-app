@@ -8,7 +8,7 @@ import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import { getActivities } from '../../../Redux/Activities/thunks';
 import { getTrainers } from '../../../Redux/Trainers/thunks';
-import { putClass } from '../../../Redux/Classes/thunks';
+import { putClass, addClass } from '../../../Redux/Classes/thunks';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 function ClassForm() {
@@ -21,12 +21,11 @@ function ClassForm() {
     time: '',
     capacity: ''
   });
-
   const location = useLocation();
   const history = useHistory();
   const { id } = useParams();
-  const isCreateRoute = location.pathname.includes('/classes/add');
   const dispatch = useDispatch();
+  const isCreateRoute = location.pathname.includes('/classes/add');
   const { data } = useSelector((state) => state.classes);
   const { show, message, state } = useSelector((state) => state.toast);
   const trainers = useSelector((state) => state.trainers.data);
@@ -37,6 +36,10 @@ function ClassForm() {
     getTrainers(dispatch);
     !isCreateRoute && getById(id);
   }, [dispatch]);
+
+  const createClass = async (newClass) => {
+    addClass(dispatch, newClass, history);
+  };
 
   const getById = (id) => {
     const dataID = data.find((classID) => classID._id === id);
@@ -66,6 +69,23 @@ function ClassForm() {
 
   const updateClass = () => {
     putClass(dispatch, classes, id, history);
+  };
+
+  const onClickCreateClass = () => {
+    if (
+      Object.values(classes).every((prop) => {
+        if (prop === '') {
+          return false;
+        }
+        return true;
+      })
+    ) {
+      createClass(classes);
+      localStorage.clear();
+      setError(false);
+    } else {
+      setError(true);
+    }
   };
 
   const onClickEditClass = () => {
@@ -98,7 +118,7 @@ function ClassForm() {
   const onSubmit = (e) => {
     e.preventDefault();
     if (isCreateRoute) {
-      // onClickCreateClass();
+      onClickCreateClass();
     } else {
       onClickEditClass();
     }
@@ -138,9 +158,9 @@ function ClassForm() {
               </option>
             ))}
           </select>
-          {error && classes.activity === '' ? (
+          {error && classes.activity === '' && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.inputContainer}>
           <label className={styles.label}>Trainer</label>
@@ -157,9 +177,9 @@ function ClassForm() {
               </option>
             ))}
           </select>
-          {error && classes.trainer === '' ? (
+          {error && classes.trainer === '' && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.inputContainer}>
           <label className={styles.label}>Day</label>
@@ -173,9 +193,7 @@ function ClassForm() {
             <option value="Saturday">Saturday</option>
             <option value="Sunday">Sunday</option>
           </select>
-          {error && classes.day === '' ? (
-            <span className={styles.error}>Field is required</span>
-          ) : null}
+          {error && classes.day === '' && <span className={styles.error}>Field is required</span>}
         </div>
         <div className={styles.inputContainer}>
           <Input
@@ -186,9 +204,9 @@ function ClassForm() {
             name="time"
             change={onChangeInput}
           />
-          {(error && classes.time === '') || (error && classes.time === 0) ? (
+          {((error && classes.time === '') || (error && classes.time === 0)) && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.inputContainer}>
           <Input
@@ -199,9 +217,9 @@ function ClassForm() {
             placeholder="Capacity"
             change={onChangeInput}
           />
-          {error && classes.capacity === '' ? (
+          {error && classes.capacity === '' && (
             <span className={styles.error}>Field is required</span>
-          ) : null}
+          )}
         </div>
         <div className={styles.buttonContainer}>
           <Button
@@ -219,7 +237,6 @@ function ClassForm() {
           state={state}
         />
       )}
-
       {showConfirmModal && (
         <ConfirmModal
           title={isCreateRoute ? 'Create class' : 'Update class'}
