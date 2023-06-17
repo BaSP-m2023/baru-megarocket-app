@@ -7,41 +7,21 @@ import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 import { addMember, updateMember, getMembers } from '../../../Redux/Members/thunks';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from '../../../Redux/Shared/ResponseToast/actions';
 import { useForm } from 'react-hook-form';
 
 const MemberForm = ({ match }) => {
-  const [editMember, setEditMember] = useState({});
+  const [fetchedMember, setFetchedMember] = useState({});
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
   const history = useHistory();
   let memberId = match.params.id;
   const dispatch = useDispatch();
   const redirect = useSelector((state) => state.members.redirect);
-  const members = useSelector((state) => state.members.data);
   const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
     getMembers(dispatch);
-    memberId && getById(memberId);
   }, [dispatch]);
-
-  const getById = (id) => {
-    const foundMember = members.find((member) => member._id === id);
-    console.log('foundmember', foundMember);
-    setEditMember({
-      name: foundMember.name,
-      lastName: foundMember.lastName,
-      dni: foundMember.dni,
-      phone: foundMember.phone,
-      email: foundMember.email,
-      city: foundMember.city,
-      dob: foundMember.dob,
-      zip: foundMember.zip,
-      isActive: foundMember.isActive,
-      membership: foundMember.membership,
-      password: foundMember.password
-    });
-  };
 
   const {
     register,
@@ -49,10 +29,36 @@ const MemberForm = ({ match }) => {
     // watch,
     // formState: { errors }
   } = useForm({
-    defaultValues: editMember
+    defaultValues: fetchedMember
   });
 
-  console.log('socio a editar', editMember);
+  useEffect(() => {
+    const getMember = async (id) => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`);
+        const { data } = await res.json();
+        setFetchedMember({
+          name: data.name,
+          lastName: data.lastName,
+          dni: data.dni,
+          phone: data.phone,
+          email: data.email,
+          city: data.city,
+          dob: data.dob,
+          zip: data.zip,
+          isActive: data.isActive,
+          membership: data.membership,
+          password: data.password
+        });
+      } catch (error) {
+        dispatch(setContentToast({ message: error.message, state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+      }
+    };
+    if (memberId) {
+      getMember(memberId);
+    }
+  }, []);
 
   useEffect(() => {
     if (redirect) {
