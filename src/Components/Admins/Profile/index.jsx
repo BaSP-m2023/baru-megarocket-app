@@ -1,51 +1,68 @@
 import styles from './profile.module.css';
+import Loader from 'Components/Shared/Loader';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
-import { updateMember } from '../../../Redux/Members/thunks';
+import { getAdminsById, editAdmin, deleteAdmin } from '../../../Redux/Admins/thunks';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function AdminProfile() {
-  useEffect(() => {
-    setDisplayUpdate(true);
-  }, []);
   const dispatch = useDispatch();
-
-  const [displayUpdate, setDisplayUpdate] = useState(true);
-  const [modalMessageOpen, setModalMessageOpen] = useState(false);
+  const history = useHistory();
+  const [disableEdit, setDisableEdit] = useState(true);
+  const [action, setAction] = useState('');
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
+  const loading = useSelector((state) => state.admins.isPending);
+  const myadmin = useSelector((state) => state.admins.data);
+  const [admin, setAdmin] = useState(myadmin);
 
-  const [member, setMember] = useState({
-    id: '123',
-    name: 'Manny',
-    lastName: 'Popocho',
-    dni: '41602875',
-    phone: '3413742102',
-    email: 'manny69@gmail.com',
-    city: 'Rosario',
-    dob: '13/12/2013',
-    zip: '2102',
-    membership: 'Black',
-    password: 'cucucacainsahno'
-  });
+  const id = '64879731d981ecbc196e83b5';
+  useEffect(() => {
+    getAdminsById(dispatch, id);
+    setAdmin(myadmin);
+  }, []);
+
+  useEffect(() => {
+    setAdmin({
+      firstName: myadmin.firstName,
+      lastName: myadmin.lastName,
+      dni: myadmin.dni,
+      phone: myadmin.phone,
+      email: myadmin.email,
+      city: myadmin.city,
+      password: myadmin.password
+    });
+  }, [myadmin, loading]);
 
   const onChangeInput = (e) => {
-    setMember({
-      ...member,
-      [e.target.name]: e.target.value,
-      isActive: e.currentTarget.checked
+    setAdmin({
+      ...admin,
+      [e.target.name]: e.target.value
     });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setDisplayUpdate(true);
-    updateMember(dispatch, member.id, member);
-    setModalMessageOpen(false);
+    setDisableEdit(true);
+    editAdmin(dispatch, id, admin);
+    setShowConfirmModal(false);
+  };
+
+  const handleDeleteAdmin = () => {
+    deleteAdmin(dispatch, id);
+    setShowConfirmModal(false);
+    history.push('/');
+  };
+
+  const handleAction = (action) => {
+    setShowConfirmModal(true);
+    setAction(action);
   };
 
   return (
@@ -55,134 +72,120 @@ function AdminProfile() {
           <h2>Profile information</h2>
           <Button
             classNameButton="addButton"
-            action={() => setDisplayUpdate(false)}
-            img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
+            action={() => setDisableEdit(false)}
+            img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
           />
         </div>
-        <form className={styles.body}>
-          <div className={styles.label_container}>
-            <Input
-              labelText="Name"
-              type="text"
-              name="name"
-              value={member.name}
-              change={onChangeInput}
-              disabled={displayUpdate}
-            />
-          </div>
-          <div className={styles.label_container}>
-            <Input
-              labelText="LastName"
-              type="text"
-              name="lastName"
-              value={member.lastName}
-              change={onChangeInput}
-              disabled={displayUpdate}
-            />
-          </div>
-          <div className={styles.label_container}>
-            <Input
-              labelText="DNI"
-              type="number"
-              name="dni"
-              value={member.dni}
-              change={onChangeInput}
-              disabled={displayUpdate}
-            />
-          </div>
-          <div className={styles.label_container}>
-            <Input
-              labelText="Phone"
-              type="text"
-              name="phone"
-              value={member.phone}
-              change={onChangeInput}
-              disabled={displayUpdate}
-            />
-          </div>
-          <div className={styles.label_container}>
-            <Input
-              labelText="Email"
-              type="email"
-              name="email"
-              value={member.email}
-              change={onChangeInput}
-              disabled={displayUpdate}
-            />
-          </div>
-          <div className={styles.label_container}>
-            <Input
-              labelText="City"
-              type="text"
-              name="city"
-              value={member.city}
-              change={onChangeInput}
-              disabled={displayUpdate}
-            />
-          </div>
-          <div className={styles.label_container}>
-            <Input
-              labelText="Date of birth"
-              type="text"
-              name="dob"
-              value={member.dob}
-              change={onChangeInput}
-              disabled={displayUpdate}
-            />
-          </div>
-          <div className={styles.label_container}>
-            <Input
-              labelText="Zip code"
-              type="number"
-              name="zip"
-              value={member.zip}
-              change={onChangeInput}
-              disabled={displayUpdate}
-            />
-          </div>
-          <div className={styles.label_container}>
-            <label className={styles.label}>Membership</label>
-            <select
-              className={styles.input}
-              name="membership"
-              value={member.membership}
-              onChange={onChangeInput}
-              disabled={displayUpdate}
-            >
-              <option value="placeholder">Select category</option>
-              <option value="classic">Classic</option>
-              <option value="only_classes">Only Classes</option>
-              <option value="black">Black</option>
-            </select>
-          </div>
-          <div className={styles.label_container}>
-            <Input
-              labelText="Password"
-              type="password"
-              name="password"
-              value={member.password}
-              change={onChangeInput}
-              disabled={displayUpdate}
-            />
-          </div>
-        </form>
+        {loading && <Loader />}
+        {!loading && (
+          <form className={styles.body}>
+            <div className={styles.label_container}>
+              <Input
+                labelText="First name"
+                type="text"
+                name="firstName"
+                value={admin.firstName}
+                change={onChangeInput}
+                disabled={disableEdit}
+              />
+            </div>
+            <div className={styles.label_container}>
+              <Input
+                labelText="Last name"
+                type="text"
+                name="lastName"
+                value={admin.lastName}
+                change={onChangeInput}
+                disabled={disableEdit}
+              />
+            </div>
+            <div className={styles.label_container}>
+              <Input
+                labelText="DNI"
+                type="number"
+                name="dni"
+                value={admin.dni}
+                change={onChangeInput}
+                disabled={disableEdit}
+              />
+            </div>
+            <div className={styles.label_container}>
+              <Input
+                labelText="Phone"
+                type="text"
+                name="phone"
+                value={admin.phone}
+                change={onChangeInput}
+                disabled={disableEdit}
+              />
+            </div>
+            <div className={styles.label_container}>
+              <Input
+                labelText="Email"
+                type="email"
+                name="email"
+                value={admin.email}
+                change={onChangeInput}
+                disabled={disableEdit}
+              />
+            </div>
+            <div className={styles.label_container}>
+              <Input
+                labelText="City"
+                type="text"
+                name="city"
+                value={admin.city}
+                change={onChangeInput}
+                disabled={disableEdit}
+              />
+            </div>
+            <div className={styles.label_container}>
+              <Input
+                labelText="Password"
+                type="password"
+                name="password"
+                value={admin.password}
+                change={onChangeInput}
+                disabled={disableEdit}
+              />
+            </div>
+          </form>
+        )}
         <div className={styles.confirm_button}>
           <Button
+            classNameButton="deleteButton"
+            action={() => handleAction('delete')}
+            text={'Delete my account'}
+          />
+          <Button
             classNameButton="addButton"
-            action={() => setModalMessageOpen(true)}
-            disabled={displayUpdate}
-            text={'Update'}
+            action={() => handleAction('edit')}
+            disabled={disableEdit}
+            text={'Edit'}
           />
         </div>
       </div>
-      {modalMessageOpen && (
+      {showConfirmModal && (
         <ConfirmModal
-          title={'Update your information'}
-          handler={() => setModalMessageOpen(false)}
-          onAction={onSubmit}
-          reason={'submit'}
+          handler={() => setShowConfirmModal(false)}
+          title={
+            action === 'delete'
+              ? 'Delete your profile'
+              : action === 'edit'
+              ? 'Edit your profile'
+              : ''
+          }
+          reason={action === 'delete' ? 'delete' : action === 'edit' ? 'submit' : ''}
+          onAction={(e) => {
+            if (action === 'delete') {
+              handleDeleteAdmin();
+            } else if (action === 'edit') {
+              onSubmit(e);
+            }
+          }}
         >
-          Are you sure you want to update your information?
+          Are you sure you want to{' '}
+          {action === 'delete' ? 'delete' : action === 'edit' ? 'edit' : ''} your profile?
         </ConfirmModal>
       )}
       {show && (

@@ -11,12 +11,14 @@
   animation-name: modalopen;
   animation-duration: 1.5s;
 }
-
+.header{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 .header h2 {
   margin: 0;
-  align-self: center;
   font-size: 25px;
-  line-height: 2;
 }
 
 .header {
@@ -57,6 +59,8 @@
 }
 
 .confirm_button {
+  display: flex;
+  margin: auto;
   text-align: center;
 }
 
