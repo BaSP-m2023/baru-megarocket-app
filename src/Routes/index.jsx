@@ -9,6 +9,7 @@ import styles from './layout.module.css';
 
 const Admins = lazy(() => import('./admin'));
 const AdminsForm = lazy(() => import('./admin/form'));
+const AdminProfile = lazy(() => import('./admin/profile'));
 const Activities = lazy(() => import('./activity'));
 const ActivitiesForm = lazy(() => import('./activity/form'));
 const Classes = lazy(() => import('./class'));
@@ -33,6 +34,7 @@ const Layout = () => {
             <Route exact path="/admins" component={Admins} />
             <Route path="/admins/add" component={AdminsForm} />
             <Route path="/admins/edit/:id" component={AdminsForm} />
+            <Route path="/admins/profile" component={AdminProfile} />
             <Route path="/activities" exact component={Activities} />
             <Route path="/activities/add" component={ActivitiesForm} />
             <Route path="/activities/edit/:id" component={ActivitiesForm} />

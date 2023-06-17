@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 import { resetState } from '../../../Redux/Admins/actions';
 
-function Form() {
+function AdminsForm() {
   const dispatch = useDispatch();
   const adminToUpdate = useSelector((state) => state.admins.data);
   const params = useParams();
@@ -189,4 +189,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default AdminsForm;
