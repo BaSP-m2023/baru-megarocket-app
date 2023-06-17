@@ -8,7 +8,9 @@ function Button({ action, text, img, classNameButton, disabled }) {
         <img className={styles.icon} src={img} alt={text} onClick={action ? action : undefined} />
       ) : (
         <button
-          className={`${styles.button} ${styles[classNameButton]}`}
+          className={`${styles.button} ${styles[classNameButton]} ${
+            disabled ? styles.cancelButton : ''
+          }`}
           onClick={action ? action : undefined}
           disabled={disabled}
         >
