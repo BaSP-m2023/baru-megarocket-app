@@ -47,14 +47,16 @@ const Admins = () => {
   };
 
   const filterAdmin = (value) => {
-    const adminsToShow = admins.filter(
-      (admin) =>
-        admin.firstName.toLowerCase().includes(value) ||
-        admin.lastName.toLowerCase().includes(value)
-    );
-    setFilter(adminsToShow);
+    if (admins && admins.length > 0) {
+      const adminsToShow = admins.filter(
+        (admin) =>
+          admin.firstName.toLowerCase().includes(value) ||
+          admin.lastName.toLowerCase().includes(value)
+      );
+      setFilter(adminsToShow);
+    }
+    return;
   };
-
   return (
     <>
       <section className={styles.container}>
@@ -62,15 +64,17 @@ const Admins = () => {
         <div className={styles.searchContainer}>
           {filter.length === 0 && <p className={styles.notFound}>Admin not found!</p>}
           <Input
-            labelText="search admin"
+            labelText="Search admin"
             name="search"
             type="text"
-            placeholder="search admin by name/lastname"
+            placeholder="Search admin by name or last name"
             change={(e) => filterAdmin(e.target.value.toLowerCase())}
           />
         </div>
         {pending && <Loader />}
-        {!pending && <Table filter={filter} handleDeleteButton={handleDeleteButton} />}
+        {!pending && admins && admins.length > 0 && (
+          <Table filter={filter || []} handleDeleteButton={handleDeleteButton} />
+        )}
         <Link to="/admins/add">
           <Button text="+ Add new" classNameButton="addButton"></Button>
         </Link>
