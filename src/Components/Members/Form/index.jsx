@@ -5,9 +5,10 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
-import { addMember, getMembers, updateMember } from '../../../Redux/Members/thunks';
+import { addMember, updateMember, getMembers } from '../../../Redux/Members/thunks';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleDisplayToast, setContentToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { useForm } from 'react-hook-form';
 
 const MemberForm = ({ match }) => {
   const [editMember, setEditMember] = useState({});
@@ -16,68 +17,42 @@ const MemberForm = ({ match }) => {
   let memberId = match.params.id;
   const dispatch = useDispatch();
   const redirect = useSelector((state) => state.members.redirect);
+  const members = useSelector((state) => state.members.data);
   const { show, message, state } = useSelector((state) => state.toast);
-
-  const [member, setMember] = useState({
-    name: '',
-    lastName: '',
-    dni: '',
-    phone: '',
-    email: '',
-    city: '',
-    dob: '',
-    zip: '',
-    isActive: false,
-    membership: '',
-    password: ''
-  });
-
-  useEffect(() => {
-    const getMember = async (id) => {
-      try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`);
-        const { data } = await res.json();
-        setMember({
-          name: data.name,
-          lastName: data.lastName,
-          dni: data.dni,
-          phone: data.phone,
-          email: data.email,
-          city: data.city,
-          dob: data.dob,
-          zip: data.zip,
-          isActive: data.isActive,
-          membership: data.membership,
-          password: data.password
-        });
-      } catch (error) {
-        dispatch(setContentToast({ message: error.message, state: 'fail' }));
-        dispatch(handleDisplayToast(true));
-      }
-    };
-    if (memberId) {
-      getMember(memberId);
-      setEditMember(member);
-      let newEdit = {
-        name: editMember.name,
-        lastName: editMember.lastName,
-        dni: editMember.dni,
-        phone: editMember.phone,
-        email: editMember.email,
-        city: editMember.city,
-        dob: editMember.dob,
-        zip: editMember.zip,
-        isActive: editMember.isActive,
-        membership: editMember.membership,
-        password: editMember.password
-      };
-      setMember(newEdit);
-    }
-  }, []);
 
   useEffect(() => {
     getMembers(dispatch);
-  }, []);
+    memberId && getById(memberId);
+  }, [dispatch]);
+
+  const getById = (id) => {
+    const foundMember = members.find((member) => member._id === id);
+    console.log('foundmember', foundMember);
+    setEditMember({
+      name: foundMember.name,
+      lastName: foundMember.lastName,
+      dni: foundMember.dni,
+      phone: foundMember.phone,
+      email: foundMember.email,
+      city: foundMember.city,
+      dob: foundMember.dob,
+      zip: foundMember.zip,
+      isActive: foundMember.isActive,
+      membership: foundMember.membership,
+      password: foundMember.password
+    });
+  };
+
+  const {
+    register,
+    handleSubmit
+    // watch,
+    // formState: { errors }
+  } = useForm({
+    defaultValues: editMember
+  });
+
+  console.log('socio a editar', editMember);
 
   useEffect(() => {
     if (redirect) {
@@ -85,21 +60,13 @@ const MemberForm = ({ match }) => {
     }
   }, [redirect]);
 
-  const onChangeInput = (e) => {
-    setMember({
-      ...member,
-      [e.target.name]: e.target.value,
-      isActive: e.currentTarget.checked
-    });
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
+    console.log(data);
     if (memberId) {
-      updateMember(dispatch, memberId, member);
+      updateMember(dispatch, memberId, data);
       setModalMessageOpen(false);
     } else {
-      addMember(dispatch, member);
+      addMember(dispatch, data);
       setModalMessageOpen(false);
     }
   };
@@ -115,85 +82,32 @@ const MemberForm = ({ match }) => {
         </div>
         <form className={styles.body}>
           <div className={styles.label_container}>
-            <Input
-              labelText="Name"
-              type="text"
-              name="name"
-              value={member.name}
-              change={onChangeInput}
-            />
+            <Input labelText="Name" type="text" name="name" register={register} />
           </div>
           <div className={styles.label_container}>
-            <Input
-              labelText="LastName"
-              type="text"
-              name="lastName"
-              value={member.lastName}
-              change={onChangeInput}
-            />
+            <Input labelText="Last Name" type="text" name="lastName" register={register} />
           </div>
           <div className={styles.label_container}>
-            <Input
-              labelText="DNI"
-              type="number"
-              name="dni"
-              value={member.dni}
-              change={onChangeInput}
-            />
+            <Input labelText="DNI" type="number" name="dni" register={register} />
           </div>
           <div className={styles.label_container}>
-            <Input
-              labelText="Phone"
-              type="text"
-              name="phone"
-              value={member.phone}
-              change={onChangeInput}
-            />
+            <Input labelText="Phone" type="text" name="phone" register={register} />
           </div>
           <div className={styles.label_container}>
-            <Input
-              labelText="Email"
-              type="email"
-              name="email"
-              value={member.email}
-              change={onChangeInput}
-            />
+            <Input labelText="Email" type="email" name="email" register={register} />
           </div>
           <div className={styles.label_container}>
-            <Input
-              labelText="City"
-              type="text"
-              name="city"
-              value={member.city}
-              change={onChangeInput}
-            />
+            <Input labelText="City" type="text" name="city" register={register} />
           </div>
           <div className={styles.label_container}>
-            <Input
-              labelText="Date of birth"
-              type="text"
-              name="dob"
-              value={member.dob}
-              change={onChangeInput}
-            />
+            <Input labelText="Date of birth" type="text" name="dob" register={register} />
           </div>
           <div className={styles.label_container}>
-            <Input
-              labelText="Zip code"
-              type="number"
-              name="zip"
-              value={member.zip}
-              change={onChangeInput}
-            />
+            <Input labelText="Zip code" type="number" name="zip" register={register} />
           </div>
           <div className={styles.label_container}>
             <label className={styles.label}>Membership</label>
-            <select
-              className={styles.input}
-              name="membership"
-              value={member.membership}
-              onChange={onChangeInput}
-            >
+            <select className={styles.input} name="membership" {...register('membership')}>
               <option value="placeholder">Select category</option>
               <option value="classic">Classic</option>
               <option value="only_classes">Only Classes</option>
@@ -201,21 +115,14 @@ const MemberForm = ({ match }) => {
             </select>
           </div>
           <div className={styles.label_container}>
-            <Input
-              labelText="Password"
-              type="password"
-              name="password"
-              value={member.password}
-              change={onChangeInput}
-            />
+            <Input labelText="Password" type="password" name="password" register={register} />
           </div>
           <div className={`${styles.label_container} ${styles.checkbox}`}>
             <Input
               labelText="Is member active?"
               type="checkbox"
               name="isActive"
-              value={member.isActive}
-              change={onChangeInput}
+              register={register}
             />
           </div>
         </form>
@@ -231,12 +138,12 @@ const MemberForm = ({ match }) => {
         <ConfirmModal
           title={memberId ? 'Edit member' : 'Add Member'}
           handler={() => setModalMessageOpen(false)}
-          onAction={onSubmit}
+          onAction={handleSubmit(onSubmit)}
           reason={'submit'}
         >
           {memberId
-            ? `Are you sure you wanna edit ${member.name}?`
-            : `Are you sure you wanna add ${member.name} to the members list?`}
+            ? `Are you sure you wanna change this data?`
+            : `Are you sure you wanna add to the members list?`}
         </ConfirmModal>
       )}
       {show && (
