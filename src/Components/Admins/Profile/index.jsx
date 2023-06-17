@@ -1,11 +1,11 @@
-import styles from './profile.module.css';
+import styles from 'Components/Admins/Profile/profile.module.css';
 import Loader from 'Components/Shared/Loader';
-import Button from '../../Shared/Button';
-import { Input } from '../../Shared/Inputs';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import ResponseModal from '../../Shared/ResponseModal';
-import { getAdminsById, editAdmin, deleteAdmin } from '../../../Redux/Admins/thunks';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import Button from 'Components/Shared/Button';
+import { Input } from 'Components/Shared/Inputs';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import { getAdminsById, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

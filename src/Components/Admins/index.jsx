@@ -1,15 +1,15 @@
-import styles from './admins.module.css';
+import styles from 'Components/Admins/admins.module.css';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdmins, deleteAdmin } from '../../Redux/Admins/thunks';
-import Loader from '../Shared/Loader';
+import { getAdmins, deleteAdmin } from 'Redux/Admins/thunks';
+import Loader from 'Components/Shared/Loader';
 import { Link } from 'react-router-dom';
 import Table from './Table';
-import Button from '../Shared/Button';
-import { Input } from '../Shared/Inputs';
-import ConfirmModal from '../Shared/ConfirmModal';
-import ResponseModal from '../Shared/ResponseModal';
-import { handleDisplayToast } from '../../Redux/Shared/ResponseToast/actions';
+import Button from 'Components/Shared/Button';
+import { Input } from 'Components/Shared/Inputs';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 const Admins = () => {
   const [filter, setFilter] = useState([]);
