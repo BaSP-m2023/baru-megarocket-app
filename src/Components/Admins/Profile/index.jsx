@@ -70,11 +70,19 @@ function AdminProfile() {
       <div className={styles.content}>
         <div className={styles.header}>
           <h2>Profile information</h2>
-          <Button
-            classNameButton="addButton"
-            action={() => setDisableEdit(false)}
-            img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
-          />
+          {disableEdit && (
+            <Button
+              classNameButton="addButton"
+              action={() => setDisableEdit(false)}
+              img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
+            />
+          )}
+          {!disableEdit && (
+            <button className={styles.close} onClick={() => setDisableEdit(true)}>
+              {' '}
+              X{' '}
+            </button>
+          )}
         </div>
         {loading && <Loader />}
         {!loading && (
