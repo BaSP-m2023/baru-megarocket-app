@@ -1,23 +1,27 @@
-//import { joiResolver } from '@hookform/resolvers/joi';
-//import { subscriptionSchema } from 'Validations/subscription';
+import { joiResolver } from '@hookform/resolvers/joi';
 import React, { useState, useEffect } from 'react';
-import { resetState } from '../../../Redux/Subscriptions/actions';
-import styles from './form.module.css';
-import { Link, useParams, useHistory } from 'react-router-dom';
-import ResponseModal from '../../Shared/ResponseModal';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
-import { useForm } from 'react-hook-form';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import Button from '../../Shared/Button';
-import Loader from '../../Shared/Loader';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+
+import { resetState } from '../../../Redux/Subscriptions/actions';
+import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { getClasses } from '../../../Redux/Classes/thunks';
+import { getMembers } from '../../../Redux/Members/thunks';
 import {
   addSubscriptions,
   getSubscriptions,
   editSubscription
 } from '../../../Redux/Subscriptions/thunks';
-import { getClasses } from '../../../Redux/Classes/thunks';
-import { getMembers } from '../../../Redux/Members/thunks';
+
+// import { subscriptionSchema } from 'Validations/subscription';
+import ResponseModal from '../../Shared/ResponseModal';
+import ConfirmModal from '../../Shared/ConfirmModal';
+import Button from '../../Shared/Button';
+import Loader from '../../Shared/Loader';
+import styles from './form.module.css';
+import subscriptionSchema from 'Validations/subscription';
+
 const Form = () => {
   const { id } = useParams();
   useEffect(() => {
@@ -29,41 +33,42 @@ const Form = () => {
   const dispatch = useDispatch();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const subscriptions = useSelector((state) => state.subscriptions.data);
-  const subscription = subscriptions.find((subscriptionId) => subscriptionId._id === id);
-
+  const classes = useSelector((state) => state.classes.data);
+  const members = useSelector((state) => state.members.data);
+  const success = useSelector((state) => state.subscriptions.success);
+  const pending = useSelector((state) => state.subscriptions.isPending);
+  const { show, message, state } = useSelector((state) => state.toast);
+  const subscription = subscriptions.find((subscription) => subscription._id === id || '');
   const {
     register,
     handleSubmit,
     setValue,
     getValues,
-    reset
-    // formState: { errors }
+    reset,
+    formState: { errors }
   } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(subscriptionSchema),
     defaultValues: {
       classes: subscription ? subscription.classes.day : '',
       members: subscription ? subscription.members.name : '',
       date: ''
     }
   });
-  const { show, message, state } = useSelector((state) => state.toast);
-  const success = useSelector((state) => state.subscriptions.success);
-  const pending = useSelector((state) => state.subscriptions.isPending);
-  // const pendingClasses = useSelector((state) => state.classes.isPending);
-  // const pendingMembers = useSelector((state) => state.members.isPending);
-  const classes = useSelector((state) => state.classes.data);
-  const members = useSelector((state) => state.members.data);
+  const filteredClasses = classes.filter(
+    (item) => !item.deleted && item.activity !== null && item.members !== null
+  );
   useEffect(() => {
     if (id) {
       subscriptionById(id);
     }
   }, [subscriptions, id, reset, getValues]);
-  const subscriptionById = async (id) => {
+  const subscriptionById = async () => {
     try {
-      const subscription = subscriptions.find((subscriptionId) => subscriptionId._id === id);
       setValue('classes', subscription.classes);
       setValue('members', subscription.members);
+      console.log(subscription);
       setValue('date', subscription.date);
-      return subscription;
     } catch (error) {
       console.log(error);
     }
@@ -107,7 +112,8 @@ const Form = () => {
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     handleShowConfirmModal();
   };
 
@@ -120,7 +126,7 @@ const Form = () => {
   }
   return (
     <>
-      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+      <form className={styles.container} onSubmit={onSubmit}>
         {!id ? (
           <h2 className={styles.title}>Add Subscription</h2>
         ) : (
@@ -129,27 +135,28 @@ const Form = () => {
         <label className={styles.label}>Class</label>
         <select className={styles.flex} id="classes" name="classes" {...register('classes')}>
           {getValues('classes') === '' ? (
-            <option value={''} disabled className={styles.textArea}>
+            <option value={''} className={styles.textArea}>
               Select a Value
             </option>
           ) : (
-            <option value={getValues('members')}>{`${getValues('classes.day')} ${getValues(
+            <option value={getValues('classes')}>{` ${getValues('classes.day')} ${getValues(
               'classes.time'
             )} `}</option>
           )}
 
-          {classes.map((item) => {
+          {filteredClasses.map((item) => {
             return (
               <option key={item._id} value={item._id}>
-                {`${item.day} ${item.time}`}
+                {`${item.activity.name}: ${item.day} ${item.time}`}
               </option>
             );
           })}
         </select>
+        {errors.classes && <p className={styles.error}>{errors.classes?.message}</p>}
         <label className={styles.label}>Member</label>
         <select className={styles.flex} id="members" name="members" {...register('members')}>
           {getValues('members') === '' ? (
-            <option value={''} disabled className={styles.textArea}>
+            <option value={''} className={styles.textArea}>
               Select a Value
             </option>
           ) : (
@@ -165,6 +172,8 @@ const Form = () => {
             );
           })}
         </select>
+        {errors.members && <p className={styles.error}>{errors.members?.message}</p>}
+
         <div className={styles.btnContainer}>
           <Link to="/subscriptions">
             <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
