@@ -3,33 +3,41 @@
   border-collapse: collapse;
 }
 
-.tr {
-  border-bottom: 1px solid #000000;
+.thead {
+  background-color: #f2f2f2;
 }
 
 .th {
   width: 25%;
-  padding: 13px 22px;
+  padding: 13px;
   vertical-align: middle;
   color: #373867;
-  font-size: 14px;
-  font-weight: 400;
-  border-bottom: 1px solid #000000;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 
 .td {
-  padding: 13px 0;
+  padding: 13px 22px;
   vertical-align: middle;
   text-align: center;
-  font-size: 10px;
+  font-size: 0.8rem;
   font-weight: 600;
+}
+
+.tr:nth-child(2n) {
+  background-color: #f2f2f2;
 }
 
 .button {
   width: 1rem;
-  padding: 13px 0;
+  padding: 8px 12px;
   vertical-align: middle;
   text-align: center;
-  cursor: pointer;
+}
+
+.buttonContainer button {
+  width: 100%;
+  margin: 0;
+  font-size: 0.9rem;
 }
