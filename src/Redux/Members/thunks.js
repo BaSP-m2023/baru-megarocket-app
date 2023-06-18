@@ -64,6 +64,7 @@ export const updateMember = async (dispatch, id, updatedMember) => {
       body: JSON.stringify(updatedMember)
     });
     const { message, data, error } = await response.json();
+    console.log(message);
     if (!error) {
       dispatch(editMemberSuccess(data));
       dispatch(setContentToast({ message, state: 'success' }));
