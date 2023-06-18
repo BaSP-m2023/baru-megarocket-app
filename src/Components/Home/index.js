@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 function Home() {
   const dispatch = useDispatch();
   const { isLogged, data } = useSelector((state) => state.loginMembers);
-  console.log(data);
   const keys = [
     '_id',
     'name',
@@ -42,7 +41,25 @@ function Home() {
 
   return (
     <>
-      {isLogged && <p onClick={handleLogout}>Logout</p>}
+      {isLogged && (
+        <div className={styles.loggedContainer}>
+          <p className={styles.logout} onClick={handleLogout}>
+            Logout
+          </p>
+          {data.length && (
+            <Link className={styles.profileLink} to={`/user/member/profile/${data[0].value}`}>
+              <div className={styles.profileContainer}>
+                <img
+                  className={styles.profileImg}
+                  src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
+                  alt="profile image"
+                />
+                {data[1].value} {data[2].value}
+              </div>
+            </Link>
+          )}
+        </div>
+      )}
       <section className={styles.container}>
         <h2>Home</h2>
         {!isLogged && (
