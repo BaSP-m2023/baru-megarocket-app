@@ -2,6 +2,8 @@ import { getActivities } from 'Redux/Activities/thunks';
 import { getSubscriptions } from 'Redux/Subscriptions/thunks';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Button from '../../../Shared/Button';
+import styles from './subscriptionMember.module.css';
 
 const SubscriptionsMember = () => {
   const subscriptions = useSelector((state) => state.subscriptions.data);
@@ -43,15 +45,36 @@ const SubscriptionsMember = () => {
   };
 
   return (
-    <div>
-      {subscription?.map((item) => (
-        <div key={item.subId}>
-          <h4>{item.activityName}</h4>
-          <span>{item.time}</span>
-          <span>{item.day}</span>
-        </div>
-      ))}
-    </div>
+    <>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th className={styles.th}>Activity</th>
+            <th className={styles.th}>Day</th>
+            <th className={styles.th}>Time</th>
+            <th className={styles.th}></th>
+          </tr>
+        </thead>
+        <tbody>
+          {subscription?.map((item) => {
+            return (
+              <tr className={styles.tr} key={item.subId}>
+                <td className={styles.td}>{item.activityName}</td>
+                <td className={styles.td}>{item.day}</td>
+                <td className={styles.td}>{item.time}</td>
+                <td className={styles.button}>
+                  <Button
+                    text="Delete Button"
+                    img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
+                    classNameButton="icon"
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 };
 
