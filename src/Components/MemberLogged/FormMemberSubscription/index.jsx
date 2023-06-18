@@ -5,6 +5,7 @@ import { addSubscriptions } from 'Redux/Subscriptions/thunks';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import styles from './formMemberSubscription.module.css';
 
 const FormMemberSubscription = () => {
   const { id } = useParams();
@@ -68,35 +69,41 @@ const FormMemberSubscription = () => {
 
   return (
     <>
-      <h3>
-        {filteredClasses.length !== 0
-          ? filteredClasses[0].activity.name
-          : 'Esta actividad no tiene clases'}
-      </h3>
-      <form onSubmit={onSubmit}>
-        <select name="classes" onChange={onChangeSelect}>
-          <option value="">Select a class</option>
-          {filteredClasses.map((item) => (
-            <option key={item._id} value={item._id}>
-              {item.day}/ {item.time}
-            </option>
-          ))}
-        </select>
-        <Link to="/user/members/subscribe-class">
-          <Button classNameButton={'cancelButton'} text={'Cancel'} />
-        </Link>
-        <Button text={'Submit'} classNameButton={'submitButton'} />
-      </form>
-      {showConfirmModal && (
-        <ConfirmModal
-          handler={() => handleShowConfirmModal()}
-          title={'Are you sure?'}
-          onAction={() => onConfirm()}
-          reason="submit"
-        >
-          Are you sure ?
-        </ConfirmModal>
-      )}
+      <div className={styles.formContainer}>
+        <h2>
+          {filteredClasses.length !== 0
+            ? filteredClasses[0].activity.name
+            : 'Esta actividad no tiene clases'}
+        </h2>
+        <form onSubmit={onSubmit}>
+          <select name="classes" onChange={onChangeSelect}>
+            <option value="">Select a class</option>
+            {filteredClasses.map((item) => (
+              <option key={item._id} value={item._id}>
+                {item.day}/ {item.time}
+              </option>
+            ))}
+          </select>
+          <div className={styles.buttonContainer}>
+            <Link to="/user/members/subscribe-class">
+              <Button classNameButton={'cancelButton'} text={'Cancel'} />
+            </Link>
+            {filteredClasses.length !== 0 && (
+              <Button text={'Submit'} classNameButton={'submitButton'} />
+            )}
+          </div>
+        </form>
+        {showConfirmModal && (
+          <ConfirmModal
+            handler={() => handleShowConfirmModal()}
+            title={'Are you sure?'}
+            onAction={() => onConfirm()}
+            reason="submit"
+          >
+            Are you sure ?
+          </ConfirmModal>
+        )}
+      </div>
     </>
   );
 };
