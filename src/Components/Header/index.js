@@ -1,7 +1,47 @@
 import styles from './header.module.css';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutMember, loginMemberSuccess } from 'Redux/LoginMembers/actions';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 function Header() {
+  const dispatch = useDispatch();
+  const { isLogged } = useSelector((state) => state.loginMembers);
+  const { show, message, state } = useSelector((state) => state.toast);
+  const keys = [
+    '_id',
+    'name',
+    'lastName',
+    'dni',
+    'phone',
+    'email',
+    'city',
+    'dob',
+    'zip',
+    'isActive',
+    'membership'
+  ];
+
+  useEffect(() => {
+    if (localStorage.getItem('_id')) {
+      let user = [];
+      keys.forEach((key) => {
+        user.push({ key, value: localStorage.getItem(key) });
+      });
+      dispatch(loginMemberSuccess(user));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    keys.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+    dispatch(handleDisplayToast(true));
+    dispatch(setContentToast({ message: 'See you later', state: 'success' }));
+    dispatch(logoutMember());
+  };
   return (
     <header>
       <div className={styles.container}>
@@ -19,6 +59,7 @@ function Header() {
             className={styles.logo2}
           />
         </div>
+        {isLogged && <p onClick={handleLogout}>Logout</p>}
       </div>
       <nav className={styles.navbar}>
         <ul className={styles.rutes}>
@@ -48,6 +89,13 @@ function Header() {
           </Link>
         </ul>
       </nav>
+      {show && (
+        <ResponseModal
+          handler={() => dispatch(handleDisplayToast(false))}
+          state={state}
+          message={message}
+        />
+      )}
     </header>
   );
 }
