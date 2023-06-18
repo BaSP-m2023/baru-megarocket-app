@@ -27,9 +27,10 @@ function Header() {
 
   useEffect(() => {
     if (localStorage.getItem('_id')) {
-      let user = [];
+      let user = {};
       keys.forEach((key) => {
-        user.push({ key, value: localStorage.getItem(key) });
+        const value = localStorage.getItem(key);
+        user[key] = value;
       });
       dispatch(loginMemberSuccess(user));
     }
