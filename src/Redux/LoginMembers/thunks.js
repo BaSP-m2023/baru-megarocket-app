@@ -1,6 +1,5 @@
 import { loginMemberPending, loginMemberSuccess, loginMemberError } from './actions';
-
-//import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
 
 export const loginMembers = async (dispatch) => {
   dispatch(loginMemberPending());
@@ -10,6 +9,8 @@ export const loginMembers = async (dispatch) => {
     const { data, message, error } = await response.json();
     if (!error) {
       dispatch(loginMemberSuccess(data));
+      dispatch(handleDisplayToast(true));
+      dispatch(setContentToast({ message: 'Successful login', state: 'success' }));
       return data;
     }
     if (error) {

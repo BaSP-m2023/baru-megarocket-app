@@ -4,6 +4,7 @@ import Button from 'Components/Shared/Button';
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useDispatch } from 'react-redux';
 import { loginMembers } from 'Redux/LoginMembers/thunks';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 function Login() {
   const history = useHistory();
@@ -22,7 +23,8 @@ function Login() {
         history.push('/');
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(handleDisplayToast(true));
+        dispatch(setContentToast({ message: error.message, state: 'fail' }));
       });
   };
 
