@@ -5,13 +5,14 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import Button from '../../Shared/Button';
 import { Input } from '../../Shared/Inputs';
-import { addMember, updateMember, getMembers } from '../../../Redux/Members/thunks';
+import { addMember, updateMember } from '../../../Redux/Members/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleDisplayToast, setContentToast } from '../../../Redux/Shared/ResponseToast/actions';
 import { useForm } from 'react-hook-form';
+import memberSchema from 'Validations/member';
+import { joiResolver } from '@hookform/resolvers/joi';
 
 const MemberForm = ({ match }) => {
-  const [fetchedMember, setFetchedMember] = useState({});
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
   const history = useHistory();
   let memberId = match.params.id;
@@ -19,17 +20,28 @@ const MemberForm = ({ match }) => {
   const redirect = useSelector((state) => state.members.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
 
-  useEffect(() => {
-    getMembers(dispatch);
-  }, [dispatch]);
-
   const {
     register,
-    handleSubmit
-    // watch,
-    // formState: { errors }
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors }
   } = useForm({
-    defaultValues: fetchedMember
+    mode: 'onChange',
+    resolver: joiResolver(memberSchema),
+    defaultValues: {
+      name: '',
+      lastName: '',
+      dni: '',
+      phone: '',
+      email: '',
+      city: '',
+      dob: '',
+      zip: '',
+      isActive: '',
+      membership: 'default',
+      password: ''
+    }
   });
 
   useEffect(() => {
@@ -37,19 +49,17 @@ const MemberForm = ({ match }) => {
       try {
         const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`);
         const { data } = await res.json();
-        setFetchedMember({
-          name: data.name,
-          lastName: data.lastName,
-          dni: data.dni,
-          phone: data.phone,
-          email: data.email,
-          city: data.city,
-          dob: data.dob,
-          zip: data.zip,
-          isActive: data.isActive,
-          membership: data.membership,
-          password: data.password
-        });
+        setValue('name', data.name);
+        setValue('lastName', data.lastName);
+        setValue('dni', data.dni);
+        setValue('phone', data.phone);
+        setValue('email', data.email);
+        setValue('city', data.city);
+        setValue('dob', data.dob);
+        setValue('zip', data.zip);
+        setValue('isActive', data.isActive);
+        setValue('membership', data.membership);
+        setValue('password', data.password);
       } catch (error) {
         dispatch(setContentToast({ message: error.message, state: 'fail' }));
         dispatch(handleDisplayToast(true));
@@ -67,7 +77,6 @@ const MemberForm = ({ match }) => {
   }, [redirect]);
 
   const onSubmit = (data) => {
-    console.log(data);
     if (memberId) {
       updateMember(dispatch, memberId, data);
       setModalMessageOpen(false);
@@ -89,6 +98,7 @@ const MemberForm = ({ match }) => {
         <form className={styles.body}>
           <div className={styles.label_container}>
             <Input labelText="Name" type="text" name="name" register={register} />
+            <p>{errors.name?.message}</p>
           </div>
           <div className={styles.label_container}>
             <Input labelText="Last Name" type="text" name="lastName" register={register} />
@@ -114,7 +124,7 @@ const MemberForm = ({ match }) => {
           <div className={styles.label_container}>
             <label className={styles.label}>Membership</label>
             <select className={styles.input} name="membership" {...register('membership')}>
-              <option value="placeholder">Select category</option>
+              <option value="default">Choose your membership</option>
               <option value="classic">Classic</option>
               <option value="only_classes">Only Classes</option>
               <option value="black">Black</option>
@@ -131,6 +141,7 @@ const MemberForm = ({ match }) => {
               register={register}
             />
           </div>
+          <button onClick={() => reset()}>Reset</button>
         </form>
         <div className={styles.confirm_button}>
           <Button
