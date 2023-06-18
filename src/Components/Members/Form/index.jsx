@@ -194,7 +194,9 @@ const MemberForm = ({ match }) => {
               register={register}
             />
           </div>
-          <button onClick={() => reset()}>Reset</button>
+          <div className={styles.confirm_button}>
+            <Button classNameButton="deleteButton" action={reset} text="Reset" />
+          </div>
         </form>
         <div className={styles.confirm_button}>
           <Button

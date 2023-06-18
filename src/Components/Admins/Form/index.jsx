@@ -9,6 +9,9 @@ import { addAdmin, getAdminsById, editAdmin } from '../../../Redux/Admins/thunks
 import { useDispatch, useSelector } from 'react-redux';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 import { resetState } from '../../../Redux/Admins/actions';
+import { useForm } from 'react-hook-form';
+import adminSchema from '../../../Validations/admin';
+import { joiResolver } from '@hookform/resolvers/joi';
 
 function Form() {
   const dispatch = useDispatch();
@@ -18,14 +21,25 @@ function Form() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
   const success = useSelector((state) => state.admins.success);
-  const [admin, setAdmin] = useState({
-    firstName: '',
-    lastName: '',
-    dni: '',
-    phone: '',
-    email: '',
-    city: '',
-    password: ''
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(adminSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      dni: '',
+      phone: '',
+      email: '',
+      city: '',
+      password: ''
+    }
   });
 
   useEffect(() => {
@@ -35,15 +49,15 @@ function Form() {
   }, []);
 
   useEffect(() => {
-    setAdmin({
-      firstName: adminToUpdate.firstName,
-      lastName: adminToUpdate.lastName,
-      dni: adminToUpdate.dni,
-      phone: adminToUpdate.phone,
-      email: adminToUpdate.email,
-      city: adminToUpdate.city,
-      password: adminToUpdate.password
-    });
+    if (params.id) {
+      setValue('firstName', adminToUpdate.firstName);
+      setValue('lastName', adminToUpdate.lastName);
+      setValue('dni', adminToUpdate.dni);
+      setValue('phone', adminToUpdate.phone);
+      setValue('email', adminToUpdate.email);
+      setValue('city', adminToUpdate.city);
+      setValue('password', adminToUpdate.password);
+    }
   }, [adminToUpdate]);
 
   useEffect(() => {
@@ -53,19 +67,13 @@ function Form() {
     }
   }, [success]);
 
-  const onChangeInput = (e) => {
-    setAdmin({
-      ...admin,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
     if (params.id) {
-      editAdmin(dispatch, params.id, admin);
+      editAdmin(dispatch, params.id, data);
+      setShowConfirmModal(false);
     } else {
-      addAdmin(dispatch, admin);
+      addAdmin(dispatch, data);
+      setShowConfirmModal(false);
     }
   };
 
@@ -81,10 +89,8 @@ function Form() {
     dispatch(handleDisplayToast(false));
   };
 
-  const handleSubmit = (e) => {
-    onSubmit(e);
-    setShowConfirmModal(false);
-  };
+  console.log('error first name', errors.firstName);
+  console.log('error last name', errors.lastName);
 
   return (
     <>
@@ -92,14 +98,14 @@ function Form() {
         <div className={styles.header}>
           <h2 className={styles.title}>{params.id ? 'Edit Admin' : 'Add admin'}</h2>
         </div>
-        <form className={styles.form} onSubmit={onSubmit}>
+        <form className={styles.form}>
           <div className={styles.labelInput}>
             <Input
               labelText="First Name"
               name="firstName"
               type="text"
-              value={admin.firstName}
-              change={onChangeInput}
+              error={errors.firstName?.message}
+              register={register}
             />
           </div>
           <div className={styles.labelInput}>
@@ -107,8 +113,8 @@ function Form() {
               labelText="Last Name"
               name="lastName"
               type="text"
-              value={admin.lastName}
-              change={onChangeInput}
+              error={errors.lastName?.message}
+              register={register}
             />
           </div>
           <div className={styles.labelInput}>
@@ -116,8 +122,8 @@ function Form() {
               labelText="DNI"
               name="dni"
               type="text"
-              value={admin.dni}
-              change={onChangeInput}
+              error={errors.dni?.message}
+              register={register}
             />
           </div>
           <div className={styles.labelInput}>
@@ -125,8 +131,8 @@ function Form() {
               labelText="Phone"
               name="phone"
               type="text"
-              value={admin.phone}
-              change={onChangeInput}
+              error={errors.phone?.message}
+              register={register}
             />
           </div>
           <div className={styles.labelInput}>
@@ -134,8 +140,8 @@ function Form() {
               labelText="City"
               name="city"
               type="text"
-              value={admin.city}
-              change={onChangeInput}
+              error={errors.city?.message}
+              register={register}
             />
           </div>
           <div className={styles.labelInput}>
@@ -143,8 +149,8 @@ function Form() {
               labelText="Email"
               name="email"
               type="text"
-              value={admin.email}
-              change={onChangeInput}
+              error={errors.email?.message}
+              register={register}
             />
           </div>
           <div className={styles.labelInput}>
@@ -152,10 +158,11 @@ function Form() {
               labelText="Password"
               name="password"
               type="password"
-              value={admin.password}
-              change={onChangeInput}
+              error={errors.password?.message}
+              register={register}
             />
           </div>
+          <Button classNameButton="deleteButton" action={reset} text="Reset" />
         </form>
         <div className={styles.buttonContainer}>
           <div>
@@ -177,7 +184,7 @@ function Form() {
           handler={() => closeConfirmModal()}
           title={params.id ? 'Update Admin' : 'Add admin'}
           reason="submit"
-          onAction={handleSubmit}
+          onAction={handleSubmit(onSubmit)}
         >
           Are you sure you want to {params.id ? 'update' : 'add'} admin?
         </ConfirmModal>
