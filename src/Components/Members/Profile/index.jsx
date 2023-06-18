@@ -9,8 +9,8 @@ import { updateMember, getMembers } from 'Redux/Members/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { useForm } from 'react-hook-form';
-import memberSchema from 'Validations/member';
 import { joiResolver } from '@hookform/resolvers/joi';
+import memberSchema from 'Validations/member';
 
 function MemberProfile({ match }) {
   const [disableEdit, setDisableEdit] = useState(true);
@@ -19,8 +19,8 @@ function MemberProfile({ match }) {
   const memberId = match.params.id;
   const dispatch = useDispatch();
   const { show, message, state } = useSelector((state) => state.toast);
-  const { data } = useSelector((state) => state.members);
-  const memberLogged = data.find((item) => item._id === memberId);
+  const memberData = useSelector((state) => state.members.data);
+  const memberLogged = memberData.find((item) => item._id === memberId);
 
   const {
     register,
@@ -29,8 +29,8 @@ function MemberProfile({ match }) {
     setValue,
     formState: { errors }
   } = useForm({
-    mode: 'onChange',
     resolver: joiResolver(memberSchema),
+    mode: 'onChange',
     defaultValues: {
       name: '',
       lastName: '',
@@ -46,54 +46,25 @@ function MemberProfile({ match }) {
     }
   });
 
-  console.log(handleSubmit, reset, setValue, errors);
-
   useEffect(() => {
     getMembers(dispatch);
   }, [dispatch]);
 
-  const [member, setMember] = useState({
-    name: '',
-    lastName: '',
-    dni: '',
-    phone: '',
-    email: '',
-    city: '',
-    dob: '',
-    zip: '',
-    password: ''
-  });
-  /*     setMember({
-        name: memberLogged?.name || '',
-        lastName: memberLogged?.lastName || '',
-        dni: memberLogged?.dni || '',
-        phone: memberLogged?.phone || '',
-        email: memberLogged?.email || '',
-        city: memberLogged?.city || '',
-        dob: memberLogged?.dob || '',
-        zip: memberLogged?.zip || '',
-        password: memberLogged?.password || ''
-      }); */
-
   useEffect(() => {
-    Object.entries(memberLogged).every(([key, value]) => {
-      console.log(key, value);
-    });
+    if (memberLogged) {
+      // eslint-disable-next-line no-unused-vars
+      const { _id, __v, ...resMemberLogged } = memberLogged;
+      Object.entries(resMemberLogged).every(([key, value]) => {
+        setValue(key, value);
+        return true;
+      });
+    }
   }, [memberLogged]);
 
-  const onChangeInput = (e) => {
-    setMember({
-      ...member,
-      [e.target.name]: e.target.value,
-      isActive: e.currentTarget.checked
-    });
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
     if (memberId) {
       setModalMessageOpen(false);
-      updateMember(dispatch, memberId, member)
+      updateMember(dispatch, memberId, data)
         .then((data) => {
           if (data) {
             Object.entries(data).every(([key, value]) => {
@@ -108,6 +79,11 @@ function MemberProfile({ match }) {
           dispatch(handleDisplayToast(true));
         });
     }
+  };
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    reset();
   };
 
   const handleEnableEdit = () => {
@@ -156,14 +132,14 @@ function MemberProfile({ match }) {
                   labelText={inputData.labelText}
                   type={inputData.type}
                   name={inputData.name}
-                  value={member[inputData.name]}
-                  change={onChangeInput}
                   disabled={disableEdit}
                   register={register}
+                  error={errors[inputData.name]?.message}
                 />
               </div>
             ))}
           </div>
+          <button onClick={handleReset}>Reset</button>
         </form>
         <div className={styles.confirm_button}>
           <Button
@@ -178,10 +154,10 @@ function MemberProfile({ match }) {
         <ConfirmModal
           title={memberId ? 'Edit member' : 'Add Member'}
           handler={() => setModalMessageOpen(false)}
-          onAction={onSubmit}
+          onAction={handleSubmit(onSubmit)}
           reason={'submit'}
         >
-          {`Are you sure you wanna edit ${member.name}?`}
+          {`Are you sure you wanna edit?`}
         </ConfirmModal>
       )}
       {show && (

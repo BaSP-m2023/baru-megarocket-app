@@ -9,7 +9,7 @@ import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/
 
 function Header() {
   const dispatch = useDispatch();
-  const { isLogged } = useSelector((state) => state.loginMembers);
+  const { isLogged, data } = useSelector((state) => state.loginMembers);
   const { show, message, state } = useSelector((state) => state.toast);
   const keys = [
     '_id',
@@ -59,7 +59,19 @@ function Header() {
           />
         </div>
         {isLogged && (
-          <div className={styles.containerLogout}>
+          <div className={styles.optionContainer}>
+            {data.length && (
+              <Link className={styles.profileLink} to={`/user/member/profile/${data[0].value}`}>
+                <div className={styles.profileContainer}>
+                  <img
+                    className={styles.profileImg}
+                    src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
+                    alt="profile image"
+                  />
+                  {data[1].value} {data[2].value}
+                </div>
+              </Link>
+            )}
             <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
           </div>
         )}
