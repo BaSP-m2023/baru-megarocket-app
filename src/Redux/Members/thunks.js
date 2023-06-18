@@ -68,6 +68,7 @@ export const updateMember = async (dispatch, id, updatedMember) => {
       dispatch(editMemberSuccess(data));
       dispatch(setContentToast({ message, state: 'success' }));
       dispatch(handleDisplayToast(true));
+      return data;
     }
 
     if (error) {
