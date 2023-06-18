@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutMember, loginMemberSuccess } from 'Redux/LoginMembers/actions';
+import Button from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
@@ -51,15 +52,17 @@ function Header() {
             alt="guy flexing on fire logo"
             className={styles.logo}
           />
-        </div>
-        <div>
           <img
             src={`${process.env.PUBLIC_URL}/assets/images/logo2.png`}
             alt="radium rocket words logo"
             className={styles.logo2}
           />
         </div>
-        {isLogged && <p onClick={handleLogout}>Logout</p>}
+        {isLogged && (
+          <div className={styles.containerLogout}>
+            <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
+          </div>
+        )}
       </div>
       <nav className={styles.navbar}>
         <ul className={styles.rutes}>
