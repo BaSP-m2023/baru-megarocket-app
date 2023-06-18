@@ -7,7 +7,7 @@ import { getSubscriptions } from '../../Redux/Subscriptions/thunks';
 
 import styles from './subscriptions.module.css';
 import Table from './Table';
-
+import { resetState } from 'Redux/Subscriptions/actions';
 import Button from '../Shared/Button';
 import { Input } from '../Shared/Inputs';
 import ResponseModal from '../Shared/ResponseModal';
@@ -20,6 +20,7 @@ const Subscriptions = () => {
 
   const subscriptions = useSelector((state) => state.subscriptions.data);
   useEffect(() => {
+    resetState();
     getSubscriptions(dispatch);
   }, [dispatch]);
 

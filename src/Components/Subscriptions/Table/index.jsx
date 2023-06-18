@@ -49,7 +49,7 @@ const Table = ({ data }) => {
           <tr className={styles.thead}>
             <th>Classes</th>
             <th>Members</th>
-            <th>Date</th>
+            <th>Creation Date</th>
             <th colSpan="2"></th>
           </tr>
         </thead>
