@@ -6,6 +6,7 @@ import Header from 'Components/Header/index';
 import Footer from 'Components/Footer/index';
 import Loader from 'Components/Shared/Loader';
 import styles from './layout.module.css';
+import SubscribeActivities from 'Components/MemberLogged/SubscribeActivities';
 
 const Admins = lazy(() => import('./admin'));
 const AdminsForm = lazy(() => import('./admin/form'));
@@ -43,6 +44,7 @@ const Layout = () => {
             <Route exact path="/members" component={Members} />
             <Route path="/members/add" component={MemberForm} />
             <Route path="/members/edit/:id" component={MemberForm} />
+            <Route exact path="/user/members/subscribe-class" component={SubscribeActivities} />
             <Route exact path="/super-admins" component={SuperAdmins} />
             <Route exact path="/super-admins/add" component={SuperAdminsForm} />
             <Route exact path="/super-admins/edit/:id" component={SuperAdminsForm} />
