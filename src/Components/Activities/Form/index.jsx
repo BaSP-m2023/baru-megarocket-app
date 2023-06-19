@@ -104,6 +104,8 @@ const Form = () => {
           <Textarea
             labelText="Description"
             name="description"
+            rows={10}
+            cols={60}
             register={register}
             placeholder={'Description for the activity'}
             error={errors.description?.message}
