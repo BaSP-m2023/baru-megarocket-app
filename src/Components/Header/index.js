@@ -71,11 +71,13 @@ function Header() {
                     src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
                     alt="profile image"
                   />
-                  {data.name} {data.lastName}
+                  {localStorage.getItem('name')} {localStorage.getItem('lastName')}
                 </div>
               </Link>
             )}
-            <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
+            <div className={styles.logoutButton}>
+              <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
+            </div>
           </div>
         )}
       </div>

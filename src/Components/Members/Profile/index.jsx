@@ -47,12 +47,6 @@ function MemberProfile({ match }) {
   });
 
   useEffect(() => {
-    if (errors) {
-      setShowConfirmModal(false);
-    }
-  }, [errors]);
-
-  useEffect(() => {
     getMembers(dispatch);
   }, [dispatch]);
 
@@ -89,14 +83,18 @@ function MemberProfile({ match }) {
   const handleReset = (e) => {
     e.preventDefault();
     reset();
+    if (memberLogged) {
+      // eslint-disable-next-line no-unused-vars
+      const { _id, __v, ...resMemberLogged } = memberLogged;
+      Object.entries(resMemberLogged).every(([key, value]) => {
+        setValue(key, value);
+        return true;
+      });
+    }
   };
 
-  const handleEnableEdit = () => {
-    setDisableEdit(false);
-  };
-
-  const handleDisableEdit = () => {
-    setDisableEdit(true);
+  const onConfirm = () => {
+    setShowConfirmModal(!showConfirmModal);
   };
 
   const formFields = [
@@ -123,17 +121,17 @@ function MemberProfile({ match }) {
           {disableEdit && (
             <Button
               classNameButton="addButton"
-              action={handleEnableEdit}
+              action={() => setDisableEdit(false)}
               img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
             />
           )}
           {!disableEdit && (
-            <button className={styles.close_button} onClick={handleDisableEdit}>
+            <button className={styles.close_button} onClick={() => setDisableEdit(true)}>
               &times;
             </button>
           )}
         </div>
-        <form className={styles.body}>
+        <form onSubmit={handleSubmit(onConfirm)} className={styles.body}>
           <div>
             {formFields.map((inputData, index) => (
               <div className={styles.label_container} key={index}>
@@ -148,23 +146,23 @@ function MemberProfile({ match }) {
               </div>
             ))}
           </div>
+          <div className={styles.buttons}>
+            <Button
+              classNameButton="addButton"
+              /* action={() => setShowConfirmModal(true)} */
+              text={'Edit'}
+              disabled={disableEdit}
+            />
+            <Button
+              classNameButton="deleteButton"
+              action={handleReset}
+              text={'Reset'}
+              disabled={disableEdit}
+            >
+              Reset
+            </Button>
+          </div>
         </form>
-        <div className={styles.buttons}>
-          <Button
-            classNameButton="addButton"
-            action={() => setShowConfirmModal(true)}
-            text={'Edit'}
-            disabled={disableEdit}
-          />
-          <Button
-            classNameButton="deleteButton"
-            action={handleReset}
-            text={'Reset'}
-            disabled={disableEdit}
-          >
-            Reset
-          </Button>
-        </div>
       </div>
       {showConfirmModal && (
         <ConfirmModal

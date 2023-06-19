@@ -73,9 +73,14 @@
 .profileImg {
   width: 2rem;
   margin-right: 1rem;
+  background-color: #ffffff;
   border: 1px solid #000000;
   border-radius: 50%;
-  background-color: #ffffff;
+}
+
+.logoutButton button {
+  width: 6rem;
+  height: 2rem;
 }
 
 @media screen and (min-width: 750px) {
