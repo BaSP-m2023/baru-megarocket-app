@@ -11,20 +11,11 @@ function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setValue,
-    formState: { errors }
-  } = useForm({
+  const { register, handleSubmit } = useForm({
     mode: 'onChange'
   });
 
-  console.log(handleSubmit, reset, setValue, errors);
-
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = () => {
     loginMembers(dispatch)
       .then((data) => {
         // eslint-disable-next-line no-unused-vars
@@ -67,7 +58,7 @@ function Login() {
           />
         </div>
         <div className={styles.buttonContainer}>
-          <Button action={handleLogin} text="Login" classNameButton="submitButton" />
+          <Button action={handleSubmit(handleLogin)} text="Login" classNameButton="submitButton" />
           <Link to="/">
             <Button text="Home" classNameButton="cancelButton" />
           </Link>

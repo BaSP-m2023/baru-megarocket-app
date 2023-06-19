@@ -1,5 +1,5 @@
 import styles from './header.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutMember, loginMemberSuccess } from 'Redux/LoginMembers/actions';
@@ -11,6 +11,7 @@ function Header() {
   const dispatch = useDispatch();
   const { isLogged, data } = useSelector((state) => state.loginMembers);
   const { show, message, state } = useSelector((state) => state.toast);
+  const history = useHistory();
   const keys = [
     '_id',
     'name',
@@ -43,6 +44,7 @@ function Header() {
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
     dispatch(logoutMember());
+    history.push('/');
   };
   return (
     <header>
@@ -61,15 +63,15 @@ function Header() {
         </div>
         {isLogged && (
           <div className={styles.optionContainer}>
-            {data.length && (
-              <Link className={styles.profileLink} to={`/user/member/profile/${data[0].value}`}>
+            {data && (
+              <Link className={styles.profileLink} to={`/user/member/profile/${data._id}`}>
                 <div className={styles.profileContainer}>
                   <img
                     className={styles.profileImg}
                     src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
                     alt="profile image"
                   />
-                  {data[1].value} {data[2].value}
+                  {data.name} {data.lastName}
                 </div>
               </Link>
             )}
