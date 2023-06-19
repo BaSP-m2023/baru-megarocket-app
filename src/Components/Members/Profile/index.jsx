@@ -147,12 +147,7 @@ function MemberProfile({ match }) {
             ))}
           </div>
           <div className={styles.buttons}>
-            <Button
-              classNameButton="addButton"
-              /* action={() => setShowConfirmModal(true)} */
-              text={'Edit'}
-              disabled={disableEdit}
-            />
+            <Button classNameButton="addButton" text={'Edit'} disabled={disableEdit} />
             <Button
               classNameButton="deleteButton"
               action={handleReset}
