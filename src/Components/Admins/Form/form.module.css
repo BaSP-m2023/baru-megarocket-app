@@ -87,3 +87,11 @@
 .disabled {
   display: none;
 }
+
+.container_button {
+  text-align: center;
+}
+
+.container_button button {
+  background-color: grey;
+}

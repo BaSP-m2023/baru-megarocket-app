@@ -1,16 +1,16 @@
-import styles from './form.module.css';
+import styles from 'Components/Admins/Form/form.module.css';
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useHistory } from 'react-router-dom';
-import Button from '../../Shared/Button';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import ResponseModal from '../../Shared/ResponseModal';
-import { Input } from '../../Shared/Inputs';
-import { addAdmin, getAdminsById, editAdmin } from '../../../Redux/Admins/thunks';
+import Button from 'Components/Shared/Button';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import { Input } from 'Components/Shared/Inputs';
+import { addAdmin, getAdminsById, editAdmin } from 'Redux/Admins/thunks';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
-import { resetState } from '../../../Redux/Admins/actions';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+import { resetState } from 'Redux/Admins/actions';
 import { useForm } from 'react-hook-form';
-import adminSchema from '../../../Validations/admin';
+import adminSchema from 'Validations/admin';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 function Form() {
@@ -89,9 +89,6 @@ function Form() {
     dispatch(handleDisplayToast(false));
   };
 
-  console.log('error first name', errors.firstName);
-  console.log('error last name', errors.lastName);
-
   return (
     <>
       <div className={styles.formContainer}>
@@ -162,7 +159,9 @@ function Form() {
               register={register}
             />
           </div>
-          <Button classNameButton="deleteButton" action={reset} text="Reset" />
+          <div className={styles.container_button}>
+            <Button action={reset} text="Reset" />
+          </div>
         </form>
         <div className={styles.buttonContainer}>
           <div>
@@ -175,7 +174,11 @@ function Form() {
             </Link>
           </div>
           <div>
-            <Button action={handleButton} classNameButton="submitButton" text="Submit"></Button>
+            <Button
+              action={handleSubmit(handleButton)}
+              classNameButton="submitButton"
+              text="Submit"
+            ></Button>
           </div>
         </div>
       </div>

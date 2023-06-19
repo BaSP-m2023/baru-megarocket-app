@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import styles from './form.module.css';
-import Button from '../../Shared/Button';
-import { Input } from '../../Shared/Inputs';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import ResponseModal from '../../Shared/ResponseModal';
+import styles from 'Components/SuperAdmins/Form/form.module.css';
+import Button from 'Components/Shared/Button';
+import { Input } from 'Components/Shared/Inputs';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSuperadmin, editSuperadmin, getSuperadmins } from '../../../Redux/SuperAdmins/thunks';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { addSuperadmin, editSuperadmin, getSuperadmins } from 'Redux/SuperAdmins/thunks';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { useForm } from 'react-hook-form';
 import superAdminSchema from 'Validations/superAdmin';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -71,6 +71,10 @@ const SuperAdminsForm = () => {
     }
   };
 
+  const handleModal = () => {
+    setShowConfirm(true);
+  };
+
   return (
     <>
       {show && (
@@ -127,13 +131,17 @@ const SuperAdminsForm = () => {
                 error={errors.password?.message}
                 register={register}
               />
-              <Button classNameButton="deleteButton" action={reset} text="Reset" />
+              <div className={styles.reset_button}>
+                <Button action={reset} text="Reset" />
+              </div>
             </form>
-            <Button
-              text={'Submit'}
-              action={() => setShowConfirm(true)}
-              classNameButton={'submitButton'}
-            />
+            <div className={styles.container_button}>
+              <Button
+                text={'Submit'}
+                action={handleSubmit(handleModal)}
+                classNameButton={'submitButton'}
+              />
+            </div>
           </div>
         </div>
       </div>
