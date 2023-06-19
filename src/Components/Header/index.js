@@ -33,7 +33,8 @@ function Header() {
     if (localStorage.getItem('_id')) {
       let user = {};
       keys.forEach((key) => {
-        user[key] = localStorage.getItem(key);
+        const value = localStorage.getItem(key);
+        user[key] = value;
       });
       dispatch(loginMemberSuccess(user));
     }
@@ -47,7 +48,6 @@ function Header() {
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
     dispatch(logoutMember());
   };
-  console.log(data);
 
   return (
     <header>
