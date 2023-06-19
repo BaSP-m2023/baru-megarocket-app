@@ -86,8 +86,8 @@
 
 .error {
   display: inline-block;
+  margin-top: 1rem;
   width: 80%;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.8rem;
   color: rgb(254, 49, 49);
 }

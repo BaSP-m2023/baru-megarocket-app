@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import styles from './form.module.css';
 
 import { addActivity, editActivity } from '../../../Redux/Activities/thunks';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 
+import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import { Input, Textarea } from '../../Shared/Inputs';
 import ConfirmModal from '../../Shared/ConfirmModal';
@@ -29,7 +29,6 @@ const Form = () => {
   const {
     register,
     handleSubmit,
-    //getValues,
     reset,
     formState: { errors }
   } = useForm({
@@ -52,8 +51,7 @@ const Form = () => {
     }
   }, [success]);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     handleConfirm();
   };
 
@@ -73,7 +71,7 @@ const Form = () => {
           {location.pathname.includes('add') ? 'Add new activity' : `Edit activity `}
         </h2>
       </div>
-      <form onSubmit={onSubmit} className={styles.form}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <div className={styles.formGroup}>
           <Input
             labelText="Name"

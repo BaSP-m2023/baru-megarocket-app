@@ -31,7 +31,9 @@ export const getSubscriptions = async (dispatch) => {
 export const addSubscriptions = async (dispatch, newAddSubscription) => {
   dispatch(addSubscriptionsPending());
   try {
-    const isoDate = newAddSubscription.date ? new Date(newAddSubscription.date).toISOString() : '';
+    const isoDate = newAddSubscription.date
+      ? new Date(newAddSubscription.date).toISOString()
+      : new Date();
     const body = {
       method: 'POST',
       headers: {

@@ -1,8 +1,8 @@
 import { joiResolver } from '@hookform/resolvers/joi';
-import { useForm } from 'react-hook-form';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useHistory } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 import { resetState } from '../../../Redux/Subscriptions/actions';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
@@ -14,6 +14,7 @@ import {
   editSubscription
 } from '../../../Redux/Subscriptions/thunks';
 
+// import { subscriptionSchema } from 'Validations/subscription';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
@@ -66,6 +67,7 @@ const Form = () => {
     try {
       setValue('classes', subscription.classes);
       setValue('members', subscription.members);
+      console.log(subscription);
       setValue('date', subscription.date);
     } catch (error) {
       console.log(error);
