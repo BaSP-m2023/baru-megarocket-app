@@ -7,14 +7,14 @@ import styles from './form.module.css';
 
 import { addActivity, editActivity } from '../../../Redux/Activities/thunks';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { getTrainers } from 'Redux/Trainers/thunks';
+import activitySchema from 'Validations/activity';
 
 import Button from '../../Shared/Button';
 import { Input, Textarea } from '../../Shared/Inputs';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
-import activitySchema from 'Validations/activity';
 import Select from 'react-select';
-import { getTrainers } from 'Redux/Trainers/thunks';
 
 const Form = () => {
   const { list, success } = useSelector((state) => state.activities);
@@ -130,7 +130,7 @@ const Form = () => {
             value={trainer ? options.find((t) => t.value === trainer) : trainer}
             onChange={(e) => trainerListOnChange(e.map((c) => c.value))}
           />
-          {errors.trainers && <p>{errors.trainers.message}</p>}
+          {errors.trainers && <p className={styles.error}>{errors.trainers.message}</p>}
         </div>
         <div className={styles.formButtons}>
           <Button text={'Submit'} classNameButton={'submitButton'} />

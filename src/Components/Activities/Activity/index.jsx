@@ -27,6 +27,7 @@ const Activity = ({ activity }) => {
       <tr className={styles.tableRow}>
         <td>{activity.name}</td>
         <td>{activity.description}</td>
+        <td>{activity.trainers.map((trainer) => `${trainer.firstName} ${trainer.lastName}, `)}</td>
         <td>{activity.isActive ? 'Active' : 'Deactive'}</td>
         <td>
           <Link to={`${url}/edit/${activity._id}`}>

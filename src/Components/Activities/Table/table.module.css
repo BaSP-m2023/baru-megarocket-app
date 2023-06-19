@@ -7,6 +7,7 @@
 }
 
 .table {
+  width: 100%;
   border-collapse: collapse;
 }
 
@@ -34,6 +35,9 @@
 
 .tableRow td {
   padding: 0.8em 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tableError {
