@@ -19,6 +19,7 @@ import {
 
 const INITIAL_STATE = {
   data: [],
+  defaultAdmin: {},
   isPending: false,
   error: null,
   success: false
@@ -26,6 +27,12 @@ const INITIAL_STATE = {
 
 const reducers = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case 'SET_DEFAULT_ADMIN': {
+      return {
+        ...state,
+        defaultAdmin: action.payload
+      };
+    }
     case GET_ADMINS_PENDING: {
       return {
         ...state,

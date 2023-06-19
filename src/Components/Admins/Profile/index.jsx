@@ -4,7 +4,7 @@ import Button from 'Components/Shared/Button';
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import { getAdminsById, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
+import { getAdmins, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 import React, { useState, useEffect } from 'react';
@@ -19,26 +19,16 @@ function AdminProfile() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
   const loading = useSelector((state) => state.admins.isPending);
-  const myadmin = useSelector((state) => state.admins.data);
-  const [admin, setAdmin] = useState(myadmin);
-
-  const id = '64879731d981ecbc196e83b5';
-  useEffect(() => {
-    getAdminsById(dispatch, id);
-    setAdmin(myadmin);
-  }, []);
+  const defaultAdmin = useSelector((state) => state.admins.defaultAdmin);
+  const [admin, setAdmin] = useState({});
 
   useEffect(() => {
-    setAdmin({
-      firstName: myadmin.firstName,
-      lastName: myadmin.lastName,
-      dni: myadmin.dni,
-      phone: myadmin.phone,
-      email: myadmin.email,
-      city: myadmin.city,
-      password: myadmin.password
-    });
-  }, [myadmin, loading]);
+    getAdmins(dispatch);
+  }, [dispatch]);
+
+  useEffect(() => {
+    setAdmin(defaultAdmin);
+  }, [defaultAdmin]);
 
   const onChangeInput = (e) => {
     setAdmin({
@@ -49,13 +39,21 @@ function AdminProfile() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setDisableEdit(true);
-    editAdmin(dispatch, id, admin);
+    const adminInfo = {
+      firstName: admin.firstName || '',
+      lastName: admin.lastName || '',
+      dni: admin.dni || '',
+      phone: admin.phone || '',
+      email: admin.email || '',
+      city: admin.city || '',
+      password: admin.password || ''
+    };
+    editAdmin(dispatch, admin._id, adminInfo);
     setShowConfirmModal(false);
   };
 
   const handleDeleteAdmin = () => {
-    deleteAdmin(dispatch, id);
+    deleteAdmin(dispatch, admin._id);
     setShowConfirmModal(false);
     history.push('/');
   };
@@ -65,8 +63,14 @@ function AdminProfile() {
     setAction(action);
   };
 
+  const handleClose = () => {
+    setDisableEdit(true);
+    setAdmin(defaultAdmin);
+  };
+
   return (
     <div className={styles.form}>
+      {defaultAdmin == {} && <p>There are no admins</p>}
       <div className={styles.content}>
         <div className={styles.header}>
           <h2>Profile information</h2>
@@ -78,9 +82,8 @@ function AdminProfile() {
             />
           )}
           {!disableEdit && (
-            <button className={styles.close} onClick={() => setDisableEdit(true)}>
-              {' '}
-              X{' '}
+            <button className={styles.close} onClick={() => handleClose()}>
+              X
             </button>
           )}
         </div>
@@ -92,7 +95,7 @@ function AdminProfile() {
                 labelText="First name"
                 type="text"
                 name="firstName"
-                value={admin.firstName}
+                value={admin.firstName || ''}
                 change={onChangeInput}
                 disabled={disableEdit}
               />
@@ -102,7 +105,7 @@ function AdminProfile() {
                 labelText="Last name"
                 type="text"
                 name="lastName"
-                value={admin.lastName}
+                value={admin.lastName || ''}
                 change={onChangeInput}
                 disabled={disableEdit}
               />
@@ -112,7 +115,7 @@ function AdminProfile() {
                 labelText="DNI"
                 type="number"
                 name="dni"
-                value={admin.dni}
+                value={admin.dni || ''}
                 change={onChangeInput}
                 disabled={disableEdit}
               />
@@ -122,7 +125,7 @@ function AdminProfile() {
                 labelText="Phone"
                 type="text"
                 name="phone"
-                value={admin.phone}
+                value={admin.phone || ''}
                 change={onChangeInput}
                 disabled={disableEdit}
               />
@@ -132,7 +135,7 @@ function AdminProfile() {
                 labelText="Email"
                 type="email"
                 name="email"
-                value={admin.email}
+                value={admin.email || ''}
                 change={onChangeInput}
                 disabled={disableEdit}
               />
@@ -142,7 +145,7 @@ function AdminProfile() {
                 labelText="City"
                 type="text"
                 name="city"
-                value={admin.city}
+                value={admin.city || ''}
                 change={onChangeInput}
                 disabled={disableEdit}
               />
@@ -152,7 +155,7 @@ function AdminProfile() {
                 labelText="Password"
                 type="password"
                 name="password"
-                value={admin.password}
+                value={admin.password || ''}
                 change={onChangeInput}
                 disabled={disableEdit}
               />

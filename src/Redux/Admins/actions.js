@@ -17,6 +17,13 @@ import {
   RESET_STATE
 } from './constants';
 
+export const setDefaultAdmin = (admin) => {
+  return {
+    type: 'SET_DEFAULT_ADMIN',
+    payload: admin
+  };
+};
+
 export const getAdminsPending = () => {
   return {
     type: GET_ADMINS_PENDING

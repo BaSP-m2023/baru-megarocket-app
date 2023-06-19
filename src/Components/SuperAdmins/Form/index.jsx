@@ -6,7 +6,7 @@ import { Input } from '../../Shared/Inputs';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import ResponseModal from '../../Shared/ResponseModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSuperadmin, editSuperadmin } from '../../../Redux/SuperAdmins/thunks';
+import { addSuperadmin, editSuperadmin, getSuperadmins } from '../../../Redux/SuperAdmins/thunks';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 
 const SuperAdminsForm = () => {
@@ -20,8 +20,12 @@ const SuperAdminsForm = () => {
   const history = useHistory();
   const { id } = useParams();
 
+  useEffect(() => {
+    getSuperadmins(dispatch);
+  }, [dispatch]);
+
   const findById = async () => {
-    const superadmin = superadmins?.find((superadmin) => superadmin._id === id);
+    const superadmin = superadmins?.find((superadmin) => superadmin._id === id) || '';
     const { name, lastName, email } = superadmin;
     setSuperadmin({ name, lastName, email });
   };
@@ -32,7 +36,7 @@ const SuperAdminsForm = () => {
 
   useEffect(() => {
     id && findById();
-  }, []);
+  }, [superadmins]);
 
   const onChangeInput = (e) => {
     setSuperadmin({
