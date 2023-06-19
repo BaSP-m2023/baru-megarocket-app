@@ -2,8 +2,8 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useHistory } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-
+import { useForm, useController } from 'react-hook-form';
+import Select from 'react-select';
 import { resetState } from '../../../Redux/Subscriptions/actions';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
 import { getClasses } from '../../../Redux/Classes/thunks';
@@ -33,74 +33,61 @@ const Form = () => {
   const dispatch = useDispatch();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const subscriptions = useSelector((state) => state.subscriptions.data);
-  const classes = useSelector((state) => state.classes.data);
+  const classses = useSelector((state) => state.classes.data);
   const members = useSelector((state) => state.members.data);
   const success = useSelector((state) => state.subscriptions.success);
   const pending = useSelector((state) => state.subscriptions.isPending);
   const { show, message, state } = useSelector((state) => state.toast);
   const subscription = subscriptions.find((subscription) => subscription._id === id || '');
   const {
-    register,
     handleSubmit,
-    setValue,
     getValues,
     reset,
+    control,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
     resolver: joiResolver(subscriptionSchema),
     defaultValues: {
-      classes: subscription ? subscription.classes.day : '',
-      members: subscription ? subscription.members.name : '',
-      date: ''
+      members: subscription ? subscription.members._id : '',
+      classes: subscription ? subscription.classes._id : ''
     }
   });
-  const filteredClasses = classes.filter(
+  const {
+    field: { value: member, onChange: membersOnChange }
+  } = useController({ name: 'members', control });
+  const {
+    field: { value: clas, onChange: clasOnChange }
+  } = useController({ name: 'classes', control });
+  const filteredClasses = classses.filter(
     (item) => !item.deleted && item.activity !== null && item.members !== null
   );
-  useEffect(() => {
-    if (id) {
-      subscriptionById(id);
-    }
-  }, [subscriptions, id, reset, getValues]);
-  const subscriptionById = async () => {
-    try {
-      setValue('classes', subscription.classes);
-      setValue('members', subscription.members);
-      console.log(subscription);
-      setValue('date', subscription.date);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const onConfirm = (data) => {
     try {
-      const newAddSubscription = {
-        members: data.members,
-        classes: data.classes,
-        date: new Date()
-      };
-      const newEditSubscription = {
-        members: typeof data.members === 'string' ? data.members : data.members._id,
-        classes: typeof data.classes === 'string' ? data.classes : data.classes._id,
-        date: data.date
-      };
       if (id) {
-        editSubscription(dispatch, newEditSubscription, id);
+        editSubscription(dispatch, data, id);
         setShowConfirmModal(false);
       } else {
-        addSubscriptions(dispatch, newAddSubscription);
+        addSubscriptions(dispatch, data);
         setShowConfirmModal(false);
       }
     } catch (error) {
       throw new Error(error);
     }
   };
+  const optionsMember = members.map((member) => ({
+    value: member._id,
+    label: `${member.name} ${member.lastName}`
+  }));
+  const optionsClasses = filteredClasses.map((classes) => ({
+    value: classes._id,
+    label: `${classes.day} ${classes.time}`
+  }));
   useEffect(() => {
     if (success) {
-      history.push('/subscriptions');
       dispatch(resetState());
-      reset();
+      history.push('/subscriptions');
     }
   }, [success]);
 
@@ -112,8 +99,7 @@ const Form = () => {
     }
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     handleShowConfirmModal();
   };
 
@@ -126,53 +112,40 @@ const Form = () => {
   }
   return (
     <>
-      <form className={styles.container} onSubmit={onSubmit}>
+      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
         {!id ? (
           <h2 className={styles.title}>Add Subscription</h2>
         ) : (
           <h2 className={styles.title}>Edit Subscription</h2>
         )}
-        <label className={styles.label}>Class</label>
-        <select className={styles.flex} id="classes" name="classes" {...register('classes')}>
-          {getValues('classes') === '' ? (
-            <option value={''} className={styles.textArea}>
-              Select a Value
-            </option>
-          ) : (
-            <option value={getValues('classes')}>{` ${getValues('classes.day')} ${getValues(
-              'classes.time'
-            )} `}</option>
-          )}
-
-          {filteredClasses.map((item) => {
-            return (
-              <option key={item._id} value={item._id}>
-                {`${item.activity.name}: ${item.day} ${item.time}`}
-              </option>
-            );
-          })}
-        </select>
-        {errors.classes && <p className={styles.error}>{errors.classes?.message}</p>}
         <label className={styles.label}>Member</label>
-        <select className={styles.flex} id="members" name="members" {...register('members')}>
-          {getValues('members') === '' ? (
-            <option value={''} className={styles.textArea}>
-              Select a Value
-            </option>
-          ) : (
-            <option value={getValues('members')}>{`${getValues('members.name')} ${getValues(
-              'members.lastName'
-            )} `}</option>
-          )}
-          {members.map((member) => {
-            return (
-              <option key={member._id} value={member._id}>
-                {`${member.name} ${member.lastName}`}
-              </option>
-            );
-          })}
-        </select>
-        {errors.members && <p className={styles.error}>{errors.members?.message}</p>}
+        <Select
+          className={styles.flex}
+          value={member ? optionsMember.find((t) => t.value === member) : member}
+          defaultValue={{
+            value: getValues('members'),
+            label: `${getValues('members.name')} ${getValues('members.lastName')}`
+          }}
+          name="members"
+          options={optionsMember}
+          placeholder="Select a Member"
+          onChange={(e) => membersOnChange(e.value)}
+        />
+        {errors.members?.message && <span className={styles.error}>{errors.members.message}</span>}
+        <label className={styles.label}>Classes</label>
+        <Select
+          className={styles.flex}
+          value={clas ? optionsClasses.find((t) => t.value === clas) : clas}
+          defaultValue={{
+            value: getValues('classes'),
+            label: `${getValues('classes.day')} ${getValues('classes.time')}`
+          }}
+          name="classes"
+          options={optionsClasses}
+          placeholder="Select a Class"
+          onChange={(e) => clasOnChange(e.value)}
+        />
+        {errors.classes && <p className={styles.error}>{errors.classes?.message}</p>}
 
         <div className={styles.btnContainer}>
           <Link to="/subscriptions">

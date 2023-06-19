@@ -68,7 +68,7 @@ export const editSubscription = async (dispatch, newEditSubscription, id) => {
   try {
     const isoDate = newEditSubscription.date
       ? new Date(newEditSubscription.date).toISOString()
-      : '';
+      : new Date().toISOString;
     const body = JSON.stringify({
       classes: newEditSubscription.classes,
       members: newEditSubscription.members,
