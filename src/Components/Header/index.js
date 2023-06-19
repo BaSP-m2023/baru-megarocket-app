@@ -8,46 +8,35 @@ import ResponseModal from 'Components/Shared/ResponseModal';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 function Header() {
+  const user = JSON.parse(localStorage.getItem('login')) || '';
   const dispatch = useDispatch();
   const { isLogged, data } = useSelector((state) => state.loginMembers);
   const { show, message, state } = useSelector((state) => state.toast);
   const history = useHistory();
-  const [membership, setMembership] = useState(localStorage.getItem('membership'));
-  const keys = [
-    '_id',
-    'name',
-    'lastName',
-    'dni',
-    'phone',
-    'email',
-    'city',
-    'dob',
-    'zip',
-    'isActive',
-    'membership'
-  ];
-  useEffect(() => {
-    setMembership(data.membership);
-  }, [data]);
+  const [membership, setMembership] = useState(user.membership || null);
+  // const [userLogged, setUserLogged] = useState({});
+  // console.log(JSON.parse(localStorage.getItem('login')));
+
+  console.log(user);
 
   useEffect(() => {
-    if (localStorage.getItem('_id')) {
-      let user = {};
-      keys.forEach((key) => {
-        const value = localStorage.getItem(key);
-        user[key] = value;
-      });
-      dispatch(loginMemberSuccess(user));
+    if (localStorage.getItem('login')) {
+      setMembership(user.membership);
+      dispatch(loginMemberSuccess(JSON.parse(localStorage.getItem('login'))));
+      // console.log(userLogged);
     }
   }, []);
+  /* 
+  useEffect(() => {
+    // setMembership(user.membership);
+  }, []); */
 
   const handleLogout = () => {
-    keys.forEach((key) => {
-      localStorage.removeItem(key);
-    });
+    localStorage.removeItem('login');
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
     dispatch(logoutMember());
+    setMembership(null);
     history.push('/');
   };
 
@@ -76,7 +65,7 @@ function Header() {
                     src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
                     alt="profile image"
                   />
-                  {localStorage.getItem('name')} {localStorage.getItem('lastName')}
+                  {user.name} {user.lastName}
                 </div>
               </Link>
             )}

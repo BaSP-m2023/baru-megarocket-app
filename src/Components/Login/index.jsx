@@ -20,10 +20,8 @@ function Login() {
       .then((data) => {
         // eslint-disable-next-line no-unused-vars
         const { password, __v, ...resObj } = data;
-        Object.entries(resObj).every(([key, value]) => {
-          localStorage.setItem(key, value);
-          return true;
-        });
+        localStorage.setItem('login', JSON.stringify(resObj));
+        console.log(resObj);
         history.push('/');
       })
       .catch((error) => {
