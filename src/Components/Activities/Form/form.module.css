@@ -46,3 +46,16 @@
 .title span {
   color: #aace9b;
 }
+
+.formSelect {
+  width: 25vw;
+  height: fit-content;
+}
+
+.formLabel {
+  display: block;
+  padding: 5px;
+  color: #373867;
+  font-weight: 700;
+  font-size: 1rem;
+}
