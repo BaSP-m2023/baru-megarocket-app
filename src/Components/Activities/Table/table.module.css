@@ -52,3 +52,19 @@
   color: #373867;
   font-size: 2rem;
 }
+
+.activityState {
+  display: inline-block;
+  padding: 4px;
+  border-radius: 4px;
+  color: #373867;
+  font-weight: 600;
+}
+
+.activityActive {
+  border-bottom: 3px solid #aace9b;
+}
+
+.activityInactive {
+  border-bottom: 3px solid #d10202;
+}

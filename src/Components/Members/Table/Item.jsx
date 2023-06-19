@@ -1,5 +1,4 @@
 import styles from './table.module.css';
-import ButtonSlider from './ButtonSlider/ButtonSlider';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import ConfirmModal from '../../Shared/ConfirmModal';
@@ -23,7 +22,15 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
           {member.name} {member.lastName}
         </td>
         <td>
-          <ButtonSlider status={member.isActive} />
+          <label
+            className={
+              member.isActive
+                ? `${styles.memberState} ${styles.memberActive}`
+                : `${styles.memberState} ${styles.memberInactive}`
+            }
+          >
+            {member.isActive ? 'Active' : 'Inactive'}
+          </label>
         </td>
         <td>
           <Link to={`/members/edit/${member._id}`}>
