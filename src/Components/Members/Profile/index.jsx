@@ -153,9 +153,7 @@ function MemberProfile({ match }) {
               action={handleReset}
               text={'Reset'}
               disabled={disableEdit}
-            >
-              Reset
-            </Button>
+            />
           </div>
         </form>
       </div>
