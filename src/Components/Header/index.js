@@ -1,7 +1,7 @@
 import styles from './header.module.css';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector, useState } from 'react-redux';
 import { logoutMember, loginMemberSuccess } from 'Redux/LoginMembers/actions';
 import Button from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
@@ -12,6 +12,7 @@ function Header() {
   const { isLogged, data } = useSelector((state) => state.loginMembers);
   const { show, message, state } = useSelector((state) => state.toast);
   const [membership, setMembership] = useState(localStorage.getItem('membership'));
+  const history = useHistory();
   const keys = [
     '_id',
     'name',
@@ -47,6 +48,7 @@ function Header() {
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
     dispatch(logoutMember());
+    history.push('/');
   };
 
   return (
@@ -65,7 +67,19 @@ function Header() {
           />
         </div>
         {isLogged && (
-          <div className={styles.containerLogout}>
+          <div className={styles.optionContainer}>
+            {data && (
+              <Link className={styles.profileLink} to={`/user/member/profile/${data._id}`}>
+                <div className={styles.profileContainer}>
+                  <img
+                    className={styles.profileImg}
+                    src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
+                    alt="profile image"
+                  />
+                  {data.name} {data.lastName}
+                </div>
+              </Link>
+            )}
             <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
           </div>
         )}
