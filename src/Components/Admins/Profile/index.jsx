@@ -24,12 +24,12 @@ function AdminProfile() {
   const { show, message, state } = useSelector((state) => state.toast);
   const loading = useSelector((state) => state.admins.isPending);
   const defaultAdmin = useSelector((state) => state.admins.defaultAdmin);
-  const [admin, setAdmin] = useState({});
 
   const {
     register,
     handleSubmit,
     setValue,
+    clearErrors,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -50,48 +50,23 @@ function AdminProfile() {
   }, [dispatch]);
 
   useEffect(() => {
-    setAdmin(defaultAdmin);
+    setValue('firstName', defaultAdmin.firstName);
+    setValue('lastName', defaultAdmin.lastName);
+    setValue('dni', defaultAdmin.dni);
+    setValue('phone', defaultAdmin.phone);
+    setValue('email', defaultAdmin.email);
+    setValue('city', defaultAdmin.city);
+    setValue('password', defaultAdmin.password);
   }, [defaultAdmin]);
-
-  useEffect(() => {
-    setValue('firstName', admin.firstName);
-    setValue('lastName', admin.lastName);
-    setValue('dni', admin.dni);
-    setValue('phone', admin.phone);
-    setValue('email', admin.email);
-    setValue('city', admin.city);
-    setValue('password', admin.password);
-  }, [admin]);
-
-  // const onChangeInput = (e) => {
-  //   setAdmin({
-  //     ...admin,
-  //     [e.target.name]: e.target.value
-  //   });
-  // };
 
   const onSubmit = (data) => {
     editAdmin(dispatch, defaultAdmin._id, data);
+    console.log(data);
     setShowConfirmModal(false);
   };
 
-  // const onSubmit = (e) => {
-  //   e.preventDefault();
-  //   const adminInfo = {
-  //     firstName: admin.firstName || '',
-  //     lastName: admin.lastName || '',
-  //     dni: admin.dni || '',
-  //     phone: admin.phone || '',
-  //     email: admin.email || '',
-  //     city: admin.city || '',
-  //     password: admin.password || ''
-  //   };
-  //   editAdmin(dispatch, admin._id, adminInfo);
-  //   setShowConfirmModal(false);
-  // };
-
   const handleDeleteAdmin = () => {
-    deleteAdmin(dispatch, admin._id);
+    deleteAdmin(dispatch, defaultAdmin._id);
     setShowConfirmModal(false);
     history.push('/');
   };
@@ -103,7 +78,14 @@ function AdminProfile() {
 
   const handleClose = () => {
     setDisableEdit(true);
-    setAdmin(defaultAdmin);
+    setValue('firstName', defaultAdmin.firstName);
+    setValue('lastName', defaultAdmin.lastName);
+    setValue('dni', defaultAdmin.dni);
+    setValue('phone', defaultAdmin.phone);
+    setValue('email', defaultAdmin.email);
+    setValue('city', defaultAdmin.city);
+    setValue('password', defaultAdmin.password);
+    clearErrors();
   };
 
   return (
@@ -137,14 +119,6 @@ function AdminProfile() {
                 register={register}
                 disabled={disableEdit}
               />
-              {/* <Input
-                labelText="First name"
-                type="text"
-                name="firstName"
-                value={admin.firstName || ''}
-                change={onChangeInput}
-                disabled={disableEdit}
-              /> */}
             </div>
             <div className={styles.label_container}>
               <Input
@@ -155,14 +129,6 @@ function AdminProfile() {
                 register={register}
                 disabled={disableEdit}
               />
-              {/* <Input
-                labelText="Last name"
-                type="text"
-                name="lastName"
-                value={admin.lastName || ''}
-                change={onChangeInput}
-                disabled={disableEdit}
-              /> */}
             </div>
             <div className={styles.label_container}>
               <Input
@@ -173,14 +139,6 @@ function AdminProfile() {
                 register={register}
                 disabled={disableEdit}
               />
-              {/* <Input
-                labelText="DNI"
-                type="number"
-                name="dni"
-                value={admin.dni || ''}
-                change={onChangeInput}
-                disabled={disableEdit}
-              /> */}
             </div>
             <div className={styles.label_container}>
               <Input
@@ -191,14 +149,6 @@ function AdminProfile() {
                 register={register}
                 disabled={disableEdit}
               />
-              {/* <Input
-                labelText="Phone"
-                type="text"
-                name="phone"
-                value={admin.phone || ''}
-                change={onChangeInput}
-                disabled={disableEdit}
-              /> */}
             </div>
             <div className={styles.label_container}>
               <Input
@@ -209,14 +159,6 @@ function AdminProfile() {
                 register={register}
                 disabled={disableEdit}
               />
-              {/* <Input
-                labelText="Email"
-                type="email"
-                name="email"
-                value={admin.email || ''}
-                change={onChangeInput}
-                disabled={disableEdit}
-              /> */}
             </div>
             <div className={styles.label_container}>
               <Input
@@ -227,14 +169,6 @@ function AdminProfile() {
                 register={register}
                 disabled={disableEdit}
               />
-              {/* <Input
-                labelText="City"
-                type="text"
-                name="city"
-                value={admin.city || ''}
-                change={onChangeInput}
-                disabled={disableEdit}
-              /> */}
             </div>
             <div className={styles.label_container}>
               <Input
@@ -245,14 +179,6 @@ function AdminProfile() {
                 register={register}
                 disabled={disableEdit}
               />
-              {/* <Input
-                labelText="Password"
-                type="password"
-                name="password"
-                value={admin.password || ''}
-                change={onChangeInput}
-                disabled={disableEdit}
-              /> */}
             </div>
           </form>
         )}
@@ -263,22 +189,11 @@ function AdminProfile() {
             text="Delete account"
           ></Button>
 
-          {/* <Button
-            classNameButton="deleteButton"
-            action={() => handleAction('delete')}
-            text={'Delete my account'}
-          /> */}
           <Button
             action={() => handleAction('edit')}
             classNameButton="addButton"
             text="Edit"
           ></Button>
-          {/* <Button
-            classNameButton="addButton"
-            action={() => handleAction('edit')}
-            disabled={disableEdit}
-            text={'Edit'}
-          /> */}
         </div>
       </div>
       {showConfirmModal && (
@@ -292,13 +207,13 @@ function AdminProfile() {
               : ''
           }
           reason={action === 'delete' ? 'delete' : action === 'edit' ? 'submit' : ''}
-          onAction={() => {
-            if (action === 'delete') {
-              handleSubmit(handleDeleteAdmin);
-            } else if (action === 'edit') {
-              handleSubmit(onSubmit);
-            }
-          }}
+          onAction={
+            action === 'delete'
+              ? handleSubmit(handleDeleteAdmin)
+              : action === 'edit'
+              ? handleSubmit(onSubmit)
+              : ''
+          }
         >
           Are you sure you want to{' '}
           {action === 'delete' ? 'delete' : action === 'edit' ? 'edit' : ''} your profile?
