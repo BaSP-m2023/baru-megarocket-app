@@ -53,7 +53,7 @@ export const addMember = async (dispatch, member) => {
   }
 };
 
-export const updateMember = async (dispatch, id, updatedMember) => {
+export const updateMember = async (dispatch, id, updatedMember, history) => {
   dispatch(editMemberPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
@@ -65,9 +65,11 @@ export const updateMember = async (dispatch, id, updatedMember) => {
     });
     const { message, data, error } = await response.json();
     if (!error) {
+      history.push('/');
       dispatch(editMemberSuccess(data));
-      dispatch(setContentToast({ message, state: 'success' }));
       dispatch(handleDisplayToast(true));
+      dispatch(setContentToast({ message, state: 'success' }));
+      return data;
     }
 
     if (error) {
