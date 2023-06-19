@@ -14,7 +14,7 @@ export function Input({ labelText, type, name, placeholder, blur, register, disa
         placeholder={placeholder || ''}
         onBlur={blur && blur}
         disabled={disabled}
-        {...register(name)}
+        {...(register && { ...register(name) })}
       />
       {error && <p className={styles.error}>{error}</p>}
     </>
@@ -34,7 +34,7 @@ export function Textarea({ labelText, rows, cols, name, placeholder, blur, regis
         cols={cols}
         placeholder={placeholder || ''}
         onBlur={blur && blur}
-        {...register(name)}
+        {...(register && { ...register(name) })}
       ></textarea>
     </>
   );
