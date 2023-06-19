@@ -202,7 +202,7 @@ const MemberForm = ({ match }) => {
           <Button
             classNameButton="addButton"
             action={() => setModalMessageOpen(true)}
-            text={memberId ? 'Update' : 'Submit'}
+            text={memberId ? 'Edit' : 'Submit'}
           />
         </div>
       </div>
@@ -214,7 +214,7 @@ const MemberForm = ({ match }) => {
           reason={'submit'}
         >
           {memberId
-            ? `Are you sure you wanna change this data?`
+            ? `Are you sure you wanna edit this data?`
             : `Are you sure you wanna add to the members list?`}
         </ConfirmModal>
       )}
