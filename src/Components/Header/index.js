@@ -1,7 +1,54 @@
 import styles from './header.module.css';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutMember, loginMemberSuccess } from 'Redux/LoginMembers/actions';
+import Button from 'Components/Shared/Button';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 function Header() {
+  const dispatch = useDispatch();
+  const { isLogged, data } = useSelector((state) => state.loginMembers);
+  const { show, message, state } = useSelector((state) => state.toast);
+  const [membership, setMembership] = useState(localStorage.getItem('membership'));
+  const keys = [
+    '_id',
+    'name',
+    'lastName',
+    'dni',
+    'phone',
+    'email',
+    'city',
+    'dob',
+    'zip',
+    'isActive',
+    'membership'
+  ];
+  useEffect(() => {
+    setMembership(data.membership);
+  }, [data]);
+
+  useEffect(() => {
+    if (localStorage.getItem('_id')) {
+      let user = {};
+      keys.forEach((key) => {
+        const value = localStorage.getItem(key);
+        user[key] = value;
+      });
+      dispatch(loginMemberSuccess(user));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    keys.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+    dispatch(handleDisplayToast(true));
+    dispatch(setContentToast({ message: 'See you later', state: 'success' }));
+    dispatch(logoutMember());
+  };
+
   return (
     <header>
       <div className={styles.container}>
@@ -11,46 +58,74 @@ function Header() {
             alt="guy flexing on fire logo"
             className={styles.logo}
           />
-        </div>
-        <div>
           <img
             src={`${process.env.PUBLIC_URL}/assets/images/logo2.png`}
             alt="radium rocket words logo"
             className={styles.logo2}
           />
         </div>
+        {isLogged && (
+          <div className={styles.containerLogout}>
+            <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
+          </div>
+        )}
       </div>
       <nav className={styles.navbar}>
         <ul className={styles.rutes}>
-          <Link to="/" className={styles.a}>
-            Home
-          </Link>
-          <Link to="/activities" className={styles.a}>
-            Activities
-          </Link>
-          <Link to="/admins" className={styles.a}>
-            Admins
-          </Link>
-          <Link to="/classes" className={styles.a}>
-            Classes
-          </Link>
-          <Link to="/members" className={styles.a}>
-            Members
-          </Link>
-          <Link to="/subscriptions" className={styles.a}>
-            Subscriptions
-          </Link>
-          <Link to="/super-admins" className={styles.a}>
-            Super Admins
-          </Link>
-          <Link to="/trainers" className={styles.a}>
-            Trainers
-          </Link>
-          <Link to="/admins/profile" className={styles.a}>
-            Profile
-          </Link>
+          {!membership && (
+            <>
+              <Link to="/" className={styles.a}>
+                Home
+              </Link>
+              <Link to="/activities" className={styles.a}>
+                Activities
+              </Link>
+              <Link to="/admins" className={styles.a}>
+                Admins
+              </Link>
+              <Link to="/classes" className={styles.a}>
+                Classes
+              </Link>
+              <Link to="/members" className={styles.a}>
+                Members
+              </Link>
+              <Link to="/subscriptions" className={styles.a}>
+                Subscriptions
+              </Link>
+              <Link to="/super-admins" className={styles.a}>
+                Super Admins
+              </Link>
+              <Link to="/trainers" className={styles.a}>
+                Trainers
+              </Link>
+            </>
+          )}
+          {membership === 'classic' && (
+            <>
+              <Link to="/" className={styles.a}>
+                Home
+              </Link>
+            </>
+          )}
+          {membership && membership !== 'classic' && (
+            <>
+              <Link to="/" className={styles.a}>
+                Home
+              </Link>
+              <Link to="/user/members/subscribe-class" className={styles.a}>
+                Activities
+              </Link>
+            </>
+          )}
         </ul>
       </nav>
+      {show && (
+        <ResponseModal
+          handler={() => dispatch(handleDisplayToast(false))}
+          state={state}
+          message={message}
+        />
+      )}
     </header>
   );
 }

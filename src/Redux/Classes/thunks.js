@@ -28,6 +28,8 @@ export const getClasses = async (dispatch) => {
     }
   } catch (error) {
     dispatch(getClassError(error.message));
+    dispatch(setContentToast({ message: error.message, state: 'fail' }));
+    dispatch(handleDisplayToast(true));
   }
 };
 
