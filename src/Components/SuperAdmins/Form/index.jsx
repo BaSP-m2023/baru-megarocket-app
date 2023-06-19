@@ -22,19 +22,23 @@ const SuperAdminsForm = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    getSuperadmins(dispatch);
-    const findById = async () => {
-      const superadmin = superadmins?.find((superadmin) => superadmin._id === id);
-      const { name, lastName, email, password } = superadmin;
-      setValue('name', name);
-      setValue('lastName', lastName);
-      setValue('email', email);
-      setValue('password', password);
-    };
     if (id) {
       findById();
     }
-  }, [dispatch, superadmins]);
+  }, [superadmins]);
+
+  const findById = async () => {
+    const superadmin = superadmins?.find((superadmin) => superadmin._id === id) || '';
+    const { name, lastName, email, password } = superadmin;
+    setValue('name', name);
+    setValue('lastName', lastName);
+    setValue('email', email);
+    setValue('password', password);
+  };
+
+  useEffect(() => {
+    getSuperadmins(dispatch);
+  }, [dispatch]);
 
   const {
     register,
