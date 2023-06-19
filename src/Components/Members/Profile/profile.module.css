@@ -36,6 +36,10 @@
   align-items: center;
 }
 
+.label_container input {
+  margin: 0;
+}
+
 .close_button {
   background-color: #373867;
   border: none;
@@ -59,7 +63,9 @@
   line-height: 1.6;
 }
 
-.confirm_button {
+.buttons {
+  display: flex;
+  justify-content: center;
   text-align: center;
 }
 

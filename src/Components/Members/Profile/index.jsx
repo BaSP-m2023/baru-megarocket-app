@@ -14,7 +14,7 @@ import memberSchema from 'Validations/member';
 
 function MemberProfile({ match }) {
   const [disableEdit, setDisableEdit] = useState(true);
-  const [modalMessageOpen, setModalMessageOpen] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const history = useHistory();
   const memberId = match.params.id;
   const dispatch = useDispatch();
@@ -47,6 +47,12 @@ function MemberProfile({ match }) {
   });
 
   useEffect(() => {
+    if (errors) {
+      setShowConfirmModal(false);
+    }
+  }, [errors]);
+
+  useEffect(() => {
     getMembers(dispatch);
   }, [dispatch]);
 
@@ -63,13 +69,12 @@ function MemberProfile({ match }) {
 
   const onSubmit = (data) => {
     if (memberId) {
-      setModalMessageOpen(false);
-      updateMember(dispatch, memberId, data)
+      setShowConfirmModal(false);
+      updateMember(dispatch, memberId, data, history)
         .then((data) => {
           if (data) {
             Object.entries(data).every(([key, value]) => {
               localStorage.setItem(key, value);
-              history.push('/');
               return true;
             });
           }
@@ -110,7 +115,11 @@ function MemberProfile({ match }) {
     <div className={styles.form}>
       <div className={styles.content}>
         <div className={styles.header}>
-          <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
+          <h2>
+            {disableEdit
+              ? `${memberLogged?.name} ${memberLogged?.lastName} Profile`
+              : 'Edit Profile'}
+          </h2>
           {disableEdit && (
             <Button
               classNameButton="addButton"
@@ -139,21 +148,28 @@ function MemberProfile({ match }) {
               </div>
             ))}
           </div>
-          <button onClick={handleReset}>Reset</button>
         </form>
-        <div className={styles.confirm_button}>
+        <div className={styles.buttons}>
           <Button
             classNameButton="addButton"
-            action={() => setModalMessageOpen(true)}
+            action={() => setShowConfirmModal(true)}
             text={'Edit'}
             disabled={disableEdit}
           />
+          <Button
+            classNameButton="deleteButton"
+            action={handleReset}
+            text={'Reset'}
+            disabled={disableEdit}
+          >
+            Reset
+          </Button>
         </div>
       </div>
-      {modalMessageOpen && (
+      {showConfirmModal && (
         <ConfirmModal
           title={memberId ? 'Edit member' : 'Add Member'}
-          handler={() => setModalMessageOpen(false)}
+          handler={() => setShowConfirmModal(false)}
           onAction={handleSubmit(onSubmit)}
           reason={'submit'}
         >
