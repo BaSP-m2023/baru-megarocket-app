@@ -8,11 +8,12 @@ import ResponseModal from '../../Shared/ResponseModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSuperadmin, editSuperadmin, getSuperadmins } from '../../../Redux/SuperAdmins/thunks';
 import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { useForm } from 'react-hook-form';
+import superAdminSchema from 'Validations/superAdmin';
+import { joiResolver } from '@hookform/resolvers/joi';
 
 const SuperAdminsForm = () => {
-  const [showConfirmAdd, setShowConfirmAdd] = useState(false);
-  const [showConfirmEdit, setShowConfirmEdit] = useState(false);
-  const [superadmin, setSuperadmin] = useState({});
+  const [showConfirm, setShowConfirm] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
   const superadmins = useSelector((state) => state.superadmins.superadmins);
   const dispatch = useDispatch();
@@ -21,51 +22,53 @@ const SuperAdminsForm = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    getSuperadmins(dispatch);
-  }, [dispatch]);
+    if (id) {
+      findById();
+    }
+  }, [superadmins]);
 
   const findById = async () => {
     const superadmin = superadmins?.find((superadmin) => superadmin._id === id) || '';
-    const { name, lastName, email } = superadmin;
-    setSuperadmin({ name, lastName, email });
+    const { name, lastName, email, password } = superadmin;
+    setValue('name', name);
+    setValue('lastName', lastName);
+    setValue('email', email);
+    setValue('password', password);
   };
+
+  useEffect(() => {
+    getSuperadmins(dispatch);
+  }, [dispatch]);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(superAdminSchema),
+    defaultValues: {
+      name: '',
+      lastName: '',
+      email: '',
+      password: ''
+    }
+  });
 
   const goBack = () => {
     history.push('/super-admins');
   };
 
-  useEffect(() => {
-    id && findById();
-  }, [superadmins]);
-
-  const onChangeInput = (e) => {
-    setSuperadmin({
-      ...superadmin,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const confirmAdd = () => {
-    setShowConfirmAdd(true);
-  };
-
-  const addItem = (superadminToAdd) => {
-    dispatch(addSuperadmin(superadminToAdd, goBack));
-    setShowConfirmAdd(false);
-  };
-
-  const confirmEdit = () => {
-    setShowConfirmEdit(true);
-  };
-
-  const putItem = (idToEdit, editedSuperadmin) => {
-    dispatch(editSuperadmin(idToEdit, editedSuperadmin, goBack));
-    setShowConfirmEdit(false);
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    id ? confirmEdit() : confirmAdd();
+  const onSubmit = (data) => {
+    if (id) {
+      dispatch(editSuperadmin(id, data, goBack));
+      setShowConfirm(false);
+    } else {
+      dispatch(addSuperadmin(data, goBack));
+      setShowConfirm(false);
+    }
   };
 
   return (
@@ -77,24 +80,16 @@ const SuperAdminsForm = () => {
           handler={() => dispatch(handleDisplayToast(false))}
         />
       )}
-      {showConfirmAdd && (
+      {showConfirm && (
         <ConfirmModal
-          title={'New superadmin'}
+          title={id ? 'Edit superadmin' : 'New superadmin'}
           reason={'submit'}
-          handler={() => setShowConfirmAdd(false)}
-          onAction={() => addItem(superadmin)}
+          handler={() => setShowConfirm(false)}
+          onAction={handleSubmit(onSubmit)}
         >
-          Are you sure you want to add this superadmin?
-        </ConfirmModal>
-      )}
-      {showConfirmEdit && (
-        <ConfirmModal
-          title={'Edit superadmin'}
-          reason={'submit'}
-          handler={() => setShowConfirmEdit(false)}
-          onAction={() => putItem(id, superadmin)}
-        >
-          Are you sure you want to edit this superadmin?
+          {id
+            ? 'Are you sure you want to edit this superadmin?'
+            : 'Are you sure you want to add this superadmin?'}
         </ConfirmModal>
       )}
       <div className={styles.formBackground}>
@@ -106,36 +101,39 @@ const SuperAdminsForm = () => {
             </button>
           </div>
           <div>
-            <form className={styles.form} onSubmit={onSubmit}>
+            <form className={styles.form}>
               <Input
                 labelText={'Name'}
-                value={superadmin.name || ''}
                 name={'name'}
-                change={onChangeInput}
+                error={errors.name?.message}
+                register={register}
               />
               <Input
                 labelText={'Last name'}
-                value={superadmin.lastName || ''}
                 name={'lastName'}
-                change={onChangeInput}
+                error={errors.lastName?.message}
+                register={register}
               />
               <Input
                 labelText={'Email'}
-                value={superadmin.email || ''}
                 name={'email'}
-                change={onChangeInput}
+                error={errors.email?.message}
+                register={register}
               />
-              {!id && (
-                <Input
-                  labelText={'Password'}
-                  value={superadmin.password || ''}
-                  type={'password'}
-                  name={'password'}
-                  change={onChangeInput}
-                />
-              )}
-              <Button text={'Submit'} classNameButton={'submitButton'} />
+              <Input
+                labelText={'Password'}
+                type={'password'}
+                name={'password'}
+                error={errors.password?.message}
+                register={register}
+              />
+              <Button classNameButton="deleteButton" action={reset} text="Reset" />
             </form>
+            <Button
+              text={'Submit'}
+              action={() => setShowConfirm(true)}
+              classNameButton={'submitButton'}
+            />
           </div>
         </div>
       </div>
