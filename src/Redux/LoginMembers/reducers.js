@@ -35,6 +35,7 @@ const loginMembersReducer = (state = INITIAL_STATE, action) => {
     case LOGOUT_MEMBER:
       return {
         ...state,
+        data: [],
         isLogged: false
       };
     default:
