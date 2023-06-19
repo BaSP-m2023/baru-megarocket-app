@@ -26,7 +26,6 @@ function ClassForm() {
   const isCreateRoute = location.pathname.includes('/classes/add');
   const dataClasses = useSelector((state) => state.classes.data);
   const { show, message, state } = useSelector((state) => state.toast);
-  const trainers = useSelector((state) => state.trainers.data);
   const activities = useSelector((state) => state.activities.list);
   const dataID = dataClasses.find((classID) => classID._id === id) || '';
   const {
@@ -34,6 +33,7 @@ function ClassForm() {
     handleSubmit,
     reset,
     getValues,
+    setValue,
     control,
     formState: { errors }
   } = useForm({
@@ -47,14 +47,34 @@ function ClassForm() {
       capacity: dataID ? dataID.capacity : ''
     }
   });
-  const optionsTrainer = trainers.map((trainer) => ({
-    value: trainer._id,
-    label: `${trainer.firstName} ${trainer.lastName}`
-  }));
+
+  useEffect(() => {
+    if (!isCreateRoute) {
+      const activity = activities.find((activity) => activity._id === getValues('activity'));
+      setOptionsTrainer(
+        activity.trainers.map((trainer) => ({
+          value: trainer._id,
+          label: `${trainer.firstName} ${trainer.lastName}`
+        }))
+      );
+    }
+  }, []);
   const optionsActivity = activities.map((activity) => ({
     value: activity._id,
     label: `${activity.name}`
   }));
+  const [optionsTrainer, setOptionsTrainer] = useState([]);
+  const filterTrainers = (activityId) => {
+    setValue('activity', activityId, { shouldValidate: true });
+    setValue('trainer', '');
+    const activity = activities.find((activity) => activity._id === activityId);
+    setOptionsTrainer(
+      activity.trainers.map((trainer) => ({
+        value: trainer._id,
+        label: `${trainer.firstName} ${trainer.lastName}`
+      }))
+    );
+  };
   const optionsDay = [
     { value: 'Monday', label: 'Monday' },
     { value: 'Tuesday', label: 'Tuesday' },
@@ -68,8 +88,9 @@ function ClassForm() {
     field: { value: trainer, onChange: trainerOnChange }
   } = useController({ name: 'trainer', control });
   const {
-    field: { value: activity, onChange: activityOnChange }
+    field: { value: activity }
   } = useController({ name: 'activity', control });
+
   const {
     field: { value: day, onChange: dayOnChange }
   } = useController({ name: 'day', control });
@@ -156,7 +177,7 @@ function ClassForm() {
             name="activity"
             options={optionsActivity}
             placeholder="Select an Activity"
-            onChange={(e) => activityOnChange(e.value)}
+            onChange={(e) => filterTrainers(e.value)}
           />
           {errors.activity?.message && (
             <span className={styles.error}>{errors.activity.message}</span>

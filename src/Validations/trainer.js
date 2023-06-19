@@ -5,32 +5,55 @@ const trainerSchema = Joi.object({
     .min(3)
     .max(20)
     .regex(/^[a-zA-Z\s]+$/)
-    .message({ 'string.pattern.base': 'Name must be only letters' })
-    .required(),
+    .required()
+    .messages({
+      'string.base': 'Name should be a string',
+      'string.pattern.base': 'Name should only contain alphabetic characters',
+      'string.min': 'Name should have a minimum length of 4',
+      'string.max': 'Name should have a maximum length of 10',
+      'any.required': 'Name is required'
+    }),
   lastName: Joi.string()
     .min(3)
     .max(20)
     .regex(/^[a-zA-Z\s]+$/)
-    .message({ 'string.pattern.base': 'Last name must be only letters' })
-    .required(),
+    .required()
+    .messages({
+      'string.base': 'Last Name should be a string',
+      'string.pattern.base': 'Last Name should only contain alphabetic characters',
+      'string.min': 'Last Name should have a minimum length of 4',
+      'string.max': 'Last Name should have a maximum length of 10',
+      'any.required': 'Last Name is required'
+    }),
+
   dni: Joi.string()
     .min(7)
     .max(10)
     .regex(/^[0-9]+$/)
-    .message({ 'string.pattern.base': 'DNI must be only numbers' })
+    .message({
+      'string.pattern.base': 'DNI should be only numbers',
+      'any.required': 'Dni is required'
+    })
     .required(),
   phone: Joi.string()
     .min(10)
     .max(12)
     .regex(/^[0-9]+$/)
-    .message({ 'string.pattern.base': 'Phone must be only numbers' })
+    .messages({
+      'string.pattern.base': 'Phone must be only numbers',
+      'string.min': 'Phone should have a minimum length of 10',
+      'any.required': 'Phone is required'
+    })
     .required(),
   email: Joi.string().required(),
   password: Joi.string()
     .min(8)
     .max(20)
     .regex(/^[a-zA-Z0-9]+$/)
-    .message({ 'string.pattern.base': 'Password must be numbers, letters or both' })
+    .messages({
+      'string.pattern.base': 'Password must be numbers, letters or both',
+      'string.min': 'Password should have a minimum length of 8'
+    })
     .required(),
   salary: Joi.string()
     .min(2)
