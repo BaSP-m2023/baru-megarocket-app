@@ -33,7 +33,7 @@ function ClassForm() {
   const {
     register,
     handleSubmit,
-    //reset,
+    reset,
     getValues,
     control,
     formState: { errors }
@@ -41,8 +41,8 @@ function ClassForm() {
     mode: 'onChange',
     resolver: joiResolver(classSchema),
     defaultValues: {
-      activity: dataID ? dataID.activity : '',
-      trainer: dataID ? dataID.trainer : '',
+      activity: dataID ? dataID.activity._id : '',
+      trainer: dataID ? dataID.trainer._id : '',
       day: dataID ? dataID.day : '',
       time: dataID ? dataID.time : '',
       capacity: dataID ? dataID.capacity : ''
@@ -163,16 +163,18 @@ function ClassForm() {
 
   const cancelForm = (e) => {
     e.preventDefault();
-    localStorage.clear();
     history.goBack();
   };
-
+  const resetForm = (e) => {
+    e.preventDefault();
+    reset();
+  };
   return (
     <section className={styles.formContainer}>
       <div className={styles.formTitle}>
         <h2 className={styles.title}>{isCreateRoute ? 'Create Class' : 'Edit Class'}</h2>
       </div>
-      <form onSubmit={handleSubmit(handleConfirmModal)} className={styles.form}>
+      <form className={styles.form}>
         <div className={styles.inputContainer}>
           <label className={styles.label}>Activity</label>
           <Select
@@ -187,8 +189,8 @@ function ClassForm() {
             placeholder="Select an Activity"
             onChange={(e) => activityOnChange(e.value)}
           />
-          {errors.trainer?.message && (
-            <span className={styles.error}>{errors.trainer.message}</span>
+          {errors.activity?.message && (
+            <span className={styles.error}>{errors.activity.message}</span>
           )}
         </div>
         <div className={styles.inputContainer}>
@@ -197,7 +199,7 @@ function ClassForm() {
             className={styles.select}
             name="trainer"
             defaultValue={{
-              value: getValues('trainer'),
+              value: trainer,
               label: `${getValues('trainer.firstName')} ${getValues('trainer.lastName')}`
             }}
             options={optionsTrainer}
@@ -246,9 +248,14 @@ function ClassForm() {
           />
         </div>
         <div className={styles.buttonContainer}>
-          <Button classNameButton="submitButton" text={isCreateRoute ? 'Create' : 'Update'} />
+          <Button
+            classNameButton="submitButton"
+            action={handleSubmit(handleConfirmModal)}
+            text={isCreateRoute ? 'Create' : 'Update'}
+          />
           <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
+        <Button classNameButton="cancelButton" text="RESET" action={resetForm} />
       </form>
       {show && (
         <ResponseModal
