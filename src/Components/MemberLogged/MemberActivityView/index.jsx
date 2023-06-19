@@ -19,6 +19,7 @@ const MemberActivityView = () => {
 
   return (
     <>
+      <h2 className={styles.title}>Sign up for a class</h2>
       <div className={styles.cardContainer}>
         {activities.map((activity) => (
           <div

@@ -3,9 +3,9 @@ import MemberActivityView from '../MemberActivityView';
 
 const SubscribeActivities = () => {
   return (
-    <div>
+    <>
       <MemberActivityView />
-    </div>
+    </>
   );
 };
 

@@ -1,3 +1,9 @@
+.title{
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #373867;
+}
 .cardContainer{
   display: flex;
   justify-content: center;
