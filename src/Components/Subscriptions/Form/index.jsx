@@ -14,7 +14,6 @@ import {
   editSubscription
 } from '../../../Redux/Subscriptions/thunks';
 
-// import { subscriptionSchema } from 'Validations/subscription';
 import ResponseModal from '../../Shared/ResponseModal';
 import ConfirmModal from '../../Shared/ConfirmModal';
 import Button from '../../Shared/Button';
@@ -24,16 +23,14 @@ import subscriptionSchema from 'Validations/subscription';
 
 const Form = () => {
   const { id } = useParams();
-  useEffect(() => {
-    dispatch(getClasses);
-    dispatch(getMembers);
-    dispatch(getSubscriptions);
-  }, []);
   const history = useHistory();
   const dispatch = useDispatch();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [filteredClass, setFilteredClass] = useState([]);
+
   const subscriptions = useSelector((state) => state.subscriptions.data);
   const classses = useSelector((state) => state.classes.data);
+  const classesPending = useSelector((state) => state.classes.pending);
   const members = useSelector((state) => state.members.data);
   const success = useSelector((state) => state.subscriptions.success);
   const pending = useSelector((state) => state.subscriptions.isPending);
@@ -59,10 +56,20 @@ const Form = () => {
   const {
     field: { value: clas, onChange: clasOnChange }
   } = useController({ name: 'classes', control });
-  const filteredClasses = classses.filter(
-    (item) => !item.deleted && item.activity !== null && item.members !== null
-  );
+  const filterClass = () => {
+    const filteredClasses = classses.filter(
+      (item) => !item.deleted && item.activity !== null && item.members !== null
+    );
+    setFilteredClass(filteredClasses);
+  };
 
+  useEffect(() => {
+    dispatch(getClasses).then(() => {
+      filterClass();
+    });
+    dispatch(getMembers);
+    dispatch(getSubscriptions);
+  }, []);
   const onConfirm = (data) => {
     try {
       if (id) {
@@ -80,7 +87,7 @@ const Form = () => {
     value: member._id,
     label: `${member.name} ${member.lastName}`
   }));
-  const optionsClasses = filteredClasses.map((classes) => ({
+  const optionsClasses = filteredClass.map((classes) => ({
     value: classes._id,
     label: `${classes.day} ${classes.time}`
   }));
@@ -103,7 +110,7 @@ const Form = () => {
     handleShowConfirmModal();
   };
 
-  if (pending && id) {
+  if ((pending || classesPending) && id) {
     return (
       <div className={styles.container}>
         <Loader />

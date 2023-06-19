@@ -28,7 +28,6 @@ function ClassForm() {
   const { show, message, state } = useSelector((state) => state.toast);
   const trainers = useSelector((state) => state.trainers.data);
   const activities = useSelector((state) => state.activities.list);
-  // const [classes, setClasses] = useState([]);
   const dataID = dataClasses.find((classID) => classID._id === id) || '';
   const {
     register,
@@ -48,7 +47,6 @@ function ClassForm() {
       capacity: dataID ? dataID.capacity : ''
     }
   });
-  // const foundTrainer = trainers.find((trainer) => trainer._id === dataID.trainer) || '';
   const optionsTrainer = trainers.map((trainer) => ({
     value: trainer._id,
     label: `${trainer.firstName} ${trainer.lastName}`
@@ -85,33 +83,6 @@ function ClassForm() {
     addClass(dispatch, newClass, history);
   };
 
-  // const getById = (id) => {
-  //   const dataID = dataClasses.find((classID) => classID._id === id);
-
-  //   let selectedActivity = '';
-  //   let selectedTrainer = '';
-  //   if (dataID) {
-  //     if (dataID.activity) {
-  //       selectedActivity = dataID.activity._id;
-  //     }
-  //     if (dataID.trainer) {
-  //       selectedTrainer = dataID.trainer._id;
-  //     }
-  //     localStorage.setItem('activity', selectedActivity);
-  //     localStorage.setItem('trainer', selectedTrainer);
-  //     localStorage.setItem('day', dataID.day);
-  //     localStorage.setItem('time', dataID.time);
-  //     localStorage.setItem('capacity', dataID.capacity);
-  //   }
-  //   setClasses({
-  //     activity: localStorage.getItem('activity'),
-  //     trainer: localStorage.getItem('trainer'),
-  //     day: localStorage.getItem('day'),
-  //     time: localStorage.getItem('time'),
-  //     capacity: localStorage.getItem('capacity')
-  //   });
-  // };
-
   const updateClass = (data) => {
     putClass(dispatch, data, id, history);
   };
@@ -126,7 +97,6 @@ function ClassForm() {
       })
     ) {
       createClass(data);
-      localStorage.clear();
     }
   };
 
@@ -140,7 +110,6 @@ function ClassForm() {
       })
     ) {
       updateClass();
-      localStorage.clear();
     }
   };
 
@@ -255,7 +224,7 @@ function ClassForm() {
           />
           <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
-        <Button classNameButton="cancelButton" text="RESET" action={resetForm} />
+        <Button classNameButton="deleteButton" text="RESET" action={resetForm} />
       </form>
       {show && (
         <ResponseModal

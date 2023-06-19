@@ -28,7 +28,6 @@ const Table = ({ data }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    date.setDate(date.getDate() + 1);
     return date.toLocaleDateString();
   };
 
