@@ -1,9 +1,7 @@
 import React from 'react';
 import styles from './input.module.css';
 
-export function Input({ labelText, value, type, name, change, placeholder, blur }) {
-  const checkedValue = type === 'checkbox' ? value || false : undefined;
-
+export function Input({ labelText, type, name, placeholder, blur, register, disabled, error }) {
   return (
     <>
       <label htmlFor={name} className={styles.label}>
@@ -12,18 +10,18 @@ export function Input({ labelText, value, type, name, change, placeholder, blur 
       <input
         className={type !== 'checkbox' ? styles.input : ''}
         type={type || 'text'}
-        value={type !== 'checkbox' ? value : undefined}
-        checked={checkedValue}
         name={name}
         placeholder={placeholder || ''}
         onBlur={blur && blur}
-        onChange={change && change}
+        disabled={disabled}
+        {...(register && { ...register(name) })}
       />
+      {error && <p className={styles.error}>{error}</p>}
     </>
   );
 }
 
-export function Textarea({ labelText, rows, cols, value, name, change, placeholder, blur }) {
+export function Textarea({ labelText, rows, cols, name, placeholder, blur, register, error }) {
   return (
     <>
       <label htmlFor={name} className={styles.label}>
@@ -31,14 +29,14 @@ export function Textarea({ labelText, rows, cols, value, name, change, placehold
       </label>
       <textarea
         className={styles.textarea}
-        value={value}
         name={name}
         rows={rows}
         cols={cols}
-        onChange={change && change}
         placeholder={placeholder || ''}
         onBlur={blur && blur}
+        {...(register && { ...register(name) })}
       ></textarea>
+      {error && <p className={styles.error}>{error}</p>}
     </>
   );
 }

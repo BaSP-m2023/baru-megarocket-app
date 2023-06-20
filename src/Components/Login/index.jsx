@@ -5,13 +5,17 @@ import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useDispatch } from 'react-redux';
 import { loginMembers } from 'Redux/LoginMembers/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { useForm } from 'react-hook-form';
 
 function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const { register, handleSubmit } = useForm({
+    mode: 'onChange'
+  });
+
+  const handleLogin = () => {
     loginMembers(dispatch)
       .then((data) => {
         // eslint-disable-next-line no-unused-vars
@@ -36,13 +40,25 @@ function Login() {
           <h3 className={styles.h3}>Login</h3>
         </div>
         <div className={styles.inputContainer}>
-          <Input labelText="Email" type="email" placeholder="Email" name="email" />
+          <Input
+            labelText="Email"
+            type="email"
+            placeholder="Email"
+            name="email"
+            register={register}
+          />
         </div>
         <div className={styles.inputContainer}>
-          <Input labelText="Password" type="password" name="password" placeholder="Password" />
+          <Input
+            labelText="Password"
+            type="password"
+            name="password"
+            placeholder="Password"
+            register={register}
+          />
         </div>
         <div className={styles.buttonContainer}>
-          <Button action={handleLogin} text="Login" classNameButton="submitButton" />
+          <Button action={handleSubmit(handleLogin)} text="Login" classNameButton="submitButton" />
           <Link to="/">
             <Button text="Home" classNameButton="cancelButton" />
           </Link>
