@@ -4,20 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useForm, useController } from 'react-hook-form';
 import Select from 'react-select';
-import { resetState } from '../../../Redux/Subscriptions/actions';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
-import { getClasses } from '../../../Redux/Classes/thunks';
-import { getMembers } from '../../../Redux/Members/thunks';
-import {
-  addSubscriptions,
-  getSubscriptions,
-  editSubscription
-} from '../../../Redux/Subscriptions/thunks';
+import { resetState } from 'Redux/Subscriptions/actions';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+import { getClasses } from 'Redux/Classes/thunks';
+import { getMembers } from 'Redux/Members/thunks';
+import { addSubscriptions, getSubscriptions, editSubscription } from 'Redux/Subscriptions/thunks';
 
-import ResponseModal from '../../Shared/ResponseModal';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import Button from '../../Shared/Button';
-import Loader from '../../Shared/Loader';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import Button from 'Components/Shared/Button';
+import Loader from 'Components/Shared/Loader';
 import styles from './form.module.css';
 import subscriptionSchema from 'Validations/subscription';
 

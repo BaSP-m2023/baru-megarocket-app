@@ -5,14 +5,14 @@ import { useForm, useController } from 'react-hook-form';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './form.module.css';
-import Button from '../../Shared/Button';
-import { Input } from '../../Shared/Inputs';
-import ResponseModal from '../../Shared/ResponseModal';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import { getActivities } from '../../../Redux/Activities/thunks';
-import { getTrainers } from '../../../Redux/Trainers/thunks';
-import { putClass, addClass } from '../../../Redux/Classes/thunks';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import Button from 'Components/Shared/Button';
+import { Input } from 'Components/Shared/Inputs';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import { getActivities } from 'Redux/Activities/thunks';
+import { getTrainers } from 'Redux/Trainers/thunks';
+import { putClass, addClass } from 'Redux/Classes/thunks';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import classSchema from 'Validations/class';
 
 function ClassForm() {
@@ -238,12 +238,12 @@ function ClassForm() {
           />
         </div>
         <div className={styles.buttonContainer}>
+          <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
           <Button
             classNameButton="submitButton"
             action={handleSubmit(handleConfirmModal)}
             text={isCreateRoute ? 'Create' : 'Update'}
           />
-          <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
         </div>
         <Button classNameButton="deleteButton" text="RESET" action={resetForm} />
       </form>

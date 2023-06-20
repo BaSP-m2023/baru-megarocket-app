@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './list.module.css';
 import Button from '../../Shared/Button';
 import ConfirmModal from '../../Shared/ConfirmModal';
-import { Input } from '../../Shared/Inputs';
 import { useDispatch } from 'react-redux';
 import { deleteClass } from '../../../Redux/Classes/thunks';
 import { refreshData } from '../../../Redux/Classes/actions';
@@ -53,7 +52,12 @@ function ClassList({ classes }) {
 
   return (
     <div className={styles.container}>
-      <Input placeholder="Class Filter" value={filter} change={(e) => handleFilter(e)} />
+      <input
+        placeholder="Search By Activity/Trainer"
+        value={filter}
+        onChange={(e) => handleFilter(e)}
+      />
+
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>

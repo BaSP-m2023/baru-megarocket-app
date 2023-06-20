@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import ResponseModal from '../../Shared/ResponseModal';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import Button from '../../Shared/Button';
-import styles from './form.module.css';
-import { Input } from '../../Shared/Inputs';
-import { addTrainer, getTrainers, updTrainer } from '../../../Redux/Trainers/thunks';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import Button from 'Components/Shared/Button';
+import styles from 'Components/Trainers/Form/form.module.css';
+import { Input } from 'Components/Shared/Inputs';
+import { addTrainer, getTrainers, updTrainer } from 'Redux/Trainers/thunks';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import trainerSchema from 'Validations/trainer';
 const Form = () => {
   const { id } = useParams();
@@ -89,6 +89,9 @@ const Form = () => {
           </div>
         ))}
         <div className={styles.btnContainer}>
+          <Link to="/trainers">
+            <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
+          </Link>
           <Button
             text={id ? 'Update' : 'Submit'}
             classNameButton="addButton"
@@ -96,9 +99,6 @@ const Form = () => {
           >
             {id ? 'Update' : 'Submit'}
           </Button>
-          <Link to="/trainers">
-            <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
-          </Link>
         </div>
         <Button text={'Reset'} classNameButton="deleteButton" action={handleReset} />
       </form>
