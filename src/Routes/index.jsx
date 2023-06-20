@@ -6,8 +6,6 @@ import Header from 'Components/Header/index';
 import Footer from 'Components/Footer/index';
 import Loader from 'Components/Shared/Loader';
 import styles from './layout.module.css';
-import SubscribeActivities from 'Components/MemberLogged/SubscribeActivities';
-import FormMemberSubscription from 'Components/MemberLogged/SubscribeActivities/FormMemberSubscription';
 
 const Admins = lazy(() => import('./admin'));
 const AdminsForm = lazy(() => import('./admin/form'));
@@ -18,6 +16,8 @@ const ClassForm = lazy(() => import('./class/form'));
 const Members = lazy(() => import('./member'));
 const MemberForm = lazy(() => import('./member/form'));
 const MemberProfile = lazy(() => import('./member/profile'));
+const SubscribeActivities = lazy(() => import('./member-logged/subscribeActivities'));
+const FormMemberSubscription = lazy(() => import('./member-logged/formMemberSubscription'));
 const Subscriptions = lazy(() => import('./subscription'));
 const SubscriptionsForm = lazy(() => import('./subscription/form'));
 const SuperAdmins = lazy(() => import('./super-admin'));
