@@ -56,17 +56,19 @@ const Form = () => {
       setValue('phone', data.phone);
       setValue('email', data.email);
       setValue('salary', data.salary);
-      setValue('membership', data.membership);
       setValue('password', data.password);
+      console.log('data', data);
     } catch (error) {
       dispatch(handleDisplayToast(true));
     }
   };
+
   useEffect(() => {
     if (id && getValues('firstName') === '') {
       getTrainer(id);
     }
   }, []);
+
   const handleConfirm = (data) => {
     setShowConfirmModal(false);
     onSubmit(data);
@@ -78,9 +80,11 @@ const Form = () => {
       : dispatch(addTrainer(data, history));
   };
 
-  const handleConfirmModal = () => {
+  const handleConfirmModal = (data) => {
+    console.log('confirm data ', data);
     setShowConfirmModal(true);
   };
+
   const handleReset = (e) => {
     e.preventDefault();
     reset();
@@ -111,20 +115,20 @@ const Form = () => {
             />
           </div>
         ))}
-        <div className={styles.btnContainer}>
-          <Link to="/trainers">
-            <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
-          </Link>
-          <Button
-            text={id ? 'Update' : 'Submit'}
-            classNameButton="addButton"
-            action={handleSubmit(handleConfirmModal)}
-          >
-            {id ? 'Update' : 'Submit'}
-          </Button>
-        </div>
         <Button text={'Reset'} classNameButton="deleteButton" action={handleReset} />
       </form>
+      <div className={styles.btnContainer}>
+        <Link to="/trainers">
+          <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
+        </Link>
+        <Button
+          text={id ? 'Update' : 'Submit'}
+          classNameButton="addButton"
+          action={handleSubmit(handleConfirmModal)}
+        >
+          {id ? 'Update' : 'Submit'}
+        </Button>
+      </div>
       {showConfirmModal && (
         <ConfirmModal
           title={id ? 'Edit Trainer' : 'Add Trainer'}

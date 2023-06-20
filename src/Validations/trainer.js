@@ -25,7 +25,6 @@ const trainerSchema = Joi.object({
       'string.max': 'Last Name should have a maximum length of 10',
       'string.empty': 'Last Name is required'
     }),
-
   dni: Joi.string()
     .min(7)
     .max(10)
@@ -45,7 +44,13 @@ const trainerSchema = Joi.object({
       'string.empty': 'Phone is required'
     })
     .required(),
-  email: Joi.string().required(),
+  email: Joi.string()
+    .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'This input should be a valid email',
+      'string.empty': 'Email is required'
+    }),
   password: Joi.string()
     .min(8)
     .max(20)

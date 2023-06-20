@@ -216,6 +216,7 @@ function ClassForm() {
         </div>
         <div className={styles.inputContainer}>
           <Input
+            className={styles.select}
             labelText="Time"
             type="time"
             placeholder="Time"

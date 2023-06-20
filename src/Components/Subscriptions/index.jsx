@@ -38,10 +38,8 @@ const Subscriptions = () => {
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Subscriptions</h1>
-      <label className={styles.inputSearch}>Search Subscription</label>
       <div className={styles.inputSearch}>
         <input
-          className={styles.inputSearch}
           name="Search Subscription"
           placeholder="Search Subscription"
           value={searchTerm}
