@@ -16,9 +16,7 @@ import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import classSchema from 'Validations/class';
 
 function ClassForm() {
-  // const [error, setError] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
   const location = useLocation();
   const history = useHistory();
   const { id } = useParams();
@@ -52,7 +50,7 @@ function ClassForm() {
     if (!isCreateRoute) {
       const activity = activities.find((activity) => activity._id === getValues('activity'));
       setOptionsTrainer(
-        activity.trainers.map((trainer) => ({
+        activity?.trainers.map((trainer) => ({
           value: trainer._id,
           label: `${trainer.firstName} ${trainer.lastName}`
         }))
@@ -97,7 +95,6 @@ function ClassForm() {
   useEffect(() => {
     getActivities(dispatch);
     getTrainers(dispatch);
-    // !isCreateRoute && getById(id);
   }, [dispatch]);
 
   const createClass = async (newClass) => {
@@ -130,7 +127,7 @@ function ClassForm() {
         return true;
       })
     ) {
-      updateClass();
+      updateClass(data);
     }
   };
 

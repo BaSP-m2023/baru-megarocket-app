@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './list.module.css';
 import Button from '../../Shared/Button';
@@ -6,6 +6,7 @@ import ConfirmModal from '../../Shared/ConfirmModal';
 import { useDispatch } from 'react-redux';
 import { deleteClass } from '../../../Redux/Classes/thunks';
 import { refreshData } from '../../../Redux/Classes/actions';
+import { getActivities } from 'Redux/Activities/thunks';
 
 function ClassList({ classes }) {
   const [filter, setFilter] = useState('');
@@ -15,7 +16,9 @@ function ClassList({ classes }) {
   const handleFilter = (e) => {
     setFilter(e.target.value);
   };
-
+  useEffect(() => {
+    dispatch(getActivities);
+  }, []);
   const handleDeleteClass = (classId) => {
     dispatch(deleteClass(classId))
       .then((dataId) => {
