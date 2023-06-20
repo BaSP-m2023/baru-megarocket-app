@@ -3,20 +3,23 @@ import { getSubscriptions } from 'Redux/Subscriptions/thunks';
 import { deleteSubscription } from 'Redux/Subscriptions/thunks';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '../../../Shared/Button';
+import Button from 'Components/Shared/Button';
 import styles from './subscriptionMember.module.css';
-import ConfirmModal from '../../../Shared/ConfirmModal';
-import ResponseModal from '../../../Shared/ResponseModal';
-import { handleDisplayToast } from '../../../../Redux/Shared/ResponseToast/actions';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+import Loader from 'Components/Shared/Loader';
 
 const SubscriptionsMember = () => {
   const subscriptions = useSelector((state) => state.subscriptions.data);
+  const pending = useSelector((state) => state.subscriptions.isPending);
   const activities = useSelector((state) => state.activities.list);
   const dispatch = useDispatch();
   const [subscription, setSubscription] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
   const [idToDelete, setIdToDelete] = useState('');
+  const member = useSelector((state) => state.loginMembers.data);
 
   useEffect(() => {
     getSubscriptions(dispatch);
@@ -31,9 +34,7 @@ const SubscriptionsMember = () => {
 
   const getActivitiesName = async () => {
     let arraySubs = [];
-    const filterSubscription = subscriptions.filter(
-      (item) => item.members._id === '647e03995744e5e9dd299290'
-    );
+    const filterSubscription = subscriptions.filter((item) => item.members._id === member._id);
 
     await filterSubscription.forEach((sub) => {
       activities?.forEach((act) => {
@@ -42,12 +43,24 @@ const SubscriptionsMember = () => {
             subId: sub._id,
             activityName: act.name,
             day: sub.classes.day,
-            time: sub.classes.time
+            time: sub.classes.time,
+            date: sub.date
           });
         }
       });
     });
-    return arraySubs;
+    arraySubs.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const formattedArraySubs = arraySubs.map((obj) => {
+      const date = new Date(obj.date);
+      const day = (date.getDate() + 1).toString();
+      const month = (date.getMonth() + 1).toString();
+      const year = date.getFullYear().toString();
+      return {
+        ...obj,
+        date: `${day}/${month}/${year}`
+      };
+    });
+    return formattedArraySubs;
   };
 
   const handleDeleteActivity = () => {
@@ -62,36 +75,45 @@ const SubscriptionsMember = () => {
 
   return (
     <>
-      <table className={styles.table}>
-        <thead className={styles.thead}>
-          <tr>
-            <th className={styles.th}>Activity</th>
-            <th className={styles.th}>Day</th>
-            <th className={styles.th}>Time</th>
-            <th className={styles.th}></th>
-          </tr>
-        </thead>
-        <tbody>
-          {subscription?.map((item) => {
-            return (
-              <tr className={styles.tr} key={item.subId}>
-                <td className={styles.td}>{item.activityName}</td>
-                <td className={styles.td}>{item.day}</td>
-                <td className={styles.td}>{item.time}</td>
-                <td className={styles.button}>
-                  <div className={styles.buttonContainer}>
-                    <Button
-                      text="Unsubscribe"
-                      classNameButton="deleteButton"
-                      action={() => handleDeleteButton(item.subId)}
-                    />
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {pending && (
+        <div className={styles.loader}>
+          <Loader />
+        </div>
+      )}
+      {!pending && (
+        <table className={styles.table}>
+          <thead className={styles.thead}>
+            <tr>
+              <th className={styles.th}>Date</th>
+              <th className={styles.th}>Activity</th>
+              <th className={styles.th}>Day</th>
+              <th className={styles.th}>Time</th>
+              <th className={styles.th}></th>
+            </tr>
+          </thead>
+          <tbody>
+            {subscription?.map((item) => {
+              return (
+                <tr className={styles.tr} key={item.subId}>
+                  <td className={styles.td}>{item.date}</td>
+                  <td className={styles.td}>{item.activityName}</td>
+                  <td className={styles.td}>{item.day}</td>
+                  <td className={styles.td}>{item.time}</td>
+                  <td className={styles.button}>
+                    <div className={styles.buttonContainer}>
+                      <Button
+                        text="Unsubscribe"
+                        classNameButton="deleteButton"
+                        action={() => handleDeleteButton(item.subId)}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
       {showConfirmModal && (
         <ConfirmModal
           handler={() => setShowConfirmModal(false)}
