@@ -1,9 +1,9 @@
 import styles from './table.module.css';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import Button from '../../Shared/Button';
-import { deleteMember } from '../../../Redux/Members/thunks';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import Button from 'Components/Shared/Button';
+import { deleteMember } from 'Redux/Members/thunks';
 import { useDispatch } from 'react-redux';
 
 const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {

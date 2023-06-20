@@ -5,15 +5,15 @@ import { Link, useParams, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './form.module.css';
 
-import { addActivity, editActivity } from '../../../Redux/Activities/thunks';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { addActivity, editActivity } from 'Redux/Activities/thunks';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { getTrainers } from 'Redux/Trainers/thunks';
 import activitySchema from 'Validations/activity';
 
-import Button from '../../Shared/Button';
-import { Input, Textarea } from '../../Shared/Inputs';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import ResponseModal from '../../Shared/ResponseModal';
+import Button from 'Components/Shared/Button';
+import { Input, Textarea } from 'Components/Shared/Inputs';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
 import Select from 'react-select';
 
 const Form = () => {
