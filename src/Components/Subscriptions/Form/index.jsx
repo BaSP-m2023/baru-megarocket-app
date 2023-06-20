@@ -13,7 +13,7 @@ import {
   getSubscriptions,
   editSubscription
 } from '../../../Redux/Subscriptions/thunks';
-import { reset } from '../../../Redux/Subscriptions/actions';
+import { resetState } from '../../../Redux/Subscriptions/actions';
 import { getClasses } from '../../../Redux/Classes/thunks';
 import { getMembers } from '../../../Redux/Members/thunks';
 const Form = () => {
@@ -52,7 +52,7 @@ const Form = () => {
   useEffect(() => {
     if (success) {
       history.push('/subscriptions');
-      dispatch(reset());
+      dispatch(resetState());
     }
   }, [success]);
 

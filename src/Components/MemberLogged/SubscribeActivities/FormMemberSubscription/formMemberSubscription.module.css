@@ -46,3 +46,7 @@
   border: 1px solid #373867;
   border-radius: 5px;
 }
+.error {
+  color: red;
+  font-size: 0.8rem;
+}

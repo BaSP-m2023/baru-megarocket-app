@@ -1,7 +1,7 @@
 import Button from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import { getClasses } from 'Redux/Classes/thunks';
-import { addSubscriptions } from 'Redux/Subscriptions/thunks';
+import { addSubscriptions, getSubscriptions } from 'Redux/Subscriptions/thunks';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
@@ -10,14 +10,14 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import subscriptionSchema from 'Validations/subscription';
 import styles from './formMemberSubscription.module.css';
-import { reset } from 'Redux/Subscriptions/actions';
+import { resetState } from 'Redux/Subscriptions/actions';
 
 const FormMemberSubscription = () => {
   const { id } = useParams();
   const history = useHistory();
-  const { data, isPending } = useSelector((state) => state.classes);
+  const { isPending } = useSelector((state) => state.classes);
   const member = useSelector((state) => state.loginMembers.data);
-  const success = useSelector((state) => state.subscriptions.success);
+  const { success } = useSelector((state) => state.subscriptions);
   const dispatch = useDispatch();
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -36,19 +36,20 @@ const FormMemberSubscription = () => {
   });
 
   useEffect(() => {
-    getClasses(dispatch).then(() => {
-      filterClassAndOrder();
+    getSubscriptions(dispatch);
+    getClasses(dispatch).then((data) => {
+      filterClassAndOrder(data);
     });
   }, [dispatch]);
 
   useEffect(() => {
     if (success) {
       history.push('/user/members/subscribe-class');
-      dispatch(reset());
+      dispatch(resetState());
     }
   }, [success]);
 
-  const filterClassAndOrder = () => {
+  const filterClassAndOrder = (data) => {
     const filteredClasses = data.filter(
       (item) => !item.deleted && item.activity && item.activity._id === id
     );
@@ -74,8 +75,6 @@ const FormMemberSubscription = () => {
   };
   const onConfirm = (data) => {
     try {
-      console.log(data);
-
       addSubscriptions(dispatch, data);
       setShowConfirmModal(false);
     } catch (error) {
@@ -103,8 +102,7 @@ const FormMemberSubscription = () => {
                 </option>
               ))}
             </select>
-            {console.log(errors)}
-            {errors.classes && <p>Please select a class</p>}
+            {errors.classes && <p className={styles.error}>Please select a class</p>}
             <div className={styles.buttonContainer}>
               <Link to="/user/members/subscribe-class">
                 <Button classNameButton={'cancelButton'} text={'Cancel'} />
