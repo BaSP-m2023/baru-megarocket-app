@@ -32,3 +32,11 @@
   margin-top: 8%;
   margin-bottom: 5%;
 }
+
+.container_button, .reset_button {
+  text-align: center;
+}
+
+.reset_button button {
+  background-color: grey;
+}
