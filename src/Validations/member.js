@@ -11,7 +11,7 @@ const memberSchema = Joi.object({
       'string.pattern.base': 'Name should only contain alphabetic characters',
       'string.min': 'Name should have a minimum length of 4',
       'string.max': 'Name should have a maximum length of 10',
-      'any.required': 'Name is required'
+      'string.empty': 'Name is required'
     }),
   lastName: Joi.string()
     .pattern(/^[a-zA-Z]+$/)
@@ -23,22 +23,30 @@ const memberSchema = Joi.object({
       'string.pattern.base': 'Last Name should only contain alphabetic characters',
       'string.min': 'Last Name should have a minimum length of 4',
       'string.max': 'Last Name should have a maximum length of 10',
-      'any.required': 'Last Name is required'
+      'string.empty': 'Last Name is required'
     }),
-  phone: Joi.string().min(10).required().messages({
-    'string.min': 'Phone should have a minimum length of 10',
-    'any.required': 'Phone is required'
-  }),
+  phone: Joi.string()
+    .pattern(/^[0-9]+$/)
+    .min(10)
+    .max(15)
+    .required()
+    .messages({
+      'string.pattern.base': 'Phone Number should only contain numbers',
+      'string.base': 'Phone Number should be a string',
+      'string.empty': 'Phone Number is required',
+      'string.min': 'Phone Number should have a minimum length of 10',
+      'string.max': 'Phone Number should have a maximum length of 15'
+    }),
   dni: Joi.string()
     .pattern(/^(?!^0)[0-9]{7,11}$/)
     .required()
     .messages({
       'string.pattern.base': 'Dni should be numbers beetween 7 and 10 characters',
-      'any.required': 'Dni is required'
+      'string.empty': 'Dni is required'
     }),
   city: Joi.string().min(3).required().messages({
     'string.min': 'City should have a minimum length of 3',
-    'any.required': 'City is required'
+    'string.empty': 'City is required'
   }),
   dob: Joi.date().greater('1923-01-01').less('2005-01-01').required().messages({
     'date.greater': 'Date should be greater than 1923-01-01',
@@ -60,7 +68,8 @@ const memberSchema = Joi.object({
     .pattern(/^[a-zA-Z0-9]{6,20}$/)
     .required()
     .messages({
-      'string.pattern.base': 'Password should have numbers and letters between 6 and 20 characters'
+      'string.pattern.base': 'Password should have numbers and letters between 6 and 20 characters',
+      'string.empty': 'Password is required'
     })
 });
 
