@@ -2,13 +2,14 @@
   display: flex;
   flex-direction: column;
   width: 75%;
-  height: 40vh;
+  height: 50vh;
   overflow-y: scroll;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
 }
 
 .tableFilter {
@@ -24,7 +25,7 @@
 }
 
 .tableHeader th {
-  padding: 1em 0;
+  padding: 0.8em;
   color: #373867;
 }
 
@@ -34,10 +35,15 @@
 }
 
 .tableRow td {
-  padding: 0.8em 0;
+  padding: 0.8em;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 500px;
   text-overflow: ellipsis;
+}
+
+.tableRow:hover {
+  background-color: #c4bcbc;
 }
 
 .tableError {
