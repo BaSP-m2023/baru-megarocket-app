@@ -87,7 +87,7 @@ export const addSubscriptionsError = (error) => {
     payload: error
   };
 };
-export const reset = () => {
+export const resetState = () => {
   return {
     type: RESET_STATE
   };
