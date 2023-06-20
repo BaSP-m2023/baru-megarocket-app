@@ -27,6 +27,8 @@ const Form = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
+    getValues,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -42,9 +44,29 @@ const Form = () => {
     }
   });
   useEffect(() => {
-    getTrainers(dispatch);
+    dispatch(getTrainers);
   }, [dispatch]);
-
+  const getTrainer = async (id) => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`);
+      const { data } = await res.json();
+      setValue('firstName', data.firstName);
+      setValue('lastName', data.lastName);
+      setValue('dni', data.dni);
+      setValue('phone', data.phone);
+      setValue('email', data.email);
+      setValue('salary', data.salary);
+      setValue('membership', data.membership);
+      setValue('password', data.password);
+    } catch (error) {
+      dispatch(handleDisplayToast(true));
+    }
+  };
+  useEffect(() => {
+    if (id && getValues('firstName') === '') {
+      getTrainer(id);
+    }
+  }, []);
   const handleConfirm = (data) => {
     setShowConfirmModal(false);
     onSubmit(data);
@@ -62,6 +84,7 @@ const Form = () => {
   const handleReset = (e) => {
     e.preventDefault();
     reset();
+    getTrainer(id);
   };
   const formFields = [
     { labelText: 'First Name', name: 'firstName', type: 'text' },
