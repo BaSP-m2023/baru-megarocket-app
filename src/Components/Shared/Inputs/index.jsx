@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './input.module.css';
 
-export function Input({ labelText, type, name, placeholder, blur, register, disabled, error }) {
+export function Input({ labelText, type, name, placeholder, blur, register, error, disabled }) {
   return (
     <>
       <label htmlFor={name} className={styles.label}>
@@ -13,8 +13,8 @@ export function Input({ labelText, type, name, placeholder, blur, register, disa
         name={name}
         placeholder={placeholder || ''}
         onBlur={blur && blur}
-        disabled={disabled}
-        {...register(name)}
+        {...(register && { ...register(name) })}
+        disabled={disabled || false}
       />
       {error && <p className={styles.error}>{error}</p>}
     </>
@@ -34,7 +34,7 @@ export function Textarea({ labelText, rows, cols, name, placeholder, blur, regis
         cols={cols}
         placeholder={placeholder || ''}
         onBlur={blur && blur}
-        {...register(name)}
+        {...(register && { ...register(name) })}
       ></textarea>
       {error && <p className={styles.error}>{error}</p>}
     </>

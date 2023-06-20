@@ -80,8 +80,8 @@ function AdminProfile() {
     setDisableEdit(true);
     setValue('firstName', defaultAdmin.firstName);
     setValue('lastName', defaultAdmin.lastName);
-    setValue('dni', defaultAdmin.dni);
-    setValue('phone', defaultAdmin.phone);
+    setValue('dni', defaultAdmin.dni.toString());
+    setValue('phone', defaultAdmin.phone.toString());
     setValue('email', defaultAdmin.email);
     setValue('city', defaultAdmin.city);
     setValue('password', defaultAdmin.password);
