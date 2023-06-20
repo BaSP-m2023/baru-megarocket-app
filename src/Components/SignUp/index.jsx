@@ -1,5 +1,5 @@
 import { Input } from 'Components/Shared/Inputs';
-import styles from '../Login/login.module.css';
+import styles from './signup.module.css';
 import Button from 'Components/Shared/Button';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useState } from 'react';
@@ -61,50 +61,56 @@ function SignUp() {
   ];
 
   return (
-    <section className={styles.formContainer}>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <div className={styles.titleContainer}>
-          <h2 className={styles.h2}>MegaRocket</h2>
-          <h3 className={styles.h3}>Sign Up</h3>
+    <div>
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <h2>Member Register</h2>
+          <span className={styles.close_button} onClick={() => history.push('/')}>
+            &times;
+          </span>
         </div>
-        <div>
-          {formFields.map((inputData, index) => (
-            <div className={styles.inputContainer} key={index}>
-              <Input
-                labelText={inputData.labelText}
-                type={inputData.type}
-                name={inputData.name}
-                register={register}
-                error={errors[inputData.name]?.message}
-              />
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.body}>
+          <div>
+            {formFields.map((inputData, index) => (
+              <div className={styles.label_container} key={index}>
+                <Input
+                  labelText={inputData.labelText}
+                  type={inputData.type}
+                  name={inputData.name}
+                  register={register}
+                  error={errors[inputData.name]?.message}
+                />
+              </div>
+            ))}
+            <div className={styles.label_container}>
+              <label className={styles.label}>Membership</label>
+              <select className={styles.select} name="membership" {...register('membership')}>
+                <option value="default">Choose your membership</option>
+                <option value="classic">Classic</option>
+                <option value="only_classes">Only Classes</option>
+                <option value="black">Black</option>
+              </select>
+              {errors.membership && <p className={styles.error}>Choose your membership</p>}
             </div>
-          ))}
-        </div>
-        <div className={styles.inputContainer}>
-          <label className={styles.label}>Membership</label>
-          <select className={styles.select} name="membership" {...register('membership')}>
-            <option value="default">Choose your membership</option>
-            <option value="classic">Classic</option>
-            <option value="only_classes">Only Classes</option>
-            <option value="black">Black</option>
-          </select>
-        </div>
-        <div className={styles.buttonContainer}>
-          <Button classNameButton="addButton" text={'Sign Up'} />
-          <Button classNameButton="cancelButton" text={'Home'} />
-        </div>
-      </form>
-      {showConfirmModal && (
-        <ConfirmModal
-          title="Sign Up"
-          handler={() => setShowConfirmModal(false)}
-          onAction={handleSubmit(handleSignup)}
-          reason={'submit'}
-        >
-          {`Are you sure you wanna edit?`}
-        </ConfirmModal>
-      )}
-    </section>
+          </div>
+
+          <div className={styles.buttonContainer}>
+            <Button classNameButton="addButton" text={'Sign Up'} />
+            <Button classNameButton="cancelButton" text={'Home'} action={() => history.push('/')} />
+          </div>
+        </form>
+        {showConfirmModal && (
+          <ConfirmModal
+            title="Sign Up"
+            handler={() => setShowConfirmModal(false)}
+            onAction={handleSubmit(handleSignup)}
+            reason={'submit'}
+          >
+            {`Are you sure you want to sign up?`}
+          </ConfirmModal>
+        )}
+      </div>
+    </div>
   );
 }
 
