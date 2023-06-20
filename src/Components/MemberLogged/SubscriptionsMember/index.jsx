@@ -112,7 +112,7 @@ const SubscriptionsMember = () => {
           handler={() => setShowConfirmModal(false)}
           title="Unsubscribe Activity"
           reason="delete"
-          onAction={() => handleDeleteActivity()}
+          onAction={handleDeleteActivity}
         >
           Are you sure you want to unsubscribe activity?
         </ConfirmModal>
