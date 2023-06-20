@@ -63,16 +63,14 @@ const FormMemberSubscription = () => {
     setClasses(filteredClasses);
   };
 
-  const handleShowConfirmModal = async () => {
-    if (!showConfirmModal) {
-      setShowConfirmModal(true);
-    } else {
-      setShowConfirmModal(false);
-    }
+  const handleShowConfirmModal = () => {
+    setShowConfirmModal(!showConfirmModal);
   };
+
   const onSubmit = () => {
     handleShowConfirmModal();
   };
+
   const onConfirm = (data) => {
     try {
       addSubscriptions(dispatch, data);
@@ -112,7 +110,7 @@ const FormMemberSubscription = () => {
           </form>
           {showConfirmModal && (
             <ConfirmModal
-              handler={() => handleShowConfirmModal()}
+              handler={handleShowConfirmModal}
               title={'Are you sure?'}
               onAction={handleSubmit(onConfirm)}
               reason="submit"
