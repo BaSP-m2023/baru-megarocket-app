@@ -1,3 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #373867;
+}
+
 .loader {
  display: flex;
  align-items: center;
@@ -14,7 +28,7 @@
 }
 
 .th {
-  width: 20%;
+  width: 25%;
   padding: 13px;
   vertical-align: middle;
   color: #373867;

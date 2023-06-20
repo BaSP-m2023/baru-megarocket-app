@@ -43,24 +43,12 @@ const SubscriptionsMember = () => {
             subId: sub._id,
             activityName: act.name,
             day: sub.classes.day,
-            time: sub.classes.time,
-            date: sub.date
+            time: sub.classes.time
           });
         }
       });
     });
-    arraySubs.sort((a, b) => new Date(a.date) - new Date(b.date));
-    const formattedArraySubs = arraySubs.map((obj) => {
-      const date = new Date(obj.date);
-      const day = (date.getDate() + 1).toString();
-      const month = (date.getMonth() + 1).toString();
-      const year = date.getFullYear().toString();
-      return {
-        ...obj,
-        date: `${day}/${month}/${year}`
-      };
-    });
-    return formattedArraySubs;
+    return arraySubs;
   };
 
   const handleDeleteActivity = () => {
@@ -81,38 +69,39 @@ const SubscriptionsMember = () => {
         </div>
       )}
       {!pending && (
-        <table className={styles.table}>
-          <thead className={styles.thead}>
-            <tr>
-              <th className={styles.th}>Date</th>
-              <th className={styles.th}>Activity</th>
-              <th className={styles.th}>Day</th>
-              <th className={styles.th}>Time</th>
-              <th className={styles.th}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {subscription?.map((item) => {
-              return (
-                <tr className={styles.tr} key={item.subId}>
-                  <td className={styles.td}>{item.date}</td>
-                  <td className={styles.td}>{item.activityName}</td>
-                  <td className={styles.td}>{item.day}</td>
-                  <td className={styles.td}>{item.time}</td>
-                  <td className={styles.button}>
-                    <div className={styles.buttonContainer}>
-                      <Button
-                        text="Unsubscribe"
-                        classNameButton="deleteButton"
-                        action={() => handleDeleteButton(item.subId)}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className={styles.container}>
+          <h2 className={styles.title}>Your subscriptions</h2>
+          <table className={styles.table}>
+            <thead className={styles.thead}>
+              <tr>
+                <th className={styles.th}>Activity</th>
+                <th className={styles.th}>Day</th>
+                <th className={styles.th}>Time</th>
+                <th className={styles.th}></th>
+              </tr>
+            </thead>
+            <tbody>
+              {subscription?.map((item) => {
+                return (
+                  <tr className={styles.tr} key={item.subId}>
+                    <td className={styles.td}>{item.activityName}</td>
+                    <td className={styles.td}>{item.day}</td>
+                    <td className={styles.td}>{item.time}</td>
+                    <td className={styles.button}>
+                      <div className={styles.buttonContainer}>
+                        <Button
+                          text="Unsubscribe"
+                          classNameButton="deleteButton"
+                          action={() => handleDeleteButton(item.subId)}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       )}
       {showConfirmModal && (
         <ConfirmModal
