@@ -18,6 +18,8 @@ const activitySchema = Joi.object({
       'string.pattern.base': 'Description should must contains only letters.',
       'string.min': 'Description should have a minimun of 20 characters'
     })
-    .required()
+    .required(),
+  isActive: Joi.boolean(),
+  trainers: Joi.array().min(1).required()
 });
 export default activitySchema;
