@@ -91,7 +91,7 @@ const FormMemberSubscription = () => {
       ) : (
         <div className={styles.formContainer}>
           <h2>
-            {classes.length !== 0 ? classes[0].activity.name : 'Esta actividad no tiene clases'}
+            {classes.length !== 0 ? classes[0].activity.name : 'This activity has no classes'}
           </h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <select name="classes" {...register('classes')}>
