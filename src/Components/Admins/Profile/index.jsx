@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import adminSchema from '../../../Validations/admin';
+import adminSchema from 'Validations/admin';
 import { joiResolver } from '@hookform/resolvers/joi';
 function AdminProfile() {
   const dispatch = useDispatch();
@@ -101,7 +101,11 @@ function AdminProfile() {
             </button>
           )}
         </div>
-        {loading && <Loader />}
+        {loading && (
+          <div className={styles.loader_container}>
+            <Loader />
+          </div>
+        )}
         {!loading && (
           <form className={styles.body}>
             <div className={styles.label_container}>

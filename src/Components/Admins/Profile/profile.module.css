@@ -9,7 +9,13 @@
   border-radius: 7px;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
 }
-
+.loader_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5%;
+  height: 100%;
+}
 .header {
   display: flex;
   align-items: center;

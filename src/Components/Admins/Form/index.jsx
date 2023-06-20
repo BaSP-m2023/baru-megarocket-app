@@ -7,10 +7,10 @@ import ResponseModal from 'Components/Shared/ResponseModal';
 import { Input } from 'Components/Shared/Inputs';
 import { addAdmin, getAdminsById, editAdmin } from 'Redux/Admins/thunks';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
-import { resetState } from '../../../Redux/Admins/actions';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+import { resetState } from 'Redux/Admins/actions';
 import { useForm } from 'react-hook-form';
-import adminSchema from '../../../Validations/admin';
+import adminSchema from 'Validations/admin';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 function AdminsForm() {
