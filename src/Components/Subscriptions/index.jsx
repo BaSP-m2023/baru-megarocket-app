@@ -11,6 +11,7 @@ import Table from './Table';
 import Button from '../Shared/Button';
 // import { Input } from '../Shared/Inputs';
 import ResponseModal from '../Shared/ResponseModal';
+import { getClasses } from 'Redux/Classes/thunks';
 
 const Subscriptions = () => {
   const { show, message, state } = useSelector((state) => state.toast);
@@ -21,6 +22,7 @@ const Subscriptions = () => {
   const subscriptions = useSelector((state) => state.subscriptions.data);
   useEffect(() => {
     getSubscriptions(dispatch);
+    getClasses(dispatch);
   }, [dispatch]);
 
   useEffect(() => {
