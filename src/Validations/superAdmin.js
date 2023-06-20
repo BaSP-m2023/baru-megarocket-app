@@ -1,15 +1,44 @@
 import Joi from 'joi';
 
 const superAdminSchema = Joi.object({
-  name: Joi.string().alphanum().trim().min(3).max(50).required(),
-  lastName: Joi.string().alphanum().trim().min(3).max(50).required(),
+  name: Joi.string()
+    .pattern(/^[a-zA-Z]+$/)
+    .min(4)
+    .max(10)
+    .required()
+    .messages({
+      'string.base': 'Name should be a string',
+      'string.pattern.base': 'Name should only contain alphabetic characters',
+      'string.min': 'Name should have a minimum length of 4',
+      'string.max': 'Name should have a maximum length of 10',
+      'string.empty': 'Name is required'
+    }),
+  lastName: Joi.string()
+    .pattern(/^[a-zA-Z]+$/)
+    .min(4)
+    .max(10)
+    .required()
+    .messages({
+      'string.base': 'Last Name should be a string',
+      'string.pattern.base': 'Last Name should only contain alphabetic characters',
+      'string.min': 'Last Name should have a minimum length of 4',
+      'string.max': 'Last Name should have a maximum length of 10',
+      'string.empty': 'Lastname is required'
+    }),
   email: Joi.string()
-    .lowercase()
-    .pattern(/^[^@]+@[^@]+\.[a-zA-Z]{2,}$/)
-    .min(3)
-    .max(80)
-    .required(),
-  password: Joi.string().alphanum().min(8).max(50).required()
+    .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'This input should be a valid email',
+      'string.empty': 'Email is required'
+    }),
+  password: Joi.string()
+    .pattern(/^[a-zA-Z0-9]{6,20}$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'Password should have numbers and letters between 6 and 20 characters',
+      'string.empty': 'Password is required'
+    })
 });
 
 export default superAdminSchema;

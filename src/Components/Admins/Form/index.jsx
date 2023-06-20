@@ -159,7 +159,9 @@ function AdminsForm() {
               register={register}
             />
           </div>
-          <Button classNameButton="deleteButton" action={reset} text="Reset" />
+          <div className={styles.container_button}>
+            <Button action={reset} text="Reset" />
+          </div>
         </form>
         <div className={styles.buttonContainer}>
           <div>
@@ -172,7 +174,11 @@ function AdminsForm() {
             </Link>
           </div>
           <div>
-            <Button action={handleButton} classNameButton="submitButton" text="Submit"></Button>
+            <Button
+              action={handleSubmit(handleButton)}
+              classNameButton="submitButton"
+              text="Submit"
+            ></Button>
           </div>
         </div>
       </div>

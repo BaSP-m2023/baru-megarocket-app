@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styles from './form.module.css';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import ResponseModal from '../../Shared/ResponseModal';
-import Button from '../../Shared/Button';
-import { Input } from '../../Shared/Inputs';
-import { addMember, updateMember } from '../../../Redux/Members/thunks';
+import styles from 'Components/Members/Form/form.module.css';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import Button from 'Components/Shared/Button';
+import { Input } from 'Components/Shared/Inputs';
+import { addMember, updateMember } from 'Redux/Members/thunks';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleDisplayToast, setContentToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { useForm } from 'react-hook-form';
 import memberSchema from 'Validations/member';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -86,6 +86,10 @@ const MemberForm = ({ match }) => {
     }
   };
 
+  const handleModal = () => {
+    setModalMessageOpen(true);
+  };
+
   return (
     <div className={styles.form}>
       <div className={styles.content}>
@@ -135,7 +139,7 @@ const MemberForm = ({ match }) => {
           <div className={styles.label_container}>
             <Input
               labelText="Email"
-              type="email"
+              type="string"
               name="email"
               error={errors.email?.message}
               register={register}
@@ -194,14 +198,14 @@ const MemberForm = ({ match }) => {
               register={register}
             />
           </div>
-          <div className={styles.confirm_button}>
-            <Button classNameButton="deleteButton" action={reset} text="Reset" />
+          <div className={styles.reset_button}>
+            <Button action={reset} text="Reset" />
           </div>
         </form>
-        <div className={styles.confirm_button}>
+        <div className={styles.container_button}>
           <Button
             classNameButton="addButton"
-            action={() => setModalMessageOpen(true)}
+            action={handleSubmit(handleModal)}
             text={memberId ? 'Edit' : 'Submit'}
           />
         </div>
