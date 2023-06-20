@@ -89,9 +89,6 @@ function AdminsForm() {
     dispatch(handleDisplayToast(false));
   };
 
-  console.log('error first name', errors.firstName);
-  console.log('error last name', errors.lastName);
-
   return (
     <>
       <div className={styles.formContainer}>

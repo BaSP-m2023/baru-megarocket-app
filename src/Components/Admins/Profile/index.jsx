@@ -6,15 +6,12 @@ import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import { getAdmins, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
-
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-//import { resetState } from '../../../Redux/Admins/actions';
 import { useForm } from 'react-hook-form';
 import adminSchema from '../../../Validations/admin';
 import { joiResolver } from '@hookform/resolvers/joi';
-
 function AdminProfile() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -44,7 +41,6 @@ function AdminProfile() {
       password: defaultAdmin.password
     }
   });
-
   useEffect(() => {
     getAdmins(dispatch);
   }, [dispatch]);
@@ -61,7 +57,6 @@ function AdminProfile() {
 
   const onSubmit = (data) => {
     editAdmin(dispatch, defaultAdmin._id, data);
-    console.log(data);
     setShowConfirmModal(false);
   };
 
@@ -70,7 +65,6 @@ function AdminProfile() {
     setShowConfirmModal(false);
     history.push('/');
   };
-
   const handleAction = (action) => {
     setShowConfirmModal(true);
     setAction(action);
@@ -80,8 +74,8 @@ function AdminProfile() {
     setDisableEdit(true);
     setValue('firstName', defaultAdmin.firstName);
     setValue('lastName', defaultAdmin.lastName);
-    setValue('dni', defaultAdmin.dni.toString());
-    setValue('phone', defaultAdmin.phone.toString());
+    setValue('dni', defaultAdmin.dni);
+    setValue('phone', defaultAdmin.phone);
     setValue('email', defaultAdmin.email);
     setValue('city', defaultAdmin.city);
     setValue('password', defaultAdmin.password);
@@ -93,7 +87,7 @@ function AdminProfile() {
       {defaultAdmin == {} && <p>There are no admins</p>}
       <div className={styles.content}>
         <div className={styles.header}>
-          <h2>Profile information</h2>
+          <h2>{disableEdit ? 'Profile information' : 'Edit profile'}</h2>
           {disableEdit && (
             <Button
               classNameButton="addButton"
@@ -193,6 +187,7 @@ function AdminProfile() {
             action={() => handleAction('edit')}
             classNameButton="addButton"
             text="Edit"
+            disabled={disableEdit}
           ></Button>
         </div>
       </div>
