@@ -21,7 +21,7 @@ export function Input({ labelText, type, name, placeholder, blur, register, disa
   );
 }
 
-export function Textarea({ labelText, rows, cols, name, placeholder, blur, register }) {
+export function Textarea({ labelText, rows, cols, name, placeholder, blur, register, error }) {
   return (
     <>
       <label htmlFor={name} className={styles.label}>
@@ -36,6 +36,7 @@ export function Textarea({ labelText, rows, cols, name, placeholder, blur, regis
         onBlur={blur && blur}
         {...(register && { ...register(name) })}
       ></textarea>
+      {error && <p className={styles.error}>{error}</p>}
     </>
   );
 }
