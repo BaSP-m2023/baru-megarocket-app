@@ -1,3 +1,3 @@
-import SubscriptionsMember from 'Components/MemberLogged/SubscribeActivities/SubscriptionsMember';
+import SubscriptionsMember from 'Components/MemberLogged/SubscriptionsMember';
 
 export default SubscriptionsMember;
