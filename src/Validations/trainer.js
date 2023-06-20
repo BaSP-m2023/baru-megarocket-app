@@ -11,7 +11,7 @@ const trainerSchema = Joi.object({
       'string.pattern.base': 'Name should only contain alphabetic characters',
       'string.min': 'Name should have a minimum length of 4',
       'string.max': 'Name should have a maximum length of 10',
-      'any.required': 'Name is required'
+      'string.empty': 'Name is required'
     }),
   lastName: Joi.string()
     .min(3)
@@ -23,7 +23,7 @@ const trainerSchema = Joi.object({
       'string.pattern.base': 'Last Name should only contain alphabetic characters',
       'string.min': 'Last Name should have a minimum length of 4',
       'string.max': 'Last Name should have a maximum length of 10',
-      'any.required': 'Last Name is required'
+      'string.empty': 'Last Name is required'
     }),
 
   dni: Joi.string()
@@ -32,7 +32,7 @@ const trainerSchema = Joi.object({
     .regex(/^[0-9]+$/)
     .message({
       'string.pattern.base': 'DNI should be only numbers',
-      'any.required': 'Dni is required'
+      'string.empty': 'Dni is required'
     })
     .required(),
   phone: Joi.string()
@@ -42,7 +42,7 @@ const trainerSchema = Joi.object({
     .messages({
       'string.pattern.base': 'Phone must be only numbers',
       'string.min': 'Phone should have a minimum length of 10',
-      'any.required': 'Phone is required'
+      'string.empty': 'Phone is required'
     })
     .required(),
   email: Joi.string().required(),
@@ -50,11 +50,12 @@ const trainerSchema = Joi.object({
     .min(8)
     .max(20)
     .regex(/^[a-zA-Z0-9]+$/)
+    .required()
     .messages({
       'string.pattern.base': 'Password must be numbers, letters or both',
-      'string.min': 'Password should have a minimum length of 8'
-    })
-    .required(),
+      'string.min': 'Password should have a minimum length of 8',
+      'string.empty': 'Password is required'
+    }),
   salary: Joi.string()
     .min(2)
     .max(7)
