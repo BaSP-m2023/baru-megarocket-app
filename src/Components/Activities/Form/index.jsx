@@ -1,22 +1,25 @@
 import { joiResolver } from '@hookform/resolvers/joi';
-import { useForm } from 'react-hook-form';
+import { useForm, useController } from 'react-hook-form';
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addActivity, editActivity } from '../../../Redux/Activities/thunks';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
-
-import styles from './form.module.css';
-import Button from '../../Shared/Button';
-import { Input, Textarea } from '../../Shared/Inputs';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import ResponseModal from '../../Shared/ResponseModal';
+import { addActivity, editActivity } from 'Redux/Activities/thunks';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+import { getTrainers } from 'Redux/Trainers/thunks';
 import activitySchema from 'Validations/activity';
+
+import Button from 'Components/Shared/Button';
+import { Input, Textarea } from 'Components/Shared/Inputs';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import Select from 'react-select';
+import styles from 'Components/Activities/form';
 
 const Form = () => {
   const { list, success } = useSelector((state) => state.activities);
   const { show, message, state } = useSelector((state) => state.toast);
+  const { data } = useSelector((state) => state.trainers);
 
   const [confirm, setConfirmModal] = useState(false);
 
@@ -25,21 +28,33 @@ const Form = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const activity = list.find((activity) => activity._id === id) || '';
+  const options = data.map((trainer) => ({
+    value: trainer._id,
+    label: `${trainer.firstName} ${trainer.lastName}`
+  }));
 
   const {
     register,
     handleSubmit,
+    //getValues,
     reset,
-    formState: { errors }
+    formState: { errors },
+    control
   } = useForm({
     mode: 'onChange',
     resolver: joiResolver(activitySchema),
     defaultValues: {
       name: activity ? activity.name : '',
       description: activity ? activity.description : '',
-      isActive: activity ? activity.isActive : false
+      isActive: activity ? activity.isActive : false,
+      trainers: activity ? activity.trainers : []
     }
   });
+
+  const {
+    field: { value: trainer, onChange: trainerListOnChange }
+  } = useController({ name: 'trainers', control });
+
   const handleConfirm = () => {
     setConfirmModal(!confirm);
   };
@@ -51,12 +66,15 @@ const Form = () => {
     }
   }, [success]);
 
+  useEffect(() => {
+    getTrainers(dispatch);
+  }, []);
+
   const onSubmit = () => {
     handleConfirm();
   };
 
   const onConfirm = async (data) => {
-    console.log(data);
     if (location.pathname.includes('add')) {
       await addActivity(dispatch, data);
     } else {
@@ -86,6 +104,8 @@ const Form = () => {
           <Textarea
             labelText="Description"
             name="description"
+            rows={10}
+            cols={60}
             register={register}
             placeholder={'Description for the activity'}
             error={errors.description?.message}
@@ -93,6 +113,26 @@ const Form = () => {
         </div>
         <div className={`${styles.formGroup} ${styles.formGroupCheckbox}`}>
           <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
+        </div>
+        <div className={`${styles.formGroup}`}>
+          <label className={styles.formLabel}>Asign trainers</label>
+          <Select
+            defaultValue={
+              activity
+                ? activity.trainers.map((trainer) => ({
+                    value: trainer._id,
+                    label: `${trainer.firstName} ${trainer.lastName}`
+                  }))
+                : ''
+            }
+            className={styles.formSelect}
+            placeholder="Select trainer/s"
+            isMulti
+            options={options}
+            value={trainer ? options.find((t) => t.value === trainer) : trainer}
+            onChange={(e) => trainerListOnChange(e.map((c) => c.value))}
+          />
+          {errors.trainers && <p className={styles.error}>{errors.trainers.message}</p>}
         </div>
         <div className={styles.formButtons}>
           <Button text={'Submit'} classNameButton={'submitButton'} />
