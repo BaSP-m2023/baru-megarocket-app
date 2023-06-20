@@ -71,36 +71,40 @@ const SubscriptionsMember = () => {
       {!pending && (
         <div className={styles.container}>
           <h2 className={styles.title}>Your subscriptions</h2>
-          <table className={styles.table}>
-            <thead className={styles.thead}>
-              <tr>
-                <th className={styles.th}>Activity</th>
-                <th className={styles.th}>Day</th>
-                <th className={styles.th}>Time</th>
-                <th className={styles.th}></th>
-              </tr>
-            </thead>
-            <tbody>
-              {subscription?.map((item) => {
-                return (
-                  <tr className={styles.tr} key={item.subId}>
-                    <td className={styles.td}>{item.activityName}</td>
-                    <td className={styles.td}>{item.day}</td>
-                    <td className={styles.td}>{item.time}</td>
-                    <td className={styles.button}>
-                      <div className={styles.buttonContainer}>
-                        <Button
-                          text="Unsubscribe"
-                          classNameButton="deleteButton"
-                          action={() => handleDeleteButton(item.subId)}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          {subscription.length !== 0 ? (
+            <table className={styles.table}>
+              <thead className={styles.thead}>
+                <tr>
+                  <th className={styles.th}>Activity</th>
+                  <th className={styles.th}>Day</th>
+                  <th className={styles.th}>Time</th>
+                  <th className={styles.th}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {subscription?.map((item) => {
+                  return (
+                    <tr className={styles.tr} key={item.subId}>
+                      <td className={styles.td}>{item.activityName}</td>
+                      <td className={styles.td}>{item.day}</td>
+                      <td className={styles.td}>{item.time}</td>
+                      <td className={styles.button}>
+                        <div className={styles.buttonContainer}>
+                          <Button
+                            text="Unsubscribe"
+                            classNameButton="deleteButton"
+                            action={() => handleDeleteButton(item.subId)}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          ) : (
+            <p className={styles.text}>You dont have any subscription</p>
+          )}
         </div>
       )}
       {showConfirmModal && (

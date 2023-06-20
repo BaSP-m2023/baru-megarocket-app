@@ -5,6 +5,13 @@
   justify-content: center;
 }
 
+.text {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #373867;
+}
+
 .title {
   text-align: center;
   font-size: 2rem;
