@@ -14,7 +14,7 @@ import { Input, Textarea } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import Select from 'react-select';
-import styles from '../activities.module.css';
+import styles from './form.module.css';
 
 const Form = () => {
   const { list, success } = useSelector((state) => state.activities);
