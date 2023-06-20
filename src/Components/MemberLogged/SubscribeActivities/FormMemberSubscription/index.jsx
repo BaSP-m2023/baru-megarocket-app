@@ -5,9 +5,9 @@ import { addSubscriptions } from 'Redux/Subscriptions/thunks';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import styles from './formMemberSubscription.module.css';
 import Loader from 'Components/Shared/Loader';
 import { reset } from 'Redux/Subscriptions/actions';
+import styles from './formMemberSubscription.module.css';
 
 const FormMemberSubscription = () => {
   const { id } = useParams();
@@ -41,7 +41,6 @@ const FormMemberSubscription = () => {
     const filteredClasses = data.filter(
       (item) => !item.deleted && item.activity && item.activity._id === id
     );
-
     filteredClasses.sort((a, b) => {
       const dayComparison = a.day.localeCompare(b.day);
       if (dayComparison !== 0) {

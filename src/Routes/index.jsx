@@ -7,7 +7,7 @@ import Footer from 'Components/Footer/index';
 import Loader from 'Components/Shared/Loader';
 import styles from './layout.module.css';
 import SubscribeActivities from 'Components/MemberLogged/SubscribeActivities';
-import FormMemberSubscription from 'Components/MemberLogged/FormMemberSubscription';
+import FormMemberSubscription from 'Components/MemberLogged/SubscribeActivities/FormMemberSubscription';
 
 const Admins = lazy(() => import('./admin'));
 const AdminsForm = lazy(() => import('./admin/form'));
