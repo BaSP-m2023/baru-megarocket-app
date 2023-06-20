@@ -6,8 +6,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import Loader from 'Components/Shared/Loader';
-import { reset } from 'Redux/Subscriptions/actions';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import subscriptionSchema from 'Validations/subscription';
 import styles from './formMemberSubscription.module.css';
+import { reset } from 'Redux/Subscriptions/actions';
 
 const FormMemberSubscription = () => {
   const { id } = useParams();
@@ -19,10 +22,17 @@ const FormMemberSubscription = () => {
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [classes, setClasses] = useState([]);
-  const [subscription, setSubscription] = useState({
-    classes: '',
-    members: member._id,
-    date: new Date()
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(subscriptionSchema),
+    defaultValues: {
+      members: member._id,
+      classes: ''
+    }
   });
 
   useEffect(() => {
@@ -30,6 +40,7 @@ const FormMemberSubscription = () => {
       filterClassAndOrder();
     });
   }, [dispatch]);
+
   useEffect(() => {
     if (success) {
       history.push('/user/members/subscribe-class');
@@ -58,24 +69,14 @@ const FormMemberSubscription = () => {
       setShowConfirmModal(false);
     }
   };
-  const onChangeSelect = (e) => {
-    setSubscription({
-      ...subscription,
-      [e.target.name]: e.target.value
-    });
-  };
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     handleShowConfirmModal();
   };
-  const onConfirm = () => {
+  const onConfirm = (data) => {
     try {
-      const newAddSubscription = {
-        members: subscription.members,
-        classes: subscription.classes,
-        date: subscription.date
-      };
-      addSubscriptions(dispatch, newAddSubscription);
+      console.log(data);
+
+      addSubscriptions(dispatch, data);
       setShowConfirmModal(false);
     } catch (error) {
       throw new Error(error);
@@ -93,8 +94,8 @@ const FormMemberSubscription = () => {
           <h2>
             {classes.length !== 0 ? classes[0].activity.name : 'Esta actividad no tiene clases'}
           </h2>
-          <form onSubmit={onSubmit}>
-            <select name="classes" onChange={onChangeSelect}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <select name="classes" {...register('classes')}>
               <option value="">Select a class</option>
               {classes.map((item) => (
                 <option key={item._id} value={item._id}>
@@ -102,6 +103,8 @@ const FormMemberSubscription = () => {
                 </option>
               ))}
             </select>
+            {console.log(errors)}
+            {errors.classes && <p>Please select a class</p>}
             <div className={styles.buttonContainer}>
               <Link to="/user/members/subscribe-class">
                 <Button classNameButton={'cancelButton'} text={'Cancel'} />
@@ -113,7 +116,7 @@ const FormMemberSubscription = () => {
             <ConfirmModal
               handler={() => handleShowConfirmModal()}
               title={'Are you sure?'}
-              onAction={() => onConfirm()}
+              onAction={handleSubmit(onConfirm)}
               reason="submit"
             >
               Are you sure ?
