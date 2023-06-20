@@ -25,7 +25,6 @@ const Form = () => {
   const [filteredClass, setFilteredClass] = useState([]);
 
   const subscriptions = useSelector((state) => state.subscriptions.data);
-  const classses = useSelector((state) => state.classes.data);
   const classesPending = useSelector((state) => state.classes.pending);
   const members = useSelector((state) => state.members.data);
   const success = useSelector((state) => state.subscriptions.success);
@@ -52,16 +51,16 @@ const Form = () => {
   const {
     field: { value: clas, onChange: clasOnChange }
   } = useController({ name: 'classes', control });
-  const filterClass = () => {
-    const filteredClasses = classses.filter(
+  const filterClass = (data) => {
+    const filteredClasses = data.filter(
       (item) => !item.deleted && item.activity !== null && item.members !== null
     );
     setFilteredClass(filteredClasses);
   };
 
   useEffect(() => {
-    dispatch(getClasses).then(() => {
-      filterClass();
+    dispatch(getClasses).then((data) => {
+      filterClass(data);
     });
     dispatch(getMembers);
     dispatch(getSubscriptions);
