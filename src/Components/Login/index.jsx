@@ -6,22 +6,18 @@ import { useDispatch } from 'react-redux';
 import { loginMembers } from 'Redux/LoginMembers/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { useForm } from 'react-hook-form';
-
 function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
-
   const { register, handleSubmit } = useForm({
     mode: 'onChange'
   });
-
   const handleLogin = () => {
     loginMembers(dispatch)
       .then((data) => {
         // eslint-disable-next-line no-unused-vars
         const { password, __v, ...resObj } = data;
         localStorage.setItem('login', JSON.stringify(resObj));
-        console.log(resObj);
         history.push('/');
       })
       .catch((error) => {
@@ -29,7 +25,6 @@ function Login() {
         dispatch(setContentToast({ message: error.message, state: 'fail' }));
       });
   };
-
   return (
     <section className={styles.formContainer}>
       <form className={styles.form}>
@@ -65,5 +60,4 @@ function Login() {
     </section>
   );
 }
-
 export default Login;
