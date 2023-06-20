@@ -16,6 +16,8 @@ const ClassForm = lazy(() => import('./class/form'));
 const Members = lazy(() => import('./member'));
 const MemberForm = lazy(() => import('./member/form'));
 const MemberProfile = lazy(() => import('./member/profile'));
+const SubscribeActivities = lazy(() => import('./member-logged/subscribeActivities'));
+const FormMemberSubscription = lazy(() => import('./member-logged/formMemberSubscription'));
 const Subscriptions = lazy(() => import('./subscription'));
 const SubscriptionsForm = lazy(() => import('./subscription/form'));
 const SuperAdmins = lazy(() => import('./super-admin'));
@@ -45,6 +47,8 @@ const Layout = () => {
             <Route exact path="/members" component={Members} />
             <Route path="/members/add" component={MemberForm} />
             <Route path="/members/edit/:id" component={MemberForm} />
+            <Route exact path="/user/members/subscribe-class" component={SubscribeActivities} />
+            <Route path="/user/members/subscribe-class/:id" component={FormMemberSubscription} />
             <Route path="/user/member/profile/:id" component={MemberProfile} />
             <Route exact path="/super-admins" component={SuperAdmins} />
             <Route exact path="/super-admins/add" component={SuperAdminsForm} />

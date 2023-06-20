@@ -116,6 +116,7 @@ const subscriptionsReducer = (state = INITIAL_STATE, action) => {
     case RESET_STATE: {
       return {
         ...state,
+        data: [],
         isPending: false,
         success: false,
         error: null
