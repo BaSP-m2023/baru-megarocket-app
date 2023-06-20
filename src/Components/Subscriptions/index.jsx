@@ -7,9 +7,9 @@ import { getSubscriptions } from '../../Redux/Subscriptions/thunks';
 
 import styles from './subscriptions.module.css';
 import Table from './Table';
-import { resetState } from 'Redux/Subscriptions/actions';
+
 import Button from '../Shared/Button';
-import { Input } from '../Shared/Inputs';
+// import { Input } from '../Shared/Inputs';
 import ResponseModal from '../Shared/ResponseModal';
 
 const Subscriptions = () => {
@@ -20,7 +20,6 @@ const Subscriptions = () => {
 
   const subscriptions = useSelector((state) => state.subscriptions.data);
   useEffect(() => {
-    resetState();
     getSubscriptions(dispatch);
   }, [dispatch]);
 
@@ -40,13 +39,14 @@ const Subscriptions = () => {
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Subscriptions</h1>
+      <label className={styles.inputSearch}>Search Subscription</label>
       <div className={styles.inputSearch}>
-        <Input
+        <input
+          className={styles.inputSearch}
           name="Search Subscription"
-          labelText="Search"
           placeholder="Search Subscription"
           value={searchTerm}
-          change={(event) => setSearchTerm(event.target.value)}
+          onChange={(event) => setSearchTerm(event.target.value)}
         />
       </div>
       <div className={styles.containerContent}>
