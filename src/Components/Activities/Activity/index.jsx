@@ -27,7 +27,18 @@ const Activity = ({ activity }) => {
       <tr className={styles.tableRow}>
         <td>{activity.name}</td>
         <td>{activity.description}</td>
-        <td>{activity.isActive ? 'Active' : 'Deactive'}</td>
+        <td>{activity.trainers.map((trainer) => `${trainer.firstName} ${trainer.lastName}, `)}</td>
+        <td>
+          <label
+            className={
+              activity.isActive
+                ? `${styles.activityState} ${styles.activityActive}`
+                : `${styles.activityState} ${styles.activityInactive}`
+            }
+          >
+            {activity.isActive ? 'Active' : 'Inactive'}
+          </label>
+        </td>
         <td>
           <Link to={`${url}/edit/${activity._id}`}>
             <Button img="/assets/images/edit-icon.png" text="edit icon" classNameButton="icon" />

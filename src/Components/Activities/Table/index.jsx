@@ -37,6 +37,7 @@ const Table = () => {
             <tr className={`${styles.tableHeader} ${styles.tableRow}`}>
               <th>Activity</th>
               <th>Description</th>
+              <th>Trainers</th>
               <th>Status</th>
               <th></th>
               <th></th>

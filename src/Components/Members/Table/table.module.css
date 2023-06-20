@@ -40,3 +40,20 @@
   padding-right: 10px;
   color: #F13312;
 }
+
+.memberState {
+  display: inline-block;
+  padding: 4px;
+  width: 65px;
+  border-radius: 4px;
+  color: #373867;
+  font-weight: 600;
+}
+
+.memberActive {
+  border-bottom: 3px solid #aace9b;
+}
+
+.memberInactive {
+  border-bottom: 3px solid #d10202;
+}
