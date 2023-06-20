@@ -23,13 +23,14 @@ const superAdminSchema = Joi.object({
       'string.pattern.base': 'Last Name should only contain alphabetic characters',
       'string.min': 'Last Name should have a minimum length of 4',
       'string.max': 'Last Name should have a maximum length of 10',
-      'string.empty': 'Last Name is required'
+      'string.empty': 'Lastname is required'
     }),
   email: Joi.string()
     .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
     .required()
     .messages({
-      'string.pattern.base': 'This input should be a valid email'
+      'string.pattern.base': 'This input should be a valid email',
+      'string.empty': 'Email is required'
     }),
   password: Joi.string()
     .pattern(/^[a-zA-Z0-9]{6,20}$/)

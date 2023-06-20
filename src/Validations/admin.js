@@ -11,7 +11,7 @@ const adminSchema = Joi.object({
       'string.pattern.base': 'First Name should only contain alphabetic characters',
       'string.min': 'First Name should have a minimum length of 4',
       'string.max': 'First Name should have a maximum length of 10',
-      'string.empty': 'First Name is required'
+      'string.empty': 'Firstname is required'
     }),
   lastName: Joi.string()
     .pattern(/^[a-zA-Z]+$/)
@@ -23,7 +23,7 @@ const adminSchema = Joi.object({
       'string.pattern.base': 'Last Name should only contain alphabetic characters',
       'string.min': 'Last Name should have a minimum length of 4',
       'string.max': 'Last Name should have a maximum length of 10',
-      'string.empty': 'Last Name is required'
+      'string.empty': 'Lastname is required'
     }),
   phone: Joi.string()
     .pattern(/^[0-9]+$/)
@@ -33,9 +33,9 @@ const adminSchema = Joi.object({
     .messages({
       'string.pattern.base': 'Phone Number should only contain numbers',
       'string.base': 'Phone Number should be a string',
-      'string.empty': 'Phone Number is required',
       'string.min': 'Phone Number should have a minimum length of 10',
-      'string.max': 'Phone Number should have a maximum length of 15'
+      'string.max': 'Phone Number should have a maximum length of 15',
+      'string.empty': 'Phone is required'
     }),
   dni: Joi.string()
     .pattern(/^(?!^0)[0-9]{7,11}$/)
@@ -52,7 +52,8 @@ const adminSchema = Joi.object({
     .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
     .required()
     .messages({
-      'string.pattern.base': 'This input should be a valid email'
+      'string.pattern.base': 'This input should be a valid email',
+      'string.empty': 'Email is required'
     }),
   password: Joi.string()
     .pattern(/^[a-zA-Z0-9]{6,20}$/)

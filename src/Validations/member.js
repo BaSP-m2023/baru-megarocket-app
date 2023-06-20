@@ -23,7 +23,7 @@ const memberSchema = Joi.object({
       'string.pattern.base': 'Last Name should only contain alphabetic characters',
       'string.min': 'Last Name should have a minimum length of 4',
       'string.max': 'Last Name should have a maximum length of 10',
-      'string.empty': 'Last Name is required'
+      'string.empty': 'Lastname is required'
     }),
   phone: Joi.string()
     .pattern(/^[0-9]+$/)
@@ -33,9 +33,9 @@ const memberSchema = Joi.object({
     .messages({
       'string.pattern.base': 'Phone Number should only contain numbers',
       'string.base': 'Phone Number should be a string',
-      'string.empty': 'Phone Number is required',
       'string.min': 'Phone Number should have a minimum length of 10',
-      'string.max': 'Phone Number should have a maximum length of 15'
+      'string.max': 'Phone Number should have a maximum length of 15',
+      'string.empty': 'Phone is required'
     }),
   dni: Joi.string()
     .pattern(/^(?!^0)[0-9]{7,11}$/)
@@ -50,11 +50,13 @@ const memberSchema = Joi.object({
   }),
   dob: Joi.date().greater('1923-01-01').less('2005-01-01').required().messages({
     'date.greater': 'Date should be greater than 1923-01-01',
-    'date.less': 'Date should be less than 2005-01-01'
+    'date.less': 'Date should be less than 2005-01-01',
+    'string.empty': 'Dni is required'
   }),
   zip: Joi.number().min(1000).max(9999).required().messages({
     'number.min': 'Zip-code should be greater than 1000',
-    'number.max': 'Zip-code should be less than 9999'
+    'number.max': 'Zip-code should be less than 9999',
+    'string.empty': 'Zip-code is required'
   }),
   isActive: Joi.boolean().required(),
   membership: Joi.string().valid('classic', 'only_classes', 'black').required(),
@@ -62,7 +64,8 @@ const memberSchema = Joi.object({
     .pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
     .required()
     .messages({
-      'string.pattern.base': 'This input should be a valid email'
+      'string.pattern.base': 'This input should be a valid email',
+      'string.empty': 'Email is required'
     }),
   password: Joi.string()
     .pattern(/^[a-zA-Z0-9]{6,20}$/)
