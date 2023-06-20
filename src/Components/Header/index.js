@@ -11,8 +11,8 @@ function Header() {
   const dispatch = useDispatch();
   const { isLogged, data } = useSelector((state) => state.loginMembers);
   const { show, message, state } = useSelector((state) => state.toast);
-  const [membership, setMembership] = useState(localStorage.getItem('membership'));
   const history = useHistory();
+  const [membership, setMembership] = useState(localStorage.getItem('membership'));
   const keys = [
     '_id',
     'name',
@@ -76,11 +76,13 @@ function Header() {
                     src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
                     alt="profile image"
                   />
-                  {data.name} {data.lastName}
+                  {localStorage.getItem('name')} {localStorage.getItem('lastName')}
                 </div>
               </Link>
             )}
-            <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
+            <div className={styles.logoutButton}>
+              <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
+            </div>
           </div>
         )}
       </div>
