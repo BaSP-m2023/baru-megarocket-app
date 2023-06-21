@@ -25,6 +25,7 @@ const SuperAdminsForm = lazy(() => import('./super-admin/form'));
 const Trainers = lazy(() => import('./trainer'));
 const TrainerForm = lazy(() => import('./trainer/form'));
 const Login = lazy(() => import('./login'));
+const SubscriptionsMember = lazy(() => import('./subscriptions-members'));
 const SignUp = lazy(() => import('./signup'));
 
 const Layout = () => {
@@ -60,6 +61,7 @@ const Layout = () => {
             <Route path="/trainers/add" component={TrainerForm} />
             <Route path="/trainers/edit/:id" component={TrainerForm} />
             <Route path="/login" component={Login} />
+            <Route path="/user/members/subscriptions" component={SubscriptionsMember} />
             <Route path="/signup" component={SignUp} />
           </Switch>
         </Suspense>
