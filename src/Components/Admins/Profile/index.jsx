@@ -84,117 +84,121 @@ function AdminProfile() {
 
   return (
     <div className={styles.form}>
-      {defaultAdmin == {} && <p>There are no admins</p>}
-      <div className={styles.content}>
-        <div className={styles.header}>
-          <h2>{disableEdit ? 'Profile information' : 'Edit profile'}</h2>
-          {disableEdit && (
-            <Button
-              classNameButton="addButton"
-              action={() => setDisableEdit(false)}
-              img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
-            />
-          )}
-          {!disableEdit && (
-            <button className={styles.close} onClick={() => handleClose()}>
-              X
-            </button>
-          )}
-        </div>
-        {loading && (
-          <div className={styles.loader_container}>
-            <Loader />
+      {Object.keys(defaultAdmin).length === 0 && (
+        <p className={styles.p}>There are no admins to show</p>
+      )}
+      {Object.keys(defaultAdmin).length > 0 && (
+        <div className={styles.content}>
+          <div className={styles.header}>
+            <h2>{disableEdit ? 'Profile information' : 'Edit profile'}</h2>
+            {disableEdit && (
+              <Button
+                classNameButton="addButton"
+                action={() => setDisableEdit(false)}
+                img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
+              />
+            )}
+            {!disableEdit && (
+              <button className={styles.close} onClick={() => handleClose()}>
+                X
+              </button>
+            )}
           </div>
-        )}
-        {!loading && (
-          <form className={styles.body}>
-            <div className={styles.label_container}>
-              <Input
-                labelText="First Name"
-                name="firstName"
-                type="text"
-                error={errors.firstName?.message}
-                register={register}
-                disabled={disableEdit}
-              />
+          {loading && (
+            <div className={styles.loader_container}>
+              <Loader />
             </div>
-            <div className={styles.label_container}>
-              <Input
-                labelText="Last Name"
-                name="lastName"
-                type="text"
-                error={errors.lastName?.message}
-                register={register}
-                disabled={disableEdit}
-              />
-            </div>
-            <div className={styles.label_container}>
-              <Input
-                labelText="DNI"
-                name="dni"
-                type="text"
-                error={errors.dni?.message}
-                register={register}
-                disabled={disableEdit}
-              />
-            </div>
-            <div className={styles.label_container}>
-              <Input
-                labelText="Phone"
-                name="phone"
-                type="text"
-                error={errors.phone?.message}
-                register={register}
-                disabled={disableEdit}
-              />
-            </div>
-            <div className={styles.label_container}>
-              <Input
-                labelText="Email"
-                name="email"
-                type="text"
-                error={errors.email?.message}
-                register={register}
-                disabled={disableEdit}
-              />
-            </div>
-            <div className={styles.label_container}>
-              <Input
-                labelText="City"
-                name="city"
-                type="text"
-                error={errors.city?.message}
-                register={register}
-                disabled={disableEdit}
-              />
-            </div>
-            <div className={styles.label_container}>
-              <Input
-                labelText="Password"
-                name="password"
-                type="password"
-                error={errors.password?.message}
-                register={register}
-                disabled={disableEdit}
-              />
-            </div>
-          </form>
-        )}
-        <div className={styles.confirm_button}>
-          <Button
-            action={() => handleAction('delete')}
-            classNameButton="deleteButton"
-            text="Delete account"
-          ></Button>
+          )}
+          {!loading && (
+            <form className={styles.body}>
+              <div className={styles.label_container}>
+                <Input
+                  labelText="First Name"
+                  name="firstName"
+                  type="text"
+                  error={errors.firstName?.message}
+                  register={register}
+                  disabled={disableEdit}
+                />
+              </div>
+              <div className={styles.label_container}>
+                <Input
+                  labelText="Last Name"
+                  name="lastName"
+                  type="text"
+                  error={errors.lastName?.message}
+                  register={register}
+                  disabled={disableEdit}
+                />
+              </div>
+              <div className={styles.label_container}>
+                <Input
+                  labelText="DNI"
+                  name="dni"
+                  type="text"
+                  error={errors.dni?.message}
+                  register={register}
+                  disabled={disableEdit}
+                />
+              </div>
+              <div className={styles.label_container}>
+                <Input
+                  labelText="Phone"
+                  name="phone"
+                  type="text"
+                  error={errors.phone?.message}
+                  register={register}
+                  disabled={disableEdit}
+                />
+              </div>
+              <div className={styles.label_container}>
+                <Input
+                  labelText="Email"
+                  name="email"
+                  type="text"
+                  error={errors.email?.message}
+                  register={register}
+                  disabled={disableEdit}
+                />
+              </div>
+              <div className={styles.label_container}>
+                <Input
+                  labelText="City"
+                  name="city"
+                  type="text"
+                  error={errors.city?.message}
+                  register={register}
+                  disabled={disableEdit}
+                />
+              </div>
+              <div className={styles.label_container}>
+                <Input
+                  labelText="Password"
+                  name="password"
+                  type="password"
+                  error={errors.password?.message}
+                  register={register}
+                  disabled={disableEdit}
+                />
+              </div>
+            </form>
+          )}
+          <div className={styles.confirm_button}>
+            <Button
+              action={() => handleAction('delete')}
+              classNameButton="deleteButton"
+              text="Delete account"
+            ></Button>
 
-          <Button
-            action={() => handleAction('edit')}
-            classNameButton="addButton"
-            text="Edit"
-            disabled={disableEdit}
-          ></Button>
+            <Button
+              action={() => handleAction('edit')}
+              classNameButton="addButton"
+              text="Edit"
+              disabled={disableEdit}
+            ></Button>
+          </div>
         </div>
-      </div>
+      )}
       {showConfirmModal && (
         <ConfirmModal
           handler={() => setShowConfirmModal(false)}

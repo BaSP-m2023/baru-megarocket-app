@@ -7,7 +7,18 @@
   height: 100%;
   width: 70%;
   border-radius: 7px;
-  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+  box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
+}
+.form {
+  display: flex;
+  justify-content: center;
+}
+.p {
+  font-family: 'Roboto', Arial, serif;
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 700;
+  color: #373867;
 }
 .loader_container {
   display: flex;
