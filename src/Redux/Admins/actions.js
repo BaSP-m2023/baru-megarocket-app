@@ -14,8 +14,16 @@ import {
   DELETE_ADMIN_PENDING,
   DELETE_ADMIN_SUCCESS,
   DELETE_ADMIN_ERROR,
-  RESET_STATE
+  RESET_STATE,
+  SET_DEFAULT_ADMIN
 } from './constants';
+
+export const setDefaultAdmin = (admin) => {
+  return {
+    type: SET_DEFAULT_ADMIN,
+    payload: admin
+  };
+};
 
 export const getAdminsPending = () => {
   return {

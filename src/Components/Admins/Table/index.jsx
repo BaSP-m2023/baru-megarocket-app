@@ -1,5 +1,5 @@
-import Button from '../../Shared/Button';
-import styles from './table.module.css';
+import Button from 'Components/Shared/Button';
+import styles from 'Components/Admins/Table/table.module.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -18,36 +18,37 @@ function Table({ filter, handleDeleteButton }) {
           </tr>
         </thead>
         <tbody>
-          {filter.map((admin) => {
-            return (
-              <tr className={styles.tr} key={admin._id}>
-                <td className={styles.td}>{admin.firstName}</td>
-                <td className={styles.td}>{admin.lastName}</td>
-                <td className={styles.td}>{admin.dni}</td>
-                <td className={styles.td}>{admin.phone}</td>
-                <td className={styles.td}>{admin.email}</td>
-                <td className={styles.td}>{admin.city}</td>
-                <td></td>
-                <td className={styles.button}>
-                  <Link to={`/admins/edit/${admin._id}`}>
+          {filter.length > 0 &&
+            filter.map((admin) => {
+              return (
+                <tr className={styles.tr} key={admin._id}>
+                  <td className={styles.td}>{admin.firstName}</td>
+                  <td className={styles.td}>{admin.lastName}</td>
+                  <td className={styles.td}>{admin.dni}</td>
+                  <td className={styles.td}>{admin.phone}</td>
+                  <td className={styles.td}>{admin.email}</td>
+                  <td className={styles.td}>{admin.city}</td>
+                  <td></td>
+                  <td className={styles.button}>
+                    <Link to={`/admins/edit/${admin._id}`}>
+                      <Button
+                        text="Edit Button"
+                        img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
+                        classNameButton="icon"
+                      />
+                    </Link>
+                  </td>
+                  <td className={styles.button}>
                     <Button
-                      text="Edit Button"
-                      img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
+                      action={() => handleDeleteButton(admin._id)}
+                      text="Delete Button"
+                      img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
                       classNameButton="icon"
                     />
-                  </Link>
-                </td>
-                <td className={styles.button}>
-                  <Button
-                    action={() => handleDeleteButton(admin._id)}
-                    text="Delete Button"
-                    img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
-                    classNameButton="icon"
-                  />
-                </td>
-              </tr>
-            );
-          })}
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </>

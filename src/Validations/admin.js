@@ -11,7 +11,7 @@ const adminSchema = Joi.object({
       'string.pattern.base': 'First Name should only contain alphabetic characters',
       'string.min': 'First Name should have a minimum length of 4',
       'string.max': 'First Name should have a maximum length of 10',
-      'string.empty': 'Firstname is required'
+      'string.empty': 'First name is required'
     }),
   lastName: Joi.string()
     .pattern(/^[a-zA-Z]+$/)
@@ -23,7 +23,7 @@ const adminSchema = Joi.object({
       'string.pattern.base': 'Last Name should only contain alphabetic characters',
       'string.min': 'Last Name should have a minimum length of 4',
       'string.max': 'Last Name should have a maximum length of 10',
-      'string.empty': 'Lastname is required'
+      'string.empty': 'Last name is required'
     }),
   phone: Joi.string()
     .pattern(/^[0-9]+$/)
@@ -56,10 +56,11 @@ const adminSchema = Joi.object({
       'string.empty': 'Email is required'
     }),
   password: Joi.string()
-    .pattern(/^[a-zA-Z0-9]{6,20}$/)
+    .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)
     .required()
     .messages({
-      'string.pattern.base': 'Password should have numbers and letters between 6 and 20 characters',
+      'string.pattern.base':
+        'Password should have at least one lowercase letter, one uppercase letter, and one digit',
       'string.empty': 'Password is required'
     })
 });

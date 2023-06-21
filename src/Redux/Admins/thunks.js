@@ -1,4 +1,5 @@
 import {
+  setDefaultAdmin,
   getAdminsPending,
   getAdminsSuccess,
   getAdminsError,
@@ -24,6 +25,7 @@ export const getAdmins = async (dispatch) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`);
     const res = await response.json();
     dispatch(getAdminsSuccess(res.data));
+    dispatch(setDefaultAdmin(res.data[0]));
   } catch (error) {
     dispatch(getAdminsError(error.message));
   }
@@ -85,6 +87,7 @@ export const editAdmin = async (dispatch, id, adminToUpdate) => {
       dispatch(editAdminSuccess(res.data));
       dispatch(setContentToast({ message: res.message, state: 'success' }));
       dispatch(handleDisplayToast(true));
+      dispatch(setDefaultAdmin(res.data));
     } else {
       dispatch(editAdminError(res.message));
       dispatch(setContentToast({ message: res.message, state: 'fail' }));

@@ -13,8 +13,8 @@ export function Input({ labelText, type, name, placeholder, blur, register, disa
         name={name}
         placeholder={placeholder || ''}
         onBlur={blur && blur}
-        disabled={disabled}
         {...(register && { ...register(name) })}
+        disabled={disabled || false}
       />
       {error && <p className={styles.error}>{error}</p>}
     </>

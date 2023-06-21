@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form';
 import adminSchema from 'Validations/admin';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-function Form() {
+function AdminsForm() {
   const dispatch = useDispatch();
   const adminToUpdate = useSelector((state) => state.admins.data);
   const params = useParams();
@@ -199,4 +199,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default AdminsForm;

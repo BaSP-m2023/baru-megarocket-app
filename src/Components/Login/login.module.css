@@ -1,7 +1,7 @@
 .formContainer {
   display: flex;
   justify-content: center;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
   height: 90%;
 }
@@ -18,8 +18,8 @@
 }
 
 .form {
-  width: 40%;
   height: 100%;
+  margin: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
