@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import styles from './list.module.css';
-import Button from '../../Shared/Button';
-import ConfirmModal from '../../Shared/ConfirmModal';
 import { useDispatch } from 'react-redux';
-import { deleteClass } from '../../../Redux/Classes/thunks';
-import { refreshData } from '../../../Redux/Classes/actions';
+
+import { deleteClass } from 'Redux/Classes/thunks';
+import { refreshData } from 'Redux/Classes/actions';
 import { getActivities } from 'Redux/Activities/thunks';
+
+import Button from 'Components/Shared/Button';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import styles from 'Components/Classes/List/list.module.css';
 
 function ClassList({ classes }) {
   const [filter, setFilter] = useState('');

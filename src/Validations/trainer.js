@@ -31,7 +31,7 @@ const trainerSchema = Joi.object({
     .regex(/^[0-9]+$/)
     .message({
       'string.pattern.base': 'DNI should be only numbers',
-      'string.empty': 'Dni is required'
+      'string.empty': 'DNI is required'
     })
     .required(),
   phone: Joi.string()

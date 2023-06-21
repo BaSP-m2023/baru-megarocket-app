@@ -4,15 +4,18 @@ import Select from 'react-select';
 import { useForm, useController } from 'react-hook-form';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './form.module.css';
+
+import styles from 'Components/Classes/ClassForm/form.module.css';
 import Button from 'Components/Shared/Button';
 import { Input } from 'Components/Shared/Inputs';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
+
 import { getActivities } from 'Redux/Activities/thunks';
 import { getTrainers } from 'Redux/Trainers/thunks';
 import { putClass, addClass } from 'Redux/Classes/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+
 import classSchema from 'Validations/class';
 
 function ClassForm() {
@@ -152,99 +155,98 @@ function ClassForm() {
     e.preventDefault();
     history.goBack();
   };
-  const resetForm = (e) => {
-    e.preventDefault();
-    reset();
-  };
+
   return (
     <section className={styles.formContainer}>
       <div className={styles.formTitle}>
         <h2 className={styles.title}>{isCreateRoute ? 'Create Class' : 'Edit Class'}</h2>
       </div>
-      <form className={styles.form}>
-        <div className={styles.inputContainer}>
-          <label className={styles.label}>Activity</label>
-          <Select
-            className={styles.select}
-            value={activity ? optionsActivity.find((t) => t.value === activity) : activity}
-            defaultValue={{
-              value: getValues('activity'),
-              label: `${getValues('activity.name')}`
-            }}
-            name="activity"
-            options={optionsActivity}
-            placeholder="Select an Activity"
-            onChange={(e) => filterTrainers(e.value)}
-          />
-          {errors.activity?.message && (
-            <span className={styles.error}>{errors.activity.message}</span>
-          )}
-        </div>
-        <div className={styles.inputContainer}>
-          <label className={styles.label}>Trainer</label>
-          <Select
-            className={styles.select}
-            name="trainer"
-            defaultValue={{
-              value: trainer,
-              label: `${getValues('trainer.firstName')} ${getValues('trainer.lastName')}`
-            }}
-            options={optionsTrainer}
-            placeholder="Select a Trainer"
-            value={trainer ? optionsTrainer.find((t) => t.value === trainer) : trainer}
-            onChange={(e) => trainerOnChange(e.value)}
-          />
-          {errors.trainer?.message && (
-            <span className={styles.error}>{errors.trainer.message}</span>
-          )}
-        </div>
-        <div className={styles.inputContainer}>
-          <label className={styles.label}>Day</label>
-          <Select
-            className={styles.select}
-            name="day"
-            defaultValue={{
-              value: getValues('day'),
-              label: `${getValues('day')}`
-            }}
-            options={optionsDay}
-            placeholder="Select trainer"
-            value={day ? optionsDay.find((t) => t.value === day) : day}
-            onChange={(e) => dayOnChange(e.value)}
-          />
-          {errors.day?.message && <span className={styles.error}>{errors.day.message}</span>}
-        </div>
-        <div className={styles.inputContainer}>
-          <Input
-            className={styles.select}
-            labelText="Time"
-            type="time"
-            placeholder="Time"
-            name="time"
-            register={register}
-            error={errors.time?.message}
-          />
-        </div>
-        <div className={styles.inputContainer}>
-          <Input
-            labelText="Capacity"
-            type="number"
-            name="capacity"
-            placeholder="Capacity"
-            register={register}
-            error={errors.capacity?.message}
-          />
-        </div>
-        <div className={styles.buttonContainer}>
-          <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
-          <Button
-            classNameButton="submitButton"
-            action={handleSubmit(handleConfirmModal)}
-            text={isCreateRoute ? 'Create' : 'Update'}
-          />
-        </div>
-        <Button classNameButton="deleteButton" text="RESET" action={resetForm} />
-      </form>
+      <div className={styles.form}>
+        <form>
+          <div className={styles.inputContainer}>
+            <label className={styles.label}>Activity</label>
+            <Select
+              className={styles.select}
+              value={activity ? optionsActivity.find((t) => t.value === activity) : activity}
+              defaultValue={{
+                value: getValues('activity'),
+                label: `${getValues('activity.name')}`
+              }}
+              name="activity"
+              options={optionsActivity}
+              placeholder="Select an Activity"
+              onChange={(e) => filterTrainers(e.value)}
+            />
+            {errors.activity?.message && (
+              <span className={styles.error}>{errors.activity.message}</span>
+            )}
+          </div>
+          <div className={styles.inputContainer}>
+            <label className={styles.label}>Trainer</label>
+            <Select
+              className={styles.select}
+              name="trainer"
+              defaultValue={{
+                value: trainer,
+                label: `${getValues('trainer.firstName')} ${getValues('trainer.lastName')}`
+              }}
+              options={optionsTrainer}
+              placeholder="Select a Trainer"
+              value={trainer ? optionsTrainer.find((t) => t.value === trainer) : trainer}
+              onChange={(e) => trainerOnChange(e.value)}
+            />
+            {errors.trainer?.message && (
+              <span className={styles.error}>{errors.trainer.message}</span>
+            )}
+          </div>
+          <div className={styles.inputContainer}>
+            <label className={styles.label}>Day</label>
+            <Select
+              className={styles.select}
+              name="day"
+              defaultValue={{
+                value: getValues('day'),
+                label: `${getValues('day')}`
+              }}
+              options={optionsDay}
+              placeholder="Select trainer"
+              value={day ? optionsDay.find((t) => t.value === day) : day}
+              onChange={(e) => dayOnChange(e.value)}
+            />
+            {errors.day?.message && <span className={styles.error}>{errors.day.message}</span>}
+          </div>
+          <div className={styles.inputContainer}>
+            <Input
+              className={styles.select}
+              labelText="Time"
+              type="time"
+              placeholder="Time"
+              name="time"
+              register={register}
+              error={errors.time?.message}
+            />
+          </div>
+          <div className={styles.inputContainer}>
+            <Input
+              labelText="Capacity"
+              type="number"
+              name="capacity"
+              placeholder="Capacity"
+              register={register}
+              error={errors.capacity?.message}
+            />
+          </div>
+          <div className={styles.buttonContainer}>
+            <Button classNameButton="cancelButton" text="Cancel" action={cancelForm} />
+            <Button
+              classNameButton="submitButton"
+              action={handleSubmit(handleConfirmModal)}
+              text={isCreateRoute ? 'Create' : 'Update'}
+            />
+          </div>
+        </form>
+        <Button classNameButton="deleteButton" text="RESET" action={reset} />
+      </div>
       {show && (
         <ResponseModal
           handler={() => dispatch(handleDisplayToast(false))}
