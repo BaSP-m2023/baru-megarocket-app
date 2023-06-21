@@ -3,7 +3,6 @@ import { useForm, useController } from 'react-hook-form';
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import styles from './form.module.css';
 
 import { addActivity, editActivity } from 'Redux/Activities/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
@@ -15,6 +14,7 @@ import { Input, Textarea } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import Select from 'react-select';
+import styles from './form.module.css';
 
 const Form = () => {
   const { list, success } = useSelector((state) => state.activities);

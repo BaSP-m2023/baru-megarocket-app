@@ -5,19 +5,26 @@ const activitySchema = Joi.object({
     .min(3)
     .max(20)
     .pattern(/^[A-Za-z\s]+$/)
-    .message({
-      'string.pattern.base': 'The name must contains only letters.'
+    .messages({
+      'string.pattern.base': 'Name must contains only letters.',
+      'string.min': 'Name should have a minimum length of 3 characters',
+      'string.empty': 'Name is required'
     })
     .required(),
   description: Joi.string()
     .min(20)
     .max(100)
     .pattern(/^[A-Za-z\s]+$/)
-    .message({
-      'string.pattern.base': 'The description must contains only letters.'
+    .messages({
+      'string.pattern.base': 'Description should must contains only letters.',
+      'string.min': 'Description should have a minimun of 20 characters',
+      'string.empty': 'Description is required'
     })
     .required(),
   isActive: Joi.boolean(),
-  trainers: Joi.array().min(1).required()
+  trainers: Joi.array()
+    .min(1)
+    .required()
+    .messages({ 'string.empty': 'At least one Trainer is required' })
 });
 export default activitySchema;

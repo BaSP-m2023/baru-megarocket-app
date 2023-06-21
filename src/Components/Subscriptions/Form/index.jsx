@@ -1,58 +1,95 @@
+import { joiResolver } from '@hookform/resolvers/joi';
 import React, { useState, useEffect } from 'react';
-import styles from './form.module.css';
-import { Link, useParams, useHistory } from 'react-router-dom';
-import ResponseModal from '../../Shared/ResponseModal';
-import { handleDisplayToast } from '../../../Redux/Shared/ResponseToast/actions';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import Button from '../../Shared/Button';
-import Loader from '../../Shared/Loader';
-import { Input } from '../../Shared/Inputs';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  addSubscriptions,
-  getSubscriptions,
-  editSubscription
-} from '../../../Redux/Subscriptions/thunks';
-import { resetState } from '../../../Redux/Subscriptions/actions';
-import { getClasses } from '../../../Redux/Classes/thunks';
-import { getMembers } from '../../../Redux/Members/thunks';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { useForm, useController } from 'react-hook-form';
+import Select from 'react-select';
+import { resetState } from 'Redux/Subscriptions/actions';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+import { getClasses } from 'Redux/Classes/thunks';
+import { getMembers } from 'Redux/Members/thunks';
+import { addSubscriptions, getSubscriptions, editSubscription } from 'Redux/Subscriptions/thunks';
+
+import ResponseModal from 'Components/Shared/ResponseModal';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import Button from 'Components/Shared/Button';
+import Loader from 'Components/Shared/Loader';
+import styles from './form.module.css';
+import subscriptionSchema from 'Validations/subscription';
+
 const Form = () => {
+  const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { id } = useParams();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [subscription, setSubscription] = useState({
-    classes: '',
-    members: '',
-    date: ''
-  });
-  const { show, message, state } = useSelector((state) => state.toast);
+  const [filteredClass, setFilteredClass] = useState([]);
+
+  const subscriptions = useSelector((state) => state.subscriptions.data);
+  const classesPending = useSelector((state) => state.classes.pending);
+  const members = useSelector((state) => state.members.data);
   const success = useSelector((state) => state.subscriptions.success);
   const pending = useSelector((state) => state.subscriptions.isPending);
-  const pendingClasses = useSelector((state) => state.classes.isPending);
-  const pendingMembers = useSelector((state) => state.members.isPending);
-  const classes = useSelector((state) => state.classes.data);
-  const members = useSelector((state) => state.members.data);
-  const subscriptions = useSelector((state) => state.subscriptions.data);
-  const subscriptionById = subscriptions.find((subscriptionId) => subscriptionId._id === id);
+  const { show, message, state } = useSelector((state) => state.toast);
+  const subscription = subscriptions.find((subscription) => subscription._id === id || '');
+  const {
+    handleSubmit,
+    getValues,
+    reset,
+    control,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(subscriptionSchema),
+    defaultValues: {
+      members: subscription ? subscription.members._id : '',
+      classes: subscription ? subscription.classes._id : ''
+    }
+  });
+  const {
+    field: { value: member, onChange: membersOnChange }
+  } = useController({ name: 'members', control });
+  const {
+    field: { value: clas, onChange: clasOnChange }
+  } = useController({ name: 'classes', control });
+  const filterClass = (data) => {
+    const filteredClasses = data.filter(
+      (item) => !item.deleted && item.activity !== null && item.members !== null
+    );
+    setFilteredClass(filteredClasses);
+  };
+
   useEffect(() => {
-    dispatch(getClasses);
+    dispatch(getClasses).then((data) => {
+      filterClass(data);
+    });
     dispatch(getMembers);
     dispatch(getSubscriptions);
   }, []);
-  useEffect(() => {
-    if (subscriptionById) {
-      setSubscription({
-        classes: subscriptionById.classes || '',
-        members: subscriptionById.members || '',
-        date: subscriptionById.date || ''
-      });
+  const onConfirm = (data) => {
+    try {
+      if (id) {
+        editSubscription(dispatch, data, id);
+        setShowConfirmModal(false);
+      } else {
+        addSubscriptions(dispatch, data);
+        setShowConfirmModal(false);
+      }
+    } catch (error) {
+      throw new Error(error);
     }
-  }, [subscriptionById]);
+  };
+  const optionsMember = members.map((member) => ({
+    value: member._id,
+    label: `${member.name} ${member.lastName}`
+  }));
+  const optionsClasses = filteredClass.map((classes) => ({
+    value: classes._id,
+    label: `${classes.day} ${classes.time}`
+  }));
   useEffect(() => {
     if (success) {
-      history.push('/subscriptions');
       dispatch(resetState());
+      history.push('/subscriptions');
     }
   }, [success]);
 
@@ -63,48 +100,12 @@ const Form = () => {
       setShowConfirmModal(false);
     }
   };
-  const onChangeInput = (e) => {
-    setSubscription({
-      ...subscription,
-      [e.target.name]: e.target.value
-    });
-  };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     handleShowConfirmModal();
   };
-  const onConfirm = () => {
-    try {
-      const newAddSubscription = {
-        members: subscription.members,
-        classes: subscription.classes,
-        date: subscription.date
-      };
-      const newEditSubscription = {
-        members:
-          typeof subscription.members === 'string'
-            ? subscription.members
-            : subscription.members._id,
-        classes:
-          typeof subscription.classes === 'string'
-            ? subscription.classes
-            : subscription.classes._id,
-        date: subscription.date
-      };
-      if (id) {
-        editSubscription(dispatch, newEditSubscription, id);
-        setShowConfirmModal(false);
-      } else {
-        addSubscriptions(dispatch, newAddSubscription);
-        setShowConfirmModal(false);
-      }
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
 
-  if (pending && id) {
+  if ((pending || classesPending) && id) {
     return (
       <div className={styles.container}>
         <Loader />
@@ -113,64 +114,44 @@ const Form = () => {
   }
   return (
     <>
-      <form className={styles.container} onSubmit={onSubmit}>
+      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
         {!id ? (
           <h2 className={styles.title}>Add Subscription</h2>
         ) : (
           <h2 className={styles.title}>Edit Subscription</h2>
         )}
-        <label className={styles.label}>Class</label>
-        <select
-          className={styles.flex}
-          id="classes"
-          name="classes"
-          value={subscription.classes}
-          onChange={onChangeInput}
-        >
-          {!pendingClasses && id ? (
-            <option>{`${subscription?.classes?.day} ${subscription?.classes?.time}`}</option>
-          ) : (
-            <option>Select a Value</option>
-          )}
-          {classes.map((item) => {
-            return (
-              <option key={item._id} value={item._id}>
-                {`${item.day} ${item.time}`}
-              </option>
-            );
-          })}
-        </select>
         <label className={styles.label}>Member</label>
-        <select
+        <Select
           className={styles.flex}
-          id="members"
+          value={member ? optionsMember.find((t) => t.value === member) : member}
+          defaultValue={{
+            value: getValues('members'),
+            label: `${getValues('members.name')} ${getValues('members.lastName')}`
+          }}
           name="members"
-          value={subscription.members}
-          onChange={onChangeInput}
-        >
-          {pendingMembers || !id ? (
-            <option className={styles.textArea}>Select a Value</option>
-          ) : (
-            <option>{`${subscription?.members?.name} ${subscription?.members?.lastName}`}</option>
-          )}
-          {members.map((member) => {
-            return (
-              <option key={member._id} value={member._id}>
-                {`${member.name} ${member.lastName}`}
-              </option>
-            );
-          })}
-        </select>
-        <Input
-          labelText={'Date'}
-          name="date"
-          type="date"
-          value={subscription?.date.slice(0, 10)}
-          change={onChangeInput}
+          options={optionsMember}
+          placeholder="Select a Member"
+          onChange={(e) => membersOnChange(e.value)}
         />
+        {errors.members?.message && <span className={styles.error}>{errors.members.message}</span>}
+        <label className={styles.label}>Classes</label>
+        <Select
+          className={styles.flex}
+          value={clas ? optionsClasses.find((t) => t.value === clas) : clas}
+          defaultValue={{
+            value: getValues('classes'),
+            label: `${getValues('classes.day')} ${getValues('classes.time')}`
+          }}
+          name="classes"
+          options={optionsClasses}
+          placeholder="Select a Class"
+          onChange={(e) => clasOnChange(e.value)}
+        />
+        {errors.classes && <p className={styles.error}>{errors.classes?.message}</p>}
+
         <div className={styles.btnContainer}>
           <Link to="/subscriptions">
-            <Button classNameButton={'cancelButton'} text={'Cancel'} />
+            <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
           </Link>
           <Button text={'Submit'} classNameButton={'submitButton'} />
         </div>
@@ -180,7 +161,7 @@ const Form = () => {
         <ConfirmModal
           handler={() => handleShowConfirmModal()}
           title={'Are you sure?'}
-          onAction={() => onConfirm()}
+          onAction={handleSubmit(onConfirm)}
           reason="submit"
         >
           Are you sure ?

@@ -9,7 +9,6 @@ import styles from './subscriptions.module.css';
 import Table from './Table';
 
 import Button from '../Shared/Button';
-import { Input } from '../Shared/Inputs';
 import ResponseModal from '../Shared/ResponseModal';
 
 const Subscriptions = () => {
@@ -40,12 +39,11 @@ const Subscriptions = () => {
     <section className={styles.container}>
       <h1 className={styles.title}>Subscriptions</h1>
       <div className={styles.inputSearch}>
-        <Input
+        <input
           name="Search Subscription"
-          labelText="Search"
           placeholder="Search Subscription"
           value={searchTerm}
-          change={(event) => setSearchTerm(event.target.value)}
+          onChange={(event) => setSearchTerm(event.target.value)}
         />
       </div>
       <div className={styles.containerContent}>

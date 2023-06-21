@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import styles from './list.module.css';
-import Button from '../../Shared/Button';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import { Input } from '../../Shared/Inputs';
 import { useDispatch } from 'react-redux';
-import { deleteClass } from '../../../Redux/Classes/thunks';
-import { refreshData } from '../../../Redux/Classes/actions';
+
+import { deleteClass } from 'Redux/Classes/thunks';
+import { refreshData } from 'Redux/Classes/actions';
+import { getActivities } from 'Redux/Activities/thunks';
+
+import Button from 'Components/Shared/Button';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import styles from 'Components/Classes/List/list.module.css';
 
 function ClassList({ classes }) {
   const [filter, setFilter] = useState('');
@@ -16,7 +18,9 @@ function ClassList({ classes }) {
   const handleFilter = (e) => {
     setFilter(e.target.value);
   };
-
+  useEffect(() => {
+    dispatch(getActivities);
+  }, []);
   const handleDeleteClass = (classId) => {
     dispatch(deleteClass(classId))
       .then((dataId) => {
@@ -53,7 +57,12 @@ function ClassList({ classes }) {
 
   return (
     <div className={styles.container}>
-      <Input placeholder="Class Filter" value={filter} change={(e) => handleFilter(e)} />
+      <input
+        placeholder="Search By Activity/Trainer"
+        value={filter}
+        onChange={(e) => handleFilter(e)}
+      />
+
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
