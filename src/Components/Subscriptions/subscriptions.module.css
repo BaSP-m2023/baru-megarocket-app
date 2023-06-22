@@ -7,8 +7,9 @@
   justify-content: center;
 }
 .inputSearch {
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
-  margin-left: 5%;
 }
 .inputSearch {
   margin-bottom: 20px;

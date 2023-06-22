@@ -1,15 +1,15 @@
-import styles from './admins.module.css';
+import styles from 'Components/Admins/admins.module.css';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdmins, deleteAdmin } from '../../Redux/Admins/thunks';
-import Loader from '../Shared/Loader';
+import { getAdmins, deleteAdmin } from 'Redux/Admins/thunks';
+import Loader from 'Components/Shared/Loader';
 import { Link } from 'react-router-dom';
 import Table from './Table';
-import Button from '../Shared/Button';
-import { Input } from '../Shared/Inputs';
-import ConfirmModal from '../Shared/ConfirmModal';
-import ResponseModal from '../Shared/ResponseModal';
-import { handleDisplayToast } from '../../Redux/Shared/ResponseToast/actions';
+import Button from 'Components/Shared/Button';
+import { Input } from 'Components/Shared/Inputs';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 const Admins = () => {
   const [filter, setFilter] = useState([]);
@@ -47,30 +47,39 @@ const Admins = () => {
   };
 
   const filterAdmin = (value) => {
-    const adminsToShow = admins.filter(
-      (admin) =>
-        admin.firstName.toLowerCase().includes(value) ||
-        admin.lastName.toLowerCase().includes(value)
-    );
-    setFilter(adminsToShow);
+    if (admins && admins.length > 0) {
+      const adminsToShow = admins.filter(
+        (admin) =>
+          admin.firstName.toLowerCase().includes(value) ||
+          admin.lastName.toLowerCase().includes(value)
+      );
+      setFilter(adminsToShow);
+    }
+    return;
   };
-
   return (
     <>
+      <div className={styles.navbar}>
+        <Link to="/admins/profile" className={styles.a}>
+          Admin profile
+        </Link>
+      </div>
       <section className={styles.container}>
         <h2 className={styles.title}>Admins</h2>
         <div className={styles.searchContainer}>
           {filter.length === 0 && <p className={styles.notFound}>Admin not found!</p>}
           <Input
-            labelText="search admin"
+            labelText="Search admin"
             name="search"
             type="text"
-            placeholder="search admin by name/lastname"
+            placeholder="Search admin by name or last name"
             change={(e) => filterAdmin(e.target.value.toLowerCase())}
           />
         </div>
         {pending && <Loader />}
-        {!pending && <Table filter={filter} handleDeleteButton={handleDeleteButton} />}
+        {!pending && admins && admins.length > 0 && (
+          <Table filter={filter || []} handleDeleteButton={handleDeleteButton} />
+        )}
         <Link to="/admins/add">
           <Button text="+ Add new" classNameButton="addButton"></Button>
         </Link>
