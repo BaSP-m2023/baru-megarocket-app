@@ -74,10 +74,7 @@ function MemberProfile({ match }) {
       updateMember(dispatch, memberId, data)
         .then((data) => {
           if (data) {
-            Object.entries(data).every(([key, value]) => {
-              localStorage.setItem(key, value);
-              return true;
-            });
+            localStorage.setItem('login', JSON.stringify(data));
           }
         })
         .catch((error) => {
@@ -122,7 +119,9 @@ function MemberProfile({ match }) {
         <div className={styles.header}>
           <h2>
             {disableEdit
-              ? `${memberLogged?.name} ${memberLogged?.lastName} Profile`
+              ? `${JSON.parse(localStorage.getItem('login'))?.name} ${
+                  JSON.parse(localStorage.getItem('login'))?.lastName
+                } Profile`
               : 'Edit Profile'}
           </h2>
           {disableEdit && (

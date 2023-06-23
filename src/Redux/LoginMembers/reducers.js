@@ -4,14 +4,12 @@ import {
   LOGIN_MEMBER_ERROR,
   LOGOUT_MEMBER
 } from './constants';
-
 const INITIAL_STATE = {
-  data: [],
+  data: null,
   isPending: false,
   error: false,
   isLogged: false
 };
-
 const loginMembersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN_MEMBER_PENDING:
@@ -35,7 +33,7 @@ const loginMembersReducer = (state = INITIAL_STATE, action) => {
     case LOGOUT_MEMBER:
       return {
         ...state,
-        data: [],
+        data: null,
         isLogged: false
       };
     default:

@@ -6,51 +6,35 @@ import { logoutMember, loginMemberSuccess } from 'Redux/LoginMembers/actions';
 import Button from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
-
 function Header() {
   const dispatch = useDispatch();
   const { isLogged, data } = useSelector((state) => state.loginMembers);
   const { show, message, state } = useSelector((state) => state.toast);
   const history = useHistory();
-  const [membership, setMembership] = useState(localStorage.getItem('membership'));
-  const keys = [
-    '_id',
-    'name',
-    'lastName',
-    'dni',
-    'phone',
-    'email',
-    'city',
-    'dob',
-    'zip',
-    'isActive',
-    'membership'
-  ];
+  const [layout, setLayout] = useState({ membership: '', name: '' });
   useEffect(() => {
-    setMembership(data.membership);
-  }, [data]);
-
-  useEffect(() => {
-    if (localStorage.getItem('_id')) {
-      let user = {};
-      keys.forEach((key) => {
-        const value = localStorage.getItem(key);
-        user[key] = value;
+    if (localStorage.getItem('login')) {
+      setLayout({
+        membership: JSON.parse(localStorage.getItem('login')).membership,
+        name: `${JSON.parse(localStorage.getItem('login')).name}
+      ${JSON.parse(localStorage.getItem('login')).lastName}`
       });
-      dispatch(loginMemberSuccess(user));
+      dispatch(loginMemberSuccess(JSON.parse(localStorage.getItem('login'))));
     }
-  }, []);
-
+  }, [localStorage.getItem('login')]);
+  useEffect(() => {
+    if (data) {
+      setLayout({ membership: data.membership, name: `${data.name} ${data.lastName}` });
+    }
+  }, [data]);
   const handleLogout = () => {
-    keys.forEach((key) => {
-      localStorage.removeItem(key);
-    });
+    localStorage.removeItem('login');
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
     dispatch(logoutMember());
+    setLayout({ membership: '', name: '' });
     history.push('/');
   };
-
   return (
     <header>
       <div className={styles.container}>
@@ -76,7 +60,7 @@ function Header() {
                     src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
                     alt="profile image"
                   />
-                  {localStorage.getItem('name')} {localStorage.getItem('lastName')}
+                  {layout.name}
                 </div>
               </Link>
             )}
@@ -88,7 +72,7 @@ function Header() {
       </div>
       <nav className={styles.navbar}>
         <ul className={styles.rutes}>
-          {!membership && (
+          {!layout.membership && (
             <>
               <Link to="/" className={styles.a}>
                 Home
@@ -116,14 +100,14 @@ function Header() {
               </Link>
             </>
           )}
-          {membership === 'classic' && (
+          {layout.membership === 'classic' && (
             <>
               <Link to="/" className={styles.a}>
                 Home
               </Link>
             </>
           )}
-          {membership && membership !== 'classic' && (
+          {layout.membership && layout.membership !== 'classic' && (
             <>
               <Link to="/" className={styles.a}>
                 Home
@@ -148,5 +132,4 @@ function Header() {
     </header>
   );
 }
-
 export default Header;
