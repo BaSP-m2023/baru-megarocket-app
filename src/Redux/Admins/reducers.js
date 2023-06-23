@@ -14,11 +14,13 @@ import {
   DELETE_ADMIN_PENDING,
   DELETE_ADMIN_SUCCESS,
   DELETE_ADMIN_ERROR,
-  RESET_STATE
+  RESET_STATE,
+  SET_DEFAULT_ADMIN
 } from './constants';
 
 const INITIAL_STATE = {
   data: [],
+  defaultAdmin: {},
   isPending: false,
   error: null,
   success: false
@@ -26,6 +28,12 @@ const INITIAL_STATE = {
 
 const reducers = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case SET_DEFAULT_ADMIN: {
+      return {
+        ...state,
+        defaultAdmin: action.payload
+      };
+    }
     case GET_ADMINS_PENDING: {
       return {
         ...state,

@@ -28,3 +28,6 @@
   width: 1rem;
   cursor: pointer;
 }
+.button[disabled] {
+  cursor: auto;
+}

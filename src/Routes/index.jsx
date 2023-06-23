@@ -9,6 +9,7 @@ import styles from './layout.module.css';
 
 const Admins = lazy(() => import('./admin'));
 const AdminsForm = lazy(() => import('./admin/form'));
+const AdminProfile = lazy(() => import('./admin/profile'));
 const Activities = lazy(() => import('./activity'));
 const ActivitiesForm = lazy(() => import('./activity/form'));
 const Classes = lazy(() => import('./class'));
@@ -16,6 +17,8 @@ const ClassForm = lazy(() => import('./class/form'));
 const Members = lazy(() => import('./member'));
 const MemberForm = lazy(() => import('./member/form'));
 const MemberProfile = lazy(() => import('./member/profile'));
+const SubscribeActivities = lazy(() => import('./member-logged/subscribeActivities'));
+const FormMemberSubscription = lazy(() => import('./member-logged/formMemberSubscription'));
 const Subscriptions = lazy(() => import('./subscription'));
 const SubscriptionsForm = lazy(() => import('./subscription/form'));
 const SuperAdmins = lazy(() => import('./super-admin'));
@@ -23,6 +26,8 @@ const SuperAdminsForm = lazy(() => import('./super-admin/form'));
 const Trainers = lazy(() => import('./trainer'));
 const TrainerForm = lazy(() => import('./trainer/form'));
 const Login = lazy(() => import('./login'));
+const SubscriptionsMember = lazy(() => import('./subscriptions-members'));
+const SignUp = lazy(() => import('./signup'));
 
 const Layout = () => {
   return (
@@ -35,6 +40,7 @@ const Layout = () => {
             <Route exact path="/admins" component={Admins} />
             <Route path="/admins/add" component={AdminsForm} />
             <Route path="/admins/edit/:id" component={AdminsForm} />
+            <Route path="/admins/profile" component={AdminProfile} />
             <Route path="/activities" exact component={Activities} />
             <Route path="/activities/add" component={ActivitiesForm} />
             <Route path="/activities/edit/:id" component={ActivitiesForm} />
@@ -44,6 +50,8 @@ const Layout = () => {
             <Route exact path="/members" component={Members} />
             <Route path="/members/add" component={MemberForm} />
             <Route path="/members/edit/:id" component={MemberForm} />
+            <Route exact path="/user/members/subscribe-class" component={SubscribeActivities} />
+            <Route path="/user/members/subscribe-class/:id" component={FormMemberSubscription} />
             <Route path="/user/member/profile/:id" component={MemberProfile} />
             <Route exact path="/super-admins" component={SuperAdmins} />
             <Route exact path="/super-admins/add" component={SuperAdminsForm} />
@@ -55,6 +63,8 @@ const Layout = () => {
             <Route path="/trainers/add" component={TrainerForm} />
             <Route path="/trainers/edit/:id" component={TrainerForm} />
             <Route path="/login" component={Login} />
+            <Route path="/user/members/subscriptions" component={SubscriptionsMember} />
+            <Route path="/signup" component={SignUp} />
           </Switch>
         </Suspense>
         <Footer />

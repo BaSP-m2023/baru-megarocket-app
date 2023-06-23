@@ -56,8 +56,12 @@
   line-height: 1.6;
 }
 
-.confirm_button {
+.container_button, .reset_button {
   text-align: center;
+}
+
+.reset_button button {
+  background-color: grey;
 }
 
 .input {

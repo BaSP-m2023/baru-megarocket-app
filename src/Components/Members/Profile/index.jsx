@@ -18,6 +18,7 @@ function MemberProfile({ match }) {
   const history = useHistory();
   const memberId = match.params.id;
   const dispatch = useDispatch();
+  const redirect = useSelector((state) => state.members.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
   const memberData = useSelector((state) => state.members.data);
   const memberLogged = memberData.find((item) => item._id === memberId);
@@ -51,6 +52,12 @@ function MemberProfile({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
+    if (redirect) {
+      history.push('/');
+    }
+  }, [redirect]);
+
+  useEffect(() => {
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
       const { _id, __v, ...resMemberLogged } = memberLogged;
@@ -64,7 +71,7 @@ function MemberProfile({ match }) {
   const onSubmit = (data) => {
     if (memberId) {
       setShowConfirmModal(false);
-      updateMember(dispatch, memberId, data, history)
+      updateMember(dispatch, memberId, data)
         .then((data) => {
           if (data) {
             localStorage.setItem('login', JSON.stringify(data));

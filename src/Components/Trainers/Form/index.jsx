@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import ResponseModal from '../../Shared/ResponseModal';
-import ConfirmModal from '../../Shared/ConfirmModal';
-import Button from '../../Shared/Button';
-import styles from './form.module.css';
-import { Input } from '../../Shared/Inputs';
-import { addTrainer, getTrainers, updTrainer } from '../../../Redux/Trainers/thunks';
-import { handleDisplayToast, setContentToast } from '../../../Redux/Shared/ResponseToast/actions';
-
+import ResponseModal from 'Components/Shared/ResponseModal';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import Button from 'Components/Shared/Button';
+import styles from 'Components/Trainers/Form/form.module.css';
+import { Input } from 'Components/Shared/Inputs';
+import { addTrainer, getTrainers, updTrainer } from 'Redux/Trainers/thunks';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+import trainerSchema from 'Validations/trainer';
 const Form = () => {
   const { id } = useParams();
   const history = useHistory();
@@ -20,71 +22,74 @@ const Form = () => {
   const { show, message, state } = useSelector((state) => state.toast);
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [trainer, setTrainer] = useState({
-    firstName: '',
-    lastName: '',
-    dni: '',
-    phone: '',
-    email: '',
-    password: '',
-    salary: ''
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    getValues,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(trainerSchema),
+    defaultValues: {
+      firstName: trainerToEdit ? trainerToEdit.firstName : '',
+      lastName: trainerToEdit ? trainerToEdit.lastName : '',
+      dni: trainerToEdit ? trainerToEdit.dni : '',
+      phone: trainerToEdit ? trainerToEdit.phone : '',
+      email: trainerToEdit ? trainerToEdit.email : '',
+      password: trainerToEdit ? trainerToEdit.password : '',
+      salary: trainerToEdit ? trainerToEdit.salary : ''
+    }
   });
-
   useEffect(() => {
-    getTrainers(dispatch);
+    dispatch(getTrainers);
   }, [dispatch]);
+  const getTrainer = async (id) => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`);
+      const { data } = await res.json();
+      setValue('firstName', data.firstName);
+      setValue('lastName', data.lastName);
+      setValue('dni', data.dni);
+      setValue('phone', data.phone);
+      setValue('email', data.email);
+      setValue('salary', data.salary);
+      setValue('password', data.password);
+      console.log('data', data);
+    } catch (error) {
+      dispatch(handleDisplayToast(true));
+    }
+  };
 
   useEffect(() => {
-    if (trainerToEdit) {
-      setTrainer({
-        firstName: trainerToEdit.firstName || '',
-        lastName: trainerToEdit.lastName || '',
-        dni: trainerToEdit.dni || '',
-        phone: trainerToEdit.phone || '',
-        email: trainerToEdit.email || '',
-        password: trainerToEdit.password || '',
-        salary: trainerToEdit.salary || ''
-      });
+    if (id && getValues('firstName') === '') {
+      getTrainer(id);
     }
-  }, [trainerToEdit]);
+  }, []);
 
-  const onChangeInput = (e) => {
-    setTrainer({
-      ...trainer,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e) => {
+  const handleConfirm = (data) => {
     setShowConfirmModal(false);
-    onSubmit(e);
+    onSubmit(data);
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
     id
-      ? dispatch(updTrainer(trainerToEdit._id, trainer, history))
-      : dispatch(addTrainer(trainer, history));
+      ? dispatch(updTrainer(trainerToEdit._id, data, history))
+      : dispatch(addTrainer(data, history));
   };
 
-  const handleConfirmModal = () => {
-    if (validateInputs()) {
-      setShowConfirmModal(true);
-    } else {
-      dispatch(handleDisplayToast(true));
-      dispatch(setContentToast({ message: 'Please fill in all fields', state: 'fail' }));
-    }
+  const handleConfirmModal = (data) => {
+    console.log('confirm data ', data);
+    setShowConfirmModal(true);
   };
 
-  const validateInputs = () => {
-    for (const key in trainer) {
-      if (trainer[key].trim() === '') {
-        return false;
-      }
-    }
-    return true;
+  const handleReset = (e) => {
+    e.preventDefault();
+    reset();
+    getTrainer(id);
   };
-
   const formFields = [
     { labelText: 'First Name', name: 'firstName', type: 'text' },
     { labelText: 'Last Name', name: 'lastName', type: 'text' },
@@ -105,17 +110,21 @@ const Form = () => {
               labelText={field.labelText}
               name={field.name}
               type={field.type}
-              value={trainer[field.name]}
-              change={onChangeInput}
+              register={register}
+              error={errors[field.name]?.message}
             />
           </div>
         ))}
+        <Button text={'Reset'} classNameButton="deleteButton" action={handleReset} />
       </form>
       <div className={styles.btnContainer}>
+        <Link to="/trainers">
+          <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
+        </Link>
         <Button
           text={id ? 'Update' : 'Submit'}
           classNameButton="addButton"
-          action={handleConfirmModal}
+          action={handleSubmit(handleConfirmModal)}
         >
           {id ? 'Update' : 'Submit'}
         </Button>
@@ -124,7 +133,7 @@ const Form = () => {
         <ConfirmModal
           title={id ? 'Edit Trainer' : 'Add Trainer'}
           handler={() => setShowConfirmModal(false)}
-          onAction={handleSubmit}
+          onAction={handleSubmit(handleConfirm)}
           reason={'submit'}
         >
           {id

@@ -28,7 +28,6 @@ const Table = ({ data }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    date.setDate(date.getDate() + 1);
     return date.toLocaleDateString();
   };
 
@@ -49,7 +48,7 @@ const Table = ({ data }) => {
           <tr className={styles.thead}>
             <th>Classes</th>
             <th>Members</th>
-            <th>Date</th>
+            <th>Creation Date</th>
             <th colSpan="2"></th>
           </tr>
         </thead>

@@ -22,6 +22,7 @@ export const getClasses = async (dispatch) => {
     const { data, message, error } = await response.json();
     if (!error) {
       dispatch(getClassSuccess(data));
+      return data;
     }
     if (error) {
       throw new Error(message);

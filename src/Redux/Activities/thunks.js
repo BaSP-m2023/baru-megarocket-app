@@ -64,7 +64,7 @@ export const addActivity = async (dispatch, newActivity) => {
   }
 };
 
-export const editActivity = async (dispatch, id, { name, description, isActive }) => {
+export const editActivity = async (dispatch, id, { name, description, isActive, trainers }) => {
   dispatch(editActivityPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/activities/${id}`, {
@@ -72,7 +72,7 @@ export const editActivity = async (dispatch, id, { name, description, isActive }
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({ name, description, isActive })
+      body: JSON.stringify({ name, description, isActive, trainers })
     });
     const { message, data, error } = await response.json();
     dispatch(resetPrimaryStates());

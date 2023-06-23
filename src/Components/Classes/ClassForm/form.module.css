@@ -46,9 +46,8 @@
   width: 25vw;
   height: 30px;
   margin-right: 10px;
-  color: #373867;
-  border: 1px solid #373867;
   border-radius: 5px;
+  border-color: #373867;
 }
 
 .button {
@@ -86,8 +85,8 @@
 
 .error {
   display: inline-block;
+  margin-top: 1rem;
   width: 80%;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.8rem;
   color: rgb(254, 49, 49);
 }

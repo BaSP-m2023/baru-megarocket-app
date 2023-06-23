@@ -115,6 +115,9 @@ function Header() {
               <Link to="/user/members/subscribe-class" className={styles.a}>
                 Activities
               </Link>
+              <Link to="/user/members/subscriptions" className={styles.a}>
+                Subscriptions
+              </Link>
             </>
           )}
         </ul>
