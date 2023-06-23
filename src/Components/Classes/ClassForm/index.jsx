@@ -245,7 +245,7 @@ function ClassForm() {
             />
           </div>
         </form>
-        <Button classNameButton="deleteButton" text="RESET" action={reset} />
+        <Button classNameButton="deleteButton" text="Reset" action={reset} />
       </div>
       {show && (
         <ResponseModal
