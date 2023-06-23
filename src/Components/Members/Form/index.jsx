@@ -199,7 +199,7 @@ const MemberForm = ({ match }) => {
             />
           </div>
           <div className={styles.reset_button}>
-            <Button action={reset} text="Reset" />
+            <Button action={reset} text="Reset" classNameButton="deleteButton" />
           </div>
         </form>
         <div className={styles.container_button}>

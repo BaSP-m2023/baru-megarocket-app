@@ -36,7 +36,3 @@
 .container_button, .reset_button {
   text-align: center;
 }
-
-.reset_button button {
-  background-color: grey;
-}
