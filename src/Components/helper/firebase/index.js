@@ -17,7 +17,7 @@ export const tokenListener = () => {
     if (user) {
       const token = await user.getIdToken();
       const {
-        classes: { role }
+        claims: { role }
       } = await user.getIdTokenResult();
       sessionStorage.setItem('role', role);
       sessionStorage.setItem('token', token);
