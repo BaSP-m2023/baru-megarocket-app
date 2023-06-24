@@ -16,10 +16,19 @@ import {
 
 import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
 
+const token = sessionStorage.getItem('token');
+
 export const getSuperadmins = async (dispatch) => {
   dispatch(getSuperadminsPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        token: token,
+      }
+    });
     const data = await response.json();
     dispatch(getSuperadminsSuccess(data.data));
     dispatch(resetPrimaryStates());
@@ -35,7 +44,8 @@ export const addSuperadmin = (superadminToAdd, callback) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          token: token
         },
         body: JSON.stringify(superadminToAdd)
       });
@@ -67,7 +77,8 @@ export const editSuperadmin = (idToEdit, editedSuperadmin, callback) => {
         {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            token: token,
           },
           body: JSON.stringify(editedSuperadmin)
         }
@@ -98,7 +109,11 @@ export const deleteSuperadmin = (idToDelete) => {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/super-admins/${idToDelete}`,
         {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
         }
       );
       const { message } = await response.json();

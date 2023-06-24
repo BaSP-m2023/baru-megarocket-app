@@ -21,7 +21,7 @@ const initialState = {
   error: null,
 };
 
-const reducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_PENDING:
     case LOGOUT_PENDING:
@@ -84,4 +84,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default authReducer;
