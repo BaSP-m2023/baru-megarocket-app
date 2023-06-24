@@ -15,24 +15,22 @@ import {
   deleteAdminPending,
   deleteAdminSuccess,
   deleteAdminError
-} from './actions';
+} from 'Redux/Admins/actions';
 
-import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 const token = sessionStorage.getItem('token');
 
 export const getAdmins = async (dispatch) => {
   dispatch(getAdminsPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`,
-    {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       }
-    }
-    );
+    });
     const res = await response.json();
     dispatch(getAdminsSuccess(res.data));
     dispatch(setDefaultAdmin(res.data[0]));
@@ -48,7 +46,7 @@ export const getAdminsById = async (dispatch, id) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       }
     });
     const res = await response.json();
@@ -66,7 +64,7 @@ export const addAdmin = async (dispatch, adminToAdd) => {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        token: token,
+        token: token
       },
       body: JSON.stringify(adminToAdd)
     });
@@ -94,7 +92,7 @@ export const editAdmin = async (dispatch, id, adminToUpdate) => {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
-        token: token,
+        token: token
       },
       body: JSON.stringify(adminToUpdate)
     });
@@ -123,7 +121,7 @@ export const deleteAdmin = async (dispatch, id) => {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',
-        token: token,
+        token: token
       }
     });
     const res = await response.json();

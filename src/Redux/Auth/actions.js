@@ -12,7 +12,7 @@ import {
   GET_AUTH_PENDING,
   GET_AUTH_SUCCESS,
   GET_AUTH_ERROR
-} from './constants';
+} from 'Redux/Auth/constants';
 
 export const loginPending = () => {
   return {

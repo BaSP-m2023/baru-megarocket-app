@@ -11,21 +11,20 @@ import {
   putClassPending,
   putClassSuccess,
   putClassError
-} from './actions';
+} from 'Redux/Classes/actions';
 
-import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 const token = sessionStorage.getItem('token');
 
 export const getClasses = async (dispatch) => {
   dispatch(getClassPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`,
-    {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/search`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       }
     });
     const { data, message, error } = await response.json();
@@ -49,7 +48,7 @@ export const addClass = async (dispatch, createdClass, history) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      token: token,
+      token: token
     },
     body: JSON.stringify(createdClass)
   };
@@ -80,7 +79,7 @@ export const putClass = async (dispatch, classes, id, history) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       },
       body: JSON.stringify(classes)
     });
@@ -110,7 +109,7 @@ export const deleteClass = (classId) => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          token: token,
+          token: token
         }
       });
       const { data, message, error } = await response.json();

@@ -12,21 +12,20 @@ import {
   deleteSuperadminError,
   deleteSuperadminSuccess,
   resetPrimaryStates
-} from './actions';
+} from 'Redux/SuperAdmins/actions';
 
-import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 const token = sessionStorage.getItem('token');
 
 export const getSuperadmins = async (dispatch) => {
   dispatch(getSuperadminsPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/`,
-    {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/super-admins/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       }
     });
     const data = await response.json();
@@ -78,7 +77,7 @@ export const editSuperadmin = (idToEdit, editedSuperadmin, callback) => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            token: token,
+            token: token
           },
           body: JSON.stringify(editedSuperadmin)
         }
@@ -112,8 +111,8 @@ export const deleteSuperadmin = (idToDelete) => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            token: token,
-          },
+            token: token
+          }
         }
       );
       const { message } = await response.json();

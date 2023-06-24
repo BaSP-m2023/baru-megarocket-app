@@ -11,21 +11,20 @@ import {
   deleteSubscriptionSuccess,
   deleteSubscriptionPending,
   deleteSubscriptionError
-} from './actions';
+} from 'Redux/Subscriptions/actions';
 
-import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 const token = sessionStorage.getItem('token');
 
 export const getSubscriptions = async (dispatch) => {
   dispatch(getSubscriptionsPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`,
-    {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       }
     });
     const data = await response.json();
@@ -47,7 +46,7 @@ export const addSubscriptions = async (dispatch, newAddSubscription) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       },
       body: JSON.stringify({
         classes: newAddSubscription.classes,
@@ -88,7 +87,7 @@ export const editSubscription = async (dispatch, newEditSubscription, id) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       },
       body: body
     });
@@ -121,7 +120,7 @@ export const deleteSubscription = (subscriptionId) => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            token: token,
+            token: token
           }
         }
       );

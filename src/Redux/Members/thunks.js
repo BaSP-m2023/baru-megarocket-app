@@ -11,21 +11,20 @@ import {
   deleteMemberPending,
   deleteMemberSuccess,
   deleteMemberError
-} from './actions';
+} from 'Redux/Members/actions';
 
-import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 const token = sessionStorage.getItem('token');
 
 export const getMembers = async (dispatch) => {
   dispatch(getMembersPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`,
-    {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       }
     });
     const data = await response.json();
@@ -42,7 +41,7 @@ export const addMember = async (dispatch, member) => {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        token: token,
+        token: token
       },
       body: JSON.stringify(member)
     });
@@ -70,7 +69,7 @@ export const updateMember = async (dispatch, id, updatedMember) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       },
       body: JSON.stringify(updatedMember)
     });
@@ -99,7 +98,7 @@ export const deleteMember = async (dispatch, id) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        token: token,
+        token: token
       }
     });
     const { message, data, error } = await response.json();

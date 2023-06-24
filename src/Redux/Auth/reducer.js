@@ -12,13 +12,13 @@ import {
   GET_AUTH_PENDING,
   GET_AUTH_ERROR,
   GET_AUTH_SUCCESS
-} from './constants';
+} from 'Redux/Auth/constants';
 
 const initialState = {
   isLoading: false,
   authenticated: false,
   user: undefined,
-  error: null,
+  error: null
 };
 
 const authReducer = (state = initialState, action) => {
