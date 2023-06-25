@@ -12,10 +12,11 @@ import {
   logoutError,
   logoutPending
 } from 'Redux/Auth/actions';
+import { setContentToast, handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 import { firebaseApp } from 'Components/helper/firebase';
 
-export const login = (credentials) => {
+export const login = (credentials, history) => {
   return async (dispatch) => {
     dispatch(loginPending());
     try {
@@ -26,9 +27,14 @@ export const login = (credentials) => {
       const {
         claims: { role }
       } = await firebaseResponse.user.getIdTokenResult();
-      return dispatch(loginSuccess({ role, token }));
+      dispatch(loginSuccess({ token, role }));
+      dispatch(setContentToast({ message: 'Successful Login', state: 'success' }));
+      dispatch(handleDisplayToast(true));
+      history.push('/');
     } catch (error) {
-      return dispatch(loginError(error.toString()));
+      dispatch(loginError(error));
+      dispatch(setContentToast({ message: 'Wrong email or password', state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };
