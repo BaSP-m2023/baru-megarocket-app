@@ -11,13 +11,22 @@ import {
   deleteTrainerPending,
   deleteTrainerSuccess,
   deleteTrainerError
-} from './actions';
-import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+} from 'Redux/Trainers/actions';
+
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+
+const token = sessionStorage.getItem('token');
 
 export const getTrainers = async (dispatch) => {
   dispatch(getTrainersPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        token: token
+      }
+    });
     const { data, message, error } = await response.json();
     if (!error) {
       dispatch(getTrainersSuccess(data));
@@ -41,7 +50,8 @@ export const addTrainer = (trainer, history) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          token: token
         },
         body: JSON.stringify(trainer)
       });
@@ -72,7 +82,8 @@ export const updTrainer = (id, updatedTrainer, history) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          token: token
         },
         body: JSON.stringify(updatedTrainer)
       });
@@ -100,7 +111,11 @@ export const deleteTrainer = (id) => {
     dispatch(deleteTrainerPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token
+        }
       });
       const { data, message, error } = await response.json();
       if (!error) {

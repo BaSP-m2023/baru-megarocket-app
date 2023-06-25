@@ -12,14 +12,22 @@ import {
   deleteActivitySuccess,
   deleteActivityError,
   resetPrimaryStates
-} from './actions';
+} from 'Redux/Activities/actions';
 
-import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+
+const token = sessionStorage.getItem('token');
 
 export const getActivities = async (dispatch) => {
   dispatch(getActivitiesPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/activities`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/activities`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        token: token
+      }
+    });
     const { data, message, error } = await response.json();
     dispatch(resetPrimaryStates());
 
@@ -41,7 +49,8 @@ export const addActivity = async (dispatch, newActivity) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/activities`, {
       method: 'POST',
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        token: token
       },
       body: JSON.stringify(newActivity)
     });
@@ -70,7 +79,8 @@ export const editActivity = async (dispatch, id, { name, description, isActive, 
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/activities/${id}`, {
       method: 'PUT',
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        token: token
       },
       body: JSON.stringify({ name, description, isActive, trainers })
     });
@@ -97,7 +107,11 @@ export const deleteActivity = async (dispatch, id) => {
   dispatch(deleteActivityPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/activities/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        token: token
+      }
     });
     const { message, error } = await response.json();
     dispatch(resetPrimaryStates());

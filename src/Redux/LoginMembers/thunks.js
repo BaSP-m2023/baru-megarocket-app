@@ -1,5 +1,5 @@
 import { loginMemberPending, loginMemberSuccess, loginMemberError } from './actions';
-import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 export const loginMembers = async (dispatch) => {
   dispatch(loginMemberPending());

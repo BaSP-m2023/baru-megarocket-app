@@ -1,15 +1,16 @@
 import { combineReducers } from 'redux';
-import { superadminsReducer } from './SuperAdmins/reducers';
+import { superadminsReducer } from 'Redux/SuperAdmins/reducers';
 
 // Import reducers below
-import toastReducer from './Shared/ResponseToast/reducer';
-import trainersReducer from './Trainers/reducers';
-import classReducer from './Classes/reducers';
-import activititesReducer from './Activities/reducers';
-import membersReducer from './Members/reducers';
-import adminsReducer from './Admins/reducers';
-import subscriptionsReducer from './Subscriptions/reducers';
-import loginMembersReducer from './LoginMembers/reducers';
+import toastReducer from 'Redux/Shared/ResponseToast/reducer';
+import trainersReducer from 'Redux/Trainers/reducers';
+import classReducer from 'Redux/Classes/reducers';
+import activititesReducer from 'Redux/Activities/reducers';
+import membersReducer from 'Redux/Members/reducers';
+import adminsReducer from 'Redux/Admins/reducers';
+import subscriptionsReducer from 'Redux/Subscriptions/reducers';
+import loginMembersReducer from 'Redux/LoginMembers/reducers';
+import authReducer from 'Redux/Auth/reducer';
 
 const rootReducers = combineReducers({
   superadmins: superadminsReducer,
@@ -20,7 +21,8 @@ const rootReducers = combineReducers({
   admins: adminsReducer,
   subscriptions: subscriptionsReducer,
   trainers: trainersReducer,
-  loginMembers: loginMembersReducer
+  loginMembers: loginMembersReducer,
+  auth: authReducer
 });
 
 export default rootReducers;

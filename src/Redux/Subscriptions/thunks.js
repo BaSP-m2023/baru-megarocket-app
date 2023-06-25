@@ -11,14 +11,22 @@ import {
   deleteSubscriptionSuccess,
   deleteSubscriptionPending,
   deleteSubscriptionError
-} from './actions';
+} from 'Redux/Subscriptions/actions';
 
-import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+
+const token = sessionStorage.getItem('token');
 
 export const getSubscriptions = async (dispatch) => {
   dispatch(getSubscriptionsPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        token: token
+      }
+    });
     const data = await response.json();
     dispatch(getSubscriptionsSuccess(data.data));
   } catch (error) {
@@ -37,7 +45,8 @@ export const addSubscriptions = async (dispatch, newAddSubscription) => {
     const body = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: token
       },
       body: JSON.stringify({
         classes: newAddSubscription.classes,
@@ -77,7 +86,8 @@ export const editSubscription = async (dispatch, newEditSubscription, id) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscription/${id}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: token
       },
       body: body
     });
@@ -107,7 +117,11 @@ export const deleteSubscription = (subscriptionId) => {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/subscription/${subscriptionId}`,
         {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            token: token
+          }
         }
       );
       if (response.status === 200) {
