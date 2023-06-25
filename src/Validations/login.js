@@ -8,13 +8,9 @@ const loginSchema = Joi.object({
       'string.pattern.base': 'This input should be a valid email',
       'string.empty': 'Email is required'
     }),
-  password: Joi.string()
-    .pattern(/^[a-zA-Z0-9]{6,20}$/)
-    .required()
-    .messages({
-      'string.pattern.base': 'Password should have numbers and letters between 6 and 20 characters',
-      'string.empty': 'Password is required'
-    })
+  password: Joi.string().required().messages({
+    'string.empty': 'Password is required'
+  })
 });
 
 export default loginSchema;

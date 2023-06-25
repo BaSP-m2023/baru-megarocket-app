@@ -7,11 +7,13 @@
 }
 
 .h2 {
+  margin: 2rem 0;
   font-size: 3rem;
   color: #373867;
 }
 
 .h3 {
+  margin: 1rem 0;
   font-size: 2rem;
   font-weight: 500;
   color: #373867;
@@ -19,7 +21,8 @@
 
 .form {
   height: 100%;
-  margin: 5%;
+  width: 42%;
+  min-width: 21rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,6 +30,19 @@
   border: 1px solid #EBEBEB;
   box-shadow: 0px 4px 4px #00000040;
   border-radius: 20px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+}
+
+.inputContainer input {
+  margin: 0;
+  min-width: 10rem;
 }
 
 .buttonContainer {
