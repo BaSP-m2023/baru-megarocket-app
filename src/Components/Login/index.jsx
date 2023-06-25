@@ -3,30 +3,30 @@ import styles from './login.module.css';
 import Button from 'Components/Shared/Button';
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useDispatch } from 'react-redux';
-import { loginMembers } from 'Redux/LoginMembers/thunks';
-
-import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import loginSchema from 'Validations/login';
+import { login } from 'Redux/Auth/thunks';
+
 function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { register, handleSubmit, getValues } = useForm({
-    mode: 'onChange'
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: ''
+    }
   });
-  const handleLogin = () => {
-    const inputValue = getValues().email;
-    loginMembers(dispatch, inputValue)
-      .then((data) => {
-        // eslint-disable-next-line no-unused-vars
-        const { password, __v, ...resObj } = data;
-        localStorage.setItem('login', JSON.stringify(resObj));
-        history.push('/');
-      })
-      .catch((error) => {
-        dispatch(handleDisplayToast(true));
-        dispatch(setContentToast({ message: error.message, state: 'fail' }));
-      });
+
+  const handleLogin = (data) => {
+    dispatch(login(data, history));
   };
   return (
     <section className={styles.formContainer}>
@@ -42,6 +42,7 @@ function Login() {
             placeholder="Email"
             name="email"
             register={register}
+            error={errors.email?.message}
           />
         </div>
         <div className={styles.inputContainer}>
@@ -51,6 +52,7 @@ function Login() {
             name="password"
             placeholder="Password"
             register={register}
+            error={errors.password?.message}
           />
         </div>
         <div className={styles.buttonContainer}>
