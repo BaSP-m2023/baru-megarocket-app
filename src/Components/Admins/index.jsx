@@ -59,11 +59,6 @@ const Admins = () => {
   };
   return (
     <>
-      <div className={styles.navbar}>
-        <Link to="/admins/profile" className={styles.a}>
-          Admin profile
-        </Link>
-      </div>
       <section className={styles.container}>
         <h2 className={styles.title}>Admins</h2>
         <div className={styles.searchContainer}>
