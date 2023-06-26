@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import memberSchema from 'Validations/member';
+import memberSchema from 'Validations/memberUpdate';
+import { getAuth } from 'Redux/Auth/thunks';
 
 function MemberProfile({ match }) {
   const [disableEdit, setDisableEdit] = useState(true);
@@ -18,11 +19,9 @@ function MemberProfile({ match }) {
   const history = useHistory();
   const memberId = match.params.id;
   const dispatch = useDispatch();
-  const redirect = useSelector((state) => state.members.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
-  const memberData = useSelector((state) => state.members.data);
-  const memberLogged = memberData.find((item) => item._id === memberId);
-
+  const memberLogged = useSelector((state) => state.auth.user);
+  const token = sessionStorage.getItem('token');
   const {
     register,
     handleSubmit,
@@ -37,13 +36,11 @@ function MemberProfile({ match }) {
       lastName: '',
       dni: '',
       phone: '',
-      email: '',
       city: '',
       dob: '',
       zip: '',
-      isActive: '',
-      membership: 'default',
-      password: ''
+      membership: memberLogged.membership,
+      isActive: memberLogged.isActive
     }
   });
 
@@ -52,30 +49,22 @@ function MemberProfile({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (redirect) {
-      history.push('/');
-    }
-  }, [redirect]);
-
-  useEffect(() => {
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, __v, ...resMemberLogged } = memberLogged;
+      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
       Object.entries(resMemberLogged).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
     }
-  }, [memberLogged]);
+  }, [memberLogged, handleSubmit]);
 
   const onSubmit = (data) => {
     if (memberId) {
       setShowConfirmModal(false);
-      updateMember(dispatch, memberId, data)
-        .then((data) => {
-          if (data) {
-            localStorage.setItem('login', JSON.stringify(data));
-          }
+      updateMember(dispatch, memberId, data, history)
+        .then(() => {
+          resetData();
         })
         .catch((error) => {
           dispatch(setContentToast({ message: error.message, state: 'fail' }));
@@ -83,13 +72,25 @@ function MemberProfile({ match }) {
         });
     }
   };
-
-  const handleReset = (e) => {
-    e.preventDefault();
+  const resetData = () => {
+    dispatch(getAuth(token));
     reset();
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, __v, ...resMemberLogged } = memberLogged;
+      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
+      Object.entries(resMemberLogged).every(([key, value]) => {
+        setValue(key, value);
+        return true;
+      });
+    }
+  };
+  const handleReset = (e) => {
+    e.preventDefault();
+    dispatch(getAuth(token)).then(reset());
+
+    if (memberLogged) {
+      // eslint-disable-next-line no-unused-vars
+      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
       Object.entries(resMemberLogged).every(([key, value]) => {
         setValue(key, value);
         return true;
@@ -106,23 +107,16 @@ function MemberProfile({ match }) {
     { labelText: 'LastName', type: 'text', name: 'lastName' },
     { labelText: 'DNI', type: 'number', name: 'dni' },
     { labelText: 'Phone', type: 'text', name: 'phone' },
-    { labelText: 'Email', type: 'email', name: 'email' },
     { labelText: 'City', type: 'text', name: 'city' },
     { labelText: 'Date of birth', type: 'text', name: 'dob' },
-    { labelText: 'Zip code', type: 'number', name: 'zip' },
-    { labelText: 'Password', type: 'password', name: 'password' }
+    { labelText: 'Zip code', type: 'number', name: 'zip' }
   ];
-
   return (
     <div className={styles.form}>
       <div className={styles.content}>
         <div className={styles.header}>
           <h2>
-            {disableEdit
-              ? `${JSON.parse(localStorage.getItem('login'))?.name} ${
-                  JSON.parse(localStorage.getItem('login'))?.lastName
-                } Profile`
-              : 'Edit Profile'}
+            {disableEdit ? `${memberLogged.name} ${memberLogged.lastName} Profile` : 'Edit Profile'}
           </h2>
           {disableEdit && (
             <Button
@@ -152,20 +146,36 @@ function MemberProfile({ match }) {
               </div>
             ))}
           </div>
+          {!disableEdit && (
+            <div className={styles.buttons}>
+              <Button classNameButton="addButton" text={'Edit'} disabled={disableEdit} />
+              <Button
+                classNameButton="cancelButton"
+                action={() => setDisableEdit(true)}
+                text="Disable Edition"
+              />
+              <Button
+                classNameButton="deleteButton"
+                action={handleReset}
+                text={'Reset'}
+                disabled={disableEdit}
+              />
+            </div>
+          )}
+        </form>
+        {disableEdit && (
           <div className={styles.buttons}>
-            <Button classNameButton="addButton" text={'Edit'} disabled={disableEdit} />
             <Button
-              classNameButton="deleteButton"
-              action={handleReset}
-              text={'Reset'}
-              disabled={disableEdit}
+              classNameButton="addButton"
+              action={() => setDisableEdit(false)}
+              text="Enable Edition"
             />
           </div>
-        </form>
+        )}
       </div>
       {showConfirmModal && (
         <ConfirmModal
-          title={memberId ? 'Edit member' : 'Add Member'}
+          title={'Edit my Profile'}
           handler={() => setShowConfirmModal(false)}
           onAction={handleSubmit(onSubmit)}
           reason={'submit'}

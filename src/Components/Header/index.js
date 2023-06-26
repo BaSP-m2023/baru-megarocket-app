@@ -7,12 +7,12 @@ import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/
 import { getAuth, logOut } from 'Redux/Auth/thunks';
 import { tokenListener } from 'Components/helper/firebase';
 import { useEffect } from 'react';
-
+import { editMemberSuccess } from 'Redux/Members/actions';
 function Header() {
   const dispatch = useDispatch();
   const token = sessionStorage.getItem('token');
   const role = sessionStorage.getItem('role');
-
+  const userLogged = useSelector((state) => state.auth.user);
   useEffect(() => {
     tokenListener();
   }, []);
@@ -20,11 +20,13 @@ function Header() {
     if (token) {
       dispatch(getAuth(token));
     }
-  }, [token]);
+  }, [token, editMemberSuccess]);
 
   const { show, message, state } = useSelector((state) => state.toast);
   const history = useHistory();
   const handleLogout = () => {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
     dispatch(logOut());
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
@@ -46,11 +48,29 @@ function Header() {
           />
         </div>
         {role && (
-          <div className={styles.optionContainer}>
-            <div className={styles.logoutButton}>
-              <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
+          <>
+            <Link
+              className={styles.profileLink}
+              to={`/user/${role.toLowerCase()}/profile/${userLogged._id}`}
+            >
+              <div className={styles.profileContainer}>
+                <img
+                  className={styles.profileImg}
+                  src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
+                  alt="profile image"
+                />
+                {role == 'ADMIN'
+                  ? `${userLogged.firstName} ${userLogged.lastName}`
+                  : `${userLogged.name} ${userLogged.lastName}`}
+              </div>
+            </Link>
+
+            <div className={styles.optionContainer}>
+              <div className={styles.logoutButton}>
+                <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
       <nav className={styles.navbar}>
@@ -79,11 +99,11 @@ function Header() {
           )}
           {role === 'SUPER_ADMIN' && (
             <>
-              <Link to="/" className={styles.a}>
-                Home
-              </Link>
               <Link to="/admins" className={styles.a}>
                 Admins
+              </Link>
+              <Link to="/super-admins" className={styles.a}>
+                Super Admins
               </Link>
             </>
           )}
