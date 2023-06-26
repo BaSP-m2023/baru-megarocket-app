@@ -15,14 +15,22 @@ import {
   deleteAdminPending,
   deleteAdminSuccess,
   deleteAdminError
-} from './actions';
+} from 'Redux/Admins/actions';
 
-import { handleDisplayToast, setContentToast } from '../Shared/ResponseToast/actions';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+
+const token = sessionStorage.getItem('token');
 
 export const getAdmins = async (dispatch) => {
   dispatch(getAdminsPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        token: token
+      }
+    });
     const res = await response.json();
     dispatch(getAdminsSuccess(res.data));
     dispatch(setDefaultAdmin(res.data[0]));
@@ -35,7 +43,11 @@ export const getAdminsById = async (dispatch, id) => {
   dispatch(getAdminByIdPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`, {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        token: token
+      }
     });
     const res = await response.json();
     const body = res.data;
@@ -51,7 +63,8 @@ export const addAdmin = async (dispatch, adminToAdd) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`, {
       method: 'POST',
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        token: token
       },
       body: JSON.stringify(adminToAdd)
     });
@@ -78,7 +91,8 @@ export const editAdmin = async (dispatch, id, adminToUpdate) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`, {
       method: 'PUT',
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        token: token
       },
       body: JSON.stringify(adminToUpdate)
     });
@@ -104,7 +118,11 @@ export const deleteAdmin = async (dispatch, id) => {
   dispatch(deleteAdminPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/delete/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+        token: token
+      }
     });
     const res = await response.json();
     if (response.ok) {
