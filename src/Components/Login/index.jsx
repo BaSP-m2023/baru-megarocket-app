@@ -31,11 +31,11 @@ function Login() {
   return (
     <section className={styles.formContainer}>
       <form className={styles.form}>
-        <div className={styles.titleContainer}>
+        <div className={styles.titleContainer} data-testid="login-title-container">
           <h2 className={styles.h2}>MegaRocket</h2>
           <h3 className={styles.h3}>Login members</h3>
         </div>
-        <div className={styles.inputContainer}>
+        <div className={styles.inputContainer} data-testid="login-email-container">
           <Input
             labelText="Email"
             type="email"
@@ -45,7 +45,7 @@ function Login() {
             error={errors.email?.message}
           />
         </div>
-        <div className={styles.inputContainer}>
+        <div className={styles.inputContainer} data-testid="login-password-container">
           <Input
             labelText="Password"
             type="password"
@@ -55,7 +55,7 @@ function Login() {
             error={errors.password?.message}
           />
         </div>
-        <div className={styles.buttonContainer}>
+        <div className={styles.buttonContainer} data-testid="login-form-buttons-container">
           <Button action={handleSubmit(handleLogin)} text="Login" classNameButton="submitButton" />
           <Link to="/">
             <Button text="Home" classNameButton="cancelButton" />

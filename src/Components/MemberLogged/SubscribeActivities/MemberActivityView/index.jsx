@@ -28,7 +28,7 @@ const MemberActivityView = () => {
       ) : (
         <>
           <div>
-            <div className={styles.cardContainer}>
+            <div className={styles.cardContainer} data-testid="activities-cards-container">
               {activities.map((activity) => (
                 <div
                   onClick={() => navigate(activity._id)}

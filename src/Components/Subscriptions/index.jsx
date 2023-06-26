@@ -38,7 +38,7 @@ const Subscriptions = () => {
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Subscriptions</h1>
-      <div className={styles.inputSearch}>
+      <div className={styles.inputSearch} data-testid="subscriptions-search-container">
         <input
           name="Search Subscription"
           placeholder="Search Subscription"
@@ -50,7 +50,7 @@ const Subscriptions = () => {
         <Table className={subscriptions.table} data={filteredSubscriptions} />
       </div>
       <div className={styles.buttonContainer}>
-        <Link to="/subscriptions/add">
+        <Link to="/subscriptions/add" data-testid="subscription-add-link">
           <Button classNameButton="submitButton" text="+ Add New" />
         </Link>
       </div>

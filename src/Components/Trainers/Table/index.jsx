@@ -22,7 +22,7 @@ const Table = ({ data = [] }) => {
     <>
       <div className={styles.filter}>
         {filter.length === 0 ? <p>There is no trainer with that name or last name</p> : ''}
-        <div className={`${styles['filter-container']}`}>
+        <div className={`${styles['filter-container']}`} data-testid="trainers-search-container">
           <input
             className={`${styles['filter-input']}`}
             type="text"
@@ -42,7 +42,7 @@ const Table = ({ data = [] }) => {
             <th className={styles.column}>Email</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody data-testid="trainers-list">
           {filter.map((trainer) => (
             <Trainer key={trainer._id} trainer={trainer} />
           ))}

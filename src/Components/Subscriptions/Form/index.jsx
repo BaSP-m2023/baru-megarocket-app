@@ -114,7 +114,11 @@ const Form = () => {
   }
   return (
     <>
-      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={styles.container}
+        onSubmit={handleSubmit(onSubmit)}
+        data-testid="subscriptions-form-container"
+      >
         {!id ? (
           <h2 className={styles.title}>Add Subscription</h2>
         ) : (
@@ -149,7 +153,7 @@ const Form = () => {
         />
         {errors.classes && <p className={styles.error}>{errors.classes?.message}</p>}
 
-        <div className={styles.btnContainer}>
+        <div className={styles.btnContainer} data-testid="subscriptions-form-buttons">
           <Link to="/subscriptions">
             <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
           </Link>
