@@ -1,38 +1,35 @@
 import styles from './header.module.css';
 import { Link, useHistory } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutMember, loginMemberSuccess } from 'Redux/LoginMembers/actions';
 import Button from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { getAuth, logOut } from 'Redux/Auth/thunks';
+import { tokenListener } from 'Components/helper/firebase';
+import { useEffect } from 'react';
+
 function Header() {
   const dispatch = useDispatch();
-  const { isLogged, data } = useSelector((state) => state.loginMembers);
+  const token = sessionStorage.getItem('token');
+  const role = sessionStorage.getItem('role');
+
+  useEffect(() => {
+    tokenListener();
+  }, []);
+  useEffect(() => {
+    if (token) {
+      dispatch(getAuth(token));
+    }
+  }, [token]);
+
   const { show, message, state } = useSelector((state) => state.toast);
   const history = useHistory();
-  const [layout, setLayout] = useState({ membership: '', name: '' });
-  useEffect(() => {
-    if (localStorage.getItem('login')) {
-      setLayout({
-        membership: JSON.parse(localStorage.getItem('login')).membership,
-        name: `${JSON.parse(localStorage.getItem('login')).name}
-      ${JSON.parse(localStorage.getItem('login')).lastName}`
-      });
-      dispatch(loginMemberSuccess(JSON.parse(localStorage.getItem('login'))));
-    }
-  }, [localStorage.getItem('login')]);
-  useEffect(() => {
-    if (data) {
-      setLayout({ membership: data.membership, name: `${data.name} ${data.lastName}` });
-    }
-  }, [data]);
   const handleLogout = () => {
-    localStorage.removeItem('login');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
+    dispatch(logOut());
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
-    dispatch(logoutMember());
-    setLayout({ membership: '', name: '' });
     history.push('/');
   };
   return (
@@ -50,20 +47,8 @@ function Header() {
             className={styles.logo2}
           />
         </div>
-        {isLogged && (
+        {role && (
           <div className={styles.optionContainer}>
-            {data && (
-              <Link className={styles.profileLink} to={`/user/member/profile/${data._id}`}>
-                <div className={styles.profileContainer}>
-                  <img
-                    className={styles.profileImg}
-                    src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
-                    alt="profile image"
-                  />
-                  {layout.name}
-                </div>
-              </Link>
-            )}
             <div className={styles.logoutButton}>
               <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
             </div>
@@ -72,16 +57,13 @@ function Header() {
       </div>
       <nav className={styles.navbar}>
         <ul className={styles.rutes}>
-          {!layout.membership && (
+          {role === 'ADMIN' && (
             <>
               <Link to="/" className={styles.a}>
                 Home
               </Link>
               <Link to="/activities" className={styles.a}>
                 Activities
-              </Link>
-              <Link to="/admins" className={styles.a}>
-                Admins
               </Link>
               <Link to="/classes" className={styles.a}>
                 Classes
@@ -92,22 +74,22 @@ function Header() {
               <Link to="/subscriptions" className={styles.a}>
                 Subscriptions
               </Link>
-              <Link to="/super-admins" className={styles.a}>
-                Super Admins
-              </Link>
               <Link to="/trainers" className={styles.a}>
                 Trainers
               </Link>
             </>
           )}
-          {layout.membership === 'classic' && (
+          {role === 'SUPER_ADMIN' && (
             <>
-              <Link to="/" className={styles.a}>
-                Home
+              <Link to="/admins" className={styles.a}>
+                Admins
+              </Link>
+              <Link to="/super-admins" className={styles.a}>
+                Super Admins
               </Link>
             </>
           )}
-          {layout.membership && layout.membership !== 'classic' && (
+          {role === 'MEMBER' && (
             <>
               <Link to="/" className={styles.a}>
                 Home
