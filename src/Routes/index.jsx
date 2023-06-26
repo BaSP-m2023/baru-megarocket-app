@@ -22,8 +22,6 @@ const SubscribeActivities = lazy(() => import('./member-logged/subscribeActiviti
 const FormMemberSubscription = lazy(() => import('./member-logged/formMemberSubscription'));
 const Subscriptions = lazy(() => import('./subscription'));
 const SubscriptionsForm = lazy(() => import('./subscription/form'));
-const SuperAdmins = lazy(() => import('./super-admin'));
-const SuperAdminsForm = lazy(() => import('./super-admin/form'));
 const Trainers = lazy(() => import('./trainer'));
 const TrainerForm = lazy(() => import('./trainer/form'));
 const Login = lazy(() => import('./login'));
@@ -43,19 +41,6 @@ const Layout = () => {
             <PrivateRoute exact path="/admins" role="SUPER_ADMIN" component={Admins} />
             <PrivateRoute path="/admins/add" role="SUPER_ADMIN" component={AdminsForm} />
             <PrivateRoute path="/admins/edit/:id" role="SUPER_ADMIN" component={AdminsForm} />
-            <PrivateRoute exact path="/super-admins" role="SUPER_ADMIN" component={SuperAdmins} />
-            <PrivateRoute
-              exact
-              path="/super-admins/add"
-              role="SUPER_ADMIN"
-              component={SuperAdminsForm}
-            />
-            <PrivateRoute
-              exact
-              path="/super-admins/edit/:id"
-              role="SUPER_ADMIN"
-              component={SuperAdminsForm}
-            />
             <PrivateRoute path="/admins/profile" role="ADMIN" component={AdminProfile} />
             <PrivateRoute path="/activities" role="ADMIN" exact component={Activities} />
             <PrivateRoute path="/activities/add" role="ADMIN" component={ActivitiesForm} />

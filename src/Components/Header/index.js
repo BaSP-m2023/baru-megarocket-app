@@ -25,8 +25,6 @@ function Header() {
   const { show, message, state } = useSelector((state) => state.toast);
   const history = useHistory();
   const handleLogout = () => {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('role');
     dispatch(logOut());
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
@@ -81,11 +79,11 @@ function Header() {
           )}
           {role === 'SUPER_ADMIN' && (
             <>
+              <Link to="/" className={styles.a}>
+                Home
+              </Link>
               <Link to="/admins" className={styles.a}>
                 Admins
-              </Link>
-              <Link to="/super-admins" className={styles.a}>
-                Super Admins
               </Link>
             </>
           )}
