@@ -61,6 +61,7 @@ function ClassList({ classes }) {
         placeholder="Search By Activity/Trainer"
         value={filter}
         onChange={(e) => handleFilter(e)}
+        data-testid="classes-search"
       />
 
       <div className={styles.tableContainer}>
@@ -75,7 +76,7 @@ function ClassList({ classes }) {
               <th>Time</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody data-testid="classes-list">
             {filteredClasses !== 0 &&
               filteredClasses.map((item, index) => (
                 <tr key={item._id} className={styles.row}>
@@ -90,6 +91,7 @@ function ClassList({ classes }) {
                       <Button
                         img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
                         classNameButton={`${styles.button}`}
+                        testid="classes-edit-btn"
                       />
                     </Link>
                   </td>
@@ -101,6 +103,7 @@ function ClassList({ classes }) {
                         setSelectedClassToDelete(item);
                         setShowConfirmModal(true);
                       }}
+                      testid="classes-delete-btn"
                     />
                   </td>
                 </tr>

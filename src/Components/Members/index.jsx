@@ -26,7 +26,7 @@ function Members() {
       {!pending && members.length > 0 ? (
         <>
           <List members={members} />
-          <Link Link to="/members/add">
+          <Link Link to="/members/add" data-testid="add-member-link">
             <Button classNameButton="addButton" text="+ Add new" />
           </Link>
         </>

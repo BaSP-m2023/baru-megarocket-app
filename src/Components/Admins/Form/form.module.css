@@ -12,7 +12,7 @@
   width: 25vw;
   padding: 0.5rem;
   text-align: center;
-  background-color: #232F3E;
+  background-color: #232f3e;
 }
 
 .title {
@@ -21,7 +21,7 @@
 }
 
 .button {
-  background-color: #232F3E;
+  background-color: #232f3e;
   color: #ffffff;
   border: none;
   cursor: pointer;
@@ -52,7 +52,7 @@
   width: 100%;
 }
 
-.buttonContainer{
+.buttonContainer {
   display: flex;
   justify-content: center;
   width: 25vw;
@@ -66,7 +66,7 @@
   font-size: 1rem;
   color: #373867;
   background-color: #ffffff;
-  border: 1px solid  #373867;
+  border: 1px solid #373867;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -78,7 +78,7 @@
   font-weight: 600;
   font-size: 1rem;
   color: #373867;
-  background-color: #AACE9B;
+  background-color: #aace9b;
   border: 0;
   border-radius: 5px;
   cursor: pointer;
@@ -86,8 +86,4 @@
 
 .disabled {
   display: none;
-}
-
-.container_button {
-  text-align: center;
 }

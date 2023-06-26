@@ -10,7 +10,7 @@ const ConfirmModal = ({ children, handler, title, reason, onAction }) => {
   };
   return ReactDOM.createPortal(
     <div className={styles.modal}>
-      <div className={styles.modalContent}>
+      <div className={styles.modalContent} data-testid="confirm-modal-container">
         <div className={styles.modalHeader}>
           <span className={styles.modalTitle}>{title}</span>
           <span className={styles.modalCloser} onClick={handler}>
@@ -18,7 +18,7 @@ const ConfirmModal = ({ children, handler, title, reason, onAction }) => {
           </span>
         </div>
         <p className={styles.modalMessage}>{children}</p>
-        <div className={styles.modalButtons}>
+        <div className={styles.modalButtons} data-testid="confirm-modal-buttons">
           <Button action={handler} text={'Cancel'} classNameButton={'cancelButton'} />
           <Button
             action={onAction}

@@ -87,7 +87,7 @@ const FormMemberSubscription = () => {
           <Loader />
         </div>
       ) : (
-        <div className={styles.formContainer}>
+        <div className={styles.formContainer} data-testid="activity-subscription-container">
           <h2>
             {classes.length !== 0 ? classes[0].activity.name : 'This activity has no classes'}
           </h2>
