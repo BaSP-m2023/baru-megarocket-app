@@ -38,7 +38,7 @@ function Header() {
   return (
     <header>
       <div className={styles.container}>
-        <div>
+        <div data-testid="logo-container">
           <img
             src={`${process.env.PUBLIC_URL}/assets/images/logo.png`}
             alt="guy flexing on fire logo"
@@ -51,7 +51,7 @@ function Header() {
           />
         </div>
         {isLogged && (
-          <div className={styles.optionContainer}>
+          <div className={styles.optionContainer} data-testid="logout-container">
             {data && (
               <Link className={styles.profileLink} to={`/user/member/profile/${data._id}`}>
                 <div className={styles.profileContainer}>
@@ -71,7 +71,7 @@ function Header() {
         )}
       </div>
       <nav className={styles.navbar}>
-        <ul className={styles.rutes}>
+        <ul className={styles.rutes} data-testid="routes-list">
           {!layout.membership && (
             <>
               <Link to="/" className={styles.a}>

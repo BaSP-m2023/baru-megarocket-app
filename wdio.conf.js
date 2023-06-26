@@ -242,7 +242,6 @@ exports.config = {
 
   onComplete: function () {
     const reportError = new Error('Could not generate Allure report');
-    // eslint-disable-next-line no-undef
     const generation = allure(['generate', 'allure-results', '--clean']);
     return new Promise((resolve, reject) => {
       const generationTimeout = setTimeout(() => reject(reportError), 5000);
@@ -260,7 +259,6 @@ exports.config = {
     });
   },
   afterTest: async function (test, context, { error, result, duration, passed, retries }) {
-    /* global browser */
     if (error) {
       await browser.takeScreenshot();
     }

@@ -20,7 +20,7 @@ function AdminProfile() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
   const loading = useSelector((state) => state.admins.isPending);
-  const defaultAdmin = useSelector((state) => state.admins.defaultAdmin || '');
+  const defaultAdmin = useSelector((state) => state.admins.defaultAdmin);
 
   const {
     register,

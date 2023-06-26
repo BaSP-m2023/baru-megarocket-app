@@ -55,7 +55,7 @@ const Table = () => {
                 <th className={styles.extrathead}></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody data-testid="superadmins-list">
               {superadmins?.map((item) => {
                 return (
                   <tr key={item._id} className={styles.trow}>
@@ -65,11 +65,15 @@ const Table = () => {
                     <td className={styles.tdata}>{item.password}</td>
                     <td className={styles.actionButtons}>
                       <Link to={{ pathname: `super-admins/edit/${item._id}` }}>
-                        <Button img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`} />
+                        <Button
+                          img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
+                          testid="superadmins-edit-btn"
+                        />
                       </Link>
                       <Button
                         img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
                         action={() => confirmDelete(item._id)}
+                        testid="superadmins-delete-btn"
                       />
                     </td>
                   </tr>
@@ -77,7 +81,7 @@ const Table = () => {
               })}
             </tbody>
           </table>
-          <Link to="/super-admins/add" className={styles.addItem}>
+          <Link to="/super-admins/add" className={styles.addItem} data-testid="superadmin-add-link">
             <Button text={'+ Add new'} classNameButton={'addButton'} />
           </Link>
         </div>

@@ -24,7 +24,7 @@ function Projects() {
       {isPending && <Loader />}
       {data.length > 0 && !isPending && <ClassList classes={data && data}></ClassList>}
       {!isPending && data.length === 0 && 'There are not classes yet. Add new ones!'}
-      <Link to={'/classes/add'} className={styles.addNew}>
+      <Link to={'/classes/add'} className={styles.addNew} data-testid="add-class-link">
         <Button text="+ Add new" classNameButton="submitButton" />
       </Link>
       {show && (

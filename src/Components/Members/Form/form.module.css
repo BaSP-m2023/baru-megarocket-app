@@ -60,6 +60,10 @@
   text-align: center;
 }
 
+.reset_button button {
+  background-color: grey;
+}
+
 .input {
   width: 25vw;
   height: 30px;

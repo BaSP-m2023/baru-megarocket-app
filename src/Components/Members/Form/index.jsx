@@ -93,13 +93,13 @@ const MemberForm = ({ match }) => {
   return (
     <div className={styles.form}>
       <div className={styles.content}>
-        <div className={styles.header}>
+        <div className={styles.header} data-testid="members-form-title-container">
           <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
           <span className={styles.close_button} onClick={() => history.push('/members')}>
             &times;
           </span>
         </div>
-        <form className={styles.body}>
+        <form className={styles.body} data-testid="members-form-container">
           <div className={styles.label_container}>
             <Input
               labelText="Name"
@@ -199,10 +199,10 @@ const MemberForm = ({ match }) => {
             />
           </div>
           <div className={styles.reset_button}>
-            <Button action={reset} text="Reset" classNameButton="deleteButton" />
+            <Button action={reset} text="Reset" />
           </div>
         </form>
-        <div className={styles.container_button}>
+        <div className={styles.container_button} data-testid="members-form-button">
           <Button
             classNameButton="addButton"
             action={handleSubmit(handleModal)}

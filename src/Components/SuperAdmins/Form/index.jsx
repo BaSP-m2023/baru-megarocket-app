@@ -98,14 +98,14 @@ const SuperAdminsForm = () => {
       )}
       <div className={styles.formBackground}>
         <div className={styles.container}>
-          <div className={styles.titleContainer}>
+          <div className={styles.titleContainer} data-testid="superadmins-form-title-container">
             <h3 className={styles.title}>{id ? 'Edit superadmin' : 'Create superadmin'}</h3>
             <button className={styles.close} onClick={goBack}>
               X
             </button>
           </div>
           <div>
-            <form className={styles.form}>
+            <form className={styles.form} data-testid="superadmins-form-container">
               <Input
                 labelText={'Name'}
                 name={'name'}
@@ -132,10 +132,10 @@ const SuperAdminsForm = () => {
                 register={register}
               />
               <div className={styles.reset_button}>
-                <Button action={reset} text="Reset" classNameButton="deleteButton" />
+                <Button action={reset} text="Reset" />
               </div>
             </form>
-            <div className={styles.container_button}>
+            <div className={styles.container_button} data-testid="superadmins-form-button">
               <Button
                 text={'Submit'}
                 action={handleSubmit(handleModal)}

@@ -66,7 +66,7 @@ const Admins = () => {
       </div>
       <section className={styles.container}>
         <h2 className={styles.title}>Admins</h2>
-        <div className={styles.searchContainer}>
+        <div className={styles.searchContainer} data-testid="admins-search-container">
           {filter.length === 0 && <p className={styles.notFound}>Admin not found!</p>}
           <Input
             labelText="Search admin"
@@ -80,7 +80,7 @@ const Admins = () => {
         {!pending && admins && admins.length > 0 && (
           <Table filter={filter || []} handleDeleteButton={handleDeleteButton} />
         )}
-        <Link to="/admins/add">
+        <Link to="/admins/add" data-testid="add-admin-link">
           <Button text="+ Add new" classNameButton="addButton"></Button>
         </Link>
       </section>

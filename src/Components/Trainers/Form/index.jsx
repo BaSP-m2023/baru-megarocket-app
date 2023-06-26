@@ -102,8 +102,10 @@ const Form = () => {
 
   return (
     <>
-      <h2 className={styles.title}>{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
-      <form className={styles.container}>
+      <h2 className={styles.title} data-testid="trainers-form-title">
+        {id ? 'Edit Trainer' : 'Add Trainer'}
+      </h2>
+      <form className={styles.container} data-testid="trainers-form-container">
         {formFields.map((field) => (
           <div className={styles.flex} key={field.name}>
             <Input
@@ -117,7 +119,7 @@ const Form = () => {
         ))}
         <Button text={'Reset'} classNameButton="deleteButton" action={handleReset} />
       </form>
-      <div className={styles.btnContainer}>
+      <div className={styles.btnContainer} data-testid="trainers-form-buttons">
         <Link to="/trainers">
           <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
         </Link>

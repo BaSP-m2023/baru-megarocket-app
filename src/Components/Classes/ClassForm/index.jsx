@@ -158,11 +158,11 @@ function ClassForm() {
 
   return (
     <section className={styles.formContainer}>
-      <div className={styles.formTitle}>
+      <div className={styles.formTitle} data-testid="classes-form-title-container">
         <h2 className={styles.title}>{isCreateRoute ? 'Create Class' : 'Edit Class'}</h2>
       </div>
       <div className={styles.form}>
-        <form>
+        <form data-testid="classes-form-container">
           <div className={styles.inputContainer}>
             <label className={styles.label}>Activity</label>
             <Select
@@ -245,7 +245,7 @@ function ClassForm() {
             />
           </div>
         </form>
-        <Button classNameButton="deleteButton" text="Reset" action={reset} />
+        <Button classNameButton="deleteButton" text="RESET" action={reset} />
       </div>
       {show && (
         <ResponseModal

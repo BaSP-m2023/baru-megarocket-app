@@ -92,10 +92,10 @@ function AdminsForm() {
   return (
     <>
       <div className={styles.formContainer}>
-        <div className={styles.header}>
+        <div className={styles.header} data-testid="admins-form-title-container">
           <h2 className={styles.title}>{params.id ? 'Edit Admin' : 'Add admin'}</h2>
         </div>
-        <form className={styles.form}>
+        <form className={styles.form} data-testid="admins-form-container">
           <div className={styles.labelInput}>
             <Input
               labelText="First Name"
@@ -160,10 +160,10 @@ function AdminsForm() {
             />
           </div>
           <div className={styles.container_button}>
-            <Button action={reset} text="Reset" classNameButton="deleteButton" />
+            <Button action={reset} text="Reset" />
           </div>
         </form>
-        <div className={styles.buttonContainer}>
+        <div className={styles.buttonContainer} data-testid="admin-form-buttons">
           <div>
             <Link to="/admins">
               <Button

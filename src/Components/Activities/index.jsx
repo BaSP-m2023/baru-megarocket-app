@@ -32,7 +32,7 @@ function Activities() {
   return (
     <section className={styles.container}>
       {list.length !== 0 ? <Table /> : 'There are not activities yet, add new ones!!'}
-      <Link to={'activities/add'}>
+      <Link to={'activities/add'} data-testid="add-activity-link">
         <Button text={'+ Add new'} classNameButton={'addButton'} />
       </Link>
       {show && (

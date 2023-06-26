@@ -21,7 +21,7 @@ const Table = () => {
   return (
     <>
       <h2 className={styles.title}>Activities</h2>
-      <div className={styles.tableFilter}>
+      <div className={styles.tableFilter} data-testid="activities-search-container">
         <input
           className={styles.tableInputFilter}
           type="text"
@@ -43,7 +43,7 @@ const Table = () => {
               <th></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody data-testid="activities-list">
             {filter.map((activity) => (
               <Activity key={activity._id} activity={activity} />
             ))}
