@@ -8,14 +8,14 @@ import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 function Home() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isLogged } = useSelector((state) => state.loginMembers);
+  const role = sessionStorage.getItem('role');
   const { show, message, state } = useSelector((state) => state.toast);
 
   return (
     <>
       <section className={styles.container}>
         <h2>Home</h2>
-        {!isLogged && (
+        {!role && (
           <div className={styles.buttonContainer} data-testid="home-buttons-container">
             <Button
               text="SignUp"
