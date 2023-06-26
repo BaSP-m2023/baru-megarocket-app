@@ -9,7 +9,6 @@ import activititesReducer from 'Redux/Activities/reducers';
 import membersReducer from 'Redux/Members/reducers';
 import adminsReducer from 'Redux/Admins/reducers';
 import subscriptionsReducer from 'Redux/Subscriptions/reducers';
-import loginMembersReducer from 'Redux/LoginMembers/reducers';
 import authReducer from 'Redux/Auth/reducer';
 
 const rootReducers = combineReducers({
@@ -21,7 +20,6 @@ const rootReducers = combineReducers({
   admins: adminsReducer,
   subscriptions: subscriptionsReducer,
   trainers: trainersReducer,
-  loginMembers: loginMembersReducer,
   auth: authReducer
 });
 

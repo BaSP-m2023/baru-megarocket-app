@@ -6,6 +6,7 @@ import Header from 'Components/Header/index';
 import Footer from 'Components/Footer/index';
 import Loader from 'Components/Shared/Loader';
 import styles from './layout.module.css';
+import PrivateRoute from './privateRoute';
 
 const Admins = lazy(() => import('./admin'));
 const AdminsForm = lazy(() => import('./admin/form'));
@@ -21,8 +22,6 @@ const SubscribeActivities = lazy(() => import('./member-logged/subscribeActiviti
 const FormMemberSubscription = lazy(() => import('./member-logged/formMemberSubscription'));
 const Subscriptions = lazy(() => import('./subscription'));
 const SubscriptionsForm = lazy(() => import('./subscription/form'));
-const SuperAdmins = lazy(() => import('./super-admin'));
-const SuperAdminsForm = lazy(() => import('./super-admin/form'));
 const Trainers = lazy(() => import('./trainer'));
 const TrainerForm = lazy(() => import('./trainer/form'));
 const Login = lazy(() => import('./login'));
@@ -37,34 +36,49 @@ const Layout = () => {
         <Suspense fallback={Loader}>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/admins" component={Admins} />
-            <Route path="/admins/add" component={AdminsForm} />
-            <Route path="/admins/edit/:id" component={AdminsForm} />
-            <Route path="/admins/profile" component={AdminProfile} />
-            <Route path="/activities" exact component={Activities} />
-            <Route path="/activities/add" component={ActivitiesForm} />
-            <Route path="/activities/edit/:id" component={ActivitiesForm} />
-            <Route exact path="/classes" component={Classes} />
-            <Route exact path="/classes/add" component={ClassForm} />
-            <Route exact path="/classes/edit/:id" component={ClassForm} />
-            <Route exact path="/members" component={Members} />
-            <Route path="/members/add" component={MemberForm} />
-            <Route path="/members/edit/:id" component={MemberForm} />
-            <Route exact path="/user/members/subscribe-class" component={SubscribeActivities} />
-            <Route path="/user/members/subscribe-class/:id" component={FormMemberSubscription} />
-            <Route path="/user/member/profile/:id" component={MemberProfile} />
-            <Route exact path="/super-admins" component={SuperAdmins} />
-            <Route exact path="/super-admins/add" component={SuperAdminsForm} />
-            <Route exact path="/super-admins/edit/:id" component={SuperAdminsForm} />
-            <Route exact path="/subscriptions" component={Subscriptions} />
-            <Route path="/subscriptions/edit/:id" component={SubscriptionsForm} />
-            <Route path="/subscriptions/add" component={SubscriptionsForm} />
-            <Route exact path="/trainers" component={Trainers} />
-            <Route path="/trainers/add" component={TrainerForm} />
-            <Route path="/trainers/edit/:id" component={TrainerForm} />
             <Route path="/login" component={Login} />
-            <Route path="/user/members/subscriptions" component={SubscriptionsMember} />
             <Route path="/signup" component={SignUp} />
+            <PrivateRoute exact path="/admins" role="SUPER_ADMIN" component={Admins} />
+            <PrivateRoute path="/admins/add" role="SUPER_ADMIN" component={AdminsForm} />
+            <PrivateRoute path="/admins/edit/:id" role="SUPER_ADMIN" component={AdminsForm} />
+            <PrivateRoute path="/admins/profile" role="ADMIN" component={AdminProfile} />
+            <PrivateRoute path="/activities" role="ADMIN" exact component={Activities} />
+            <PrivateRoute path="/activities/add" role="ADMIN" component={ActivitiesForm} />
+            <PrivateRoute path="/activities/edit/:id" role="ADMIN" component={ActivitiesForm} />
+            <PrivateRoute exact path="/classes" role="ADMIN" component={Classes} />
+            <PrivateRoute exact path="/classes/add" role="ADMIN" component={ClassForm} />
+            <PrivateRoute exact path="/classes/edit/:id" role="ADMIN" component={ClassForm} />
+            <PrivateRoute exact path="/members" role="ADMIN" component={Members} />
+            <PrivateRoute path="/members/add" role="ADMIN" component={MemberForm} />
+            <PrivateRoute path="/members/edit/:id" role="ADMIN" component={MemberForm} />
+            <PrivateRoute exact path="/subscriptions" role="ADMIN" component={Subscriptions} />
+            <PrivateRoute path="/subscriptions/add" role="ADMIN" component={SubscriptionsForm} />
+            <PrivateRoute
+              path="/subscriptions/edit/:id"
+              role="ADMIN"
+              component={SubscriptionsForm}
+            />
+            <PrivateRoute exact path="/trainers" role="ADMIN" component={Trainers} />
+            <PrivateRoute path="/trainers/add" role="ADMIN" component={TrainerForm} />
+            <PrivateRoute path="/trainers/edit/:id" role="ADMIN" component={TrainerForm} />
+            <PrivateRoute path="/user/member/profile/:id" role="MEMBER" component={MemberProfile} />
+            <PrivateRoute
+              exact
+              path="/user/members/subscribe-class"
+              role="MEMBER"
+              component={SubscribeActivities}
+            />
+            <PrivateRoute
+              path="/user/members/subscribe-class/:id"
+              role="MEMBER"
+              component={FormMemberSubscription}
+            />
+
+            <PrivateRoute
+              path="/user/members/subscriptions"
+              role="MEMBER"
+              component={SubscriptionsMember}
+            />
           </Switch>
         </Suspense>
         <Footer />
