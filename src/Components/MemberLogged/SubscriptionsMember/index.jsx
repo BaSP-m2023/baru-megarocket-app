@@ -19,7 +19,7 @@ const SubscriptionsMember = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
   const [idToDelete, setIdToDelete] = useState('');
-  const member = useSelector((state) => state.loginMembers.data);
+  const member = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     getSubscriptions(dispatch);

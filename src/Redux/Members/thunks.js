@@ -40,8 +40,7 @@ export const addMember = async (dispatch, member) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
       method: 'POST',
       headers: {
-        'Content-type': 'application/json',
-        token: token
+        'Content-type': 'application/json'
       },
       body: JSON.stringify(member)
     });

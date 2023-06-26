@@ -15,12 +15,13 @@ import { resetState } from 'Redux/Subscriptions/actions';
 const FormMemberSubscription = () => {
   const { id } = useParams();
   const history = useHistory();
-  const { isPending } = useSelector((state) => state.classes);
-  const member = useSelector((state) => state.loginMembers.data);
-  const { success } = useSelector((state) => state.subscriptions);
+  const { isPending: isPendingClass } = useSelector((state) => state.classes);
+  const member = useSelector((state) => state.auth.user);
+  const { success, isPending: isPendingSubscription } = useSelector((state) => state.subscriptions);
   const dispatch = useDispatch();
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [classCanSubscribe, setClassCanSubscribe] = useState([]);
   const [classes, setClasses] = useState([]);
   const {
     handleSubmit,
@@ -36,30 +37,37 @@ const FormMemberSubscription = () => {
   });
 
   useEffect(() => {
-    getSubscriptions(dispatch);
     getClasses(dispatch).then((data) => {
-      filterClassAndOrder(data);
+      getSubscriptions(dispatch).then((subscriptions) => {
+        filterClassAndOrder(data, subscriptions);
+      });
     });
   }, [dispatch]);
 
   useEffect(() => {
     if (success) {
-      history.push('/user/members/subscribe-class');
       dispatch(resetState());
+      history.push('/user/members/subscribe-class');
     }
   }, [success]);
 
-  const filterClassAndOrder = (data) => {
+  const filterClassAndOrder = (data, subscriptions) => {
     const filteredClasses = data.filter(
       (item) => !item.deleted && item.activity && item.activity._id === id
     );
-    filteredClasses.sort((a, b) => {
+    const filterSubscription = subscriptions.filter((item) => item.members._id === member._id);
+
+    const filteredClassesForSubscription = filteredClasses.filter((classItem) =>
+      filterSubscription.every((subscription) => subscription.classes._id !== classItem._id)
+    );
+    filteredClassesForSubscription.sort((a, b) => {
       const dayComparison = a.day.localeCompare(b.day);
       if (dayComparison !== 0) {
         return dayComparison;
       }
       return a.time.localeCompare(b.time);
     });
+    setClassCanSubscribe(filteredClassesForSubscription);
     setClasses(filteredClasses);
   };
 
@@ -82,7 +90,7 @@ const FormMemberSubscription = () => {
 
   return (
     <>
-      {isPending ? (
+      {isPendingClass || isPendingSubscription ? (
         <div className={styles.containerLoader}>
           <Loader />
         </div>
@@ -92,20 +100,28 @@ const FormMemberSubscription = () => {
             {classes.length !== 0 ? classes[0].activity.name : 'This activity has no classes'}
           </h2>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <select name="classes" {...register('classes')}>
-              <option value="">Select a class</option>
-              {classes.map((item) => (
-                <option key={item._id} value={item._id}>
-                  {item.day}/ {item.time}
-                </option>
-              ))}
-            </select>
+            {classCanSubscribe.length !== 0 ? (
+              <select name="classes" {...register('classes')}>
+                <option value="">Select a class</option>
+                {classCanSubscribe.map((item) => (
+                  <option key={item._id} value={item._id}>
+                    {item.day}/ {item.time}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              classes.length !== 0 && (
+                <p> You are already subscribed to all the classes of this activity</p>
+              )
+            )}
             {errors.classes && <p className={styles.error}>Please select a class</p>}
             <div className={styles.buttonContainer}>
               <Link to="/user/members/subscribe-class">
                 <Button classNameButton={'cancelButton'} text={'Cancel'} />
               </Link>
-              {classes.length !== 0 && <Button text={'Submit'} classNameButton={'submitButton'} />}
+              {classes.length !== 0 && classCanSubscribe.length !== 0 && (
+                <Button text={'Submit'} classNameButton={'submitButton'} />
+              )}
             </div>
           </form>
           {showConfirmModal && (

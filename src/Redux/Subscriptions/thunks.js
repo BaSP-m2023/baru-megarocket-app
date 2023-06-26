@@ -10,7 +10,8 @@ import {
   editSubscriptionError,
   deleteSubscriptionSuccess,
   deleteSubscriptionPending,
-  deleteSubscriptionError
+  deleteSubscriptionError,
+  resetState
 } from 'Redux/Subscriptions/actions';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
@@ -29,6 +30,7 @@ export const getSubscriptions = async (dispatch) => {
     });
     const data = await response.json();
     dispatch(getSubscriptionsSuccess(data.data));
+    return data.data;
   } catch (error) {
     dispatch(getSubscriptionsError(error.message));
     dispatch(setContentToast({ message: error.message, state: 'fail' }));
@@ -126,6 +128,7 @@ export const deleteSubscription = (subscriptionId) => {
       );
       if (response.status === 200) {
         dispatch(deleteSubscriptionSuccess(subscriptionId));
+        dispatch(resetState());
         dispatch(setContentToast({ message: 'Subscription has been deleted', state: 'success' }));
         dispatch(handleDisplayToast(true));
       }
