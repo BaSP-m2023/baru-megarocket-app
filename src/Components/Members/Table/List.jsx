@@ -19,7 +19,7 @@ const List = ({ members, handleModal }) => {
 
   return (
     <div className={`${styles['table-container']}`}>
-      <div className={`${styles['table-filter']}`}>
+      <div className={`${styles['table-filter']}`} data-testid="members-search-container">
         {members.length === 0 ? (
           <p className={`${styles['table-error']}`}>There is nothing to match</p>
         ) : (
@@ -41,7 +41,7 @@ const List = ({ members, handleModal }) => {
             <th></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody data-testid="members-list">
           {filter.map((member) => (
             <Item key={member._id} member={member} handleModal={handleModal} />
           ))}

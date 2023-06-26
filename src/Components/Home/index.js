@@ -16,7 +16,7 @@ function Home() {
       <section className={styles.container}>
         <h2>Home</h2>
         {!role && (
-          <div className={styles.buttonContainer}>
+          <div className={styles.buttonContainer} data-testid="home-buttons-container">
             <Button
               text="SignUp"
               classNameButton="submitButton"

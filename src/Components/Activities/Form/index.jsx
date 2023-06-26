@@ -84,12 +84,16 @@ const Form = () => {
 
   return (
     <section className={styles.formContainer}>
-      <div className={styles.formTitle}>
+      <div className={styles.formTitle} data-testid="activities-form-title-container">
         <h2 className={styles.title}>
           {location.pathname.includes('add') ? 'Add new activity' : `Edit activity `}
         </h2>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={styles.form}
+        data-testid="activities-form-container"
+      >
         <div className={styles.formGroup}>
           <Input
             labelText="Name"

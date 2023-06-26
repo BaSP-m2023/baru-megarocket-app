@@ -17,7 +17,7 @@ function Table({ filter, handleDeleteButton }) {
             <th className={styles.th}>City</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody data-testid="admins-list">
           {filter.length > 0 &&
             filter.map((admin) => {
               return (
@@ -35,6 +35,7 @@ function Table({ filter, handleDeleteButton }) {
                         text="Edit Button"
                         img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
                         classNameButton="icon"
+                        testid="admins-edit-btn"
                       />
                     </Link>
                   </td>
@@ -44,6 +45,7 @@ function Table({ filter, handleDeleteButton }) {
                       text="Delete Button"
                       img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
                       classNameButton="icon"
+                      testid="admins-delete-btn"
                     />
                   </td>
                 </tr>

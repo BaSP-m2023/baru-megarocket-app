@@ -81,7 +81,7 @@ const SubscriptionsMember = () => {
                   <th className={styles.th}></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody data-testid="subscriptions-list">
                 {subscription?.map((item) => {
                   return (
                     <tr className={styles.tr} key={item.subId}>

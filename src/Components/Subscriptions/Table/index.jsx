@@ -52,7 +52,7 @@ const Table = ({ data }) => {
             <th colSpan="2"></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody data-testid="subscriptions-list">
           {data?.length > 0 ? (
             data.map((subscription) => (
               <tr key={subscription._id} className={styles.item}>
@@ -69,13 +69,17 @@ const Table = ({ data }) => {
                 <td>{formatDate(subscription.date)}</td>
                 <td className={`${styles.itemButton} ${styles.itemButtonEdit}`}>
                   <Link to={`/subscriptions/edit/${subscription._id}`}>
-                    <Button img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'} />
+                    <Button
+                      img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
+                      testid="subscriptions-edit-btn"
+                    />
                   </Link>
                 </td>
                 <td className={`${styles.itemButton} ${styles.itemButtonDelete}`}>
                   <Button
                     img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
                     action={() => handleConfirmDelete(subscription._id)}
+                    testid="subscriptions-delete-btn"
                   />
                 </td>
               </tr>

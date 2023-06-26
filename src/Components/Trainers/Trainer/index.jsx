@@ -29,7 +29,10 @@ const Trainer = ({ trainer }) => {
       <td className={styles.align}>{trainer.email}</td>
       <td>
         <Link to={`/trainers/edit/${trainer._id}`}>
-          <Button img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}>
+          <Button
+            img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
+            testid="trainers-edit-btn"
+          >
             <img className={styles.icon} alt="pencil icon for edit a trainer" />
           </Button>
         </Link>
@@ -38,6 +41,7 @@ const Trainer = ({ trainer }) => {
         <Button
           img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
           action={handleDeleteClick}
+          testid="trainers-delete-btn"
         >
           <img className={styles.delete} alt="trash icon for delete a trainer" />
         </Button>

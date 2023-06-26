@@ -25,7 +25,7 @@ const ResponseModal = ({ handler, state, message }) => {
 
   return ReactDOM.createPortal(
     <div className={`${styles.toast} ${styles[responseState[state]]}`}>
-      <div className={styles.toastContent}>
+      <div className={styles.toastContent} data-testid="response-toast-container">
         <p className={styles.message}>{message}</p>
         <span className={styles.toastCloser} onClick={handler}>
           &times;

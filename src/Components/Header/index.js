@@ -33,7 +33,7 @@ function Header() {
   return (
     <header>
       <div className={styles.container}>
-        <div>
+        <div data-testid="logo-container">
           <img
             src={`${process.env.PUBLIC_URL}/assets/images/logo.png`}
             alt="guy flexing on fire logo"
@@ -47,14 +47,14 @@ function Header() {
         </div>
         {role && (
           <div className={styles.optionContainer}>
-            <div className={styles.logoutButton}>
+            <div className={styles.logoutButton} data-testid="logout-button-container">
               <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
             </div>
           </div>
         )}
       </div>
       <nav className={styles.navbar}>
-        <ul className={styles.rutes}>
+        <ul className={styles.rutes} data-testid="routes-list">
           {role === 'ADMIN' && (
             <>
               <Link to="/" className={styles.a}>

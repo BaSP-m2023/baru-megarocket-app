@@ -34,13 +34,17 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
         </td>
         <td>
           <Link to={`/members/edit/${member._id}`}>
-            <Button img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'} />
+            <Button
+              img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
+              testid="members-edit-btn"
+            />
           </Link>
         </td>
         <td>
           <Button
             img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
             action={() => handleModal()}
+            testid="members-delete-btn"
           />
         </td>
       </tr>

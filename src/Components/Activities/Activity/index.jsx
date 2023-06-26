@@ -41,7 +41,12 @@ const Activity = ({ activity }) => {
         </td>
         <td>
           <Link to={`${url}/edit/${activity._id}`}>
-            <Button img="/assets/images/edit-icon.png" text="edit icon" classNameButton="icon" />
+            <Button
+              img="/assets/images/edit-icon.png"
+              text="edit icon"
+              classNameButton="icon"
+              testid="activities-edit-btn"
+            />
           </Link>
         </td>
         <td>
@@ -50,6 +55,7 @@ const Activity = ({ activity }) => {
             img="/assets/images/delete-icon.png"
             text="delete icon"
             classNameButton="icon"
+            testid="activities-delete-btn"
           />
         </td>
       </tr>
