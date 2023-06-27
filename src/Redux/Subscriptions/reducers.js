@@ -11,7 +11,8 @@ import {
   ADD_SUBSCRIPTIONS_PENDING,
   ADD_SUBSCRIPTIONS_SUCCESS,
   ADD_SUBSCRIPTIONS_ERROR,
-  RESET_STATE
+  RESET_STATE,
+  RESET_SUCCESS
 } from './constants';
 
 const INITIAL_STATE = {
@@ -120,6 +121,12 @@ const subscriptionsReducer = (state = INITIAL_STATE, action) => {
         isPending: false,
         success: false,
         error: null
+      };
+    }
+    case RESET_SUCCESS: {
+      return {
+        ...state,
+        success: false
       };
     }
     default:
