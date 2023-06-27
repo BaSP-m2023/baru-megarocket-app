@@ -1,6 +1,8 @@
 const HomePage = require('../../pageobjects/Home/homePage');
 const LoginPage = require('../../pageobjects/Login/loginPage');
 const NavBar = require('../../pageobjects/Shared/navBarComponent');
+const AdminsTable = require('../../pageobjects/Admins/adminsTable');
+const AdminsForm = require('../../pageobjects/Admins/adminsForm');
 
 let currentUrl = '';
 const validEmail = 'superadmin2@gmail.com';
@@ -26,8 +28,6 @@ describe('Superadmin login functionality', () => {
   });
 
   it('Should give an error when trying to login with empty credentials', async () => {
-    await LoginPage.enterEmail('');
-    await LoginPage.enterPassword('');
     await LoginPage.loginBtnClick();
 
     await expect(LoginPage.loginErrors).toBeElementsArrayOfSize(2);
@@ -63,5 +63,60 @@ describe('Superadmin login functionality', () => {
     await expect(HomePage.homeTitle).toHaveTextContaining('Home');
     await expect(NavBar.adminsLink).toBeDisplayed();
     await expect(NavBar.logoutBtn).toBeDisplayed();
+  });
+});
+
+describe('Admin creation functionality', () => {
+  it('Should navigate correctly to admins table view', async () => {
+    await NavBar.navigateToAdmins();
+
+    currentUrl = await browser.getUrl();
+
+    await expect(currentUrl).toEqual('http://localhost:3000/admins');
+
+    await expect(AdminsTable.searchInput).toBeDisplayed();
+    await expect(AdminsTable.tableList).toBeDisplayed();
+    await expect(AdminsTable.addNewBtn).toBeDisplayed();
+    await expect(AdminsTable.adminsTitle).toHaveTextContaining('Admins');
+  });
+
+  it('Should give an error when trying to create a new admin with empty credentials', async () => {
+    await AdminsTable.clickAddNewBtn();
+
+    currentUrl = await browser.getUrl();
+
+    await expect(currentUrl).toEqual('http://localhost:3000/admins/add');
+    await expect(AdminsForm.formTitle).toHaveTextContaining('Add admin');
+    await expect(AdminsForm.form).toBeDisplayed();
+
+    await AdminsForm.submitBtn.scrollIntoView();
+    await AdminsForm.submitForm();
+    await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(7);
+  });
+
+  it('Should create a new admin with valid credentials', async () => {
+    await AdminsForm.enterFirstName('Julian');
+    await AdminsForm.enterLastName('Riedo');
+    await AdminsForm.enterDni('12343212');
+    await AdminsForm.enterPhone('1231231231');
+    await AdminsForm.enterCity('Rosario');
+    await AdminsForm.emailInput.scrollIntoView();
+    await AdminsForm.enterEmail('riedo@gmail.com');
+    await AdminsForm.passwordInput.scrollIntoView();
+    await AdminsForm.enterPassword('Julian123');
+
+    await AdminsForm.submitBtn.scrollIntoView();
+    await AdminsForm.submitForm();
+
+    await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(0);
+    await expect(AdminsForm.confirmModalSubmitBtn).toBeDisplayed();
+    await expect(AdminsForm.confirmModalTitle).toHaveTextContaining('Add admin');
+
+    await AdminsForm.submitModal();
+    await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(0);
+    //sacar esta linea cuando deje crear un admin
+    await AdminsForm.cancelBtn.click();
+    currentUrl = await browser.getUrl();
+    await expect(currentUrl).toEqual('http://localhost:3000/admins');
   });
 });
