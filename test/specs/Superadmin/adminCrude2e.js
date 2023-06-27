@@ -9,7 +9,7 @@ const validEmail = 'superadmin2@gmail.com';
 const validPassword = 'Abc123456';
 
 describe('Superadmin login functionality', () => {
-  beforeAll(() => {
+  beforeAll('Open Browser Url', () => {
     browser.url('http://localhost:3000/');
     browser.setWindowSize(1920, 1080);
   });
