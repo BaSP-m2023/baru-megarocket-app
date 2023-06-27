@@ -117,8 +117,10 @@ describe('Admin creation functionality', () => {
 
     await AdminsForm.submitModal();
     await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(0);
-    //sacar esta linea cuando deje crear un admin
-    await AdminsForm.cancelBtn.click();
+
+    //Need delete admin to work in order to add this admin again. Delete this line when admin delete works
+    await AdminsForm.cancelForm();
+
     currentUrl = await browser.getUrl();
     await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/admins');
   });
@@ -126,7 +128,6 @@ describe('Admin creation functionality', () => {
 
 describe('Admin edit functionality', () => {
   it('Should navigate to edit of last added admin', async () => {
-    const lastAddedDNI = await AdminsTable.lastAdminDNI.getText();
     await expect(AdminsTable.allEditIcons).toBeElementsArrayOfSize({ gte: 1 });
     const editsArray = await AdminsTable.allEditIcons;
     const lastAddedEditIcon = editsArray[editsArray.length - 1];
@@ -135,14 +136,63 @@ describe('Admin edit functionality', () => {
     await lastAddedEditIcon.click();
 
     currentUrl = await browser.getUrl();
-    await expect(currentUrl).toContain('/edit');
-    AdminsForm.dniInput.waitForDisplayed({ timeout: 3000 });
+    await expect(currentUrl).toContain('/admins/edit');
     await expect(AdminsForm.formTitle).toBeDisplayed();
     await expect(AdminsForm.formTitle).toHaveTextContaining('Edit Admin');
-    /*  const inputDniValue = await AdminsForm.dniInput.getAttribute('value');
 
-    await expect(lastAddedDNI).toEqual(inputDniValue); */
+    await AdminsForm.dniInput.waitForDisplayed({ timeout: 3000 });
+    await browser.pause(2000);
+    await AdminsForm.enterDni('40123111');
+    await AdminsForm.passwordInput.scrollIntoView();
+    await AdminsForm.enterPassword('Nueva321');
 
-    await expect(lastAddedDNI).toEqual('12343212');
+    await AdminsForm.submitBtn.scrollIntoView();
+    await AdminsForm.submitForm();
+
+    await AdminsForm.confirmModalTitle.waitForDisplayed({ timeout: 3000 });
+    await expect(AdminsForm.confirmModalTitle).toHaveTextContaining('Update Admin');
+
+    await AdminsForm.submitModal();
+
+    await ResponseModal.modalText.waitForDisplayed({ timeout: 3000 });
+    await expect(ResponseModal.modalText).toHaveTextContaining('Admin updated');
+
+    //When update works, delete this line
+    await AdminsForm.cancelForm();
+
+    currentUrl = await browser.getUrl();
+    await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/admins');
+  });
+
+  describe('Admin delete & logout functionality', () => {
+    it('Should delete correctly the last added admin', async () => {
+      await expect(AdminsTable.tableList).toBeDisplayed();
+      const deleteIconsArray = await AdminsTable.allDeleteIcons;
+      const addedClassDeleteIcon = await deleteIconsArray[deleteIconsArray.length - 1];
+
+      await addedClassDeleteIcon.click();
+
+      await expect(AdminsForm.confirmModalTitle).toBeDisplayed();
+      await AdminsForm.submitModal();
+
+      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toHaveTextContaining('Admin deleted');
+    });
+
+    it('Superadmin should logout correctly', async () => {
+      await expect(NavBar.logoutBtn).toBeDisplayed();
+
+      await NavBar.logoutBtn.scrollIntoView();
+
+      await NavBar.logoutBtnClick();
+
+      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toHaveTextContaining('See you later');
+
+      currentUrl = await browser.getUrl();
+
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
+      await expect(HomePage.homeTitle).toHaveTextContaining('Home');
+    });
   });
 });
