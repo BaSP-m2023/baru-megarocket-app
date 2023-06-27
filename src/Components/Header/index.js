@@ -7,12 +7,12 @@ import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/
 import { getAuth, logOut } from 'Redux/Auth/thunks';
 import { tokenListener } from 'Components/helper/firebase';
 import { useEffect } from 'react';
-
+import { editMemberSuccess } from 'Redux/Members/actions';
 function Header() {
   const dispatch = useDispatch();
   const token = sessionStorage.getItem('token');
   const role = sessionStorage.getItem('role');
-
+  const userLogged = useSelector((state) => state.auth.user);
   useEffect(() => {
     tokenListener();
   }, []);
@@ -20,15 +20,15 @@ function Header() {
     if (token) {
       dispatch(getAuth(token));
     }
-  }, [token]);
+  }, [token, editMemberSuccess]);
 
   const { show, message, state } = useSelector((state) => state.toast);
   const history = useHistory();
-  const handleLogout = () => {
-    dispatch(logOut());
+  const handleLogout = async () => {
+    await dispatch(logOut());
+    history.push('/');
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
-    history.push('/');
   };
   return (
     <header>
@@ -45,13 +45,31 @@ function Header() {
             className={styles.logo2}
           />
         </div>
-        {role && (
-          <div className={styles.optionContainer}>
-            <div className={styles.logoutButton} data-testid="logout-button-container">
-              <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
-            </div>
-          </div>
-        )}
+        <div className={styles.container}>
+          {role && (
+            <>
+              <Link
+                className={styles.profileLink}
+                to={`/user/${role.toLowerCase()}/profile/${userLogged?._id}`}
+              >
+                <div className={styles.profileContainer}>
+                  <img
+                    className={styles.profileImg}
+                    src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
+                    alt="profile image"
+                  />
+                  {role == 'ADMIN'
+                    ? `${userLogged?.firstName} ${userLogged?.lastName}`
+                    : `${userLogged?.name} ${userLogged?.lastName}`}
+                </div>
+              </Link>
+              <div className={styles.logoutButton}>
+                <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
+              </div>
+              <div className={styles.optionContainer}></div>
+            </>
+          )}
+        </div>
       </div>
       <nav className={styles.navbar}>
         <ul className={styles.rutes} data-testid="routes-list">
