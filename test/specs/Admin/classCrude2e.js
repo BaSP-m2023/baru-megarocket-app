@@ -108,4 +108,65 @@ describe('Admin Classes CRUD', () => {
       await expect(currentUrl).toEqual('http://localhost:3000/classes');
     });
   });
+
+  describe('Class edit functionality', () => {
+    it('Should update correctly when changing class time', async () => {
+      await expect(ClassesTable.tableList).toBeDisplayed();
+      const editIconsArray = await ClassesTable.allEditIcons;
+      const addedClassEditIcon = await editIconsArray[editIconsArray.length - 1];
+
+      await addedClassEditIcon.click();
+
+      currentUrl = await browser.getUrl();
+      await expect(currentUrl).toContain('/classes/edit');
+
+      await ClassesForm.selectTimeInput.scrollIntoView();
+      await ClassesForm.enterTime('19:30');
+      await ClassesForm.submitBtn.scrollIntoView();
+      await ClassesForm.submitForm();
+
+      await ClassesForm.confirmModalTitle.waitForDisplayed({ timeout: 3000 });
+      await expect(ClassesForm.confirmModalTitle).toHaveTextContaining('Update class');
+
+      await ClassesForm.submitModal();
+
+      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toHaveTextContaining('Class updated');
+
+      currentUrl = await browser.getUrl();
+      await expect(currentUrl).toEqual('http://localhost:3000/classes');
+    });
+  });
+
+  describe('Class delete & logout functionality', () => {
+    it('Should delete correctly the last added class', async () => {
+      await expect(ClassesTable.tableList).toBeDisplayed();
+      const deleteIconsArray = await ClassesTable.allDeleteIcons;
+      const addedClassDeleteIcon = await deleteIconsArray[deleteIconsArray.length - 1];
+
+      await addedClassDeleteIcon.click();
+
+      await expect(ClassesForm.confirmModalTitle).toBeDisplayed();
+      await ClassesForm.submitModal();
+
+      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toHaveTextContaining('Class deleted');
+    });
+
+    it('Admin should logout correctly', async () => {
+      await expect(NavBar.logoutBtn).toBeDisplayed();
+
+      await NavBar.logoutBtn.scrollIntoView();
+
+      await NavBar.logoutBtnClick();
+
+      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toHaveTextContaining('See you later');
+
+      currentUrl = await browser.getUrl();
+
+      await expect(currentUrl).toEqual('http://localhost:3000/');
+      await expect(HomePage.homeTitle).toHaveTextContaining('Home');
+    });
+  });
 });

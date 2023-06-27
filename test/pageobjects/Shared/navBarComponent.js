@@ -18,6 +18,10 @@ class NavBar {
   async navigateToClasses() {
     await this.classesLink.click();
   }
+
+  async logoutBtnClick() {
+    await this.logoutBtn.click();
+  }
 }
 
 module.exports = new NavBar();
