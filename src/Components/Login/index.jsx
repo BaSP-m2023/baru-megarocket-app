@@ -33,7 +33,7 @@ function Login() {
       <form className={styles.form}>
         <div className={styles.titleContainer} data-testid="login-title-container">
           <h2 className={styles.h2}>MegaRocket</h2>
-          <h3 className={styles.h3}>Login members</h3>
+          <h3 className={styles.h3}>Login</h3>
         </div>
         <div className={styles.inputContainer} data-testid="login-email-container">
           <Input

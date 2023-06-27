@@ -160,12 +160,12 @@ function AdminProfile() {
               <Button
                 classNameButton="cancelButton"
                 action={() => setDisableEdit(true)}
-                text="Disable Edition"
+                text="Cancel"
               />
               <Button
                 action={() => handleAction('Edit')}
                 classNameButton="addButton"
-                text="Edit"
+                text="Confirm"
                 disabled={disableEdit}
               ></Button>
             </div>
@@ -174,7 +174,7 @@ function AdminProfile() {
               <Button
                 classNameButton="addButton"
                 action={() => setDisableEdit(false)}
-                text="Enable Edition"
+                text="Edit"
               />
             </div>
           )}

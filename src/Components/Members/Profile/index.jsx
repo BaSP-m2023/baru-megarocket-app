@@ -51,17 +51,19 @@ function MemberProfile({ match }) {
   useEffect(() => {
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
+      const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = memberLogged;
       Object.entries(resMemberLogged).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
+      setValue('dob', dob.slice(0, 10));
     }
   }, [memberLogged, handleSubmit]);
 
   const onSubmit = (data) => {
     if (memberId) {
       setShowConfirmModal(false);
+      console.log(data);
       updateMember(dispatch, memberId, data, history)
         .then(() => {
           resetData();
@@ -108,7 +110,7 @@ function MemberProfile({ match }) {
     { labelText: 'DNI', type: 'number', name: 'dni' },
     { labelText: 'Phone', type: 'text', name: 'phone' },
     { labelText: 'City', type: 'text', name: 'city' },
-    { labelText: 'Date of birth', type: 'text', name: 'dob' },
+    { labelText: 'Date of birth', type: 'date', name: 'dob' },
     { labelText: 'Zip code', type: 'number', name: 'zip' }
   ];
   return (
@@ -148,11 +150,11 @@ function MemberProfile({ match }) {
           </div>
           {!disableEdit && (
             <div className={styles.buttons}>
-              <Button classNameButton="addButton" text={'Edit'} disabled={disableEdit} />
+              <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
               <Button
                 classNameButton="cancelButton"
                 action={() => setDisableEdit(true)}
-                text="Disable Edition"
+                text="Cancel"
               />
               <Button
                 classNameButton="deleteButton"
@@ -165,11 +167,7 @@ function MemberProfile({ match }) {
         </form>
         {disableEdit && (
           <div className={styles.buttons}>
-            <Button
-              classNameButton="addButton"
-              action={() => setDisableEdit(false)}
-              text="Enable Edition"
-            />
+            <Button classNameButton="addButton" action={() => setDisableEdit(false)} text="Edit" />
           </div>
         )}
       </div>
