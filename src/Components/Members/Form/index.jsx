@@ -16,9 +16,12 @@ const MemberForm = ({ match }) => {
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
   const history = useHistory();
   let memberId = match.params.id;
+  const members = useSelector((state) => state.members.data);
+
   const dispatch = useDispatch();
   const redirect = useSelector((state) => state.members.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
+  const memberToEdit = members.find((member) => member._id === memberId);
 
   const {
     register,
@@ -45,21 +48,19 @@ const MemberForm = ({ match }) => {
   });
 
   useEffect(() => {
-    const getMember = async (id) => {
+    const getMember = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`);
-        const { data } = await res.json();
-        setValue('name', data.name);
-        setValue('lastName', data.lastName);
-        setValue('dni', data.dni);
-        setValue('phone', data.phone);
-        setValue('email', data.email);
-        setValue('city', data.city);
-        setValue('dob', data.dob);
-        setValue('zip', data.zip);
-        setValue('isActive', data.isActive);
-        setValue('membership', data.membership);
-        setValue('password', data.password);
+        setValue('name', memberToEdit.name);
+        setValue('lastName', memberToEdit.lastName);
+        setValue('dni', memberToEdit.dni);
+        setValue('phone', memberToEdit.phone);
+        setValue('email', memberToEdit.email);
+        setValue('city', memberToEdit.city);
+        setValue('dob', memberToEdit.dob.slice(0, 10));
+        setValue('zip', memberToEdit.zip);
+        setValue('isActive', memberToEdit.isActive);
+        setValue('membership', memberToEdit.membership);
+        setValue('password', memberToEdit.password);
       } catch (error) {
         dispatch(setContentToast({ message: error.message, state: 'fail' }));
         dispatch(handleDisplayToast(true));
@@ -157,7 +158,7 @@ const MemberForm = ({ match }) => {
           <div className={styles.label_container}>
             <Input
               labelText="Date of birth"
-              type="text"
+              type="date"
               name="dob"
               error={errors.dob?.message}
               register={register}
