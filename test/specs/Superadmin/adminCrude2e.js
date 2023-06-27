@@ -11,7 +11,7 @@ const validPassword = 'Abc123456';
 
 describe('Superadmin login functionality', () => {
   beforeAll('Open Browser Url', () => {
-    browser.url('http://localhost:3000/');
+    browser.url('https://baru-megarocket-app.vercel.app/');
     browser.setWindowSize(1920, 1080);
   });
 
@@ -22,7 +22,7 @@ describe('Superadmin login functionality', () => {
     await HomePage.loginBtnClick();
 
     currentUrl = await browser.getUrl();
-    await expect(currentUrl).toEqual('http://localhost:3000/login');
+    await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/login');
     await expect(LoginPage.loginTitle).toBeDisplayed();
     await expect(LoginPage.emailInput).toBeDisplayed();
     await expect(LoginPage.passwordInput).toBeDisplayed();
@@ -75,7 +75,7 @@ describe('Admin creation functionality', () => {
 
     currentUrl = await browser.getUrl();
 
-    await expect(currentUrl).toEqual('http://localhost:3000/admins');
+    await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/admins');
 
     await expect(AdminsTable.searchInput).toBeDisplayed();
     await expect(AdminsTable.tableList).toBeDisplayed();
@@ -88,7 +88,7 @@ describe('Admin creation functionality', () => {
 
     currentUrl = await browser.getUrl();
 
-    await expect(currentUrl).toEqual('http://localhost:3000/admins/add');
+    await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/admins/add');
     await expect(AdminsForm.formTitle).toHaveTextContaining('Add admin');
     await expect(AdminsForm.form).toBeDisplayed();
 
@@ -120,7 +120,7 @@ describe('Admin creation functionality', () => {
     //sacar esta linea cuando deje crear un admin
     await AdminsForm.cancelBtn.click();
     currentUrl = await browser.getUrl();
-    await expect(currentUrl).toEqual('http://localhost:3000/admins');
+    await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/admins');
   });
 });
 

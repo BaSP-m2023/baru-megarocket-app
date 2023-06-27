@@ -13,7 +13,7 @@ describe('Admin Classes CRUD', () => {
   describe('Admin login functionality', () => {
     beforeAll('Open Browser Url', () => {
       browser.setWindowSize(1920, 1080);
-      browser.url('http://localhost:3000/');
+      browser.url('https://baru-megarocket-app.vercel.app/');
     });
 
     it('Should navigate correctly to login page', async () => {
@@ -23,7 +23,7 @@ describe('Admin Classes CRUD', () => {
       await HomePage.loginBtnClick();
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('http://localhost:3000/login');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/login');
       await expect(LoginPage.loginTitle).toBeDisplayed();
       await expect(LoginPage.emailInput).toBeDisplayed();
       await expect(LoginPage.passwordInput).toBeDisplayed();
@@ -60,7 +60,7 @@ describe('Admin Classes CRUD', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/classes');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/classes');
 
       await expect(ClassesTable.searchInput).toBeDisplayed();
       await expect(ClassesTable.tableList).toBeDisplayed();
@@ -74,7 +74,7 @@ describe('Admin Classes CRUD', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/classes/add');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/classes/add');
       await expect(ClassesForm.formTitle).toHaveTextContaining('Create Class');
       await expect(ClassesForm.form).toBeDisplayed();
 
@@ -105,7 +105,7 @@ describe('Admin Classes CRUD', () => {
       await expect(ResponseModal.modalText).toHaveTextContaining('Class created');
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('http://localhost:3000/classes');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/classes');
     });
   });
 
@@ -134,7 +134,7 @@ describe('Admin Classes CRUD', () => {
       await expect(ResponseModal.modalText).toHaveTextContaining('Class updated');
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('http://localhost:3000/classes');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/classes');
     });
   });
 
@@ -165,7 +165,7 @@ describe('Admin Classes CRUD', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
       await expect(HomePage.homeTitle).toHaveTextContaining('Home');
     });
   });

@@ -8,7 +8,7 @@ class NavBar {
   }
 
   get logoutBtn() {
-    return $('[data-testid="logout-button-container"] > div > button');
+    return $('header > div > div:last-child > div button');
   }
 
   async navigateToAdmins() {
