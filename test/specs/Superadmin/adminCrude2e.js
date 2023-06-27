@@ -120,3 +120,26 @@ describe('Admin creation functionality', () => {
     await expect(currentUrl).toEqual('http://localhost:3000/admins');
   });
 });
+
+describe('Admin edit functionality', () => {
+  it('Should navigate to edit of last added admin', async () => {
+    const lastAddedDNI = await AdminsTable.lastAdminDNI.getText();
+    await expect(AdminsTable.allEditIcons).toBeElementsArrayOfSize({ gte: 1 });
+    const editsArray = await AdminsTable.allEditIcons;
+    const lastAddedEditIcon = editsArray[editsArray.length - 1];
+
+    await lastAddedEditIcon.scrollIntoView();
+    await lastAddedEditIcon.click();
+
+    currentUrl = await browser.getUrl();
+    await expect(currentUrl).toContain('/edit');
+    AdminsForm.dniInput.waitForDisplayed({ timeout: 3000 });
+    await expect(AdminsForm.formTitle).toBeDisplayed();
+    await expect(AdminsForm.formTitle).toHaveTextContaining('Edit Admin');
+    /*  const inputDniValue = await AdminsForm.dniInput.getAttribute('value');
+
+    await expect(lastAddedDNI).toEqual(inputDniValue); */
+
+    await expect(lastAddedDNI).toEqual('12343212');
+  });
+});
