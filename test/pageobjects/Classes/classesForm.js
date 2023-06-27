@@ -11,24 +11,56 @@ class ClassesForm {
     return $('[data-testid="classes-form-container"] input[role="combobox"]');
   }
 
+  get firstActivityOption() {
+    return $('[data-testid="classes-form-container"] div > div > div > div > div');
+  }
+
   get selectTrainerInput() {
     return $('[data-testid="classes-form-container"] > div:nth-child(2) input');
+  }
+
+  get firstTrainerOption() {
+    return $('[data-testid="classes-form-container"] > div:nth-child(2) > div > div > div > div');
   }
 
   get selectDayInput() {
     return $('[data-testid="classes-form-container"] > div:nth-child(3) input');
   }
 
+  get firstDayOption() {
+    return $('[data-testid="classes-form-container"] > div:nth-child(3) > div > div > div > div');
+  }
+
   get selectTimeInput() {
     return $('[data-testid="classes-form-container"] input[type="time"]');
   }
 
-  get selectCapacityInput() {
+  get capacityInput() {
     return $('[data-testid="classes-form-container"] input[type="number"]');
   }
 
-  get errorMessages() {
-    return $$('[data-testid="classes-form-container"] p');
+  async enterActivity(value) {
+    await this.selectActivityInput.setValue(value);
+  }
+
+  async enterTrainer(value) {
+    await this.selectTrainerInput.setValue(value);
+  }
+
+  async enterDay(value) {
+    await this.selectDayInput.setValue(value);
+  }
+
+  async enterTime(value) {
+    await this.selectTimeInput.setValue(value);
+  }
+
+  async enterCapacity(value) {
+    await this.capacityInput.setValue(value);
+  }
+
+  get errorMessage() {
+    return $('[data-testid="classes-form-container"] div > span');
   }
 
   get submitBtn() {

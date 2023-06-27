@@ -3,6 +3,7 @@ const LoginPage = require('../../pageobjects/Login/loginPage');
 const NavBar = require('../../pageobjects/Shared/navBarComponent');
 const AdminsTable = require('../../pageobjects/Admins/adminsTable');
 const AdminsForm = require('../../pageobjects/Admins/adminsForm');
+const ResponseModal = require('../../pageobjects/Shared/responseModalComponent');
 
 let currentUrl = '';
 const validEmail = 'superadmin2@gmail.com';
@@ -59,6 +60,8 @@ describe('Superadmin login functionality', () => {
     await LoginPage.enterPassword(validPassword);
     await LoginPage.loginBtnClick();
 
+    await ResponseModal.modalText.waitForExist({ timeout: 3000 });
+    await expect(ResponseModal.modalText).toHaveTextContaining('Successful Login');
     await expect(HomePage.homeTitle).toBeDisplayed();
     await expect(HomePage.homeTitle).toHaveTextContaining('Home');
     await expect(NavBar.adminsLink).toBeDisplayed();
