@@ -58,7 +58,7 @@ const FormMemberSubscription = () => {
     const filterSubscription = subscriptions.filter((item) => item.members._id === member._id);
 
     const filteredClassesForSubscription = filteredClasses.filter((classItem) =>
-      filterSubscription.every((subscription) => subscription.classes._id !== classItem._id)
+      filterSubscription.every((subscription) => subscription.classes?._id !== classItem._id)
     );
     filteredClassesForSubscription.sort((a, b) => {
       const dayComparison = a.day.localeCompare(b.day);

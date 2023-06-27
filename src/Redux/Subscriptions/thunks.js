@@ -11,7 +11,7 @@ import {
   deleteSubscriptionSuccess,
   deleteSubscriptionPending,
   deleteSubscriptionError,
-  resetState
+  resetSuccess
 } from 'Redux/Subscriptions/actions';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
@@ -128,9 +128,9 @@ export const deleteSubscription = (subscriptionId) => {
       );
       if (response.status === 200) {
         dispatch(deleteSubscriptionSuccess(subscriptionId));
-        dispatch(resetState());
         dispatch(setContentToast({ message: 'Subscription has been deleted', state: 'success' }));
         dispatch(handleDisplayToast(true));
+        dispatch(resetSuccess());
       }
       if (response.status === 404) {
         dispatch(deleteSubscriptionError());

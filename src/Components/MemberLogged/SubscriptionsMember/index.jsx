@@ -38,7 +38,7 @@ const SubscriptionsMember = () => {
 
     await filterSubscription.forEach((sub) => {
       activities?.forEach((act) => {
-        if (sub.classes.activity === act._id) {
+        if (sub.classes?.activity === act._id) {
           arraySubs.push({
             subId: sub._id,
             activityName: act.name,

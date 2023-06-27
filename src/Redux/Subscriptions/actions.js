@@ -11,7 +11,8 @@ import {
   DELETE_SUBSCRIPTIONS_PENDING,
   DELETE_SUBSCRIPTIONS_SUCCESS,
   DELETE_SUBSCRIPTIONS_ERROR,
-  RESET_STATE
+  RESET_STATE,
+  RESET_SUCCESS
 } from './constants';
 
 export const editSubscriptionPending = () => {
@@ -90,5 +91,10 @@ export const addSubscriptionsError = (error) => {
 export const resetState = () => {
   return {
     type: RESET_STATE
+  };
+};
+export const resetSuccess = () => {
+  return {
+    type: RESET_SUCCESS
   };
 };
