@@ -39,8 +39,8 @@ function MemberProfile({ match }) {
       city: '',
       dob: '',
       zip: '',
-      membership: memberLogged.membership,
-      isActive: memberLogged.isActive
+      membership: memberLogged?.membership,
+      isActive: memberLogged?.isActive
     }
   });
 
@@ -118,7 +118,9 @@ function MemberProfile({ match }) {
       <div className={styles.content}>
         <div className={styles.header}>
           <h2>
-            {disableEdit ? `${memberLogged.name} ${memberLogged.lastName} Profile` : 'Edit Profile'}
+            {disableEdit
+              ? `${memberLogged?.name} ${memberLogged?.lastName} Profile`
+              : 'Edit Profile'}
           </h2>
           {disableEdit && (
             <Button
