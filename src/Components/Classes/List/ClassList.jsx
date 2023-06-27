@@ -116,7 +116,7 @@ function ClassList({ classes }) {
           title="Delete class"
           handler={() => setShowConfirmModal(false)}
           onAction={handleSubmit}
-          reason={'submit'}
+          reason={'delete'}
         >
           Are you sure you want to delete this class?
         </ConfirmModal>
