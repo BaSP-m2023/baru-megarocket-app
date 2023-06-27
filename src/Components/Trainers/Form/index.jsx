@@ -57,7 +57,6 @@ const Form = () => {
       setValue('email', data.email);
       setValue('salary', data.salary);
       setValue('password', data.password);
-      console.log('data', data);
     } catch (error) {
       dispatch(handleDisplayToast(true));
     }
@@ -80,8 +79,7 @@ const Form = () => {
       : dispatch(addTrainer(data, history));
   };
 
-  const handleConfirmModal = (data) => {
-    console.log('confirm data ', data);
+  const handleConfirmModal = () => {
     setShowConfirmModal(true);
   };
 

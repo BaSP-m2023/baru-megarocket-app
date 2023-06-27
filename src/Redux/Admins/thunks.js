@@ -85,7 +85,7 @@ export const addAdmin = async (dispatch, adminToAdd) => {
   }
 };
 
-export const editAdmin = async (dispatch, id, adminToUpdate) => {
+export const editAdmin = async (dispatch, id, adminToUpdate, history) => {
   dispatch(editAdminPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`, {
@@ -98,6 +98,7 @@ export const editAdmin = async (dispatch, id, adminToUpdate) => {
     });
     const res = await response.json();
     if (response.ok) {
+      history.push('/');
       dispatch(editAdminSuccess(res.data));
       dispatch(setContentToast({ message: res.message, state: 'success' }));
       dispatch(handleDisplayToast(true));
