@@ -1,28 +1,32 @@
 class LoginPage {
   get loginbtn() {
-    return $('#root > div > section > div > div:nth-child(2) > button');
+    return $('[data-testid="home-buttons-container"] div:nth-child(2) button');
   }
 
-  get inputUserName() {
-    return $('#user-name');
+  get inputEmail() {
+    return $('[data-testid="login-email-container"] input');
   }
 
   get inputPassword() {
-    return $('#password');
+    return $('[data-testid="login-password-container"] input');
   }
 
-  get btnSubmit() {
-    return $('#login-button');
+  get loginbtn2() {
+    return $('[data-testid="login-form-buttons-container"] div:nth-child(1) button');
   }
 
-  get errorAlert() {
-    return $('#login_button_container > div > form > div.error-message-container.error > h3');
+  get confirmLogin() {
+    return $('[data-testid="logo-container"]');
   }
 
-  async login(username, password) {
-    await this.inputUserName.setValue(username);
+  async login(email, password) {
+    await this.inputEmail.setValue(email);
     await this.inputPassword.setValue(password);
-    await this.btnSubmit.click();
+    await this.loginbtn2.click();
+  }
+
+  async loginBtnClick() {
+    await this.loginbtn.click();
   }
 }
 module.exports = new LoginPage();
