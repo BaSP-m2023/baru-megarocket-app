@@ -133,7 +133,7 @@ const MemberForm = ({ match }) => {
         <form className={styles.body} data-testid="members-form-container">
           {!memberId
             ? formCreate.map((field) => (
-                <div className={styles.flex} key={field.name}>
+                <div key={field.name}>
                   <Input
                     labelText={field.labelText}
                     name={field.name}
