@@ -31,6 +31,15 @@
   color: #d10202;
 }
 
+.input {
+  width: 17rem;
+  height: 30px;
+  margin-right: 10px;
+  color: #373867;
+  border: 1px solid #373867;
+  border-radius: 5px;
+}
+
 .searchContainer {
   display: flex;
   flex-direction: column;

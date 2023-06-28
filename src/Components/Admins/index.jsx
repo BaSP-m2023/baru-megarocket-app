@@ -6,7 +6,6 @@ import Loader from 'Components/Shared/Loader';
 import { Link } from 'react-router-dom';
 import Table from './Table';
 import Button from 'Components/Shared/Button';
-import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
@@ -63,12 +62,12 @@ const Admins = () => {
         <h2 className={styles.title}>Admins</h2>
         <div className={styles.searchContainer} data-testid="admins-search-container">
           {filter.length === 0 && <p className={styles.notFound}>Admin not found!</p>}
-          <Input
-            labelText="Search admin"
+          <input
+            className={styles.input}
             name="search"
             type="text"
             placeholder="Search admin by name or last name"
-            change={(e) => filterAdmin(e.target.value.toLowerCase())}
+            onChange={(e) => filterAdmin(e.target.value.toLowerCase())}
           />
         </div>
         {pending && <Loader />}
