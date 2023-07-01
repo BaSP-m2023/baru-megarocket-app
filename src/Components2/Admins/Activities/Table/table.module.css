@@ -1,0 +1,76 @@
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  height: 50vh;
+  overflow-y: scroll;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.tableFilter {
+  display: flex;
+  align-items: center;
+  width: 75%;
+}
+
+.tableInputFilter {
+  align-self: flex-end;
+  border: 1px solid #373867;
+  border-radius: 3px;
+}
+
+.tableHeader th {
+  padding: 0.8em;
+  color: #373867;
+}
+
+.tableRow {
+  text-align: left;
+  border-bottom: 1px solid #707070;
+}
+
+.tableRow td {
+  padding: 0.8em;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 500px;
+  text-overflow: ellipsis;
+}
+
+.tableRow:hover {
+  background-color: #c4bcbc;
+}
+
+.tableError {
+  margin: 0;
+  padding: 0;
+  color: #F13312;
+}
+
+.title {
+  margin: 0;
+  padding: 0;
+  color: #373867;
+  font-size: 2rem;
+}
+
+.activityState {
+  display: inline-block;
+  padding: 4px;
+  border-radius: 4px;
+  color: #373867;
+  font-weight: 600;
+}
+
+.activityActive {
+  border-bottom: 3px solid #aace9b;
+}
+
+.activityInactive {
+  border-bottom: 3px solid #d10202;
+}

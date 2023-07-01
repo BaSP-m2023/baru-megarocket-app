@@ -1,0 +1,42 @@
+.table {
+  width: 100%;
+  border-spacing: 0 5px;
+}
+
+.row {
+  height: 40px;
+  text-align: center;
+  color: #373867;
+  background-color: #ebebeb;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.row:not(.selected):nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.row:not(.selected):nth-child(odd):hover {
+  background-color: #c4bcbc;
+}
+
+.row:not(.selected):nth-child(even) {
+  background-color: #ebebeb;
+}
+
+.row:not(.selected):nth-child(even):hover {
+  background-color: #c0b6b6;
+}
+
+.selected {
+  background-color: #373867;
+  color: #ffffff;
+}
+
+.tableContainer {
+  overflow-y: scroll;
+  height: 50vh;
+  width: 90vw;
+  margin-bottom: 10px;
+}

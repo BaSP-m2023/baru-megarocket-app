@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  height: auto;
+}
+
+.tableSubscription {
+  flex: 1;
+  width: 90%;
+  border-collapse: collapse;
+}
+
+.containerThead {
+  background-color: #f2f2f2;
+}
+.theadOptions {
+  width: auto;
+}
+.containerThead th {
+  text-align: center;
+}
+
+.line {
+  width: 100%;
+}
+
+.item {
+  width: 20%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.itemButton {
+  width: 5%;
+  text-overflow: ellipsis;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.itemButtonEdit:hover {
+  background-color: #aace9e;
+}
+
+.itemButtonDelete:hover {
+  background-color: #d10202;
+}
