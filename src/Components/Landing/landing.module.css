@@ -1,0 +1,205 @@
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 2%;
+  font-family: 'Roboto', Arial, serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.welcomeSection {
+  width: 100%;
+  padding: 3% 0 8% 0;
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 5%;
+  background-color: #13133c;
+  background: linear-gradient(to bottom, #13133c, white);
+}
+
+.brandName {
+  font-size: 2.5rem;
+  color: #fff;
+  padding: 2%;
+}
+
+.brandDescription {
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 20px;
+  padding: 0 10% 5% 10%;
+}
+
+.button {
+  padding: 15px 25px;
+  background-color: #aace9b;
+  color:#13133c;
+  border: none;
+  border-radius: 100px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.featuresSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 10%;
+  padding: 2% 0;
+  background-color: #dedeef49;
+}
+
+.feature {
+  max-width: 300px;
+  margin: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.icon {
+  font-size: 2rem;
+  color: #aace9b;
+  margin-bottom: 10px;
+}
+
+.h2 {
+  font-size: 1.2rem;
+  color: #373867;
+  margin-bottom: 10px;
+}
+
+.p {
+  font-size: 1rem;
+  color: #373867;
+}
+
+.aboutSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 10%;
+}
+.about_col_1, .about_col_2{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+}
+.aboutSection p, .aboutSection img{
+  width: 45%;
+}
+
+.about_col_1 p{
+  padding: 0 0 0 2%;
+  align-self: flex-start;
+  text-align: left;
+  font-size: 1.2rem;
+}
+.about_col_2 p{
+  padding: 0 2% 0 0;
+  align-self: flex-end;
+  text-align: right;
+  font-size: 1.2rem;
+}
+.about_col_1 img{
+  border-radius: 100px 100px 100px 0;
+}
+.about_col_2 img{
+  border-radius: 100px 100px 0 100px;
+}
+
+.membershipsSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.membershipCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 300px;
+  margin: 10px;
+  padding: 10px;
+  padding-top: 5%;
+  background-color: #dedeef ;
+  border-radius: 50px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.membershipCard:hover {
+  transform: translateY(-10px);
+}
+
+.membershipCard:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.3s ease;
+}
+
+.price{
+  margin: auto;
+  margin-bottom:0;
+  bottom: 0;
+  background-color: #aace9b;
+  color: white;
+  border-radius: 100px;
+  width: fit-content;
+  padding: 5% 10%;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #373867;
+}
+
+h3 {
+  font-size: 2rem;
+  color: #373867;
+  margin-bottom: 20px;
+}
+
+ul {
+  text-align: left;
+  margin-left: 20px;
+  color: #373867;
+}
+
+.ul li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .aboutSection {
+    flex-direction: column;
+  }
+  .about_col_1, .about_col_2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  .aboutSection p, .aboutSection img{
+    width: 100%;
+  }
+  .about_col_1 p, .about_col_2 p{
+    text-align: center;
+  }
+
+  .membershipCard,
+  .feature {
+    width: 100%;
+  }
+  h3{
+    font-size: 1.5rem;
+  }
+}

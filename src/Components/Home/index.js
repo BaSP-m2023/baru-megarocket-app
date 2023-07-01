@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+import Landing from 'Components/Landing/Landing';
 
 function Home() {
   const dispatch = useDispatch();
@@ -14,7 +15,6 @@ function Home() {
   return (
     <>
       <section className={styles.container}>
-        <h2>Home</h2>
         {!role && (
           <div className={styles.buttonContainer} data-testid="home-buttons-container">
             <Button
@@ -29,6 +29,7 @@ function Home() {
             />
           </div>
         )}
+
         {show && (
           <ResponseModal
             handler={() => dispatch(handleDisplayToast(false))}
@@ -37,6 +38,7 @@ function Home() {
           />
         )}
       </section>
+      <Landing />
     </>
   );
 }

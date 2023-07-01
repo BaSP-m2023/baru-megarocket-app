@@ -1,45 +1,10 @@
 .container {
-  flex: 1;
   display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  position: absolute;
+  top:0;
+  right: 0
 }
 
 .buttonContainer {
   display: flex;
-}
-
-.loggedContainer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 0.5rem;
-}
-
-.logout {
-  margin: 1rem;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.profileLink {
-  text-decoration: none;
-  color: #373867;
-}
-
-.profileContainer {
-  display: flex;
-  align-items: center;
-  margin: 0 1rem;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-
-.profileImg {
-  width: 1.5rem;
-  margin-right: 1rem;
-  border: 1px solid black;
-  border-radius: 50%;
 }
