@@ -16,8 +16,8 @@ const Trainers = () => {
   const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
-    getTrainers(dispatch);
-  }, [dispatch]);
+    dispatch(getTrainers());
+  }, []);
 
   return (
     <section className={styles.container}>
