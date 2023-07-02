@@ -16,6 +16,13 @@ import { setContentToast, handleDisplayToast } from 'Redux/Shared/ResponseToast/
 
 import { firebaseApp } from 'Components/helper/firebase';
 
+const redirectByRole = {
+  SUPER_ADMIN: '/user/super-admin',
+  MEMBER: '/user/member',
+  ADMIN: '/user/admin',
+  TRAINER: '/user/trainer'
+};
+
 export const login = (credentials, history) => {
   return async (dispatch) => {
     dispatch(loginPending());
@@ -30,7 +37,7 @@ export const login = (credentials, history) => {
       dispatch(loginSuccess({ token, role }));
       dispatch(setContentToast({ message: 'Successful Login', state: 'success' }));
       dispatch(handleDisplayToast(true));
-      history.push('/');
+      history.push(redirectByRole[role]);
     } catch (error) {
       dispatch(loginError(error));
       dispatch(setContentToast({ message: 'Wrong email or password', state: 'fail' }));
