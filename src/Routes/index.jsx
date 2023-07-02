@@ -10,7 +10,6 @@ import PrivateRoute from './privateRoute';
 
 const Admins = lazy(() => import('./admin'));
 const AdminsForm = lazy(() => import('./admin/form'));
-
 const AdminProfile = lazy(() => import('./admin/profile'));
 const Activities = lazy(() => import('./activity'));
 const ActivitiesForm = lazy(() => import('./activity/form'));
@@ -19,6 +18,7 @@ const ClassForm = lazy(() => import('./class/form'));
 const Members = lazy(() => import('./member'));
 const MemberForm = lazy(() => import('./member/form'));
 const MemberProfile = lazy(() => import('./member/profile'));
+const MemberSchedule = lazy(() => import('./member-logged/scheduleMember'));
 const SubscribeActivities = lazy(() => import('./member-logged/subscribeActivities'));
 const FormMemberSubscription = lazy(() => import('./member-logged/formMemberSubscription'));
 const Subscriptions = lazy(() => import('./subscription'));
@@ -69,6 +69,11 @@ const Layout = () => {
             <PrivateRoute path="/trainers/add" role="ADMIN" component={TrainerForm} />
             <PrivateRoute path="/trainers/edit/:id" role="ADMIN" component={TrainerForm} />
             <PrivateRoute path="/user/member/profile/:id" role="MEMBER" component={MemberProfile} />
+            <PrivateRoute
+              path="/user/member/schedule/:id"
+              role="MEMBER"
+              component={MemberSchedule}
+            />
             <PrivateRoute
               exact
               path="/user/members/subscribe-class"
