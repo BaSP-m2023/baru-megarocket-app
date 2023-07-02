@@ -1,14 +1,16 @@
-import { Input } from 'Components/Shared/Inputs';
-import styles from './signup.module.css';
-import Button from 'Components/Shared/Button';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { useState } from 'react';
-import ConfirmModal from 'Components/Shared/ConfirmModal';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { joiResolver } from '@hookform/resolvers/joi';
+import styles from './signup.module.css';
+
 import { addMember } from 'Redux/Members/thunks';
 import memberSchema from 'Validations/member';
+
+import { Input } from 'Components/Shared/Inputs';
+import Button from 'Components/Shared/Button';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
 
 function SignUp() {
   const history = useHistory();

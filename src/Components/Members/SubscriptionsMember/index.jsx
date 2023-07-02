@@ -1,13 +1,15 @@
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styles from './subscriptionMember.module.css';
+
 import { getActivities } from 'Redux/Activities/thunks';
 import { getSubscriptions } from 'Redux/Subscriptions/thunks';
 import { deleteSubscription } from 'Redux/Subscriptions/thunks';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+
 import Button from 'Components/Shared/Button';
-import styles from './subscriptionMember.module.css';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import Loader from 'Components/Shared/Loader';
 
 const SubscriptionsMember = () => {

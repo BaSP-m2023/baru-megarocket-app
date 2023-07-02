@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import styles from '../Table/table.module.css';
 
 import { deleteActivity } from 'Redux/Activities/thunks';
 
-import styles from '../Table/table.module.css';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import Button from 'Components/Shared/Button';
 

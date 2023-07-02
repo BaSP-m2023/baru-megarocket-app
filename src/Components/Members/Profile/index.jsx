@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import styles from 'Components/Members/Profile/profile.module.css';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import styles from './profile.module.css';
+
+import { updateMember, getMembers } from 'Redux/Members/thunks';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { getAuth } from 'Redux/Auth/thunks';
+import memberSchema from 'Validations/memberUpdate';
+
+import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import Button from 'Components/Shared/Button';
-import { Input } from 'Components/Shared/Inputs';
-import { updateMember, getMembers } from 'Redux/Members/thunks';
-import { useDispatch, useSelector } from 'react-redux';
-import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
-import { useForm } from 'react-hook-form';
-import { joiResolver } from '@hookform/resolvers/joi';
-import memberSchema from 'Validations/memberUpdate';
-import { getAuth } from 'Redux/Auth/thunks';
 
 function MemberProfile({ match }) {
   const [disableEdit, setDisableEdit] = useState(true);

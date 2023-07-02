@@ -1,12 +1,15 @@
-import { Input } from 'Components/Shared/Inputs';
-import styles from './login.module.css';
-import Button from 'Components/Shared/Button';
-import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import loginSchema from 'Validations/login';
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import styles from './login.module.css';
+
 import { login } from 'Redux/Auth/thunks';
+import loginSchema from 'Validations/login';
+
+import { Input } from 'Components/Shared/Inputs';
+import Button from 'Components/Shared/Button';
 
 function Login() {
   const history = useHistory();

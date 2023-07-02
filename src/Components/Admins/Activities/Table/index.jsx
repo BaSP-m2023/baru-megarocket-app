@@ -1,9 +1,8 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './table.module.css';
 
 import Activity from '../Activity';
-import { useSelector } from 'react-redux';
 
 const Table = () => {
   const [filter, setFilter] = useState([]);
