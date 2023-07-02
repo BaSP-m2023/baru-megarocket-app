@@ -3,9 +3,9 @@ import Schedule from 'Components/Shared/Schedule';
 
 const MemberSchedule = () => {
   return (
-    <div>
+    <>
       <Schedule />
-    </div>
+    </>
   );
 };
 
