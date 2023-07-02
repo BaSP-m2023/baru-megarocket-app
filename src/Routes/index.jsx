@@ -13,7 +13,7 @@ const AdminRoutes = lazy(() => import('./admins'));
 const AuthRoutes = lazy(() => import('./auth'));
 const SuperAdminRoutes = lazy(() => import('./superAdmins'));
 const MemberRoutes = lazy(() => import('./members'));
-// const TrainerRoutes = lazy(() => import('./trainers'));
+const TrainerRoutes = lazy(() => import('./trainers'));
 
 const Routes = () => {
   const dispatch = useDispatch();
@@ -36,8 +36,9 @@ const Routes = () => {
         <Switch>
           <Route exact path="/" component={HomeRoute} />
           <Route path="/auth" component={AuthRoutes} />
-          <PrivateRoute path="/user/admin" role="ADMIN" component={AdminRoutes} />
           <PrivateRoute path="/user/super-admin" role="SUPER_ADMIN" component={SuperAdminRoutes} />
+          <PrivateRoute path="/user/admin" role="ADMIN" component={AdminRoutes} />
+          <PrivateRoute path="/user/trainer" role="TRAINER" component={TrainerRoutes} />
           <PrivateRoute path="/user/member" role="MEMBER" component={MemberRoutes} />
           <Redirect to={'/'} />
         </Switch>
