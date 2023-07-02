@@ -1,6 +1,7 @@
 import React from 'react';
-import MemberActivityView from './MemberActivityView';
 import styles from './subscribeActivities.module.css';
+
+import MemberActivityView from './MemberActivityView';
 
 const SubscribeActivities = () => {
   return (

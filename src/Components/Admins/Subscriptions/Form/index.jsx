@@ -90,7 +90,7 @@ const Form = () => {
   useEffect(() => {
     if (success) {
       dispatch(resetState());
-      history.push('/subscriptions');
+      history.push('/user/admin/subscriptions');
     }
   }, [success]);
 
@@ -155,7 +155,7 @@ const Form = () => {
         {errors.classes && <p className={styles.error}>{errors.classes?.message}</p>}
 
         <div className={styles.btnContainer} data-testid="subscriptions-form-buttons">
-          <Link to="/subscriptions">
+          <Link to="/user/admin/subscriptions">
             <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
           </Link>
           <Button text={'Submit'} classNameButton={'submitButton'} />

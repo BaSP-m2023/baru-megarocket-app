@@ -49,7 +49,7 @@ const Subscriptions = () => {
         <Table className={subscriptions.table} data={filteredSubscriptions} />
       </div>
       <div className={styles.buttonContainer}>
-        <Link to="/subscriptions/add" data-testid="subscription-add-link">
+        <Link to="subscriptions/add" data-testid="subscription-add-link">
           <Button classNameButton="submitButton" text="+ Add New" />
         </Link>
       </div>

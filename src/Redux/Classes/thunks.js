@@ -56,7 +56,7 @@ export const addClass = async (dispatch, createdClass, history) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class`, reqBody);
     const { message, data, error } = await response.json();
     if (!error) {
-      history.push('/classes');
+      history.push('/user/admin/classes');
       dispatch(postClassSuccess(data));
       dispatch(setContentToast({ message, state: 'success' }));
       dispatch(handleDisplayToast(true));

@@ -1,22 +1,25 @@
-import { getActivities } from 'Redux/Activities/thunks';
 import React, { useEffect } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import Loader from 'Components/Shared/Loader';
 import styles from './memberActivity.module.css';
+
+import { getActivities } from 'Redux/Activities/thunks';
+
+import Loader from 'Components/Shared/Loader';
 
 const MemberActivityView = () => {
   const { isPending } = useSelector((state) => state.activities);
   const activities = useSelector((state) => state.activities.list);
   const dispatch = useDispatch();
   const history = useHistory();
+  const { url } = useRouteMatch();
 
   useEffect(() => {
     getActivities(dispatch);
   }, [dispatch]);
 
   const navigate = (id) => {
-    history.push(`/user/members/subscribe-class/${id}`);
+    history.push(`${url}/${id}`);
   };
 
   return (

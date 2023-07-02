@@ -77,7 +77,7 @@ const Admins = () => {
         {!pending && admins && admins.length > 0 && (
           <Table filter={filter || []} handleDeleteButton={handleDeleteButton} />
         )}
-        <Link to="/admins/add" data-testid="add-admin-link">
+        <Link to="admins/add" data-testid="add-admin-link">
           <Button text="+ Add new" classNameButton="addButton"></Button>
         </Link>
       </section>

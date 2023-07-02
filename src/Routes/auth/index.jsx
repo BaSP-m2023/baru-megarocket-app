@@ -7,6 +7,10 @@ import Layout from 'Components/Layout';
 
 const routes = [
   {
+    name: 'Home',
+    path: '/'
+  },
+  {
     name: 'Sign Up',
     path: '/auth/signup'
   },

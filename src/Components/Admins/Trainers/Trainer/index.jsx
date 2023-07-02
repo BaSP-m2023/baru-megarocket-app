@@ -30,7 +30,7 @@ const Trainer = ({ trainer }) => {
       <td className={styles.align}>{trainer.phone}</td>
       <td className={styles.align}>{trainer.email}</td>
       <td>
-        <Link to={`/trainers/edit/${trainer._id}`}>
+        <Link to={`trainers/edit/${trainer._id}`}>
           <Button
             img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
             testid="trainers-edit-btn"

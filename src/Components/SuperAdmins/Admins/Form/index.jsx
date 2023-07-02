@@ -64,7 +64,7 @@ function AdminsForm() {
 
   useEffect(() => {
     if (success) {
-      history.push('/admins');
+      history.push('/user/super-admin/admins');
       dispatch(resetState());
     }
   }, [success]);
@@ -167,7 +167,7 @@ function AdminsForm() {
         </form>
         <div className={styles.buttonContainer} data-testid="admin-form-buttons">
           <div>
-            <Link to="/admins">
+            <Link to="/user/super-admin/admins">
               <Button
                 action={() => dispatch(resetState())}
                 classNameButton="cancelButton"

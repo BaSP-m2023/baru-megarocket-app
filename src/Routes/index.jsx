@@ -11,8 +11,8 @@ import Loader from 'Components/Shared/Loader';
 const HomeRoute = lazy(() => import('./home'));
 const AdminRoutes = lazy(() => import('./admins'));
 const AuthRoutes = lazy(() => import('./auth'));
-// const SuperAdminRoutes = lazy(() => import('./superAdmins'));
-// const MemberRoutes = lazy(() => import('./members'));
+const SuperAdminRoutes = lazy(() => import('./superAdmins'));
+const MemberRoutes = lazy(() => import('./members'));
 // const TrainerRoutes = lazy(() => import('./trainers'));
 
 const Routes = () => {
@@ -37,6 +37,8 @@ const Routes = () => {
           <Route exact path="/" component={HomeRoute} />
           <Route path="/auth" component={AuthRoutes} />
           <PrivateRoute path="/user/admin" role="ADMIN" component={AdminRoutes} />
+          <PrivateRoute path="/user/super-admin" role="SUPER_ADMIN" component={SuperAdminRoutes} />
+          <PrivateRoute path="/user/member" role="MEMBER" component={MemberRoutes} />
           <Redirect to={'/'} />
         </Switch>
       </Suspense>

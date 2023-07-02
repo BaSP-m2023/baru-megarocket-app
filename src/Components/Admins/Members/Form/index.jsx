@@ -75,7 +75,7 @@ const MemberForm = ({ match }) => {
 
   useEffect(() => {
     if (redirect) {
-      history.push('/members');
+      history.push('/user/admin/members');
     }
   }, [redirect]);
 
@@ -98,7 +98,7 @@ const MemberForm = ({ match }) => {
       <div className={styles.content}>
         <div className={styles.header} data-testid="members-form-title-container">
           <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
-          <span className={styles.close_button} onClick={() => history.push('/members')}>
+          <span className={styles.close_button} onClick={() => history.push('/user/admin/members')}>
             &times;
           </span>
         </div>

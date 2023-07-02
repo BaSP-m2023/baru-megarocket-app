@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 
 import Activities from 'Components/Admins/Activities';
 import ActivitiesForm from 'Components/Admins/Activities/Form';
@@ -9,12 +9,17 @@ import Classes from 'Components/Admins/Classes';
 import ClassesForm from 'Components/Admins/Classes/ClassForm';
 import Subscriptions from 'Components/Admins/Subscriptions';
 import SubscriptionsForm from 'Components/Admins/Subscriptions/Form';
-// import Trainers from 'Components/Admins/Trainers';
-// import TrainersForm from 'Components/Admins/Trainers/Form';
+import Trainers from 'Components/Admins/Trainers';
+import TrainersForm from 'Components/Admins/Trainers/Form';
 import Profile from 'Components/Admins/Profile';
 import Layout from 'Components/Layout';
+import Home from 'Components/Layout/Home';
 
 const routes = [
+  {
+    name: 'Home',
+    path: '/user/admin/home'
+  },
   {
     name: 'Activities',
     path: '/user/admin/activities'
@@ -26,10 +31,6 @@ const routes = [
   {
     name: 'Members',
     path: '/user/admin/members'
-  },
-  {
-    name: 'Profile',
-    path: '/user/admin/profile'
   },
   {
     name: 'Subscriptions',
@@ -46,6 +47,8 @@ const AdminRoutes = () => {
   return (
     <Layout routes={routes}>
       <Switch>
+        <Route exact path={`${url}/home`} component={Home} />
+
         <Route exact path={`${url}/activities`} component={Activities} />
         <Route exact path={`${url}/activities/add`} component={ActivitiesForm} />
         <Route exact path={`${url}/activities/edit/:id`} component={ActivitiesForm} />
@@ -58,17 +61,17 @@ const AdminRoutes = () => {
         <Route exact path={`${url}/members/add`} component={MembersForm} />
         <Route exact path={`${url}/members/edit/:id`} component={MembersForm} />
 
-        <Route exact path={`${url}/profile`} component={Profile} />
+        <Route exact path={`${url}/profile/:id`} component={Profile} />
 
         <Route exact path={`${url}/subscriptions`} component={Subscriptions} />
         <Route exact path={`${url}/subscriptions/add`} component={SubscriptionsForm} />
         <Route exact path={`${url}/subscriptions/edit/:id`} component={SubscriptionsForm} />
 
-        {/* <Route exact path={`${url}/trainers`} component={Trainers} />
+        <Route exact path={`${url}/trainers`} component={Trainers} />
         <Route exact path={`${url}/trainers/add`} component={TrainersForm} />
-        <Route exact path={`${url}/trainers/edit/:id`} component={TrainersForm} /> */}
+        <Route exact path={`${url}/trainers/edit/:id`} component={TrainersForm} />
 
-        {/* <Redirect to={`${url}/`} /> */}
+        <Redirect to={`${url}/home`} />
       </Switch>
     </Layout>
   );

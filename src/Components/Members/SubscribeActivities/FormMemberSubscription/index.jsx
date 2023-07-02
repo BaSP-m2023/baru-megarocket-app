@@ -1,16 +1,18 @@
-import Button from 'Components/Shared/Button';
-import ConfirmModal from 'Components/Shared/ConfirmModal';
-import { getClasses } from 'Redux/Classes/thunks';
-import { addSubscriptions, getSubscriptions } from 'Redux/Subscriptions/thunks';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import Loader from 'Components/Shared/Loader';
-import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import subscriptionSchema from 'Validations/subscription';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { Link, useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './formMemberSubscription.module.css';
+
+import { getClasses } from 'Redux/Classes/thunks';
 import { resetState } from 'Redux/Subscriptions/actions';
+import { addSubscriptions, getSubscriptions } from 'Redux/Subscriptions/thunks';
+import subscriptionSchema from 'Validations/subscription';
+
+import Button from 'Components/Shared/Button';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import Loader from 'Components/Shared/Loader';
 
 const FormMemberSubscription = () => {
   const { id } = useParams();
@@ -47,7 +49,7 @@ const FormMemberSubscription = () => {
   useEffect(() => {
     if (success) {
       dispatch(resetState());
-      history.push('/user/members/subscribe-class');
+      history.push('/user/member/subscribe-class');
     }
   }, [success]);
 
@@ -116,7 +118,7 @@ const FormMemberSubscription = () => {
             )}
             {errors.classes && <p className={styles.error}>Please select a class</p>}
             <div className={styles.buttonContainer}>
-              <Link to="/user/members/subscribe-class">
+              <Link to="/user/member/subscribe-class">
                 <Button classNameButton={'cancelButton'} text={'Cancel'} />
               </Link>
               {classes.length !== 0 && classCanSubscribe.length !== 0 && (

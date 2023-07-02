@@ -61,7 +61,7 @@ const Form = () => {
 
   useEffect(() => {
     if (success) {
-      history.push('/activities');
+      history.push('/user/admin/activities');
       reset();
     }
   }, [success]);
@@ -140,7 +140,7 @@ const Form = () => {
         </div>
         <div className={styles.formButtons}>
           <Button text={'Submit'} classNameButton={'submitButton'} />
-          <Link to="/activities">
+          <Link to="/user/admin/activities">
             <Button text={'Back'} classNameButton={'cancelButton'} />
           </Link>
         </div>

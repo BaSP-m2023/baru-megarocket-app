@@ -35,7 +35,7 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
           </label>
         </td>
         <td>
-          <Link to={`/members/edit/${member._id}`}>
+          <Link to={`members/edit/${member._id}`}>
             <Button
               img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
               testid="members-edit-btn"

@@ -27,7 +27,7 @@ const Trainers = () => {
       {pending && <Loader />}
       {!pending && trainers.length > 0 ? <Table data={trainers} /> : null}
       {!pending && !trainers.length && 'There are no trainers to show'}
-      <Link to="/trainers/add" data-testid="trainer-add-link">
+      <Link to="trainers/add" data-testid="trainer-add-link">
         <Button text="+ Add New" classNameButton="addButton" />
       </Link>
       {show && (

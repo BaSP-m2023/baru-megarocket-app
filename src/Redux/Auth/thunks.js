@@ -37,6 +37,7 @@ export const login = (credentials, history) => {
       dispatch(loginSuccess({ token, role }));
       dispatch(setContentToast({ message: 'Successful Login', state: 'success' }));
       dispatch(handleDisplayToast(true));
+      dispatch(getAuth(token));
       history.push(redirectByRole[role]);
     } catch (error) {
       dispatch(loginError(error));

@@ -6,9 +6,6 @@ const NavBar = ({ routes = [] }) => {
   return (
     <nav className={styles.navbar}>
       <ul className={styles.routes} data-testid="routes-list">
-        <Link to="/" className={styles.a}>
-          Home
-        </Link>
         {routes.map((route) => (
           <li key={route.name}>
             <Link to={route.path} className={styles.a}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import { useDispatch } from 'react-redux';
 import styles from './list.module.css';
 
@@ -55,6 +55,8 @@ function ClassList({ classes }) {
     }
   };
 
+  let { url } = useRouteMatch();
+
   return (
     <div className={styles.container}>
       <input
@@ -87,7 +89,7 @@ function ClassList({ classes }) {
                   <td>{item.day}</td>
                   <td>{item.time}</td>
                   <td>
-                    <Link to={`/classes/edit/${item._id}`}>
+                    <Link to={`${url}/edit/${item._id}`}>
                       <Button
                         img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
                         classNameButton={`${styles.button}`}

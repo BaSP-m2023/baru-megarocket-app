@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import styles from 'Components/Trainers/Form/form.module.css';
+import styles from './form.module.css';
 
 import { addTrainer, getTrainers, updTrainer } from 'Redux/Trainers/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
@@ -155,7 +155,7 @@ const Form = () => {
         <Button text={'Reset'} classNameButton="deleteButton" action={handleReset} />
       </form>
       <div className={styles.btnContainer} data-testid="trainers-form-buttons">
-        <Link to="/trainers">
+        <Link to="/user/admin/trainers">
           <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
         </Link>
         <Button

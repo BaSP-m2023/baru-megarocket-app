@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './header.module.css';
 
-import { editMemberSuccess } from 'Redux/Members/actions';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
-import { getAuth, logOut } from 'Redux/Auth/thunks';
-import { tokenListener } from 'Components/helper/firebase';
+import { logOut } from 'Redux/Auth/thunks';
 
 import Button from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
@@ -14,26 +12,20 @@ import NavBar from './NavBar';
 
 function Header(props) {
   const dispatch = useDispatch();
-  const token = sessionStorage.getItem('token');
+  const history = useHistory();
+
   const role = sessionStorage.getItem('role');
   const userLogged = useSelector((state) => state.auth.user);
-  useEffect(() => {
-    tokenListener();
-  }, []);
-  useEffect(() => {
-    if (token) {
-      dispatch(getAuth(token));
-    }
-  }, [token, editMemberSuccess]);
 
   const { show, message, state } = useSelector((state) => state.toast);
-  const history = useHistory();
+
   const handleLogout = async () => {
     await dispatch(logOut());
     history.push('/');
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
   };
+
   return (
     <header>
       <div className={styles.container}>
@@ -65,6 +57,7 @@ function Header(props) {
                   {role === 'ADMIN' && `${userLogged?.firstName} ${userLogged?.lastName}`}
                   {role === 'MEMBER' && `${userLogged?.name} ${userLogged?.lastName}`}
                   {role === 'TRAINER' && `${userLogged?.firstName} ${userLogged?.lastName}`}
+                  {role === 'SUPER_ADMIN' && 'SA'}
                 </div>
               </Link>
               <div className={styles.logoutButton}>
