@@ -18,7 +18,7 @@ const ClassForm = lazy(() => import('./class/form'));
 const Members = lazy(() => import('./member'));
 const MemberForm = lazy(() => import('./member/form'));
 const MemberProfile = lazy(() => import('./member/profile'));
-const MemberSchedule = lazy(() => import('./member-logged/scheduleMember'));
+const Schedule = lazy(() => import('./schedule'));
 const SubscribeActivities = lazy(() => import('./member-logged/subscribeActivities'));
 const FormMemberSubscription = lazy(() => import('./member-logged/formMemberSubscription'));
 const Subscriptions = lazy(() => import('./subscription'));
@@ -70,11 +70,7 @@ const Layout = () => {
             <PrivateRoute path="/trainers/add" role="ADMIN" component={TrainerForm} />
             <PrivateRoute path="/trainers/edit/:id" role="ADMIN" component={TrainerForm} />
             <PrivateRoute path="/user/member/profile/:id" role="MEMBER" component={MemberProfile} />
-            <PrivateRoute
-              path="/user/member/schedule/:id"
-              role="MEMBER"
-              component={MemberSchedule}
-            />
+            <PrivateRoute path="/user/member/schedule/:id" role="MEMBER" component={Schedule} />
             <PrivateRoute
               path="/user/trainer/profile/:id"
               role="TRAINER"
