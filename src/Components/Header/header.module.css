@@ -1,19 +1,30 @@
 .container {
+  position: fixed;
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0 5%;
-  height: 130px;
   background-color: #373867;
 }
 
+.container2{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-right: 2%;
+}
+
+.logoContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 .logo {
   width: 80px;
 }
 
 .logo2 {
   width: 180px;
-  padding: 2rem;
+  height: 38px;
 }
 
 .socialIcon {

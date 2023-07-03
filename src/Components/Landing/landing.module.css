@@ -1,3 +1,10 @@
+.landing{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
 .container {
   max-width: 1100px;
   margin: auto;
@@ -7,7 +14,6 @@
 }
 
 .welcomeSection {
-  width: 100%;
   padding: 3% 0 8% 0;
   margin-top: 0;
   text-align: center;
@@ -47,7 +53,7 @@
   margin: auto;
   margin-bottom: 10%;
   padding: 2% 0;
-  background-color: #dedeef49;
+  background-color: #dedeef93;
 }
 
 .feature {
@@ -56,7 +62,11 @@
   padding: 20px;
   text-align: center;
 }
-
+.tier{
+  display: flex;
+  margin: 0 auto;
+  font-size: 2rem;
+}
 .icon {
   font-size: 2rem;
   color: #aace9b;
@@ -70,7 +80,7 @@
 }
 
 .p {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #373867;
 }
 
@@ -109,10 +119,17 @@
   border-radius: 100px 100px 0 100px;
 }
 
-.membershipsSection {
+.membershipsSection{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cardsContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin: 2% 0 5% 0;
 }
 
 .membershipCard {
@@ -127,24 +144,12 @@
   border-radius: 50px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
-  position: relative;
   overflow: hidden;
-  cursor: pointer;
   transition: transform 0.3s ease;
 }
 
 .membershipCard:hover {
   transform: translateY(-10px);
-}
-
-.membershipCard:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: opacity 0.3s ease;
 }
 
 .price{
@@ -161,15 +166,16 @@
   color: #373867;
 }
 
-h3 {
+.h3 {
   font-size: 2rem;
   color: #373867;
+  margin: auto;
   margin-bottom: 20px;
 }
 
-ul {
+.ul {
   text-align: left;
-  margin-left: 20px;
+  font-size: 1.1rem;
   color: #373867;
 }
 
@@ -179,6 +185,12 @@ ul {
 }
 
 @media (max-width: 600px) {
+  .brandName{
+    font-size: 2rem;
+  }
+  .brandDescription{
+    font-size: 1.2rem;
+  }
   .aboutSection {
     flex-direction: column;
   }
@@ -199,7 +211,7 @@ ul {
   .feature {
     width: 100%;
   }
-  h3{
+  .h3{
     font-size: 1.5rem;
   }
 }

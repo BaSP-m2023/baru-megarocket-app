@@ -1,14 +1,16 @@
 import { useRef } from 'react';
 import styles from 'Components/Landing/landing.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faMoneyCheck } from '@fortawesome/free-solid-svg-icons';
-import { faRocket } from '@fortawesome/free-solid-svg-icons';
-import { faMeteor } from '@fortawesome/free-solid-svg-icons';
-import { faUserAstronaut } from '@fortawesome/free-solid-svg-icons';
-import { faSatelliteDish } from '@fortawesome/free-solid-svg-icons';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCalendarAlt,
+  faDumbbell,
+  faMoneyCheck,
+  faRocket,
+  faCloud,
+  faUserAstronaut,
+  faCircle,
+  faStar
+} from '@fortawesome/free-solid-svg-icons';
 
 function Landing() {
   const ref = useRef(null);
@@ -16,7 +18,7 @@ function Landing() {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
   return (
-    <>
+    <div className={styles.landing}>
       <section
         className={styles.welcomeSection}
         style={{
@@ -94,71 +96,89 @@ function Landing() {
           </div>
         </section>
         <section className={styles.membershipsSection} ref={ref}>
-          <div className={styles.membershipCard}>
-            <FontAwesomeIcon icon={faMeteor} style={{ color: '#373867' }} size="2xl" />
+          <h3 className={styles.h3}>Choose your plan</h3>
+          <div className={styles.cardsContainer}>
+            <div className={styles.membershipCard}>
+              <div className={styles.tier}>
+                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
+              </div>
+              <h3>Only Classes</h3>
+              <ul className={styles.ul}>
+                <li>
+                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  Access to classes with prior registration
+                </li>
+                <li>
+                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  Schedule visualization
+                </li>
+              </ul>
+              <div className={styles.price}>$100</div>
+            </div>
 
-            <h3>Black</h3>
-            <ul className={styles.ul}>
-              <li>
-                <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
-                Free access to the gym area
-              </li>
-              <li>
-                <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
-                Free access to classes with prior registration
-              </li>
-              <li>
-                <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
-                Personalized training guidance by a coach
-              </li>
-              <li>
-                <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
-                Schedule visualization
-              </li>
-            </ul>
-            <div className={styles.price}>$300</div>
-          </div>
+            <div className={styles.membershipCard}>
+              <div className={styles.tier}>
+                <FontAwesomeIcon
+                  icon={faCloud}
+                  style={{ color: '#6d15e8', alignSelf: 'center' }}
+                  size="l"
+                />
+                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
+                <FontAwesomeIcon icon={faStar} style={{ color: '#dedeef93' }} size="l" />
+              </div>
 
-          <div className={styles.membershipCard}>
-            <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
-
-            <h3>Classic</h3>
-            <ul className={styles.ul}>
-              <li>
-                <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
-                Free access to the gym area
-              </li>
-              <li>
-                <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
-                Personalized training guidance by a coach
-              </li>
-              <li>
-                <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
-                Schedule visualization
-              </li>
-            </ul>
-            <div className={styles.price}>$200</div>
-          </div>
-
-          <div className={styles.membershipCard}>
-            <FontAwesomeIcon icon={faSatelliteDish} style={{ color: '#373867' }} size="2xl" />
-
-            <h3>Only Classes</h3>
-            <ul className={styles.ul}>
-              <li>
-                <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
-                Free access to classes with prior registration
-              </li>
-              <li>
-                <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
-                Schedule visualization
-              </li>
-            </ul>
-            <div className={styles.price}>$100</div>
+              <h3>Classic</h3>
+              <ul className={styles.ul}>
+                <li>
+                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  Access to the gym area
+                </li>
+                <li>
+                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  Personalized training guidance by a coach
+                </li>
+                <li>
+                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  Schedule visualization
+                </li>
+              </ul>
+              <div className={styles.price}>$200</div>
+            </div>
+            <div className={styles.membershipCard}>
+              <div className={styles.tier}>
+                <FontAwesomeIcon icon={faCloud} style={{ color: '#6d15e8' }} size="l" />
+                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
+                <FontAwesomeIcon
+                  icon={faStar}
+                  style={{ color: '#e8b315', alignSelf: 'flex-end' }}
+                  size="l"
+                />
+              </div>
+              <h3>Black</h3>
+              <ul className={styles.ul}>
+                <li>
+                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  Access to the gym area
+                </li>
+                <li>
+                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  Access to classes with prior registration
+                </li>
+                <li>
+                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  Personalized training guidance by a coach
+                </li>
+                <li>
+                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  Schedule visualization
+                </li>
+              </ul>
+              <div className={styles.price}>$300</div>
+            </div>
           </div>
         </section>
       </div>
-    </>
+    </div>
   );
 }
 
