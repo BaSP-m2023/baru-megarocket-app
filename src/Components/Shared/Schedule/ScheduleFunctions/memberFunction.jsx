@@ -2,7 +2,7 @@ import React from 'react';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
 
 const ScheduleMember = ({ props, click }) => {
-  const findSub = props.memberClass.find((memC) => {
+  const findSub = props.memberSubs.find((memC) => {
     if (props.trainerFilter !== '') {
       return (
         props.day === memC?.day &&

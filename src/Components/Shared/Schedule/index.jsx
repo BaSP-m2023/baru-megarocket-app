@@ -25,7 +25,7 @@ const Schedule = () => {
   const { data: trainers } = useSelector((state) => state.trainers);
   const { id } = useParams();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [memberClass, setMemberClass] = useState([]);
+  const [memberSubs, setMemberSubs] = useState([]);
   const [modalData, setModalData] = useState(null);
   const [activityFilter, setActivityFilter] = useState('');
   const [trainerFilter, setTrainerFilter] = useState('');
@@ -89,7 +89,7 @@ const Schedule = () => {
           }
         });
       });
-      setMemberClass(arraySubs);
+      setMemberSubs(arraySubs);
     }
   }, [subscriptions, activities]);
 
@@ -151,7 +151,7 @@ const Schedule = () => {
                                   hour: hour,
                                   trainerFilter: trainerFilter,
                                   activityFilter: activityFilter,
-                                  memberClass: memberClass,
+                                  memberSubs: memberSubs,
                                   classes: classes
                                 }}
                                 click={click}

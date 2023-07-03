@@ -58,9 +58,9 @@ function Header() {
                     src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
                     alt="profile image"
                   />
-                  {role == 'ADMIN'
-                    ? `${userLogged?.firstName} ${userLogged?.lastName}`
-                    : `${userLogged?.name} ${userLogged?.lastName}`}
+                  {role === 'ADMIN' && `${userLogged?.firstName} ${userLogged?.lastName}`}
+                  {role === 'MEMBER' && `${userLogged?.name} ${userLogged?.lastName}`}
+                  {role === 'TRAINER' && `${userLogged?.firstName} ${userLogged?.lastName}`}
                 </div>
               </Link>
               <div className={styles.logoutButton}>
