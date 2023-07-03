@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const memberSchema = Joi.object({
+const memberUpdate = Joi.object({
   name: Joi.string()
     .pattern(/^[a-zA-Z]+$/)
     .min(4)
@@ -62,4 +62,4 @@ const memberSchema = Joi.object({
   membership: Joi.string().valid('classic', 'only_classes', 'black').required()
 });
 
-export default memberSchema;
+export default memberUpdate;
