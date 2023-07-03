@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import styles from './profile.module.css';
 
-import { getAuth } from 'Redux/Auth/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { getAdmins, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
 import adminSchema from 'Validations/adminUpdate';
@@ -25,7 +24,7 @@ function AdminProfile() {
   const { show, message, state } = useSelector((state) => state.toast);
   const loading = useSelector((state) => state.admins.isPending);
   const defaultAdmin = useSelector((state) => state.auth.user || '');
-  const token = sessionStorage.getItem('token');
+  // const token = sessionStorage.getItem('token');
 
   const {
     register,
@@ -70,7 +69,6 @@ function AdminProfile() {
   };
 
   const resetData = () => {
-    dispatch(getAuth(token));
     reset();
     if (defaultAdmin) {
       // eslint-disable-next-line no-unused-vars

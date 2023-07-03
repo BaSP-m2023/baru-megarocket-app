@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import styles from './profile.module.css';
 
-import { getAuth } from 'Redux/Auth/thunks';
 import { getTrainers, updTrainer } from 'Redux/Trainers/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
@@ -23,7 +22,7 @@ function TrainerProfile({ match }) {
   const dispatch = useDispatch();
   const { show, message, state } = useSelector((state) => state.toast);
   const trainerLogged = useSelector((state) => state.auth.user);
-  const token = sessionStorage.getItem('token');
+  // const token = sessionStorage.getItem('token');
   const {
     register,
     handleSubmit,
@@ -72,7 +71,6 @@ function TrainerProfile({ match }) {
     }
   };
   const resetData = () => {
-    dispatch(getAuth(token));
     reset();
     if (trainerLogged) {
       // eslint-disable-next-line no-unused-vars
@@ -85,7 +83,6 @@ function TrainerProfile({ match }) {
   };
   const handleReset = (e) => {
     e.preventDefault();
-    dispatch(getAuth(token)).then(reset());
 
     if (trainerLogged) {
       // eslint-disable-next-line no-unused-vars

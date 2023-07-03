@@ -7,7 +7,6 @@ import styles from './profile.module.css';
 
 import { updateMember, getMembers } from 'Redux/Members/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
-import { getAuth } from 'Redux/Auth/thunks';
 import memberSchema from 'Validations/memberUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
@@ -23,7 +22,7 @@ function MemberProfile({ match }) {
   const dispatch = useDispatch();
   const { show, message, state } = useSelector((state) => state.toast);
   const memberLogged = useSelector((state) => state.auth.user);
-  const token = sessionStorage.getItem('token');
+  // const token = sessionStorage.getItem('token');
   const {
     register,
     handleSubmit,
@@ -76,7 +75,6 @@ function MemberProfile({ match }) {
     }
   };
   const resetData = () => {
-    dispatch(getAuth(token));
     reset();
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
@@ -89,7 +87,6 @@ function MemberProfile({ match }) {
   };
   const handleReset = (e) => {
     e.preventDefault();
-    dispatch(getAuth(token)).then(reset());
 
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
