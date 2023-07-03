@@ -49,6 +49,13 @@
   height: 100%;
 }
 
+.subscription {
+  background-color: #cff9d2;
+}
+.subscription:hover {
+  color: #000000;
+}
+
 .content {
   display: flex;
   flex-direction: row-reverse;

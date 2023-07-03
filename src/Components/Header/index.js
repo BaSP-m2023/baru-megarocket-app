@@ -110,6 +110,12 @@ function Header() {
               <Link to="/" className={styles.a}>
                 Home
               </Link>
+              <Link
+                to={`/user/${role.toLowerCase()}/schedule/${userLogged?._id}`}
+                className={styles.a}
+              >
+                Schedule
+              </Link>
               <Link to="/user/members/subscribe-class" className={styles.a}>
                 Activities
               </Link>

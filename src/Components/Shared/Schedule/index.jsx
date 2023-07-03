@@ -29,11 +29,10 @@ const Schedule = () => {
   const [modalData, setModalData] = useState(null);
   const [activityFilter, setActivityFilter] = useState('');
   const [trainerFilter, setTrainerFilter] = useState('');
-  const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const hours = [];
   for (let i = 9; i <= 21; i++) {
     hours.push(i.toString().padStart(2, '0') + ':00');
-    hours.push(i.toString().padStart(2, '0') + ':30');
   }
 
   useEffect(() => {
