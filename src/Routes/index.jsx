@@ -54,6 +54,7 @@ const Layout = () => {
             <PrivateRoute path="/activities/add" role="ADMIN" component={ActivitiesForm} />
             <PrivateRoute path="/activities/edit/:id" role="ADMIN" component={ActivitiesForm} />
             <PrivateRoute exact path="/classes" role="ADMIN" component={Classes} />
+            <PrivateRoute exact path="/schedule" role="ADMIN" component={Schedule} />
             <PrivateRoute exact path="/classes/add" role="ADMIN" component={ClassForm} />
             <PrivateRoute exact path="/classes/edit/:id" role="ADMIN" component={ClassForm} />
             <PrivateRoute exact path="/members" role="ADMIN" component={Members} />

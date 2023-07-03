@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import ScheduleMember from './ScheduleFunctions/memberFunction';
-import getScheduleAdmin from './ScheduleFunctions/adminFunction';
-import getScheduleTrainer from './ScheduleFunctions/trainerFunction';
+import ScheduleMember from './ScheduleComponents/MemberComponent';
+import ScheduleAdmin from './ScheduleComponents/AdminComponent';
+import getScheduleTrainer from './ScheduleComponents/trainerFunction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getActivities } from 'Redux/Activities/thunks';
@@ -110,9 +110,9 @@ const Schedule = () => {
               <label>Filter by Activity</label>
               <select onChange={(e) => setActivityFilter(e.target.value)}>
                 <option value={''}>All classes</option>
-                {classes.map((option) => (
-                  <option key={option._id} value={option.activity.name}>
-                    {option.activity.name}
+                {activities.map((option) => (
+                  <option key={option._id} value={option.name}>
+                    {option.name}
                   </option>
                 ))}
               </select>
@@ -159,7 +159,19 @@ const Schedule = () => {
                           );
                         }
                         if (role === 'ADMIN') {
-                          return <td key={`${day}-${hour}`}>{getScheduleAdmin()}</td>;
+                          return (
+                            <td key={`${day}-${hour}`}>
+                              <ScheduleAdmin
+                                props={{
+                                  day: day,
+                                  hour: hour,
+                                  classes: classes,
+                                  trainerFilter: trainerFilter,
+                                  activityFilter: activityFilter
+                                }}
+                              />
+                            </td>
+                          );
                         }
                         if (role === 'TRAINER') {
                           return <td key={`${day}-${hour}`}>{getScheduleTrainer()}</td>;
