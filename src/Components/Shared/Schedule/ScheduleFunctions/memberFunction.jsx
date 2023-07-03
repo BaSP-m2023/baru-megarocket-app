@@ -14,7 +14,6 @@ const ScheduleMember = ({ day, hour, memberClass, classes, click }) => {
       </>
     );
   }
-  console.log(classes);
   const findClass = classes.find((cl) => {
     return cl.day === day && cl.time === hour;
   });

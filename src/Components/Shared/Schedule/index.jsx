@@ -5,9 +5,8 @@ import getScheduleTrainer from './ScheduleFunctions/trainerFunction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getActivities } from 'Redux/Activities/thunks';
-import { deleteSubscription } from 'Redux/Subscriptions/thunks';
 import { getClasses } from 'Redux/Classes/thunks';
-import { getSubscriptions } from 'Redux/Subscriptions/thunks';
+import { getSubscriptions, deleteSubscription, addSubscriptions } from 'Redux/Subscriptions/thunks';
 import { getTrainers } from 'Redux/Trainers/thunks';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
@@ -50,9 +49,13 @@ const Schedule = () => {
     }
   };
 
-  const handleSubmit = (id) => {
-    if (id) {
-      dispatch(deleteSubscription(id));
+  const handleSubmit = (data) => {
+    console.log(data);
+    if (data.subId) {
+      dispatch(deleteSubscription(data.subId));
+    } else {
+      const subData = { classes: data._id, members: id };
+      addSubscriptions(dispatch, subData);
     }
   };
 
@@ -69,7 +72,7 @@ const Schedule = () => {
       const memberSubscription = subscriptions?.filter((subs) => {
         return subs.members._id === id;
       });
-      memberSubscription.forEach((sub) => {
+      memberSubscription?.forEach((sub) => {
         activities?.forEach((act) => {
           if (sub.classes?.activity === act._id) {
             arraySubs.push({
@@ -143,7 +146,7 @@ const Schedule = () => {
         <ConfirmModal
           title={'Class details'}
           handler={() => setShowConfirmModal(false)}
-          onAction={() => handleSubmit(modalData.subId)}
+          onAction={() => handleSubmit(modalData)}
           reason={modalData.subId ? 'unsubscribe' : 'subscribe'}
         >
           {modalData.subId ? (
