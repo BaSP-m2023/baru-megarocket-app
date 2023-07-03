@@ -1,9 +1,22 @@
 import React from 'react';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
 
-const ScheduleMember = ({ day, hour, memberClass, classes, click }) => {
-  const findSub = memberClass.find((memC) => {
-    return day === memC?.day && hour === memC?.time;
+const ScheduleMember = ({ props, click }) => {
+  const findSub = props.memberClass.find((memC) => {
+    if (props.trainerFilter !== '') {
+      return (
+        props.day === memC?.day &&
+        props.hour === memC?.time &&
+        memC.activityName.includes(props.activityFilter) &&
+        memC.trainer === props.trainerFilter
+      );
+    } else {
+      return (
+        props.day === memC?.day &&
+        props.hour === memC?.time &&
+        memC.activityName.includes(props.activityFilter)
+      );
+    }
   });
   if (findSub) {
     return (
@@ -14,8 +27,21 @@ const ScheduleMember = ({ day, hour, memberClass, classes, click }) => {
       </>
     );
   }
-  const findClass = classes.find((cl) => {
-    return cl.day === day && cl.time === hour;
+  const findClass = props.classes.find((cl) => {
+    if (props.trainerFilter !== '') {
+      return (
+        cl.day === props.day &&
+        cl.time === props.hour &&
+        cl.activity.name.includes(props.activityFilter) &&
+        cl.trainer._id === props.trainerFilter
+      );
+    } else {
+      return (
+        cl.day === props.day &&
+        cl.time === props.hour &&
+        cl.activity.name.includes(props.activityFilter)
+      );
+    }
   });
   if (findClass) {
     return (

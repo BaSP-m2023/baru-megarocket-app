@@ -1,25 +1,29 @@
 .container {
   display: flex;
-  justify-content: center;
   align-self: center;
-  width: 80vw;
+  width: 70vw;
   height: 60vh;
   overflow: auto;
 }
 
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .table {
-  height: 100%;
   width: 100%;
   border-collapse: collapse;
-  background: #536976;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #16222A;
+  background: -webkit-linear-gradient(to right, #3A6073, #16222A);
+  background: linear-gradient(to right, #3A6073, #16222A);
   color: rgb(255, 255, 255);
 }
 
 .table td {
+  width: 110px;
   height: 60px;
-  padding: 8px;
   text-align: center;
   border: 1px solid #68849f;
 }
@@ -27,27 +31,38 @@
 .table th {
   position: sticky;
   top: 0;
-  width: 110px;
-  height: 40px;
-  padding: 10px;
-  z-index: 1;
+  height: 50px;
   background-color: black;
-}
-
-.tr {
-  text-align: center;
-  padding: 10px;
-  cursor: pointer;
+  z-index: 1;
 }
 
 .tr td:hover {
-  background-color: #68849f;
+  background-color: #33556b;
+  cursor: pointer;
 }
 
 .div {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   width: 100%;
   height: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+
+.content select {
+  width: 200px;
+  height: 30px;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
 }

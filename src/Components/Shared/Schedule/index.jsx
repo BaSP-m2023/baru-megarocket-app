@@ -13,8 +13,8 @@ import styles from 'Components/Shared/Schedule/schedule.module.css';
 import Loader from 'Components/Shared/Loader';
 
 const Schedule = () => {
-  const role = sessionStorage.getItem('role');
   const dispatch = useDispatch();
+  const role = sessionStorage.getItem('role');
   const { data: classes, isPending: pendingClasses } = useSelector((state) => state.classes);
   const { data: subscriptions, isPending: pendingSubscriptions } = useSelector(
     (state) => state.subscriptions
@@ -27,12 +27,21 @@ const Schedule = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [memberClass, setMemberClass] = useState([]);
   const [modalData, setModalData] = useState(null);
+  const [activityFilter, setActivityFilter] = useState('');
+  const [trainerFilter, setTrainerFilter] = useState('');
   const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const hours = [];
   for (let i = 9; i <= 21; i++) {
     hours.push(i.toString().padStart(2, '0') + ':00');
     hours.push(i.toString().padStart(2, '0') + ':30');
   }
+
+  useEffect(() => {
+    getActivities(dispatch);
+    getClasses(dispatch);
+    getSubscriptions(dispatch);
+    getTrainers(dispatch);
+  }, [dispatch]);
 
   const click = (data) => {
     setShowConfirmModal(true);
@@ -50,21 +59,14 @@ const Schedule = () => {
   };
 
   const handleSubmit = (data) => {
-    console.log(data);
     if (data.subId) {
       dispatch(deleteSubscription(data.subId));
     } else {
       const subData = { classes: data._id, members: id };
       addSubscriptions(dispatch, subData);
     }
+    setShowConfirmModal(false);
   };
-
-  useEffect(() => {
-    getActivities(dispatch);
-    getClasses(dispatch);
-    getSubscriptions(dispatch);
-    getTrainers(dispatch);
-  }, [dispatch]);
 
   useEffect(() => {
     let arraySubs = [];
@@ -93,53 +95,83 @@ const Schedule = () => {
 
   return (
     <>
-      {pendingActivities && pendingClasses && pendingSubscriptions && <Loader />}
+      {(pendingActivities || pendingClasses || pendingSubscriptions) && (
+        <div className={styles.loader}>
+          <Loader />
+        </div>
+      )}
       {activities &&
         classes &&
         subscriptions &&
         !pendingActivities &&
         !pendingClasses &&
         !pendingSubscriptions && (
-          <div className={styles.container}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Hour</th>
-                  {weekDays.map((day) => (
-                    <th key={day}>{day}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {hours.map((hour) => (
-                  <tr key={hour} className={styles.tr}>
-                    <td>{hour}</td>
-                    {weekDays.map((day) => {
-                      if (role === 'MEMBER') {
-                        return (
-                          <td key={`${day}-${hour}`}>
-                            <ScheduleMember
-                              day={day}
-                              hour={hour}
-                              memberClass={memberClass}
-                              classes={classes}
-                              click={click}
-                            />
-                          </td>
-                        );
-                      }
-                      if (role === 'ADMIN') {
-                        return <td key={`${day}-${hour}`}>{getScheduleAdmin()}</td>;
-                      }
-                      if (role === 'TRAINER') {
-                        return <td key={`${day}-${hour}`}>{getScheduleTrainer()}</td>;
-                      }
-                      return null;
-                    })}
-                  </tr>
+          <div className={styles.content}>
+            <div className={styles.filter}>
+              <label>Filter by Activity</label>
+              <select onChange={(e) => setActivityFilter(e.target.value)}>
+                <option value={''}>All classes</option>
+                {classes.map((option) => (
+                  <option key={option._id} value={option.activity.name}>
+                    {option.activity.name}
+                  </option>
                 ))}
-              </tbody>
-            </table>
+              </select>
+              <label>Filter by Trainer</label>
+              <select onChange={(e) => setTrainerFilter(e.target.value)}>
+                <option value={''}>All trainers</option>
+                {trainers.map((option) => (
+                  <option key={option._id} value={`${option._id}`}>
+                    {`${option.firstName} ${option.lastName}`}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.container}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Hour</th>
+                    {weekDays.map((day) => (
+                      <th key={day}>{day}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {hours.map((hour) => (
+                    <tr key={hour} className={styles.tr}>
+                      <td>{hour}</td>
+                      {weekDays.map((day) => {
+                        if (role === 'MEMBER') {
+                          return (
+                            <td key={`${day}-${hour}`}>
+                              <ScheduleMember
+                                props={{
+                                  day: day,
+                                  hour: hour,
+                                  trainerFilter: trainerFilter,
+                                  activityFilter: activityFilter,
+                                  memberClass: memberClass,
+                                  classes: classes
+                                }}
+                                click={click}
+                              />
+                            </td>
+                          );
+                        }
+                        if (role === 'ADMIN') {
+                          return <td key={`${day}-${hour}`}>{getScheduleAdmin()}</td>;
+                        }
+                        if (role === 'TRAINER') {
+                          return <td key={`${day}-${hour}`}>{getScheduleTrainer()}</td>;
+                        }
+                        return null;
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       {showConfirmModal && modalData && (
@@ -151,17 +183,23 @@ const Schedule = () => {
         >
           {modalData.subId ? (
             <>
-              {`Activity: ${modalData.activityName} `}
-              {`Description: ${modalData.desc} `}
+              {`Activity: ${modalData.activityName}`}
+              <br />
+              {`Description: ${modalData.desc}`}
+              <br />
             </>
           ) : (
             <>
-              {`Activity: ${modalData.activity.name} `}
-              {`Description: ${modalData.activity.description} `}
+              {`Activity: ${modalData.activity.name}`}
+              <br />
+              {`Description: ${modalData.activity.description}`}
+              <br />
             </>
           )}
-          {`Trainer: ${modalData.trainer.firstName} ${modalData.trainer.lastName} `}
-          {`Remaining slots: ${modalData.capacity} `}
+          {`Trainer: ${modalData.trainer.firstName} ${modalData.trainer.lastName}`}
+          <br />
+          {`Remaining slots: ${modalData.capacity}`}
+          <br />
           {`${modalData.day} at ${modalData.time}`}
         </ConfirmModal>
       )}
