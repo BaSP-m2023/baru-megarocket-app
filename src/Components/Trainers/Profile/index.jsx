@@ -5,22 +5,22 @@ import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import Button from 'Components/Shared/Button';
 import { Input } from 'Components/Shared/Inputs';
-import { updateMember, getMembers } from 'Redux/Members/thunks';
+import { getTrainers, updTrainer } from 'Redux/Trainers/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import memberSchema from 'Validations/memberUpdate';
+import trainerSchema from 'Validations/trainerUpdate';
 import { getAuth } from 'Redux/Auth/thunks';
 
-function MemberProfile({ match }) {
+function TrainerProfile({ match }) {
   const [disableEdit, setDisableEdit] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const history = useHistory();
-  const memberId = match.params.id;
+  const trainerId = match.params.id;
   const dispatch = useDispatch();
   const { show, message, state } = useSelector((state) => state.toast);
-  const memberLogged = useSelector((state) => state.auth.user);
+  const trainerLogged = useSelector((state) => state.auth.user);
   const token = sessionStorage.getItem('token');
   const {
     register,
@@ -29,41 +29,37 @@ function MemberProfile({ match }) {
     setValue,
     formState: { errors }
   } = useForm({
-    resolver: joiResolver(memberSchema),
+    resolver: joiResolver(trainerSchema),
     mode: 'onChange',
     defaultValues: {
-      name: '',
+      firstName: '',
       lastName: '',
       dni: '',
       phone: '',
-      city: '',
-      dob: '',
-      zip: '',
-      membership: memberLogged?.membership,
-      isActive: memberLogged?.isActive
+      salary: '',
+      isActive: trainerLogged?.isActive
     }
   });
 
   useEffect(() => {
-    getMembers(dispatch);
+    getTrainers(dispatch);
   }, [dispatch]);
 
   useEffect(() => {
-    if (memberLogged) {
+    if (trainerLogged) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = memberLogged;
+      const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = trainerLogged;
       Object.entries(resMemberLogged).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
-      setValue('dob', dob.slice(0, 10));
     }
-  }, [memberLogged, handleSubmit]);
+  }, [trainerLogged, handleSubmit]);
 
   const onSubmit = (data) => {
-    if (memberId) {
+    if (trainerId) {
       setShowConfirmModal(false);
-      updateMember(memberId, data, history)
+      dispatch(updTrainer(trainerId, data, history))
         .then(() => {
           resetData();
         })
@@ -76,10 +72,10 @@ function MemberProfile({ match }) {
   const resetData = () => {
     dispatch(getAuth(token));
     reset();
-    if (memberLogged) {
+    if (trainerLogged) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
-      Object.entries(resMemberLogged).every(([key, value]) => {
+      const { _id, firebaseUid, email, __v, ...resTrainerLogged } = trainerLogged;
+      Object.entries(resTrainerLogged).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
@@ -89,10 +85,10 @@ function MemberProfile({ match }) {
     e.preventDefault();
     dispatch(getAuth(token)).then(reset());
 
-    if (memberLogged) {
+    if (trainerLogged) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
-      Object.entries(resMemberLogged).every(([key, value]) => {
+      const { _id, firebaseUid, email, __v, ...resTrainerLogged } = trainerLogged;
+      Object.entries(resTrainerLogged).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
@@ -104,13 +100,11 @@ function MemberProfile({ match }) {
   };
 
   const formFields = [
-    { labelText: 'Name', type: 'text', name: 'name' },
-    { labelText: 'LastName', type: 'text', name: 'lastName' },
+    { labelText: 'First Name', type: 'text', name: 'firstName' },
+    { labelText: 'Last Name', type: 'text', name: 'lastName' },
     { labelText: 'DNI', type: 'number', name: 'dni' },
     { labelText: 'Phone', type: 'text', name: 'phone' },
-    { labelText: 'City', type: 'text', name: 'city' },
-    { labelText: 'Date of birth', type: 'date', name: 'dob' },
-    { labelText: 'Zip code', type: 'number', name: 'zip' }
+    { labelText: 'Salary', type: 'text', name: 'salary' }
   ];
   return (
     <div className={styles.form}>
@@ -118,7 +112,7 @@ function MemberProfile({ match }) {
         <div className={styles.header}>
           <h2>
             {disableEdit
-              ? `${memberLogged?.name} ${memberLogged?.lastName} Profile`
+              ? `${trainerLogged?.firstName} ${trainerLogged?.lastName} Profile`
               : 'Edit Profile'}
           </h2>
           {disableEdit && (
@@ -193,4 +187,4 @@ function MemberProfile({ match }) {
   );
 }
 
-export default MemberProfile;
+export default TrainerProfile;
