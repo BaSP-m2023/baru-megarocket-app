@@ -18,14 +18,14 @@ function Members() {
   const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
-    getMembers(dispatch);
+    dispatch(getMembers());
   }, [dispatch]);
 
   return (
     <section className={styles.container}>
       {pending && <Loader />}
-      {!pending && members.length === 0 && 'There are no members'}
-      {!pending && members.length > 0 ? (
+      {!pending && members?.length === 0 && 'There are no members'}
+      {!pending && members?.length > 0 ? (
         <>
           <List members={members} />
           <Link Link to="members/add" data-testid="add-member-link">

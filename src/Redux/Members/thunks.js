@@ -17,21 +17,23 @@ import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/
 
 const token = sessionStorage.getItem('token');
 
-export const getMembers = async (dispatch) => {
-  dispatch(getMembersPending());
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        token: token
-      }
-    });
-    const data = await response.json();
-    dispatch(getMembersSuccess(data.data));
-  } catch (error) {
-    dispatch(getMembersError(error.toString()));
-  }
+export const getMembers = () => {
+  return async (dispatch) => {
+    dispatch(getMembersPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token
+        }
+      });
+      const data = await response.json();
+      dispatch(getMembersSuccess(data.data));
+    } catch (error) {
+      dispatch(getMembersError(error.toString()));
+    }
+  };
 };
 
 export const addMember = async (dispatch, member) => {
