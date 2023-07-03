@@ -1,5 +1,3 @@
-const getScheduleAdmin = () => {
-  console.log('admin');
-};
+const getScheduleAdmin = () => {};
 
 export default getScheduleAdmin;

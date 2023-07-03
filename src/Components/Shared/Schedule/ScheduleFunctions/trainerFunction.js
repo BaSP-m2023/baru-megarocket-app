@@ -1,5 +1,3 @@
-const getScheduleTrainer = () => {
-  console.log('trainer');
-};
+const getScheduleTrainer = () => {};
 
 export default getScheduleTrainer;

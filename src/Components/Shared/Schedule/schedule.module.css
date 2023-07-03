@@ -82,3 +82,20 @@
   font-weight: 700;
   font-size: 1rem;
 }
+
+::-webkit-scrollbar {
+  width: 0.7rem; 
+}
+
+::-webkit-scrollbar-track {
+  background-color: #cdcdcd;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border-radius: 1rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #1e3153;
+}
