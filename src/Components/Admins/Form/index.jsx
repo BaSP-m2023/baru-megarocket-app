@@ -12,10 +12,12 @@ import { resetState } from 'Redux/Admins/actions';
 import { useForm } from 'react-hook-form';
 import adminSchema from 'Validations/admin';
 import { joiResolver } from '@hookform/resolvers/joi';
+import adminUpdate from 'Validations/adminUpdate';
 
 function AdminsForm() {
   const dispatch = useDispatch();
   const adminToUpdate = useSelector((state) => state.admins.data);
+  const redirect = useSelector((state) => state.admins.redirect);
   const params = useParams();
   const history = useHistory();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -28,19 +30,31 @@ function AdminsForm() {
     reset,
     setValue,
     formState: { errors }
-  } = useForm({
-    mode: 'onChange',
-    resolver: joiResolver(adminSchema),
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      dni: '',
-      phone: '',
-      email: '',
-      city: '',
-      password: ''
-    }
-  });
+  } = !params.id
+    ? useForm({
+        mode: 'onChange',
+        resolver: joiResolver(adminSchema),
+        defaultValues: {
+          firstName: '',
+          lastName: '',
+          dni: '',
+          phone: '',
+          city: '',
+          email: '',
+          password: ''
+        }
+      })
+    : useForm({
+        mode: 'onChange',
+        resolver: joiResolver(adminUpdate),
+        defaultValues: {
+          firstName: '',
+          lastName: '',
+          dni: '',
+          phone: '',
+          city: ''
+        }
+      });
 
   useEffect(() => {
     if (params.id) {
@@ -54,9 +68,7 @@ function AdminsForm() {
       setValue('lastName', adminToUpdate.lastName);
       setValue('dni', adminToUpdate.dni);
       setValue('phone', adminToUpdate.phone);
-      setValue('email', adminToUpdate.email);
       setValue('city', adminToUpdate.city);
-      setValue('password', adminToUpdate.password);
     }
   }, [adminToUpdate]);
 
@@ -77,6 +89,12 @@ function AdminsForm() {
     }
   };
 
+  useEffect(() => {
+    if (redirect) {
+      history.push('/admins');
+    }
+  }, [redirect]);
+
   const handleButton = () => {
     setShowConfirmModal(true);
   };
@@ -89,6 +107,14 @@ function AdminsForm() {
     dispatch(handleDisplayToast(false));
   };
 
+  const formFields = [
+    { labelText: 'First Name', name: 'firstName', type: 'text' },
+    { labelText: 'Last Name', name: 'lastName', type: 'text' },
+    { labelText: 'DNI', name: 'dni', type: 'text' },
+    { labelText: 'Phone', name: 'phone', type: 'text' },
+    { labelText: 'City', name: 'city', type: 'text' }
+  ];
+
   return (
     <>
       <div className={styles.formContainer}>
@@ -96,69 +122,39 @@ function AdminsForm() {
           <h2 className={styles.title}>{params.id ? 'Edit Admin' : 'Add admin'}</h2>
         </div>
         <form className={styles.form} data-testid="admins-form-container">
-          <div className={styles.labelInput}>
-            <Input
-              labelText="First Name"
-              name="firstName"
-              type="text"
-              error={errors.firstName?.message}
-              register={register}
-            />
-          </div>
-          <div className={styles.labelInput}>
-            <Input
-              labelText="Last Name"
-              name="lastName"
-              type="text"
-              error={errors.lastName?.message}
-              register={register}
-            />
-          </div>
-          <div className={styles.labelInput}>
-            <Input
-              labelText="DNI"
-              name="dni"
-              type="text"
-              error={errors.dni?.message}
-              register={register}
-            />
-          </div>
-          <div className={styles.labelInput}>
-            <Input
-              labelText="Phone"
-              name="phone"
-              type="text"
-              error={errors.phone?.message}
-              register={register}
-            />
-          </div>
-          <div className={styles.labelInput}>
-            <Input
-              labelText="City"
-              name="city"
-              type="text"
-              error={errors.city?.message}
-              register={register}
-            />
-          </div>
-          <div className={styles.labelInput}>
-            <Input
-              labelText="Email"
-              name="email"
-              type="text"
-              error={errors.email?.message}
-              register={register}
-            />
-          </div>
-          <div className={styles.labelInput}>
-            <Input
-              labelText="Password"
-              name="password"
-              type="password"
-              error={errors.password?.message}
-              register={register}
-            />
-          </div>
+          {formFields.map((field) => (
+            <div className={styles.labelInput} key={field.name}>
+              <Input
+                labelText={field.labelText}
+                name={field.name}
+                type={field.type}
+                register={register}
+                error={errors[field.name]?.message}
+              />
+            </div>
+          ))}
+          {!params.id && (
+            <>
+              <div className={styles.labelInput}>
+                <Input
+                  labelText="Email"
+                  name="email"
+                  type="email"
+                  register={register}
+                  error={errors.email?.message}
+                />
+              </div>
+              <div className={styles.labelInput}>
+                <Input
+                  labelText="Password"
+                  name="password"
+                  type="password"
+                  register={register}
+                  error={errors.password?.message}
+                />
+              </div>
+            </>
+          )}
           <div className={styles.container_button}>
             <Button action={reset} text="Reset" classNameButton="deleteButton" />
           </div>
@@ -178,7 +174,7 @@ function AdminsForm() {
               action={handleSubmit(handleButton)}
               classNameButton="submitButton"
               text="Submit"
-            ></Button>
+            />
           </div>
         </div>
       </div>

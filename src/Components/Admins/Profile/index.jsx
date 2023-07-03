@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import adminSchema from 'Validations/adminUpdate';
+import adminUpdate from 'Validations/adminUpdate';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { getAuth } from 'Redux/Auth/thunks';
 function AdminProfile() {
@@ -33,7 +33,7 @@ function AdminProfile() {
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(adminSchema),
+    resolver: joiResolver(adminUpdate),
     defaultValues: {
       firstName: defaultAdmin.firstName,
       lastName: defaultAdmin.lastName,
