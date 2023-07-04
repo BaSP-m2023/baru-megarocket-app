@@ -3,6 +3,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm, useController } from 'react-hook-form';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
 import styles from './form.module.css';
 
 import { getActivities } from 'Redux/Activities/thunks';
@@ -12,7 +13,6 @@ import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import classSchema from 'Validations/class';
 
 import { Input } from 'Components/Shared/Inputs';
-import Select from 'react-select';
 import Button from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
@@ -81,8 +81,7 @@ function ClassForm() {
     { value: 'Wednesday', label: 'Wednesday' },
     { value: 'Thursday', label: 'Thursday' },
     { value: 'Friday', label: 'Friday' },
-    { value: 'Saturday', label: 'Saturday' },
-    { value: 'Sunday', label: 'Sunday' }
+    { value: 'Saturday', label: 'Saturday' }
   ];
   const {
     field: { value: trainer, onChange: trainerOnChange }
