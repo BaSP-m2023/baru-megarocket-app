@@ -22,14 +22,16 @@ const Trainers = () => {
   }, []);
 
   return (
-    <section className={styles.container}>
-      <h2>Trainers</h2>
+    <section>
+      <h1 className={styles.title}>Trainers</h1>
       {pending && <Loader />}
       {!pending && trainers.length > 0 ? <Table data={trainers} /> : null}
       {!pending && !trainers.length && 'There are no trainers to show'}
-      <Link to="trainers/add" data-testid="trainer-add-link">
-        <Button text="+ Add New" classNameButton="addButton" />
-      </Link>
+      <div className={styles.button}>
+        <Link to="trainers/add" data-testid="trainer-add-link">
+          <Button text="+ Add New" classNameButton="addButton" />
+        </Link>
+      </div>
       {show && (
         <ResponseModal
           message={message}

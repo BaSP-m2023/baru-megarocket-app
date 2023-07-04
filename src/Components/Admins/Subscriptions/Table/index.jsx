@@ -126,7 +126,7 @@ const Table = ({ data }) => {
       </div>
       {filterSubscriptions.length === 0 ? (
         <div className={styles.filter}>
-          <p>There is no trainer with that name ,last name or activities</p>
+          <p>There is no subscription with that member or activity</p>
         </div>
       ) : (
         ''

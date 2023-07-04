@@ -1,7 +1,9 @@
-.container {
-    flex: 1;
+  .title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .button {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
   }

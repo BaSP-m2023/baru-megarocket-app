@@ -20,9 +20,9 @@ const Subscriptions = () => {
   }, [dispatch]);
 
   return (
-    <section className={styles.container}>
+    <section>
       <h1 className={styles.title}>Subscriptions</h1>
-      <div className={styles.containerContent}>
+      <div>
         <Table className={subscriptions.table} data={subscriptions} />
       </div>
       <div className={styles.buttonContainer}>
