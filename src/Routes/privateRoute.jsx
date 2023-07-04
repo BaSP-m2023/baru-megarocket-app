@@ -12,7 +12,9 @@ const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
         if (token && role === rest.role) {
           return <RouteComponent {...routeProps} />;
         }
-        return <Redirect to={'/auth/login'} />;
+        if (!token && !role) {
+          return <Redirect to="/auth/login" />;
+        }
       }}
     />
   );

@@ -21,7 +21,7 @@ const Routes = () => {
   const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    tokenListener(token);
+    tokenListener();
   }, []);
 
   useEffect(() => {

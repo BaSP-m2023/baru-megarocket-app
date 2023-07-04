@@ -19,15 +19,15 @@ const routes = [
   }
 ];
 
-const AuthRoutes = () => {
+const HomeRoutes = () => {
   return (
     <Layout routes={routes}>
       <Switch>
         <Route exact path={'/'} component={Home} />
-        <Redirect to={`/`} />
+        <Redirect to="/" />
       </Switch>
     </Layout>
   );
 };
 
-export default AuthRoutes;
+export default HomeRoutes;
