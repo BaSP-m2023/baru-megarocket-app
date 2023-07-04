@@ -31,3 +31,7 @@
 .button[disabled] {
   cursor: auto;
 }
+
+.logOutIcon{
+  color:#373867
+}

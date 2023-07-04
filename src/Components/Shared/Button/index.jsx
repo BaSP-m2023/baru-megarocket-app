@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './button.module.css';
 
-function Button({ action, text, img, classNameButton, disabled, testid }) {
+function Button({ action, text, img, classNameButton, disabled, testid, icon }) {
   return (
     <div>
       {img ? (
@@ -21,6 +21,7 @@ function Button({ action, text, img, classNameButton, disabled, testid }) {
           disabled={disabled}
         >
           {text}
+          {icon}
         </button>
       )}
     </div>

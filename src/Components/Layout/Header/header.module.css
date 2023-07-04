@@ -30,7 +30,9 @@
 .socialIcon {
   margin-left: 15px;
 }
-
+.logOutIcon{
+  margin-left: 5px;
+}
 .navbar {
   display: flex;
   align-items: center;

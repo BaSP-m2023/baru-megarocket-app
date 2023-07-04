@@ -9,6 +9,8 @@ import { logOut } from 'Redux/Auth/thunks';
 import Button from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import NavBar from './NavBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 function Header(props) {
   const dispatch = useDispatch();
@@ -61,7 +63,12 @@ function Header(props) {
                 </div>
               </Link>
               <div className={styles.logoutButton}>
-                <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
+                <Button
+                  classNameButton="deleteButton"
+                  action={handleLogout}
+                  text="Logout"
+                  icon={<FontAwesomeIcon icon={faRightFromBracket} className={styles.logOutIcon} />}
+                />
               </div>
             </>
           )}
