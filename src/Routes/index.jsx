@@ -32,7 +32,20 @@ const Routes = () => {
 
   return (
     <BrowserRouter>
-      <Suspense fallback={Loader}>
+      <Suspense
+        fallback={
+          <div
+            style={{
+              height: '100vh',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Loader />
+          </div>
+        }
+      >
         <Switch>
           <Route exact path="/" component={HomeRoute} />
           <Route path="/auth" component={AuthRoutes} />
