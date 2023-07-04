@@ -1,6 +1,7 @@
 import React from 'react';
+import styles from 'Components/Shared/Schedule/schedule.module.css';
 
-const ScheduleAdmin = ({ props }) => {
+const ScheduleAdmin = ({ props, click }) => {
   const oneClass = props.classes.find((cl) => {
     if (props.trainerFilter !== '') {
       return (
@@ -19,7 +20,13 @@ const ScheduleAdmin = ({ props }) => {
   });
 
   if (oneClass) {
-    return <div>{oneClass.activity.name}</div>;
+    return (
+      <div className={`${styles.div}`} onClick={() => click({ oneClass, reason: 'edit' })}>
+        {oneClass.activity.name}
+      </div>
+    );
+  } else {
+    return <div className={`${styles.div}`} onClick={() => click({ reason: 'create' })}></div>;
   }
 };
 

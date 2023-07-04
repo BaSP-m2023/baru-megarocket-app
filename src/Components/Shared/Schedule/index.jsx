@@ -9,6 +9,7 @@ import { getClasses } from 'Redux/Classes/thunks';
 import { getSubscriptions, deleteSubscription, addSubscriptions } from 'Redux/Subscriptions/thunks';
 import { getTrainers } from 'Redux/Trainers/thunks';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ModalForm from './ScheduleComponents/ModalForm';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
 import Loader from 'Components/Shared/Loader';
 
@@ -25,6 +26,7 @@ const Schedule = () => {
   const { data: trainers } = useSelector((state) => state.trainers);
   const { id } = useParams();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showForm, setShowForm] = useState({ show: false, data: undefined, reason: '' });
   const [memberSubs, setMemberSubs] = useState([]);
   const [modalData, setModalData] = useState(null);
   const [activityFilter, setActivityFilter] = useState('');
@@ -42,7 +44,7 @@ const Schedule = () => {
     getTrainers(dispatch);
   }, [dispatch]);
 
-  const click = (data) => {
+  const clickMember = (data) => {
     setShowConfirmModal(true);
     if (data.subId) {
       const trainer = trainers.find((trainer) => trainer._id === data.trainer);
@@ -55,6 +57,10 @@ const Schedule = () => {
         ...data
       });
     }
+  };
+
+  const clickAdmin = ({ oneClass, reason }) => {
+    setShowForm({ show: true, data: oneClass, reason });
   };
 
   const handleSubmit = (data) => {
@@ -153,7 +159,7 @@ const Schedule = () => {
                                   memberSubs: memberSubs,
                                   classes: classes
                                 }}
-                                click={click}
+                                click={clickMember}
                               />
                             </td>
                           );
@@ -169,6 +175,7 @@ const Schedule = () => {
                                   trainerFilter: trainerFilter,
                                   activityFilter: activityFilter
                                 }}
+                                click={clickAdmin}
                               />
                             </td>
                           );
@@ -213,6 +220,15 @@ const Schedule = () => {
           <br />
           {`${modalData.day} at ${modalData.time}`}
         </ConfirmModal>
+      )}
+      {showForm.show && (
+        <ModalForm
+          classes={classes}
+          activities={activities}
+          classData={showForm.data}
+          reason={showForm.reason}
+          handler={() => setShowForm(false)}
+        />
       )}
     </>
   );
