@@ -3,7 +3,6 @@ import ScheduleMember from './ScheduleFunctions/memberFunction';
 import getScheduleAdmin from './ScheduleFunctions/adminFunction';
 import getScheduleTrainer from './ScheduleFunctions/trainerFunction';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { getActivities } from 'Redux/Activities/thunks';
 import { getClasses } from 'Redux/Classes/thunks';
 import { getSubscriptions, deleteSubscription, addSubscriptions } from 'Redux/Subscriptions/thunks';
@@ -23,7 +22,7 @@ const Schedule = () => {
     (state) => state.activities
   );
   const { data: trainers } = useSelector((state) => state.trainers);
-  const { id } = useParams();
+  const member = useSelector((state) => state.auth.user);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [memberSubs, setMemberSubs] = useState([]);
   const [modalData, setModalData] = useState(null);
@@ -39,7 +38,7 @@ const Schedule = () => {
     getActivities(dispatch);
     getClasses(dispatch);
     getSubscriptions(dispatch);
-    getTrainers(dispatch);
+    dispatch(getTrainers());
   }, [dispatch]);
 
   const click = (data) => {
@@ -61,7 +60,7 @@ const Schedule = () => {
     if (data.subId) {
       dispatch(deleteSubscription(data.subId));
     } else {
-      const subData = { classes: data._id, members: id };
+      const subData = { classes: data._id, members: member._id };
       addSubscriptions(dispatch, subData);
     }
     setShowConfirmModal(false);
@@ -71,7 +70,7 @@ const Schedule = () => {
     let arraySubs = [];
     if (role === 'MEMBER') {
       const memberSubscription = subscriptions?.filter((subs) => {
-        return subs.members._id === id;
+        return subs.members._id === member._id;
       });
       memberSubscription?.forEach((sub) => {
         activities?.forEach((act) => {
@@ -110,9 +109,9 @@ const Schedule = () => {
               <label>Filter by Activity</label>
               <select onChange={(e) => setActivityFilter(e.target.value)}>
                 <option value={''}>All classes</option>
-                {classes.map((option) => (
-                  <option key={option._id} value={option.activity.name}>
-                    {option.activity.name}
+                {activities.map((option) => (
+                  <option key={option._id} value={option.name}>
+                    {option.name}
                   </option>
                 ))}
               </select>

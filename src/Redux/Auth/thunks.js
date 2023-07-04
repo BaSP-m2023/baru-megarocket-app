@@ -16,6 +16,13 @@ import { setContentToast, handleDisplayToast } from 'Redux/Shared/ResponseToast/
 
 import { firebaseApp } from 'Components/helper/firebase';
 
+const redirectByRole = {
+  SUPER_ADMIN: '/user/super-admin',
+  MEMBER: '/user/member',
+  ADMIN: '/user/admin',
+  TRAINER: '/user/trainer'
+};
+
 export const login = (credentials, history) => {
   return async (dispatch) => {
     dispatch(loginPending());
@@ -30,7 +37,8 @@ export const login = (credentials, history) => {
       dispatch(loginSuccess({ token, role }));
       dispatch(setContentToast({ message: 'Successful Login', state: 'success' }));
       dispatch(handleDisplayToast(true));
-      history.push('/');
+      dispatch(getAuth(token));
+      history.push(redirectByRole[role]);
     } catch (error) {
       dispatch(loginError(error));
       dispatch(setContentToast({ message: 'Wrong email or password', state: 'fail' }));
@@ -79,7 +87,7 @@ export const signUpMember = (data) => {
   return async (dispatch) => {
     dispatch(signUpPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -91,10 +99,14 @@ export const signUpMember = (data) => {
       if (response.error) {
         throw new Error(response.message);
       }
+      dispatch(setContentToast({ message: 'Sign up successfully', state: 'success' }));
+      dispatch(handleDisplayToast(true));
       await dispatch(signUpSuccess(data));
       return res;
     } catch (error) {
       dispatch(signUpError(error.toString()));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };

@@ -15,7 +15,8 @@ import {
   DELETE_ADMIN_SUCCESS,
   DELETE_ADMIN_ERROR,
   RESET_STATE,
-  SET_DEFAULT_ADMIN
+  SET_DEFAULT_ADMIN,
+  SET_REDIRECT
 } from './constants';
 
 export const setDefaultAdmin = (admin) => {
@@ -128,5 +129,11 @@ export const deleteAdminError = (error) => {
 export const resetState = () => {
   return {
     type: RESET_STATE
+  };
+};
+
+export const setRedirect = () => {
+  return {
+    type: SET_REDIRECT
   };
 };
