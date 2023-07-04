@@ -29,7 +29,7 @@ function Header(props) {
   return (
     <header>
       <div className={styles.container}>
-        <div data-testid="logo-container">
+        <div data-testid="logo-container" className={styles.logoContainer}>
           <img
             src={`${process.env.PUBLIC_URL}/assets/images/logo.png`}
             alt="guy flexing on fire logo"
@@ -41,7 +41,7 @@ function Header(props) {
             className={styles.logo2}
           />
         </div>
-        <div className={styles.container}>
+        <div className={styles.container2}>
           {role && (
             <>
               <Link
@@ -63,7 +63,6 @@ function Header(props) {
               <div className={styles.logoutButton}>
                 <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />
               </div>
-              <div className={styles.optionContainer}></div>
             </>
           )}
         </div>

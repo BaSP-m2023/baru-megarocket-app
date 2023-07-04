@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './home.module.css';
 
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+import Landing from 'Components/Landing/Landing';
 
 import Button from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
@@ -17,21 +18,21 @@ function Home() {
   return (
     <>
       <section className={styles.container}>
-        <h2>Home</h2>
         {!role && (
           <div className={styles.buttonContainer} data-testid="home-buttons-container">
             <Button
-              text="SignUp"
+              text="Sign Up"
               classNameButton="submitButton"
               action={() => history.push('/auth/signup')}
             />
             <Button
-              text="Login"
+              text="Log In"
               classNameButton="submitButton"
               action={() => history.push('/auth/login')}
             />
           </div>
         )}
+
         {show && (
           <ResponseModal
             handler={() => dispatch(handleDisplayToast(false))}
@@ -40,6 +41,7 @@ function Home() {
           />
         )}
       </section>
+      <Landing />
     </>
   );
 }
