@@ -12,9 +12,10 @@ import resetPasswordSchema from 'Validations/forgotPassword';
 import Button from 'Components/Shared/Button';
 import { Input } from 'Components/Shared/Inputs';
 
-function ForgotPassword() {
+const ForgotPassword = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -29,17 +30,18 @@ function ForgotPassword() {
 
   const handleSendEmail = (data) => {
     const auth = getAuth();
-    sendPasswordResetEmail(auth, data.email, { url: 'http://localhost:3000/login' })
+    sendPasswordResetEmail(auth, data.email, { url: `${process.env.REACT_APP_URL}/auth/login` })
       .then(() => {
+        history.push('/auth/login');
         dispatch(setContentToast({ message: 'Email with reset link sent', state: 'success' }));
         dispatch(handleDisplayToast(true));
-        history.push('/login');
       })
       .catch(() => {
         dispatch(setContentToast({ message: 'Email is not registed', state: 'fail' }));
         dispatch(handleDisplayToast(true));
       });
   };
+
   return (
     <section className={styles.formContainer}>
       <form className={styles.form}>
@@ -70,6 +72,6 @@ function ForgotPassword() {
       </form>
     </section>
   );
-}
+};
 
 export default ForgotPassword;
