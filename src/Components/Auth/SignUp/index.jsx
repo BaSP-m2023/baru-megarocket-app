@@ -52,7 +52,7 @@ function SignUp() {
 
   const formFields = [
     { labelText: 'Name', type: 'text', name: 'name' },
-    { labelText: 'LastName', type: 'text', name: 'lastName' },
+    { labelText: 'Last name', type: 'text', name: 'lastName' },
     { labelText: 'DNI', type: 'number', name: 'dni' },
     { labelText: 'Phone', type: 'text', name: 'phone' },
     { labelText: 'Email', type: 'email', name: 'email' },
