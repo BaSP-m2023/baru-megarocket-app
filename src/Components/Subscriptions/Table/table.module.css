@@ -41,6 +41,27 @@
   border: 1px solid #ccc;
 }
 
+.filterContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5%;
+  margin-bottom: 1%;
+}
+
+.filter {
+  text-align: center;
+  color:#373867;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.filterInput {
+  width: 15rem;
+  margin: 1rem;
+  border: 1px solid #373867;
+  border-radius: 3px;
+}
+
 .itemButtonEdit:hover {
   background-color: #aace9e;
 }
