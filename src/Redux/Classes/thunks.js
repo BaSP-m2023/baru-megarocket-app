@@ -72,7 +72,7 @@ export const addClass = async (dispatch, createdClass, history) => {
   }
 };
 
-export const putClass = async (dispatch, classes, id, history) => {
+export const putClass = async (dispatch, classes, id) => {
   dispatch(putClassPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
@@ -85,10 +85,10 @@ export const putClass = async (dispatch, classes, id, history) => {
     });
     const { data, message, error } = await response.json();
     if (response.ok) {
-      history.push('/classes');
       dispatch(putClassSuccess(data));
       dispatch(setContentToast({ message, state: 'success' }));
       dispatch(handleDisplayToast(true));
+      return data;
     }
     if (error) {
       throw new Error(message);

@@ -7,10 +7,14 @@ import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import Button from 'Components/Shared/Button';
 import classSchema from 'Validations/class';
+import { useDispatch } from 'react-redux';
+import { putClass } from 'Redux/Classes/thunks';
+import { refreshData } from 'Redux/Classes/actions';
 
-const ModalForm = ({ handler, reason, activities, classData }) => {
+const ModalForm = ({ handler, reason, activities, classData, classes }) => {
   const [trainers, setTrainers] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -38,7 +42,6 @@ const ModalForm = ({ handler, reason, activities, classData }) => {
     }
   }, []);
 
-  console.log(activityValue);
   useEffect(() => {
     if (reason === 'edit') {
       const activity = activities.find((activity) => activity._id === activityValue);
@@ -52,11 +55,25 @@ const ModalForm = ({ handler, reason, activities, classData }) => {
 
   const handleSubmitForm = (data) => {
     setShowConfirmModal(false);
-    onSubmit(data);
+    const fullData = { ...data, time: classData.time, day: classData.day };
+    onSubmit(fullData);
+  };
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    reset();
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    handler();
+    if (reason === 'edit') {
+      putClass(dispatch, data, classData._id).then((data) => {
+        const updated = classes.find((classId) => classId._id === data._id);
+        const index = classes.indexOf(updated);
+        classes[index] = data;
+        dispatch(refreshData(classes));
+      });
+    }
   };
 
   return (
@@ -118,8 +135,8 @@ const ModalForm = ({ handler, reason, activities, classData }) => {
               action={handleSubmit(handleConfirmModal)}
               text={!reason === 'edit' ? 'Create' : 'Update'}
             />
-            <Button classNameButton="deleteButton" text="Reset" action={reset} />
           </div>
+          <Button classNameButton="deleteButton" text="Reset" action={handleReset} />
         </form>
       </div>
       {showConfirmModal && classData && (
