@@ -17,7 +17,7 @@ function Projects() {
   const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
-    getClasses(dispatch);
+    dispatch(getClasses());
   }, [dispatch]);
 
   return (

@@ -67,7 +67,7 @@ const Form = () => {
   }, [success]);
 
   useEffect(() => {
-    getTrainers(dispatch);
+    dispatch(getTrainers());
   }, []);
 
   const onSubmit = () => {
