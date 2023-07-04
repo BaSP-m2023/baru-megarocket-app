@@ -1,0 +1,108 @@
+.container {
+  display: flex;
+  align-self: center;
+  width: 70vw;
+  height: 60vh;
+  overflow: auto;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table {
+  width: 100%;
+  font-family: 'Prompt', sans-serif;
+  border-collapse: collapse;
+}
+
+.table td {
+  width: 110px;
+  height: 60px;
+  text-align: center;
+  border: 1px solid #000000;
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  height: 50px;
+  background-color: #0f1317;
+  color: white;
+  z-index: 1;
+}
+
+.tr td:hover {
+  background-color: #0f1317;
+  color: white;
+  cursor: pointer;
+}
+
+.div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.subscription {
+  background-color: #cff9d2;
+}
+.subscription:hover {
+  color: #000000;
+}
+
+.content {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+
+.content select {
+  width: 200px;
+  height: 30px;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.filter select {
+  width: 25vw;
+  height: 30px;
+  margin-right: 10px;
+  color: #373867;
+  border: 1px solid #373867;
+  border-radius: 5px;
+}
+
+.filter label {
+  display: block;
+  padding: 5px;
+  color: #373867;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+::-webkit-scrollbar {
+  width: 0.7rem; 
+}
+
+::-webkit-scrollbar-track {
+  background-color: #cdcdcd;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border-radius: 1rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #1e3153;
+}
