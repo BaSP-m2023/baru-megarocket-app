@@ -6,7 +6,6 @@ import styles from './admins.module.css';
 import { getAdmins, deleteAdmin } from 'Redux/Admins/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
-import { Input } from 'Components/Shared/Inputs';
 import Loader from 'Components/Shared/Loader';
 import Table from './Table';
 import Button from 'Components/Shared/Button';
