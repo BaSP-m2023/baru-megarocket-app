@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const adminSchema = Joi.object({
+const adminUpdate = Joi.object({
   firstName: Joi.string()
     .pattern(/^[a-zA-Z]+$/)
     .min(4)
@@ -50,4 +50,4 @@ const adminSchema = Joi.object({
   })
 });
 
-export default adminSchema;
+export default adminUpdate;

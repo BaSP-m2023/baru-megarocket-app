@@ -10,7 +10,8 @@ import {
   EDIT_MEMBER_ERROR,
   DELETE_MEMBER_PENDING,
   DELETE_MEMBER_SUCCESS,
-  DELETE_MEMBER_ERROR
+  DELETE_MEMBER_ERROR,
+  RESET_REDIRECT
 } from './constants';
 
 export const getMembersPending = () => {
@@ -90,5 +91,11 @@ export const deleteMemberError = (error) => {
   return {
     type: DELETE_MEMBER_ERROR,
     payload: error
+  };
+};
+
+export const resetRedirect = () => {
+  return {
+    type: RESET_REDIRECT
   };
 };
