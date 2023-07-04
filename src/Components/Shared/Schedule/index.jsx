@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import ScheduleMember from './ScheduleFunctions/memberFunction';
 import getScheduleAdmin from './ScheduleFunctions/adminFunction';
 import getScheduleTrainer from './ScheduleFunctions/trainerFunction';
-import { useDispatch, useSelector } from 'react-redux';
 import { getActivities } from 'Redux/Activities/thunks';
-import { getClasses } from 'Redux/Classes/thunks';
+import { addSubscribed, getClasses } from 'Redux/Classes/thunks';
 import { getSubscriptions, deleteSubscription, addSubscriptions } from 'Redux/Subscriptions/thunks';
 import { getTrainers } from 'Redux/Trainers/thunks';
+
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
 import Loader from 'Components/Shared/Loader';
@@ -58,11 +61,23 @@ const Schedule = () => {
 
   const handleSubmit = (data) => {
     if (data.subId) {
+      data.subscribed = data.subscribed - 1;
+      const classData = { subscribed: 0 };
       dispatch(deleteSubscription(data.subId));
+      addSubscribed(dispatch, classData, data.classId, history);
     } else {
-      const subData = { classes: data._id, members: member._id };
-      addSubscriptions(dispatch, subData);
+      if (data.capacity > data.subscribed) {
+        const subData = { classes: data?._id, members: member?._id };
+        data.subscribed = data.subscribed + 1;
+        addSubscriptions(dispatch, subData);
+        const classData = { subscribed: data.subscribed ? data.subscribed : 1 };
+        addSubscribed(dispatch, classData, data._id, history);
+      } else {
+        dispatch(setContentToast({ message: 'Full Class', state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+      }
     }
+    console.log(data);
     setShowConfirmModal(false);
   };
 
@@ -81,7 +96,9 @@ const Schedule = () => {
               day: sub.classes.day,
               time: sub.classes.time,
               desc: act.description,
+              classId: sub.classes._id,
               capacity: sub.classes.capacity,
+              subscribed: sub.classes.subscribed,
               trainer: sub.classes.trainer
             });
           }
@@ -196,8 +213,11 @@ const Schedule = () => {
           )}
           {`Trainer: ${modalData.trainer.firstName} ${modalData.trainer.lastName}`}
           <br />
-          {`Remaining slots: ${modalData.capacity}`}
+          {`Capacity: ${modalData.capacity}`}
           <br />
+          {`Members Subscribed: ${modalData.subscribed}`}
+          <br />
+
           {`${modalData.day} at ${modalData.time}`}
         </ConfirmModal>
       )}
