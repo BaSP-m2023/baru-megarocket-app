@@ -1,18 +1,20 @@
-import styles from 'Components/Admins/Profile/profile.module.css';
-import Loader from 'Components/Shared/Loader';
-import Button from 'Components/Shared/Button';
-import { Input } from 'Components/Shared/Inputs';
-import ConfirmModal from 'Components/Shared/ConfirmModal';
-import ResponseModal from 'Components/Shared/ResponseModal';
-import { getAdmins, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
-import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import adminUpdate from 'Validations/adminUpdate';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { getAuth } from 'Redux/Auth/thunks';
+import styles from './profile.module.css';
+
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { getAdmins, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
+import adminUpdate from 'Validations/adminUpdate';
+
+import { Input } from 'Components/Shared/Inputs';
+import Loader from 'Components/Shared/Loader';
+import Button from 'Components/Shared/Button';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
+
 function AdminProfile() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -22,7 +24,7 @@ function AdminProfile() {
   const { show, message, state } = useSelector((state) => state.toast);
   const loading = useSelector((state) => state.admins.isPending);
   const defaultAdmin = useSelector((state) => state.auth.user || '');
-  const token = sessionStorage.getItem('token');
+  // const token = sessionStorage.getItem('token');
 
   const {
     register,
@@ -67,7 +69,6 @@ function AdminProfile() {
   };
 
   const resetData = () => {
-    dispatch(getAuth(token));
     reset();
     if (defaultAdmin) {
       // eslint-disable-next-line no-unused-vars

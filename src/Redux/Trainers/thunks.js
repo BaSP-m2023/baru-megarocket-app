@@ -59,7 +59,7 @@ export const addTrainer = (trainer, history) => {
 
       const { data, message, error } = await response.json();
       if (!error) {
-        history.push('/trainers');
+        history.push('/user/admin/trainers');
         dispatch(addTrainerSuccess(data));
         dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'success' }));
@@ -90,7 +90,7 @@ export const updTrainer = (id, updatedTrainer, history) => {
       });
       const { data, message, error } = await response.json();
       if (!error) {
-        history.push('/trainers');
+        history.push('/user/admin/trainers');
         dispatch(editTrainerSuccess(data));
         dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'success' }));
