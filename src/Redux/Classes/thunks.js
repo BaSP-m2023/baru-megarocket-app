@@ -114,8 +114,6 @@ export const addSubscribed = async (dispatch, classes, id) => {
     const { data, message, error } = await response.json();
     if (response.ok) {
       dispatch(putClassSuccess(data));
-      dispatch(setContentToast({ message, state: 'success' }));
-      dispatch(handleDisplayToast(true));
     }
     if (error) {
       throw new Error(message);

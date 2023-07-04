@@ -62,7 +62,7 @@ const Schedule = () => {
   const handleSubmit = (data) => {
     if (data.subId) {
       data.subscribed = data.subscribed - 1;
-      const classData = { subscribed: 0 };
+      const classData = { subscribed: data.subscribed };
       dispatch(deleteSubscription(data.subId));
       addSubscribed(dispatch, classData, data.classId, history);
     } else {
@@ -77,7 +77,6 @@ const Schedule = () => {
         dispatch(handleDisplayToast(true));
       }
     }
-    console.log(data);
     setShowConfirmModal(false);
   };
 
