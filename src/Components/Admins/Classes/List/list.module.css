@@ -3,6 +3,20 @@
   border-spacing: 0 5px;
 }
 
+.tableFilter {
+  display: flex;
+  align-items: center;
+}
+
+.filterInput{
+  width: 25vw;
+  height: 30px;
+  margin-right: 10px;
+  color: #373867;
+  border: 1px solid #373867;
+  border-radius: 5px;
+}
+
 .row {
   height: 40px;
   text-align: center;

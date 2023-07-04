@@ -37,13 +37,15 @@ const Subscriptions = () => {
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Subscriptions</h1>
-      <div className={styles.inputSearch} data-testid="subscriptions-search-container">
+      <div className={styles.tableFilter} data-testid="subscriptions-search-container">
         <input
+          className={styles.filterInput}
           name="Search Subscription"
           placeholder="Search Subscription"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
         />
+        <img src="/assets/images/search-icon.png" alt="" />
       </div>
       <div className={styles.containerContent}>
         <Table className={subscriptions.table} data={filteredSubscriptions} />

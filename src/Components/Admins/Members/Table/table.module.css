@@ -12,8 +12,12 @@
 }
 
 .table-input-filter {
+  width: 25vw;
+  height: 30px;
+  margin-right: 10px;
+  color: #373867;
   border: 1px solid #373867;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 .table {

@@ -6,12 +6,16 @@
   display: flex;
   justify-content: center;
 }
-.inputSearch {
+.tableFilter {
   display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  align-items: center;
 }
-.inputSearch {
-  margin-bottom: 20px;
-  margin-left: 5%;
+
+.filterInput{
+  width: 25vw;
+  height: 30px;
+  margin-right: 10px;
+  color: #373867;
+  border: 1px solid #373867;
+  border-radius: 5px;
 }

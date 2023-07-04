@@ -59,13 +59,16 @@ function ClassList({ classes }) {
 
   return (
     <div className={styles.container}>
-      <input
-        placeholder="Search By Activity/Trainer"
-        value={filter}
-        onChange={(e) => handleFilter(e)}
-        data-testid="classes-search"
-      />
-
+      <div className={styles.tableFilter}>
+        <input
+          className={styles.filterInput}
+          placeholder="Search By Activity/Trainer"
+          value={filter}
+          onChange={(e) => handleFilter(e)}
+          data-testid="classes-search"
+        />
+        <img src="/assets/images/search-icon.png" alt="" />
+      </div>
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
