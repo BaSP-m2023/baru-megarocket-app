@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { joiResolver } from '@hookform/resolvers/joi';
 import styles from './signup.module.css';
 
-import { addMember } from 'Redux/Members/thunks';
+import { signUpMember } from 'Redux/Auth/thunks';
 import memberSchema from 'Validations/member';
 
 import { Input } from 'Components/Shared/Inputs';
@@ -41,7 +41,7 @@ function SignUp() {
 
   const handleSignup = (data) => {
     if (data) {
-      addMember(dispatch, data);
+      dispatch(signUpMember(data));
       history.push('/');
     }
   };

@@ -17,6 +17,7 @@ import {
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 const token = sessionStorage.getItem('token');
+console.log('token fuera', token);
 
 export const getMembers = async (dispatch) => {
   dispatch(getMembersPending());

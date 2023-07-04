@@ -87,7 +87,7 @@ export const signUpMember = (data) => {
   return async (dispatch) => {
     dispatch(signUpPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -99,10 +99,14 @@ export const signUpMember = (data) => {
       if (response.error) {
         throw new Error(response.message);
       }
+      dispatch(setContentToast({ message: 'Sign up successfully', state: 'success' }));
+      dispatch(handleDisplayToast(true));
       await dispatch(signUpSuccess(data));
       return res;
     } catch (error) {
       dispatch(signUpError(error.toString()));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };

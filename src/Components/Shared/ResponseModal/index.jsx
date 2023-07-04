@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import styles from './modalResponse.module.css';
 
 import { useDispatch } from 'react-redux';
-import { handleDisplayToast, resetToast } from '../../../Redux/Shared/ResponseToast/actions';
+import { handleDisplayToast, resetToast } from 'Redux/Shared/ResponseToast/actions';
 
 const ResponseModal = ({ handler, state, message }) => {
   const dispatch = useDispatch();

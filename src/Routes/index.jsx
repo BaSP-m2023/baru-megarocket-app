@@ -9,8 +9,8 @@ import { tokenListener } from 'Components/helper/firebase';
 import Loader from 'Components/Shared/Loader';
 
 const HomeRoute = lazy(() => import('./home'));
-const AdminRoutes = lazy(() => import('./admins'));
 const AuthRoutes = lazy(() => import('./auth'));
+const AdminRoutes = lazy(() => import('./admins'));
 const SuperAdminRoutes = lazy(() => import('./superAdmins'));
 const MemberRoutes = lazy(() => import('./members'));
 const TrainerRoutes = lazy(() => import('./trainers'));
