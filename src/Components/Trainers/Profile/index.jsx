@@ -43,8 +43,8 @@ function TrainerProfile({ match }) {
   });
 
   useEffect(() => {
-    getTrainers(dispatch);
-  }, [dispatch]);
+    dispatch(getTrainers());
+  }, []);
 
   useEffect(() => {
     if (trainerLogged) {

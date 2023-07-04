@@ -61,7 +61,7 @@ const Form = () => {
       });
   useEffect(() => {
     dispatch(getTrainers);
-  }, [dispatch]);
+  }, []);
   const getTrainer = async (id) => {
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`);
