@@ -7,7 +7,7 @@ import styles from './profile.module.css';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { getAdmins, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
-import adminSchema from 'Validations/adminUpdate';
+import adminUpdate from 'Validations/adminUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
 import Loader from 'Components/Shared/Loader';
@@ -35,7 +35,7 @@ function AdminProfile() {
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(adminSchema),
+    resolver: joiResolver(adminUpdate),
     defaultValues: {
       firstName: defaultAdmin.firstName,
       lastName: defaultAdmin.lastName,

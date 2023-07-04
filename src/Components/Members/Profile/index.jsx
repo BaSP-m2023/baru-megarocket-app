@@ -7,7 +7,7 @@ import styles from './profile.module.css';
 
 import { updateMember, getMembers } from 'Redux/Members/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
-import memberSchema from 'Validations/memberUpdate';
+import memberUpdate from 'Validations/memberUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
@@ -15,11 +15,12 @@ import ResponseModal from 'Components/Shared/ResponseModal';
 import Button from 'Components/Shared/Button';
 
 function MemberProfile({ match }) {
+  const dispatch = useDispatch();
   const [disableEdit, setDisableEdit] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const history = useHistory();
   const memberId = match.params.id;
-  const dispatch = useDispatch();
+  const redirect = useSelector((state) => state.members.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
   const memberLogged = useSelector((state) => state.auth.user);
   // const token = sessionStorage.getItem('token');
@@ -30,7 +31,7 @@ function MemberProfile({ match }) {
     setValue,
     formState: { errors }
   } = useForm({
-    resolver: joiResolver(memberSchema),
+    resolver: joiResolver(memberUpdate),
     mode: 'onChange',
     defaultValues: {
       name: '',
@@ -50,6 +51,12 @@ function MemberProfile({ match }) {
   }, [dispatch]);
 
   useEffect(() => {
+    if (redirect) {
+      history.push('/members');
+    }
+  }, [redirect]);
+
+  useEffect(() => {
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
       const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = memberLogged;
@@ -64,7 +71,7 @@ function MemberProfile({ match }) {
   const onSubmit = (data) => {
     if (memberId) {
       setShowConfirmModal(false);
-      updateMember(memberId, data, history)
+      updateMember(dispatch, memberId, data)
         .then(() => {
           resetData();
         })

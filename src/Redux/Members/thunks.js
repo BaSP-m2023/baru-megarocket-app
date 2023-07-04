@@ -10,7 +10,8 @@ import {
   editMemberError,
   deleteMemberPending,
   deleteMemberSuccess,
-  deleteMemberError
+  deleteMemberError,
+  resetRedirect
 } from 'Redux/Members/actions';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
@@ -63,7 +64,7 @@ export const addMember = async (dispatch, member) => {
   }
 };
 
-export const updateMember = async (dispatch, id, updatedMember, history) => {
+export const updateMember = async (dispatch, id, updatedMember) => {
   dispatch(editMemberPending());
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
@@ -76,10 +77,10 @@ export const updateMember = async (dispatch, id, updatedMember, history) => {
     });
     const { message, data, error } = await response.json();
     if (!error) {
-      history.push('/');
       dispatch(editMemberSuccess(data));
       dispatch(handleDisplayToast(true));
       dispatch(setContentToast({ message, state: 'success' }));
+      dispatch(resetRedirect());
       return data;
     }
 
