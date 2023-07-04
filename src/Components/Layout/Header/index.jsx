@@ -31,18 +31,7 @@ function Header(props) {
   return (
     <header>
       <div className={styles.container}>
-        <div data-testid="logo-container" className={styles.logoContainer}>
-          <img
-            src={`${process.env.PUBLIC_URL}/assets/images/logo.png`}
-            alt="guy flexing on fire logo"
-            className={styles.logo}
-          />
-          <img
-            src={`${process.env.PUBLIC_URL}/assets/images/logo2.png`}
-            alt="radium rocket words logo"
-            className={styles.logo2}
-          />
-        </div>
+        <NavBar routes={props.routes} />
         <div className={styles.container2}>
           {role && (
             <>
@@ -74,7 +63,7 @@ function Header(props) {
           )}
         </div>
       </div>
-      <NavBar routes={props.routes} />
+
       {show && (
         <ResponseModal
           handler={() => dispatch(handleDisplayToast(false))}
