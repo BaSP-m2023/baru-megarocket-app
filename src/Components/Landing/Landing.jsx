@@ -27,8 +27,8 @@ function Landing() {
       >
         <h1 className={styles.brandName}>MegaRocket Web</h1>
         <p className={styles.brandDescription}>
-          Mega Rocket web is a monthly management system for members and trainers so that they can
-          dynamically manage their activities in the gym.
+          Mega Rocket web is a monthly management system for members and trainers to dynamically
+          manage their activities in the gym.
         </p>
 
         <button className={styles.button} onClick={handleClick}>

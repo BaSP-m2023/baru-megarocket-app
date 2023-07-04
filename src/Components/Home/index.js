@@ -18,12 +18,12 @@ function Home() {
         {!role && (
           <div className={styles.buttonContainer} data-testid="home-buttons-container">
             <Button
-              text="SignUp"
+              text="Sign Up"
               classNameButton="submitButton"
               action={() => history.push('/signup')}
             />
             <Button
-              text="Login"
+              text="Log In"
               classNameButton="submitButton"
               action={() => history.push('/login')}
             />

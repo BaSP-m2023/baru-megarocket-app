@@ -10,7 +10,7 @@
   margin: auto;
   padding: 2%;
   font-family: 'Roboto', Arial, serif;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px #00000033;
 }
 
 .welcomeSection {
@@ -142,7 +142,7 @@
   padding-top: 5%;
   background-color: #dedeef ;
   border-radius: 50px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 4px #00000033;
   text-align: center;
   overflow: hidden;
   transition: transform 0.3s ease;
@@ -157,7 +157,7 @@
   margin-bottom:0;
   bottom: 0;
   background-color: #aace9b;
-  color: white;
+  color: #fff;
   border-radius: 100px;
   width: fit-content;
   padding: 5% 10%;
