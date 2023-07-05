@@ -1,7 +1,6 @@
-.space {
-  width: 75%;
-  padding: 2rem;
-  border-collapse: collapse;
+.table {
+  width: 90%;
+  border-spacing: 0 5px;
 }
 
 .filter-container {

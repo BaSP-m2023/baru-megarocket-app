@@ -24,7 +24,7 @@ const Activity = ({ activity }) => {
   let { url } = useRouteMatch();
   return (
     <>
-      <tr className={styles.tableRow}>
+      <tr className={styles.row}>
         <td>{activity.name}</td>
         <td>{activity.description}</td>
         <td>{activity.trainers.map((trainer) => `${trainer.firstName} ${trainer.lastName}, `)}</td>
@@ -44,7 +44,7 @@ const Activity = ({ activity }) => {
             <Button
               img="/assets/images/edit-icon.png"
               text="edit icon"
-              classNameButton="icon"
+              classNameButton={`${styles.button}`}
               testid="activities-edit-btn"
             />
           </Link>

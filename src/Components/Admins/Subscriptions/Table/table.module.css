@@ -2,49 +2,38 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: auto;
-  height: auto;
 }
 
 .tableSubscription {
-  flex: 1;
   width: 90%;
-  border-collapse: collapse;
+  border-spacing: 0 5px;
 }
 
-.containerThead {
-  background-color: #f2f2f2;
-}
-.theadOptions {
-  width: auto;
-}
 .containerThead th {
   text-align: center;
 }
 
-.line {
-  width: 100%;
-}
-
-.item {
-  width: 20%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.row {
+  height: 40px;
   text-align: center;
-  border: 1px solid #ccc;
+  color: #373867;
+  background-color: #ebebeb;
+  font-size: 1rem;
+  font-weight: 400;
 }
 
-.itemButton {
-  width: 5%;
-  text-overflow: ellipsis;
-  text-align: center;
-  border: 1px solid #ccc;
+.row:not(.selected):nth-child(odd) {
+  background-color: #ffffff;
 }
 
-.itemButtonEdit:hover {
-  background-color: #aace9e;
+.row:not(.selected):nth-child(odd):hover {
+  background-color: #c4bcbc;
 }
 
-.itemButtonDelete:hover {
-  background-color: #d10202;
+.row:not(.selected):nth-child(even) {
+  background-color: #ebebeb;
+}
+
+.row:not(.selected):nth-child(even):hover {
+  background-color: #c0b6b6;
 }

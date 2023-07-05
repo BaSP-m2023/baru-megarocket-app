@@ -1,15 +1,13 @@
 .tableContainer {
   display: flex;
   flex-direction: column;
-  width: 75%;
-  height: 50vh;
-  overflow-y: scroll;
 }
 
 .table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: auto;
+  width: 90vw;
+  border-spacing: 0 5px;
+  margin: auto;
+  
 }
 
 .tableFilter {
@@ -25,28 +23,6 @@
   color: #373867;
   border: 1px solid #373867;
   border-radius: 5px;
-}
-
-.tableHeader th {
-  padding: 0.8em;
-  color: #373867;
-}
-
-.tableRow {
-  text-align: left;
-  border-bottom: 1px solid #707070;
-}
-
-.tableRow td {
-  padding: 0.8em;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 500px;
-  text-overflow: ellipsis;
-}
-
-.tableRow:hover {
-  background-color: #c4bcbc;
 }
 
 .tableError {
@@ -76,4 +52,29 @@
 
 .activityInactive {
   border-bottom: 3px solid #d10202;
+}
+
+.row {
+  height: 40px;
+  text-align: center;
+  color: #373867;
+  background-color: #ebebeb;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.row:not(.selected):nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.row:not(.selected):nth-child(odd):hover {
+  background-color: #c4bcbc;
+}
+
+.row:not(.selected):nth-child(even) {
+  background-color: #ebebeb;
+}
+
+.row:not(.selected):nth-child(even):hover {
+  background-color: #c0b6b6;
 }

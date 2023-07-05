@@ -1,8 +1,6 @@
 .table-container {
   display: flex;
   flex-direction: column;
-  width: 65%;
-  min-height: 40vh;
 }
 
 .table-filter {
@@ -21,17 +19,38 @@
 }
 
 .table {
-  border-collapse: collapse;
+  width: 90vw;
+  border-spacing: 0 5px;
+  margin: auto;
 }
 
 .table-header {
   color: #373867;
 }
 
-.table-row {
-  height: 2.5em;
+.row {
+  height: 40px;
   text-align: center;
-  border-bottom: 1px solid #707070;
+  color: #373867;
+  background-color: #ebebeb;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.row:not(.selected):nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.row:not(.selected):nth-child(odd):hover {
+  background-color: #c4bcbc;
+}
+
+.row:not(.selected):nth-child(even) {
+  background-color: #ebebeb;
+}
+
+.row:not(.selected):nth-child(even):hover {
+  background-color: #c0b6b6;
 }
 
 .table-buttons {

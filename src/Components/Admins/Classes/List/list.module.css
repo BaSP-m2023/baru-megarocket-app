@@ -1,3 +1,6 @@
+.container{
+  margin: 5% auto
+}
 .table {
   width: 100%;
   border-spacing: 0 5px;
@@ -24,7 +27,6 @@
   background-color: #ebebeb;
   font-size: 1rem;
   font-weight: 400;
-  cursor: pointer;
 }
 
 .row:not(.selected):nth-child(odd) {
@@ -49,8 +51,6 @@
 }
 
 .tableContainer {
-  overflow-y: scroll;
-  height: 50vh;
   width: 90vw;
   margin-bottom: 10px;
 }

@@ -33,7 +33,7 @@ const Table = ({ data = [] }) => {
           <img src={`${process.env.PUBLIC_URL}/assets/images/search-icon.png`} alt="" />
         </div>
       </div>
-      <table className={styles.space}>
+      <table className={styles.table}>
         <thead>
           <tr>
             <th className={styles.column}>Name</th>

@@ -57,7 +57,7 @@ const Table = ({ data }) => {
         <tbody data-testid="subscriptions-list">
           {data?.length > 0 ? (
             data.map((subscription) => (
-              <tr key={subscription._id} className={styles.item}>
+              <tr key={subscription._id} className={styles.row}>
                 {!subscription.classes ? (
                   <td>{'empty'}</td>
                 ) : (
