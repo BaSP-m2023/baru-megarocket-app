@@ -93,7 +93,7 @@ function AdminsForm() {
 
   useEffect(() => {
     if (redirect) {
-      history.push('/admins');
+      history.push('/user/super-admin/admins');
     }
   }, [redirect]);
 
