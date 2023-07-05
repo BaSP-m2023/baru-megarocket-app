@@ -3,7 +3,6 @@ import ScheduleMember from './ScheduleComponents/MemberComponent';
 import ScheduleAdmin from './ScheduleComponents/AdminComponent';
 import getScheduleTrainer from './ScheduleComponents/trainerFunction';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { getActivities } from 'Redux/Activities/thunks';
 import { getClasses } from 'Redux/Classes/thunks';
 import { getSubscriptions, deleteSubscription, addSubscriptions } from 'Redux/Subscriptions/thunks';
@@ -24,7 +23,7 @@ const Schedule = () => {
     (state) => state.activities
   );
   const { data: trainers } = useSelector((state) => state.trainers);
-  const { id } = useParams();
+  const member = useSelector((state) => state.auth.user);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showForm, setShowForm] = useState({
     show: false,
@@ -44,9 +43,9 @@ const Schedule = () => {
 
   useEffect(() => {
     getActivities(dispatch);
-    getClasses(dispatch);
+    dispatch(getClasses());
     getSubscriptions(dispatch);
-    getTrainers(dispatch);
+    dispatch(getTrainers());
   }, [dispatch]);
 
   const clickMember = (data) => {
@@ -76,7 +75,7 @@ const Schedule = () => {
     if (data.subId) {
       dispatch(deleteSubscription(data.subId));
     } else {
-      const subData = { classes: data._id, members: id };
+      const subData = { classes: data._id, members: member._id };
       addSubscriptions(dispatch, subData);
     }
     setShowConfirmModal(false);
@@ -86,7 +85,7 @@ const Schedule = () => {
     let arraySubs = [];
     if (role === 'MEMBER') {
       const memberSubscription = subscriptions?.filter((subs) => {
-        return subs.members._id === id;
+        return subs.members._id === member._id;
       });
       memberSubscription?.forEach((sub) => {
         activities?.forEach((act) => {

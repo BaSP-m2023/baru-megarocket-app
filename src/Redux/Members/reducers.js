@@ -10,7 +10,8 @@ import {
   EDIT_MEMBER_ERROR,
   DELETE_MEMBER_PENDING,
   DELETE_MEMBER_SUCCESS,
-  DELETE_MEMBER_ERROR
+  DELETE_MEMBER_ERROR,
+  RESET_REDIRECT
 } from './constants';
 
 const INITIAL_STATE = {
@@ -109,6 +110,12 @@ const reducers = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: false,
         error: action.payload
+      };
+    }
+    case RESET_REDIRECT: {
+      return {
+        ...state,
+        redirect: false
       };
     }
     default:

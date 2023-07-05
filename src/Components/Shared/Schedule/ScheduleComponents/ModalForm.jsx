@@ -69,14 +69,14 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
   const onSubmit = (data) => {
     handler();
     if (reason === 'edit') {
-      putClass(dispatch, data, classData._id).then((data) => {
+      dispatch(putClass(data, classData._id)).then((data) => {
         const updated = classes.find((classId) => classId._id === data._id);
         const index = classes.indexOf(updated);
         classes[index] = data;
         dispatch(refreshData(classes));
       });
     } else {
-      addClass(dispatch, data);
+      dispatch(addClass(data));
     }
   };
 
