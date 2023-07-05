@@ -1,13 +1,17 @@
-.container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.title {
+  font-size: 2rem;
+  text-align: center;
 }
 
-.container h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #373867;
+.button {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  height: auto;
 }
