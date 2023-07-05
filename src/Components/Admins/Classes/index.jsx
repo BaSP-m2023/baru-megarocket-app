@@ -29,7 +29,7 @@ function Projects() {
   }
   return (
     <section>
-      <h1 className={styles.title}>Class List</h1>
+      <h1 className={styles.title}>Classes</h1>
       {data.length > 0 && !isPending && <ClassList classes={data && data}></ClassList>}
       {!isPending && data.length === 0 && 'There are not classes yet. Add new ones!'}
       <div className={styles.button}>
