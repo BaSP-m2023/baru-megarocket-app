@@ -1,11 +1,59 @@
+.title {
+  align-self: center;
+  color: #373867;
+  margin: 5px;
+}
+
 .form {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   height: 100%;
 }
 
 .modalContent {
   width: 500px;
-  height: 400px;
+  height: 500px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 25.5vw;
+}
+
+.modalButtons button {
+  margin: 1rem;
+}
+
+.inputContainer select {
+  width: 100%;
+  height: 36px;
+  margin-right: 10px;
+  color: #373867;
+  border: 1px solid #373867;
+  border-radius: 5px;
+}
+
+.label {
+  display: block;
+  padding: 5px;
+  color: #373867;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.reset {
+  align-self: center;
+  width: fit-content;
+}
+
+.reset button {
+  margin: 0;
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
 }

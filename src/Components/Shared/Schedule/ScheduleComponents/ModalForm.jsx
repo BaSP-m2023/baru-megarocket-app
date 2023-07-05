@@ -31,7 +31,6 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
       capacity: classData ? classData.capacity : ''
     }
   });
-
   const activityValue = watch('activity');
 
   useEffect(() => {
@@ -43,10 +42,8 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
   }, []);
 
   useEffect(() => {
-    if (reason === 'edit') {
-      const activity = activities.find((activity) => activity._id === activityValue);
-      setTrainers(activity?.trainers);
-    }
+    const activity = activities.find((activity) => activity._id === activityValue);
+    setTrainers(activity?.trainers);
   }, [activities, activityValue]);
 
   const handleConfirmModal = () => {
@@ -54,6 +51,7 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
   };
 
   const handleSubmitForm = (data) => {
+    console.log(data);
     setShowConfirmModal(false);
     const fullData = { ...data, time: classData.time, day: classData.day };
     onSubmit(fullData);
@@ -83,8 +81,11 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
         data-testid="confirm-modal-container"
       >
         <form className={stylesForm.form}>
-          <div>
-            <label>Activity</label>
+          <h2 className={stylesForm.title}>
+            {reason === 'edit' ? 'Update class' : 'Create class'}
+          </h2>
+          <div className={stylesForm.inputContainer}>
+            <label className={stylesForm.label}>Activity</label>
             <select name="activity" {...register('activity')}>
               <option value={classData ? classData.activity._id : ''}>
                 {classData ? classData.activity.name : 'Select an activity'}
@@ -96,47 +97,49 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
               ))}
             </select>
             {errors.activity?.message && (
-              <span className={styles.error}>{errors.activity.message}</span>
+              <span className={stylesForm.error}>{errors.activity.message}</span>
             )}
           </div>
-          <div>
-            <label>Trainer</label>
+          <div className={stylesForm.inputContainer}>
+            <label className={stylesForm.label}>Trainer</label>
             <select name="trainer" {...register('trainer')}>
-              <option value={classData ? classData.trainer._id : ''}>
-                {classData && classData.activity._id === activityValue
-                  ? `${classData.trainer.firstName} ${classData.trainer.lastName}`
-                  : 'Select a Trainer'}
-              </option>
-              {trainers?.map(
-                (trainer) =>
-                  classData.trainer._id !== trainer._id && (
-                    <option key={trainer._id} value={trainer._id}>
-                      {trainer.firstName} {trainer.lastName}
-                    </option>
-                  )
-              )}
+              {console.log(trainers)}
+              {console.log(activityValue)}
+              {!trainers && !activityValue && <option>Select an activity</option>}
+              {trainers?.map((trainer) => (
+                <option value={trainer._id} key={trainer._id}>
+                  {trainer.firstName} {trainer.lastName}
+                </option>
+              ))}
             </select>
             {errors.trainer?.message && (
-              <span className={styles.error}>{errors.trainer.message}</span>
+              <span className={stylesForm.error}>{errors.trainer.message}</span>
             )}
           </div>
-          <Input
-            labelText="Capacity"
-            type="number"
-            name="capacity"
-            placeholder="Capacity"
-            register={register}
-            error={errors.capacity?.message}
-          />
-          <div className={styles.modalButtons} data-testid="confirm-modal-buttons">
+          <div className={stylesForm.inputContainer}>
+            <Input
+              labelText="Capacity"
+              type="number"
+              name="capacity"
+              placeholder="Capacity"
+              register={register}
+              error={errors.capacity?.message}
+            />
+          </div>
+          <div
+            className={`${styles.modalButtons} ${stylesForm.modalButtons}`}
+            data-testid="confirm-modal-buttons"
+          >
             <Button action={handler} text={'Cancel'} classNameButton={'cancelButton'} />
             <Button
               classNameButton="submitButton"
               action={handleSubmit(handleConfirmModal)}
-              text={!reason === 'edit' ? 'Create' : 'Update'}
+              text={reason === 'edit' ? 'Update' : 'Create'}
             />
           </div>
-          <Button classNameButton="deleteButton" text="Reset" action={handleReset} />
+          <div className={stylesForm.reset}>
+            <Button classNameButton="deleteButton" text="Reset" action={handleReset} />
+          </div>
         </form>
       </div>
       {showConfirmModal && classData && (
