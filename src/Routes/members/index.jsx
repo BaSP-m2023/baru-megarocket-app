@@ -6,7 +6,6 @@ import Home from 'Components/Layout/Home';
 import SubscriptionsMember from 'Components/Members/SubscriptionsMember';
 import SubscribeActivities from 'Components/Members/SubscribeActivities';
 import Schedule from 'Components/Shared/Schedule';
-import FormMemberSubscription from 'Components/Members/SubscribeActivities/FormMemberSubscription';
 import MemberProfile from 'Components/Members/Profile';
 
 const routes = [
@@ -36,7 +35,6 @@ const MembersRoutes = () => {
         <Route exact path={`${url}/home`} component={Home} />
 
         <Route exact path={`${url}/subscribe-class`} component={SubscribeActivities} />
-        <Route exact path={`${url}/subscribe-class/:id`} component={FormMemberSubscription} />
         <Route exact path={`${url}/subscriptions`} component={SubscriptionsMember} />
         <Route exact path={`${url}/schedule`} component={Schedule} />
         <Route exact path={`${url}/profile/:id`} component={MemberProfile} />
