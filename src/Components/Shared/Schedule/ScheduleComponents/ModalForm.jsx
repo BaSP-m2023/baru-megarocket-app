@@ -41,9 +41,6 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
     }
   }, []);
 
-  console.log(activityValue);
-  console.log(trainers);
-
   useEffect(() => {
     const activity = activities.find((activity) => activity._id === activityValue);
     setTrainers(activity?.trainers);
@@ -158,12 +155,14 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
       </div>
       {showConfirmModal && (
         <ConfirmModal
-          title={'Class details'}
+          title={reason === 'edit' ? 'Edit Class' : 'Create Class'}
           handler={() => setShowConfirmModal(false)}
           onAction={handleSubmit(handleSubmitForm)}
           reason={'submit'}
         >
-          {reason === 'edit' ? 'Edit class' : 'Create class'}
+          {reason === 'edit'
+            ? 'Are you sure you want to edit this class?'
+            : 'Are you sure you want to create a class?'}
         </ConfirmModal>
       )}
     </div>
