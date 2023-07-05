@@ -3,26 +3,26 @@ import Joi from 'joi';
 const adminSchema = Joi.object({
   firstName: Joi.string()
     .pattern(/^[a-zA-Z]+$/)
-    .min(4)
-    .max(10)
+    .min(2)
+    .max(20)
     .required()
     .messages({
       'string.base': 'First Name should be a string',
       'string.pattern.base': 'First Name should only contain alphabetic characters',
-      'string.min': 'First Name should have a minimum length of 4',
-      'string.max': 'First Name should have a maximum length of 10',
+      'string.min': 'First Name should have a minimum length of 2',
+      'string.max': 'First Name should have a maximum length of 20',
       'string.empty': 'First name is required'
     }),
   lastName: Joi.string()
     .pattern(/^[a-zA-Z]+$/)
-    .min(4)
-    .max(10)
+    .min(2)
+    .max(20)
     .required()
     .messages({
       'string.base': 'Last Name should be a string',
       'string.pattern.base': 'Last Name should only contain alphabetic characters',
-      'string.min': 'Last Name should have a minimum length of 4',
-      'string.max': 'Last Name should have a maximum length of 10',
+      'string.min': 'Last Name should have a minimum length of 2',
+      'string.max': 'Last Name should have a maximum length of 20',
       'string.empty': 'Last name is required'
     }),
   phone: Joi.string()

@@ -1,17 +1,20 @@
-import styles from 'Components/Admins/Profile/profile.module.css';
-import Loader from 'Components/Shared/Loader';
-import Button from 'Components/Shared/Button';
-import { Input } from 'Components/Shared/Inputs';
-import ConfirmModal from 'Components/Shared/ConfirmModal';
-import ResponseModal from 'Components/Shared/ResponseModal';
-import { getAdmins, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
-import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import adminSchema from 'Validations/admin';
 import { joiResolver } from '@hookform/resolvers/joi';
+import styles from './profile.module.css';
+
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { getAdmins, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
+import adminUpdate from 'Validations/adminUpdate';
+
+import { Input } from 'Components/Shared/Inputs';
+import Loader from 'Components/Shared/Loader';
+import Button from 'Components/Shared/Button';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ResponseModal from 'Components/Shared/ResponseModal';
+
 function AdminProfile() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -20,25 +23,25 @@ function AdminProfile() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
   const loading = useSelector((state) => state.admins.isPending);
-  const defaultAdmin = useSelector((state) => state.admins.defaultAdmin || '');
+  const defaultAdmin = useSelector((state) => state.auth.user || '');
+  // const token = sessionStorage.getItem('token');
 
   const {
     register,
     handleSubmit,
     setValue,
     clearErrors,
+    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(adminSchema),
+    resolver: joiResolver(adminUpdate),
     defaultValues: {
       firstName: defaultAdmin.firstName,
       lastName: defaultAdmin.lastName,
       dni: defaultAdmin.dni,
       phone: defaultAdmin.phone,
-      email: defaultAdmin.email,
-      city: defaultAdmin.city,
-      password: defaultAdmin.password
+      city: defaultAdmin.city
     }
   });
   useEffect(() => {
@@ -50,14 +53,31 @@ function AdminProfile() {
     setValue('lastName', defaultAdmin.lastName);
     setValue('dni', defaultAdmin.dni);
     setValue('phone', defaultAdmin.phone);
-    setValue('email', defaultAdmin.email);
     setValue('city', defaultAdmin.city);
-    setValue('password', defaultAdmin.password);
   }, [defaultAdmin]);
 
   const onSubmit = (data) => {
-    editAdmin(dispatch, defaultAdmin._id, data);
     setShowConfirmModal(false);
+    editAdmin(dispatch, defaultAdmin._id, data, history)
+      .then(() => {
+        resetData();
+      })
+      .catch((error) => {
+        dispatch(setContentToast({ message: error.message, state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+      });
+  };
+
+  const resetData = () => {
+    reset();
+    if (defaultAdmin) {
+      // eslint-disable-next-line no-unused-vars
+      const { _id, firebaseUid, email, __v, ...resAdmin } = defaultAdmin;
+      Object.entries(resAdmin).every(([key, value]) => {
+        setValue(key, value);
+        return true;
+      });
+    }
   };
 
   const handleDeleteAdmin = () => {
@@ -76,12 +96,16 @@ function AdminProfile() {
     setValue('lastName', defaultAdmin.lastName);
     setValue('dni', defaultAdmin.dni);
     setValue('phone', defaultAdmin.phone);
-    setValue('email', defaultAdmin.email);
     setValue('city', defaultAdmin.city);
-    setValue('password', defaultAdmin.password);
     clearErrors();
   };
-
+  const formFields = [
+    { labelText: 'Name', type: 'text', name: 'firstName' },
+    { labelText: 'Last Name', type: 'text', name: 'lastName' },
+    { labelText: 'DNI', type: 'number', name: 'dni' },
+    { labelText: 'Phone', type: 'text', name: 'phone' },
+    { labelText: 'City', type: 'text', name: 'city' }
+  ];
   return (
     <div className={styles.form}>
       {Object.keys(defaultAdmin).length === 0 && (
@@ -111,115 +135,66 @@ function AdminProfile() {
           )}
           {!loading && (
             <form className={styles.body}>
-              <div className={styles.label_container}>
-                <Input
-                  labelText="First Name"
-                  name="firstName"
-                  type="text"
-                  error={errors.firstName?.message}
-                  register={register}
-                  disabled={disableEdit}
-                />
-              </div>
-              <div className={styles.label_container}>
-                <Input
-                  labelText="Last Name"
-                  name="lastName"
-                  type="text"
-                  error={errors.lastName?.message}
-                  register={register}
-                  disabled={disableEdit}
-                />
-              </div>
-              <div className={styles.label_container}>
-                <Input
-                  labelText="DNI"
-                  name="dni"
-                  type="text"
-                  error={errors.dni?.message}
-                  register={register}
-                  disabled={disableEdit}
-                />
-              </div>
-              <div className={styles.label_container}>
-                <Input
-                  labelText="Phone"
-                  name="phone"
-                  type="text"
-                  error={errors.phone?.message}
-                  register={register}
-                  disabled={disableEdit}
-                />
-              </div>
-              <div className={styles.label_container}>
-                <Input
-                  labelText="Email"
-                  name="email"
-                  type="text"
-                  error={errors.email?.message}
-                  register={register}
-                  disabled={disableEdit}
-                />
-              </div>
-              <div className={styles.label_container}>
-                <Input
-                  labelText="City"
-                  name="city"
-                  type="text"
-                  error={errors.city?.message}
-                  register={register}
-                  disabled={disableEdit}
-                />
-              </div>
-              <div className={styles.label_container}>
-                <Input
-                  labelText="Password"
-                  name="password"
-                  type="password"
-                  error={errors.password?.message}
-                  register={register}
-                  disabled={disableEdit}
-                />
+              <div>
+                {formFields.map((inputData, index) => (
+                  <div className={styles.label_container} key={index}>
+                    <Input
+                      labelText={inputData.labelText}
+                      type={inputData.type}
+                      name={inputData.name}
+                      disabled={disableEdit}
+                      register={register}
+                      error={errors[inputData.name]?.message}
+                    />
+                  </div>
+                ))}
               </div>
             </form>
           )}
-          <div className={styles.confirm_button}>
-            <Button
-              action={() => handleAction('delete')}
-              classNameButton="deleteButton"
-              text="Delete account"
-            ></Button>
-
-            <Button
-              action={() => handleAction('edit')}
-              classNameButton="addButton"
-              text="Edit"
-              disabled={disableEdit}
-            ></Button>
-          </div>
+          {!disableEdit ? (
+            <div className={styles.confirm_button}>
+              <Button
+                action={() => handleAction('Delete')}
+                classNameButton="deleteButton"
+                text="Delete account"
+              ></Button>
+              <Button
+                classNameButton="cancelButton"
+                action={() => setDisableEdit(true)}
+                text="Cancel"
+              />
+              <Button
+                action={() => handleAction('Edit')}
+                classNameButton="addButton"
+                text="Confirm"
+                disabled={disableEdit}
+              ></Button>
+            </div>
+          ) : (
+            <div className={styles.confirm_button}>
+              <Button
+                classNameButton="addButton"
+                action={() => setDisableEdit(false)}
+                text="Edit"
+              />
+            </div>
+          )}
         </div>
       )}
       {showConfirmModal && (
         <ConfirmModal
           handler={() => setShowConfirmModal(false)}
-          title={
-            action === 'delete'
-              ? 'Delete your profile'
-              : action === 'edit'
-              ? 'Edit your profile'
-              : ''
-          }
-          reason={action === 'delete' ? 'delete' : action === 'edit' ? 'submit' : ''}
+          title={`${action} Your Profile`}
+          reason={action === 'Delete' ? 'delete' : action === 'Edit' ? 'submit' : ''}
           onAction={
             action === 'delete'
               ? handleSubmit(handleDeleteAdmin)
-              : action === 'edit'
+              : action === 'Edit'
               ? handleSubmit(onSubmit)
               : ''
           }
         >
-          Are you sure you want to{' '}
-          {action === 'delete' ? 'delete' : action === 'edit' ? 'edit' : ''} your profile?
+          Are you sure you want to {action} your profile?
         </ConfirmModal>
       )}
       {show && (

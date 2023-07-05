@@ -14,7 +14,8 @@ import {
   editAdminError,
   deleteAdminPending,
   deleteAdminSuccess,
-  deleteAdminError
+  deleteAdminError,
+  setRedirect
 } from 'Redux/Admins/actions';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
@@ -102,6 +103,7 @@ export const editAdmin = async (dispatch, id, adminToUpdate) => {
       dispatch(setContentToast({ message: res.message, state: 'success' }));
       dispatch(handleDisplayToast(true));
       dispatch(setDefaultAdmin(res.data));
+      dispatch(setRedirect());
     } else {
       dispatch(editAdminError(res.message));
       dispatch(setContentToast({ message: res.message, state: 'fail' }));

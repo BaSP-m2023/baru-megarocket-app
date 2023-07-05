@@ -15,7 +15,8 @@ import {
   DELETE_ADMIN_SUCCESS,
   DELETE_ADMIN_ERROR,
   RESET_STATE,
-  SET_DEFAULT_ADMIN
+  SET_DEFAULT_ADMIN,
+  SET_REDIRECT
 } from './constants';
 
 const INITIAL_STATE = {
@@ -23,7 +24,8 @@ const INITIAL_STATE = {
   defaultAdmin: {},
   isPending: false,
   error: null,
-  success: false
+  success: false,
+  redirect: false
 };
 
 const reducers = (state = INITIAL_STATE, action) => {
@@ -90,7 +92,8 @@ const reducers = (state = INITIAL_STATE, action) => {
         data: [...state.data, action.payload],
         isPending: false,
         error: null,
-        success: true
+        success: true,
+        redirect: true
       };
     }
     case ADD_ADMIN_ERROR: {
@@ -115,7 +118,8 @@ const reducers = (state = INITIAL_STATE, action) => {
         data: action.payload,
         isPending: false,
         error: null,
-        success: true
+        success: true,
+        redirect: true
       };
     }
     case EDIT_ADMIN_ERROR: {
@@ -159,6 +163,12 @@ const reducers = (state = INITIAL_STATE, action) => {
         isPending: false,
         error: null,
         success: false
+      };
+    }
+    case SET_REDIRECT: {
+      return {
+        ...state,
+        redirect: false
       };
     }
     default:

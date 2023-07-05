@@ -10,7 +10,8 @@ import {
   editMemberError,
   deleteMemberPending,
   deleteMemberSuccess,
-  deleteMemberError
+  deleteMemberError,
+  resetRedirect
 } from 'Redux/Members/actions';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
@@ -29,6 +30,7 @@ export const getMembers = async (dispatch) => {
     });
     const data = await response.json();
     dispatch(getMembersSuccess(data.data));
+    return data.data;
   } catch (error) {
     dispatch(getMembersError(error.toString()));
   }
@@ -77,6 +79,7 @@ export const updateMember = async (dispatch, id, updatedMember) => {
       dispatch(editMemberSuccess(data));
       dispatch(handleDisplayToast(true));
       dispatch(setContentToast({ message, state: 'success' }));
+      dispatch(resetRedirect());
       return data;
     }
 

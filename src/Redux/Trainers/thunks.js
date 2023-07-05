@@ -17,35 +17,36 @@ import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/
 
 const token = sessionStorage.getItem('token');
 
-export const getTrainers = async (dispatch) => {
-  dispatch(getTrainersPending());
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        token: token
+export const getTrainers = () => {
+  return async (dispatch) => {
+    dispatch(getTrainersPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token
+        }
+      });
+      const { data, message, error } = await response.json();
+      if (!error) {
+        dispatch(getTrainersSuccess(data));
+      } else {
+        dispatch(getTrainersError(message));
+        dispatch(handleDisplayToast(true));
+        dispatch(setContentToast({ message, state: 'fail' }));
       }
-    });
-    const { data, message, error } = await response.json();
-    if (!error) {
-      dispatch(getTrainersSuccess(data));
-    } else {
-      dispatch(getTrainersError(message));
+    } catch (error) {
+      dispatch(getTrainersError(error));
       dispatch(handleDisplayToast(true));
-      dispatch(setContentToast({ message, state: 'fail' }));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
     }
-  } catch (error) {
-    dispatch(getTrainersError(error));
-    dispatch(handleDisplayToast(true));
-    dispatch(setContentToast({ message: error.message, state: 'fail' }));
-  }
+  };
 };
 
 export const addTrainer = (trainer, history) => {
   return async (dispatch) => {
     dispatch(addTrainerPending());
-
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer`, {
         method: 'POST',
@@ -58,7 +59,7 @@ export const addTrainer = (trainer, history) => {
 
       const { data, message, error } = await response.json();
       if (!error) {
-        history.push('/trainers');
+        history.push('/user/admin/trainers');
         dispatch(addTrainerSuccess(data));
         dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'success' }));
@@ -89,7 +90,7 @@ export const updTrainer = (id, updatedTrainer, history) => {
       });
       const { data, message, error } = await response.json();
       if (!error) {
-        history.push('/trainers');
+        history.push('/user/admin/trainers');
         dispatch(editTrainerSuccess(data));
         dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'success' }));
@@ -122,7 +123,7 @@ export const deleteTrainer = (id) => {
         dispatch(deleteTrainerSuccess(data));
         dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'success' }));
-        getTrainers(dispatch);
+        dispatch(getTrainers());
       } else {
         dispatch(deleteTrainerError(message));
         dispatch(handleDisplayToast(true));
