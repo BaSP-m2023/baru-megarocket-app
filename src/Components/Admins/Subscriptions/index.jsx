@@ -18,8 +18,8 @@ const Subscriptions = () => {
 
   const subscriptions = useSelector((state) => state.subscriptions.data);
   useEffect(() => {
-    getSubscriptions(dispatch);
-  }, [dispatch]);
+    dispatch(getSubscriptions());
+  }, []);
 
   useEffect(() => {
     filterSubscriptions();

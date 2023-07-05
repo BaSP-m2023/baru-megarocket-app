@@ -40,7 +40,7 @@ const FormMemberSubscription = () => {
 
   useEffect(() => {
     getClasses(dispatch).then((data) => {
-      getSubscriptions(dispatch).then((subscriptions) => {
+      dispatch(getSubscriptions).then((subscriptions) => {
         filterClassAndOrder(data, subscriptions);
       });
     });

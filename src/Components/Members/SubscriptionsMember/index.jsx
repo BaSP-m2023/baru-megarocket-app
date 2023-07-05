@@ -24,7 +24,7 @@ const SubscriptionsMember = () => {
   const member = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    getSubscriptions(dispatch);
+    dispatch(getSubscriptions);
     getActivities(dispatch);
   }, [dispatch]);
 

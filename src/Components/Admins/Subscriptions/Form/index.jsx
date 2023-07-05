@@ -64,15 +64,15 @@ const Form = () => {
       filterClass(data);
     });
     dispatch(getMembers);
-    dispatch(getSubscriptions);
+    dispatch(getSubscriptions());
   }, []);
   const onConfirm = (data) => {
     try {
       if (id) {
-        editSubscription(dispatch, data, id);
+        dispatch(editSubscription(data, id));
         setShowConfirmModal(false);
       } else {
-        addSubscriptions(dispatch, data);
+        dispatch(addSubscriptions(data));
         setShowConfirmModal(false);
       }
     } catch (error) {
