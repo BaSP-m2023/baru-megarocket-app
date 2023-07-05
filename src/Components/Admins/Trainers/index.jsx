@@ -21,10 +21,16 @@ const Trainers = () => {
     dispatch(getTrainers());
   }, []);
 
+  if (pending) {
+    return (
+      <div className={styles.container}>
+        <Loader />
+      </div>
+    );
+  }
   return (
     <section>
       <h1 className={styles.title}>Trainers</h1>
-      {pending && <Loader />}
       {!pending && trainers.length > 0 ? <Table data={trainers} /> : null}
       {!pending && !trainers.length && 'There are no trainers to show'}
       <div className={styles.button}>
