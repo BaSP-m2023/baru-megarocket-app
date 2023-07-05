@@ -26,7 +26,12 @@ const Schedule = () => {
   const { data: trainers } = useSelector((state) => state.trainers);
   const { id } = useParams();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showForm, setShowForm] = useState({ show: false, data: undefined, reason: '' });
+  const [showForm, setShowForm] = useState({
+    show: false,
+    data: undefined,
+    reason: '',
+    createData: undefined
+  });
   const [memberSubs, setMemberSubs] = useState([]);
   const [modalData, setModalData] = useState(null);
   const [activityFilter, setActivityFilter] = useState('');
@@ -59,8 +64,12 @@ const Schedule = () => {
     }
   };
 
-  const clickAdmin = ({ oneClass, reason }) => {
-    setShowForm({ show: true, data: oneClass, reason });
+  const clickAdmin = ({ oneClass, reason, createData }) => {
+    if (reason === 'edit') {
+      setShowForm({ show: true, data: oneClass, reason });
+    } else {
+      setShowForm({ show: true, reason, createData });
+    }
   };
 
   const handleSubmit = (data) => {
@@ -226,6 +235,7 @@ const Schedule = () => {
           classes={classes}
           activities={activities}
           classData={showForm.data}
+          createData={showForm.createData}
           reason={showForm.reason}
           handler={() => setShowForm(false)}
         />

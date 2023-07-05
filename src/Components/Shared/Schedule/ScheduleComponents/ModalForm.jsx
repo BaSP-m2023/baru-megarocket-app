@@ -8,11 +8,12 @@ import ConfirmModal from 'Components/Shared/ConfirmModal';
 import Button from 'Components/Shared/Button';
 import classSchema from 'Validations/class';
 import { useDispatch } from 'react-redux';
-import { putClass } from 'Redux/Classes/thunks';
+import { addClass, putClass } from 'Redux/Classes/thunks';
 import { refreshData } from 'Redux/Classes/actions';
 
-const ModalForm = ({ handler, reason, activities, classData, classes }) => {
+const ModalForm = ({ handler, reason, activities, classData, createData, classes }) => {
   const [trainers, setTrainers] = useState([]);
+  const [trainerValue, setTrainerValue] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const dispatch = useDispatch();
   const {
@@ -21,6 +22,7 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
     reset,
     watch,
     setValue,
+    getValues,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -33,6 +35,7 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
   });
   const activityValue = watch('activity');
 
+  console.log(trainerValue);
   useEffect(() => {
     if (classData) {
       setValue('activity', classData.activity._id);
@@ -42,19 +45,27 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
   }, []);
 
   useEffect(() => {
+    console.log(activityValue);
     const activity = activities.find((activity) => activity._id === activityValue);
+    console.log(activity);
     setTrainers(activity?.trainers);
+    setTrainerValue(getValues('trainer'));
   }, [activities, activityValue]);
 
+  console.log(trainers);
   const handleConfirmModal = () => {
     setShowConfirmModal(true);
   };
 
   const handleSubmitForm = (data) => {
-    console.log(data);
     setShowConfirmModal(false);
-    const fullData = { ...data, time: classData.time, day: classData.day };
-    onSubmit(fullData);
+    if (reason === 'edit') {
+      const editClass = { ...data, time: classData.time, day: classData.day };
+      onSubmit(editClass);
+    } else {
+      const createClass = { ...data, time: createData.time, day: createData.day };
+      onSubmit(createClass);
+    }
   };
 
   const handleReset = (e) => {
@@ -71,6 +82,8 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
         classes[index] = data;
         dispatch(refreshData(classes));
       });
+    } else {
+      addClass(dispatch, data);
     }
   };
 
@@ -90,11 +103,14 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
               <option value={classData ? classData.activity._id : ''}>
                 {classData ? classData.activity.name : 'Select an activity'}
               </option>
-              {activities?.map((act) => (
-                <option value={act._id} key={act._id}>
-                  {act.name}
-                </option>
-              ))}
+              {activities?.map(
+                (act) =>
+                  classData?.activity._id !== act._id && (
+                    <option value={act._id} key={act._id}>
+                      {act.name}
+                    </option>
+                  )
+              )}
             </select>
             {errors.activity?.message && (
               <span className={stylesForm.error}>{errors.activity.message}</span>
@@ -103,9 +119,11 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
           <div className={stylesForm.inputContainer}>
             <label className={stylesForm.label}>Trainer</label>
             <select name="trainer" {...register('trainer')}>
-              {console.log(trainers)}
-              {console.log(activityValue)}
-              {!trainers && !activityValue && <option>Select an activity</option>}
+              {classData && trainerValue !== classData.trainer._id && (
+                <option value={classData.trainer._id}>
+                  {classData.trainer.firstName} {classData.trainer.lastName}
+                </option>
+              )}
               {trainers?.map((trainer) => (
                 <option value={trainer._id} key={trainer._id}>
                   {trainer.firstName} {trainer.lastName}
@@ -142,7 +160,7 @@ const ModalForm = ({ handler, reason, activities, classData, classes }) => {
           </div>
         </form>
       </div>
-      {showConfirmModal && classData && (
+      {showConfirmModal && (
         <ConfirmModal
           title={'Class details'}
           handler={() => setShowConfirmModal(false)}

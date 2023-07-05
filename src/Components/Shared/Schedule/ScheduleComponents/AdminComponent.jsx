@@ -26,7 +26,14 @@ const ScheduleAdmin = ({ props, click }) => {
       </div>
     );
   } else {
-    return <div className={`${styles.div}`} onClick={() => click({ reason: 'create' })}></div>;
+    return (
+      <div
+        className={`${styles.div}`}
+        onClick={() =>
+          click({ reason: 'create', createData: { day: props.day, time: props.hour } })
+        }
+      ></div>
+    );
   }
 };
 
