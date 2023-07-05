@@ -98,7 +98,6 @@ function ClassForm() {
   }, [dispatch]);
 
   const createClass = async (newClass) => {
-    console.log(history);
     dispatch(addClass(newClass, history));
   };
 
