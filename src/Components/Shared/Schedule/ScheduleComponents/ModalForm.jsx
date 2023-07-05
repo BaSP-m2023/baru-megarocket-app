@@ -13,7 +13,6 @@ import { refreshData } from 'Redux/Classes/actions';
 
 const ModalForm = ({ handler, reason, activities, classData, createData, classes }) => {
   const [trainers, setTrainers] = useState([]);
-  const [trainerValue, setTrainerValue] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const dispatch = useDispatch();
   const {
@@ -22,7 +21,6 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
     reset,
     watch,
     setValue,
-    getValues,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -35,7 +33,6 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
   });
   const activityValue = watch('activity');
 
-  console.log(trainerValue);
   useEffect(() => {
     if (classData) {
       setValue('activity', classData.activity._id);
@@ -44,15 +41,14 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
     }
   }, []);
 
+  console.log(activityValue);
+  console.log(trainers);
+
   useEffect(() => {
-    console.log(activityValue);
     const activity = activities.find((activity) => activity._id === activityValue);
-    console.log(activity);
     setTrainers(activity?.trainers);
-    setTrainerValue(getValues('trainer'));
   }, [activities, activityValue]);
 
-  console.log(trainers);
   const handleConfirmModal = () => {
     setShowConfirmModal(true);
   };
@@ -118,14 +114,14 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
           </div>
           <div className={stylesForm.inputContainer}>
             <label className={stylesForm.label}>Trainer</label>
-            <select name="trainer" {...register('trainer')}>
-              {classData && trainerValue !== classData.trainer._id && (
-                <option value={classData.trainer._id}>
-                  {classData.trainer.firstName} {classData.trainer.lastName}
-                </option>
-              )}
+            <select disabled={!activityValue} name="trainer" {...register('trainer')}>
+              {!activityValue && <option>Select an activity first</option>}
               {trainers?.map((trainer) => (
-                <option value={trainer._id} key={trainer._id}>
+                <option
+                  selected={classData?.trainer._id === trainer._id}
+                  value={trainer._id}
+                  key={trainer._id}
+                >
                   {trainer.firstName} {trainer.lastName}
                 </option>
               ))}
