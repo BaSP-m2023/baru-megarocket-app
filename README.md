@@ -30,7 +30,7 @@ You will also see any lint errors in the console.
 
 ### Dev Team
 
-|Photo | Name  | Mail | Github
+| | Name  | Mail | Github
 | :-----: | :-----: | :-----: | :-----: |
 <img src="https://avatars.githubusercontent.com/u/87949682?v=4" height="50" width="50">| Franco Duarte | francoa.duarte2001@gmail.com | [@francoax](https://github.com/francoax)
 <img src="https://avatars.githubusercontent.com/u/90772977?v=4" height="50" width="50">| Franco Duarte | victoriaecalle@gmail.com | [@victoriassol](https://github.com/victoriassol)
@@ -43,6 +43,9 @@ You will also see any lint errors in the console.
 <img src="https://avatars.githubusercontent.com/u/123534779?v=4" height="50" width="50">| Rodrigo Fontan | r.fontan12@gmail.com | [@FontanR](https://github.com/FontanR)
 
 ### QA Team
+
+| | Name  | Mail | Github
+| :-----: | :-----: | :-----: | :-----: |
 <img src="https://avatars.githubusercontent.com/u/90704238?v=4" height="50" width="50">| Julian Riedinger | julianriedinger27@gmail.com |[@JulianRiedinger7](https://github.com/JulianRiedinger7)
 <img src="https://avatars.githubusercontent.com/u/101472952?v=4" height="50" width="50">| Gabriela Hollmann | gabrielahollmann@gmail.com |[@gabiholl](https://github.com/gabiholl)
 <img src="https://avatars.githubusercontent.com/u/127539369?v=4" height="50" width="50">| Matías Luis Peter | matiasluispeter@gmail.com |[@matiasluispeter](https://github.com/matiasluispeter)
