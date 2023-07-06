@@ -6,9 +6,11 @@ import styles from './list.module.css';
 import { deleteClass } from 'Redux/Classes/thunks';
 import { refreshData } from 'Redux/Classes/actions';
 import { getActivities } from 'Redux/Activities/thunks';
-
+import { Input } from 'Components/Shared/Inputs';
 import Button from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 function ClassList({ classes }) {
   const [filter, setFilter] = useState('');
@@ -58,15 +60,23 @@ function ClassList({ classes }) {
   let { url } = useRouteMatch();
 
   return (
-    <div className={styles.container}>
-      <input
-        placeholder="Search By Activity/Trainer"
-        value={filter}
-        onChange={(e) => handleFilter(e)}
-        data-testid="classes-search"
-      />
+    <div>
+      <div className={styles.filterContainer}>
+        <div className={styles.inputContainer} data-testid="classes-search">
+          <Input
+            labelText="Filter Classes"
+            name="filter-classes"
+            type="text"
+            placeholder="Search By Activity or Trainer"
+            change={(e) => handleFilter(e)}
+          />
+        </div>
+        <div className={styles.icon}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+        </div>
+      </div>
 
-      <div className={styles.tableContainer}>
+      <div className={styles.container}>
         <table className={styles.table}>
           <thead>
             <tr>
@@ -113,6 +123,13 @@ function ClassList({ classes }) {
           </tbody>
         </table>
       </div>
+      {filteredClasses.length === 0 ? (
+        <div className={styles.filter}>
+          <p>There is no classes with that activity or trainer</p>
+        </div>
+      ) : (
+        ''
+      )}
       {showConfirmModal && (
         <ConfirmModal
           title="Delete class"

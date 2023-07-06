@@ -1,25 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  height: auto;
+}
+
 .space {
   width: 75%;
   padding: 2rem;
   border-collapse: collapse;
 }
 
-.filter-container {
+.filterContainer {
   display: flex;
-  align-items: center;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 13%;
+  margin-bottom: 1%;
 }
 
 .filter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
+  color:#373867;
+  font-size: 21px;
+  font-weight: bold;
 }
 
-.filter-input {
-  width: 15rem;
-  margin: 1rem;
-  border: 1px solid #373867;
-  border-radius: 3px;
+.icon {
+  margin-top: 37px;
 }
 
 .column {

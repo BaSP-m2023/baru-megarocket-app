@@ -1,8 +1,9 @@
 .tableContainer {
   display: flex;
   flex-direction: column;
-  width: 75%;
-  height: 50vh;
+  align-items: center;
+  width: auto;
+  height: auto;
   overflow-y: scroll;
 }
 
@@ -12,16 +13,26 @@
   table-layout: auto;
 }
 
-.tableFilter {
+.filterContainer {
   display: flex;
-  align-items: center;
-  width: 75%;
 }
 
-.tableInputFilter {
-  align-self: flex-end;
-  border: 1px solid #373867;
-  border-radius: 3px;
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 13%;
+  margin-bottom: 1%;
+}
+
+.filter {
+  text-align: center;
+  color:#373867;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.icon {
+  margin-top: 37px;
 }
 
 .tableHeader th {
@@ -44,19 +55,6 @@
 
 .tableRow:hover {
   background-color: #c4bcbc;
-}
-
-.tableError {
-  margin: 0;
-  padding: 0;
-  color: #F13312;
-}
-
-.title {
-  margin: 0;
-  padding: 0;
-  color: #373867;
-  font-size: 2rem;
 }
 
 .activityState {
