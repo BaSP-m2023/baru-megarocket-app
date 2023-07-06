@@ -76,7 +76,7 @@ const Schedule = () => {
       dispatch(deleteSubscription(data.subId));
     } else {
       const subData = { classes: data._id, members: member._id };
-      addSubscriptions(dispatch, subData);
+      addSubscriptions(dispatch, subData).then(() => getSubscriptions(dispatch));
     }
     setShowConfirmModal(false);
   };
@@ -88,23 +88,19 @@ const Schedule = () => {
         return subs.members._id === member._id;
       });
       memberSubscription?.forEach((sub) => {
-        activities?.forEach((act) => {
-          if (sub.classes?.activity === act._id) {
-            arraySubs.push({
-              subId: sub._id,
-              activityName: act.name,
-              day: sub.classes.day,
-              time: sub.classes.time,
-              desc: act.description,
-              capacity: sub.classes.capacity,
-              trainer: sub.classes.trainer
-            });
-          }
+        arraySubs.push({
+          subId: sub._id,
+          activityName: sub.classes.activity.name,
+          day: sub.classes.day,
+          time: sub.classes.time,
+          desc: sub.classes.activity.description,
+          capacity: sub.classes.capacity,
+          trainer: sub.classes.trainer._id
         });
       });
       setMemberSubs(arraySubs);
     }
-  }, [subscriptions, activities]);
+  }, [subscriptions]);
 
   return (
     <>

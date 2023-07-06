@@ -103,8 +103,7 @@ const subscriptionsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPending: false,
-        success: true,
-        data: [...state.data, action.payload]
+        success: true
       };
     }
     case ADD_SUBSCRIPTIONS_ERROR: {
