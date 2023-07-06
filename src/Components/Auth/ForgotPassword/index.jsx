@@ -30,7 +30,7 @@ const ForgotPassword = () => {
 
   const handleSendEmail = (data) => {
     const auth = getAuth();
-    sendPasswordResetEmail(auth, data.email, { url: `${process.env.REACT_APP_URL}/auth/login` })
+    sendPasswordResetEmail(auth, data.email)
       .then(() => {
         history.push('/auth/login');
         dispatch(setContentToast({ message: 'Email with reset link sent', state: 'success' }));
