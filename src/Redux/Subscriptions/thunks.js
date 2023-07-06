@@ -85,7 +85,7 @@ export const addSubscriptions = (newAddSubscription) => {
 
 export const editSubscription = (newEditSubscription, id) => {
   return async (dispatch) => {
-    dispatch(editSubscriptionPending);
+    dispatch(editSubscriptionPending());
     try {
       const isoDate = newEditSubscription.date
         ? new Date(newEditSubscription.date).toISOString()
