@@ -28,7 +28,6 @@ const Table = ({ data }) => {
 
   const handleDelete = (subscription) => {
     const subClass = classes.find((subClass) => subClass._id === subscription.classes._id);
-    console.log(subClass);
     dispatch(deleteSubscription(subscription._id));
     const subscribedRemain = subClass.subscribed ? subClass.subscribed - 1 : 0;
     dispatch(addSubscribed({ subscribed: subscribedRemain }, subscription.classes._id));

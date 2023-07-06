@@ -113,12 +113,10 @@ export const addSubscribed = (classes, id) => {
         body: JSON.stringify(classes)
       });
       const { data, message, error } = await response.json();
-      console.log('response', response);
       if (response.ok) {
         dispatch(putClassSuccess(data));
       }
       if (error) {
-        console.log('error', error);
         throw new Error(message);
       }
     } catch (error) {

@@ -68,14 +68,12 @@ const Form = () => {
     dispatch(getSubscriptions);
   }, []);
   const onConfirm = (data) => {
-    console.log(data);
     try {
       if (id) {
         editSubscription(dispatch, data, id);
         setShowConfirmModal(false);
       } else {
         const subClass = classes.find((c) => c._id === data.classes) || '';
-        console.log(subClass);
         if (subClass.capacity > subClass.subscribed) {
           const subscribedPlusOne = subClass.subscribed + 1;
           addSubscriptions(dispatch, data);

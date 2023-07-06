@@ -61,7 +61,6 @@ const SubscriptionsMember = () => {
     const subscriptionEdited = { subscribed: unsubscribed };
     dispatch(deleteSubscription(idToDelete));
     dispatch(addSubscribed(subscriptionEdited, subscription.classes._id));
-    console.log(subscriptionEdited);
     setShowConfirmModal(false);
   };
 
