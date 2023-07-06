@@ -16,7 +16,7 @@ const classSchema = Joi.object({
     .regex(/^([0-9]|[01]\d|2[0-1]):([00]\d)$/)
     .required(),
   capacity: Joi.number().min(1).max(50).required().integer(),
-  subscribed: Joi.number().min(0).max(50).required().integer()
+  subscribed: Joi.number().min(0).max(50).integer()
 });
 
 export default classSchema;

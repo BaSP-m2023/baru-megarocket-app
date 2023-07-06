@@ -100,30 +100,34 @@ export const putClass = async (dispatch, classes, id, history) => {
     return error;
   }
 };
-export const addSubscribed = async (dispatch, classes, id) => {
-  dispatch(putClassPending());
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        token: token
-      },
-      body: JSON.stringify(classes)
-    });
-    const { data, message, error } = await response.json();
-    if (response.ok) {
-      dispatch(putClassSuccess(data));
+export const addSubscribed = (classes, id) => {
+  return async (dispatch) => {
+    dispatch(putClassPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token
+        },
+        body: JSON.stringify(classes)
+      });
+      const { data, message, error } = await response.json();
+      console.log('response', response);
+      if (response.ok) {
+        dispatch(putClassSuccess(data));
+      }
+      if (error) {
+        console.log('error', error);
+        throw new Error(message);
+      }
+    } catch (error) {
+      dispatch(putClassError(error.message));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
+      return error;
     }
-    if (error) {
-      throw new Error(message);
-    }
-  } catch (error) {
-    dispatch(putClassError(error.message));
-    dispatch(setContentToast({ message: error.message, state: 'fail' }));
-    dispatch(handleDisplayToast(true));
-    return error;
-  }
+  };
 };
 
 export const deleteClass = (classId) => {

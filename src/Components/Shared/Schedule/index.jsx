@@ -64,14 +64,14 @@ const Schedule = () => {
       data.subscribed = data.subscribed - 1;
       const classData = { subscribed: data.subscribed };
       dispatch(deleteSubscription(data.subId));
-      addSubscribed(dispatch, classData, data.classId, history);
+      dispatch(addSubscribed(classData, data.classId));
     } else {
       if (data.capacity > data.subscribed) {
         const subData = { classes: data?._id, members: member?._id };
         data.subscribed = data.subscribed + 1;
         addSubscriptions(dispatch, subData);
         const classData = { subscribed: data.subscribed ? data.subscribed : 1 };
-        addSubscribed(dispatch, classData, data._id, history);
+        dispatch(addSubscribed(classData, data._id));
       } else {
         dispatch(setContentToast({ message: 'Full Class', state: 'fail' }));
         dispatch(handleDisplayToast(true));
@@ -193,7 +193,14 @@ const Schedule = () => {
           title={'Class details'}
           handler={() => setShowConfirmModal(false)}
           onAction={() => handleSubmit(modalData)}
-          reason={modalData.subId ? 'unsubscribe' : 'subscribe'}
+          reason={
+            modalData.subId
+              ? 'unsubscribe'
+              : modalData.capacity > modalData.subscribed
+              ? 'subscribe'
+              : 'Full Class'
+          }
+          disabled={!(modalData.subId || modalData.capacity > modalData.subscribed)}
         >
           {modalData.subId ? (
             <>

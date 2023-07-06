@@ -9,6 +9,7 @@ import { getSubscriptions } from 'Redux/Subscriptions/thunks';
 import Table from './Table';
 import Button from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
+import { getClasses } from 'Redux/Classes/thunks';
 
 const Subscriptions = () => {
   const { show, message, state } = useSelector((state) => state.toast);
@@ -19,6 +20,7 @@ const Subscriptions = () => {
   const subscriptions = useSelector((state) => state.subscriptions.data);
   useEffect(() => {
     getSubscriptions(dispatch);
+    getClasses(dispatch);
   }, [dispatch]);
 
   useEffect(() => {

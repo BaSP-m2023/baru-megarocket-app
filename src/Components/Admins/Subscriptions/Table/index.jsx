@@ -10,12 +10,15 @@ import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import Button from 'Components/Shared/Button';
 import Loader from 'Components/Shared/Loader';
+import { addSubscribed } from 'Redux/Classes/thunks';
 
 const Table = ({ data }) => {
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const pending = useSelector((state) => state.subscriptions.isPending);
+  const classes = useSelector((state) => state.classes.data);
+
   const { show, message, state } = useSelector((state) => state.toast);
 
   const handleConfirmDelete = (subscriptionId) => {
@@ -23,8 +26,12 @@ const Table = ({ data }) => {
     setShowConfirmDeleteModal(true);
   };
 
-  const handleDelete = (subscriptionId) => {
-    dispatch(deleteSubscription(subscriptionId));
+  const handleDelete = (subscription) => {
+    const subClass = classes.find((subClass) => subClass._id === subscription.classes._id);
+    console.log(subClass);
+    dispatch(deleteSubscription(subscription._id));
+    const subscribedRemain = subClass.subscribed ? subClass.subscribed - 1 : 0;
+    dispatch(addSubscribed({ subscribed: subscribedRemain }, subscription.classes._id));
     setShowConfirmDeleteModal(false);
   };
 
@@ -80,7 +87,7 @@ const Table = ({ data }) => {
                 <td className={`${styles.itemButton} ${styles.itemButtonDelete}`}>
                   <Button
                     img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
-                    action={() => handleConfirmDelete(subscription._id)}
+                    action={() => handleConfirmDelete(subscription)}
                     testid="subscriptions-delete-btn"
                   />
                 </td>
