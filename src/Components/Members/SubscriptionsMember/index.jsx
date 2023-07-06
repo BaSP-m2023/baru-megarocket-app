@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './subscriptionMember.module.css';
 
-import { getActivities } from 'Redux/Activities/thunks';
 import { getSubscriptions } from 'Redux/Subscriptions/thunks';
 import { deleteSubscription } from 'Redux/Subscriptions/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
@@ -15,7 +14,6 @@ import Loader from 'Components/Shared/Loader';
 const SubscriptionsMember = () => {
   const subscriptions = useSelector((state) => state.subscriptions.data);
   const pending = useSelector((state) => state.subscriptions.isPending);
-  const activities = useSelector((state) => state.activities.list);
   const dispatch = useDispatch();
   const [subscription, setSubscription] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -25,33 +23,13 @@ const SubscriptionsMember = () => {
 
   useEffect(() => {
     getSubscriptions(dispatch);
-    getActivities(dispatch);
   }, [dispatch]);
 
   useEffect(() => {
-    getActivitiesName().then((data) => {
-      setSubscription(data);
-    });
-  }, [subscriptions, activities]);
-
-  const getActivitiesName = async () => {
-    let arraySubs = [];
     const filterSubscription = subscriptions.filter((item) => item.members._id === member._id);
-
-    await filterSubscription.forEach((sub) => {
-      activities?.forEach((act) => {
-        if (sub.classes?.activity === act._id) {
-          arraySubs.push({
-            subId: sub._id,
-            activityName: act.name,
-            day: sub.classes.day,
-            time: sub.classes.time
-          });
-        }
-      });
-    });
-    return arraySubs;
-  };
+    setSubscription(filterSubscription);
+    console.log(filterSubscription);
+  }, [pending]);
 
   const handleDeleteActivity = () => {
     dispatch(deleteSubscription(idToDelete));
@@ -60,6 +38,7 @@ const SubscriptionsMember = () => {
 
   const handleDeleteButton = (id) => {
     setShowConfirmModal(true);
+    console.log(id);
     setIdToDelete(id);
   };
 
@@ -86,16 +65,16 @@ const SubscriptionsMember = () => {
               <tbody data-testid="subscriptions-list">
                 {subscription?.map((item) => {
                   return (
-                    <tr className={styles.tr} key={item.subId}>
-                      <td className={styles.td}>{item.activityName}</td>
-                      <td className={styles.td}>{item.day}</td>
-                      <td className={styles.td}>{item.time}</td>
+                    <tr className={styles.tr} key={item.members_id}>
+                      <td className={styles.td}>{item.classes.activity.name}</td>
+                      <td className={styles.td}>{item.classes.day}</td>
+                      <td className={styles.td}>{item.classes.time}</td>
                       <td className={styles.button}>
                         <div className={styles.buttonContainer}>
                           <Button
                             text="Unsubscribe"
                             classNameButton="deleteButton"
-                            action={() => handleDeleteButton(item.subId)}
+                            action={() => handleDeleteButton(item._id)}
                           />
                         </div>
                       </td>
