@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './form.module.css';
 
 import { getActivities } from 'Redux/Activities/thunks';
-import { getTrainers } from 'Redux/Trainers/thunks';
 import { putClass, addClass } from 'Redux/Classes/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import classSchema from 'Validations/class';
@@ -96,15 +95,14 @@ function ClassForm() {
   } = useController({ name: 'day', control });
   useEffect(() => {
     getActivities(dispatch);
-    getTrainers(dispatch);
   }, [dispatch]);
 
   const createClass = async (newClass) => {
-    addClass(dispatch, newClass, history);
+    dispatch(addClass(newClass, history));
   };
 
   const updateClass = (data) => {
-    putClass(dispatch, data, id, history);
+    dispatch(putClass(data, id, history));
   };
 
   const onClickCreateClass = (data) => {
