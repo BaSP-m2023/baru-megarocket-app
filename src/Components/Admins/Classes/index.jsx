@@ -20,15 +20,23 @@ function Projects() {
     dispatch(getClasses());
   }, [dispatch]);
 
+  if (isPending) {
+    return (
+      <div className={styles.container}>
+        <Loader />
+      </div>
+    );
+  }
   return (
-    <section className={styles.container}>
-      <h2>Class List</h2>
-      {isPending && <Loader />}
+    <section>
+      <h1 className={styles.title}>Classes</h1>
       {data.length > 0 && !isPending && <ClassList classes={data && data}></ClassList>}
       {!isPending && data.length === 0 && 'There are not classes yet. Add new ones!'}
-      <Link to={'classes/add'} className={styles.addNew} data-testid="add-class-link">
-        <Button text="+ Add new" classNameButton="submitButton" />
-      </Link>
+      <div className={styles.button}>
+        <Link to={'classes/add'} className={styles.addNew} data-testid="add-class-link">
+          <Button text="+ Add new" classNameButton="submitButton" />
+        </Link>
+      </div>
       {show && (
         <ResponseModal
           handler={() => dispatch(handleDisplayToast(false))}
