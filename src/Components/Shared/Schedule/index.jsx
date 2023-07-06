@@ -44,7 +44,7 @@ const Schedule = () => {
   useEffect(() => {
     getActivities(dispatch);
     dispatch(getClasses());
-    getSubscriptions(dispatch);
+    dispatch(getSubscriptions());
     dispatch(getTrainers());
   }, [dispatch]);
 
@@ -76,7 +76,7 @@ const Schedule = () => {
       dispatch(deleteSubscription(data.subId));
     } else {
       const subData = { classes: data._id, members: member._id };
-      addSubscriptions(dispatch, subData).then(() => getSubscriptions(dispatch));
+      dispatch(addSubscriptions(subData)).then(() => dispatch(getSubscriptions()));
     }
     setShowConfirmModal(false);
   };
