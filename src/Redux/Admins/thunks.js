@@ -119,7 +119,7 @@ export const editAdmin = async (dispatch, id, adminToUpdate) => {
 export const deleteAdmin = async (dispatch, id) => {
   dispatch(deleteAdminPending());
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/delete/${id}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',
