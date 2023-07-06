@@ -8,12 +8,15 @@ import ConfirmModal from 'Components/Shared/ConfirmModal';
 import Button from 'Components/Shared/Button';
 import classSchema from 'Validations/class';
 import { useDispatch } from 'react-redux';
-import { addClass, putClass } from 'Redux/Classes/thunks';
+import { addClass, deleteClass, putClass } from 'Redux/Classes/thunks';
 import { refreshData } from 'Redux/Classes/actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 const ModalForm = ({ handler, reason, activities, classData, createData, classes }) => {
   const [trainers, setTrainers] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const {
     register,
@@ -80,6 +83,14 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
     }
   };
 
+  const handleDelete = () => {
+    handler();
+    dispatch(deleteClass(classData._id));
+    const updated = classes.filter((filteredClasses) => filteredClasses._id !== classData._id);
+    dispatch(refreshData(updated));
+    setShowDeleteModal(false);
+  };
+
   return (
     <div className={styles.modal}>
       <div
@@ -87,9 +98,18 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
         data-testid="confirm-modal-container"
       >
         <form className={stylesForm.form}>
-          <h2 className={stylesForm.title}>
-            {reason === 'edit' ? 'Update class' : 'Create class'}
-          </h2>
+          <div className={stylesForm.headerModal}>
+            {reason === 'edit' && (
+              <FontAwesomeIcon
+                icon={faTrash}
+                className={stylesForm.trash}
+                onClick={() => setShowDeleteModal(true)}
+              />
+            )}
+            <h2 className={stylesForm.title}>
+              {reason === 'edit' ? 'Update class' : 'Create class'}
+            </h2>
+          </div>
           <div className={stylesForm.inputContainer}>
             <label className={stylesForm.label}>Activity</label>
             <select name="activity" {...register('activity')}>
@@ -148,8 +168,9 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
               text={reason === 'edit' ? 'Update' : 'Create'}
             />
           </div>
-          <div className={stylesForm.reset}>
-            <Button classNameButton="deleteButton" text="Reset" action={handleReset} />
+          <div className={stylesForm.resetContainer} onClick={handleReset}>
+            <FontAwesomeIcon icon={faRotateLeft} className={stylesForm.reset} />
+            <h3>reset</h3>
           </div>
         </form>
       </div>
@@ -164,6 +185,14 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
             ? 'Are you sure you want to edit this class?'
             : 'Are you sure you want to create a class?'}
         </ConfirmModal>
+      )}
+      {showDeleteModal && (
+        <ConfirmModal
+          title={'Delete Class'}
+          handler={() => setShowDeleteModal(false)}
+          onAction={handleSubmit(handleDelete)}
+          reason={'delete'}
+        />
       )}
     </div>
   );
