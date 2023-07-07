@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import styles from 'Components/Shared/ConfirmModal/modalConfirm.module.css';
-import stylesForm from 'Components/Shared/Schedule/ScheduleComponents/modalForm.module.css';
-import { Input } from 'Components/Shared/Inputs';
-import ConfirmModal from 'Components/Shared/ConfirmModal';
-import { Button, Reset } from 'Components/Shared/Button';
-import classSchema from 'Validations/class';
-import { useDispatch } from 'react-redux';
-import { addClass, deleteClass, putClass } from 'Redux/Classes/thunks';
-import { refreshData } from 'Redux/Classes/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
+import { addClass, deleteClass, putClass } from 'Redux/Classes/thunks';
+import { useDispatch } from 'react-redux';
+import { refreshData } from 'Redux/Classes/actions';
+
+import { Button, Reset } from 'Components/Shared/Button';
+import { Input } from 'Components/Shared/Inputs';
+import styles from 'Components/Shared/ConfirmModal/modalConfirm.module.css';
+import stylesForm from 'Components/Shared/Schedule/ScheduleComponents/modalForm.module.css';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import classSchema from 'Validations/class';
 
 const ModalForm = ({ handler, reason, activities, classData, createData, classes }) => {
   const [trainers, setTrainers] = useState([]);
@@ -68,8 +70,7 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
     }
   };
 
-  const handleReset = (e) => {
-    e.preventDefault();
+  const handleReset = () => {
     reset();
   };
 

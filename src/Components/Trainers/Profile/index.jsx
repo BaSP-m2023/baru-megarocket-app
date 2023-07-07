@@ -11,7 +11,7 @@ import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import { Button } from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 import trainerSchema from 'Validations/trainerUpdate';
 
 function TrainerProfile({ match }) {
@@ -22,7 +22,7 @@ function TrainerProfile({ match }) {
   const dispatch = useDispatch();
   const { show, message, state } = useSelector((state) => state.toast);
   const trainerLogged = useSelector((state) => state.auth.user);
-  // const token = sessionStorage.getItem('token');
+
   const {
     register,
     handleSubmit,
@@ -33,15 +33,15 @@ function TrainerProfile({ match }) {
     resolver: joiResolver(trainerSchema),
     mode: 'onChange',
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      dni: '',
-      phone: '',
-      salary: '',
+      firstName: trainerLogged?.firstName,
+      lastName: trainerLogged?.lastName,
+      dni: trainerLogged?.dni,
+      phone: trainerLogged?.phone,
+      salary: trainerLogged?.salary,
       isActive: trainerLogged?.isActive
     }
   });
-
+  console.log(trainerLogged);
   useEffect(() => {
     dispatch(getTrainers());
   }, []);
@@ -70,20 +70,13 @@ function TrainerProfile({ match }) {
         });
     }
   };
+
   const resetData = () => {
     reset();
-    if (trainerLogged) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resTrainerLogged } = trainerLogged;
-      Object.entries(resTrainerLogged).every(([key, value]) => {
-        setValue(key, value);
-        return true;
-      });
-    }
   };
-  const handleReset = (e) => {
-    e.preventDefault();
 
+  const handleReset = () => {
+    reset();
     if (trainerLogged) {
       // eslint-disable-next-line no-unused-vars
       const { _id, firebaseUid, email, __v, ...resTrainerLogged } = trainerLogged;
@@ -150,12 +143,7 @@ function TrainerProfile({ match }) {
                 action={() => setDisableEdit(true)}
                 text="Cancel"
               />
-              <Button
-                classNameButton="deleteButton"
-                action={handleReset}
-                text={'Reset'}
-                disabled={disableEdit}
-              />
+              <Reset action={handleReset} />
             </div>
           )}
         </form>

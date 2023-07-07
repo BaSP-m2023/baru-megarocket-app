@@ -35,16 +35,7 @@ function AdminsForm() {
   } = !params.id
     ? useForm({
         mode: 'onChange',
-        resolver: joiResolver(adminSchema),
-        defaultValues: {
-          firstName: '',
-          lastName: '',
-          dni: '',
-          phone: '',
-          city: '',
-          email: '',
-          password: ''
-        }
+        resolver: joiResolver(adminSchema)
       })
     : useForm({
         mode: 'onChange',
@@ -172,7 +163,6 @@ function AdminsForm() {
               </div>
             </>
           )}
-          <Reset action={handleReset} />
         </form>
         <div className={styles.buttonContainer} data-testid="admin-form-buttons">
           <div>
@@ -192,6 +182,7 @@ function AdminsForm() {
             />
           </div>
         </div>
+        <Reset action={handleReset} />
       </div>
       {showConfirmModal && (
         <ConfirmModal

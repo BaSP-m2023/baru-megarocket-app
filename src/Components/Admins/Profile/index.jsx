@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
-import styles from './profile.module.css';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { getAdmins, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
-import adminUpdate from 'Validations/adminUpdate';
 
+import adminUpdate from 'Validations/adminUpdate';
 import { Input } from 'Components/Shared/Inputs';
+import { Button, Reset } from 'Components/Shared/Button';
 import Loader from 'Components/Shared/Loader';
-import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
+import styles from './profile.module.css';
 
 function AdminProfile() {
   const dispatch = useDispatch();
@@ -24,7 +24,6 @@ function AdminProfile() {
   const { show, message, state } = useSelector((state) => state.toast);
   const loading = useSelector((state) => state.admins.isPending);
   const defaultAdmin = useSelector((state) => state.auth.user || '');
-  // const token = sessionStorage.getItem('token');
 
   const {
     register,
@@ -152,24 +151,27 @@ function AdminProfile() {
             </form>
           )}
           {!disableEdit ? (
-            <div className={styles.confirm_button}>
-              <Button
-                action={() => handleAction('Delete')}
-                classNameButton="deleteButton"
-                text="Delete account"
-              ></Button>
-              <Button
-                classNameButton="cancelButton"
-                action={() => setDisableEdit(true)}
-                text="Cancel"
-              />
-              <Button
-                action={() => handleAction('Edit')}
-                classNameButton="addButton"
-                text="Confirm"
-                disabled={disableEdit}
-              ></Button>
-            </div>
+            <>
+              <div className={styles.confirm_button}>
+                <Button
+                  action={() => handleAction('Delete')}
+                  classNameButton="deleteButton"
+                  text="Delete account"
+                ></Button>
+                <Button
+                  classNameButton="cancelButton"
+                  action={() => setDisableEdit(true)}
+                  text="Cancel"
+                />
+                <Button
+                  action={() => handleAction('Edit')}
+                  classNameButton="addButton"
+                  text="Confirm"
+                  disabled={disableEdit}
+                ></Button>
+              </div>
+              <Reset action={resetData} />
+            </>
           ) : (
             <div className={styles.confirm_button}>
               <Button
