@@ -59,7 +59,7 @@ const Form = () => {
 
   useEffect(() => {
     dispatch(getClasses());
-    dispatch(getMembers);
+    dispatch(getMembers());
     dispatch(getSubscriptions());
   }, []);
 

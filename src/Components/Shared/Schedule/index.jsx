@@ -70,7 +70,7 @@ const Schedule = () => {
     let arraySubs = [];
     if (role === 'MEMBER') {
       const memberSubscription = subscriptions?.filter((subs) => {
-        return subs.members._id === member._id;
+        return subs.members._id === member?._id;
       });
       memberSubscription?.forEach((sub) => {
         activities?.forEach((act) => {
