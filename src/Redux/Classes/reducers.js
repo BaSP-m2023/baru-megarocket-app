@@ -82,12 +82,14 @@ const classReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: true
       };
-    case DELETE_CLASS_SUCCESS:
+    case DELETE_CLASS_SUCCESS: {
+      const newData = state.data.filter((classes) => classes._id !== action.payload.idDeleted);
       return {
         ...state,
         isPending: false,
-        data: action.payload
+        data: newData
       };
+    }
     case DELETE_CLASS_ERROR:
       return {
         ...state,
