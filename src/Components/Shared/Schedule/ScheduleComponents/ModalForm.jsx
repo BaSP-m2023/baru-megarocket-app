@@ -47,7 +47,7 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
   useEffect(() => {
     if (reason === 'create') {
       const activity = activities.find((activity) => activity._id === activityValue);
-      setValue('trainer', activity?.trainers[0]._id);
+      setValue('trainer', activity?.trainers[0]?._id);
     }
     const activity = activities.find((activity) => activity._id === activityValue);
     setTrainers(activity?.trainers);
