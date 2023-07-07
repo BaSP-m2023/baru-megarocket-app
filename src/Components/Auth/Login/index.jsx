@@ -58,6 +58,11 @@ function Login() {
             error={errors.password?.message}
           />
         </div>
+        <div>
+          <Link to="/auth/forgotPassword">
+            <a href="#">Have you forgotten your password?</a>
+          </Link>
+        </div>
         <div className={styles.buttonContainer} data-testid="login-form-buttons-container">
           <Button action={handleSubmit(handleLogin)} text="Login" classNameButton="submitButton" />
           <Link to="/">
