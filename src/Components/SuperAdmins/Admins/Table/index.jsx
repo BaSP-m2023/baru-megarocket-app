@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import styles from './table.module.css';
 
 function Table({ filter, handleDeleteButton }) {

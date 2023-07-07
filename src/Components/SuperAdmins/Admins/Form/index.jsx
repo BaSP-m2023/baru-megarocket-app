@@ -12,7 +12,7 @@ import adminSchema from 'Validations/admin';
 import adminUpdate from 'Validations/adminUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
@@ -157,9 +157,8 @@ function AdminsForm() {
               </div>
             </>
           )}
-          <div className={styles.container_button}>
-            <Button action={reset} text="Reset" classNameButton="deleteButton" />
-          </div>
+
+          <Button action={reset} text="Reset" classNameButton="deleteButton" />
         </form>
         <div className={styles.buttonContainer} data-testid="admin-form-buttons">
           <div>

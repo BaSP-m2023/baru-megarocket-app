@@ -11,7 +11,7 @@ import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import trainerSchema from 'Validations/trainerUpdate';
 
 function TrainerProfile({ match }) {

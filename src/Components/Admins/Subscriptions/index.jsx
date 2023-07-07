@@ -7,7 +7,7 @@ import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { getSubscriptions } from 'Redux/Subscriptions/thunks';
 
 import Table from './Table';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
 const Subscriptions = () => {

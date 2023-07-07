@@ -7,7 +7,7 @@ import { getSubscriptions } from 'Redux/Subscriptions/thunks';
 import { deleteSubscription } from 'Redux/Subscriptions/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import Loader from 'Components/Shared/Loader';

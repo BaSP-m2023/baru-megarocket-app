@@ -14,7 +14,7 @@ import memberUpdate from 'Validations/memberUpdate';
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 
 const MemberForm = ({ match }) => {
   const [modalMessageOpen, setModalMessageOpen] = useState(false);

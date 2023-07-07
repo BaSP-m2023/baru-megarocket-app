@@ -31,3 +31,21 @@
 .button[disabled] {
   cursor: auto;
 }
+
+.resetContainer {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  width: fit-content;
+  cursor: pointer;
+  font-family: 'Prompt', sans-serif;
+}
+
+.resetContainer:hover .reset {
+  color: red;
+}
+
+.reset {
+  height: 1.35rem;
+  color: #403f3f;
+}

@@ -8,7 +8,7 @@ import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 import List from './Table/List';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import Loader from 'Components/Shared/Loader';
 
 function Members() {

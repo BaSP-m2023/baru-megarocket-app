@@ -13,7 +13,7 @@ import trainerUpdate from 'Validations/trainerUpdate';
 import { Input } from 'Components/Shared/Inputs';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 
 const Form = () => {
   const { id } = useParams();

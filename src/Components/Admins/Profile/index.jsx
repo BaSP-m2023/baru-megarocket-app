@@ -11,7 +11,7 @@ import adminUpdate from 'Validations/adminUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
 import Loader from 'Components/Shared/Loader';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
