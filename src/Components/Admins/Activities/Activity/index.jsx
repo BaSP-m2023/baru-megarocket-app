@@ -18,7 +18,7 @@ const Activity = ({ activity }) => {
 
   const onAction = () => {
     handleConfirm();
-    deleteActivity(dispatch, activity._id);
+    dispatch(deleteActivity(activity._id));
   };
 
   let { url } = useRouteMatch();

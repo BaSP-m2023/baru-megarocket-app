@@ -18,8 +18,8 @@ function Activities() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getActivities(dispatch);
-  }, [dispatch]);
+    dispatch(getActivities());
+  }, []);
 
   if (isPending) {
     return (
