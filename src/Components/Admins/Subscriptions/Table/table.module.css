@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  height: auto;
+}
+
+.tableSubscription {
+  flex: 1;
+  width: 90%;
+  border-collapse: collapse;
+}
+
+.containerThead {
+  background-color: #f2f2f2;
+}
+.theadOptions {
+  width: auto;
+}
+.containerThead th {
+  text-align: center;
+}
+
+.line {
+  width: 100%;
+}
+
+.item {
+  width: 20%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.itemButton {
+  width: 5%;
+  text-overflow: ellipsis;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.filterContainer {
+  display: flex;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5%;
+  margin-bottom: 1%;
+}
+
+.filter {
+  text-align: center;
+  color:#373867;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.filterInput {
+  width: 15rem;
+  margin: 1rem;
+  border: 1px solid #373867;
+  border-radius: 3px;
+}
+
+.icon {
+  margin-top: 37px;
+}
+
+.itemButtonEdit:hover {
+  background-color: #aace9e;
+}
+
+.itemButtonDelete:hover {
+  background-color: #d10202;
+}
