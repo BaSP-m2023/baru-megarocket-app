@@ -31,7 +31,7 @@ export function Button({ action, text, img, classNameButton, disabled, testid })
 
 export function Reset({ action }) {
   return (
-    <div className={styles.resetContainer} onClick={action}>
+    <div className={styles.resetContainer} onClick={() => action()}>
       <FontAwesomeIcon icon={faRotateLeft} className={styles.reset} />
       reset
     </div>

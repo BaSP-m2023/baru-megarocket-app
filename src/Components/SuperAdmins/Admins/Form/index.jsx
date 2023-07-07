@@ -12,7 +12,7 @@ import adminSchema from 'Validations/admin';
 import adminUpdate from 'Validations/adminUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
-import { Button } from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
@@ -48,15 +48,30 @@ function AdminsForm() {
       })
     : useForm({
         mode: 'onChange',
-        resolver: joiResolver(adminUpdate),
-        defaultValues: {
+        resolver: joiResolver(adminUpdate)
+      });
+
+  const handleReset = () => {
+    const defaultValues = !params.id
+      ? {
           firstName: '',
           lastName: '',
           dni: '',
           phone: '',
-          city: ''
+          city: '',
+          email: '',
+          password: ''
         }
-      });
+      : {
+          firstName: adminToUpdate ? adminToUpdate.firstName : '',
+          lastName: adminToUpdate ? adminToUpdate.lastName : '',
+          dni: adminToUpdate ? adminToUpdate.dni : '',
+          phone: adminToUpdate ? adminToUpdate.phone : '',
+          city: adminToUpdate ? adminToUpdate.city : ''
+        };
+
+    reset(defaultValues);
+  };
 
   useEffect(() => {
     if (params.id) {
@@ -157,8 +172,7 @@ function AdminsForm() {
               </div>
             </>
           )}
-
-          <Button action={reset} text="Reset" classNameButton="deleteButton" />
+          <Reset action={handleReset} />
         </form>
         <div className={styles.buttonContainer} data-testid="admin-form-buttons">
           <div>
