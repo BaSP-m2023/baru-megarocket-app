@@ -75,7 +75,7 @@ You will also see any lint errors in the console.
 | | Name  | Mail | Github
 | :-----: | :-----: | :-----: | :-----: |
 <img src="https://avatars.githubusercontent.com/u/87949682?v=4" height="50" width="50">| Franco Duarte | francoa.duarte2001@gmail.com | [@francoax](https://github.com/francoax)
-<img src="https://avatars.githubusercontent.com/u/90772977?v=4" height="50" width="50">| Franco Duarte | victoriaecalle@gmail.com | [@victoriassol](https://github.com/victoriassol)
+<img src="https://avatars.githubusercontent.com/u/90772977?v=4" height="50" width="50">| Victoria Ecalle | victoriaecalle@gmail.com | [@victoriassol](https://github.com/victoriassol)
 <img src="https://avatars.githubusercontent.com/u/99512277?v=4" height="50" width="50">| Ignacio Agustín Galcerán | igna.galceran@gmail.com | [@IgnacioGalceran](https://github.com/IgnacioGalceran)
 <img src="https://avatars.githubusercontent.com/u/42724273?v=4" height="50" width="50">| Nicolas Ramirez | jjnicoramirez@gmail.com | [@jramire5](https://github.com/jramire5)
 <img src="https://avatars.githubusercontent.com/u/117609837?v=4" height="50" width="50">| Mauro Caffesse | mscaffesse@gmail.com | [@MauroCaffesse](https://github.com/MauroCaffesse)
