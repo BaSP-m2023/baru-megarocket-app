@@ -24,10 +24,9 @@ const Form = () => {
   const dispatch = useDispatch();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [filteredClass, setFilteredClass] = useState([]);
-  const classes = useSelector((state) => state.classes.data);
 
   const subscriptions = useSelector((state) => state.subscriptions.data);
-  const classesPending = useSelector((state) => state.classes.pending);
+  const { data: classes, isPending: classesPending } = useSelector((state) => state.classes);
   const members = useSelector((state) => state.members.data);
   const success = useSelector((state) => state.subscriptions.success);
   const pending = useSelector((state) => state.subscriptions.isPending);
@@ -54,29 +53,29 @@ const Form = () => {
     field: { value: clas, onChange: clasOnChange }
   } = useController({ name: 'classes', control });
   const filterClass = (data) => {
-    const filteredClasses = data.filter(
-      (item) => !item.deleted && item.activity !== null && item.members !== null
-    );
+    const filteredClasses = data.filter((item) => item.activity !== null && item.members !== null);
     setFilteredClass(filteredClasses);
   };
 
   useEffect(() => {
-    dispatch(getClasses).then((data) => {
-      filterClass(data);
-    });
+    dispatch(getClasses());
     dispatch(getMembers);
-    dispatch(getSubscriptions);
+    dispatch(getSubscriptions());
   }, []);
+
+  useEffect(() => {
+    filterClass(classes);
+  }, [classes]);
   const onConfirm = (data) => {
     try {
       if (id) {
-        editSubscription(dispatch, data, id);
+        dispatch(editSubscription(data, id));
         setShowConfirmModal(false);
       } else {
         const subClass = classes.find((c) => c._id === data.classes) || '';
         if (subClass.capacity > subClass.subscribed) {
           const subscribedPlusOne = subClass.subscribed + 1;
-          addSubscriptions(dispatch, data);
+          dispatch(addSubscriptions(data));
           dispatch(addSubscribed({ subscribed: subscribedPlusOne }, subClass._id));
           setShowConfirmModal(false);
         } else {

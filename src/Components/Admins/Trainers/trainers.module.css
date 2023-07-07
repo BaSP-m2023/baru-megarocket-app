@@ -1,7 +1,18 @@
-.container {
-    flex: 1;
+  .title {
+    font-size: 2rem;
+    text-align: center;
+    color: #373867;
+  }
+
+  .button {
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    width: auto;
+    height: auto;
   }

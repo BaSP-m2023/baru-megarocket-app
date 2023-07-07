@@ -1,3 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  height: auto;
+}
+
+.filterContainer {
+  display: flex;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 13%;
+  margin-bottom: 1%;
+}
+
+.filter {
+  text-align: center;
+  color:#373867;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.icon {
+  margin-top: 37px;
+}
+
 .table-container {
   display: flex;
   flex-direction: column;
@@ -17,6 +47,8 @@
 }
 
 .table {
+  width: 75%;
+  padding: 2rem;
   border-collapse: collapse;
 }
 

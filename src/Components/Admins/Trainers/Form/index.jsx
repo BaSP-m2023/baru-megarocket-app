@@ -60,7 +60,7 @@ const Form = () => {
         }
       });
   useEffect(() => {
-    dispatch(getTrainers);
+    dispatch(getTrainers());
   }, []);
   const getTrainer = async (id) => {
     try {

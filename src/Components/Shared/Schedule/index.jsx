@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import ScheduleMember from './ScheduleComponents/MemberComponent';
+import ScheduleAdmin from './ScheduleComponents/AdminComponent';
+import getScheduleTrainer from './ScheduleComponents/trainerFunction';
 import { useDispatch, useSelector } from 'react-redux';
-
-import ScheduleMember from './ScheduleFunctions/memberFunction';
-import getScheduleAdmin from './ScheduleFunctions/adminFunction';
-import getScheduleTrainer from './ScheduleFunctions/trainerFunction';
 import { getActivities } from 'Redux/Activities/thunks';
 import { addSubscribed, getClasses } from 'Redux/Classes/thunks';
 import { getSubscriptions, deleteSubscription, addSubscriptions } from 'Redux/Subscriptions/thunks';
@@ -11,6 +10,7 @@ import { getTrainers } from 'Redux/Trainers/thunks';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ModalForm from './ScheduleComponents/ModalForm';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
 import Loader from 'Components/Shared/Loader';
 
@@ -27,6 +27,12 @@ const Schedule = () => {
   const { data: trainers } = useSelector((state) => state.trainers);
   const member = useSelector((state) => state.auth.user);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showForm, setShowForm] = useState({
+    show: false,
+    data: undefined,
+    reason: '',
+    createData: undefined
+  });
   const [memberSubs, setMemberSubs] = useState([]);
   const [modalData, setModalData] = useState(null);
   const [activityFilter, setActivityFilter] = useState('');
@@ -39,12 +45,12 @@ const Schedule = () => {
 
   useEffect(() => {
     getActivities(dispatch);
-    getClasses(dispatch);
-    getSubscriptions(dispatch);
+    dispatch(getClasses());
+    dispatch(getSubscriptions());
     dispatch(getTrainers());
   }, [dispatch]);
 
-  const click = (data) => {
+  const clickMember = (data) => {
     setShowConfirmModal(true);
     if (data.subId) {
       const trainer = trainers.find((trainer) => trainer._id === data.trainer);
@@ -59,6 +65,14 @@ const Schedule = () => {
     }
   };
 
+  const clickAdmin = ({ oneClass, reason, createData }) => {
+    if (reason === 'edit') {
+      setShowForm({ show: true, data: oneClass, reason });
+    } else {
+      setShowForm({ show: true, reason, createData });
+    }
+  };
+
   const handleSubmit = (data) => {
     if (data.subId) {
       data.subscribed = data.subscribed - 1;
@@ -69,7 +83,7 @@ const Schedule = () => {
       if (data.capacity > data.subscribed) {
         const subData = { classes: data?._id, members: member?._id };
         data.subscribed = data.subscribed + 1;
-        addSubscriptions(dispatch, subData);
+        dispatch(addSubscriptions(subData)).then(() => dispatch(getSubscriptions()));
         const classData = { subscribed: data.subscribed ? data.subscribed : 1 };
         dispatch(addSubscribed(classData, data._id));
       } else {
@@ -87,25 +101,21 @@ const Schedule = () => {
         return subs.members._id === member._id;
       });
       memberSubscription?.forEach((sub) => {
-        activities?.forEach((act) => {
-          if (sub.classes?.activity === act._id) {
-            arraySubs.push({
-              subId: sub._id,
-              activityName: act.name,
-              day: sub.classes.day,
-              time: sub.classes.time,
-              desc: act.description,
-              classId: sub.classes._id,
-              capacity: sub.classes.capacity,
-              subscribed: sub.classes.subscribed,
-              trainer: sub.classes.trainer
-            });
-          }
+        arraySubs.push({
+          subId: sub._id,
+          activityName: sub.classes.activity.name,
+          day: sub.classes.day,
+          time: sub.classes.time,
+          desc: sub.classes.activity.description,
+          classId: sub.classes._id,
+          capacity: sub.classes.capacity,
+          subscribed: sub.classes.subscribed,
+          trainer: sub.classes.trainer._id
         });
       });
       setMemberSubs(arraySubs);
     }
-  }, [subscriptions, activities]);
+  }, [subscriptions]);
 
   return (
     <>
@@ -168,13 +178,26 @@ const Schedule = () => {
                                   memberSubs: memberSubs,
                                   classes: classes
                                 }}
-                                click={click}
+                                click={clickMember}
                               />
                             </td>
                           );
                         }
                         if (role === 'ADMIN') {
-                          return <td key={`${day}-${hour}`}>{getScheduleAdmin()}</td>;
+                          return (
+                            <td key={`${day}-${hour}`}>
+                              <ScheduleAdmin
+                                props={{
+                                  day: day,
+                                  hour: hour,
+                                  classes: classes,
+                                  trainerFilter: trainerFilter,
+                                  activityFilter: activityFilter
+                                }}
+                                click={clickAdmin}
+                              />
+                            </td>
+                          );
                         }
                         if (role === 'TRAINER') {
                           return <td key={`${day}-${hour}`}>{getScheduleTrainer()}</td>;
@@ -226,6 +249,16 @@ const Schedule = () => {
 
           {`${modalData.day} at ${modalData.time}`}
         </ConfirmModal>
+      )}
+      {showForm.show && (
+        <ModalForm
+          classes={classes}
+          activities={activities}
+          classData={showForm.data}
+          createData={showForm.createData}
+          reason={showForm.reason}
+          handler={() => setShowForm(false)}
+        />
       )}
     </>
   );
