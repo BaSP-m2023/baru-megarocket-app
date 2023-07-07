@@ -5,10 +5,9 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import styles from './form.module.css';
 
-import { addMember, updateMember } from 'Redux/Members/thunks';
+import { updateMember } from 'Redux/Members/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { getMembers } from 'Redux/Members/thunks';
-import memberSchema from 'Validations/member';
 import memberUpdate from 'Validations/memberUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
@@ -30,39 +29,21 @@ const MemberForm = ({ match }) => {
     reset,
     setValue,
     formState: { errors }
-  } = !memberId
-    ? useForm({
-        mode: 'onChange',
-        resolver: joiResolver(memberSchema),
-        defaultValues: {
-          name: '',
-          lastName: '',
-          dni: '',
-          phone: '',
-          email: '',
-          city: '',
-          dob: '',
-          zip: '',
-          isActive: '',
-          membership: 'default',
-          password: ''
-        }
-      })
-    : useForm({
-        mode: 'onChange',
-        resolver: joiResolver(memberUpdate),
-        defaultValues: {
-          name: '',
-          lastName: '',
-          dni: '',
-          phone: '',
-          city: '',
-          dob: '',
-          zip: '',
-          isActive: '',
-          membership: 'default'
-        }
-      });
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(memberUpdate),
+    defaultValues: {
+      name: '',
+      lastName: '',
+      dni: '',
+      phone: '',
+      city: '',
+      dob: '',
+      zip: '',
+      isActive: '',
+      membership: 'default'
+    }
+  });
 
   useEffect(() => {
     if (memberId) {
@@ -86,31 +67,13 @@ const MemberForm = ({ match }) => {
   }, [redirect]);
 
   const onSubmit = (data) => {
-    if (memberId) {
-      updateMember(dispatch, memberId, data);
-      setModalMessageOpen(false);
-    } else {
-      addMember(dispatch, data);
-      setModalMessageOpen(false);
-    }
+    updateMember(dispatch, memberId, data);
+    setModalMessageOpen(false);
   };
 
   const handleModal = () => {
     setModalMessageOpen(true);
   };
-
-  const formCreate = [
-    { labelText: 'First Name', name: 'name', type: 'text' },
-    { labelText: 'Last Name', name: 'lastName', type: 'text' },
-    { labelText: 'ID', name: 'dni', type: 'number' },
-    { labelText: 'Phone', name: 'phone', type: 'text' },
-    { labelText: 'City', name: 'city', type: 'text' },
-    { labelText: 'Zip', name: 'zip', type: 'number' },
-    { labelText: 'Email', name: 'email', type: 'email' },
-    { labelText: 'Password', name: 'password', type: 'password' },
-    { labelText: 'Date of birth', name: 'dob', type: 'date' },
-    { labelText: 'Is member active?', name: 'isActive', type: 'checkbox' }
-  ];
 
   const formEdit = [
     { labelText: 'First Name', name: 'name', type: 'text' },
@@ -126,57 +89,39 @@ const MemberForm = ({ match }) => {
     <div className={styles.form}>
       <div className={styles.content}>
         <div className={styles.header} data-testid="members-form-title-container">
-          <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
+          <h2>Edit a member</h2>
           <span className={styles.close_button} onClick={() => history.push('/user/admin/members')}>
             &times;
           </span>
         </div>
         <form className={styles.body} data-testid="members-form-container">
-          {!memberId
-            ? formCreate.map((field) => (
-                <div key={field.name}>
-                  <Input
-                    labelText={field.labelText}
-                    name={field.name}
-                    type={field.type}
-                    register={register}
-                    error={errors[field.name]?.message}
-                  />
-                </div>
-              ))
-            : formEdit.map((field) => (
-                <div className={styles.flex} key={field.name}>
-                  <Input
-                    labelText={field.labelText}
-                    name={field.name}
-                    type={field.type}
-                    register={register}
-                    error={errors[field.name]?.message}
-                  />
-                </div>
-              ))}
+          {formEdit.map((field) => (
+            <div className={styles.flex} key={field.name}>
+              <Input
+                labelText={field.labelText}
+                name={field.name}
+                type={field.type}
+                register={register}
+                error={errors[field.name]?.message}
+              />
+            </div>
+          ))}
           <div className={styles.reset_button}>
             <Button action={reset} text="Reset" classNameButton="deleteButton" />
           </div>
         </form>
         <div className={styles.container_button} data-testid="members-form-button">
-          <Button
-            classNameButton="addButton"
-            action={handleSubmit(handleModal)}
-            text={memberId ? 'Edit' : 'Submit'}
-          />
+          <Button classNameButton="addButton" action={handleSubmit(handleModal)} text={'Edit'} />
         </div>
       </div>
       {modalMessageOpen && (
         <ConfirmModal
-          title={memberId ? 'Edit member' : 'Add Member'}
+          title={'Edit member'}
           handler={() => setModalMessageOpen(false)}
           onAction={handleSubmit(onSubmit)}
           reason={'submit'}
         >
-          {memberId
-            ? `Are you sure you wanna edit this data?`
-            : `Are you sure you wanna add to the members list?`}
+          Are you sure you wanna edit this data?
         </ConfirmModal>
       )}
       {show && (
