@@ -31,7 +31,8 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
     defaultValues: {
       activity: classData ? classData.activity._id : '',
       trainer: classData ? classData.trainer?._id : '',
-      capacity: classData ? classData.capacity : ''
+      capacity: classData ? classData.capacity : '',
+      subscribed: classData ? classData.subscribed : '0'
     }
   });
   const activityValue = watch('activity');
@@ -167,6 +168,19 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
               error={errors.capacity?.message}
             />
           </div>
+          {classData && (
+            <div className={stylesForm.inputContainer}>
+              <Input
+                labelText="Members Subscribed"
+                type="number"
+                name="subscribed"
+                placeholder="0"
+                register={register}
+                error={errors.subscribed?.message}
+                disabled={true}
+              />
+            </div>
+          )}
           <div
             className={`${styles.modalButtons} ${stylesForm.modalButtons}`}
             data-testid="confirm-modal-buttons"
