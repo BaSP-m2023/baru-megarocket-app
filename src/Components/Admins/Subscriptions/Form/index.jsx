@@ -60,7 +60,7 @@ const Form = () => {
   useEffect(() => {
     dispatch(getClasses());
     dispatch(getMembers);
-    dispatch(getSubscriptions);
+    dispatch(getSubscriptions());
   }, []);
 
   useEffect(() => {
@@ -69,10 +69,10 @@ const Form = () => {
   const onConfirm = (data) => {
     try {
       if (id) {
-        editSubscription(dispatch, data, id);
+        dispatch(editSubscription(data, id));
         setShowConfirmModal(false);
       } else {
-        addSubscriptions(dispatch, data);
+        dispatch(addSubscriptions(data));
         setShowConfirmModal(false);
       }
     } catch (error) {
