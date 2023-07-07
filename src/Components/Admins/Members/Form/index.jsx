@@ -119,8 +119,7 @@ const MemberForm = ({ match }) => {
     { labelText: 'Phone', name: 'phone', type: 'text' },
     { labelText: 'City', name: 'city', type: 'text' },
     { labelText: 'Zip', name: 'zip', type: 'number' },
-    { labelText: 'Date of birth', name: 'dob', type: 'date' },
-    { labelText: 'Is member active?', name: 'isActive', type: 'checkbox' }
+    { labelText: 'Date of birth', name: 'dob', type: 'date' }
   ];
 
   return (
@@ -156,13 +155,6 @@ const MemberForm = ({ match }) => {
                   />
                 </div>
               ))}
-          <label className={styles.label}>Membership</label>
-          <select className={styles.input} name="membership" {...register('membership')}>
-            <option value="default">Choose your membership</option>
-            <option value="classic">Classic</option>
-            <option value="only_classes">Only Classes</option>
-            <option value="black">Black</option>
-          </select>
           <div className={styles.reset_button}>
             <Button action={reset} text="Reset" classNameButton="deleteButton" />
           </div>
