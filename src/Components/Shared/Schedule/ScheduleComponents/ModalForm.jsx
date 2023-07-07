@@ -30,7 +30,7 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
     resolver: joiResolver(classSchema),
     defaultValues: {
       activity: classData ? classData.activity._id : '',
-      trainer: classData ? classData.trainer._id : '',
+      trainer: classData ? classData.trainer?._id : '',
       capacity: classData ? classData.capacity : ''
     }
   });
@@ -39,7 +39,7 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
   useEffect(() => {
     if (classData) {
       setValue('activity', classData.activity._id);
-      setValue('trainer', classData.trainer._id);
+      setValue('trainer', classData.trainer?._id);
       setValue('capacity', classData.capacity);
     }
   }, []);
@@ -47,7 +47,7 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
   useEffect(() => {
     if (reason === 'create') {
       const activity = activities.find((activity) => activity._id === activityValue);
-      setValue('trainer', activity?.trainers[0]._id);
+      setValue('trainer', activity?.trainers[0]?._id);
     }
     const activity = activities.find((activity) => activity._id === activityValue);
     setTrainers(activity?.trainers);
