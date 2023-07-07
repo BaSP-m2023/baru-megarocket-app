@@ -82,8 +82,8 @@ export const updateMember = (id, updatedMember) => {
       const { message, data, error } = await response.json();
       if (!error) {
         dispatch(editMemberSuccess(data));
-        dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'success' }));
+        dispatch(handleDisplayToast(true));
         dispatch(resetRedirect());
         return data;
       }
@@ -113,9 +113,9 @@ export const deleteMember = (id) => {
       const { message, data, error } = await response.json();
       if (!error) {
         dispatch(deleteMemberSuccess(data));
+        dispatch(getMembers());
         dispatch(setContentToast({ message, state: 'success' }));
         dispatch(handleDisplayToast(true));
-        dispatch(getMembers());
       }
 
       if (error) {
