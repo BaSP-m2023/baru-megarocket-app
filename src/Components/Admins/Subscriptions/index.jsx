@@ -20,7 +20,7 @@ const Subscriptions = () => {
   }, []);
 
   return (
-    <section>
+    <section className={styles.container}>
       <h1 className={styles.title}>Subscriptions</h1>
       <div>
         <Table className={subscriptions.table} data={subscriptions} />

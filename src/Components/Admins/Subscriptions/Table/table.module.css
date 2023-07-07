@@ -13,7 +13,7 @@
   text-align: center;
 }
 
-.row {
+.item {
   height: 40px;
   text-align: center;
   color: #373867;
@@ -22,11 +22,11 @@
   font-weight: 400;
 }
 
-.row:not(.selected):nth-child(odd) {
+.item:not(.selected):nth-child(odd) {
   background-color: #ffffff;
 }
 
-.row:not(.selected):nth-child(odd):hover {
+.item:not(.selected):nth-child(odd):hover {
   background-color: #c4bcbc;
 }
 
@@ -63,10 +63,10 @@
   background-color: #aace9e;
 }
 
-.row:not(.selected):nth-child(even) {
+.item:not(.selected):nth-child(even) {
   background-color: #ebebeb;
 }
 
-.row:not(.selected):nth-child(even):hover {
+.item:not(.selected):nth-child(even):hover {
   background-color: #c0b6b6;
 }

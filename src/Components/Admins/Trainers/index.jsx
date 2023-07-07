@@ -29,7 +29,7 @@ const Trainers = () => {
     );
   }
   return (
-    <section>
+    <section className={styles.container}>
       <h1 className={styles.title}>Trainers</h1>
       {!pending && trainers.length > 0 ? <Table data={trainers} /> : null}
       {!pending && !trainers.length && 'There are no trainers to show'}
