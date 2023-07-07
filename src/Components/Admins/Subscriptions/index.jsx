@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './subscriptions.module.css';
@@ -12,43 +12,18 @@ import ResponseModal from 'Components/Shared/ResponseModal';
 
 const Subscriptions = () => {
   const { show, message, state } = useSelector((state) => state.toast);
-  const [filteredSubscriptions, setFilteredSubscriptions] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useDispatch();
 
   const subscriptions = useSelector((state) => state.subscriptions.data);
   useEffect(() => {
-    getSubscriptions(dispatch);
-  }, [dispatch]);
-
-  useEffect(() => {
-    filterSubscriptions();
-  }, [searchTerm, subscriptions]);
-
-  const filterSubscriptions = () => {
-    const filtered = subscriptions?.filter((subscription) => {
-      const fullName =
-        `${subscription?.members?.name} ${subscription?.members?.lastName}`.toLowerCase();
-      return fullName.includes(searchTerm.toLowerCase());
-    });
-    setFilteredSubscriptions(filtered);
-  };
+    dispatch(getSubscriptions());
+  }, []);
 
   return (
-    <section className={styles.container}>
+    <section>
       <h1 className={styles.title}>Subscriptions</h1>
-      <div className={styles.tableFilter} data-testid="subscriptions-search-container">
-        <input
-          className={styles.filterInput}
-          name="Search Subscription"
-          placeholder="Search Subscription"
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-        />
-        <img src="/assets/images/search-icon.png" alt="" />
-      </div>
-      <div className={styles.containerContent}>
-        <Table className={subscriptions.table} data={filteredSubscriptions} />
+      <div>
+        <Table className={subscriptions.table} data={subscriptions} />
       </div>
       <div className={styles.buttonContainer}>
         <Link to="subscriptions/add" data-testid="subscription-add-link">

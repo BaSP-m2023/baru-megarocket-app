@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import styles from './table.module.css';
 
 import Item from './Item';
+import { Input } from 'Components/Shared/Inputs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const List = ({ members, handleModal }) => {
   const [filter, setFilter] = useState([]);
@@ -19,35 +22,44 @@ const List = ({ members, handleModal }) => {
   }, [members]);
 
   return (
-    <div className={`${styles['table-container']}`}>
-      <div className={`${styles['table-filter']}`} data-testid="members-search-container">
-        {members.length === 0 ? (
-          <p className={`${styles['table-error']}`}>There is nothing to match</p>
-        ) : (
-          ''
-        )}
-        <input
-          className={`${styles['table-input-filter']}`}
-          type="text"
-          placeholder="Search by name"
-          onChange={(e) => filterList(e.target.value.toLowerCase())}
-        />
-        <img src="/assets/images/search-icon.png" alt="" />
+    <div>
+      <div className={styles.filterContainer}>
+        <div className={styles.inputContainer} data-testid="members-search-container">
+          <Input
+            labelText="Filter Members"
+            name="filter-members"
+            type="text"
+            placeholder="Search by name"
+            change={(e) => filterList(e.target.value.toLowerCase())}
+          />
+        </div>
+        <div className={styles.icon}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+        </div>
       </div>
-      <table className={`${styles.table}`}>
-        <thead className={`${styles['table-header']}`}>
-          <tr className={`${styles['table-row']}`}>
-            <th>Members</th>
-            <th>Membership Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody data-testid="members-list">
-          {filter.map((member) => (
-            <Item key={member._id} member={member} handleModal={handleModal} />
-          ))}
-        </tbody>
-      </table>
+      <div className={styles.container}>
+        <table className={`${styles.table}`}>
+          <thead className={`${styles['table-header']}`}>
+            <tr className={`${styles['table-row']}`}>
+              <th>Members</th>
+              <th>Membership Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody data-testid="members-list">
+            {filter.map((member) => (
+              <Item key={member._id} member={member} handleModal={handleModal} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {filter.length === 0 ? (
+        <div className={styles.filter}>
+          <p>There is no member with that name</p>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

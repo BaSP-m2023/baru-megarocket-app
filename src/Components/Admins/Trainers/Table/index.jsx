@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './table.module.css';
-
+import { Input } from 'Components/Shared/Inputs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Trainer from '../Trainer';
 
 const Table = ({ data = [] }) => {
@@ -21,34 +23,45 @@ const Table = ({ data = [] }) => {
 
   return (
     <>
-      <div className={styles.filter}>
-        {filter.length === 0 ? <p>There is no trainer with that name or last name</p> : ''}
-        <div className={`${styles['filter-container']}`} data-testid="trainers-search-container">
-          <input
-            className={`${styles['filter-input']}`}
+      <div className={styles.filterContainer}>
+        <div className={styles.inputContainer} data-testid="trainers-search-container">
+          <Input
+            labelText="Filter Trainers"
             type="text"
+            name="filter-trainer"
             placeholder="Search by name or last name"
-            onChange={(e) => filterList(e.target.value.toLowerCase())}
+            change={(e) => filterList(e.target.value.toLowerCase())}
           />
-          <img src={`${process.env.PUBLIC_URL}/assets/images/search-icon.png`} alt="" />
+        </div>
+        <div className={styles.icon}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
         </div>
       </div>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th className={styles.column}>Name</th>
-            <th className={styles.column}>Last Name</th>
-            <th className={styles.column}>DNI</th>
-            <th className={styles.column}>Phone Number</th>
-            <th className={styles.column}>Email</th>
-          </tr>
-        </thead>
-        <tbody data-testid="trainers-list">
-          {filter.map((trainer) => (
-            <Trainer key={trainer._id} trainer={trainer} />
-          ))}
-        </tbody>
-      </table>
+      <div className={styles.container}>
+        <table className={styles.space}>
+          <thead>
+            <tr>
+              <th className={styles.column}>Name</th>
+              <th className={styles.column}>Last Name</th>
+              <th className={styles.column}>DNI</th>
+              <th className={styles.column}>Phone Number</th>
+              <th className={styles.column}>Email</th>
+            </tr>
+          </thead>
+          <tbody data-testid="trainers-list">
+            {filter.map((trainer) => (
+              <Trainer key={trainer._id} trainer={trainer} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {filter.length === 0 ? (
+        <div className={styles.filter}>
+          <p>There is no trainer with that name or last name </p>
+        </div>
+      ) : (
+        ''
+      )}
     </>
   );
 };

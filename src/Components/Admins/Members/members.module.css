@@ -7,17 +7,13 @@
   min-height: 50vh;
   margin-top: 10%;
 }
-
-.btn-new {
-  align-self: center;
-  width: 130px;
-  height: 36px;
-  margin: 15px;
-  border: 0;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  background-color: #aace9b;
+.title {
+  font-size: 2rem;
+  text-align: center;
   color: #373867;
-  cursor: pointer;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
 }

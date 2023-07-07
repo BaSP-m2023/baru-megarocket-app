@@ -1,8 +1,18 @@
-.container {
-  display: flex;
-  margin: 1em;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.title {
+  font-size: 2rem;
+  text-align: center;
+  color: #373867;
 }
 
+.button {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  height: auto;
+}
