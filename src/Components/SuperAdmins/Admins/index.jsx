@@ -22,7 +22,7 @@ const Admins = () => {
   const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
-    getAdmins(dispatch);
+    dispatch(getAdmins());
   }, [dispatch]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Admins = () => {
   }, [admins]);
 
   const handleDeleteAdmin = () => {
-    deleteAdmin(dispatch, idToDelete);
+    dispatch(deleteAdmin(idToDelete));
     setShowConfirmModal(false);
   };
 
