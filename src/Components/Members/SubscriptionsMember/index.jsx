@@ -23,12 +23,11 @@ const SubscriptionsMember = () => {
 
   useEffect(() => {
     dispatch(getSubscriptions);
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     const filterSubscription = subscriptions.filter((item) => item.members._id === member._id);
     setSubscription(filterSubscription);
-    console.log(filterSubscription);
   }, [pending]);
 
   const handleDeleteActivity = () => {
@@ -38,7 +37,6 @@ const SubscriptionsMember = () => {
 
   const handleDeleteButton = (id) => {
     setShowConfirmModal(true);
-    console.log(id);
     setIdToDelete(id);
   };
 
