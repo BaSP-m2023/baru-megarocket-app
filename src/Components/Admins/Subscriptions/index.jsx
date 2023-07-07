@@ -5,11 +5,11 @@ import styles from './subscriptions.module.css';
 
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { getSubscriptions } from 'Redux/Subscriptions/thunks';
+import { getClasses } from 'Redux/Classes/thunks';
 
 import Table from './Table';
 import Button from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import { getClasses } from 'Redux/Classes/thunks';
 
 const Subscriptions = () => {
   const { show, message, state } = useSelector((state) => state.toast);

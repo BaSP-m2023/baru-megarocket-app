@@ -44,7 +44,8 @@ function ClassForm() {
       trainer: dataID ? dataID.trainer._id : '',
       day: dataID ? dataID.day : '',
       time: dataID ? dataID.time : '',
-      capacity: dataID ? dataID.capacity : ''
+      capacity: dataID ? dataID.capacity : '',
+      subscribed: dataID?.subscribed ? dataID.subscribed : ''
     }
   });
 
@@ -230,6 +231,16 @@ function ClassForm() {
               type="number"
               name="capacity"
               placeholder="Capacity"
+              register={register}
+              error={errors.capacity?.message}
+            />
+          </div>
+          <div className={styles.inputContainer}>
+            <Input
+              labelText="Members Subscribed"
+              type="number"
+              name="subscribed"
+              placeholder="0"
               register={register}
               error={errors.capacity?.message}
             />
