@@ -60,7 +60,7 @@ function AdminsForm() {
 
   useEffect(() => {
     if (params.id) {
-      getAdminsById(dispatch, params.id);
+      dispatch(getAdminsById(params.id));
     }
   }, []);
 
@@ -83,10 +83,10 @@ function AdminsForm() {
 
   const onSubmit = (data) => {
     if (params.id) {
-      editAdmin(dispatch, params.id, data);
+      dispatch(editAdmin(params.id, data));
       setShowConfirmModal(false);
     } else {
-      addAdmin(dispatch, data);
+      dispatch(addAdmin(data));
       setShowConfirmModal(false);
     }
   };

@@ -6,15 +6,6 @@ const classSchema = Joi.object({
   trainer: Joi.string().hex().length(24).required().messages({
     'string.empty': 'Trainer is required'
   }),
-  day: Joi.string()
-    .regex(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/)
-    .required()
-    .messages({
-      'string.empty': 'Day is required'
-    }),
-  time: Joi.string()
-    .regex(/^([0-9]|[01]\d|2[0-3]):([0-5]\d)$/)
-    .required(),
   capacity: Joi.number().min(1).max(50).required().integer()
 });
 

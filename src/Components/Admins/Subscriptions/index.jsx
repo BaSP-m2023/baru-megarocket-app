@@ -5,6 +5,7 @@ import styles from './subscriptions.module.css';
 
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { getSubscriptions } from 'Redux/Subscriptions/thunks';
+import { getClasses } from 'Redux/Classes/thunks';
 
 import Table from './Table';
 import Button from 'Components/Shared/Button';
@@ -17,6 +18,7 @@ const Subscriptions = () => {
   const subscriptions = useSelector((state) => state.subscriptions.data);
   useEffect(() => {
     dispatch(getSubscriptions());
+    dispatch(getClasses());
   }, []);
 
   return (

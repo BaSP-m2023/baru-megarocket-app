@@ -43,7 +43,7 @@ export const getClasses = () => {
   };
 };
 
-export const addClass = (createdClass, history) => {
+export const addClass = (createdClass) => {
   return async (dispatch) => {
     dispatch(postClassPending());
     const reqBody = {
@@ -58,7 +58,6 @@ export const addClass = (createdClass, history) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class`, reqBody);
       const { message, data, error } = await response.json();
       if (!error) {
-        history.push('/user/admin/classes');
         dispatch(postClassSuccess(data));
         dispatch(setContentToast({ message, state: 'success' }));
         dispatch(handleDisplayToast(true));
@@ -75,7 +74,7 @@ export const addClass = (createdClass, history) => {
   };
 };
 
-export const putClass = (classes, id, history) => {
+export const putClass = (classes, id) => {
   return async (dispatch) => {
     dispatch(putClassPending());
     try {
@@ -89,10 +88,37 @@ export const putClass = (classes, id, history) => {
       });
       const { data, message, error } = await response.json();
       if (response.ok) {
-        history.push('/user/admin/classes');
         dispatch(putClassSuccess(data));
         dispatch(setContentToast({ message, state: 'success' }));
         dispatch(handleDisplayToast(true));
+        return data;
+      }
+      if (error) {
+        throw new Error(message);
+      }
+    } catch (error) {
+      dispatch(putClassError(error.message));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
+      return error;
+    }
+  };
+};
+export const addSubscribed = (classes, id) => {
+  return async (dispatch) => {
+    dispatch(putClassPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token
+        },
+        body: JSON.stringify(classes)
+      });
+      const { data, message, error } = await response.json();
+      if (response.ok) {
+        dispatch(putClassSuccess(data));
       }
       if (error) {
         throw new Error(message);

@@ -5,14 +5,13 @@ import Activities from 'Components/Admins/Activities';
 import ActivitiesForm from 'Components/Admins/Activities/Form';
 import Members from 'Components/Admins/Members';
 import MembersForm from 'Components/Admins/Members/Form';
-import Classes from 'Components/Admins/Classes';
-import ClassesForm from 'Components/Admins/Classes/ClassForm';
 import Subscriptions from 'Components/Admins/Subscriptions';
 import SubscriptionsForm from 'Components/Admins/Subscriptions/Form';
 import Trainers from 'Components/Admins/Trainers';
 import TrainersForm from 'Components/Admins/Trainers/Form';
 import Profile from 'Components/Admins/Profile';
 import Layout from 'Components/Layout';
+import Schedule from 'Components/Shared/Schedule';
 import Home from 'Components/Layout/Home';
 
 const routes = [
@@ -53,9 +52,7 @@ const AdminRoutes = () => {
         <Route exact path={`${url}/activities/add`} component={ActivitiesForm} />
         <Route exact path={`${url}/activities/edit/:id`} component={ActivitiesForm} />
 
-        <Route exact path={`${url}/classes`} component={Classes} />
-        <Route exact path={`${url}/classes/add`} component={ClassesForm} />
-        <Route exact path={`${url}/classes/edit/:id`} component={ClassesForm} />
+        <Route exact path={`${url}/classes`} component={Schedule} />
 
         <Route exact path={`${url}/members`} component={Members} />
         <Route exact path={`${url}/members/add`} component={MembersForm} />
