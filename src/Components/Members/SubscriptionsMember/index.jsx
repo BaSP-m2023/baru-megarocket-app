@@ -27,7 +27,7 @@ const SubscriptionsMember = () => {
   }, []);
 
   useEffect(() => {
-    const filterSubscription = subscriptions.filter((item) => item.members._id === member._id);
+    const filterSubscription = subscriptions.filter((item) => item.members?._id === member._id);
     setSubscription(filterSubscription);
   }, [pending]);
 
