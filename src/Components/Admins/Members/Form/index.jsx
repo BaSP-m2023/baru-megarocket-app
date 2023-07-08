@@ -119,23 +119,22 @@ const MemberForm = ({ match }) => {
     { labelText: 'Phone', name: 'phone', type: 'text' },
     { labelText: 'City', name: 'city', type: 'text' },
     { labelText: 'Zip', name: 'zip', type: 'number' },
-    { labelText: 'Date of birth', name: 'dob', type: 'date' },
-    { labelText: 'Is member active?', name: 'isActive', type: 'checkbox' }
+    { labelText: 'Date of birth', name: 'dob', type: 'date' }
   ];
 
   return (
-    <div className={styles.form}>
+    <div className={styles.formContainer}>
+      <div className={styles.formTitle} data-testid="members-form-title-container">
+        <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
+        <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
+          &times;
+        </span>
+      </div>
       <div className={styles.content}>
-        <div className={styles.header} data-testid="members-form-title-container">
-          <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
-          <span className={styles.close_button} onClick={() => history.push('/user/admin/members')}>
-            &times;
-          </span>
-        </div>
-        <form className={styles.body} data-testid="members-form-container">
+        <form className={styles.form} data-testid="members-form-container">
           {!memberId
             ? formCreate.map((field) => (
-                <div key={field.name}>
+                <div key={field.name} className={styles.formGroup}>
                   <Input
                     labelText={field.labelText}
                     name={field.name}
@@ -146,7 +145,7 @@ const MemberForm = ({ match }) => {
                 </div>
               ))
             : formEdit.map((field) => (
-                <div className={styles.flex} key={field.name}>
+                <div className={styles.formGroup} key={field.name}>
                   <Input
                     labelText={field.labelText}
                     name={field.name}
@@ -156,24 +155,27 @@ const MemberForm = ({ match }) => {
                   />
                 </div>
               ))}
-          <label className={styles.label}>Membership</label>
-          <select className={styles.input} name="membership" {...register('membership')}>
-            <option value="default">Choose your membership</option>
-            <option value="classic">Classic</option>
-            <option value="only_classes">Only Classes</option>
-            <option value="black">Black</option>
-          </select>
-          <div className={styles.reset_button}>
+          <div className={`${styles.formGroup} ${styles.formGroupCheckbox}`}>
+            <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Membership</label>
+            <select className={styles.input} name="membership" {...register('membership')}>
+              <option value="default">Choose your membership</option>
+              <option value="classic">Classic</option>
+              <option value="only_classes">Only Classes</option>
+              <option value="black">Black</option>
+            </select>
+          </div>
+          <div className={styles.formButtons} data-testid="members-form-button">
             <Button action={reset} text="Reset" classNameButton="deleteButton" />
+            <Button
+              classNameButton="addButton"
+              action={handleSubmit(handleModal)}
+              text={memberId ? 'Edit' : 'Submit'}
+            />
           </div>
         </form>
-        <div className={styles.container_button} data-testid="members-form-button">
-          <Button
-            classNameButton="addButton"
-            action={handleSubmit(handleModal)}
-            text={memberId ? 'Edit' : 'Submit'}
-          />
-        </div>
       </div>
       {modalMessageOpen && (
         <ConfirmModal

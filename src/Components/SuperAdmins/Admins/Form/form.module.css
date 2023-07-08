@@ -3,85 +3,63 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 150px auto;
+  width: 70%;
+}
+
+.formTitle {
   width: 100%;
-  padding: 40px 0px;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #373867;
+  color: #fff;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 
-.header {
-  width: 25vw;
-  padding: 0.5rem;
-  text-align: center;
-  background-color: #232f3e;
+.formTitle h2 {
+  margin-left: 2%;
 }
 
-.title {
-  margin: 0.25rem;
-  color: #ffffff;
-}
-
-.button {
-  background-color: #232f3e;
-  color: #ffffff;
-  border: none;
+.closeButton {
+  margin-right: 2%;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 0 0 7px 7px;
+  box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
+  background-color: #f4f4f4;
 }
 
 .form {
-  width: 25vw;
-  padding: 0.5rem;
-  background-color: #ffffff;
-}
-
-.labelInput {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0.5rem;
+  font-family: 'Roboto', Arial, serif;
+  font-size: 17px;
+  line-height: 1.6;
 }
 
-.label {
-  margin-bottom: 0.2rem;
-  color: #373867;
-  font-size: 0.75rem;
-  font-weight: bold;
-}
-
-.input {
-  width: 100%;
-}
-
-.buttonContainer {
+.formGroup {
   display: flex;
-  justify-content: center;
-  width: 25vw;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2%;
 }
 
-.cancelButton {
-  align-self: center;
-  width: 130px;
-  height: 36px;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #373867;
-  background-color: #ffffff;
-  border: 1px solid #373867;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.addCreateButton {
-  align-self: center;
-  width: 130px;
-  height: 36px;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #373867;
-  background-color: #aace9b;
-  border: 0;
-  border-radius: 5px;
-  cursor: pointer;
+.formButtons {
+  display: flex;
+  margin: auto;
 }
 
 .disabled {

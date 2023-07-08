@@ -1,3 +1,6 @@
+.section{
+  margin: 130px auto;
+}
 .content {
   display: flex;
   flex-direction: column;
@@ -12,22 +15,19 @@
   animation-duration: 1.5s;
 }
 
-.header {
+.formTitle {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   background: #373867;
-  padding: 15px;
   color: #fff;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
 }
 
-.header h2 {
-  margin: 0;
-  align-self: center;
-  font-size: 25px;
-  line-height: 2;
+.formTitle h2 {
+  margin-left: 2%;
 }
 
 .label_container {
@@ -40,11 +40,13 @@
   margin: 0;
 }
 
-.close_button {
-  background-color: #373867;
-  border: none;
-  font-size: 1.7rem;
-  color: #FFFFFF;
+.closeButton {
+  margin-right: 2%;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .close_button:hover,

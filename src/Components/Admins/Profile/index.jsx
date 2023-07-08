@@ -107,25 +107,26 @@ function AdminProfile() {
     { labelText: 'City', type: 'text', name: 'city' }
   ];
   return (
-    <div className={styles.form}>
+    <div className={styles.formContainer}>
       {Object.keys(defaultAdmin).length === 0 && (
         <p className={styles.p}>There are no admins to show</p>
       )}
       {Object.keys(defaultAdmin).length > 0 && (
         <div className={styles.content}>
-          <div className={styles.header}>
+          <div className={styles.formTitle}>
             <h2>{disableEdit ? 'Profile information' : 'Edit profile'}</h2>
-            {disableEdit && (
-              <Button
-                classNameButton="addButton"
-                action={() => setDisableEdit(false)}
-                img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
-              />
-            )}
+            <div className={styles.editButton}>
+              {disableEdit && (
+                <Button
+                  action={() => setDisableEdit(false)}
+                  img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
+                />
+              )}
+            </div>
             {!disableEdit && (
-              <button className={styles.close} onClick={() => handleClose()}>
-                X
-              </button>
+              <span className={styles.closeButton} onClick={() => handleClose()}>
+                &times;
+              </span>
             )}
           </div>
           {loading && (
@@ -134,10 +135,10 @@ function AdminProfile() {
             </div>
           )}
           {!loading && (
-            <form className={styles.body}>
+            <form className={styles.form}>
               <div>
                 {formFields.map((inputData, index) => (
-                  <div className={styles.label_container} key={index}>
+                  <div className={styles.formGroup} key={index}>
                     <Input
                       labelText={inputData.labelText}
                       type={inputData.type}

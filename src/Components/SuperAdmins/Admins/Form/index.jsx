@@ -110,8 +110,8 @@ function AdminsForm() {
   };
 
   const formFields = [
-    { labelText: 'First Name', name: 'firstName', type: 'text' },
-    { labelText: 'Last Name', name: 'lastName', type: 'text' },
+    { labelText: 'First name', name: 'firstName', type: 'text' },
+    { labelText: 'Last name', name: 'lastName', type: 'text' },
     { labelText: 'DNI', name: 'dni', type: 'text' },
     { labelText: 'Phone', name: 'phone', type: 'text' },
     { labelText: 'City', name: 'city', type: 'text' }
@@ -120,49 +120,50 @@ function AdminsForm() {
   return (
     <>
       <div className={styles.formContainer}>
-        <div className={styles.header} data-testid="admins-form-title-container">
-          <h2 className={styles.title}>{params.id ? 'Edit Admin' : 'Add admin'}</h2>
+        <div className={styles.formTitle} data-testid="admins-form-title-container">
+          <h2>{params.id ? 'Edit Admin' : 'Add admin'}</h2>
+          <span className={styles.closeButton} onClick={() => history.goBack()}>
+            &times;
+          </span>
         </div>
-        <form className={styles.form} data-testid="admins-form-container">
-          {formFields.map((field) => (
-            <div className={styles.labelInput} key={field.name}>
-              <Input
-                labelText={field.labelText}
-                name={field.name}
-                type={field.type}
-                register={register}
-                error={errors[field.name]?.message}
-              />
-            </div>
-          ))}
-          {!params.id && (
-            <>
-              <div className={styles.labelInput}>
+        <div className={styles.content}>
+          <form className={styles.form} data-testid="admins-form-container">
+            {formFields.map((field) => (
+              <div className={styles.formGroup} key={field.name}>
                 <Input
-                  labelText="Email"
-                  name="email"
-                  type="email"
+                  labelText={field.labelText}
+                  name={field.name}
+                  type={field.type}
                   register={register}
-                  error={errors.email?.message}
+                  error={errors[field.name]?.message}
                 />
               </div>
-              <div className={styles.labelInput}>
-                <Input
-                  labelText="Password"
-                  name="password"
-                  type="password"
-                  register={register}
-                  error={errors.password?.message}
-                />
-              </div>
-            </>
-          )}
-          <div className={styles.container_button}>
+            ))}
+            {!params.id && (
+              <>
+                <div className={styles.formGroup}>
+                  <Input
+                    labelText="Email"
+                    name="email"
+                    type="email"
+                    register={register}
+                    error={errors.email?.message}
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <Input
+                    labelText="Password"
+                    name="password"
+                    type="password"
+                    register={register}
+                    error={errors.password?.message}
+                  />
+                </div>
+              </>
+            )}
+          </form>
+          <div className={styles.formButtons}>
             <Button action={reset} text="Reset" classNameButton="deleteButton" />
-          </div>
-        </form>
-        <div className={styles.buttonContainer} data-testid="admin-form-buttons">
-          <div>
             <Link to="/user/super_admin/admins">
               <Button
                 action={() => dispatch(resetState())}
@@ -170,8 +171,6 @@ function AdminsForm() {
                 text="Cancel"
               ></Button>
             </Link>
-          </div>
-          <div>
             <Button
               action={handleSubmit(handleButton)}
               classNameButton="submitButton"
