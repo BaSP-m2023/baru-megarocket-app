@@ -1,30 +1,90 @@
 class ClassesTable {
-  get classesTitle() {
-    return $('section > h1');
+  get filterByActivityInput() {
+    return $('[data-testid="classes-filters-container"] select');
   }
 
-  get searchInput() {
-    return $('[data-testid="classes-search"]');
+  get filterByTrainerInput() {
+    return $('[data-testid="classes-filters-container"] select:last-child');
   }
 
   get tableList() {
     return $('[data-testid="classes-list"]');
   }
 
-  get allEditIcons() {
-    return $$('[data-testid="classes-edit-btn"]');
+  get lastEmptyHour() {
+    return $('[data-testid="classes-list"] tr:last-child td div:empty');
   }
 
-  get allDeleteIcons() {
-    return $$('[data-testid="classes-delete-btn"]');
+  get modalForm() {
+    return $('[data-testid="confirm-modal-container"] form');
   }
 
-  get addNewBtn() {
-    return $('[data-testid="add-class-link"]');
+  get modalFormTitle() {
+    return $('[data-testid="confirm-modal-container"] form h2');
   }
 
-  async clickAddNewBtn() {
-    await this.addNewBtn.click();
+  get modalFormDelete() {
+    return $('[data-testid="confirm-modal-container"] form [data-icon="trash"]');
+  }
+
+  get selectActivityInput() {
+    return $('[data-testid="confirm-modal-container"] select[name="activity"]');
+  }
+
+  get selectTrainerInput() {
+    return $('[data-testid="confirm-modal-container"] select[name="trainer"]');
+  }
+
+  get capacityInput() {
+    return $('[data-testid="confirm-modal-container"] input[name="capacity"]');
+  }
+
+  get modalFormSubmitBtn() {
+    return $('[data-testid="confirm-modal-buttons"] > div:last-child > button');
+  }
+
+  get confirmSubmitBtn() {
+    return $('[data-testid="confirm-modal-buttons"]:last-child > div:last-child > button');
+  }
+
+  get errorMessages() {
+    return $$('[data-testid="confirm-modal-container"] form p');
+  }
+
+  async filterActivity(value) {
+    await this.filterByActivityInput.selectByVisibleText(value);
+  }
+
+  async filterTrainer(index) {
+    await this.filterByTrainerInput.selectByIndex(index);
+  }
+
+  async clickLastEmptyHour() {
+    await this.lastEmptyHour.click();
+  }
+
+  async clickModalFormDelete() {
+    await this.modalFormDelete.click();
+  }
+
+  async enterActivity(value) {
+    await this.selectActivityInput.selectByVisibleText(value);
+  }
+
+  async enterTrainer(index) {
+    await this.selectTrainerInput.selectByIndex(index);
+  }
+
+  async enterCapacity(value) {
+    await this.capacityInput.setValue(value);
+  }
+
+  async submitModalForm() {
+    await this.modalFormSubmitBtn.click();
+  }
+
+  async clickConfirmBtn() {
+    await this.confirmSubmitBtn.click();
   }
 }
 
