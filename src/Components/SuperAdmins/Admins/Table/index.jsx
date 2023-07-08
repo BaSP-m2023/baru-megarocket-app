@@ -31,7 +31,7 @@ function Table({ filter, handleDeleteButton }) {
                   <td className={styles.td}>{admin.city}</td>
                   <td></td>
                   <td className={styles.button}>
-                    <Link to={`admins/edit/${admin._id}`}>
+                    <Link to={`/user/super-admin/admins/edit/${admin._id}`}>
                       <Button
                         text="Edit Button"
                         img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
