@@ -45,7 +45,7 @@ function AdminProfile() {
     }
   });
   useEffect(() => {
-    getAdmins(dispatch);
+    dispatch(getAdmins());
   }, [dispatch]);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ function AdminProfile() {
 
   const onSubmit = (data) => {
     setShowConfirmModal(false);
-    editAdmin(dispatch, defaultAdmin._id, data, history)
+    dispatch(editAdmin(defaultAdmin._id, data))
       .then(() => {
         resetData();
       })
@@ -81,9 +81,9 @@ function AdminProfile() {
   };
 
   const handleDeleteAdmin = () => {
-    deleteAdmin(dispatch, defaultAdmin._id);
+    dispatch(deleteAdmin(defaultAdmin._id));
     setShowConfirmModal(false);
-    history.push('/');
+    history.push('/user/admin/home');
   };
   const handleAction = (action) => {
     setShowConfirmModal(true);
@@ -187,7 +187,7 @@ function AdminProfile() {
           title={`${action} Your Profile`}
           reason={action === 'Delete' ? 'delete' : action === 'Edit' ? 'submit' : ''}
           onAction={
-            action === 'delete'
+            action === 'Delete'
               ? handleSubmit(handleDeleteAdmin)
               : action === 'Edit'
               ? handleSubmit(onSubmit)
