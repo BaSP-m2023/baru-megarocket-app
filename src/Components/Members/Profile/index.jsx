@@ -128,23 +128,24 @@ function MemberProfile({ match }) {
                 ? `${memberLogged?.name} ${memberLogged?.lastName} Profile`
                 : 'Edit Profile'}
             </h2>
-            {disableEdit && (
-              <Button
-                classNameButton="addButton"
-                action={() => setDisableEdit(false)}
-                img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
-              />
-            )}
+            <div className={styles.editButton}>
+              {disableEdit && (
+                <Button
+                  action={() => setDisableEdit(false)}
+                  img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
+                />
+              )}
+            </div>
             {!disableEdit && (
-              <button className={styles.closeButton} onClick={() => setDisableEdit(true)}>
+              <span className={styles.closeButton} onClick={() => setDisableEdit(true)}>
                 &times;
-              </button>
+              </span>
             )}
           </div>
           <form onSubmit={handleSubmit(onConfirm)} className={styles.body}>
             <div>
               {formFields.map((inputData, index) => (
-                <div className={styles.label_container} key={index}>
+                <div className={styles.formGroup} key={index}>
                   <Input
                     labelText={inputData.labelText}
                     type={inputData.type}

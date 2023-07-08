@@ -30,14 +30,15 @@
   margin-left: 2%;
 }
 
-.label_container {
+.formGroup {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 1%;
 }
 
-.label_container input {
-  margin: 0;
+.editButton{
+  margin-right: 2%;
 }
 
 .closeButton {
@@ -47,13 +48,6 @@
   font-weight: 700;
   cursor: pointer;
   text-decoration: none;
-}
-
-.close_button:hover,
-.close_button:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 .body {
@@ -69,21 +63,4 @@
   display: flex;
   justify-content: center;
   text-align: center;
-}
-
-.input {
-  width: 25vw;
-  height: 30px;
-  margin-right: 10px;
-  color: #373867;
-  border: 1px solid #373867;
-  border-radius: 5px;
-}
-
-.label {
-  display: block;
-  padding: 5px;
-  color: #373867;
-  font-weight: 700;
-  font-size: 1rem;
 }
