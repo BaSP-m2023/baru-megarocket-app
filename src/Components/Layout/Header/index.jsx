@@ -46,7 +46,11 @@ function Header(props) {
             <>
               <Link
                 className={styles.profileLink}
-                to={`/user/${role.toLowerCase()}/profile/${userLogged?._id}`}
+                to={
+                  role === 'SUPER_ADMIN'
+                    ? `/user/super-admin/profile/${userLogged?._id}`
+                    : `/user/${role.toLowerCase()}/profile/${userLogged?._id}`
+                }
               >
                 <div className={styles.profileContainer}>
                   <img
