@@ -1,5 +1,6 @@
-import React, { lazy, Suspense, useEffect } from 'react';
-import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { setContentToast, handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { useDispatch } from 'react-redux';
 
 import { getAuth } from 'Redux/Auth/thunks';
@@ -17,46 +18,70 @@ const TrainerRoutes = lazy(() => import('./trainers'));
 
 const Routes = () => {
   const dispatch = useDispatch();
-
-  const token = sessionStorage.getItem('token');
-
-  useEffect(() => {
-    tokenListener();
-  }, []);
+  const [user, setUser] = useState();
+  const history = useHistory();
 
   useEffect(() => {
-    if (token) {
-      dispatch(getAuth(token));
+    const setupTokenListener = async () => {
+      try {
+        await new Promise((resolve) => {
+          tokenListener(resolve);
+        });
+
+        const token = sessionStorage.getItem('token');
+        const role = sessionStorage.getItem('role');
+        setUser({ token, role });
+
+        if (token) {
+          dispatch(getAuth(token));
+        }
+      } catch (error) {
+        dispatch(setContentToast({ message: error.toString(), state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+      }
+    };
+
+    setupTokenListener();
+  }, [dispatch]);
+
+  useEffect(() => {
+    const paths = {
+      SUPER_ADMIN: '/user/super-admin',
+      ADMIN: '/user/admin',
+      TRAINER: '/user/trainer',
+      MEMBER: '/user/member'
+    };
+
+    if (user?.role && paths[user?.role]) {
+      history.push(paths[user.role]);
     }
-  }, [token]);
+  }, [user?.token, history]);
 
   return (
-    <BrowserRouter>
-      <Suspense
-        fallback={
-          <div
-            style={{
-              height: '100vh',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Loader />
-          </div>
-        }
-      >
-        <Switch>
-          <Route exact path="/" component={HomeRoute} />
-          <Route path="/auth" component={AuthRoutes} />
-          <PrivateRoute path="/user/super-admin" role="SUPER_ADMIN" component={SuperAdminRoutes} />
-          <PrivateRoute path="/user/admin" role="ADMIN" component={AdminRoutes} />
-          <PrivateRoute path="/user/trainer" role="TRAINER" component={TrainerRoutes} />
-          <PrivateRoute path="/user/member" role="MEMBER" component={MemberRoutes} />
-          <Redirect to={'/'} />
-        </Switch>
-      </Suspense>
-    </BrowserRouter>
+    <Suspense
+      fallback={
+        <div
+          style={{
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Loader />
+        </div>
+      }
+    >
+      <Switch>
+        <Route exact path="/" component={HomeRoute} />
+        <Route path="/auth" component={AuthRoutes} />
+        <PrivateRoute path="/user/super-admin" role="SUPER_ADMIN" component={SuperAdminRoutes} />
+        <PrivateRoute path="/user/admin" role="ADMIN" component={AdminRoutes} />
+        <PrivateRoute path="/user/trainer" role="TRAINER" component={TrainerRoutes} />
+        <PrivateRoute path="/user/member" role="MEMBER" component={MemberRoutes} />
+        <Redirect to="/" />
+      </Switch>
+    </Suspense>
   );
 };
 

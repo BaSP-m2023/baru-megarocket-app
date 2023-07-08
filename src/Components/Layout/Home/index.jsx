@@ -18,7 +18,7 @@ function Home() {
   return (
     <>
       <section className={styles.container}>
-        {!role && (
+        {!role && !sessionStorage.getItem('role') && (
           <div className={styles.buttonContainer} data-testid="home-buttons-container">
             <Button
               text="Sign Up"

@@ -15,12 +15,12 @@ function Header(props) {
   const history = useHistory();
 
   const role = sessionStorage.getItem('role');
-  const userLogged = useSelector((state) => state.auth.user);
+  const { user: userLogged } = useSelector((state) => state.auth);
 
   const { show, message, state } = useSelector((state) => state.toast);
 
-  const handleLogout = async () => {
-    await dispatch(logOut());
+  const handleLogout = () => {
+    dispatch(logOut());
     history.push('/');
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
@@ -42,7 +42,7 @@ function Header(props) {
           />
         </div>
         <div className={styles.container2}>
-          {role && (
+          {role && userLogged && (
             <>
               <Link
                 className={styles.profileLink}

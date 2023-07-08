@@ -205,20 +205,22 @@ const Schedule = () => {
         >
           {modalData.subId ? (
             <>
-              {`Activity: ${modalData.activityName}`}
+              {`Activity: ${modalData?.activityName}`}
               <br />
               {`Description: ${modalData.desc}`}
               <br />
             </>
           ) : (
             <>
-              {`Activity: ${modalData.activity.name}`}
+              {`Activity: ${modalData.activity?.name}`}
               <br />
-              {`Description: ${modalData.activity.description}`}
+              {`Description: ${modalData.activity?.description}`}
               <br />
             </>
           )}
-          {`Trainer: ${modalData.trainer.firstName} ${modalData.trainer.lastName}`}
+          {modalData.trainer
+            ? `Trainer: ${modalData.trainer?.firstName} ${modalData.trainer?.lastName}`
+            : 'There are not trainers for this class'}
           <br />
           {`Remaining slots: ${modalData.capacity}`}
           <br />
