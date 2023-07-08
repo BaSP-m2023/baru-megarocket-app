@@ -4,9 +4,11 @@ import ScheduleAdmin from './ScheduleComponents/AdminComponent';
 import getScheduleTrainer from './ScheduleComponents/trainerFunction';
 import { useDispatch, useSelector } from 'react-redux';
 import { getActivities } from 'Redux/Activities/thunks';
-import { getClasses } from 'Redux/Classes/thunks';
+import { addSubscribed, getClasses } from 'Redux/Classes/thunks';
 import { getSubscriptions, deleteSubscription, addSubscriptions } from 'Redux/Subscriptions/thunks';
 import { getTrainers } from 'Redux/Trainers/thunks';
+
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ModalForm from './ScheduleComponents/ModalForm';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
@@ -73,10 +75,21 @@ const Schedule = () => {
 
   const handleSubmit = (data) => {
     if (data.subId) {
+      data.subscribed = data.subscribed - 1;
+      const classData = { subscribed: data.subscribed };
       dispatch(deleteSubscription(data.subId));
+      dispatch(addSubscribed(classData, data.classId));
     } else {
-      const subData = { classes: data._id, members: member._id };
-      dispatch(addSubscriptions(subData)).then(() => dispatch(getSubscriptions()));
+      if (data.capacity > data.subscribed) {
+        const subData = { classes: data?._id, members: member?._id };
+        data.subscribed = data.subscribed + 1;
+        dispatch(addSubscriptions(subData)).then(() => dispatch(getSubscriptions()));
+        const classData = { subscribed: data.subscribed ? data.subscribed : 1 };
+        dispatch(addSubscribed(classData, data._id));
+      } else {
+        dispatch(setContentToast({ message: 'Full Class', state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+      }
     }
     setShowConfirmModal(false);
   };
@@ -94,7 +107,9 @@ const Schedule = () => {
           day: sub.classes.day,
           time: sub.classes.time,
           desc: sub.classes.activity.description,
+          classId: sub.classes._id,
           capacity: sub.classes.capacity,
+          subscribed: sub.classes.subscribed,
           trainer: sub.classes.trainer._id
         });
       });
@@ -201,7 +216,14 @@ const Schedule = () => {
           title={'Class details'}
           handler={() => setShowConfirmModal(false)}
           onAction={() => handleSubmit(modalData)}
-          reason={modalData.subId ? 'unsubscribe' : 'subscribe'}
+          reason={
+            modalData.subId
+              ? 'unsubscribe'
+              : modalData.capacity > modalData.subscribed
+              ? 'subscribe'
+              : 'Full Class'
+          }
+          disabled={!(modalData.subId || modalData.capacity > modalData.subscribed)}
         >
           {modalData.subId ? (
             <>
@@ -220,8 +242,11 @@ const Schedule = () => {
           )}
           {`Trainer: ${modalData.trainer.firstName} ${modalData.trainer.lastName}`}
           <br />
-          {`Remaining slots: ${modalData.capacity}`}
+          {`Capacity: ${modalData.capacity}`}
           <br />
+          {`Members Subscribed: ${modalData.subscribed}`}
+          <br />
+
           {`${modalData.day} at ${modalData.time}`}
         </ConfirmModal>
       )}

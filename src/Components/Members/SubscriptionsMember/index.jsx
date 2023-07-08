@@ -10,6 +10,7 @@ import Button from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import Loader from 'Components/Shared/Loader';
+import { addSubscribed } from 'Redux/Classes/thunks';
 
 const SubscriptionsMember = () => {
   const subscriptions = useSelector((state) => state.subscriptions.data);
@@ -31,7 +32,11 @@ const SubscriptionsMember = () => {
   }, [pending]);
 
   const handleDeleteActivity = () => {
+    const subscription = subscriptions.find((sub) => sub._id === idToDelete) || '';
+    const unsubscribed = subscription.classes.subscribed - 1;
+    const subscriptionEdited = { subscribed: unsubscribed };
     dispatch(deleteSubscription(idToDelete));
+    dispatch(addSubscribed(subscriptionEdited, subscription.classes._id));
     setShowConfirmModal(false);
   };
 

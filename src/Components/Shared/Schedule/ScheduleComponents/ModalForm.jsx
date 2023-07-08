@@ -167,6 +167,11 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
               error={errors.capacity?.message}
             />
           </div>
+          {classData && (
+            <div className={stylesForm.inputContainer}>
+              <label>Memebrs Subscribed: {classData.subscribed}</label>
+            </div>
+          )}
           <div
             className={`${styles.modalButtons} ${stylesForm.modalButtons}`}
             data-testid="confirm-modal-buttons"
