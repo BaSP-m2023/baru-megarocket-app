@@ -135,16 +135,11 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
           </div>
           <div className={stylesForm.inputContainer}>
             <label className={stylesForm.label}>Trainer</label>
-            <select
-              disabled={!activityValue}
-              name="trainer"
-              {...register('trainer')}
-              value={classData?.trainer?._id || ''}
-            >
+            <select disabled={!activityValue} name="trainer" {...register('trainer')}>
               {!activityValue && <option>Select an activity first</option>}
               {trainers?.map((trainer) => (
                 <option
-                  defaultValue={classData?.trainer?._id === trainer._id}
+                  selected={classData?.trainer._id === trainer._id}
                   value={trainer._id}
                   key={trainer._id}
                 >
@@ -152,7 +147,6 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
                 </option>
               ))}
             </select>
-
             {errors.trainer?.message && (
               <span className={stylesForm.error}>{errors.trainer.message}</span>
             )}
