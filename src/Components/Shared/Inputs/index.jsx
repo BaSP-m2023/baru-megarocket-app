@@ -1,7 +1,17 @@
 import React from 'react';
 import styles from './input.module.css';
 
-export function Input({ labelText, type, name, placeholder, blur, register, disabled, error }) {
+export function Input({
+  labelText,
+  type,
+  name,
+  placeholder,
+  blur,
+  change,
+  register,
+  disabled,
+  error
+}) {
   return (
     <>
       <label htmlFor={name} className={styles.label}>
@@ -13,6 +23,7 @@ export function Input({ labelText, type, name, placeholder, blur, register, disa
         name={name}
         placeholder={placeholder || ''}
         onBlur={blur && blur}
+        onChange={change && change}
         {...(register && { ...register(name) })}
         disabled={disabled || false}
       />
