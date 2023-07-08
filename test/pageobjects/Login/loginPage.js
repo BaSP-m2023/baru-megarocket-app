@@ -1,6 +1,6 @@
 class LoginPage {
   get loginTitle() {
-    return $('[data-testid="login-title-container"] > h3');
+    return $('[data-testid="login-title-container"] > h2');
   }
 
   get emailInput() {

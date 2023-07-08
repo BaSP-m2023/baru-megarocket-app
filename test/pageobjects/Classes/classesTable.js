@@ -1,6 +1,6 @@
 class ClassesTable {
   get classesTitle() {
-    return $('section > h2');
+    return $('section > h1');
   }
 
   get searchInput() {

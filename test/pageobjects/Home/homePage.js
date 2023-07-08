@@ -1,6 +1,6 @@
 class HomePage {
   get homeTitle() {
-    return $('section > h2');
+    return $('section > h1');
   }
 
   get loginBtn() {

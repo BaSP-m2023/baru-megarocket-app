@@ -44,7 +44,7 @@ class AdminsForm {
   }
 
   get cancelBtn() {
-    return $('[data-testid="admin-form-buttons"] a[href="/admins"] ');
+    return $('[data-testid="admin-form-buttons"] a[href="/user/super-admin/admins"]');
   }
 
   get resetBtn() {

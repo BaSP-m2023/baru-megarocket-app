@@ -23,7 +23,7 @@ describe('Admin Classes CRUD', () => {
       await HomePage.loginBtnClick();
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/login');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/auth/login');
       await expect(LoginPage.loginTitle).toBeDisplayed();
       await expect(LoginPage.emailInput).toBeDisplayed();
       await expect(LoginPage.passwordInput).toBeDisplayed();
@@ -45,10 +45,8 @@ describe('Admin Classes CRUD', () => {
       await LoginPage.enterPassword(validPassword);
       await LoginPage.loginBtnClick();
 
-      await ResponseModal.modalText.waitForExist({ timeout: 3000 });
-      await expect(ResponseModal.modalText).toHaveTextContaining('Successful Login');
       await expect(HomePage.homeTitle).toBeDisplayed();
-      await expect(HomePage.homeTitle).toHaveTextContaining('Home');
+      await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
       await expect(NavBar.classesLink).toBeDisplayed();
       await expect(NavBar.logoutBtn).toBeDisplayed();
     });
@@ -60,12 +58,12 @@ describe('Admin Classes CRUD', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/classes');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/user/admin/classes');
 
       await expect(ClassesTable.searchInput).toBeDisplayed();
       await expect(ClassesTable.tableList).toBeDisplayed();
       await expect(ClassesTable.addNewBtn).toBeDisplayed();
-      await expect(ClassesTable.classesTitle).toHaveTextContaining('Class List');
+      await expect(ClassesTable.classesTitle).toHaveTextContaining('Classes');
     });
 
     it('Should give an error when trying to create a new class with empty info', async () => {
@@ -74,7 +72,9 @@ describe('Admin Classes CRUD', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/classes/add');
+      await expect(currentUrl).toEqual(
+        'https://baru-megarocket-app.vercel.app/user/admin/classes/add'
+      );
       await expect(ClassesForm.formTitle).toHaveTextContaining('Create Class');
       await expect(ClassesForm.form).toBeDisplayed();
 
@@ -85,9 +85,9 @@ describe('Admin Classes CRUD', () => {
     });
 
     it('Should create a new class with valid info and return to table view', async () => {
-      await ClassesForm.enterActivity('Boxeo');
+      await ClassesForm.enterActivity('Spinning');
       await browser.keys(['Enter']);
-      await ClassesForm.enterTrainer('Igna Peine');
+      await ClassesForm.enterTrainer('Ignacio Rodriguez');
       await browser.keys(['Enter']);
       await ClassesForm.enterDay('Monday');
       await browser.keys(['Enter']);
@@ -105,7 +105,7 @@ describe('Admin Classes CRUD', () => {
       await expect(ResponseModal.modalText).toHaveTextContaining('Class created');
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/classes');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/user/admin/classes');
     });
   });
 
@@ -134,7 +134,7 @@ describe('Admin Classes CRUD', () => {
       await expect(ResponseModal.modalText).toHaveTextContaining('Class updated');
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/classes');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/user/admin/classes');
     });
   });
 
@@ -166,7 +166,7 @@ describe('Admin Classes CRUD', () => {
       currentUrl = await browser.getUrl();
 
       await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
-      await expect(HomePage.homeTitle).toHaveTextContaining('Home');
+      await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
     });
   });
 });

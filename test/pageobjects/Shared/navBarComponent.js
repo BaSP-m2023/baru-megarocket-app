@@ -1,10 +1,10 @@
 class NavBar {
   get adminsLink() {
-    return $('[data-testid="routes-list"] > a[href="/admins"]');
+    return $('[data-testid="routes-list"] a[href="/user/super-admin/admins"]');
   }
 
   get classesLink() {
-    return $('[data-testid="routes-list"] > a[href="/classes"]');
+    return $('[data-testid="routes-list"] a[href="/user/admin/classes"]');
   }
 
   get logoutBtn() {
