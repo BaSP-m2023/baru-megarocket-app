@@ -10,11 +10,11 @@ import Home from 'Components/Layout/Home';
 const routes = [
   {
     name: 'Home',
-    path: '/user/super_admin/home'
+    path: '/user/super-admin/home'
   },
   {
     name: 'Admins',
-    path: '/user/super_admin/admins'
+    path: '/user/super-admin/admins'
   }
 ];
 

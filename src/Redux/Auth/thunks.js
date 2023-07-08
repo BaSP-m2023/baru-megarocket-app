@@ -17,7 +17,7 @@ import { setContentToast, handleDisplayToast } from 'Redux/Shared/ResponseToast/
 import { firebaseApp } from 'Components/helper/firebase';
 
 const redirectByRole = {
-  SUPER_ADMIN: '/user/super_admin',
+  SUPER_ADMIN: '/user/super-admin',
   MEMBER: '/user/member',
   ADMIN: '/user/admin',
   TRAINER: '/user/trainer'
