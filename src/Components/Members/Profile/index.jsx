@@ -47,7 +47,7 @@ function MemberProfile({ match }) {
   });
 
   useEffect(() => {
-    getMembers(dispatch);
+    dispatch(getMembers());
   }, [dispatch]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ function MemberProfile({ match }) {
   const onSubmit = (data) => {
     if (memberId) {
       setShowConfirmModal(false);
-      updateMember(dispatch, memberId, data)
+      dispatch(updateMember(memberId, data))
         .then(() => {
           handleReset();
         })

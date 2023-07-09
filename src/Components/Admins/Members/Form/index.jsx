@@ -75,7 +75,7 @@ const MemberForm = ({ match }) => {
 
   useEffect(() => {
     if (memberId) {
-      getMembers(dispatch).then((data) => {
+      dispatch(getMembers()).then((data) => {
         const member = data.find((item) => item._id === memberId);
         // eslint-disable-next-line no-unused-vars
         const { _id, firebaseUid, email, __v, dob, password, ...resMember } = member;
@@ -97,10 +97,10 @@ const MemberForm = ({ match }) => {
 
   const onSubmit = (data) => {
     if (memberId) {
-      updateMember(dispatch, memberId, data);
+      dispatch(updateMember(memberId, data));
       setModalMessageOpen(false);
     } else {
-      addMember(dispatch, data);
+      dispatch(addMember(data));
       setModalMessageOpen(false);
     }
   };

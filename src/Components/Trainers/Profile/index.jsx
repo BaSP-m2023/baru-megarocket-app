@@ -22,7 +22,6 @@ function TrainerProfile({ match }) {
   const dispatch = useDispatch();
   const { show, message, state } = useSelector((state) => state.toast);
   const trainerLogged = useSelector((state) => state.auth.user);
-
   const {
     register,
     handleSubmit,

@@ -54,7 +54,7 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
         <ConfirmModal
           title="Delete member"
           handler={handleModal}
-          onAction={() => deleteMember(dispatch, member._id)}
+          onAction={() => dispatch(deleteMember(member._id))}
           reason={'delete'}
         >
           Are you sure you wanna delete this member?

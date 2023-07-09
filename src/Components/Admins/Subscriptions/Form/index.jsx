@@ -6,8 +6,8 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import styles from './form.module.css';
 
 import { resetState } from 'Redux/Subscriptions/actions';
-import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
-import { getClasses } from 'Redux/Classes/thunks';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { addSubscribed, getClasses } from 'Redux/Classes/thunks';
 import { getMembers } from 'Redux/Members/thunks';
 import { addSubscriptions, getSubscriptions, editSubscription } from 'Redux/Subscriptions/thunks';
 import subscriptionSchema from 'Validations/subscription';
@@ -59,7 +59,7 @@ const Form = () => {
 
   useEffect(() => {
     dispatch(getClasses());
-    dispatch(getMembers);
+    dispatch(getMembers());
     dispatch(getSubscriptions());
   }, []);
 
@@ -72,8 +72,16 @@ const Form = () => {
         dispatch(editSubscription(data, id));
         setShowConfirmModal(false);
       } else {
-        dispatch(addSubscriptions(data));
-        setShowConfirmModal(false);
+        const subClass = classes.find((c) => c._id === data.classes) || '';
+        if (subClass.capacity > subClass.subscribed) {
+          const subscribedPlusOne = subClass.subscribed + 1;
+          dispatch(addSubscriptions(data));
+          dispatch(addSubscribed({ subscribed: subscribedPlusOne }, subClass._id));
+          setShowConfirmModal(false);
+        } else {
+          dispatch(setContentToast({ message: 'Full Class', state: 'fail' }));
+          dispatch(handleDisplayToast(true));
+        }
       }
     } catch (error) {
       throw new Error(error);
