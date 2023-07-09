@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { Switch, Route, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { getAuth } from 'Redux/Auth/thunks';
@@ -18,7 +18,9 @@ const TrainerRoutes = lazy(() => import('./trainers'));
 const Routes = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState();
+  const [path, setPath] = useState();
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     const setupTokenListener = async () => {
@@ -29,6 +31,7 @@ const Routes = () => {
       const token = sessionStorage.getItem('token');
       const role = sessionStorage.getItem('role');
       setUser({ token, role });
+      setPath(location.pathname);
 
       if (token) {
         dispatch(getAuth(token));
@@ -39,17 +42,20 @@ const Routes = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const paths = {
-      SUPER_ADMIN: '/user/super-admin',
-      ADMIN: '/user/admin',
-      TRAINER: '/user/trainer',
-      MEMBER: '/user/member'
-    };
-
-    if (user?.role && paths[user?.role]) {
-      history.push(paths[user.role]);
+    if (path === '/') {
+      const paths = {
+        SUPER_ADMIN: '/user/super-admin',
+        ADMIN: '/user/admin',
+        TRAINER: '/user/trainer',
+        MEMBER: '/user/member'
+      };
+      if (user?.role && paths[user?.role]) {
+        history.push(paths[user.role]);
+      }
+    } else {
+      history.push(path);
     }
-  }, [user?.token, history]);
+  }, [user?.token, path]);
 
   return (
     <Suspense

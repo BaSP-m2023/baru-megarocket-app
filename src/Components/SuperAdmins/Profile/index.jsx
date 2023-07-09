@@ -4,7 +4,7 @@ import styles from 'Components/Admins/Profile/profile.module.css';
 
 function SuperAdminProfile() {
   const superAdmin = useSelector((state) => state.auth.user || '');
-  console.log(superAdmin);
+
   return (
     <>
       <div className={styles.form}>
