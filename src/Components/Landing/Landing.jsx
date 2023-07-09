@@ -20,8 +20,10 @@ function Landing() {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
   const handleClickMembership = (value) => {
-    localStorage.setItem('membership', value);
-    history.push('/auth/signup');
+    if (!sessionStorage.getItem('role')) {
+      localStorage.setItem('membership', value);
+      history.push('/auth/signup');
+    }
   };
   return (
     <div className={styles.landing}>
