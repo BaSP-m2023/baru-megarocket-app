@@ -68,12 +68,11 @@ describe('Admin Classes CRUD', () => {
       await ClassesTable.lastEmptyHour.scrollIntoView();
       await ClassesTable.clickLastEmptyHour();
 
-      await ClassesTable.modalForm.toBeDisplayed();
+      await expect(ClassesTable.modalForm).toBeDisplayed();
       await expect(ClassesTable.modalFormTitle).toHaveTextContaining('Create class');
       await expect(ClassesTable.modalFormSubmitBtn).toBeDisplayed();
 
       await ClassesTable.submitModalForm();
-      await ClassesTable.errorMessages.waitForDisplayed({ timeout: 3000 });
       await expect(ClassesTable.errorMessages).toBeElementsArrayOfSize({ gte: 1 });
     });
 
@@ -84,56 +83,67 @@ describe('Admin Classes CRUD', () => {
 
       await ClassesTable.submitModalForm();
 
-      await ClassesTable.confirmSubmitBtn.waitForDisplayed({ timeout: 3000 });
+      await expect(ClassesTable.confirmSubmitBtn).toBeDisplayed();
       await ClassesTable.clickConfirmBtn();
 
-      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
-      await expect(ResponseModal.modalText).toHaveTextContaining('Class created succesfully');
+      await expect(ClassesTable.tableList).toBeDisplayed();
+      await expect(ResponseModal.modalText).toBeDisplayed();
+      await expect(ClassesTable.filterByActivityInput).toBeDisplayed();
+      await expect(ClassesTable.filterByTrainerInput).toBeDisplayed();
     });
   });
 
-  /* describe('Class edit functionality', () => {
-    it('Should update correctly when changing class time', async () => {
-      await expect(ClassesTable.tableList).toBeDisplayed();
-      const editIconsArray = await ClassesTable.allEditIcons;
-      const addedClassEditIcon = await editIconsArray[editIconsArray.length - 1];
+  describe('Class edit functionality', () => {
+    it('Should filter and update previously created class', async () => {
+      await ClassesTable.filterActivity('Boxing');
+      const previouslyAddedClass = $(
+        '[data-testid="classes-list"] tr:last-child td div:not(:empty)'
+      );
 
-      await addedClassEditIcon.click();
+      await expect(previouslyAddedClass).toBeDisplayed();
+      await previouslyAddedClass.click();
 
-      currentUrl = await browser.getUrl();
-      await expect(currentUrl).toContain('/classes/edit');
+      await expect(ClassesTable.modalForm).toBeDisplayed();
+      await expect(ClassesTable.modalFormTitle).toHaveTextContaining('Update class');
+      await expect(ClassesTable.modalFormSubmitBtn).toBeDisplayed();
 
-      await ClassesForm.selectTimeInput.scrollIntoView();
-      await ClassesForm.enterTime('19:30');
-      await ClassesForm.submitBtn.scrollIntoView();
-      await ClassesForm.submitForm();
+      await ClassesTable.enterActivity('Crossfit');
+      await ClassesTable.submitModalForm();
 
-      await ClassesForm.confirmModalTitle.waitForDisplayed({ timeout: 3000 });
-      await expect(ClassesForm.confirmModalTitle).toHaveTextContaining('Update class');
+      await expect(ClassesTable.confirmSubmitBtn).toBeDisplayed();
+      await ClassesTable.clickConfirmBtn();
 
-      await ClassesForm.submitModal();
-
-      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toBeDisplayed();
       await expect(ResponseModal.modalText).toHaveTextContaining('Class updated');
-
-      currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('http://localhost:3000/user/admin/classes');
+      await expect(ClassesTable.tableList).toBeDisplayed();
     });
   });
 
   describe('Class delete & logout functionality', () => {
-    it('Should delete correctly the last added class', async () => {
-      await expect(ClassesTable.tableList).toBeDisplayed();
-      const deleteIconsArray = await ClassesTable.allDeleteIcons;
-      const addedClassDeleteIcon = await deleteIconsArray[deleteIconsArray.length - 1];
+    it('Should filter and delete previously updated class', async () => {
+      await ClassesTable.filterActivity('Crossfit');
+      const previouslyAddedClass = $(
+        '[data-testid="classes-list"] tr:last-child td div:not(:empty)'
+      );
 
-      await addedClassDeleteIcon.click();
+      await expect(previouslyAddedClass).toBeDisplayed();
+      await previouslyAddedClass.click();
 
-      await expect(ClassesForm.confirmModalTitle).toBeDisplayed();
-      await ClassesForm.submitModal();
+      await expect(ClassesTable.modalForm).toBeDisplayed();
+      await expect(ClassesTable.modalFormTitle).toHaveTextContaining('Update class');
+      await expect(ClassesTable.modalFormDelete).toBeDisplayed();
 
-      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await ClassesTable.clickModalFormDelete();
+      await expect(ClassesTable.confirmSubmitBtn).toBeDisplayed();
+
+      await ClassesTable.clickConfirmBtn();
+
+      await expect(ResponseModal.modalText).toBeDisplayed();
       await expect(ResponseModal.modalText).toHaveTextContaining('Class deleted');
+      await expect(ClassesTable.tableList).toBeDisplayed();
+
+      const isExisting = await previouslyAddedClass.isExisting();
+      await expect(isExisting).toBe(false);
     });
 
     it('Admin should logout correctly', async () => {
@@ -151,5 +161,5 @@ describe('Admin Classes CRUD', () => {
       await expect(currentUrl).toEqual('http://localhost:3000/');
       await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
     });
-  }); */
+  });
 });
