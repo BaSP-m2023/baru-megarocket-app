@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './modalConfirm.module.css';
-import Button from '../Button';
+import { Button } from '../Button';
 
 const ConfirmModal = ({ children, handler, title, reason, onAction, disabled }) => {
   const classByReason = {

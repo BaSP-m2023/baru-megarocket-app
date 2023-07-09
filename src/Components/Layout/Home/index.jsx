@@ -6,7 +6,7 @@ import styles from './home.module.css';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import Landing from 'Components/Landing/Landing';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
 function Home() {

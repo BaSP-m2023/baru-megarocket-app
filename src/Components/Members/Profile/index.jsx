@@ -12,7 +12,7 @@ import memberUpdate from 'Validations/memberUpdate';
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 
 function MemberProfile({ match }) {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ function MemberProfile({ match }) {
   const redirect = useSelector((state) => state.members.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
   const memberLogged = useSelector((state) => state.auth.user);
-  // const token = sessionStorage.getItem('token');
+
   const {
     register,
     handleSubmit,
@@ -73,7 +73,7 @@ function MemberProfile({ match }) {
       setShowConfirmModal(false);
       dispatch(updateMember(memberId, data))
         .then(() => {
-          resetData();
+          handleReset();
         })
         .catch((error) => {
           dispatch(setContentToast({ message: error.message, state: 'fail' }));
@@ -81,27 +81,17 @@ function MemberProfile({ match }) {
         });
     }
   };
-  const resetData = () => {
+
+  const handleReset = () => {
     reset();
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
-      Object.entries(resMemberLogged).every(([key, value]) => {
+      const { _id, firebaseUid, email, __v, dob, ...resMember } = memberLogged;
+      Object.entries(resMember).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
-    }
-  };
-  const handleReset = (e) => {
-    e.preventDefault();
-
-    if (memberLogged) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
-      Object.entries(resMemberLogged).every(([key, value]) => {
-        setValue(key, value);
-        return true;
-      });
+      setValue('dob', dob.slice(0, 10));
     }
   };
 
@@ -156,20 +146,17 @@ function MemberProfile({ match }) {
             ))}
           </div>
           {!disableEdit && (
-            <div className={styles.buttons}>
-              <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
-              <Button
-                classNameButton="cancelButton"
-                action={() => setDisableEdit(true)}
-                text="Cancel"
-              />
-              <Button
-                classNameButton="deleteButton"
-                action={handleReset}
-                text={'Reset'}
-                disabled={disableEdit}
-              />
-            </div>
+            <>
+              <div className={styles.buttons}>
+                <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
+                <Button
+                  classNameButton="cancelButton"
+                  action={() => setDisableEdit(true)}
+                  text="Cancel"
+                />
+              </div>
+              <Reset action={handleReset} />
+            </>
           )}
         </form>
         {disableEdit && (
