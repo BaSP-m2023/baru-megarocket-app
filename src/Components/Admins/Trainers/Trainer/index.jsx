@@ -5,7 +5,7 @@ import styles from './trainer.module.css';
 
 import { deleteTrainer } from 'Redux/Trainers/thunks';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 
 const Trainer = ({ trainer }) => {

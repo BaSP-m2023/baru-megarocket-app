@@ -104,6 +104,33 @@ export const putClass = (classes, id) => {
     }
   };
 };
+export const addSubscribed = (classes, id) => {
+  return async (dispatch) => {
+    dispatch(putClassPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/class/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token
+        },
+        body: JSON.stringify(classes)
+      });
+      const { data, message, error } = await response.json();
+      if (response.ok) {
+        dispatch(putClassSuccess(data));
+      }
+      if (error) {
+        throw new Error(message);
+      }
+    } catch (error) {
+      dispatch(putClassError(error.message));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
+      return error;
+    }
+  };
+};
 
 export const deleteClass = (classId) => {
   return async (dispatch) => {

@@ -6,7 +6,7 @@ import styles from './header.module.css';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { logOut } from 'Redux/Auth/thunks';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import NavBar from './NavBar';
 
@@ -46,7 +46,11 @@ function Header(props) {
             <>
               <Link
                 className={styles.profileLink}
-                to={`/user/${role.toLowerCase()}/profile/${userLogged?._id}`}
+                to={
+                  role === 'SUPER_ADMIN'
+                    ? `/user/super-admin/profile/${userLogged?._id}`
+                    : `/user/${role.toLowerCase()}/profile/${userLogged?._id}`
+                }
               >
                 <div className={styles.profileContainer}>
                   <img

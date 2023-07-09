@@ -9,7 +9,7 @@ import { signUpMember } from 'Redux/Auth/thunks';
 import memberSchema from 'Validations/member';
 
 import { Input } from 'Components/Shared/Inputs';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 
 function SignUp() {

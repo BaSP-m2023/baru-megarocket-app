@@ -1,16 +1,19 @@
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+
 import styles from './table.module.css';
 import { deleteSubscription } from 'Redux/Subscriptions/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
+import { addSubscribed } from 'Redux/Classes/thunks';
+
+import Loader from 'Components/Shared/Loader';
+import { Button } from 'Components/Shared/Button';
+import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
-import Loader from 'Components/Shared/Loader';
-import { Input } from 'Components/Shared/Inputs';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const Table = ({ data }) => {
   const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
@@ -18,6 +21,8 @@ const Table = ({ data }) => {
   const [filteredSubscriptions, setFilteredSubscriptions] = useState('');
   const dispatch = useDispatch();
   const pending = useSelector((state) => state.subscriptions.isPending);
+  const classes = useSelector((state) => state.classes.data);
+
   const { show, message, state } = useSelector((state) => state.toast);
 
   const handleConfirmDelete = (subscriptionId) => {
@@ -25,8 +30,11 @@ const Table = ({ data }) => {
     setShowConfirmDeleteModal(true);
   };
 
-  const handleDelete = (subscriptionId) => {
-    dispatch(deleteSubscription(subscriptionId));
+  const handleDelete = (subscription) => {
+    const subClass = classes.find((subClass) => subClass._id === subscription.classes._id);
+    dispatch(deleteSubscription(subscription._id));
+    const subscribedRemain = subClass.subscribed ? subClass.subscribed - 1 : 0;
+    dispatch(addSubscribed({ subscribed: subscribedRemain }, subscription.classes._id));
     setShowConfirmDeleteModal(false);
   };
 
@@ -115,7 +123,7 @@ const Table = ({ data }) => {
                 <td className={`${styles.itemButton} ${styles.itemButtonDelete}`}>
                   <Button
                     img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
-                    action={() => handleConfirmDelete(subscription._id)}
+                    action={() => handleConfirmDelete(subscription)}
                     testid="subscriptions-delete-btn"
                   />
                 </td>
