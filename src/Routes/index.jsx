@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { Switch, Route, Redirect, useHistory, useLocation } from 'react-router-dom';
+import { Switch, useLocation, useHistory, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { getAuth } from 'Redux/Auth/thunks';
@@ -17,8 +17,7 @@ const TrainerRoutes = lazy(() => import('./trainers'));
 
 const Routes = () => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState();
-  const [path, setPath] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
   const location = useLocation();
 
@@ -30,48 +29,45 @@ const Routes = () => {
 
       const token = sessionStorage.getItem('token');
       const role = sessionStorage.getItem('role');
-      setUser({ token, role });
-      setPath(location.pathname);
+
+      if (location.pathname === '/') {
+        const paths = {
+          SUPER_ADMIN: '/user/super-admin',
+          ADMIN: '/user/admin',
+          TRAINER: '/user/trainer',
+          MEMBER: '/user/member'
+        };
+        if (role) {
+          history.push(paths[role]);
+        }
+      }
 
       if (token) {
         dispatch(getAuth(token));
       }
+      setIsLoading(false);
     };
 
     setupTokenListener();
   }, [dispatch]);
 
-  useEffect(() => {
-    if (path === '/') {
-      const paths = {
-        SUPER_ADMIN: '/user/super-admin',
-        ADMIN: '/user/admin',
-        TRAINER: '/user/trainer',
-        MEMBER: '/user/member'
-      };
-      if (user?.role && paths[user?.role]) {
-        history.push(paths[user.role]);
-      }
-    } else {
-      history.push(path);
-    }
-  }, [user?.token, path]);
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Loader />
+      </div>
+    );
+  }
 
   return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Loader />
-        </div>
-      }
-    >
+    <Suspense>
       <Switch>
         <Route exact path="/" component={HomeRoute} />
         <Route path="/auth" component={AuthRoutes} />
@@ -79,7 +75,6 @@ const Routes = () => {
         <PrivateRoute path="/user/admin" role="ADMIN" component={AdminRoutes} />
         <PrivateRoute path="/user/trainer" role="TRAINER" component={TrainerRoutes} />
         <PrivateRoute path="/user/member" role="MEMBER" component={MemberRoutes} />
-        <Redirect to="/" />
       </Switch>
     </Suspense>
   );
