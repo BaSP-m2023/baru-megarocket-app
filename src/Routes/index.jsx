@@ -1,6 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import { setContentToast, handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { useDispatch } from 'react-redux';
 
 import { getAuth } from 'Redux/Auth/thunks';
@@ -23,21 +22,16 @@ const Routes = () => {
 
   useEffect(() => {
     const setupTokenListener = async () => {
-      try {
-        await new Promise((resolve) => {
-          tokenListener(resolve);
-        });
+      await new Promise((resolve) => {
+        tokenListener(resolve);
+      });
 
-        const token = sessionStorage.getItem('token');
-        const role = sessionStorage.getItem('role');
-        setUser({ token, role });
+      const token = sessionStorage.getItem('token');
+      const role = sessionStorage.getItem('role');
+      setUser({ token, role });
 
-        if (token) {
-          dispatch(getAuth(token));
-        }
-      } catch (error) {
-        dispatch(setContentToast({ message: error.toString(), state: 'fail' }));
-        dispatch(handleDisplayToast(true));
+      if (token) {
+        dispatch(getAuth(token));
       }
     };
 
