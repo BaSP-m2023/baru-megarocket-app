@@ -128,7 +128,7 @@ export const deleteAdmin = (id) => {
   return async (dispatch) => {
     dispatch(deleteAdminPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/delete/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json',

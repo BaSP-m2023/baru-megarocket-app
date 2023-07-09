@@ -51,7 +51,7 @@ function MemberProfile({ match }) {
   });
 
   useEffect(() => {
-    getMembers(dispatch);
+    dispatch(getMembers());
   }, [dispatch]);
 
   useEffect(() => {
