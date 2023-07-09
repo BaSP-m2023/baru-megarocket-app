@@ -2,11 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './navbar.module.css';
 import Button from 'Components/Shared/Button';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 const NavBar = ({ routes = [] }) => {
   const role = sessionStorage.getItem('role');
   const history = useHistory();
+  const location = useLocation();
 
   const privateRoutes = routes.filter((route) => route.name !== 'Home');
 
@@ -29,7 +30,12 @@ const NavBar = ({ routes = [] }) => {
       <ul className={styles.routes} data-testid="routes-list">
         {privateRoutes.map((route) => (
           <li key={route.name}>
-            <Link to={route.path} className={styles.a}>
+            <Link
+              to={route.path}
+              className={`${styles.a} ${
+                location.pathname.includes(route.name.toLowerCase()) && styles.active
+              }`}
+            >
               {route.name}
             </Link>
           </li>
