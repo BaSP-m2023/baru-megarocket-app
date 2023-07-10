@@ -121,10 +121,10 @@ function Landing() {
                 <FontAwesomeIcon
                   icon={faCloud}
                   style={{ color: '#6d15e8', alignSelf: 'center' }}
-                  size="l"
+                  size="lg"
                 />
                 <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
-                <FontAwesomeIcon icon={faStar} style={{ color: '#dedeef93' }} size="l" />
+                <FontAwesomeIcon icon={faStar} style={{ color: '#dedeef93' }} size="lg" />
               </div>
 
               <h3>Classic</h3>
@@ -146,12 +146,12 @@ function Landing() {
             </div>
             <div className={styles.membershipCard}>
               <div className={styles.tier}>
-                <FontAwesomeIcon icon={faCloud} style={{ color: '#6d15e8' }} size="l" />
+                <FontAwesomeIcon icon={faCloud} style={{ color: '#6d15e8' }} size="lg" />
                 <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
                 <FontAwesomeIcon
                   icon={faStar}
                   style={{ color: '#e8b315', alignSelf: 'flex-end' }}
-                  size="l"
+                  size="lg"
                 />
               </div>
               <h3>Black</h3>
