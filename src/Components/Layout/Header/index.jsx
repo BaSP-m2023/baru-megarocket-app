@@ -52,17 +52,19 @@ function Header(props) {
                     : `/user/${role.toLowerCase()}/profile/${userLogged?._id}`
                 }
               >
-                <div className={styles.profileContainer}>
-                  <img
-                    className={styles.profileImg}
-                    src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
-                    alt="profile image"
-                  />
-                  {role === 'ADMIN' && `${userLogged?.firstName} ${userLogged?.lastName}`}
-                  {role === 'MEMBER' && `${userLogged?.name} ${userLogged?.lastName}`}
-                  {role === 'TRAINER' && `${userLogged?.firstName} ${userLogged?.lastName}`}
-                  {role === 'SUPER_ADMIN' && 'SA'}
-                </div>
+                {userLogged && (
+                  <div className={styles.profileContainer}>
+                    <img
+                      className={styles.profileImg}
+                      src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
+                      alt="profile image"
+                    />
+                    {role === 'ADMIN' && `${userLogged?.firstName} ${userLogged?.lastName}`}
+                    {role === 'MEMBER' && `${userLogged?.name} ${userLogged?.lastName}`}
+                    {role === 'TRAINER' && `${userLogged?.firstName} ${userLogged?.lastName}`}
+                    {role === 'SUPER_ADMIN' && 'SA'}
+                  </div>
+                )}
               </Link>
               <div className={styles.logoutButton}>
                 <Button classNameButton="deleteButton" action={handleLogout} text="Logout" />

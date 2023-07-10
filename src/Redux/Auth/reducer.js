@@ -96,7 +96,6 @@ const authReducer = (state = initialState, action) => {
           lastName: action.payload.lastName
         };
       }
-      console.log(updatedUser);
 
       return {
         ...state,
