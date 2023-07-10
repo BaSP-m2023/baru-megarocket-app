@@ -25,9 +25,6 @@ export const tokenListener = (resolve) => {
       sessionStorage.removeItem('token', '');
       sessionStorage.removeItem('role', '');
     }
-
-    if (resolve) {
-      resolve();
-    }
+    resolve();
   });
 };
