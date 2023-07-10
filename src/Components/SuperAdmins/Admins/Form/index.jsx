@@ -12,7 +12,7 @@ import adminSchema from 'Validations/admin';
 import adminUpdate from 'Validations/adminUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
@@ -36,8 +36,16 @@ function AdminsForm({ match }) {
   } = !adminId
     ? useForm({
         mode: 'onChange',
-        resolver: joiResolver(adminSchema),
-        defaultValues: {
+        resolver: joiResolver(adminSchema)
+      })
+    : useForm({
+        mode: 'onChange',
+        resolver: joiResolver(adminUpdate)
+      });
+
+  const handleReset = () => {
+    const defaultValues = !adminId
+      ? {
           firstName: '',
           lastName: '',
           dni: '',
@@ -46,18 +54,16 @@ function AdminsForm({ match }) {
           email: '',
           password: ''
         }
-      })
-    : useForm({
-        mode: 'onChange',
-        resolver: joiResolver(adminUpdate),
-        defaultValues: {
-          firstName: '',
-          lastName: '',
-          dni: '',
-          phone: '',
-          city: ''
-        }
-      });
+      : {
+          firstName: adminToUpdate ? adminToUpdate.firstName : '',
+          lastName: adminToUpdate ? adminToUpdate.lastName : '',
+          dni: adminToUpdate ? adminToUpdate.dni : '',
+          phone: adminToUpdate ? adminToUpdate.phone : '',
+          city: adminToUpdate ? adminToUpdate.city : ''
+        };
+
+    reset(defaultValues);
+  };
 
   useEffect(() => {
     if (adminId) {
@@ -123,7 +129,7 @@ function AdminsForm({ match }) {
     }
   };
 
-  const handleReset = (e) => {
+  /*   const handleReset = (e) => {
     e.preventDefault();
 
     if (adminToUpdate) {
@@ -136,7 +142,7 @@ function AdminsForm({ match }) {
         return true;
       });
     }
-  };
+  }; */
 
   const onConfirm = () => {
     setShowConfirmModal(true);
@@ -198,9 +204,7 @@ function AdminsForm({ match }) {
               </div>
             </>
           )}
-          <div className={styles.container_button}>
-            <Button action={handleReset} text="Reset" classNameButton="deleteButton" />
-          </div>
+
           <div className={styles.buttonContainer} data-testid="admin-form-buttons">
             <div>
               <Link to="/user/super-admin/admins">
@@ -214,6 +218,9 @@ function AdminsForm({ match }) {
             <div>
               <Button text={'Confirm'} action={onConfirm} classNameButton="submitButton" />
             </div>
+          </div>
+          <div className={styles.resetContainer}>
+            <Reset action={handleReset} />
           </div>
         </form>
       </div>

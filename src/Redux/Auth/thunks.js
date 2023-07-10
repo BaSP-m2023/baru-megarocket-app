@@ -73,7 +73,6 @@ export const logOut = () => {
       sessionStorage.removeItem('role', '');
       return { error: false, message: 'Log Out Successfully' };
     } catch (error) {
-      console.error(error);
       dispatch(logoutError(error));
       return {
         error: true,

@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import styles from './profile.module.css';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { getAdmins, editAdmin } from 'Redux/Admins/thunks';
 import { updateUser } from 'Redux/Auth/actions';
-import adminUpdate from 'Validations/adminUpdate';
 
+import adminUpdate from 'Validations/adminUpdate';
 import { Input } from 'Components/Shared/Inputs';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import { useHistory } from 'react-router-dom';
+import styles from './profile.module.css';
 
 function AdminProfile({ match }) {
   const history = useHistory();
@@ -95,9 +95,8 @@ function AdminProfile({ match }) {
     }
   };
 
-  const handleReset = (e) => {
-    e.preventDefault();
-
+  const handleReset = () => {
+    reset();
     if (defaultAdmin) {
       // eslint-disable-next-line no-unused-vars
       const { _id, firebaseUid, email, __v, createdAt, updatedAt, ...resDefaultAdmin } =
@@ -164,15 +163,17 @@ function AdminProfile({ match }) {
             ))}
           </div>
           {!disableEdit && (
-            <div className={styles.buttons}>
-              <Button classNameButton="addButton" text={'Confirm'} />
-              <Button
-                classNameButton="cancelButton"
-                action={() => setDisableEdit(true)}
-                text="Cancel"
-              />
-              <Button classNameButton="deleteButton" action={handleReset} text={'Reset'} />
-            </div>
+            <>
+              <div className={styles.buttons}>
+                <Button classNameButton="addButton" text={'Confirm'} />
+                <Button
+                  classNameButton="cancelButton"
+                  action={() => setDisableEdit(true)}
+                  text="Cancel"
+                />
+              </div>
+              <Reset action={handleReset} />
+            </>
           )}
         </form>
         {disableEdit && (

@@ -12,7 +12,7 @@ import { updateUser } from 'Redux/Auth/actions';
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 import trainerSchema from 'Validations/trainerUpdate';
 
 function TrainerProfile({ match }) {
@@ -90,20 +90,13 @@ function TrainerProfile({ match }) {
         });
     }
   };
+
   const resetData = () => {
     reset();
-    if (trainerLogged) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resTrainerLogged } = trainerLogged;
-      Object.entries(resTrainerLogged).every(([key, value]) => {
-        setValue(key, value);
-        return true;
-      });
-    }
   };
-  const handleReset = (e) => {
-    e.preventDefault();
 
+  const handleReset = () => {
+    reset();
     if (trainerLogged) {
       // eslint-disable-next-line no-unused-vars
       const { _id, firebaseUid, email, __v, ...resTrainerLogged } = trainerLogged;
@@ -167,16 +160,13 @@ function TrainerProfile({ match }) {
             ))}
           </div>
           {!disableEdit && (
-            <div className={styles.buttons}>
-              <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
-              <Button classNameButton="cancelButton" text="Cancel" />
-              <Button
-                classNameButton="deleteButton"
-                action={handleReset}
-                text={'Reset'}
-                disabled={disableEdit}
-              />
-            </div>
+            <>
+              <div className={styles.buttons}>
+                <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
+                <Button classNameButton="cancelButton" text="Cancel" />
+              </div>
+              <Reset action={handleReset} text={'Reset'} />
+            </>
           )}
         </form>
         {disableEdit && (

@@ -28,9 +28,15 @@
 }
 
 .form {
+  display: flex;
+  flex-direction: column;
   width: 25vw;
   padding: 0.5rem;
   background-color: #ffffff;
+}
+
+.form input {
+  margin: 0;
 }
 
 .labelInput {
@@ -82,6 +88,11 @@
   border: 0;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.resetContainer {
+  width: 5rem;
+  align-self: center;
 }
 
 .disabled {

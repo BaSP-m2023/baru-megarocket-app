@@ -9,7 +9,7 @@ import { login } from 'Redux/Auth/thunks';
 import loginSchema from 'Validations/login';
 
 import { Input } from 'Components/Shared/Inputs';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 
 function Login() {
   const history = useHistory();

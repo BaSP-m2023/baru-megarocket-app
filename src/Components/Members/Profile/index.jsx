@@ -13,8 +13,7 @@ import { updateUser } from 'Redux/Auth/actions';
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 
 function MemberProfile({ match }) {
   const dispatch = useDispatch();
@@ -116,9 +115,8 @@ function MemberProfile({ match }) {
       setValue('dob', dob.slice(0, 10));
     }
   };
-  const handleReset = (e) => {
-    e.preventDefault();
-
+  const handleReset = () => {
+    reset();
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
       const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = memberLogged;
@@ -186,20 +184,17 @@ function MemberProfile({ match }) {
             ))}
           </div>
           {!disableEdit && (
-            <div className={styles.buttons}>
-              <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
-              <Button
-                classNameButton="cancelButton"
-                action={() => setDisableEdit(true)}
-                text="Cancel"
-              />
-              <Button
-                classNameButton="deleteButton"
-                action={handleReset}
-                text={'Reset'}
-                disabled={disableEdit}
-              />
-            </div>
+            <>
+              <div className={styles.buttons}>
+                <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
+                <Button
+                  classNameButton="cancelButton"
+                  action={() => setDisableEdit(true)}
+                  text="Cancel"
+                />
+              </div>
+              <Reset action={handleReset} />
+            </>
           )}
         </form>
         {disableEdit && (
