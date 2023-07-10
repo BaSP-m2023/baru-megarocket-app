@@ -11,7 +11,8 @@ import {
   SET_AUTHENTICATION,
   GET_AUTH_PENDING,
   GET_AUTH_SUCCESS,
-  GET_AUTH_ERROR
+  GET_AUTH_ERROR,
+  RESET_STATE
 } from 'Redux/Auth/constants';
 
 export const loginPending = () => {
@@ -97,5 +98,11 @@ export const getAuthenticationError = (error) => {
   return {
     type: GET_AUTH_ERROR,
     payload: error
+  };
+};
+
+export const resetState = () => {
+  return {
+    type: RESET_STATE
   };
 };
