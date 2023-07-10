@@ -100,7 +100,7 @@ export const signUpMember = (data, history) => {
         throw new Error(res.message);
       }
       await dispatch(signUpSuccess(data));
-      history.push('/auth/login', { formData: data });
+      history.push('/auth/login', { email: data.email });
       dispatch(setContentToast({ message: 'Sign up successfully', state: 'success' }));
       dispatch(handleDisplayToast(true));
       return res;

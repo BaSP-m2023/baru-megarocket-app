@@ -16,7 +16,7 @@ function Login() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const memberData = location.state?.formData;
+  const memberData = location.state?.email;
 
   const {
     register,
@@ -34,8 +34,7 @@ function Login() {
 
   useEffect(() => {
     if (memberData) {
-      setValue('email', memberData.email);
-      setValue('password', memberData.password);
+      setValue('email', memberData);
     }
   }, [memberData, setValue]);
 
