@@ -27,6 +27,7 @@ function AdminProfile({ match }) {
   const { show, message, state } = useSelector((state) => state.toast);
   const defaultAdmin = useSelector((state) => state.auth.user || '');
   const { data: admins } = useSelector((state) => state.admins);
+  const [editPass, setEditPass] = useState(false);
 
   const {
     register,
@@ -118,16 +119,30 @@ function AdminProfile({ match }) {
     setShowConfirmModal(true);
   };
 
+  const handleCloseModal = () => {
+    setShowConfirmModal(false);
+    setEditPass(false);
+  };
+
+  const handleEditPass = () => {
+    setEditPass(!editPass);
+    setShowConfirmModal(!showConfirmModal);
+  };
+
   const handleSendEmail = () => {
     const auth = getAuth();
     sendPasswordResetEmail(auth, defaultAdmin.email)
       .then(() => {
         dispatch(setContentToast({ message: 'Email with reset link sent', state: 'success' }));
         dispatch(handleDisplayToast(true));
+        setShowConfirmModal(false);
+        setEditPass(false);
       })
       .catch(() => {
         dispatch(setContentToast({ message: 'Could not send email', state: 'fail' }));
         dispatch(handleDisplayToast(true));
+        setShowConfirmModal(false);
+        setEditPass(false);
       });
   };
 
@@ -176,7 +191,7 @@ function AdminProfile({ match }) {
               </div>
             ))}
             <div className={styles.changePassContainer}>
-              <a onClick={handleSubmit(handleSendEmail)} href="#">
+              <a onClick={handleEditPass} href="#">
                 Want to change your password?
               </a>
             </div>
@@ -203,12 +218,16 @@ function AdminProfile({ match }) {
       </div>
       {showConfirmModal && (
         <ConfirmModal
-          title={'Edit my Profile'}
-          handler={() => setShowConfirmModal(false)}
-          onAction={handleSubmit(onSubmit)}
+          title={
+            editPass
+              ? 'Are you sure you want to change your password by sending you an email?'
+              : 'Edit my Profile'
+          }
+          handler={() => handleCloseModal()}
+          onAction={editPass ? handleSendEmail : handleSubmit(onSubmit)}
           reason={'submit'}
         >
-          {`Are you sure you wanna edit?`}
+          {editPass ? '' : `Are you sure you wanna edit?`}
         </ConfirmModal>
       )}
       {show && (
