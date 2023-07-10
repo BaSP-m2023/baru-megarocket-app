@@ -8,7 +8,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import newPasswordSchema from 'Validations/newPassword';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import { Input } from 'Components/Shared/Inputs';
 
 const NewPassword = () => {
@@ -35,8 +35,7 @@ const NewPassword = () => {
 
   const handleNewPass = (data) => {
     const auth = getAuth();
-    const newPassword = data.password;
-    confirmPasswordReset(auth, query.get('oobCode'), newPassword)
+    confirmPasswordReset(auth, query.get('oobCode'), data.password)
       .then(() => {
         history.push('/auth/login');
         dispatch(setContentToast({ message: 'Password reset successfully', state: 'success' }));

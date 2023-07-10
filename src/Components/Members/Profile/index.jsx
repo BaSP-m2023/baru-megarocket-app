@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import styles from './profile.module.css';
 
 import { updateMember, getMembers } from 'Redux/Members/thunks';
@@ -137,6 +138,19 @@ function MemberProfile({ match }) {
     clearErrors();
   };
 
+  const handleSendEmail = () => {
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, memberLogged.email)
+      .then(() => {
+        dispatch(setContentToast({ message: 'Email with reset link sent', state: 'success' }));
+        dispatch(handleDisplayToast(true));
+      })
+      .catch(() => {
+        dispatch(setContentToast({ message: 'Could not send email', state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+      });
+  };
+
   const formFields = [
     { labelText: 'Name', type: 'text', name: 'name' },
     { labelText: 'LastName', type: 'text', name: 'lastName' },
@@ -182,6 +196,11 @@ function MemberProfile({ match }) {
                 />
               </div>
             ))}
+            <div className={styles.changePassContainer}>
+              <a onClick={handleSubmit(handleSendEmail)} href="#">
+                Want to change your password?
+              </a>
+            </div>
           </div>
           {!disableEdit && (
             <>

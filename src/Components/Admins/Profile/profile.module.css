@@ -10,10 +10,12 @@
   border-radius: 7px;
   box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
 }
+
 .form {
   display: flex;
   justify-content: center;
 }
+
 .p {
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
@@ -21,6 +23,7 @@
   font-weight: 700;
   color: #373867;
 }
+
 .loader_container {
   display: flex;
   justify-content: center;
@@ -28,6 +31,7 @@
   padding: 5%;
   height: 100%;
 }
+
 .header {
   display: flex;
   align-items: center;
@@ -96,4 +100,10 @@
   color: #373867;
   font-weight: 700;
   font-size: 1rem;
+}
+
+.changePassContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
 }

@@ -85,3 +85,9 @@
   font-weight: 700;
   font-size: 1rem;
 }
+
+.changePassContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+}

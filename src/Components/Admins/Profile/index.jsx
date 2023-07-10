@@ -13,6 +13,7 @@ import { Button, Reset } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import { useHistory } from 'react-router-dom';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import styles from './profile.module.css';
 
 function AdminProfile({ match }) {
@@ -117,6 +118,19 @@ function AdminProfile({ match }) {
     setShowConfirmModal(true);
   };
 
+  const handleSendEmail = () => {
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, defaultAdmin.email)
+      .then(() => {
+        dispatch(setContentToast({ message: 'Email with reset link sent', state: 'success' }));
+        dispatch(handleDisplayToast(true));
+      })
+      .catch(() => {
+        dispatch(setContentToast({ message: 'Could not send email', state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+      });
+  };
+
   const formFields = [
     { labelText: 'Name', type: 'text', name: 'firstName' },
     { labelText: 'Last Name', type: 'text', name: 'lastName' },
@@ -161,6 +175,11 @@ function AdminProfile({ match }) {
                 />
               </div>
             ))}
+            <div className={styles.changePassContainer}>
+              <a onClick={handleSubmit(handleSendEmail)} href="#">
+                Want to change your password?
+              </a>
+            </div>
           </div>
           {!disableEdit && (
             <>
