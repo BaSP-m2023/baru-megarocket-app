@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
@@ -22,7 +22,8 @@ function SignUp() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setValue
   } = useForm({
     resolver: joiResolver(memberSchema),
     mode: 'onChange',
@@ -40,6 +41,14 @@ function SignUp() {
       password: ''
     }
   });
+
+  useEffect(() => {
+    const localStorageMembership = localStorage.getItem('membership');
+    if (localStorageMembership) {
+      setValue('membership', localStorageMembership);
+      localStorage.removeItem('membership');
+    }
+  }, [setValue]);
 
   const handleSignup = (data) => {
     if (data) {

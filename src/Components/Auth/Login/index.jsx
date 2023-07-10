@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './login.module.css';
 
 import { login } from 'Redux/Auth/thunks';
@@ -14,10 +14,14 @@ import { Button } from 'Components/Shared/Button';
 function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const memberData = location.state?.formData;
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -27,6 +31,13 @@ function Login() {
       password: ''
     }
   });
+
+  useEffect(() => {
+    if (memberData) {
+      setValue('email', memberData.email);
+      setValue('password', memberData.password);
+    }
+  }, [memberData, setValue]);
 
   const handleLogin = (data) => {
     dispatch(login(data, history));
