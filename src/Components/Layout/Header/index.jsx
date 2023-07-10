@@ -15,7 +15,7 @@ function Header(props) {
   const history = useHistory();
 
   const role = sessionStorage.getItem('role');
-  const userLogged = useSelector((state) => state.auth.user);
+  const { user: userLogged } = useSelector((state) => state.auth);
 
   const { show, message, state } = useSelector((state) => state.toast);
 
@@ -42,7 +42,7 @@ function Header(props) {
           />
         </div>
         <div className={styles.container2}>
-          {role && (
+          {role && userLogged && (
             <>
               <Link
                 className={styles.profileLink}
