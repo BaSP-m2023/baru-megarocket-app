@@ -12,7 +12,7 @@ import adminSchema from 'Validations/admin';
 import adminUpdate from 'Validations/adminUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
@@ -35,8 +35,16 @@ function AdminsForm() {
   } = !params.id
     ? useForm({
         mode: 'onChange',
-        resolver: joiResolver(adminSchema),
-        defaultValues: {
+        resolver: joiResolver(adminSchema)
+      })
+    : useForm({
+        mode: 'onChange',
+        resolver: joiResolver(adminUpdate)
+      });
+
+  const handleReset = () => {
+    const defaultValues = !params.id
+      ? {
           firstName: '',
           lastName: '',
           dni: '',
@@ -45,18 +53,16 @@ function AdminsForm() {
           email: '',
           password: ''
         }
-      })
-    : useForm({
-        mode: 'onChange',
-        resolver: joiResolver(adminUpdate),
-        defaultValues: {
-          firstName: '',
-          lastName: '',
-          dni: '',
-          phone: '',
-          city: ''
-        }
-      });
+      : {
+          firstName: adminToUpdate ? adminToUpdate.firstName : '',
+          lastName: adminToUpdate ? adminToUpdate.lastName : '',
+          dni: adminToUpdate ? adminToUpdate.dni : '',
+          phone: adminToUpdate ? adminToUpdate.phone : '',
+          city: adminToUpdate ? adminToUpdate.city : ''
+        };
+
+    reset(defaultValues);
+  };
 
   useEffect(() => {
     if (params.id) {
@@ -178,6 +184,7 @@ function AdminsForm() {
             />
           </div>
         </div>
+        <Reset action={handleReset} />
       </div>
       {showConfirmModal && (
         <ConfirmModal

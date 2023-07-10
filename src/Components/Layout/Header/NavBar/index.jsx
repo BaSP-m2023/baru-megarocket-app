@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './navbar.module.css';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 const NavBar = ({ routes = [] }) => {

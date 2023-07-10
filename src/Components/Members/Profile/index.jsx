@@ -12,7 +12,7 @@ import memberUpdate from 'Validations/memberUpdate';
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 
 function MemberProfile({ match }) {
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ function MemberProfile({ match }) {
   });
 
   useEffect(() => {
-    getMembers(dispatch);
+    dispatch(getMembers());
   }, [dispatch]);
 
   useEffect(() => {
@@ -71,9 +71,9 @@ function MemberProfile({ match }) {
   const onSubmit = (data) => {
     if (memberId) {
       setShowConfirmModal(false);
-      updateMember(dispatch, memberId, data)
+      dispatch(updateMember(memberId, data))
         .then(() => {
-          resetData();
+          handleReset();
         })
         .catch((error) => {
           dispatch(setContentToast({ message: error.message, state: 'fail' }));
@@ -81,27 +81,17 @@ function MemberProfile({ match }) {
         });
     }
   };
-  const resetData = () => {
+
+  const handleReset = () => {
     reset();
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
-      Object.entries(resMemberLogged).every(([key, value]) => {
+      const { _id, firebaseUid, email, __v, dob, ...resMember } = memberLogged;
+      Object.entries(resMember).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
-    }
-  };
-  const handleReset = (e) => {
-    e.preventDefault();
-
-    if (memberLogged) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
-      Object.entries(resMemberLogged).every(([key, value]) => {
-        setValue(key, value);
-        return true;
-      });
+      setValue('dob', dob.slice(0, 10));
     }
   };
 
@@ -165,12 +155,7 @@ function MemberProfile({ match }) {
                   action={() => setDisableEdit(true)}
                   text="Cancel"
                 />
-                <Button
-                  classNameButton="deleteButton"
-                  action={handleReset}
-                  text={'Reset'}
-                  disabled={disableEdit}
-                />
+                <Reset action={handleReset} />
               </div>
             )}
           </form>

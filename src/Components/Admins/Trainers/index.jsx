@@ -8,7 +8,7 @@ import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 import Table from './Table';
 import Loader from 'Components/Shared/Loader';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
 const Trainers = () => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './modalConfirm.module.css';
-import Button from '../Button';
+import { Button } from '../Button';
 
-const ConfirmModal = ({ children, handler, title, reason, onAction }) => {
+const ConfirmModal = ({ children, handler, title, reason, onAction, disabled }) => {
   const classByReason = {
     submit: 'submitButton',
     delete: 'deleteButton'
@@ -24,6 +24,7 @@ const ConfirmModal = ({ children, handler, title, reason, onAction }) => {
             action={onAction}
             text={`${reason.charAt(0).toUpperCase()}${reason.substring(1)}`}
             classNameButton={classByReason[reason]}
+            disabled={disabled}
           />
         </div>
       </div>

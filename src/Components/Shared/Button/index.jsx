@@ -1,7 +1,9 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import styles from './button.module.css';
 
-function Button({ action, text, img, classNameButton, disabled, testid, icon }) {
+export function Button({ action, text, img, classNameButton, disabled, testid, icon }) {
   return (
     <div>
       {img ? (
@@ -28,4 +30,11 @@ function Button({ action, text, img, classNameButton, disabled, testid, icon }) 
   );
 }
 
-export default Button;
+export function Reset({ action }) {
+  return (
+    <div className={styles.resetContainer} onClick={() => action()}>
+      <FontAwesomeIcon icon={faRotateLeft} className={styles.reset} />
+      reset
+    </div>
+  );
+}

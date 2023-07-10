@@ -14,10 +14,11 @@ import memberUpdate from 'Validations/memberUpdate';
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 
 const MemberForm = ({ match }) => {
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
+  const [memberToEdit, setMemberToEdit] = useState([]);
   const history = useHistory();
   let memberId = match.params.id;
   const dispatch = useDispatch();
@@ -33,8 +34,16 @@ const MemberForm = ({ match }) => {
   } = !memberId
     ? useForm({
         mode: 'onChange',
-        resolver: joiResolver(memberSchema),
-        defaultValues: {
+        resolver: joiResolver(memberSchema)
+      })
+    : useForm({
+        mode: 'onChange',
+        resolver: joiResolver(memberUpdate)
+      });
+
+  const handleReset = () => {
+    const defaultValues = !memberId
+      ? {
           name: '',
           lastName: '',
           dni: '',
@@ -47,29 +56,30 @@ const MemberForm = ({ match }) => {
           membership: 'default',
           password: ''
         }
-      })
-    : useForm({
-        mode: 'onChange',
-        resolver: joiResolver(memberUpdate),
-        defaultValues: {
-          name: '',
-          lastName: '',
-          dni: '',
-          phone: '',
-          city: '',
-          dob: '',
-          zip: '',
-          isActive: '',
-          membership: 'default'
-        }
-      });
+      : {
+          name: memberToEdit ? memberToEdit.name : '',
+          lastName: memberToEdit ? memberToEdit.lastName : '',
+          dni: memberToEdit ? memberToEdit.dni : '',
+          phone: memberToEdit ? memberToEdit.phone : '',
+          city: memberToEdit ? memberToEdit.city : '',
+          dob: memberToEdit ? memberToEdit.dob : '',
+          zip: memberToEdit ? memberToEdit.zip : '',
+          isActive: memberToEdit ? memberToEdit.isActive : '',
+          membership: memberToEdit ? memberToEdit.membership : 'default'
+        };
+
+    reset(defaultValues);
+  };
+
+  console.log(memberToEdit);
 
   useEffect(() => {
     if (memberId) {
-      getMembers(dispatch).then((data) => {
+      dispatch(getMembers()).then((data) => {
         const member = data.find((item) => item._id === memberId);
         // eslint-disable-next-line no-unused-vars
-        const { _id, firebaseUid, email, __v, dob, ...resMember } = member;
+        const { _id, firebaseUid, email, __v, dob, password, ...resMember } = member;
+        setMemberToEdit({ ...resMember, dob: dob.slice(0, 10) });
         Object.entries(resMember).every(([key, value]) => {
           setValue(key, value);
           return true;
@@ -87,10 +97,10 @@ const MemberForm = ({ match }) => {
 
   const onSubmit = (data) => {
     if (memberId) {
-      updateMember(dispatch, memberId, data);
+      dispatch(updateMember(memberId, data));
       setModalMessageOpen(false);
     } else {
-      addMember(dispatch, data);
+      dispatch(addMember(data));
       setModalMessageOpen(false);
     }
   };
@@ -155,27 +165,27 @@ const MemberForm = ({ match }) => {
                   />
                 </div>
               ))}
-          <div className={`${styles.formGroup} ${styles.formGroupCheckbox}`}>
-            <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
-          </div>
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Membership</label>
-            <select className={styles.input} name="membership" {...register('membership')}>
-              <option value="default">Choose your membership</option>
-              <option value="classic">Classic</option>
-              <option value="only_classes">Only Classes</option>
-              <option value="black">Black</option>
-            </select>
-          </div>
-          <div className={styles.formButtons} data-testid="members-form-button">
-            <Button action={reset} text="Reset" classNameButton="deleteButton" />
-            <Button
-              classNameButton="addButton"
-              action={handleSubmit(handleModal)}
-              text={memberId ? 'Edit' : 'Submit'}
-            />
-          </div>
+          <label className={styles.label}>Membership</label>
+          <select className={styles.input} name="membership" {...register('membership')}>
+            <option value="default">Choose your membership</option>
+            <option value="classic">Classic</option>
+            <option value="only_classes">Only Classes</option>
+            <option value="black">Black</option>
+          </select>
         </form>
+        <div className={styles.container_button} data-testid="members-form-button">
+          <Button
+            action={() => history.push('/user/admin/members')}
+            text={'Cancel'}
+            classNameButton={'cancelButton'}
+          />
+          <Button
+            classNameButton="addButton"
+            action={handleSubmit(handleModal)}
+            text={memberId ? 'Edit' : 'Submit'}
+          />
+        </div>
+        <Reset action={handleReset} />
       </div>
       {modalMessageOpen && (
         <ConfirmModal
