@@ -32,6 +32,7 @@ function MemberProfile({ match }) {
     register,
     handleSubmit,
     reset,
+    clearErrors,
     setValue,
     formState: { errors }
   } = useForm({
@@ -133,7 +134,10 @@ function MemberProfile({ match }) {
     setShowConfirmModal(!showConfirmModal);
   };
 
-  console.log(showConfirmModal);
+  const handleClose = () => {
+    setDisableEdit(true);
+    clearErrors();
+  };
 
   const formFields = [
     { labelText: 'Name', type: 'text', name: 'name' },
@@ -161,7 +165,7 @@ function MemberProfile({ match }) {
             />
           )}
           {!disableEdit && (
-            <button className={styles.close_button} onClick={() => setDisableEdit(true)}>
+            <button className={styles.close_button} onClick={handleClose}>
               &times;
             </button>
           )}

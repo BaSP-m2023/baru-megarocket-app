@@ -6,22 +6,22 @@ import styles from './profile.module.css';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { getAdmins, editAdmin } from 'Redux/Admins/thunks';
+import { updateUser } from 'Redux/Auth/actions';
 import adminUpdate from 'Validations/adminUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
 import Button from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import { updateUser } from 'Redux/Auth/actions';
 import { useHistory } from 'react-router-dom';
 
 function AdminProfile({ match }) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const adminId = match.params.id;
   const [disableEdit, setDisableEdit] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const AdminId = match.params.id;
   const redirect = useSelector((state) => state.admins.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
   const defaultAdmin = useSelector((state) => state.auth.user || '');
@@ -31,6 +31,7 @@ function AdminProfile({ match }) {
     register,
     handleSubmit,
     reset,
+    clearErrors,
     setValue,
     formState: { errors }
   } = useForm({
@@ -65,9 +66,9 @@ function AdminProfile({ match }) {
   }, [updated, defaultAdmin]);
 
   const onSubmit = (data) => {
-    if (AdminId) {
+    if (adminId) {
       setShowConfirmModal(false);
-      dispatch(editAdmin(AdminId, data))
+      dispatch(editAdmin(adminId, data))
         .then(() => {
           resetData();
           dispatch(updateUser({ firstName: data.firstName, lastName: data.lastName }));
@@ -85,8 +86,9 @@ function AdminProfile({ match }) {
     reset();
     if (defaultAdmin) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resAdmin } = defaultAdmin;
-      Object.entries(resAdmin).every(([key, value]) => {
+      const { _id, firebaseUid, email, __v, createdAt, updatedAt, ...resDefaultAdmin } =
+        defaultAdmin;
+      Object.entries(resDefaultAdmin).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
@@ -98,7 +100,8 @@ function AdminProfile({ match }) {
 
     if (defaultAdmin) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, dob, ...resDefaultAdmin } = defaultAdmin;
+      const { _id, firebaseUid, email, __v, createdAt, updatedAt, ...resDefaultAdmin } =
+        defaultAdmin;
       Object.entries(resDefaultAdmin).every(([key, value]) => {
         setValue(key, value);
         return true;
@@ -106,16 +109,14 @@ function AdminProfile({ match }) {
     }
   };
 
-  /*   const handleClose = () => {
+  const handleClose = () => {
     setDisableEdit(true);
     clearErrors();
-  }; */
+  };
 
   const onConfirm = () => {
     setShowConfirmModal(true);
   };
-
-  console.log(showConfirmModal);
 
   const formFields = [
     { labelText: 'Name', type: 'text', name: 'firstName' },
@@ -142,7 +143,7 @@ function AdminProfile({ match }) {
             />
           )}
           {!disableEdit && (
-            <button className={styles.close_button} onClick={() => setDisableEdit(true)}>
+            <button className={styles.close} onClick={handleClose}>
               &times;
             </button>
           )}
@@ -164,11 +165,7 @@ function AdminProfile({ match }) {
           </div>
           {!disableEdit && (
             <div className={styles.buttons}>
-              <Button
-                classNameButton="addButton"
-                text={'Confirm'}
-                action={() => setShowConfirmModal(true)}
-              />
+              <Button classNameButton="addButton" text={'Confirm'} />
               <Button
                 classNameButton="cancelButton"
                 action={() => setDisableEdit(true)}
