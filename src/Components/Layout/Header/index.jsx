@@ -26,6 +26,8 @@ function Header(props) {
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
   };
 
+  console.log(role);
+
   return (
     <header>
       <div className={styles.container}>
@@ -52,7 +54,7 @@ function Header(props) {
                     : `/user/${role.toLowerCase()}/profile/${userLogged?._id}`
                 }
               >
-                {userLogged && (
+                {userLogged?.lastName && (
                   <div className={styles.profileContainer}>
                     <img
                       className={styles.profileImg}
