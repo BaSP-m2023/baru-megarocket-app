@@ -8,15 +8,17 @@ import styles from './form.module.css';
 import { updateMember } from 'Redux/Members/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { getMembers } from 'Redux/Members/thunks';
+import memberSchema from 'Validations/member';
 import memberUpdate from 'Validations/memberUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 
 const MemberForm = ({ match }) => {
   const [modalMessageOpen, setModalMessageOpen] = useState(false);
+  const [memberToEdit, setMemberToEdit] = useState([]);
   const history = useHistory();
   let memberId = match.params.id;
   const dispatch = useDispatch();
@@ -29,28 +31,52 @@ const MemberForm = ({ match }) => {
     reset,
     setValue,
     formState: { errors }
-  } = useForm({
-    mode: 'onChange',
-    resolver: joiResolver(memberUpdate),
-    defaultValues: {
-      name: '',
-      lastName: '',
-      dni: '',
-      phone: '',
-      city: '',
-      dob: '',
-      zip: '',
-      isActive: '',
-      membership: 'default'
-    }
-  });
+  } = !memberId
+    ? useForm({
+        mode: 'onChange',
+        resolver: joiResolver(memberSchema)
+      })
+    : useForm({
+        mode: 'onChange',
+        resolver: joiResolver(memberUpdate)
+      });
+  const handleReset = () => {
+    const defaultValues = !memberId
+      ? {
+          name: '',
+          lastName: '',
+          dni: '',
+          phone: '',
+          email: '',
+          city: '',
+          dob: '',
+          zip: '',
+          isActive: '',
+          membership: 'default',
+          password: ''
+        }
+      : {
+          name: memberToEdit ? memberToEdit.name : '',
+          lastName: memberToEdit ? memberToEdit.lastName : '',
+          dni: memberToEdit ? memberToEdit.dni : '',
+          phone: memberToEdit ? memberToEdit.phone : '',
+          city: memberToEdit ? memberToEdit.city : '',
+          dob: memberToEdit ? memberToEdit.dob : '',
+          zip: memberToEdit ? memberToEdit.zip : '',
+          isActive: memberToEdit ? memberToEdit.isActive : '',
+          membership: memberToEdit ? memberToEdit.membership : 'default'
+        };
+
+    reset(defaultValues);
+  };
 
   useEffect(() => {
     if (memberId) {
-      getMembers(dispatch).then((data) => {
+      dispatch(getMembers()).then((data) => {
         const member = data.find((item) => item._id === memberId);
         // eslint-disable-next-line no-unused-vars
-        const { _id, firebaseUid, email, __v, dob, ...resMember } = member;
+        const { _id, firebaseUid, email, __v, dob, password, ...resMember } = member;
+        setMemberToEdit({ ...resMember, dob: dob.slice(0, 10) });
         Object.entries(resMember).every(([key, value]) => {
           setValue(key, value);
           return true;
@@ -67,7 +93,7 @@ const MemberForm = ({ match }) => {
   }, [redirect]);
 
   const onSubmit = (data) => {
-    updateMember(dispatch, memberId, data);
+    dispatch(updateMember(memberId, data));
     setModalMessageOpen(false);
   };
 
@@ -106,13 +132,16 @@ const MemberForm = ({ match }) => {
               />
             </div>
           ))}
-          <div className={styles.reset_button}>
-            <Button action={reset} text="Reset" classNameButton="deleteButton" />
-          </div>
         </form>
         <div className={styles.container_button} data-testid="members-form-button">
+          <Button
+            action={() => history.push('/user/admin/members')}
+            text={'Cancel'}
+            classNameButton={'cancelButton'}
+          />
           <Button classNameButton="addButton" action={handleSubmit(handleModal)} text={'Edit'} />
         </div>
+        <Reset action={handleReset} />
       </div>
       {modalMessageOpen && (
         <ConfirmModal

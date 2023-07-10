@@ -16,7 +16,7 @@ function Members() {
   const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
-    getMembers(dispatch);
+    dispatch(getMembers());
   }, [dispatch]);
 
   if (pending) {

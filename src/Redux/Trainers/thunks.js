@@ -10,7 +10,8 @@ import {
   editTrainerError,
   deleteTrainerPending,
   deleteTrainerSuccess,
-  deleteTrainerError
+  deleteTrainerError,
+  setRedirect
 } from 'Redux/Trainers/actions';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
@@ -76,7 +77,7 @@ export const addTrainer = (trainer, history) => {
   };
 };
 
-export const updTrainer = (id, updatedTrainer, history) => {
+export const updTrainer = (id, updatedTrainer) => {
   return async (dispatch) => {
     dispatch(editTrainerPending());
     try {
@@ -90,10 +91,11 @@ export const updTrainer = (id, updatedTrainer, history) => {
       });
       const { data, message, error } = await response.json();
       if (!error) {
-        history.push('/user/admin/trainers');
         dispatch(editTrainerSuccess(data));
         dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'success' }));
+        dispatch(setRedirect());
+        return data;
       } else {
         dispatch(editTrainerError(message));
         dispatch(handleDisplayToast(true));
