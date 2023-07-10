@@ -98,7 +98,6 @@ function AdminsForm({ match }) {
   }, [updated, adminToUpdate]);
 
   const onSubmit = (data) => {
-    console.log(123);
     if (adminId) {
       setShowConfirmModal(false);
       dispatch(editAdmin(adminId, data))
@@ -128,21 +127,6 @@ function AdminsForm({ match }) {
       });
     }
   };
-
-  /*   const handleReset = (e) => {
-    e.preventDefault();
-
-    if (adminToUpdate) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, updatedAt, createdAt, ...resAdminUpdate } =
-        adminToUpdate;
-      console.log(resAdminUpdate);
-      Object.entries(resAdminUpdate).every(([key, value]) => {
-        setValue(key, value);
-        return true;
-      });
-    }
-  }; */
 
   const onConfirm = () => {
     setShowConfirmModal(true);
