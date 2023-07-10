@@ -63,34 +63,36 @@ export const addMember = async (dispatch, member) => {
   }
 };
 
-export const updateMember = async (dispatch, id, updatedMember) => {
-  dispatch(editMemberPending());
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        token: token
-      },
-      body: JSON.stringify(updatedMember)
-    });
-    const { message, data, error } = await response.json();
-    if (!error) {
-      dispatch(editMemberSuccess(data));
-      dispatch(handleDisplayToast(true));
-      dispatch(setContentToast({ message, state: 'success' }));
-      dispatch(resetRedirect());
-      return data;
-    }
+export const updateMember = (id, updatedMember) => {
+  return async (dispatch) => {
+    dispatch(editMemberPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token
+        },
+        body: JSON.stringify(updatedMember)
+      });
+      const { message, data, error } = await response.json();
+      if (!error) {
+        dispatch(editMemberSuccess(data));
+        dispatch(handleDisplayToast(true));
+        dispatch(setContentToast({ message, state: 'success' }));
+        dispatch(resetRedirect());
+        return data;
+      }
 
-    if (error) {
-      throw new Error(message);
+      if (error) {
+        throw new Error(message);
+      }
+    } catch (error) {
+      dispatch(editMemberError(error.message));
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
-  } catch (error) {
-    dispatch(editMemberError(error.message));
-    dispatch(setContentToast({ message: error.message, state: 'fail' }));
-    dispatch(handleDisplayToast(true));
-  }
+  };
 };
 
 export const deleteMember = async (dispatch, id) => {
