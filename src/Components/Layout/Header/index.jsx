@@ -19,8 +19,8 @@ function Header(props) {
 
   const { show, message, state } = useSelector((state) => state.toast);
 
-  const handleLogout = () => {
-    dispatch(logOut());
+  const handleLogout = async () => {
+    await dispatch(logOut());
     history.push('/');
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));

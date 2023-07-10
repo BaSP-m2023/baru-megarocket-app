@@ -14,6 +14,7 @@ export const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 export const tokenListener = (resolve) => {
   firebase.auth().onIdTokenChanged(async (user) => {
+    console.log(user);
     if (user) {
       const token = await user.getIdToken();
       const {
@@ -21,7 +22,11 @@ export const tokenListener = (resolve) => {
       } = await user.getIdTokenResult();
       sessionStorage.setItem('role', role);
       sessionStorage.setItem('token', token);
+    } else {
+      sessionStorage.removeItem('token', '');
+      sessionStorage.removeItem('role', '');
     }
+
     if (resolve) {
       resolve();
     }
