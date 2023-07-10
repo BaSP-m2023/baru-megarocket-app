@@ -6,19 +6,18 @@ import styles from './home.module.css';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import Landing from 'Components/Landing/Landing';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
 function Home() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const role = sessionStorage.getItem('role');
   const { show, message, state } = useSelector((state) => state.toast);
 
   return (
     <>
       <section className={styles.container}>
-        {!role && (
+        {!sessionStorage.getItem('role') && (
           <div className={styles.buttonContainer} data-testid="home-buttons-container">
             <Button
               text="Sign Up"

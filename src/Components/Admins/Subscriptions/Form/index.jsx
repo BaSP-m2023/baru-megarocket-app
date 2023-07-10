@@ -15,7 +15,7 @@ import subscriptionSchema from 'Validations/subscription';
 import Select from 'react-select';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import Loader from 'Components/Shared/Loader';
 
 const Form = () => {

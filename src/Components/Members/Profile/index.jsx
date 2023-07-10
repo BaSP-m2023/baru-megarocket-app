@@ -8,39 +8,43 @@ import styles from './profile.module.css';
 import { updateMember, getMembers } from 'Redux/Members/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import memberUpdate from 'Validations/memberUpdate';
+import { updateUser } from 'Redux/Auth/actions';
 
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 
 function MemberProfile({ match }) {
   const dispatch = useDispatch();
   const [disableEdit, setDisableEdit] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const history = useHistory();
   const memberId = match.params.id;
   const redirect = useSelector((state) => state.members.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
-  const memberLogged = useSelector((state) => state.auth.user);
-  // const token = sessionStorage.getItem('token');
+  const memberLogged = useSelector((state) => state.auth.user || '');
+  const { data: members } = useSelector((state) => state.members);
+
   const {
     register,
     handleSubmit,
     reset,
+    clearErrors,
     setValue,
     formState: { errors }
   } = useForm({
     resolver: joiResolver(memberUpdate),
     mode: 'onChange',
     defaultValues: {
-      name: '',
-      lastName: '',
-      dni: '',
-      phone: '',
-      city: '',
-      dob: '',
-      zip: '',
+      name: memberLogged?.name,
+      lastName: memberLogged?.lastName,
+      dni: memberLogged?.dni,
+      phone: memberLogged?.phone,
+      city: memberLogged?.city,
+      dob: memberLogged?.dob,
+      zip: memberLogged?.zip,
       membership: memberLogged?.membership,
       isActive: memberLogged?.isActive
     }
@@ -52,9 +56,23 @@ function MemberProfile({ match }) {
 
   useEffect(() => {
     if (redirect) {
-      history.push('/members');
+      history.push('/user/member/home');
     }
   }, [redirect]);
+
+  useEffect(() => {
+    const memberUpdated = members && members?.find((mem) => mem._id === memberLogged._id);
+    setValue('name', memberUpdated ? memberUpdated.name : memberLogged.name);
+    setValue('lastName', memberUpdated ? memberUpdated.lastName : memberLogged.lastName);
+    setValue('dni', memberUpdated ? memberUpdated.dni : memberLogged.dni);
+    setValue('phone', memberUpdated ? memberUpdated.phone : memberLogged.phone);
+    setValue('city', memberUpdated ? memberUpdated.city : memberLogged.city);
+    setValue(
+      'dob',
+      memberUpdated ? memberUpdated?.dob?.slice(0, 10) : memberLogged?.dob?.slice(0, 10)
+    );
+    setValue('zip', memberUpdated ? memberUpdated.zip : memberLogged.zip);
+  }, [updated, memberLogged]);
 
   useEffect(() => {
     if (memberLogged) {
@@ -74,6 +92,9 @@ function MemberProfile({ match }) {
       dispatch(updateMember(memberId, data))
         .then(() => {
           resetData();
+          dispatch(updateUser({ name: data.name, lastName: data.lastName }));
+          setUpdated(!updated);
+          setDisableEdit(true);
         })
         .catch((error) => {
           dispatch(setContentToast({ message: error.message, state: 'fail' }));
@@ -81,32 +102,39 @@ function MemberProfile({ match }) {
         });
     }
   };
+
   const resetData = () => {
     reset();
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
+      const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = memberLogged;
       Object.entries(resMemberLogged).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
+      setValue('dob', dob.slice(0, 10));
     }
   };
-  const handleReset = (e) => {
-    e.preventDefault();
-
+  const handleReset = () => {
+    reset();
     if (memberLogged) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resMemberLogged } = memberLogged;
+      const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = memberLogged;
       Object.entries(resMemberLogged).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
+      setValue('dob', dob.slice(0, 10));
     }
   };
 
   const onConfirm = () => {
     setShowConfirmModal(!showConfirmModal);
+  };
+
+  const handleClose = () => {
+    setDisableEdit(true);
+    clearErrors();
   };
 
   const formFields = [
@@ -135,7 +163,7 @@ function MemberProfile({ match }) {
             />
           )}
           {!disableEdit && (
-            <button className={styles.close_button} onClick={() => setDisableEdit(true)}>
+            <button className={styles.close_button} onClick={handleClose}>
               &times;
             </button>
           )}
@@ -156,20 +184,17 @@ function MemberProfile({ match }) {
             ))}
           </div>
           {!disableEdit && (
-            <div className={styles.buttons}>
-              <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
-              <Button
-                classNameButton="cancelButton"
-                action={() => setDisableEdit(true)}
-                text="Cancel"
-              />
-              <Button
-                classNameButton="deleteButton"
-                action={handleReset}
-                text={'Reset'}
-                disabled={disableEdit}
-              />
-            </div>
+            <>
+              <div className={styles.buttons}>
+                <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
+                <Button
+                  classNameButton="cancelButton"
+                  action={() => setDisableEdit(true)}
+                  text="Cancel"
+                />
+              </div>
+              <Reset action={handleReset} />
+            </>
           )}
         </form>
         {disableEdit && (

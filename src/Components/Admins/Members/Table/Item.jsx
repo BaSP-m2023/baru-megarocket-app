@@ -6,7 +6,7 @@ import styles from './table.module.css';
 import { deleteMember } from 'Redux/Members/thunks';
 
 import ConfirmModal from 'Components/Shared/ConfirmModal';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 
 const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
   const [modal, setModal] = useState(false);

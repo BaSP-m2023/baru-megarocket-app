@@ -3,47 +3,65 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import styles from './profile.module.css';
+import styles from 'Components/Members/Profile/profile.module.css';
 
 import { getTrainers, updTrainer } from 'Redux/Trainers/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { updateUser } from 'Redux/Auth/actions';
 
 import { Input } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 import trainerSchema from 'Validations/trainerUpdate';
 
 function TrainerProfile({ match }) {
   const [disableEdit, setDisableEdit] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const history = useHistory();
   const trainerId = match.params.id;
   const dispatch = useDispatch();
+  const redirect = useSelector((state) => state.trainers.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
   const trainerLogged = useSelector((state) => state.auth.user);
+  const { data: trainers } = useSelector((state) => state.trainers);
+
   const {
     register,
     handleSubmit,
     reset,
+    clearErrors,
     setValue,
     formState: { errors }
   } = useForm({
     resolver: joiResolver(trainerSchema),
     mode: 'onChange',
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      dni: '',
-      phone: '',
-      salary: '',
-      isActive: trainerLogged?.isActive
+      firstName: trainerLogged?.firstName,
+      lastName: trainerLogged?.lastName,
+      dni: trainerLogged?.dni,
+      phone: trainerLogged?.phone
     }
   });
 
   useEffect(() => {
     dispatch(getTrainers());
   }, []);
+
+  useEffect(() => {
+    if (redirect) {
+      history.push('/user/trainer/home');
+    }
+  }, [redirect]);
+
+  useEffect(() => {
+    const trainerUpdated = trainers && trainers?.find((tr) => tr._id === trainerLogged?._id);
+    setValue('firstName', trainerUpdated ? trainerUpdated.firstName : trainerLogged?.firstName);
+    setValue('lastName', trainerUpdated ? trainerUpdated.lastName : trainerLogged?.lastName);
+    setValue('dni', trainerUpdated ? trainerUpdated.dni : trainerLogged?.dni);
+    setValue('phone', trainerUpdated ? trainerUpdated.phone : trainerLogged?.phone);
+  }, [updated, trainerLogged]);
 
   useEffect(() => {
     if (trainerLogged) {
@@ -59,9 +77,12 @@ function TrainerProfile({ match }) {
   const onSubmit = (data) => {
     if (trainerId) {
       setShowConfirmModal(false);
-      dispatch(updTrainer(trainerId, data, history))
+      dispatch(updTrainer(trainerId, data))
         .then(() => {
           resetData();
+          dispatch(updateUser({ firstName: data.firstName, lastName: data.lastName }));
+          setUpdated(!updated);
+          setDisableEdit(true);
         })
         .catch((error) => {
           dispatch(setContentToast({ message: error.message, state: 'fail' }));
@@ -69,7 +90,12 @@ function TrainerProfile({ match }) {
         });
     }
   };
+
   const resetData = () => {
+    reset();
+  };
+
+  const handleReset = () => {
     reset();
     if (trainerLogged) {
       // eslint-disable-next-line no-unused-vars
@@ -80,17 +106,10 @@ function TrainerProfile({ match }) {
       });
     }
   };
-  const handleReset = (e) => {
-    e.preventDefault();
 
-    if (trainerLogged) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resTrainerLogged } = trainerLogged;
-      Object.entries(resTrainerLogged).every(([key, value]) => {
-        setValue(key, value);
-        return true;
-      });
-    }
+  const handleClose = () => {
+    setDisableEdit(true);
+    clearErrors();
   };
 
   const onConfirm = () => {
@@ -101,8 +120,7 @@ function TrainerProfile({ match }) {
     { labelText: 'First Name', type: 'text', name: 'firstName' },
     { labelText: 'Last Name', type: 'text', name: 'lastName' },
     { labelText: 'DNI', type: 'number', name: 'dni' },
-    { labelText: 'Phone', type: 'text', name: 'phone' },
-    { labelText: 'Salary', type: 'text', name: 'salary' }
+    { labelText: 'Phone', type: 'text', name: 'phone' }
   ];
   return (
     <div className={styles.form}>
@@ -121,7 +139,7 @@ function TrainerProfile({ match }) {
             />
           )}
           {!disableEdit && (
-            <button className={styles.close_button} onClick={() => setDisableEdit(true)}>
+            <button className={styles.close_button} onClick={handleClose}>
               &times;
             </button>
           )}
@@ -142,20 +160,13 @@ function TrainerProfile({ match }) {
             ))}
           </div>
           {!disableEdit && (
-            <div className={styles.buttons}>
-              <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
-              <Button
-                classNameButton="cancelButton"
-                action={() => setDisableEdit(true)}
-                text="Cancel"
-              />
-              <Button
-                classNameButton="deleteButton"
-                action={handleReset}
-                text={'Reset'}
-                disabled={disableEdit}
-              />
-            </div>
+            <>
+              <div className={styles.buttons}>
+                <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
+                <Button classNameButton="cancelButton" text="Cancel" />
+              </div>
+              <Reset action={handleReset} text={'Reset'} />
+            </>
           )}
         </form>
         {disableEdit && (

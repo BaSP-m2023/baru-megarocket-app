@@ -9,7 +9,7 @@ import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/
 import { joiResolver } from '@hookform/resolvers/joi';
 import forgotPasswordSchema from 'Validations/forgotPassword';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import { Input } from 'Components/Shared/Inputs';
 
 const ForgotPassword = () => {

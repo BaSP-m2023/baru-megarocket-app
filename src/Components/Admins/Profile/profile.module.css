@@ -4,6 +4,7 @@
   background-color: #f4f4f4;
   margin: 10% auto;
   margin-top: 30px;
+  padding-bottom: 1.5rem;
   height: 100%;
   width: 70%;
   border-radius: 7px;
@@ -45,7 +46,7 @@
 
 .close{
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #ffffff;
   background-color: #373867;
@@ -71,6 +72,12 @@
 .confirm_button {
   display: flex;
   margin: auto;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
   text-align: center;
 }
 
