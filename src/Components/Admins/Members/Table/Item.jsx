@@ -47,7 +47,7 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
       dispatch(updateMember(member._id, defaultMember));
       setActiveToggle(false);
     } else {
-      deleteMember(dispatch, member._id);
+      dispatch(deleteMember(member._id));
     }
   };
 
