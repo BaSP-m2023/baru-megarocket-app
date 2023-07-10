@@ -115,6 +115,7 @@ describe('Admin Classes CRUD', () => {
 
       await expect(ResponseModal.modalText).toBeDisplayed();
       await expect(ResponseModal.modalText).toHaveTextContaining('Class updated');
+      await ResponseModal.modalText.waitForDisplayed({ reverse: true });
       await expect(ClassesTable.tableList).toBeDisplayed();
     });
   });

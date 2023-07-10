@@ -40,22 +40,24 @@ describe('Superadmin Admins CRUD', () => {
       await expect(passwordError).toHaveTextContaining('Password is required');
     });
 
-    /*   it('Should give an error when trying to login with invalid email', async () => {
-      await LoginPage.enterEmail('prueba@gmail.com');
+    it('Should give an error when trying to login with invalid email', async () => {
+      await LoginPage.enterEmail('adsasd@gmail.com');
       await LoginPage.enterPassword(validPassword);
       await LoginPage.loginBtnClick();
-  
-      await expect(LoginPage.loginErrors).toBeElementsArrayOfSize(1);
+
+      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toHaveTextContaining('Wrong email or password');
     });
-  
+
     it('Should give an error when trying to login with invalid password', async () => {
       await LoginPage.enterEmail(validEmail);
-      await LoginPage.enterPassword('Prueba123');
+      await LoginPage.enterPassword('asdasd12');
       await LoginPage.loginBtnClick();
-  
-      await expect(LoginPage.loginErrors).toBeElementsArrayOfSize(1);
+
+      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toHaveTextContaining('Wrong email or password');
     });
-   */
+
     it('Should login correctly with valid credentials', async () => {
       await LoginPage.enterEmail(validEmail);
       await LoginPage.enterPassword(validPassword);
@@ -121,6 +123,9 @@ describe('Superadmin Admins CRUD', () => {
       await AdminsForm.submitModal();
       await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(0);
 
+      await ResponseModal.modalText.waitForDisplayed({ timeout: 3000 });
+      await expect(ResponseModal.modalText).toHaveTextContaining('Admin created');
+
       currentUrl = await browser.getUrl();
       await expect(currentUrl).toEqual(
         'https://baru-megarocket-app.vercel.app/user/super-admin/admins'
@@ -144,6 +149,7 @@ describe('Superadmin Admins CRUD', () => {
 
       await AdminsForm.dniInput.waitForDisplayed({ timeout: 3000 });
       await browser.pause(2000);
+      await AdminsForm.enterFirstName('Julio');
       await AdminsForm.enterDni('40123111');
 
       await AdminsForm.submitBtn.scrollIntoView();
@@ -162,37 +168,37 @@ describe('Superadmin Admins CRUD', () => {
         'https://baru-megarocket-app.vercel.app/user/super-admin/admins'
       );
     });
+  });
 
-    describe('Admin delete & logout functionality', () => {
-      it('Should delete correctly the last added admin', async () => {
-        await expect(AdminsTable.tableList).toBeDisplayed();
-        const deleteIconsArray = await AdminsTable.allDeleteIcons;
-        const addedClassDeleteIcon = await deleteIconsArray[deleteIconsArray.length - 1];
+  describe('Admin delete & logout functionality', () => {
+    it('Should delete correctly the last added admin', async () => {
+      await expect(AdminsTable.tableList).toBeDisplayed();
+      const deleteIconsArray = await AdminsTable.allDeleteIcons;
+      const addedClassDeleteIcon = await deleteIconsArray[deleteIconsArray.length - 1];
 
-        await addedClassDeleteIcon.click();
+      await addedClassDeleteIcon.click();
 
-        await expect(AdminsForm.confirmModalTitle).toBeDisplayed();
-        await AdminsForm.submitModal();
+      await expect(AdminsForm.confirmModalTitle).toBeDisplayed();
+      await AdminsForm.submitModal();
 
-        await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
-        await expect(ResponseModal.modalText).toHaveTextContaining('Admin deleted');
-      });
+      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toHaveTextContaining('Admin deleted');
+    });
 
-      it('Superadmin should logout correctly', async () => {
-        await expect(NavBar.logoutBtn).toBeDisplayed();
+    it('Superadmin should logout correctly', async () => {
+      await expect(NavBar.logoutBtn).toBeDisplayed();
 
-        await NavBar.logoutBtn.scrollIntoView();
+      await NavBar.logoutBtn.scrollIntoView();
 
-        await NavBar.logoutBtnClick();
+      await NavBar.logoutBtnClick();
 
-        await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
-        await expect(ResponseModal.modalText).toHaveTextContaining('See you later');
+      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toHaveTextContaining('See you later');
 
-        currentUrl = await browser.getUrl();
+      currentUrl = await browser.getUrl();
 
-        await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
-        await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
-      });
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
+      await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
     });
   });
 });
