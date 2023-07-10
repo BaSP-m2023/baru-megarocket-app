@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ScheduleMember from './ScheduleComponents/MemberComponent';
 import ScheduleAdmin from './ScheduleComponents/AdminComponent';
-import getScheduleTrainer from './ScheduleComponents/trainerFunction';
+import ScheduleTrainer from './ScheduleComponents/ScheduleTrainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getActivities } from 'Redux/Activities/thunks';
 import { addSubscribed, getClasses } from 'Redux/Classes/thunks';
@@ -25,7 +25,7 @@ const Schedule = () => {
     (state) => state.activities
   );
   const { data: trainers } = useSelector((state) => state.trainers);
-  const member = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showForm, setShowForm] = useState({
     show: false,
@@ -50,6 +50,12 @@ const Schedule = () => {
     dispatch(getTrainers());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (role === 'TRAINER') {
+      setTrainerFilter(user?._id);
+    }
+  }, [user]);
+
   const clickMember = (data) => {
     setShowConfirmModal(true);
     if (data.subId) {
@@ -73,6 +79,19 @@ const Schedule = () => {
     }
   };
 
+  const clickTrainer = (data) => {
+    const membersSubscription = subscriptions?.filter((subs) => {
+      return subs.classes?._id === data._id;
+    });
+    setMemberSubs(membersSubscription);
+    // eslint-disable-next-line no-unused-vars
+    const { trainer, ...resData } = data;
+    setShowConfirmModal(true);
+    setModalData({
+      ...resData
+    });
+  };
+
   const handleSubmit = (data) => {
     if (data.subId) {
       data.subscribed = data.subscribed - 1;
@@ -81,7 +100,7 @@ const Schedule = () => {
       dispatch(addSubscribed(classData, data.classId));
     } else {
       if (data.capacity > data.subscribed) {
-        const subData = { classes: data?._id, members: member?._id };
+        const subData = { classes: data?._id, members: user?._id };
         data.subscribed = data.subscribed + 1;
         dispatch(addSubscriptions(subData)).then(() => dispatch(getSubscriptions()));
         const classData = { subscribed: data.subscribed ? data.subscribed : 1 };
@@ -98,7 +117,7 @@ const Schedule = () => {
     let arraySubs = [];
     if (role === 'MEMBER') {
       const memberSubscription = subscriptions?.filter((subs) => {
-        return subs.members?._id === member._id;
+        return subs.members?._id === user._id;
       });
       memberSubscription?.forEach((sub) => {
         arraySubs.push({
@@ -141,15 +160,19 @@ const Schedule = () => {
                   </option>
                 ))}
               </select>
-              <label>Filter by Trainer</label>
-              <select onChange={(e) => setTrainerFilter(e.target.value)}>
-                <option value={''}>All trainers</option>
-                {trainers.map((option) => (
-                  <option key={option._id} value={`${option._id}`}>
-                    {`${option.firstName} ${option.lastName}`}
-                  </option>
-                ))}
-              </select>
+              {role !== 'TRAINER' && (
+                <>
+                  <label>Filter by Trainer</label>
+                  <select onChange={(e) => setTrainerFilter(e.target.value)}>
+                    <option value={''}>All trainers</option>
+                    {trainers.map((option) => (
+                      <option key={option._id} value={`${option._id}`}>
+                        {`${option.firstName} ${option.lastName}`}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )}
             </div>
             <div className={styles.container}>
               <table className={styles.table}>
@@ -200,7 +223,20 @@ const Schedule = () => {
                           );
                         }
                         if (role === 'TRAINER') {
-                          return <td key={`${day}-${hour}`}>{getScheduleTrainer()}</td>;
+                          return (
+                            <td key={`${day}-${hour}`}>
+                              <ScheduleTrainer
+                                props={{
+                                  day: day,
+                                  hour: hour,
+                                  classes: classes,
+                                  trainerFilter: trainerFilter,
+                                  activityFilter: activityFilter
+                                }}
+                                click={clickTrainer}
+                              />
+                            </td>
+                          );
                         }
                         return null;
                       })}
@@ -217,11 +253,13 @@ const Schedule = () => {
           handler={() => setShowConfirmModal(false)}
           onAction={() => handleSubmit(modalData)}
           reason={
-            modalData.subId
-              ? 'unsubscribe'
-              : modalData.capacity > modalData.subscribed
-              ? 'subscribe'
-              : 'Full Class'
+            role === 'MEMBER'
+              ? modalData.subId
+                ? 'unsubscribe'
+                : modalData.capacity > modalData.subscribed
+                ? 'subscribe'
+                : 'Full Class'
+              : 'hidden'
           }
           disabled={!(modalData.subId || modalData.capacity > modalData.subscribed)}
         >
@@ -240,16 +278,31 @@ const Schedule = () => {
               <br />
             </>
           )}
-          {modalData.trainer
-            ? `Trainer: ${modalData.trainer?.firstName} ${modalData.trainer?.lastName}`
-            : 'There are not trainers for this class'}
-          <br />
+          {role !== 'TRAINER' && (
+            <>
+              {modalData.trainer
+                ? `Trainer: ${modalData.trainer?.firstName} ${modalData.trainer?.lastName}`
+                : 'There are not trainers for this class'}
+              <br />
+            </>
+          )}
           {`Capacity: ${modalData.capacity}`}
           <br />
           {`Members Subscribed: ${modalData.subscribed}`}
           <br />
 
           {`${modalData.day} at ${modalData.time}`}
+          {role === 'TRAINER' && (
+            <select>
+              <option value="">List of members</option>
+              {memberSubs?.map((subs) => (
+                <option key={subs._id}>
+                  {subs.members?.name} {subs.members?.lastName} Membership:{' '}
+                  {subs.members.membership}
+                </option>
+              ))}
+            </select>
+          )}
         </ConfirmModal>
       )}
       {showForm.show && (

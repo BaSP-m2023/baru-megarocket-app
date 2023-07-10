@@ -19,13 +19,19 @@ const ConfirmModal = ({ children, handler, title, reason, onAction, disabled }) 
         </div>
         <p className={styles.modalMessage}>{children}</p>
         <div className={styles.modalButtons} data-testid="confirm-modal-buttons">
-          <Button action={handler} text={'Cancel'} classNameButton={'cancelButton'} />
-          <Button
-            action={onAction}
-            text={`${reason.charAt(0).toUpperCase()}${reason.substring(1)}`}
-            classNameButton={classByReason[reason]}
-            disabled={disabled}
-          />
+          {reason !== 'hidden' ? (
+            <>
+              <Button action={handler} text={'Cancel'} classNameButton={'cancelButton'} />
+              <Button
+                action={onAction}
+                text={`${reason.charAt(0).toUpperCase()}${reason.substring(1)}`}
+                classNameButton={classByReason[reason]}
+                disabled={disabled}
+              />
+            </>
+          ) : (
+            <Button action={handler} text={'Close'} classNameButton={'cancelButton'} />
+          )}
         </div>
       </div>
     </div>,
