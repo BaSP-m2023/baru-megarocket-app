@@ -13,18 +13,15 @@ const NavBar = ({ routes = [] }) => {
 
   return (
     <nav className={styles.navbar}>
-      <Link to={routes[0].path}>
+      <Link to={routes[0].path} className={styles.link}>
         <div data-testid="logo-container" className={styles.logoContainer}>
           <img
-            src={`${process.env.PUBLIC_URL}/assets/images/logo.png`}
+            src={`${process.env.PUBLIC_URL}/assets/images/logo3.png`}
             alt="Flexing on fire logo"
             className={styles.logo}
           />
-          <img
-            src={`${process.env.PUBLIC_URL}/assets/images/logo2.png`}
-            alt="MegaRocket words logo"
-            className={styles.logo2}
-          />
+          <p className={styles.mega}>Mega</p>
+          <p className={styles.rocket}>Rocket</p>
         </div>
       </Link>
       <ul className={styles.routes} data-testid="routes-list">

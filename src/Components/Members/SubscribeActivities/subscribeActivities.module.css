@@ -1,6 +1,8 @@
 .container{
   display: flex ;
   flex-direction: column;
+  margin: auto;
+  max-width: 1100px;
 }
 .container h2{
   text-align: center;

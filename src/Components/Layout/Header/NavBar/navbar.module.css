@@ -4,21 +4,39 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  text-decoration: none;
+
+}
+
+.link{
+  text-decoration: none;
 }
 
 .logoContainer{
   display: flex;
   flex-direction: row;
   align-items: center;
+  text-decoration: none;
 }
 
 .logo {
-  width: 80px;
+  width: 90px;
+  transform: rotate(20deg);
 }
 
-.logo2 {
-  width: 180px;
-  height: 38px;
+.mega{
+  color:#e2e1e9;
+  font-size: 1.3rem;
+  font-weight: 650;
+  transform: translate(-10px, -10px);
+}
+
+.rocket{
+  color: #ddd8e9;
+  font-size: 1.4rem;
+  font-weight: 600;
+  transform: translate(-55px, 10px);
+
 }
 
 .buttonContainer{
