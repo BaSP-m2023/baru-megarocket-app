@@ -26,8 +26,6 @@ function Header(props) {
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
   };
 
-  console.log(role);
-
   return (
     <header>
       <div className={styles.container}>

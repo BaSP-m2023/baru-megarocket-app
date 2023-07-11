@@ -20,10 +20,12 @@ const SubscriptionsMember = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
   const [idToDelete, setIdToDelete] = useState('');
+  const [activeMember, setActiveMember] = useState(null);
   const member = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     dispatch(getSubscriptions());
+    setActiveMember(member.isActive);
   }, []);
 
   useEffect(() => {
@@ -52,7 +54,12 @@ const SubscriptionsMember = () => {
           <Loader />
         </div>
       )}
-      {!pending && (
+      {!pending && !activeMember && (
+        <p className={styles.text}>
+          Your membership is not active, please go to your nearest branch to activate it
+        </p>
+      )}
+      {!pending && activeMember && (
         <div className={styles.container}>
           <h2 className={styles.title}>Your subscriptions</h2>
           {subscription.length !== 0 ? (

@@ -90,6 +90,13 @@
   font-size: 1rem;
 }
 
+.text {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #373867;
+}
+
 ::-webkit-scrollbar {
   width: 0.7rem; 
 }

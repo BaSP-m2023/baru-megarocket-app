@@ -26,7 +26,10 @@ const Schedule = () => {
   );
   const { data: trainers } = useSelector((state) => state.trainers);
   const member = useSelector((state) => state.auth.user);
+  const [activeMember, setActiveMember] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSchedule, setShowSchedule] = useState(null);
+  const [runFunction, setRunFunction] = useState(false);
   const [showForm, setShowForm] = useState({
     show: false,
     data: undefined,
@@ -49,6 +52,18 @@ const Schedule = () => {
     dispatch(getSubscriptions());
     dispatch(getTrainers());
   }, [dispatch]);
+
+  useEffect(() => {
+    setActiveMember(member.isActive);
+    setRunFunction(true);
+  }, []);
+
+  useEffect(() => {
+    if (runFunction) {
+      handleActiveMember();
+      setRunFunction(false);
+    }
+  }, [runFunction]);
 
   const clickMember = (data) => {
     setShowConfirmModal(true);
@@ -117,6 +132,14 @@ const Schedule = () => {
     }
   }, [subscriptions]);
 
+  const handleActiveMember = () => {
+    if (role !== 'MEMBER') {
+      setShowSchedule(true);
+    } else if (role === 'MEMBER' && activeMember) {
+      setShowSchedule(true);
+    } else setShowSchedule(false);
+  };
+
   return (
     <>
       {(pendingActivities || pendingClasses || pendingSubscriptions) && (
@@ -124,12 +147,22 @@ const Schedule = () => {
           <Loader />
         </div>
       )}
+      {!pendingActivities &&
+        !pendingClasses &&
+        !pendingSubscriptions &&
+        role === 'MEMBER' &&
+        !activeMember && (
+          <p className={styles.text}>
+            Your membership is not active, please go to your nearest branch to activate it
+          </p>
+        )}
       {activities &&
         classes &&
         subscriptions &&
         !pendingActivities &&
         !pendingClasses &&
-        !pendingSubscriptions && (
+        !pendingSubscriptions &&
+        showSchedule && (
           <div className={styles.content}>
             <div className={styles.filter}>
               <label>Filter by Activity</label>

@@ -15,15 +15,7 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
   const [change, setChange] = useState(null);
   const [activeToggle, setActiveToggle] = useState(false);
   const defaultMember = {
-    name: member.name,
-    lastName: member.lastName,
-    dni: member.dni,
-    phone: member.phone,
-    city: member.dni,
-    dob: member.dob,
-    zip: member.zip,
-    isActive: !member.isActive,
-    membership: member.membership
+    isActive: !member.isActive
   };
 
   const handleModal = () => {
@@ -92,7 +84,7 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
           reason={activeToggle ? 'submit' : 'delete'}
         >
           {activeToggle
-            ? 'Are you sure you wanna active status memberships for this member?'
+            ? 'Are you sure you want to change the status of this member?'
             : 'Are you sure you wanna delete this member?'}
         </ConfirmModal>
       )}
