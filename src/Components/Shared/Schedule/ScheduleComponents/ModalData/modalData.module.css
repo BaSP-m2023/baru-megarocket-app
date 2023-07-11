@@ -27,18 +27,19 @@
 }
 
 .modalContent span {
-  right: 10px;
   font-size: 24px;
   cursor: pointer;
   color: black;
 }
-.containerInfo{
+.containerInfo {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
-  padding: 10px;
 }
-.containerInfo div{
-  margin-right: 20px;
+
+.containerInfo div {
+  width: calc(50% - 10px);
+  margin-bottom: 10px;
 }
 
 .modalContent h4 {
@@ -53,24 +54,31 @@
 
 .memberTable {
   margin-top: 25px;
-  max-height: 200px;
+  max-height: 150px;
   overflow-y: auto;
+  position: relative;
 }
 
 .memberTable table {
   width: 100%;
   border-collapse: collapse;
+  
 }
+.memberTable thead {
+  position: sticky; 
+  top: 0; 
+  background-color: #373867;
+  color: white;
+  z-index: 1;
+}
+
 
 .memberTable th, .memberTable td {
   padding: 8px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #373867;
 }
 
-.memberTable th {
-  background-color: #f2f2f2;
-}
 .containerButtons{
   display: flex;
   justify-content: center;
