@@ -9,7 +9,7 @@ import { getSubscriptions, deleteSubscription, addSubscriptions } from 'Redux/Su
 import { getTrainers } from 'Redux/Trainers/thunks';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
-import ConfirmModal from 'Components/Shared/ConfirmModal';
+import ModalData from './ScheduleComponents/ModalData';
 import ModalForm from './ScheduleComponents/ModalForm';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
 import Loader from 'Components/Shared/Loader';
@@ -248,62 +248,21 @@ const Schedule = () => {
           </div>
         )}
       {showConfirmModal && modalData && (
-        <ConfirmModal
-          title={'Class details'}
-          handler={() => setShowConfirmModal(false)}
-          onAction={() => handleSubmit(modalData)}
+        <ModalData
+          data={modalData}
+          role={role}
+          memberSubs={memberSubs}
+          closeModal={() => setShowConfirmModal(false)}
+          action={() => handleSubmit(modalData)}
           reason={
-            role === 'MEMBER'
-              ? modalData.subId
-                ? 'unsubscribe'
-                : modalData.capacity > modalData.subscribed
-                ? 'subscribe'
-                : 'Full Class'
-              : 'hidden'
+            modalData.subId
+              ? 'unsubscribe'
+              : modalData.capacity > modalData.subscribed
+              ? 'subscribe'
+              : 'Full Class'
           }
           disabled={!(modalData.subId || modalData.capacity > modalData.subscribed)}
-        >
-          {modalData.subId ? (
-            <>
-              {`Activity: ${modalData?.activityName}`}
-              <br />
-              {`Description: ${modalData.desc}`}
-              <br />
-            </>
-          ) : (
-            <>
-              {`Activity: ${modalData.activity?.name}`}
-              <br />
-              {`Description: ${modalData.activity?.description}`}
-              <br />
-            </>
-          )}
-          {role !== 'TRAINER' && (
-            <>
-              {modalData.trainer
-                ? `Trainer: ${modalData.trainer?.firstName} ${modalData.trainer?.lastName}`
-                : 'There are not trainers for this class'}
-              <br />
-            </>
-          )}
-          {`Capacity: ${modalData.capacity}`}
-          <br />
-          {`Members Subscribed: ${modalData.subscribed}`}
-          <br />
-
-          {`${modalData.day} at ${modalData.time}`}
-          {role === 'TRAINER' && (
-            <select>
-              <option value="">List of members</option>
-              {memberSubs?.map((subs) => (
-                <option key={subs._id}>
-                  {subs.members?.name} {subs.members?.lastName} Membership:{' '}
-                  {subs.members.membership}
-                </option>
-              ))}
-            </select>
-          )}
-        </ConfirmModal>
+        />
       )}
       {showForm.show && (
         <ModalForm
