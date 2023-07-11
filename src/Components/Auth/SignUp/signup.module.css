@@ -19,6 +19,37 @@
   height: 80%;
 }
 
+.inputPassword {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 5%;
+  width: 50%;
+}
+
+.btnVisibilityPassword {
+  display: flex;
+  align-items: center;
+  width: 5%;
+}
+
+.imgButtonPassword {
+  cursor: pointer;
+}
+
+.errorMessage {
+  padding: 10px;
+  color: red;
+  font-size: 0.8rem;
+}
+
 .header h2 {
   margin: 0;
   align-self: center;
