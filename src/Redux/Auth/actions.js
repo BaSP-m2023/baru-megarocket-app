@@ -12,6 +12,7 @@ import {
   GET_AUTH_PENDING,
   GET_AUTH_SUCCESS,
   GET_AUTH_ERROR,
+  RESET_STATE,
   UPDATE_USER
 } from 'Redux/Auth/constants';
 
@@ -98,6 +99,12 @@ export const getAuthenticationError = (error) => {
   return {
     type: GET_AUTH_ERROR,
     payload: error
+  };
+};
+
+export const resetState = () => {
+  return {
+    type: RESET_STATE
   };
 };
 
