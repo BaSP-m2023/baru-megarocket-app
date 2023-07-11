@@ -95,7 +95,7 @@ function ClassForm() {
     field: { value: day, onChange: dayOnChange }
   } = useController({ name: 'day', control });
   useEffect(() => {
-    getActivities(dispatch);
+    dispatch(getActivities());
     getTrainers(dispatch);
   }, [dispatch]);
 

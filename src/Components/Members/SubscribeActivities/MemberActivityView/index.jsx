@@ -15,7 +15,7 @@ const MemberActivityView = () => {
   const { url } = useRouteMatch();
 
   useEffect(() => {
-    getActivities(dispatch);
+    dispatch(getActivities());
   }, [dispatch]);
 
   const navigate = (id) => {
