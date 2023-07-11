@@ -54,9 +54,11 @@ const Schedule = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setActiveMember(user.isActive);
-    setRunHandleActiveMember(true);
-  }, []);
+    if (user) {
+      setActiveMember(user.isActive);
+      setRunHandleActiveMember(true);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (runHandleActiveMember) {

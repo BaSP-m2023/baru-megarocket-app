@@ -25,8 +25,11 @@ const SubscriptionsMember = () => {
 
   useEffect(() => {
     dispatch(getSubscriptions());
-    setActiveMember(member.isActive);
   }, []);
+
+  useEffect(() => {
+    if (member) setActiveMember(member.isActive);
+  }, [member]);
 
   useEffect(() => {
     const filterSubscription = subscriptions.filter((item) => item.members?._id === member._id);
