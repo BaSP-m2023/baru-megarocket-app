@@ -75,10 +75,10 @@ function SignUp() {
     { labelText: 'Name', type: 'text', name: 'name' },
     { labelText: 'Last name', type: 'text', name: 'lastName' },
     { labelText: 'DNI', type: 'number', name: 'dni' },
-    { labelText: 'Phone', type: 'text', name: 'phone' },
+    { labelText: 'Phone', type: 'number', name: 'phone' },
     { labelText: 'Email', type: 'email', name: 'email' },
     { labelText: 'City', type: 'text', name: 'city' },
-    { labelText: 'Date of birth', type: 'text', name: 'dob' },
+    { labelText: 'Date of birth', type: 'date', name: 'dob' },
     { labelText: 'Zip code', type: 'number', name: 'zip' },
     { labelText: 'Password', type: 'password', name: 'password' }
   ];
