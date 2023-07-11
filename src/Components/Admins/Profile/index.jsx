@@ -1,40 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
-import { getAdmins, editAdmin, deleteAdmin } from 'Redux/Admins/thunks';
+import { getAdmins, editAdmin } from 'Redux/Admins/thunks';
+import { updateUser } from 'Redux/Auth/actions';
 
 import adminUpdate from 'Validations/adminUpdate';
 import { Input } from 'Components/Shared/Inputs';
 import { Button, Reset } from 'Components/Shared/Button';
-import Loader from 'Components/Shared/Loader';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
+import { useHistory } from 'react-router-dom';
 import styles from './profile.module.css';
 
-function AdminProfile() {
-  const dispatch = useDispatch();
+function AdminProfile({ match }) {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const adminId = match.params.id;
   const [disableEdit, setDisableEdit] = useState(true);
-  const [action, setAction] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [updated, setUpdated] = useState(false);
+  const redirect = useSelector((state) => state.admins.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
-  const loading = useSelector((state) => state.admins.isPending);
   const defaultAdmin = useSelector((state) => state.auth.user || '');
+  const { data: admins } = useSelector((state) => state.admins);
 
   const {
     register,
     handleSubmit,
-    setValue,
-    clearErrors,
     reset,
+    clearErrors,
+    setValue,
     formState: { errors }
   } = useForm({
-    mode: 'onChange',
     resolver: joiResolver(adminUpdate),
+    mode: 'onChange',
     defaultValues: {
       firstName: defaultAdmin.firstName,
       lastName: defaultAdmin.lastName,
@@ -43,61 +45,78 @@ function AdminProfile() {
       city: defaultAdmin.city
     }
   });
+
   useEffect(() => {
     dispatch(getAdmins());
   }, [dispatch]);
 
   useEffect(() => {
-    setValue('firstName', defaultAdmin.firstName);
-    setValue('lastName', defaultAdmin.lastName);
-    setValue('dni', defaultAdmin.dni);
-    setValue('phone', defaultAdmin.phone);
-    setValue('city', defaultAdmin.city);
-  }, [defaultAdmin]);
+    if (redirect) {
+      history.push('/user/admin/home');
+    }
+  }, [redirect]);
+
+  useEffect(() => {
+    const adminUpdated = admins && admins?.find((ad) => ad._id === defaultAdmin._id);
+    setValue('firstName', adminUpdated ? adminUpdated.firstName : defaultAdmin.firstName);
+    setValue('lastName', adminUpdated ? adminUpdated.lastName : defaultAdmin.lastName);
+    setValue('dni', adminUpdated ? adminUpdated.dni : defaultAdmin.dni);
+    setValue('phone', adminUpdated ? adminUpdated.phone : defaultAdmin.phone);
+    setValue('city', adminUpdated ? adminUpdated.city : defaultAdmin.city);
+  }, [updated, defaultAdmin]);
 
   const onSubmit = (data) => {
-    setShowConfirmModal(false);
-    dispatch(editAdmin(defaultAdmin._id, data))
-      .then(() => {
-        resetData();
-      })
-      .catch((error) => {
-        dispatch(setContentToast({ message: error.message, state: 'fail' }));
-        dispatch(handleDisplayToast(true));
-      });
+    if (adminId) {
+      setShowConfirmModal(false);
+      dispatch(editAdmin(adminId, data))
+        .then(() => {
+          resetData();
+          dispatch(updateUser({ firstName: data.firstName, lastName: data.lastName }));
+          setUpdated(!updated);
+          setDisableEdit(true);
+        })
+        .catch((error) => {
+          dispatch(setContentToast({ message: error.message, state: 'fail' }));
+          dispatch(handleDisplayToast(true));
+        });
+    }
   };
 
   const resetData = () => {
     reset();
     if (defaultAdmin) {
       // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, ...resAdmin } = defaultAdmin;
-      Object.entries(resAdmin).every(([key, value]) => {
+      const { _id, firebaseUid, email, __v, createdAt, updatedAt, ...resDefaultAdmin } =
+        defaultAdmin;
+      Object.entries(resDefaultAdmin).every(([key, value]) => {
         setValue(key, value);
         return true;
       });
     }
   };
 
-  const handleDeleteAdmin = () => {
-    dispatch(deleteAdmin(defaultAdmin._id));
-    setShowConfirmModal(false);
-    history.push('/user/admin/home');
-  };
-  const handleAction = (action) => {
-    setShowConfirmModal(true);
-    setAction(action);
+  const handleReset = () => {
+    reset();
+    if (defaultAdmin) {
+      // eslint-disable-next-line no-unused-vars
+      const { _id, firebaseUid, email, __v, createdAt, updatedAt, ...resDefaultAdmin } =
+        defaultAdmin;
+      Object.entries(resDefaultAdmin).every(([key, value]) => {
+        setValue(key, value);
+        return true;
+      });
+    }
   };
 
   const handleClose = () => {
     setDisableEdit(true);
-    setValue('firstName', defaultAdmin.firstName);
-    setValue('lastName', defaultAdmin.lastName);
-    setValue('dni', defaultAdmin.dni);
-    setValue('phone', defaultAdmin.phone);
-    setValue('city', defaultAdmin.city);
     clearErrors();
   };
+
+  const onConfirm = () => {
+    setShowConfirmModal(true);
+  };
+
   const formFields = [
     { labelText: 'Name', type: 'text', name: 'firstName' },
     { labelText: 'Last Name', type: 'text', name: 'lastName' },
@@ -105,98 +124,72 @@ function AdminProfile() {
     { labelText: 'Phone', type: 'text', name: 'phone' },
     { labelText: 'City', type: 'text', name: 'city' }
   ];
+
   return (
     <div className={styles.form}>
-      {Object.keys(defaultAdmin).length === 0 && (
-        <p className={styles.p}>There are no admins to show</p>
-      )}
-      {Object.keys(defaultAdmin).length > 0 && (
-        <div className={styles.content}>
-          <div className={styles.header}>
-            <h2>{disableEdit ? 'Profile information' : 'Edit profile'}</h2>
-            {disableEdit && (
-              <Button
-                classNameButton="addButton"
-                action={() => setDisableEdit(false)}
-                img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
-              />
-            )}
-            {!disableEdit && (
-              <button className={styles.close} onClick={() => handleClose()}>
-                X
-              </button>
-            )}
-          </div>
-          {loading && (
-            <div className={styles.loader_container}>
-              <Loader />
-            </div>
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <h2>
+            {disableEdit
+              ? `${defaultAdmin?.firstName} ${defaultAdmin?.lastName} Profile`
+              : 'Edit Profile'}
+          </h2>
+          {disableEdit && (
+            <Button
+              classNameButton="addButton"
+              action={() => setDisableEdit(false)}
+              img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
+            />
           )}
-          {!loading && (
-            <form className={styles.body}>
-              <div>
-                {formFields.map((inputData, index) => (
-                  <div className={styles.label_container} key={index}>
-                    <Input
-                      labelText={inputData.labelText}
-                      type={inputData.type}
-                      name={inputData.name}
-                      disabled={disableEdit}
-                      register={register}
-                      error={errors[inputData.name]?.message}
-                    />
-                  </div>
-                ))}
+          {!disableEdit && (
+            <button className={styles.close} onClick={handleClose}>
+              &times;
+            </button>
+          )}
+        </div>
+        <form onSubmit={handleSubmit(onConfirm)} className={styles.body}>
+          <div>
+            {formFields.map((inputData, index) => (
+              <div className={styles.label_container} key={index}>
+                <Input
+                  labelText={inputData.labelText}
+                  type={inputData.type}
+                  name={inputData.name}
+                  disabled={disableEdit}
+                  register={register}
+                  error={errors[inputData.name]?.message}
+                />
               </div>
-            </form>
-          )}
-          {!disableEdit ? (
+            ))}
+          </div>
+          {!disableEdit && (
             <>
-              <div className={styles.confirm_button}>
-                <Button
-                  action={() => handleAction('Delete')}
-                  classNameButton="deleteButton"
-                  text="Delete account"
-                ></Button>
+              <div className={styles.buttons}>
+                <Button classNameButton="addButton" text={'Confirm'} />
                 <Button
                   classNameButton="cancelButton"
                   action={() => setDisableEdit(true)}
                   text="Cancel"
                 />
-                <Button
-                  action={() => handleAction('Edit')}
-                  classNameButton="addButton"
-                  text="Confirm"
-                  disabled={disableEdit}
-                ></Button>
               </div>
-              <Reset action={resetData} />
+              <Reset action={handleReset} />
             </>
-          ) : (
-            <div className={styles.confirm_button}>
-              <Button
-                classNameButton="addButton"
-                action={() => setDisableEdit(false)}
-                text="Edit"
-              />
-            </div>
           )}
-        </div>
-      )}
+        </form>
+        {disableEdit && (
+          <div className={styles.buttons}>
+            <Button classNameButton="addButton" action={() => setDisableEdit(false)} text="Edit" />
+          </div>
+        )}
+      </div>
       {showConfirmModal && (
         <ConfirmModal
+          title={'Edit my Profile'}
           handler={() => setShowConfirmModal(false)}
-          title={`${action} Your Profile`}
-          reason={action === 'Delete' ? 'delete' : action === 'Edit' ? 'submit' : ''}
-          onAction={
-            action === 'Delete'
-              ? handleSubmit(handleDeleteAdmin)
-              : action === 'Edit'
-              ? handleSubmit(onSubmit)
-              : ''
-          }
+          onAction={handleSubmit(onSubmit)}
+          reason={'submit'}
         >
-          Are you sure you want to {action} your profile?
+          {`Are you sure you wanna edit?`}
         </ConfirmModal>
       )}
       {show && (
