@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import { startOfWeek, addDays, format } from 'date-fns';
 import ScheduleMember from './ScheduleComponents/MemberComponent';
 import ScheduleAdmin from './ScheduleComponents/AdminComponent';
 import getScheduleTrainer from './ScheduleComponents/trainerFunction';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { getActivities } from 'Redux/Activities/thunks';
 import { addSubscribed, getClasses } from 'Redux/Classes/thunks';
@@ -37,11 +39,18 @@ const Schedule = () => {
   const [modalData, setModalData] = useState(null);
   const [activityFilter, setActivityFilter] = useState('');
   const [trainerFilter, setTrainerFilter] = useState('');
-  const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekDays = Array.from({ length: 6 }, (_, index) =>
+    format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), index), 'EEEE')
+  );
   const hours = [];
   for (let i = 9; i <= 21; i++) {
     hours.push(i.toString().padStart(2, '0') + ':00');
   }
+  const current = {
+    day: format(new Date(), 'EEEE'),
+    hour: format(new Date(), 'HH:mm'),
+    dayNum: format(new Date(), 'i')
+  };
 
   useEffect(() => {
     getActivities(dispatch);
@@ -117,6 +126,24 @@ const Schedule = () => {
     }
   }, [subscriptions]);
 
+  const getClassName = useMemo(() => {
+    return (day, hour, index) => {
+      const isToday = day === current.day;
+      const isPastHour =
+        Number(current.dayNum) - 1 > index ||
+        (Number(current.dayNum) - 1 === index && hour < current.hour);
+      const currentHourPercent =
+        current.hour.split(':')[0] === hour.split(':')[0] &&
+        Number(current.dayNum) - 1 === index &&
+        `current${Math.trunc((Number(current.hour.split(':')[1]) / 60) * 10)}`;
+      const className = `${isToday ? styles.today : ''} ${isPastHour ? styles.pastHour : ''} ${
+        currentHourPercent ? styles[currentHourPercent] : ''
+      }`;
+
+      return className;
+    };
+  }, [current.day, current.hour, current.dayNum]);
+
   return (
     <>
       {(pendingActivities || pendingClasses || pendingSubscriptions) && (
@@ -165,10 +192,10 @@ const Schedule = () => {
                   {hours.map((hour) => (
                     <tr key={hour} className={styles.tr}>
                       <td>{hour}</td>
-                      {weekDays.map((day) => {
+                      {weekDays.map((day, index) => {
                         if (role === 'MEMBER') {
                           return (
-                            <td key={`${day}-${hour}`}>
+                            <td className={getClassName(day, hour, index)} key={`${day}-${hour}`}>
                               <ScheduleMember
                                 props={{
                                   day: day,
@@ -185,7 +212,7 @@ const Schedule = () => {
                         }
                         if (role === 'ADMIN') {
                           return (
-                            <td key={`${day}-${hour}`}>
+                            <td className={getClassName(day, hour, index)} key={`${day}-${hour}`}>
                               <ScheduleAdmin
                                 props={{
                                   day: day,

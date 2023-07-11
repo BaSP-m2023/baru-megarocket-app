@@ -90,6 +90,15 @@
   font-size: 1rem;
 }
 
+.today {
+  background-color: #a8d2ff;
+}
+
+
+.pastHour {
+  background-color: #ff7e7e;
+}
+
 ::-webkit-scrollbar {
   width: 0.7rem; 
 }
@@ -105,4 +114,68 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #1e3153;
+}
+
+.current0 {
+  background: linear-gradient(to bottom,#ff7e7e 5%,#ff7e7e 5%, #a8d2ff 10%);
+  background-size: 5% 100%;
+  background-repeat: repeat;
+}
+
+.current1 {
+  background: linear-gradient(to bottom,#ff7e7e 10%,#ff7e7e 10%, #a8d2ff 10%);
+  background-size: 10% 100%;
+  background-repeat: repeat;
+}
+
+.current2 {
+  background: linear-gradient(to bottom,#ff7e7e 20%,#ff7e7e 20%, #a8d2ff 10%);
+  background-size: 10% 100%;
+  background-repeat: repeat;
+}
+
+.current3 {
+  background: linear-gradient(to bottom,#ff7e7e 30%,#ff7e7e 30%, #a8d2ff 10%);
+  background-size: 10% 100%;
+  background-repeat: repeat;
+}
+
+.current4 {
+  background: linear-gradient(to bottom,#ff7e7e 40%,#ff7e7e 40%, #a8d2ff 10%);
+  background-size: 10% 100%;
+  background-repeat: repeat;
+}
+
+.current5 {
+  background: linear-gradient(to bottom,#ff7e7e 50%,#ff7e7e 50%, #a8d2ff 10%);
+  background-size: 10% 100%;
+  background-repeat: repeat;
+}
+
+.current6 {
+  background: linear-gradient(to bottom,#ff7e7e 60%,#ff7e7e 60%, #a8d2ff 10%);
+  background-size: 10% 100%;
+  background-repeat: repeat;
+}
+
+.current7 {
+  background: linear-gradient(to bottom,#ff7e7e 70%,#ff7e7e 70%, #a8d2ff 10%);
+  background-size: 10% 100%;
+  background-repeat: repeat;
+}
+
+.current8 {
+  background: linear-gradient(to bottom,#ff7e7e 80%,#ff7e7e 80%, #a8d2ff 10%);
+  background-size: 10% 100%;
+  background-repeat: repeat;
+}
+
+.current9 {
+  background: linear-gradient(to bottom,#ff7e7e 90%,#ff7e7e 90%, #a8d2ff 10%);
+  background-size: 10% 100%;
+  background-repeat: repeat;
+}
+
+.current10 {
+  background-color:#ff7e7e;
 }
