@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'Components/Shared/Schedule/ScheduleComponents/ModalData/modalData.module.css';
+import styles from 'Components/Shared/Schedule/ScheduleComponents/Modals/ModalData/modalData.module.css';
 import { Button } from 'Components/Shared/Button';
 
 const ModalData = ({ data, role, memberSubs, closeModal, action, reason, disabled }) => {

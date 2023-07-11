@@ -9,8 +9,8 @@ import { getSubscriptions, deleteSubscription, addSubscriptions } from 'Redux/Su
 import { getTrainers } from 'Redux/Trainers/thunks';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
-import ModalData from './ScheduleComponents/ModalData';
-import ModalForm from './ScheduleComponents/ModalForm';
+import ModalData from './ScheduleComponents/Modals/ModalData';
+import ModalForm from './ScheduleComponents/Modals/ModalForm/ModalForm';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
 import Loader from 'Components/Shared/Loader';
 
