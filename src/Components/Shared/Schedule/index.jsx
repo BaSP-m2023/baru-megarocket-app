@@ -42,6 +42,9 @@ const Schedule = () => {
   const weekDays = Array.from({ length: 6 }, (_, index) =>
     format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), index), 'EEEE')
   );
+  const weekDate = Array.from({ length: 6 }, (_, index) =>
+    format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), index), 'yyyy MM dd')
+  );
   const hours = [];
   for (let i = 9; i <= 21; i++) {
     hours.push(i.toString().padStart(2, '0') + ':00');
@@ -59,17 +62,19 @@ const Schedule = () => {
     dispatch(getTrainers());
   }, [dispatch]);
 
-  const clickMember = (data) => {
+  const clickMember = (data, date) => {
     setShowConfirmModal(true);
     if (data.subId) {
       const trainer = trainers.find((trainer) => trainer._id === data.trainer);
       setModalData({
         ...data,
-        trainer
+        trainer,
+        date
       });
     } else {
       setModalData({
-        ...data
+        ...data,
+        date
       });
     }
   };
@@ -90,7 +95,7 @@ const Schedule = () => {
       dispatch(addSubscribed(classData, data.classId));
     } else {
       if (data.capacity > data.subscribed) {
-        const subData = { classes: data?._id, members: member?._id };
+        const subData = { classes: data?._id, members: member?._id, date: data.date };
         data.subscribed = data.subscribed + 1;
         dispatch(addSubscriptions(subData)).then(() => dispatch(getSubscriptions()));
         const classData = { subscribed: data.subscribed ? data.subscribed : 1 };
@@ -194,10 +199,12 @@ const Schedule = () => {
                       <td>{hour}</td>
                       {weekDays.map((day, index) => {
                         if (role === 'MEMBER') {
+                          const currentDate = weekDate[index];
                           return (
                             <td className={getClassName(day, hour, index)} key={`${day}-${hour}`}>
                               <ScheduleMember
                                 props={{
+                                  date: currentDate,
                                   day: day,
                                   hour: hour,
                                   trainerFilter: trainerFilter,
@@ -274,6 +281,8 @@ const Schedule = () => {
           {`Capacity: ${modalData.capacity}`}
           <br />
           {`Members Subscribed: ${modalData.subscribed}`}
+          <br />
+          {`Date : ${modalData.date}`}
           <br />
 
           {`${modalData.day} at ${modalData.time}`}

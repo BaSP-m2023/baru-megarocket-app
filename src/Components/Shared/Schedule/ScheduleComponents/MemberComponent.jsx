@@ -23,7 +23,7 @@ const ScheduleMember = ({ props, click }) => {
       <>
         <div
           className={`${styles.div} ${styles.subscription}`}
-          onClick={() => click(findSub)}
+          onClick={() => click(findSub, props.date)}
           id="subscription"
         >
           {findSub.activityName}
@@ -52,7 +52,7 @@ const ScheduleMember = ({ props, click }) => {
       <>
         <div
           className={`${styles.div} ${styles.class}`}
-          onClick={() => click(findClass)}
+          onClick={() => click(findClass, props.date)}
           id="class"
         >
           {findClass.activity.name}
