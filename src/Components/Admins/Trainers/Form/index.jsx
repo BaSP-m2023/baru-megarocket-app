@@ -17,51 +17,51 @@ import { Button, Reset } from 'Components/Shared/Button';
 
 const Form = () => {
   const { id } = useParams();
-  const history = useHistory();
   const dispatch = useDispatch();
-
-  const trainers = useSelector((state) => state.trainers.data);
-  const trainerToEdit = trainers.find((trainer) => trainer._id === id);
+  const history = useHistory();
 
   const { show, message, state } = useSelector((state) => state.toast);
+  const redirect = useSelector((state) => state.trainers.redirect);
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [trainerToEdit, setTrainerToEdit] = useState([]);
 
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
-    getValues,
+    reset,
     formState: { errors }
   } = !id
     ? useForm({
         mode: 'onChange',
-        resolver: joiResolver(trainerSchema),
-        defaultValues: {
-          firstName: '',
-          lastName: '',
-          dni: '',
-          phone: '',
-          salary: '',
-          password: '',
-          email: ''
-        }
+        resolver: joiResolver(trainerSchema)
       })
     : useForm({
         mode: 'onChange',
-        resolver: joiResolver(trainerUpdate),
-        defaultValues: {
-          firstName: trainerToEdit?.firstName,
-          lastName: trainerToEdit?.lastName,
-          dni: trainerToEdit?.dni,
-          phone: trainerToEdit?.phone,
-          salary: trainerToEdit?.salary
-        }
+        resolver: joiResolver(trainerUpdate)
       });
+
   useEffect(() => {
-    dispatch(getTrainers());
+    if (id) {
+      dispatch(getTrainers()).then((data) => {
+        const trainer = data.find((item) => item._id === id);
+        // eslint-disable-next-line no-unused-vars
+        const { _id, firebaseUid, email, __v, password, ...resTrainer } = trainer;
+        setTrainerToEdit({ ...resTrainer });
+        Object.entries(resTrainer).every(([key, value]) => {
+          setValue(key, value);
+          return true;
+        });
+      });
+    }
   }, []);
+
+  useEffect(() => {
+    if (redirect) {
+      history.push('/user/admin/trainers');
+    }
+  }, [redirect]);
 
   const handleReset = () => {
     const defaultValues = !id
@@ -75,37 +75,15 @@ const Form = () => {
           email: ''
         }
       : {
-          firstName: trainerToEdit?.firstName,
-          lastName: trainerToEdit?.lastName,
-          dni: trainerToEdit?.dni,
-          phone: trainerToEdit?.phone,
-          salary: trainerToEdit?.salary
+          firstName: trainerToEdit ? trainerToEdit.firstName : '',
+          lastName: trainerToEdit ? trainerToEdit?.lastName : '',
+          dni: trainerToEdit ? trainerToEdit?.dni : '',
+          phone: trainerToEdit ? trainerToEdit?.phone : '',
+          salary: trainerToEdit ? trainerToEdit?.salary : ''
         };
 
     reset(defaultValues);
   };
-
-  const getTrainer = async (id) => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`);
-      const { data } = await res.json();
-      setValue('firstName', data.firstName);
-      setValue('lastName', data.lastName);
-      setValue('dni', data.dni);
-      setValue('phone', data.phone);
-      setValue('email', data.email);
-      setValue('salary', data.salary);
-      setValue('password', data.password);
-    } catch (error) {
-      dispatch(handleDisplayToast(true));
-    }
-  };
-
-  useEffect(() => {
-    if (id && getValues('firstName') === '') {
-      getTrainer(id);
-    }
-  }, []);
 
   const handleConfirm = (data) => {
     setShowConfirmModal(false);
@@ -113,9 +91,7 @@ const Form = () => {
   };
 
   const onSubmit = (data) => {
-    id
-      ? dispatch(updTrainer(trainerToEdit._id, data, history))
-      : dispatch(addTrainer(data, history));
+    id ? dispatch(updTrainer(id, data)) : dispatch(addTrainer(data));
   };
 
   const handleConfirmModal = () => {
