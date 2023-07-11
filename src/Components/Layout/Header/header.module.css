@@ -4,6 +4,7 @@
   display: flex;
   justify-content: space-between;
   background-color: #373867;
+  z-index: 1;
 }
 
 .container2{
