@@ -6,8 +6,8 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import styles from './form.module.css';
 
 import { resetState } from 'Redux/Subscriptions/actions';
-import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
-import { getClasses } from 'Redux/Classes/thunks';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { addSubscribed, getClasses } from 'Redux/Classes/thunks';
 import { getMembers } from 'Redux/Members/thunks';
 import { addSubscriptions, getSubscriptions, editSubscription } from 'Redux/Subscriptions/thunks';
 import subscriptionSchema from 'Validations/subscription';
@@ -15,7 +15,7 @@ import subscriptionSchema from 'Validations/subscription';
 import Select from 'react-select';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import Loader from 'Components/Shared/Loader';
 
 const Form = () => {
@@ -26,7 +26,7 @@ const Form = () => {
   const [filteredClass, setFilteredClass] = useState([]);
 
   const subscriptions = useSelector((state) => state.subscriptions.data);
-  const classesPending = useSelector((state) => state.classes.pending);
+  const { data: classes, isPending: classesPending } = useSelector((state) => state.classes);
   const members = useSelector((state) => state.members.data);
   const success = useSelector((state) => state.subscriptions.success);
   const pending = useSelector((state) => state.subscriptions.isPending);
@@ -53,27 +53,35 @@ const Form = () => {
     field: { value: clas, onChange: clasOnChange }
   } = useController({ name: 'classes', control });
   const filterClass = (data) => {
-    const filteredClasses = data.filter(
-      (item) => !item.deleted && item.activity !== null && item.members !== null
-    );
+    const filteredClasses = data.filter((item) => item.activity !== null && item.members !== null);
     setFilteredClass(filteredClasses);
   };
 
   useEffect(() => {
-    dispatch(getClasses).then((data) => {
-      filterClass(data);
-    });
-    dispatch(getMembers);
-    dispatch(getSubscriptions);
+    dispatch(getClasses());
+    dispatch(getMembers());
+    dispatch(getSubscriptions());
   }, []);
+
+  useEffect(() => {
+    filterClass(classes);
+  }, [classes]);
   const onConfirm = (data) => {
     try {
       if (id) {
-        editSubscription(dispatch, data, id);
+        dispatch(editSubscription(data, id));
         setShowConfirmModal(false);
       } else {
-        addSubscriptions(dispatch, data);
-        setShowConfirmModal(false);
+        const subClass = classes.find((c) => c._id === data.classes) || '';
+        if (subClass.capacity > subClass.subscribed) {
+          const subscribedPlusOne = subClass.subscribed + 1;
+          dispatch(addSubscriptions(data));
+          dispatch(addSubscribed({ subscribed: subscribedPlusOne }, subClass._id));
+          setShowConfirmModal(false);
+        } else {
+          dispatch(setContentToast({ message: 'Full Class', state: 'fail' }));
+          dispatch(handleDisplayToast(true));
+        }
       }
     } catch (error) {
       throw new Error(error);

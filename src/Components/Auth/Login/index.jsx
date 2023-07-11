@@ -9,7 +9,7 @@ import { login } from 'Redux/Auth/thunks';
 import loginSchema from 'Validations/login';
 
 import { Input } from 'Components/Shared/Inputs';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 
 function Login() {
   const history = useHistory();
@@ -57,6 +57,11 @@ function Login() {
             register={register}
             error={errors.password?.message}
           />
+        </div>
+        <div>
+          <Link to="/auth/forgotPassword">
+            <a href="#">Have you forgotten your password?</a>
+          </Link>
         </div>
         <div className={styles.buttonContainer} data-testid="login-form-buttons-container">
           <Button action={handleSubmit(handleLogin)} text="Login" classNameButton="submitButton" />

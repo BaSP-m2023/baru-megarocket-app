@@ -6,7 +6,7 @@ import styles from '../Table/table.module.css';
 import { deleteActivity } from 'Redux/Activities/thunks';
 
 import ConfirmModal from 'Components/Shared/ConfirmModal';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 
 const Activity = ({ activity }) => {
   const [confirm, setConfirmModal] = useState(false);

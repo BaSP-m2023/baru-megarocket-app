@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import styles from 'Components/Landing/landing.module.css';
+import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCalendarAlt,
@@ -14,8 +15,15 @@ import {
 
 function Landing() {
   const ref = useRef(null);
+  const history = useHistory();
   const handleClick = () => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+  const handleClickMembership = (value) => {
+    if (!sessionStorage.getItem('role')) {
+      localStorage.setItem('membership', value);
+      history.push('/auth/signup');
+    }
   };
   return (
     <div className={styles.landing}>
@@ -98,7 +106,10 @@ function Landing() {
         <section className={styles.membershipsSection} ref={ref}>
           <h3 className={styles.h3}>Choose your plan</h3>
           <div className={styles.cardsContainer}>
-            <div className={styles.membershipCard}>
+            <div
+              className={styles.membershipCard}
+              onClick={() => handleClickMembership('only_classes')}
+            >
               <div className={styles.tier}>
                 <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
               </div>
@@ -115,16 +126,15 @@ function Landing() {
               </ul>
               <div className={styles.price}>$100</div>
             </div>
-
-            <div className={styles.membershipCard}>
+            <div className={styles.membershipCard} onClick={() => handleClickMembership('classic')}>
               <div className={styles.tier}>
                 <FontAwesomeIcon
                   icon={faCloud}
                   style={{ color: '#6d15e8', alignSelf: 'center' }}
-                  size="l"
+                  size="lg"
                 />
                 <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
-                <FontAwesomeIcon icon={faStar} style={{ color: '#dedeef93' }} size="l" />
+                <FontAwesomeIcon icon={faStar} style={{ color: '#dedeef93' }} size="lg" />
               </div>
 
               <h3>Classic</h3>
@@ -144,14 +154,14 @@ function Landing() {
               </ul>
               <div className={styles.price}>$200</div>
             </div>
-            <div className={styles.membershipCard}>
+            <div className={styles.membershipCard} onClick={() => handleClickMembership('black')}>
               <div className={styles.tier}>
-                <FontAwesomeIcon icon={faCloud} style={{ color: '#6d15e8' }} size="l" />
+                <FontAwesomeIcon icon={faCloud} style={{ color: '#6d15e8' }} size="lg" />
                 <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
                 <FontAwesomeIcon
                   icon={faStar}
                   style={{ color: '#e8b315', alignSelf: 'flex-end' }}
-                  size="l"
+                  size="lg"
                 />
               </div>
               <h3>Black</h3>

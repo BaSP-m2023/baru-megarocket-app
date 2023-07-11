@@ -8,7 +8,7 @@ import { getActivities } from 'Redux/Activities/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 import Table from './Table';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import Loader from 'Components/Shared/Loader';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
@@ -28,13 +28,15 @@ function Activities() {
       </section>
     );
   }
-
   return (
-    <section className={styles.container}>
+    <section>
+      <h2 className={styles.title}>Activities</h2>
       {list.length !== 0 ? <Table /> : 'There are not activities yet, add new ones!!'}
-      <Link to={'activities/add'} data-testid="add-activity-link">
-        <Button text={'+ Add new'} classNameButton={'addButton'} />
-      </Link>
+      <div className={styles.button}>
+        <Link to={'activities/add'} data-testid="add-activity-link">
+          <Button text={'+ Add new'} classNameButton={'addButton'} />
+        </Link>
+      </div>
       {show && (
         <ResponseModal
           handler={() => dispatch(handleDisplayToast(false))}

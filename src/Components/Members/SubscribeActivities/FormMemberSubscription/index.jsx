@@ -10,7 +10,7 @@ import { resetState } from 'Redux/Subscriptions/actions';
 import { addSubscriptions, getSubscriptions } from 'Redux/Subscriptions/thunks';
 import subscriptionSchema from 'Validations/subscription';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import Loader from 'Components/Shared/Loader';
 
@@ -40,7 +40,7 @@ const FormMemberSubscription = () => {
 
   useEffect(() => {
     getClasses(dispatch).then((data) => {
-      getSubscriptions(dispatch).then((subscriptions) => {
+      dispatch(getSubscriptions).then((subscriptions) => {
         filterClassAndOrder(data, subscriptions);
       });
     });

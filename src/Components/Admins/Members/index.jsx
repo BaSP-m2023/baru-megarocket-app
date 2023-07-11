@@ -8,7 +8,7 @@ import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 import List from './Table/List';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import Loader from 'Components/Shared/Loader';
 
 function Members() {
@@ -18,21 +18,26 @@ function Members() {
   const { show, message, state } = useSelector((state) => state.toast);
 
   useEffect(() => {
-    getMembers(dispatch);
+    dispatch(getMembers());
   }, [dispatch]);
 
+  if (pending) {
+    return (
+      <div className={styles.container}>
+        <Loader />
+      </div>
+    );
+  }
   return (
-    <section className={styles.container}>
-      {pending && <Loader />}
+    <section>
+      <h1 className={styles.title}>Members</h1>
       {!pending && members.length === 0 && 'There are no members'}
-      {!pending && members.length > 0 ? (
-        <>
-          <List members={members} />
-          <Link Link to="members/add" data-testid="add-member-link">
-            <Button classNameButton="addButton" text="+ Add new" />
-          </Link>
-        </>
-      ) : null}
+      {!pending && members.length > 0 ? <List members={members} /> : null}
+      <div className={styles.button}>
+        <Link Link to="members/add" data-testid="add-member-link">
+          <Button classNameButton="addButton" text="+ Add new" />
+        </Link>
+      </div>
       {show && (
         <ResponseModal
           handler={() => dispatch(handleDisplayToast(false))}

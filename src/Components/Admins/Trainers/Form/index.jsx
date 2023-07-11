@@ -13,7 +13,7 @@ import trainerUpdate from 'Validations/trainerUpdate';
 import { Input } from 'Components/Shared/Inputs';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 
 const Form = () => {
   const { id } = useParams();
@@ -60,8 +60,31 @@ const Form = () => {
         }
       });
   useEffect(() => {
-    dispatch(getTrainers);
+    dispatch(getTrainers());
   }, []);
+
+  const handleReset = () => {
+    const defaultValues = !id
+      ? {
+          firstName: '',
+          lastName: '',
+          dni: '',
+          phone: '',
+          salary: '',
+          password: '',
+          email: ''
+        }
+      : {
+          firstName: trainerToEdit?.firstName,
+          lastName: trainerToEdit?.lastName,
+          dni: trainerToEdit?.dni,
+          phone: trainerToEdit?.phone,
+          salary: trainerToEdit?.salary
+        };
+
+    reset(defaultValues);
+  };
+
   const getTrainer = async (id) => {
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`);
@@ -97,12 +120,6 @@ const Form = () => {
 
   const handleConfirmModal = () => {
     setShowConfirmModal(true);
-  };
-
-  const handleReset = (e) => {
-    e.preventDefault();
-    reset();
-    getTrainer(id);
   };
 
   const formCreate = [
@@ -152,20 +169,20 @@ const Form = () => {
                 />
               </div>
             ))}
-        <Button text={'Reset'} classNameButton="deleteButton" action={handleReset} />
+        <div className={styles.btnContainer} data-testid="trainers-form-buttons">
+          <Link to="/user/admin/trainers">
+            <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
+          </Link>
+          <Button
+            text={id ? 'Update' : 'Submit'}
+            classNameButton="addButton"
+            action={handleSubmit(handleConfirmModal)}
+          >
+            {id ? 'Update' : 'Submit'}
+          </Button>
+        </div>
+        <Reset action={handleReset} />
       </form>
-      <div className={styles.btnContainer} data-testid="trainers-form-buttons">
-        <Link to="/user/admin/trainers">
-          <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
-        </Link>
-        <Button
-          text={id ? 'Update' : 'Submit'}
-          classNameButton="addButton"
-          action={handleSubmit(handleConfirmModal)}
-        >
-          {id ? 'Update' : 'Submit'}
-        </Button>
-      </div>
       {showConfirmModal && (
         <ConfirmModal
           title={id ? 'Edit Trainer' : 'Add Trainer'}

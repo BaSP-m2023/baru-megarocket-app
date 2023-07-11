@@ -8,7 +8,7 @@ import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 import Table from './Table';
 import Loader from 'Components/Shared/Loader';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
 const Trainers = () => {
@@ -21,15 +21,23 @@ const Trainers = () => {
     dispatch(getTrainers());
   }, []);
 
+  if (pending) {
+    return (
+      <div className={styles.container}>
+        <Loader />
+      </div>
+    );
+  }
   return (
-    <section className={styles.container}>
-      <h2>Trainers</h2>
-      {pending && <Loader />}
+    <section>
+      <h1 className={styles.title}>Trainers</h1>
       {!pending && trainers.length > 0 ? <Table data={trainers} /> : null}
       {!pending && !trainers.length && 'There are no trainers to show'}
-      <Link to="trainers/add" data-testid="trainer-add-link">
-        <Button text="+ Add New" classNameButton="addButton" />
-      </Link>
+      <div className={styles.button}>
+        <Link to="trainers/add" data-testid="trainer-add-link">
+          <Button text="+ Add New" classNameButton="addButton" />
+        </Link>
+      </div>
       {show && (
         <ResponseModal
           message={message}

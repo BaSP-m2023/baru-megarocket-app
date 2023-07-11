@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
@@ -9,7 +9,7 @@ import { signUpMember } from 'Redux/Auth/thunks';
 import memberSchema from 'Validations/member';
 
 import { Input } from 'Components/Shared/Inputs';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 
 function SignUp() {
@@ -20,7 +20,8 @@ function SignUp() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setValue
   } = useForm({
     resolver: joiResolver(memberSchema),
     mode: 'onChange',
@@ -38,6 +39,14 @@ function SignUp() {
       password: ''
     }
   });
+
+  useEffect(() => {
+    const localStorageMembership = localStorage.getItem('membership');
+    if (localStorageMembership) {
+      setValue('membership', localStorageMembership);
+      localStorage.removeItem('membership');
+    }
+  }, [setValue]);
 
   const handleSignup = (data) => {
     if (data) {
