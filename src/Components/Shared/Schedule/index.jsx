@@ -14,6 +14,8 @@ import ModalData from './ScheduleComponents/Modals/ModalData';
 import ModalForm from './ScheduleComponents/Modals/ModalForm/ModalForm';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
 import Loader from 'Components/Shared/Loader';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const Schedule = () => {
   const dispatch = useDispatch();
@@ -36,13 +38,17 @@ const Schedule = () => {
   });
   const [memberSubs, setMemberSubs] = useState([]);
   const [modalData, setModalData] = useState(null);
+  const [nextPage, setNextPage] = useState(false);
   const [activityFilter, setActivityFilter] = useState('');
   const [trainerFilter, setTrainerFilter] = useState('');
   const weekDays = Array.from({ length: 6 }, (_, index) =>
     format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), index), 'EEEE')
   );
+  const nextWeekDays = Array.from({ length: 6 }, (_, index) =>
+    format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), index + 7), 'yyyy-MM-dd')
+  );
   const weekDate = Array.from({ length: 6 }, (_, index) =>
-    format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), index), 'yyyy MM dd')
+    format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), index), 'yyyy-MM-dd')
   );
   const hours = [];
   for (let i = 9; i <= 21; i++) {
@@ -136,14 +142,15 @@ const Schedule = () => {
       memberSubscription?.forEach((sub) => {
         arraySubs.push({
           subId: sub._id,
-          activityName: sub.classes.activity.name,
-          day: sub.classes.day,
-          time: sub.classes.time,
-          desc: sub.classes.activity.description,
-          classId: sub.classes._id,
-          capacity: sub.classes.capacity,
-          subscribed: sub.classes.subscribed,
-          trainer: sub.classes.trainer._id
+          activityName: sub.classes?.activity?.name,
+          day: sub.classes?.day,
+          time: sub.classes?.time,
+          date: sub.date.toString().slice(0, 10),
+          desc: sub.classes?.activity?.description,
+          classId: sub.classes?._id,
+          capacity: sub.classes?.capacity,
+          subscribed: sub.classes?.subscribed,
+          trainer: sub.classes?.trainer._id
         });
       });
       setMemberSubs(arraySubs);
@@ -151,18 +158,12 @@ const Schedule = () => {
   }, [subscriptions]);
 
   const getClassName = useMemo(() => {
-    return (day, hour, index) => {
-      const isToday = day === current.day;
-      const isPastHour =
-        Number(current.dayNum) - 1 > index ||
-        (Number(current.dayNum) - 1 === index && hour < current.hour);
+    return (hour, index) => {
       const currentHourPercent =
         current.hour.split(':')[0] === hour.split(':')[0] &&
         Number(current.dayNum) - 1 === index &&
         `current${Math.trunc((Number(current.hour.split(':')[1]) / 60) * 10)}`;
-      const className = `${isToday ? styles.today : ''} ${isPastHour ? styles.pastHour : ''} ${
-        currentHourPercent ? styles[currentHourPercent] : ''
-      }`;
+      const className = `${currentHourPercent ? styles[currentHourPercent] : ''}`;
 
       return className;
     };
@@ -181,107 +182,127 @@ const Schedule = () => {
         !pendingActivities &&
         !pendingClasses &&
         !pendingSubscriptions && (
-          <div className={styles.content}>
-            <div className={styles.filter}>
-              <label>Filter by Activity</label>
-              <select onChange={(e) => setActivityFilter(e.target.value)}>
-                <option value={''}>All classes</option>
-                {activities.map((option) => (
-                  <option key={option._id} value={option.name}>
-                    {option.name}
-                  </option>
-                ))}
-              </select>
-              {role !== 'TRAINER' && (
+          <>
+            <div className={styles.arrows} onClick={() => setNextPage(!nextPage)}>
+              {!nextPage && (
                 <>
-                  <label>Filter by Trainer</label>
-                  <select onChange={(e) => setTrainerFilter(e.target.value)}>
-                    <option value={''}>All trainers</option>
-                    {trainers.map((option) => (
-                      <option key={option._id} value={`${option._id}`}>
-                        {`${option.firstName} ${option.lastName}`}
-                      </option>
-                    ))}
-                  </select>
+                  <span>Next week</span>
+                  <FontAwesomeIcon icon={faArrowRight} className={styles.right} />
+                </>
+              )}
+              {nextPage && (
+                <>
+                  <span>Current week</span>
+                  <FontAwesomeIcon icon={faArrowLeft} className={styles.left} />
                 </>
               )}
             </div>
-            <div className={styles.container}>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>Hour</th>
-                    {weekDays.map((day) => (
-                      <th key={day}>{day}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {hours.map((hour) => (
-                    <tr key={hour} className={styles.tr}>
-                      <td>{hour}</td>
-                      {weekDays.map((day, index) => {
-                        if (role === 'MEMBER') {
-                          const currentDate = weekDate[index];
-                          return (
-                            <td className={getClassName(day, hour, index)} key={`${day}-${hour}`}>
-                              <ScheduleMember
-                                props={{
-                                  date: currentDate,
-                                  day: day,
-                                  hour: hour,
-                                  trainerFilter: trainerFilter,
-                                  activityFilter: activityFilter,
-                                  memberSubs: memberSubs,
-                                  classes: classes
-                                }}
-                                click={clickMember}
-                              />
-                            </td>
-                          );
-                        }
-                        if (role === 'ADMIN') {
-                          return (
-                            <td className={getClassName(day, hour, index)} key={`${day}-${hour}`}>
-                              <ScheduleAdmin
-                                props={{
-                                  day: day,
-                                  hour: hour,
-                                  classes: classes,
-                                  trainerFilter: trainerFilter,
-                                  activityFilter: activityFilter
-                                }}
-                                click={clickAdmin}
-                              />
-                            </td>
-                          );
-                        }
-                        if (role === 'TRAINER') {
-                          const currentDate = weekDate[index];
-                          return (
-                            <td key={`${day}-${hour}`}>
-                              <ScheduleTrainer
-                                props={{
-                                  date: currentDate,
-                                  day: day,
-                                  hour: hour,
-                                  classes: classes,
-                                  trainerFilter: trainerFilter,
-                                  activityFilter: activityFilter
-                                }}
-                                click={clickTrainer}
-                              />
-                            </td>
-                          );
-                        }
-                        return null;
-                      })}
-                    </tr>
+            <div className={styles.content}>
+              <div className={styles.filter}>
+                <label>Filter by Activity</label>
+                <select onChange={(e) => setActivityFilter(e.target.value)}>
+                  <option value={''}>All classes</option>
+                  {activities.map((option) => (
+                    <option key={option._id} value={option.name}>
+                      {option.name}
+                    </option>
                   ))}
-                </tbody>
-              </table>
+                </select>
+                {role !== 'TRAINER' && (
+                  <>
+                    <label>Filter by Trainer</label>
+                    <select onChange={(e) => setTrainerFilter(e.target.value)}>
+                      <option value={''}>All trainers</option>
+                      {trainers.map((option) => (
+                        <option key={option._id} value={`${option._id}`}>
+                          {`${option.firstName} ${option.lastName}`}
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                )}
+              </div>
+              <div className={styles.container}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Hour</th>
+                      {weekDays.map((day) => (
+                        <th key={day}>{day}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {hours.map((hour) => (
+                      <tr key={hour} className={styles.tr}>
+                        <td>{hour}</td>
+                        {weekDays.map((day, index) => {
+                          if (role === 'MEMBER') {
+                            const currentDate = !nextPage ? weekDate[index] : nextWeekDays[index];
+                            return (
+                              <td className={getClassName(hour, index)} key={`${day}-${hour}`}>
+                                <ScheduleMember
+                                  props={{
+                                    date: currentDate,
+                                    current: !nextPage ? true : false,
+                                    day: day,
+                                    hour: hour,
+                                    trainerFilter: trainerFilter,
+                                    activityFilter: activityFilter,
+                                    memberSubs: memberSubs,
+                                    classes: classes
+                                  }}
+                                  click={clickMember}
+                                />
+                              </td>
+                            );
+                          }
+                          if (role === 'ADMIN') {
+                            return (
+                              <td
+                                className={`${getClassName(hour, index)} ${styles.current}`}
+                                key={`${day}-${hour}`}
+                              >
+                                <ScheduleAdmin
+                                  props={{
+                                    day: day,
+                                    hour: hour,
+                                    classes: classes,
+                                    trainerFilter: trainerFilter,
+                                    activityFilter: activityFilter
+                                  }}
+                                  click={clickAdmin}
+                                />
+                              </td>
+                            );
+                          }
+                          if (role === 'TRAINER') {
+                            const currentDate = weekDate[index];
+                            return (
+                              <td key={`${day}-${hour}`}>
+                                <ScheduleTrainer
+                                  props={{
+                                    date: currentDate,
+                                    day: day,
+                                    hour: hour,
+                                    classes: classes,
+                                    trainerFilter: trainerFilter,
+                                    activityFilter: activityFilter
+                                  }}
+                                  click={clickTrainer}
+                                />
+                              </td>
+                            );
+                          }
+                          return null;
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          </>
         )}
       {showConfirmModal && modalData && (
         <ModalData

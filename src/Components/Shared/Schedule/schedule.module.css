@@ -116,66 +116,135 @@
   background-color: #1e3153;
 }
 
-.current0 {
-  background: linear-gradient(to bottom,#ff7e7e 5%,#ff7e7e 5%, #a8d2ff 10%);
-  background-size: 5% 100%;
-  background-repeat: repeat;
+.current0, .current1, .current2, .current3, .current4, .current5, .current6, .current7, .current8, .current9 {
+ position: relative;
+} 
+
+.current0::after {
+  content: "";
+  position: absolute;
+  bottom: 96%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(255, 0, 0);
+  transform: translateY(50%);
 }
 
-.current1 {
-  background: linear-gradient(to bottom,#ff7e7e 10%,#ff7e7e 10%, #a8d2ff 10%);
-  background-size: 10% 100%;
-  background-repeat: repeat;
+.current1::after {
+  content: "";
+  position: absolute;
+  bottom: 90%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(255, 0, 0);
+  transform: translateY(50%);
 }
 
-.current2 {
-  background: linear-gradient(to bottom,#ff7e7e 20%,#ff7e7e 20%, #a8d2ff 10%);
-  background-size: 10% 100%;
-  background-repeat: repeat;
+.current2::after {
+  content: "";
+  position: absolute;
+  bottom: 80%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(255, 0, 0);
+  transform: translateY(50%);
 }
 
-.current3 {
-  background: linear-gradient(to bottom,#ff7e7e 30%,#ff7e7e 30%, #a8d2ff 10%);
-  background-size: 10% 100%;
-  background-repeat: repeat;
+.current3::after {
+  content: "";
+  position: absolute;
+  bottom: 70%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(255, 0, 0);
+  transform: translateY(50%);
 }
 
-.current4 {
-  background: linear-gradient(to bottom,#ff7e7e 40%,#ff7e7e 40%, #a8d2ff 10%);
-  background-size: 10% 100%;
-  background-repeat: repeat;
+.current4::after {
+  content: "";
+  position: absolute;
+  bottom: 60%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(255, 0, 0);
+  transform: translateY(50%);
 }
 
-.current5 {
-  background: linear-gradient(to bottom,#ff7e7e 50%,#ff7e7e 50%, #a8d2ff 10%);
-  background-size: 10% 100%;
-  background-repeat: repeat;
+.current5::after {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(255, 0, 0);
+  transform: translateY(50%);
 }
 
-.current6 {
-  background: linear-gradient(to bottom,#ff7e7e 60%,#ff7e7e 60%, #a8d2ff 10%);
-  background-size: 10% 100%;
-  background-repeat: repeat;
+.current6::after {
+  content: "";
+  position: absolute;
+  bottom: 40%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(255, 0, 0);
+  transform: translateY(50%);
 }
 
-.current7 {
-  background: linear-gradient(to bottom,#ff7e7e 70%,#ff7e7e 70%, #a8d2ff 10%);
-  background-size: 10% 100%;
-  background-repeat: repeat;
+.current7::after {
+  content: "";
+  position: absolute;
+  bottom: 30%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(255, 0, 0);
+  transform: translateY(50%);
 }
 
-.current8 {
-  background: linear-gradient(to bottom,#ff7e7e 80%,#ff7e7e 80%, #a8d2ff 10%);
-  background-size: 10% 100%;
-  background-repeat: repeat;
+.current8::after {
+  content: "";
+  position: absolute;
+  bottom: 20%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(255, 0, 0);
+  transform: translateY(50%);
 }
 
-.current9 {
-  background: linear-gradient(to bottom,#ff7e7e 90%,#ff7e7e 90%, #a8d2ff 10%);
-  background-size: 10% 100%;
-  background-repeat: repeat;
+.current9::after {
+  content: "";
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(255, 0, 0);
+  transform: translateY(50%);
 }
 
-.current10 {
-  background-color:#ff7e7e;
+.arrows {
+  display: flex;
+  justify-content: space-between;
+  width: 120px;
+  margin-left: 1.5rem;
+  cursor: pointer;
 }
+
+.arrows span {
+  font-weight: 500;
+}
+
+.arrows:hover .left, .arrows:hover .right, .arrows:hover span {
+  color: red;
+} 
+
+
+
