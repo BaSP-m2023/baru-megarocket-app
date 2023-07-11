@@ -62,6 +62,11 @@
   margin: auto;
 }
 
+.resetContainer {
+  width: 5rem;
+  align-self: center;
+}
+
 .disabled {
   display: none;
 }

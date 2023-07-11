@@ -71,8 +71,6 @@ const MemberForm = ({ match }) => {
     reset(defaultValues);
   };
 
-  console.log(memberToEdit);
-
   useEffect(() => {
     if (memberId) {
       dispatch(getMembers()).then((data) => {

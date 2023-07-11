@@ -78,6 +78,12 @@
   text-align: center;
 }
 
+.buttons {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
 .input {
   width: 25vw;
   height: 30px;
