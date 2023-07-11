@@ -12,3 +12,4 @@ export const GET_AUTH_PENDING = 'GET_AUTH_PENDING';
 export const GET_AUTH_SUCCESS = 'GET_AUTH_SUCCESS';
 export const GET_AUTH_ERROR = 'GET_AUTH_ERROR';
 export const RESET_STATE = 'RESET_STATE';
+export const UPDATE_USER = 'UPDATE_USER';

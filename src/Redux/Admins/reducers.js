@@ -113,9 +113,13 @@ const reducers = (state = INITIAL_STATE, action) => {
       };
     }
     case EDIT_ADMIN_SUCCESS: {
+      const updated = state.data.find((admin) => admin._id === action.payload._id);
+      const index = state.data.indexOf(updated);
+
+      state.data[index] = action.payload;
       return {
         ...state,
-        data: action.payload,
+        data: state.data,
         isPending: false,
         error: null,
         success: true,

@@ -74,13 +74,14 @@ const reducers = (state = INITIAL_STATE, action) => {
       };
     }
     case EDIT_MEMBER_SUCCESS: {
-      let updatedMembers = state.data.map((member) =>
-        member._id === action.payload.id ? action.payload : member
-      );
+      const updated = state.data.find((mem) => mem._id === action.payload._id);
+      const index = state.data.indexOf(updated);
+
+      state.data[index] = action.payload;
       return {
         ...state,
         isPending: false,
-        data: updatedMembers,
+        data: state.data,
         redirect: true
       };
     }

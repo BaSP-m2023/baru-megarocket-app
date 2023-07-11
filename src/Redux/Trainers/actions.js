@@ -10,7 +10,8 @@ import {
   EDIT_TRAINER_ERROR,
   DELETE_TRAINER_PENDING,
   DELETE_TRAINER_SUCCESS,
-  DELETE_TRAINER_ERROR
+  DELETE_TRAINER_ERROR,
+  SET_REDIRECT
 } from './constants';
 
 export const getTrainersPending = () => ({
@@ -73,5 +74,10 @@ export const deleteTrainerError = (error) => {
   return {
     type: DELETE_TRAINER_ERROR,
     payload: error
+  };
+};
+export const setRedirect = () => {
+  return {
+    type: SET_REDIRECT
   };
 };
