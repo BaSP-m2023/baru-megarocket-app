@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { joiResolver } from '@hookform/resolvers/joi';
 import styles from './signup.module.css';
+import Loader from 'Components/Shared/Loader';
 
 import { signUpMember } from 'Redux/Auth/thunks';
 import memberSchema from 'Validations/member';
@@ -20,6 +21,7 @@ function SignUp() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [viewPassword, setViewPassword] = useState(false);
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.auth.isLoading);
 
   const {
     register,
@@ -54,8 +56,8 @@ function SignUp() {
 
   const handleSignup = (data) => {
     if (data) {
-      dispatch(signUpMember(data));
-      history.push('/');
+      dispatch(signUpMember(data, history));
+      setShowConfirmModal(false);
     }
   };
 
@@ -83,6 +85,13 @@ function SignUp() {
     { labelText: 'Password', type: 'password', name: 'password' }
   ];
 
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <Loader />;
+      </div>
+    );
+  }
   return (
     <div>
       <div className={styles.content}>
