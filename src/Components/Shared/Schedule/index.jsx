@@ -5,7 +5,7 @@ import ScheduleAdmin from './ScheduleComponents/AdminComponent';
 import ScheduleTrainer from './ScheduleComponents/ScheduleTrainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getActivities } from 'Redux/Activities/thunks';
-import { addSubscribed, getClasses } from 'Redux/Classes/thunks';
+import { getClasses } from 'Redux/Classes/thunks';
 import { getSubscriptions, deleteSubscription, addSubscriptions } from 'Redux/Subscriptions/thunks';
 import { getTrainers } from 'Redux/Trainers/thunks';
 
@@ -34,7 +34,9 @@ const Schedule = () => {
     show: false,
     data: undefined,
     reason: '',
-    createData: undefined
+    createData: undefined,
+    date: '',
+    subscribed: 0
   });
   const [memberSubs, setMemberSubs] = useState([]);
   const [modalData, setModalData] = useState(null);
@@ -76,7 +78,7 @@ const Schedule = () => {
 
   const clickMember = (data, date) => {
     const subscribed = subscriptions.filter((subs) => {
-      return subs.date.slice(0, 10) === date && subs.classes._id === data.classId;
+      return subs.date.slice(0, 10) === date && subs.classes._id === data._id;
     });
     setShowConfirmModal(true);
     if (data.subId) {
@@ -96,11 +98,14 @@ const Schedule = () => {
     }
   };
 
-  const clickAdmin = ({ oneClass, reason, createData }) => {
+  const clickAdmin = ({ oneClass, reason, createData, date }) => {
+    const subscribed = subscriptions.filter((subs) => {
+      return subs.date.slice(0, 10) === date && subs.classes._id === oneClass?._id;
+    });
     if (reason === 'edit') {
-      setShowForm({ show: true, data: oneClass, reason });
+      setShowForm({ show: true, data: oneClass, reason, subscribed: subscribed.length, date });
     } else {
-      setShowForm({ show: true, reason, createData });
+      setShowForm({ show: true, reason, createData, date });
     }
   };
 
@@ -119,18 +124,13 @@ const Schedule = () => {
   };
 
   const handleSubmit = (data) => {
+    console.log(data);
     if (data.subId) {
-      data.subscribed = data.subscribed - 1;
-      const classData = { subscribed: data.subscribed };
       dispatch(deleteSubscription(data.subId));
-      dispatch(addSubscribed(classData, data.classId));
     } else {
-      if (data.capacity > data.subscribed) {
+      if (data.capacity >= data.subscribed) {
         const subData = { classes: data?._id, members: user?._id, date: data.date };
-        data.subscribed = data.subscribed + 1;
         dispatch(addSubscriptions(subData)).then(() => dispatch(getSubscriptions()));
-        const classData = { subscribed: data.subscribed ? data.subscribed : 1 };
-        dispatch(addSubscribed(classData, data._id));
       } else {
         dispatch(setContentToast({ message: 'Full Class', state: 'fail' }));
         dispatch(handleDisplayToast(true));
@@ -153,7 +153,7 @@ const Schedule = () => {
           time: sub.classes?.time,
           date: sub.date.toString().slice(0, 10),
           desc: sub.classes?.activity?.description,
-          classId: sub.classes?._id,
+          _id: sub.classes?._id,
           capacity: sub.classes?.capacity,
           subscribed: sub.classes?.subscribed,
           trainer: sub.classes?.trainer?._id
@@ -308,6 +308,7 @@ const Schedule = () => {
                                 >
                                   <ScheduleAdmin
                                     props={{
+                                      date: currentDate,
                                       day: day,
                                       hour: hour,
                                       classes: classes,
@@ -373,6 +374,8 @@ const Schedule = () => {
           activities={activities}
           classData={showForm.data}
           createData={showForm.createData}
+          subscribed={showForm.subscribed}
+          date={showForm.date}
           reason={showForm.reason}
           handler={() => setShowForm(false)}
         />

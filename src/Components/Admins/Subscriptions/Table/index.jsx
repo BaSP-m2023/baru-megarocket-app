@@ -7,7 +7,6 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import styles from './table.module.css';
 import { deleteSubscription } from 'Redux/Subscriptions/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
-import { addSubscribed } from 'Redux/Classes/thunks';
 
 import Loader from 'Components/Shared/Loader';
 import { Button } from 'Components/Shared/Button';
@@ -21,7 +20,6 @@ const Table = ({ data }) => {
   const [filteredSubscriptions, setFilteredSubscriptions] = useState('');
   const dispatch = useDispatch();
   const pending = useSelector((state) => state.subscriptions.isPending);
-  const classes = useSelector((state) => state.classes.data);
 
   const { show, message, state } = useSelector((state) => state.toast);
 
@@ -31,10 +29,7 @@ const Table = ({ data }) => {
   };
 
   const handleDelete = (subscription) => {
-    const subClass = classes.find((subClass) => subClass._id === subscription.classes._id);
     dispatch(deleteSubscription(subscription._id));
-    const subscribedRemain = subClass.subscribed ? subClass.subscribed - 1 : 0;
-    dispatch(addSubscribed({ subscribed: subscribedRemain }, subscription.classes._id));
     setShowConfirmDeleteModal(false);
   };
 
@@ -49,11 +44,6 @@ const Table = ({ data }) => {
       );
     });
   }, [data, filteredSubscriptions]);
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString();
-  };
 
   const closeModal = () => {
     setShowConfirmDeleteModal(false);
@@ -87,9 +77,9 @@ const Table = ({ data }) => {
           <thead className={styles.containerThead}>
             <tr className={styles.thead}>
               <th>Classes</th>
-              <th>Date</th>
+              <th>Day & Time</th>
               <th>Members</th>
-              <th>Creation Date</th>
+              <th>Date</th>
               <th colSpan="2"></th>
             </tr>
           </thead>
@@ -111,7 +101,7 @@ const Table = ({ data }) => {
                 ) : (
                   <td>{`${subscription.members?.name} ${subscription.members?.lastName}`}</td>
                 )}
-                <td>{formatDate(subscription.date)}</td>
+                <td>{subscription.date.slice(0, 10)}</td>
                 <td className={`${styles.itemButton} ${styles.itemButtonEdit}`}>
                   <Link to={`/user/admin/subscriptions/edit/${subscription._id}`}>
                     <Button
