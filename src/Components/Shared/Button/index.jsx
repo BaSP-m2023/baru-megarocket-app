@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import styles from './button.module.css';
 
-export function Button({ action, text, img, classNameButton, disabled, testid }) {
+export function Button({ action, text, img, classNameButton, disabled, testid, icon }) {
   return (
     <div>
       {img ? (
@@ -23,6 +23,7 @@ export function Button({ action, text, img, classNameButton, disabled, testid })
           disabled={disabled}
         >
           {text}
+          {icon}
         </button>
       )}
     </div>

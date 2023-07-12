@@ -142,47 +142,54 @@ const Form = () => {
 
   return (
     <>
-      <h2 className={styles.title} data-testid="trainers-form-title">
-        {id ? 'Edit Trainer' : 'Add Trainer'}
-      </h2>
-      <form className={styles.container} data-testid="trainers-form-container">
-        {id
-          ? formUpdate.map((field) => (
-              <div className={styles.flex} key={field.name}>
-                <Input
-                  labelText={field.labelText}
-                  name={field.name}
-                  type={field.type}
-                  register={register}
-                  error={errors[field.name]?.message}
-                />
-              </div>
-            ))
-          : formCreate.map((field) => (
-              <div className={styles.flex} key={field.name}>
-                <Input
-                  labelText={field.labelText}
-                  name={field.name}
-                  type={field.type}
-                  register={register}
-                  error={errors[field.name]?.message}
-                />
-              </div>
-            ))}
-        <div className={styles.btnContainer} data-testid="trainers-form-buttons">
-          <Link to="/user/admin/trainers">
-            <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
-          </Link>
-          <Button
-            text={id ? 'Update' : 'Submit'}
-            classNameButton="addButton"
-            action={handleSubmit(handleConfirmModal)}
-          >
-            {id ? 'Update' : 'Submit'}
-          </Button>
+      <div className={styles.formContainer}>
+        <div className={styles.formTitle}>
+          <h2 data-testid="trainers-form-title">{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
+          <span className={styles.closeButton} onClick={() => history.goBack()}>
+            &times;
+          </span>
         </div>
-        <Reset action={handleReset} />
-      </form>
+        <div className={styles.content}>
+          <form className={styles.form} data-testid="trainers-form-container">
+            {id
+              ? formUpdate.map((field) => (
+                  <div className={styles.formGroup} key={field.name}>
+                    <Input
+                      labelText={field.labelText}
+                      name={field.name}
+                      type={field.type}
+                      register={register}
+                      error={errors[field.name]?.message}
+                    />
+                  </div>
+                ))
+              : formCreate.map((field) => (
+                  <div className={styles.formGroup} key={field.name}>
+                    <Input
+                      labelText={field.labelText}
+                      name={field.name}
+                      type={field.type}
+                      register={register}
+                      error={errors[field.name]?.message}
+                    />
+                  </div>
+                ))}
+          </form>
+          <div className={styles.btnContainer} data-testid="trainers-form-buttons">
+            <Reset action={handleReset} />
+            <Link to="/user/admin/trainers">
+              <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
+            </Link>
+            <Button
+              text={id ? 'Update' : 'Submit'}
+              classNameButton="addButton"
+              action={handleSubmit(handleConfirmModal)}
+            >
+              {id ? 'Update' : 'Submit'}
+            </Button>
+          </div>
+        </div>
+      </div>
       {showConfirmModal && (
         <ConfirmModal
           title={id ? 'Edit Trainer' : 'Add Trainer'}

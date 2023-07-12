@@ -19,7 +19,7 @@
 
 .filter {
   text-align: center;
-  color:#373867;
+  color:#242024;
   font-size: 21px;
   font-weight: bold;
 }
@@ -31,8 +31,6 @@
 .table-container {
   display: flex;
   flex-direction: column;
-  width: 65%;
-  min-height: 40vh;
 }
 
 .table-filter {
@@ -42,24 +40,47 @@
 }
 
 .table-input-filter {
-  border: 1px solid #373867;
-  border-radius: 3px;
+  width: 25vw;
+  height: 30px;
+  margin-right: 10px;
+  color: #242024;
+  border: 1px solid #242024;
+  border-radius: 5px;
 }
 
 .table {
-  width: 75%;
-  padding: 2rem;
-  border-collapse: collapse;
+  width: 90vw;
+  border-spacing: 0 5px;
+  margin: auto;
 }
 
 .table-header {
-  color: #373867;
+  color: #242024;
 }
 
-.table-row {
-  height: 2.5em;
+.row {
+  height: 40px;
   text-align: center;
-  border-bottom: 1px solid #707070;
+  color: #242024;
+  background-color: #ebebeb;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.row:not(.selected):nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.row:not(.selected):nth-child(odd):hover {
+  background-color: #c4bcbc;
+}
+
+.row:not(.selected):nth-child(even) {
+  background-color: #ebebeb;
+}
+
+.row:not(.selected):nth-child(even):hover {
+  background-color: #c0b6b6;
 }
 
 .table-buttons {
@@ -78,12 +99,12 @@
   padding: 4px;
   width: 65px;
   border-radius: 4px;
-  color: #373867;
+  color: #242024;
   font-weight: 600;
 }
 
 .memberActive {
-  border-bottom: 3px solid #aace9b;
+  border-bottom: 3px solid #f88d5c;
 }
 
 .memberInactive {

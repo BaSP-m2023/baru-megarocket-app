@@ -10,14 +10,6 @@ const routes = [
   {
     name: 'Home',
     path: '/'
-  },
-  {
-    name: 'Sign Up',
-    path: '/auth/signup'
-  },
-  {
-    name: 'Log In',
-    path: '/auth/login'
   }
 ];
 

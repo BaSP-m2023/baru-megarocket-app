@@ -76,75 +76,80 @@ const Form = () => {
 
   const onConfirm = async (data) => {
     if (location.pathname.includes('add')) {
-      await addActivity(dispatch, data);
+      dispatch(addActivity(data));
     } else {
-      await editActivity(dispatch, id, data);
+      dispatch(editActivity(id, data));
     }
   };
 
   return (
-    <section className={styles.formContainer}>
-      <div className={styles.formTitle} data-testid="activities-form-title-container">
-        <h2 className={styles.title}>
-          {location.pathname.includes('add') ? 'Add new activity' : `Edit activity `}
-        </h2>
+    <section>
+      <div className={styles.formContainer}>
+        <div className={styles.formTitle} data-testid="activities-form-title-container">
+          <h2>{location.pathname.includes('add') ? 'Add new activity' : `Edit activity `}</h2>
+          <span className={styles.closeButton} onClick={() => history.goBack()}>
+            &times;
+          </span>
+        </div>
+        <div className={styles.content}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className={styles.form}
+            data-testid="activities-form-container"
+          >
+            <div className={styles.formGroup}>
+              <Input
+                labelText="Name"
+                type="text"
+                name="name"
+                placeholder={'Name'}
+                register={register}
+                error={errors.name?.message}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <Textarea
+                labelText="Description"
+                name="description"
+                rows={10}
+                cols={40}
+                register={register}
+                placeholder={'Description for the activity'}
+                error={errors.description?.message}
+              />
+            </div>
+            <div className={`${styles.formGroup} ${styles.formGroupCheckbox}`}>
+              <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
+            </div>
+            <div className={`${styles.formGroup}`}>
+              <label className={styles.formLabel}>Asign trainers</label>
+              <Select
+                defaultValue={
+                  activity
+                    ? activity.trainers.map((trainer) => ({
+                        value: trainer._id,
+                        label: `${trainer.firstName} ${trainer.lastName}`
+                      }))
+                    : ''
+                }
+                className={styles.formSelect}
+                placeholder="Select trainer/s"
+                isMulti
+                options={options}
+                value={trainer ? options.find((t) => t.value === trainer) : trainer}
+                onChange={(e) => trainerListOnChange(e.map((c) => c.value))}
+              />
+              {errors.trainers && <p className={styles.error}>{errors.trainers.message}</p>}
+            </div>
+            <div className={styles.formButtons}>
+              <Button text={'Submit'} classNameButton={'submitButton'} />
+              <Link to="/user/admin/activities">
+                <Button text={'Back'} classNameButton={'cancelButton'} />
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles.form}
-        data-testid="activities-form-container"
-      >
-        <div className={styles.formGroup}>
-          <Input
-            labelText="Name"
-            type="text"
-            name="name"
-            placeholder={'Name'}
-            register={register}
-            error={errors.name?.message}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <Textarea
-            labelText="Description"
-            name="description"
-            rows={10}
-            cols={60}
-            register={register}
-            placeholder={'Description for the activity'}
-            error={errors.description?.message}
-          />
-        </div>
-        <div className={`${styles.formGroup} ${styles.formGroupCheckbox}`}>
-          <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
-        </div>
-        <div className={`${styles.formGroup}`}>
-          <label className={styles.formLabel}>Asign trainers</label>
-          <Select
-            defaultValue={
-              activity
-                ? activity.trainers.map((trainer) => ({
-                    value: trainer._id,
-                    label: `${trainer.firstName} ${trainer.lastName}`
-                  }))
-                : ''
-            }
-            className={styles.formSelect}
-            placeholder="Select trainer/s"
-            isMulti
-            options={options}
-            value={trainer ? options.find((t) => t.value === trainer) : trainer}
-            onChange={(e) => trainerListOnChange(e.map((c) => c.value))}
-          />
-          {errors.trainers && <p className={styles.error}>{errors.trainers.message}</p>}
-        </div>
-        <div className={styles.formButtons}>
-          <Button text={'Submit'} classNameButton={'submitButton'} />
-          <Link to="/user/admin/activities">
-            <Button text={'Back'} classNameButton={'cancelButton'} />
-          </Link>
-        </div>
-      </form>
       {confirm && (
         <ConfirmModal
           handler={handleConfirm}

@@ -1,18 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  margin-top: 10%;
+}
 .title {
   font-size: 2rem;
   text-align: center;
-  color: #373867;
+  color: #242024;
 }
 
 .button {
   display: flex;
   justify-content: center;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: auto;
-  height: auto;
 }
