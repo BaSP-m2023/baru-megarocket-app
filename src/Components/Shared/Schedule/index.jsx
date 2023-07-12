@@ -129,7 +129,7 @@ const Schedule = () => {
           classId: sub.classes._id,
           capacity: sub.classes.capacity,
           subscribed: sub.classes.subscribed,
-          trainer: sub.classes.trainer._id
+          trainer: sub.classes.trainer?._id
         });
       });
       setMemberSubs(arraySubs);

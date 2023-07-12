@@ -2,59 +2,47 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: auto;
-  height: auto;
 }
 
 .tableSubscription {
-  flex: 1;
   width: 90%;
-  border-collapse: collapse;
+  border-spacing: 0 5px;
 }
 
-.containerThead {
-  background-color: #f2f2f2;
-}
-.theadOptions {
-  width: auto;
-}
 .containerThead th {
   text-align: center;
 }
 
-.line {
-  width: 100%;
-}
-
 .item {
-  width: 20%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  height: 40px;
   text-align: center;
-  border: 1px solid #ccc;
+  color: #242024;
+  background-color: #ebebeb;
+  font-size: 1rem;
+  font-weight: 400;
 }
 
-.itemButton {
-  width: 5%;
-  text-overflow: ellipsis;
-  text-align: center;
-  border: 1px solid #ccc;
+.item:not(.selected):nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.item:not(.selected):nth-child(odd):hover {
+  background-color: #c4bcbc;
 }
 
 .filterContainer {
   display: flex;
+  margin: 0 0 2% 13%;
 }
 
 .inputContainer {
   display: flex;
   flex-direction: column;
-  margin-left: 5%;
-  margin-bottom: 1%;
 }
 
 .filter {
   text-align: center;
-  color:#373867;
+  color:#242024;
   font-size: 21px;
   font-weight: bold;
 }
@@ -62,7 +50,7 @@
 .filterInput {
   width: 15rem;
   margin: 1rem;
-  border: 1px solid #373867;
+  border: 1px solid #242024;
   border-radius: 3px;
 }
 
@@ -70,10 +58,10 @@
   margin-top: 37px;
 }
 
-.itemButtonEdit:hover {
-  background-color: #aace9e;
+.item:not(.selected):nth-child(even) {
+  background-color: #ebebeb;
 }
 
-.itemButtonDelete:hover {
-  background-color: #d10202;
+.item:not(.selected):nth-child(even):hover {
+  background-color: #c0b6b6;
 }

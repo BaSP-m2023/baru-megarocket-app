@@ -1,23 +1,32 @@
 .row {
-  border-bottom: 1px solid #cccccc;
-}
-
-.row:hover {
-  background-color: #f4f4f6;
-}
-
-.align {
+  height: 40px;
   text-align: center;
-  line-height: 2rem;
+  color: #242024;
+  background-color: #ebebeb;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.row:not(.selected):nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.row:not(.selected):nth-child(odd):hover {
+  background-color: #c4bcbc;
+}
+
+.row:not(.selected):nth-child(even) {
+  background-color: #ebebeb;
+}
+
+.row:not(.selected):nth-child(even):hover {
+  background-color: #c0b6b6;
 }
 
 .edit {
-  width: 1rem;
-  margin: 1rem;
   cursor: pointer;
 }
 
 .delete {
-  width: 1rem;;
   cursor: pointer;
 }
