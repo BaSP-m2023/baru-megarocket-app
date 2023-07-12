@@ -2,12 +2,21 @@ import React from 'react';
 import styles from 'Components/Shared/Schedule/ScheduleComponents/Modals/ModalData/modalData.module.css';
 import { Button } from 'Components/Shared/Button';
 
-const ModalData = ({ data, role, memberSubs, closeModal, action, reason, disabled }) => {
-  console.log(data);
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString();
-  };
+const ModalData = ({
+  data,
+  role,
+  memberSubs,
+  subscribed,
+  closeModal,
+  current,
+  action,
+  reason,
+  disabled
+}) => {
+  const currentDate = new Date(current.date).setHours(0, 0, 0, 0);
+  const modalDate = new Date(data.date).setHours(0, 0, 0, 0);
+  const notShow =
+    (currentDate === modalDate && current.hour > data.time) || currentDate > modalDate;
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
@@ -53,11 +62,11 @@ const ModalData = ({ data, role, memberSubs, closeModal, action, reason, disable
           </div>
           <div>
             <h4>Date</h4>
-            <p>{formatDate(data.date)}</p>
+            <p>{data.date}</p>
           </div>
           <div>
             <h4>Members Subscribed</h4>
-            <p>{data.subscribed}</p>
+            <p>{subscribed}</p>
           </div>
 
           {role === 'MEMBER' && <div></div>}
@@ -90,13 +99,19 @@ const ModalData = ({ data, role, memberSubs, closeModal, action, reason, disable
         <div className={styles.containerButtons}>
           {role !== 'TRAINER' ? (
             <>
-              <Button action={closeModal} text={'Cancel'} classNameButton={'cancelButton'} />
-              <Button
-                action={action}
-                text={`${reason.charAt(0).toUpperCase()}${reason.substring(1)}`}
-                classNameButton={reason === 'subscribe' ? 'submitButton' : 'deleteButton'}
-                disabled={disabled}
-              />
+              {notShow ? (
+                <Button action={closeModal} text={'Close'} classNameButton={'cancelButton'} />
+              ) : (
+                <Button action={closeModal} text={'Cancel'} classNameButton={'cancelButton'} />
+              )}
+              {!notShow && (
+                <Button
+                  action={action}
+                  text={`${reason.charAt(0).toUpperCase()}${reason.substring(1)}`}
+                  classNameButton={reason === 'subscribe' ? 'submitButton' : 'deleteButton'}
+                  disabled={disabled}
+                />
+              )}
             </>
           ) : (
             <Button action={closeModal} text={'Close'} classNameButton={'cancelButton'} />
