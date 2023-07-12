@@ -150,7 +150,7 @@ const Schedule = () => {
         !pendingClasses &&
         !pendingSubscriptions && (
           <div className={styles.content}>
-            <div className={styles.filter}>
+            <div className={styles.filter} data-testid="classes-filters-container">
               <label>Filter by Activity</label>
               <select onChange={(e) => setActivityFilter(e.target.value)}>
                 <option value={''}>All classes</option>
@@ -184,7 +184,7 @@ const Schedule = () => {
                     ))}
                   </tr>
                 </thead>
-                <tbody>
+                <tbody data-testid="classes-list">
                   {hours.map((hour) => (
                     <tr key={hour} className={styles.tr}>
                       <td>{hour}</td>
