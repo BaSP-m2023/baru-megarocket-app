@@ -6,9 +6,6 @@
   height: 100%;
   width: 70%;
   border-radius: 7px;
-  box-shadow: 0 5px 8px 0 #00000033, 0 7px 20px 0 #0000002b;
-  animation-name: modalopen;
-  animation-duration: 1.5s;
 }
 
 .formContainer {
@@ -16,30 +13,42 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  height: 80%;
 }
 
-.header h2 {
-  margin: 0;
-  align-self: center;
-  font-size: 25px;
-  line-height: 2;
-}
-
-.header {
+.formTitle {
+  width: 100%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   background: #242024;
-  padding: 15px;
   color: #fff;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
+}
+
+.formTitle h2 {
+  margin-left: 2%;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1%;
 }
 
 .h3 {
   font-size: 1.5rem;
   font-weight: 500;
   color: #242024;
+}
+
+.closeButton {
+  margin-right: 2%;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .label {

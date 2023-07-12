@@ -17,7 +17,7 @@ const NavBar = ({ routes = [] }) => {
         <div data-testid="logo-container" className={styles.logoContainer}>
           <img
             src={`${process.env.PUBLIC_URL}/assets/images/logo3.png`}
-            alt="Flexing on fire logo"
+            alt="Rocket"
             className={styles.logo}
           />
           <p className={styles.mega}>Mega</p>

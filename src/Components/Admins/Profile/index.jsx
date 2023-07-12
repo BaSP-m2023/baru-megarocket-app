@@ -144,15 +144,15 @@ function AdminProfile({ match }) {
             )}
           </div>
           {!disableEdit && (
-            <button className={styles.close} onClick={handleClose}>
+            <span className={styles.closeButton} onClick={handleClose}>
               &times;
-            </button>
+            </span>
           )}
         </div>
         <form onSubmit={handleSubmit(onConfirm)} className={styles.form}>
           <div>
             {formFields.map((inputData, index) => (
-              <div className={styles.label_container} key={index}>
+              <div className={styles.formGroup} key={index}>
                 <Input
                   labelText={inputData.labelText}
                   type={inputData.type}

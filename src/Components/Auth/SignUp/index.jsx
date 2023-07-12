@@ -74,16 +74,16 @@ function SignUp() {
   return (
     <div>
       <div className={styles.content}>
-        <div className={styles.header} data-testid="signup-members-header">
+        <div className={styles.formTitle} data-testid="signup-members-header">
           <h2>Member Register</h2>
-          <span className={styles.close_button} onClick={() => history.push('/')}>
+          <span className={styles.closeButton} onClick={() => history.push('/')}>
             &times;
           </span>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.body}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div data-testid="signup-members-inputs">
             {formFields.map((inputData, index) => (
-              <div className={styles.label_container} key={index}>
+              <div className={styles.formGroup} key={index}>
                 <Input
                   labelText={inputData.labelText}
                   type={inputData.type}

@@ -149,6 +149,9 @@ function AdminsForm({ match }) {
       <div className={styles.formContainer}>
         <div className={styles.formTitle} data-testid="admins-form-title-container">
           <h2 className={styles.title}>{adminId ? 'Edit Admin' : 'Add admin'}</h2>
+          <span className={styles.closeButton} onClick={history.goBack}>
+            &times;
+          </span>
         </div>
         <div className={styles.content}>
           <form
@@ -157,7 +160,7 @@ function AdminsForm({ match }) {
             data-testid="admins-form-container"
           >
             {formFields.map((field) => (
-              <div className={styles.labelInput} key={field.name}>
+              <div className={styles.formGroup} key={field.name}>
                 <Input
                   labelText={field.labelText}
                   name={field.name}
