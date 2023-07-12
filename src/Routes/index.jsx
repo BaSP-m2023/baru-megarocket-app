@@ -1,5 +1,5 @@
-import React, { lazy, Suspense, useEffect } from 'react';
-import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
+import { Switch, useLocation, useHistory, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { getAuth } from 'Redux/Auth/thunks';
@@ -17,46 +17,66 @@ const TrainerRoutes = lazy(() => import('./trainers'));
 
 const Routes = () => {
   const dispatch = useDispatch();
-
-  const token = sessionStorage.getItem('token');
-
-  useEffect(() => {
-    tokenListener();
-  }, []);
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
-    if (token) {
-      dispatch(getAuth(token));
-    }
-  }, [token]);
+    const setupTokenListener = async () => {
+      await new Promise((resolve) => {
+        tokenListener(resolve);
+      });
+
+      const token = sessionStorage.getItem('token');
+      const role = sessionStorage.getItem('role');
+
+      if (location.pathname === '/') {
+        const paths = {
+          SUPER_ADMIN: '/user/super-admin',
+          ADMIN: '/user/admin',
+          TRAINER: '/user/trainer',
+          MEMBER: '/user/member'
+        };
+        if (role) {
+          history.push(paths[role]);
+        }
+      }
+
+      if (token) {
+        dispatch(getAuth(token));
+      }
+      setIsLoading(false);
+    };
+
+    setupTokenListener();
+  }, [dispatch]);
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Loader />
+      </div>
+    );
+  }
 
   return (
-    <BrowserRouter>
-      <Suspense
-        fallback={
-          <div
-            style={{
-              height: '100vh',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Loader />
-          </div>
-        }
-      >
-        <Switch>
-          <Route exact path="/" component={HomeRoute} />
-          <Route path="/auth" component={AuthRoutes} />
-          <PrivateRoute path="/user/super-admin" role="SUPER_ADMIN" component={SuperAdminRoutes} />
-          <PrivateRoute path="/user/admin" role="ADMIN" component={AdminRoutes} />
-          <PrivateRoute path="/user/trainer" role="TRAINER" component={TrainerRoutes} />
-          <PrivateRoute path="/user/member" role="MEMBER" component={MemberRoutes} />
-          <Redirect to={'/'} />
-        </Switch>
-      </Suspense>
-    </BrowserRouter>
+    <Suspense>
+      <Switch>
+        <Route exact path="/" component={HomeRoute} />
+        <Route path="/auth" component={AuthRoutes} />
+        <PrivateRoute path="/user/super-admin" role="SUPER_ADMIN" component={SuperAdminRoutes} />
+        <PrivateRoute path="/user/admin" role="ADMIN" component={AdminRoutes} />
+        <PrivateRoute path="/user/trainer" role="TRAINER" component={TrainerRoutes} />
+        <PrivateRoute path="/user/member" role="MEMBER" component={MemberRoutes} />
+      </Switch>
+    </Suspense>
   );
 };
 

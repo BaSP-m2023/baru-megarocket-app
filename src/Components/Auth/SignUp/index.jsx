@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { joiResolver } from '@hookform/resolvers/joi';
 import styles from './signup.module.css';
+import Loader from 'Components/Shared/Loader';
 
 import { signUpMember } from 'Redux/Auth/thunks';
 import memberSchema from 'Validations/member';
 
 import { Input } from 'Components/Shared/Inputs';
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 
 function SignUp() {
   const history = useHistory();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.auth.isLoading);
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setValue
   } = useForm({
     resolver: joiResolver(memberSchema),
     mode: 'onChange',
@@ -39,10 +42,18 @@ function SignUp() {
     }
   });
 
+  useEffect(() => {
+    const localStorageMembership = localStorage.getItem('membership');
+    if (localStorageMembership) {
+      setValue('membership', localStorageMembership);
+      localStorage.removeItem('membership');
+    }
+  }, [setValue]);
+
   const handleSignup = (data) => {
     if (data) {
-      dispatch(signUpMember(data));
-      history.push('/');
+      dispatch(signUpMember(data, history));
+      setShowConfirmModal(false);
     }
   };
 
@@ -62,6 +73,13 @@ function SignUp() {
     { labelText: 'Password', type: 'password', name: 'password' }
   ];
 
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <Loader />;
+      </div>
+    );
+  }
   return (
     <div>
       <div className={styles.content}>

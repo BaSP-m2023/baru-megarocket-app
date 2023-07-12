@@ -10,7 +10,7 @@ import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { getTrainers } from 'Redux/Trainers/thunks';
 import activitySchema from 'Validations/activity';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import { Input, Textarea } from 'Components/Shared/Inputs';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
