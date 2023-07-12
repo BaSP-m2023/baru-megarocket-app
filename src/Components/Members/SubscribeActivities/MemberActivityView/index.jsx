@@ -12,7 +12,7 @@ const MemberActivityView = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getActivities(dispatch);
+    dispatch(getActivities());
   }, [dispatch]);
 
   return (
