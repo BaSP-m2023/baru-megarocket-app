@@ -111,7 +111,7 @@ function Landing() {
               onClick={() => handleClickMembership('only_classes')}
             >
               <div className={styles.tier}>
-                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
+                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#242024' }} size="2xl" />
               </div>
               <h3>Only Classes</h3>
               <ul className={styles.ul}>
@@ -133,7 +133,7 @@ function Landing() {
                   style={{ color: '#6d15e8', alignSelf: 'center' }}
                   size="lg"
                 />
-                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
+                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#242024' }} size="2xl" />
                 <FontAwesomeIcon icon={faStar} style={{ color: '#dedeef93' }} size="lg" />
               </div>
 
@@ -157,7 +157,7 @@ function Landing() {
             <div className={styles.membershipCard} onClick={() => handleClickMembership('black')}>
               <div className={styles.tier}>
                 <FontAwesomeIcon icon={faCloud} style={{ color: '#6d15e8' }} size="lg" />
-                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#373867' }} size="2xl" />
+                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#242024' }} size="2xl" />
                 <FontAwesomeIcon
                   icon={faStar}
                   style={{ color: '#e8b315', alignSelf: 'flex-end' }}

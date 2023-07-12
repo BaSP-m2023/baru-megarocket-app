@@ -1,16 +1,15 @@
 .toast {
   position: fixed;
-  top: 0;
+  bottom: 0;
   right: 0;
-  z-index: 2;
-  margin: 1em 1em 0 0;
+  margin: 0 40px 60px 0;
   display: flex;
   align-items: center;
   width: 313px;
   height: 70px;
   box-shadow: 0px 10px 23px #0000001f;
   border-radius: 5px;
-  color: #373867;
+  color: #242024;
   animation: 0.8s fadeIn;
 }
 
@@ -30,7 +29,7 @@
 }
 
 .toastSuccess {
-  background-color: #AACE9B;
+  background-color: #f88d5c;
 }
 
 .toastFail {

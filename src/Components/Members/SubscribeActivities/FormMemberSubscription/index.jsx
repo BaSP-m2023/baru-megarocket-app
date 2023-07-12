@@ -49,7 +49,7 @@ const FormMemberSubscription = () => {
   useEffect(() => {
     if (success) {
       dispatch(resetState());
-      history.push('/user/member/subscribe-class');
+      history.push('/user/member/activities');
     }
   }, [success]);
 
@@ -118,7 +118,7 @@ const FormMemberSubscription = () => {
             )}
             {errors.classes && <p className={styles.error}>Please select a class</p>}
             <div className={styles.buttonContainer}>
-              <Link to="/user/member/subscribe-class">
+              <Link to="/user/member/activities">
                 <Button classNameButton={'cancelButton'} text={'Cancel'} />
               </Link>
               {classes.length !== 0 && classCanSubscribe.length !== 0 && (
