@@ -74,18 +74,23 @@ const Schedule = () => {
   }, [user]);
 
   const clickMember = (data, date) => {
+    const subscribed = subscriptions.filter((subs) => {
+      return subs.date.slice(0, 10) === date;
+    });
     setShowConfirmModal(true);
     if (data.subId) {
       const trainer = trainers.find((trainer) => trainer._id === data.trainer);
       setModalData({
         ...data,
         trainer,
-        date
+        date,
+        subscribed: subscribed.length
       });
     } else {
       setModalData({
         ...data,
-        date
+        date,
+        subscribed: subscribed.length
       });
     }
   };
@@ -308,6 +313,7 @@ const Schedule = () => {
         <ModalData
           data={modalData}
           role={role}
+          subscribed={modalData.subscribed}
           memberSubs={memberSubs}
           closeModal={() => setShowConfirmModal(false)}
           action={() => handleSubmit(modalData)}

@@ -2,12 +2,16 @@ import React from 'react';
 import styles from 'Components/Shared/Schedule/ScheduleComponents/Modals/ModalData/modalData.module.css';
 import { Button } from 'Components/Shared/Button';
 
-const ModalData = ({ data, role, memberSubs, closeModal, action, reason, disabled }) => {
-  console.log(data);
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString();
-  };
+const ModalData = ({
+  data,
+  role,
+  memberSubs,
+  subscribed,
+  closeModal,
+  action,
+  reason,
+  disabled
+}) => {
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
@@ -53,11 +57,11 @@ const ModalData = ({ data, role, memberSubs, closeModal, action, reason, disable
           </div>
           <div>
             <h4>Date</h4>
-            <p>{formatDate(data.date)}</p>
+            <p>{data.date}</p>
           </div>
           <div>
             <h4>Members Subscribed</h4>
-            <p>{data.subscribed}</p>
+            <p>{subscribed}</p>
           </div>
 
           {role === 'MEMBER' && <div></div>}
