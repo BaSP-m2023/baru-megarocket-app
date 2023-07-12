@@ -8,7 +8,7 @@ class Login {
   }
 
   get loginDataContainer() {
-    return $("[data-testid='login-data-container']");
+    return $("[data-testid='login-title-container']");
   }
 
   get loginEmailContainer() {

@@ -1,6 +1,6 @@
 class Activities {
   get ActivitiesNavBar() {
-    return $("[data-testid='routes-list']>a:nth-child(2)");
+    return $("[data-testid='routes-list']>a:nth-child(3)");
   }
 
   //activities home
@@ -8,11 +8,27 @@ class Activities {
     return $("[data-testid='activities-cards-container']> div:nth-child(1)");
   }
 
-  get ActivitiesBasquet() {
+  get ActivitiesBasket() {
     return $("[data-testid='activities-cards-container']> div:nth-child(2)");
   }
 
-  //activities subscription
+  get ActivitiesFootball() {
+    return $("[data-testid='activities-cards-container']> div:nth-child(3)");
+  }
+
+  get ActivitiesCrossfit() {
+    return $("[data-testid='activities-cards-container']> div:nth-child(4)");
+  }
+
+  get ActivitiesMusculation() {
+    return $("[data-testid='activities-cards-container']> div:nth-child(5)");
+  }
+
+  get ActivitiesSpinning() {
+    return $("[data-testid='activities-cards-container']> div:nth-child(6)");
+  }
+
+  //activities subscription ???
   get ActivitiesSubs() {
     return $("[data-testid='activities-cards-container']");
   }
