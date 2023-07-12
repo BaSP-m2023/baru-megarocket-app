@@ -5,6 +5,7 @@ import Login from 'Components/Auth/Login';
 import SignUp from 'Components/Auth/SignUp';
 import Layout from 'Components/Layout';
 import ForgotPassword from 'Components/Auth/ForgotPassword';
+import NewPassword from 'Components/Auth/ResetPassword';
 
 const routes = [
   {
@@ -21,6 +22,7 @@ const AuthRoutes = () => {
         <Route exact path={`${url}/login`} component={Login} />
         <Route exact path={`${url}/signup`} component={SignUp} />
         <Route exact path={`${url}/forgotPassword`} component={ForgotPassword} />
+        <Route exact path={`${url}/newPassword`} component={NewPassword} />
         <Redirect to={`${url}/login`} />
       </Switch>
     </Layout>

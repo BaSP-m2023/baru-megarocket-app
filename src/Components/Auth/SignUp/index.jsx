@@ -12,10 +12,14 @@ import memberSchema from 'Validations/member';
 import { Input } from 'Components/Shared/Inputs';
 import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 function SignUp() {
   const history = useHistory();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [viewPassword, setViewPassword] = useState(false);
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.isLoading);
 
@@ -57,6 +61,14 @@ function SignUp() {
     }
   };
 
+  const handlePassword = () => {
+    if (viewPassword) {
+      setViewPassword(false);
+    } else {
+      setViewPassword(true);
+    }
+  };
+
   const onSubmit = () => {
     setShowConfirmModal(!showConfirmModal);
   };
@@ -65,10 +77,10 @@ function SignUp() {
     { labelText: 'Name', type: 'text', name: 'name' },
     { labelText: 'Last name', type: 'text', name: 'lastName' },
     { labelText: 'DNI', type: 'number', name: 'dni' },
-    { labelText: 'Phone', type: 'text', name: 'phone' },
+    { labelText: 'Phone', type: 'number', name: 'phone' },
     { labelText: 'Email', type: 'email', name: 'email' },
     { labelText: 'City', type: 'text', name: 'city' },
-    { labelText: 'Date of birth', type: 'text', name: 'dob' },
+    { labelText: 'Date of birth', type: 'date', name: 'dob' },
     { labelText: 'Zip code', type: 'number', name: 'zip' },
     { labelText: 'Password', type: 'password', name: 'password' }
   ];
@@ -92,14 +104,31 @@ function SignUp() {
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div data-testid="signup-members-inputs">
             {formFields.map((inputData, index) => (
-              <div className={styles.formGroup} key={index}>
-                <Input
-                  labelText={inputData.labelText}
-                  type={inputData.type}
-                  name={inputData.name}
-                  register={register}
-                  error={errors[inputData.name]?.message}
-                />
+              <div key={index} className={styles.inputPassword}>
+                <div
+                  className={inputData.type === 'password' ? styles.input : styles.label_container}
+                >
+                  <Input
+                    labelText={inputData.labelText}
+                    type={inputData.type === 'password' && viewPassword ? 'text' : inputData.type}
+                    name={inputData.name}
+                    register={register}
+                  />
+                  <div className={styles.errorMessage}>
+                    {errors && errors[inputData.name]?.message
+                      ? errors[inputData.name]?.message
+                      : '\u00A0'}
+                  </div>
+                </div>
+                {inputData.type === 'password' && (
+                  <div className={styles.btnVisibilityPassword}>
+                    <FontAwesomeIcon
+                      icon={viewPassword ? faEyeSlash : faEye}
+                      onClick={handlePassword}
+                      className={styles.imgButtonPassword}
+                    />
+                  </div>
+                )}
               </div>
             ))}
             <div className={styles.label_container}>

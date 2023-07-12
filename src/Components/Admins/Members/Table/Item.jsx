@@ -1,21 +1,47 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from './table.module.css';
 
-import { deleteMember } from 'Redux/Members/thunks';
+import { deleteMember, updateMember } from 'Redux/Members/thunks';
 
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import { Button } from 'Components/Shared/Button';
 
 const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
+  const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
+  const [isChecked, setIsChecked] = useState(null);
+  const [change, setChange] = useState(null);
+  const [activeToggle, setActiveToggle] = useState(false);
+  const defaultMember = {
+    isActive: !member.isActive
+  };
 
   const handleModal = () => {
     setModal(!modal);
+    setActiveToggle(false);
   };
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    setIsChecked(member.isActive);
+  }, []);
+
+  const handleCheckboxChange = (event) => {
+    setChange(event.target.checked);
+    setActiveToggle(true);
+    setModal(true);
+  };
+
+  const handleAction = () => {
+    if (activeToggle) {
+      setIsChecked(change);
+      dispatch(updateMember(member._id, defaultMember));
+      setActiveToggle(false);
+    } else {
+      dispatch(deleteMember(member._id));
+    }
+  };
 
   return (
     <>
@@ -24,14 +50,14 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
           {member.name} {member.lastName}
         </td>
         <td>
-          <label
-            className={
-              member.isActive
-                ? `${styles.memberState} ${styles.memberActive}`
-                : `${styles.memberState} ${styles.memberInactive}`
-            }
-          >
-            {member.isActive ? 'Active' : 'Inactive'}
+          <label className={styles.switch}>
+            <input
+              className={styles.switchInput}
+              type="checkbox"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            ></input>
+            <span className={styles.slider}></span>
           </label>
         </td>
         <td>
@@ -52,12 +78,14 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
       </tr>
       {modal && (
         <ConfirmModal
-          title="Delete member"
+          title={activeToggle ? 'Active Status' : 'Delete member'}
           handler={handleModal}
-          onAction={() => dispatch(deleteMember(member._id))}
-          reason={'delete'}
+          onAction={handleAction}
+          reason={activeToggle ? 'submit' : 'delete'}
         >
-          Are you sure you wanna delete this member?
+          {activeToggle
+            ? 'Are you sure you want to change the status of this member?'
+            : 'Are you sure you wanna delete this member?'}
         </ConfirmModal>
       )}
     </>
