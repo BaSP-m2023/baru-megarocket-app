@@ -50,7 +50,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #373867;
+  background: #242024;
   color: #fff;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
@@ -76,7 +76,7 @@
 
 .formLabel {
   display: block;
-  color: #373867;
+  color: #242024;
   font-weight: 700;
   font-size: 1rem;
 }

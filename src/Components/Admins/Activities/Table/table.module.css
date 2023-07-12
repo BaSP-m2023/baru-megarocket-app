@@ -26,7 +26,7 @@
 
 .filter {
   text-align: center;
-  color:#373867;
+  color:#242024;
   font-size: 21px;
   font-weight: bold;
 }
@@ -39,12 +39,12 @@
   display: inline-block;
   padding: 4px;
   border-radius: 4px;
-  color: #373867;
+  color: #242024;
   font-weight: 600;
 }
 
 .activityActive {
-  border-bottom: 3px solid #aace9b;
+  border-bottom: 3px solid #f88d5c;
 }
 
 .activityInactive {
@@ -54,7 +54,7 @@
 .row {
   height: 40px;
   text-align: center;
-  color: #373867;
+  color: #242024;
   background-color: #ebebeb;
   font-size: 1rem;
   font-weight: 400;

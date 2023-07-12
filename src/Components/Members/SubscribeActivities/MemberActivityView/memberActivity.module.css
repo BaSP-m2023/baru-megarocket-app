@@ -21,10 +21,10 @@
   text-align: center;
 }
 .card:nth-child(even){
-  background-color: #e8b3153d;
+  background-color: #f88d5ca1;
 }
 .card:hover{
-  background-color: #373867;
+  background-color: #7c7cc0;
   color: #fff;
 }
 

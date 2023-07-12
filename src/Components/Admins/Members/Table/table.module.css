@@ -19,7 +19,7 @@
 
 .filter {
   text-align: center;
-  color:#373867;
+  color:#242024;
   font-size: 21px;
   font-weight: bold;
 }
@@ -43,8 +43,8 @@
   width: 25vw;
   height: 30px;
   margin-right: 10px;
-  color: #373867;
-  border: 1px solid #373867;
+  color: #242024;
+  border: 1px solid #242024;
   border-radius: 5px;
 }
 
@@ -55,13 +55,13 @@
 }
 
 .table-header {
-  color: #373867;
+  color: #242024;
 }
 
 .row {
   height: 40px;
   text-align: center;
-  color: #373867;
+  color: #242024;
   background-color: #ebebeb;
   font-size: 1rem;
   font-weight: 400;
@@ -99,12 +99,12 @@
   padding: 4px;
   width: 65px;
   border-radius: 4px;
-  color: #373867;
+  color: #242024;
   font-weight: 600;
 }
 
 .memberActive {
-  border-bottom: 3px solid #aace9b;
+  border-bottom: 3px solid #f88d5c;
 }
 
 .memberInactive {

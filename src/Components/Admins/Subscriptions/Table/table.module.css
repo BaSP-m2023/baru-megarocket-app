@@ -16,7 +16,7 @@
 .item {
   height: 40px;
   text-align: center;
-  color: #373867;
+  color: #242024;
   background-color: #ebebeb;
   font-size: 1rem;
   font-weight: 400;
@@ -43,7 +43,7 @@
 
 .filter {
   text-align: center;
-  color:#373867;
+  color:#242024;
   font-size: 21px;
   font-weight: bold;
 }
@@ -51,7 +51,7 @@
 .filterInput {
   width: 15rem;
   margin: 1rem;
-  border: 1px solid #373867;
+  border: 1px solid #242024;
   border-radius: 3px;
 }
 

@@ -29,7 +29,7 @@
 .header {
   display: flex;
   justify-content: space-between;
-  background: #373867;
+  background: #242024;
   padding: 15px;
   color: #fff;
   border-top-left-radius: 7px;
@@ -39,13 +39,13 @@
 .h3 {
   font-size: 1.5rem;
   font-weight: 500;
-  color: #373867;
+  color: #242024;
 }
 
 .label {
   display: block;
   padding: 5px;
-  color: #373867;
+  color: #242024;
   font-weight: 700;
   font-size: 1rem;
 }
@@ -54,8 +54,8 @@
   width: 25.5vw;
   height: 36px;
   margin-right: 10px;
-  color: #373867;
-  border: 1px solid #373867;
+  color: #242024;
+  border: 1px solid #242024;
   border-radius: 5px;
 }
 

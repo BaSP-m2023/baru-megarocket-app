@@ -38,7 +38,7 @@
 
 .button {
   padding: 15px 25px;
-  background-color: #aace9b;
+  background-color: #f88d5c;
   color:#13133c;
   border: none;
   border-radius: 100px;
@@ -70,19 +70,19 @@
 }
 .icon {
   font-size: 2rem;
-  color: #aace9b;
+  color: #f88d5c;
   margin-bottom: 10px;
 }
 
 .h2 {
   font-size: 1.2rem;
-  color: #373867;
+  color: #242024;
   margin-bottom: 10px;
 }
 
 .p {
   font-size: 1.1rem;
-  color: #373867;
+  color: #242024;
 }
 
 .aboutSection {
@@ -158,19 +158,19 @@
   margin: auto;
   margin-bottom:0;
   bottom: 0;
-  background-color: #aace9b;
+  background-color: #f88d5c;
   color: #fff;
   border-radius: 100px;
   width: fit-content;
   padding: 5% 10%;
   font-size: 1.2rem;
   font-weight: 600;
-  color: #373867;
+  color: #242024;
 }
 
 .h3 {
   font-size: 2rem;
-  color: #373867;
+  color: #242024;
   margin: auto;
   margin-bottom: 20px;
 }
@@ -178,7 +178,7 @@
 .ul {
   text-align: left;
   font-size: 1.1rem;
-  color: #373867;
+  color: #242024;
 }
 
 .ul li {

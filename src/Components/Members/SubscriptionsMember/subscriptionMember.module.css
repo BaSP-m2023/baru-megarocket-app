@@ -9,14 +9,14 @@
   text-align: center;
   font-size: 1rem;
   font-weight: 700;
-  color: #373867;
+  color: #242024;
 }
 
 .title {
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
-  color: #373867;
+  color: #242024;
 }
 
 .loader {
@@ -38,7 +38,7 @@
   width: 25%;
   padding: 13px;
   vertical-align: middle;
-  color: #373867;
+  color: #242024;
   font-size: 1rem;
   font-weight: 700;
 }
