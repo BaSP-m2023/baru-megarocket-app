@@ -192,13 +192,13 @@ const Schedule = () => {
             <div className={styles.arrows} onClick={() => setNextPage(!nextPage)}>
               {!nextPage && (
                 <>
-                  <span>CURRENT WEEK</span>
+                  <span>CURRENT: CURRENT WEEK</span>
                   <FontAwesomeIcon icon={faArrowRightArrowLeft} className={styles.right} />
                 </>
               )}
               {nextPage && (
                 <>
-                  <span>NEXT WEEK</span>
+                  <span>CURRENT: NEXT WEEK</span>
                   <FontAwesomeIcon icon={faArrowRightArrowLeft} className={styles.left} />
                 </>
               )}
@@ -316,6 +316,7 @@ const Schedule = () => {
           role={role}
           subscribed={modalData.subscribed}
           memberSubs={memberSubs}
+          current={current}
           closeModal={() => setShowConfirmModal(false)}
           action={() => handleSubmit(modalData)}
           reason={
@@ -325,10 +326,7 @@ const Schedule = () => {
               ? 'subscribe'
               : 'Full Class'
           }
-          disabled={
-            !(modalData.subId || modalData.capacity > modalData.subscribed) ||
-            !(new Date(modalData.date) >= new Date(current.date) && modalData.time > current.hour)
-          }
+          disabled={!(modalData.subId || modalData.capacity > modalData.subscribed)}
         />
       )}
       {showForm.show && (

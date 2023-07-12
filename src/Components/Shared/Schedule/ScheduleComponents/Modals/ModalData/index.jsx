@@ -8,10 +8,15 @@ const ModalData = ({
   memberSubs,
   subscribed,
   closeModal,
+  current,
   action,
   reason,
   disabled
 }) => {
+  const currentDate = new Date(current.date).setHours(0, 0, 0, 0);
+  const modalDate = new Date(data.date).setHours(0, 0, 0, 0);
+  const notShow =
+    (currentDate === modalDate && current.hour > data.time) || currentDate > modalDate;
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
@@ -94,13 +99,19 @@ const ModalData = ({
         <div className={styles.containerButtons}>
           {role !== 'TRAINER' ? (
             <>
-              <Button action={closeModal} text={'Cancel'} classNameButton={'cancelButton'} />
-              <Button
-                action={action}
-                text={`${reason.charAt(0).toUpperCase()}${reason.substring(1)}`}
-                classNameButton={reason === 'subscribe' ? 'submitButton' : 'deleteButton'}
-                disabled={disabled}
-              />
+              {notShow ? (
+                <Button action={closeModal} text={'Close'} classNameButton={'cancelButton'} />
+              ) : (
+                <Button action={closeModal} text={'Cancel'} classNameButton={'cancelButton'} />
+              )}
+              {!notShow && (
+                <Button
+                  action={action}
+                  text={`${reason.charAt(0).toUpperCase()}${reason.substring(1)}`}
+                  classNameButton={reason === 'subscribe' ? 'submitButton' : 'deleteButton'}
+                  disabled={disabled}
+                />
+              )}
             </>
           ) : (
             <Button action={closeModal} text={'Close'} classNameButton={'cancelButton'} />

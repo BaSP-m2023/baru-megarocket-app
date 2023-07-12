@@ -233,7 +233,7 @@
 .arrows {
   display: flex;
   justify-content: space-between;
-  width: 150px;
+  width: 400px;
   margin-left: 1.5rem;
   cursor: pointer;
 }
