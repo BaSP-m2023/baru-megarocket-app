@@ -123,53 +123,66 @@ const Form = () => {
   }
   return (
     <>
-      <form
-        className={styles.container}
-        onSubmit={handleSubmit(onSubmit)}
-        data-testid="subscriptions-form-container"
-      >
-        {!id ? (
-          <h2 className={styles.title}>Add Subscription</h2>
-        ) : (
-          <h2 className={styles.title}>Edit Subscription</h2>
-        )}
-        <label className={styles.label}>Member</label>
-        <Select
-          className={styles.flex}
-          value={member ? optionsMember.find((t) => t.value === member) : member}
-          defaultValue={{
-            value: getValues('members'),
-            label: `${getValues('members.name')} ${getValues('members.lastName')}`
-          }}
-          name="members"
-          options={optionsMember}
-          placeholder="Select a Member"
-          onChange={(e) => membersOnChange(e.value)}
-        />
-        {errors.members?.message && <span className={styles.error}>{errors.members.message}</span>}
-        <label className={styles.label}>Classes</label>
-        <Select
-          className={styles.flex}
-          value={clas ? optionsClasses.find((t) => t.value === clas) : clas}
-          defaultValue={{
-            value: getValues('classes'),
-            label: `${getValues('classes.day')} ${getValues('classes.time')}`
-          }}
-          name="classes"
-          options={optionsClasses}
-          placeholder="Select a Class"
-          onChange={(e) => clasOnChange(e.value)}
-        />
-        {errors.classes && <p className={styles.error}>{errors.classes?.message}</p>}
-
-        <div className={styles.btnContainer} data-testid="subscriptions-form-buttons">
-          <Link to="/user/admin/subscriptions">
-            <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
-          </Link>
-          <Button text={'Submit'} classNameButton={'submitButton'} />
+      <div className={styles.formContainer}>
+        <div className={styles.formTitle}>
+          {!id ? (
+            <h2 className={styles.title}>Add Subscription</h2>
+          ) : (
+            <h2 className={styles.title}>Edit Subscription</h2>
+          )}
+          <span className={styles.closeButton} onClick={() => history.goBack()}>
+            &times;
+          </span>
         </div>
-      </form>
-
+        <div className={styles.content}>
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit(onSubmit)}
+            data-testid="subscriptions-form-container"
+          >
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Member</label>
+              <Select
+                className={styles.flex}
+                value={member ? optionsMember.find((t) => t.value === member) : member}
+                defaultValue={{
+                  value: getValues('members'),
+                  label: `${getValues('members.name')} ${getValues('members.lastName')}`
+                }}
+                name="members"
+                options={optionsMember}
+                placeholder="Select a Member"
+                onChange={(e) => membersOnChange(e.value)}
+              />
+              {errors.members?.message && (
+                <span className={styles.error}>{errors.members.message}</span>
+              )}
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Classes</label>
+              <Select
+                className={styles.flex}
+                value={clas ? optionsClasses.find((t) => t.value === clas) : clas}
+                defaultValue={{
+                  value: getValues('classes'),
+                  label: `${getValues('classes.day')} ${getValues('classes.time')}`
+                }}
+                name="classes"
+                options={optionsClasses}
+                placeholder="Select a Class"
+                onChange={(e) => clasOnChange(e.value)}
+              />
+              {errors.classes && <p className={styles.error}>{errors.classes?.message}</p>}
+            </div>
+            <div className={styles.btnContainer} data-testid="subscriptions-form-buttons">
+              <Link to="/user/admin/subscriptions">
+                <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
+              </Link>
+              <Button text={'Submit'} classNameButton={'submitButton'} />
+            </div>
+          </form>
+        </div>
+      </div>
       {showConfirmModal && (
         <ConfirmModal
           handler={() => handleShowConfirmModal()}

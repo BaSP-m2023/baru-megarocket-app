@@ -155,31 +155,33 @@ function AdminProfile({ match }) {
   ];
 
   return (
-    <div className={styles.form}>
+    <div className={styles.formContainer}>
       <div className={styles.content}>
-        <div className={styles.header}>
+        <div className={styles.formTitle}>
           <h2>
             {disableEdit
               ? `${defaultAdmin?.firstName} ${defaultAdmin?.lastName} Profile`
               : 'Edit Profile'}
           </h2>
-          {disableEdit && (
-            <Button
-              classNameButton="addButton"
-              action={() => setDisableEdit(false)}
-              img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
-            />
-          )}
+          <div className={styles.editButton}>
+            {disableEdit && (
+              <Button
+                classNameButton="addButton"
+                action={() => setDisableEdit(false)}
+                img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
+              />
+            )}
+          </div>
           {!disableEdit && (
-            <button className={styles.close} onClick={handleClose}>
+            <span className={styles.closeButton} onClick={handleClose}>
               &times;
-            </button>
+            </span>
           )}
         </div>
-        <form onSubmit={handleSubmit(onConfirm)} className={styles.body}>
+        <form onSubmit={handleSubmit(onConfirm)} className={styles.form}>
           <div>
             {formFields.map((inputData, index) => (
-              <div className={styles.label_container} key={index}>
+              <div className={styles.formGroup} key={index}>
                 <Input
                   labelText={inputData.labelText}
                   type={inputData.type}

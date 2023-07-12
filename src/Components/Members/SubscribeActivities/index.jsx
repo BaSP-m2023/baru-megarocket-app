@@ -7,7 +7,6 @@ const SubscribeActivities = () => {
   return (
     <>
       <div className={styles.container}>
-        <h2>Our Activities</h2>
         <MemberActivityView />
       </div>
     </>

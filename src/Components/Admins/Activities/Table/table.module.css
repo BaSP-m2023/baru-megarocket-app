@@ -8,9 +8,9 @@
 }
 
 .table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: auto;
+  width: 90vw;
+  border-spacing: 0 5px;
+  margin: auto;
 }
 
 .filterContainer {
@@ -26,7 +26,7 @@
 
 .filter {
   text-align: center;
-  color:#373867;
+  color:#242024;
   font-size: 21px;
   font-weight: bold;
 }
@@ -35,40 +35,43 @@
   margin-top: 37px;
 }
 
-.tableHeader th {
-  padding: 0.8em;
-  color: #373867;
-}
-
-.tableRow {
-  text-align: left;
-  border-bottom: 1px solid #707070;
-}
-
-.tableRow td {
-  padding: 0.8em;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 500px;
-  text-overflow: ellipsis;
-}
-
-.tableRow:hover {
-  background-color: #c4bcbc;
-}
-
 .activityState {
   display: inline-block;
   padding: 4px;
   border-radius: 4px;
-  color: #373867;
+  color: #242024;
   font-weight: 600;
 }
 
 .activityActive {
-  border-bottom: 3px solid #aace9b;
+  border-bottom: 3px solid #f88d5c;
 }
 
 .activityInactive {
   border-bottom: 3px solid #d10202;
+}
+
+.row {
+  height: 40px;
+  text-align: center;
+  color: #242024;
+  background-color: #ebebeb;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.row:not(.selected):nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.row:not(.selected):nth-child(odd):hover {
+  background-color: #c4bcbc;
+}
+
+.row:not(.selected):nth-child(even) {
+  background-color: #ebebeb;
+}
+
+.row:not(.selected):nth-child(even):hover {
+  background-color: #c0b6b6;
 }

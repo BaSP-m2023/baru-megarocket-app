@@ -14,7 +14,7 @@
 .modalContent {
   margin: 15% auto;
   width: 400px;
-  border: 1px solid #37386766;
+  border: 1px solid #24202466;
   border-radius: 4px;
   background-color: #FFFFFF;
   box-shadow: 0px 10px 23px #0000001f;
@@ -25,7 +25,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  color: #373867;
+  color: #242024;
   font-size: 1em;
   font-weight: 700;
 }
@@ -37,7 +37,7 @@
 .modalMessage {
   padding: 0 16px;
   font-weight: 400;
-  color: #373867;
+  color: #242024;
 }
 
 .modalButtons {
