@@ -17,7 +17,7 @@
   width: 30%;
   max-width: 90%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: #373867;
+  color: #242024;
   padding: 0 16px;
 }
 
@@ -67,7 +67,7 @@
 .memberTable thead {
   position: sticky; 
   top: 0; 
-  background-color: #373867;
+  background-color: #242024;
   color: white;
   z-index: 1;
 }
@@ -76,7 +76,7 @@
 .memberTable th, .memberTable td {
   padding: 8px;
   text-align: left;
-  border: 1px solid #373867;
+  border: 1px solid #242024;
 }
 
 .containerButtons{

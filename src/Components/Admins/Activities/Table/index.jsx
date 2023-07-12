@@ -39,7 +39,7 @@ const Table = () => {
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
-            <tr className={`${styles.tableHeader} ${styles.tableRow}`}>
+            <tr className={`${styles.tableHeader}`}>
               <th>Activity</th>
               <th>Description</th>
               <th>Trainers</th>

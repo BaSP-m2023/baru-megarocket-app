@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #AFAFC2;
+  background-color: #242024;
+  color: #fff
 }
 
 .main {
@@ -43,7 +44,7 @@
   height: 50px;
   width: 90%;
   padding: 0 20px;
-  background-color: #AFAFC2;
+  background-color: #242024;
 }
 
 .copyright {
@@ -53,6 +54,7 @@
 
 .socialIcon {
   margin-left: 5px;
+  color: #FFF;
 }
 
 @media screen and (min-width: 750px) {

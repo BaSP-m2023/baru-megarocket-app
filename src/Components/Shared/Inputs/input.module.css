@@ -2,15 +2,15 @@
   width: 25vw;
   height: 30px;
   margin-right: 10px;
-  color: #373867;
-  border: 1px solid #373867;
+  color: #242024;
+  border: 1px solid #242024;
   border-radius: 5px;
 }
 
 .label {
   display: block;
   padding: 5px;
-  color: #373867;
+  color: #242024;
   font-weight: 700;
   font-size: 1rem;
 }
@@ -19,8 +19,8 @@
   padding: 12px;
   font-size: 1em;
   text-align: justify;
-  color: #373867;
-  border: 1px solid #373867;
+  color: #242024;
+  border: 1px solid #242024;
   border-radius: 5px;
   resize: none;
 }

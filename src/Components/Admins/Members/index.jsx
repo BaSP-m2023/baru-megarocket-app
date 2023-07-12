@@ -27,7 +27,7 @@ function Members() {
     );
   }
   return (
-    <section>
+    <section className={styles.container}>
       <h1 className={styles.title}>Members</h1>
       {!pending && members.length === 0 && 'There are no members'}
       {!pending && members.length > 0 ? <List members={members} /> : null}

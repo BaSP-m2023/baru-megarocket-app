@@ -112,17 +112,23 @@ const MemberForm = ({ match }) => {
   ];
 
   return (
-    <div className={styles.form}>
+    <div className={styles.formContainer}>
+      <div className={styles.formTitle} data-testid="members-form-title-container">
+        <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
+        <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
+          &times;
+        </span>
+      </div>
       <div className={styles.content}>
-        <div className={styles.header} data-testid="members-form-title-container">
+        <div className={styles.title} data-testid="members-form-title-container">
           <h2>Edit a member</h2>
-          <span className={styles.close_button} onClick={() => history.push('/user/admin/members')}>
+          <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
             &times;
           </span>
         </div>
-        <form className={styles.body} data-testid="members-form-container">
+        <form className={styles.form} data-testid="members-form-container">
           {formEdit.map((field) => (
-            <div className={styles.flex} key={field.name}>
+            <div className={styles.formGroup} key={field.name}>
               <Input
                 labelText={field.labelText}
                 name={field.name}

@@ -45,7 +45,7 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
 
   return (
     <>
-      <tr className={`${styles['table-row']}`}>
+      <tr className={`${styles['row']}`}>
         <td>
           {member.name} {member.lastName}
         </td>
