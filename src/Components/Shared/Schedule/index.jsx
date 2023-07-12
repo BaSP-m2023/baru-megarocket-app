@@ -138,15 +138,15 @@ const Schedule = () => {
       });
       memberSubscription?.forEach((sub) => {
         arraySubs.push({
-          subId: sub._id,
-          activityName: sub.classes.activity.name,
-          day: sub.classes.day,
-          time: sub.classes.time,
-          desc: sub.classes.activity.description,
-          classId: sub.classes._id,
-          capacity: sub.classes.capacity,
-          subscribed: sub.classes.subscribed,
-          trainer: sub.classes.trainer?._id
+          subId: sub?._id,
+          activityName: sub?.classes?.activity?.name,
+          day: sub?.classes?.day,
+          time: sub?.classes?.time,
+          desc: sub?.classes?.activity?.description,
+          classId: sub?.classes?._id,
+          capacity: sub?.classes?.capacity,
+          subscribed: sub?.classes?.subscribed,
+          trainer: sub?.classes?.trainer?._id
         });
       });
       setMemberSubs(arraySubs);
