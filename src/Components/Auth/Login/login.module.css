@@ -21,7 +21,7 @@
 
 .form {
   height: 100%;
-  width: 42%;
+  width: 45%;
   min-width: 21rem;
   display: flex;
   flex-direction: column;
@@ -32,17 +32,51 @@
   border-radius: 20px;
 }
 
-.inputContainer {
+.inputContainerEmail {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
-  width: 90%;
+  width: 80%;
 }
 
-.inputContainer input {
+.inputContainerEmail input {
+  width: 80%;
   margin: 0;
   min-width: 10rem;
+}
+
+.inputContainerPassword {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.inputContainerPassword input {
+  width: 100%;
+}
+
+.containerPassword {
+  display: flex;
+  align-items: center;
+  width: 82%;
+  margin-left: 20%;
+}
+
+.buttonVisibilityPassword {
+  margin-top: 25px;
+  margin-left: 3%;
+  width: 20%;
+}
+
+.imgButtonPassword {
+  cursor: pointer;
+}
+
+.errorMessage {
+  padding: 10px;
+  color: red;
+  font-size: 0.8rem;
 }
 
 .buttonContainer {
