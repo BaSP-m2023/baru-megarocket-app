@@ -221,15 +221,19 @@ function MemberProfile({ match }) {
               </div>
             </div>
             {!disableEdit && (
-              <div className={styles.buttons}>
-                <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
-                <Button
-                  classNameButton="cancelButton"
-                  action={() => setDisableEdit(true)}
-                  text="Cancel"
-                />
-                <Reset action={handleReset} />
-              </div>
+              <>
+                <div className={styles.buttons}>
+                  <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
+                  <Button
+                    classNameButton="cancelButton"
+                    action={() => setDisableEdit(true)}
+                    text="Cancel"
+                  />
+                </div>
+                <div className={styles.resetContainer}>
+                  <Reset action={handleReset} />
+                </div>
+              </>
             )}
           </form>
           {disableEdit && (
