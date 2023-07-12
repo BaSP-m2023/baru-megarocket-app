@@ -15,7 +15,7 @@ import ModalForm from './ScheduleComponents/Modals/ModalForm/ModalForm';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
 import Loader from 'Components/Shared/Loader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Schedule = () => {
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ const Schedule = () => {
 
   const clickMember = (data, date) => {
     const subscribed = subscriptions.filter((subs) => {
-      return subs.date.slice(0, 10) === date;
+      return subs.date.slice(0, 10) === date && subs.classes._id === data.classId;
     });
     setShowConfirmModal(true);
     if (data.subId) {
@@ -156,7 +156,7 @@ const Schedule = () => {
           classId: sub.classes?._id,
           capacity: sub.classes?.capacity,
           subscribed: sub.classes?.subscribed,
-          trainer: sub.classes?.trainer._id
+          trainer: sub.classes?.trainer?._id
         });
       });
       setMemberSubs(arraySubs);
@@ -189,20 +189,6 @@ const Schedule = () => {
         !pendingClasses &&
         !pendingSubscriptions && (
           <>
-            <div className={styles.arrows} onClick={() => setNextPage(!nextPage)}>
-              {!nextPage && (
-                <>
-                  <span>CURRENT: CURRENT WEEK</span>
-                  <FontAwesomeIcon icon={faArrowRightArrowLeft} className={styles.right} />
-                </>
-              )}
-              {nextPage && (
-                <>
-                  <span>CURRENT: NEXT WEEK</span>
-                  <FontAwesomeIcon icon={faArrowRightArrowLeft} className={styles.left} />
-                </>
-              )}
-            </div>
             <div className={styles.content}>
               <div className={styles.filter}>
                 <label>Filter by Activity</label>
@@ -228,84 +214,136 @@ const Schedule = () => {
                   </>
                 )}
               </div>
-              <div className={styles.container}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>Hour</th>
-                      {weekDays.map((day) => (
-                        <th key={day}>{day}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {hours.map((hour) => (
-                      <tr key={hour} className={styles.tr}>
-                        <td>{hour}</td>
-                        {weekDays.map((day, index) => {
-                          if (role === 'MEMBER') {
-                            const currentDate = !nextPage ? weekDate[index] : nextWeekDays[index];
-                            return (
-                              <td className={getClassName(hour, index)} key={`${day}-${hour}`}>
-                                <ScheduleMember
-                                  props={{
-                                    date: currentDate,
-                                    current: !nextPage ? true : false,
-                                    day: day,
-                                    hour: hour,
-                                    trainerFilter: trainerFilter,
-                                    activityFilter: activityFilter,
-                                    memberSubs: memberSubs,
-                                    classes: classes
-                                  }}
-                                  click={clickMember}
-                                />
-                              </td>
-                            );
-                          }
-                          if (role === 'ADMIN') {
-                            return (
-                              <td
-                                className={`${getClassName(hour, index)} ${styles.current}`}
-                                key={`${day}-${hour}`}
-                              >
-                                <ScheduleAdmin
-                                  props={{
-                                    day: day,
-                                    hour: hour,
-                                    classes: classes,
-                                    trainerFilter: trainerFilter,
-                                    activityFilter: activityFilter
-                                  }}
-                                  click={clickAdmin}
-                                />
-                              </td>
-                            );
-                          }
-                          if (role === 'TRAINER') {
-                            const currentDate = weekDate[index];
-                            return (
-                              <td key={`${day}-${hour}`}>
-                                <ScheduleTrainer
-                                  props={{
-                                    date: currentDate,
-                                    day: day,
-                                    hour: hour,
-                                    classes: classes,
-                                    trainerFilter: trainerFilter,
-                                    activityFilter: activityFilter
-                                  }}
-                                  click={clickTrainer}
-                                />
-                              </td>
-                            );
-                          }
-                          return null;
-                        })}
+              <div>
+                <div className={styles.titleContainer}>
+                  <h2>{`${format(new Date(current.date), 'MMMM yyyy')}`}</h2>
+                  <div className={styles.arrows} onClick={() => setNextPage(!nextPage)}>
+                    {!nextPage && (
+                      <>
+                        <span>Move to next week</span>
+                        <FontAwesomeIcon icon={faArrowRight} className={styles.right} />
+                      </>
+                    )}
+                    {nextPage && (
+                      <>
+                        <span>Move to current week</span>
+                        <FontAwesomeIcon icon={faArrowLeft} className={styles.left} />
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.container}>
+                  <table className={styles.table}>
+                    <thead>
+                      <tr>
+                        <th>Hour</th>
+                        {weekDays.map((day, index) => (
+                          <th key={(day, index)}>
+                            {!nextPage ? (
+                              current.date === weekDate[index] ? (
+                                <>
+                                  <div className={styles.currentDate}>{day.slice(0, 3)}</div>
+                                  <div className={styles.currentDate}>
+                                    {new Date(weekDate[index]).getDate() + 1}
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div>{day.slice(0, 3)}</div>
+                                  <div> {new Date(weekDate[index]).getDate() + 1} </div>
+                                </>
+                              )
+                            ) : (
+                              <>
+                                <div>{day.slice(0, 3)}</div>
+                                <div> {new Date(nextWeekDays[index]).getDate() + 1} </div>
+                              </>
+                            )}
+                          </th>
+                        ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {hours.map((hour) => (
+                        <tr key={hour} className={styles.tr}>
+                          <td>{hour}</td>
+                          {weekDays.map((day, index) => {
+                            if (role === 'MEMBER') {
+                              const currentDate = !nextPage ? weekDate[index] : nextWeekDays[index];
+                              return (
+                                <td
+                                  className={
+                                    !nextPage &&
+                                    currentDate === current.date &&
+                                    `${getClassName(hour, index)} ${styles.current}`
+                                  }
+                                  key={`${day}-${hour}`}
+                                >
+                                  <ScheduleMember
+                                    props={{
+                                      date: currentDate,
+                                      current: !nextPage ? true : false,
+                                      day: day,
+                                      hour: hour,
+                                      trainerFilter: trainerFilter,
+                                      activityFilter: activityFilter,
+                                      memberSubs: memberSubs,
+                                      classes: classes
+                                    }}
+                                    click={clickMember}
+                                  />
+                                </td>
+                              );
+                            }
+                            if (role === 'ADMIN') {
+                              const currentDate = !nextPage ? weekDate[index] : nextWeekDays[index];
+                              return (
+                                <td
+                                  className={
+                                    !nextPage &&
+                                    currentDate === current.date &&
+                                    `${getClassName(hour, index)} ${styles.current}`
+                                  }
+                                  key={`${day}-${hour}`}
+                                >
+                                  <ScheduleAdmin
+                                    props={{
+                                      day: day,
+                                      hour: hour,
+                                      classes: classes,
+                                      trainerFilter: trainerFilter,
+                                      activityFilter: activityFilter
+                                    }}
+                                    click={clickAdmin}
+                                  />
+                                </td>
+                              );
+                            }
+                            if (role === 'TRAINER') {
+                              const currentDate = weekDate[index];
+                              return (
+                                <td key={`${day}-${hour}`}>
+                                  <ScheduleTrainer
+                                    props={{
+                                      date: currentDate,
+                                      day: day,
+                                      hour: hour,
+                                      classes: classes,
+                                      trainerFilter: trainerFilter,
+                                      activityFilter: activityFilter
+                                    }}
+                                    click={clickTrainer}
+                                  />
+                                </td>
+                              );
+                            }
+                            return null;
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </>

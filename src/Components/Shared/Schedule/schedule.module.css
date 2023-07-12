@@ -19,7 +19,7 @@
 }
 
 .table td {
-  width: 110px;
+  width: 100px;
   height: 60px;
   text-align: center;
   border: 1px solid #000000;
@@ -29,14 +29,19 @@
   position: sticky;
   top: 0;
   height: 50px;
-  background-color: #0f1317;
-  color: white;
+  font-weight: 500;
+  background-color: #10151c;
+  color: #ffffff;
   z-index: 1;
+}
+
+.currentDate {
+  color: #e4ac59;
 }
 
 .tr td:hover {
   background-color: #0f1317;
-  color: white;
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -70,6 +75,7 @@
 .filter {
   display: flex;
   flex-direction: column;
+  margin-top: 60px;
   margin-left: 10px;
 }
 
@@ -116,7 +122,7 @@
   background-color: #1e3153;
 }
 
-.current0, .current1, .current2, .current3, .current4, .current5, .current6, .current7, .current8, .current9 {
+.current {
  position: relative;
 } 
 
@@ -232,9 +238,10 @@
 
 .arrows {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  width: 400px;
-  margin-left: 1.5rem;
+  width: 180px;
+  margin: 0.5rem 1.5rem;
   cursor: pointer;
 }
 
@@ -243,8 +250,18 @@
 }
 
 .arrows:hover .left, .arrows:hover .right, .arrows:hover span {
-  color: red;
+  color: #ff4545;
 } 
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.titleContainer h2 {
+  align-self: center;
+  margin: 0;
+}
 
 
 
