@@ -15,42 +15,16 @@ Once logged in members can choose classes (if possible according to their member
 The application is made with React <br>
 The server with Express <br>
 The deploy with Vercel <br>
-The Mongo database has the data of each user, classes and activities while in the firebase database only have email and password of the users for validations. <br>
+The Mongo database has the data of each user, classes and activities while in the Firebase database only have email and password of the users for validations. <br>
+Tests are made with WebDriverIO based in Jasmine. <br>
 
 ## Setup environment file
+### Ask the enviroment variables to the following mail: r.fontan12@gmail.com
 ### [Server](https://github.com/BaSP-m2023/baru-megarocket-server)
-create a file at root called `.env` and add this:
-
-    MONGO_POOLSIZE = 1
-    DB_URL=mongodb+srv://baru-team:x60lbGF6arRYrycR@megarocket-databases.inpprte.mongodb.net/baru-database
-
-    //FIREBASE CONFIG
-    FIREBASE_PROJECT_ID= "basp-2023-baru"
-    FIREBASE_PRIVATE_KEY= "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCO0STAfFd8H0cN\nfKHfO6Z+BFx5iQluAoPYmyZCTpBML9SdEn++3cvAiep7txeOPM8MuNs6RL35T4CM\nc3GgQTobdogv39DG8OM6dkQhtHufu0guRIcKi6bMoVi3Okf9/cas//63NUWUk7p8\n7ORO7V3wIcbru+wvNuxIa1mz6HiKdWmN3Nlt7jg1eBFEWeID9DodRtNiruAhkX02\ng8pz1euW2iCBNJHyM7Q6fHw/cPWoj5eGsQZwYqsDTEYGQWA4zI71FoTbRGVDll6h\n8oTITFVEEPud55YdaJtfpkbUwPArobQCNfGYBq6+8vK2nTWHn6nB0SVFCdYUeDgq\nt3ddpPe9AgMBAAECggEAFY67SfTa7cj43C/ObVhfMtFstgm56ymlBjqxJTwfquhj\nYwxKTSDEoz0OMHt8KkPCiyySJvL+bBYUlN7OLX77Cu8y8msJ5CWzXv1AHohUStGl\nvRop+i0HUgce0ZWSDWRTq4R+yd/YL2u3MCk/8ywATIGEuculhKD5PJs7sJzsKRYD\nSJWkrXyNVPtac1wn3IMkwNQdIRJ6+EQdSg5/WUpfduAXxb708uDLDSQMYl4cuBTR\nYIpWlUMAu9lwp4nkwhOxoE/wUh3QAHJmWFKHpkulotIrnPeDlAVRps62z2E2AaUx\n3JkCAfEzJ+JBXtCLv2JQ23PlAA1W+ptjwzKCUVOrgQKBgQDETt+MYvMpIofjDPNb\nEi4qTA8pPOYlIZXu0KnxaKk8C41Tph0RCUYXP384VyTGlpbh46n1TLITxQtuvW2b\nXcHf8VzYNNhB5485ibk8odNPp11FkzDfVxGa7vEbYNQKQXbOP3Un9hOEPsAGLFE1\n9y1s+tfQUJPHa5/RSkQPAo8gQQKBgQC6PmIaR4rrogbgoMljlyk7qydwqtWAEaRv\nld+bsSN6u7d0Dxndyn053mDeqUInYR53hRgKM5Oouku/npLH+YcJOcvMc/Tcy78h\nm7bOAn6Pxs+SF+8nM6BIx4uh19ctIp2aNvm0OD66URBoqcRUjM8HxZHsf73hogRS\nDjWY4bQ4fQKBgCKgZv40Vf/jf2SlXCesRUhgsivr+gyCqBe/5roWZAObZgpjOq1O\nnXZsVNxzQqFk3qhpqAkExkSGdUXLVBIbr574zA+3Ao5dcf4MNQhk4wkh1Gn5VJ2Q\nliJmE1Fo+v30HiizOM8bsMWa6/QqzQhf2Ttn47ly/R4n9cDNAMRFB0oBAoGAO3zT\njvtNByiQs80HpnTQ6csoZNdcLHT2JeIkMzGoWHp/BWYRaANWblZ2cIh1pehid+Ce\nJhwFTP58VW9MCO3N0QeR7fMXwjKeERkQkcrALCJfiJV2gPn/d1+tXPt5MmR9HJX0\nujjA6HgeGqAnIq57LktP6c9/kgNTB/ab7gIhs20CgYA6TsXQ/Z2A6LnJX4GdMK6+\nomqFXovrGFjCW1n5ITPTnSeF2ZxIMtPcICxhOHbeBVIcx+Nmw/wr37kPrrGaw3qB\nSx3d1y6Ud7b+gIz+kvbuUa1FGvmQU5yjmGd6gEVlYjq2ZPLWI3Y7jeKaeziHw0W2\nNvVbKBKI+imyBZJ0pkAvHQ==\n-----END PRIVATE KEY-----\n"
-    FIREBASE_CLIENT_EMAIL= "firebase-adminsdk-6sxg2@basp-2023-baru.iam.gserviceaccount.com"
-    FIREBASE_FE_AUTH_DOMAIN= "service_account"
-    FIREBASE_PRIVATE_KEY_ID= "042108316658d35daeee0e89c420c03164a47dae"
-    FIREBASE_CLIENT_ID= "106874578044980190180"
-    FIREBASE_AUTH_URI= "https://accounts.google.com/o/oauth2/auth"
-    FIREBASE_TOKEN_URI= "https://oauth2.googleapis.com/token"
-    FIREBASE_AUTH_PROVIDER_X509_CERT_URL= "https://www.googleapis.com/oauth2/v1/certs"
-    FIREBASE_CLIENT_X509_CERT_URL= "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-6sxg2%40basp-2023-baru.iam.gserviceaccount.com"
-    FIREBASE_UNIVERSE_DOMAIN= "googleapis.com"
+create a file at root called `.env` and add the variables required for the server
 
 ### App
-create a file at root called `.env` and add this:
-
-    MONGO_POOLSIZE = 1
-    DB_URL=mongodb+srv://baru-team:x60lbGF6arRYrycR@megarocket-databases.inpprte.mongodb.net/baru-database
-    REACT_APP_API_URL=http://localhost:4000
-
-    // FIREBASE CONFIG
-    REACT_APP_API_KEY= "AIzaSyCnSoFMi_Bbckq6om9zC1RveD806mZO4Hs"
-    REACT_APP_AUTH_DOMAIN= "basp-2023-baru.firebaseapp.com"
-    REACT_APP_PROJECT_ID= "basp-2023-baru"
-    REACT_APP_STORAGE_BUCKET= "basp-2023-baru.appspot.com"
-    REACT_APP_MESSAGIN_SENDER_ID= "419615123738"
-    REACT_APP_ID= "1:419615123738:web:dca1660ab24d49059324a3"
+create a file at root called `.env` and add the variables required for the app
 
 ### Install dependencies (both Server and App)
 
