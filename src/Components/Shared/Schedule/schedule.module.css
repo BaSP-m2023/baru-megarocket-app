@@ -36,7 +36,7 @@
 }
 
 .currentDate {
-  color: #e4ac59;
+  color: #fdc571;
 }
 
 .tr td:hover {
@@ -238,15 +238,17 @@
 
 .arrows {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
-  justify-content: space-between;
-  width: 180px;
-  margin: 0.5rem 1.5rem;
+  justify-content: flex-end;
+  width: 200px;
+  margin-bottom: 5px;
   cursor: pointer;
 }
 
 .arrows span {
   font-weight: 500;
+  margin-left: 10px;
 }
 
 .arrows:hover .left, .arrows:hover .right, .arrows:hover span {
