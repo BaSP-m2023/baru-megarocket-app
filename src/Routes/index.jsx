@@ -1,90 +1,83 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
+import { Switch, useLocation, useHistory, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import Home from 'Components/Home/index';
-import Header from 'Components/Header/index';
-import Footer from 'Components/Footer/index';
-import Loader from 'Components/Shared/Loader';
-import styles from './layout.module.css';
+import { getAuth } from 'Redux/Auth/thunks';
+
 import PrivateRoute from './privateRoute';
+import { tokenListener } from 'Components/helper/firebase';
+import Loader from 'Components/Shared/Loader';
 
-const Admins = lazy(() => import('./admin'));
-const AdminsForm = lazy(() => import('./admin/form'));
-const AdminProfile = lazy(() => import('./admin/profile'));
-const Activities = lazy(() => import('./activity'));
-const ActivitiesForm = lazy(() => import('./activity/form'));
-const Classes = lazy(() => import('./class'));
-const ClassForm = lazy(() => import('./class/form'));
-const Members = lazy(() => import('./member'));
-const MemberForm = lazy(() => import('./member/form'));
-const MemberProfile = lazy(() => import('./member/profile'));
-const SubscribeActivities = lazy(() => import('./member-logged/subscribeActivities'));
-const FormMemberSubscription = lazy(() => import('./member-logged/formMemberSubscription'));
-const Subscriptions = lazy(() => import('./subscription'));
-const SubscriptionsForm = lazy(() => import('./subscription/form'));
-const Trainers = lazy(() => import('./trainer'));
-const TrainerForm = lazy(() => import('./trainer/form'));
-const Login = lazy(() => import('./login'));
-const SubscriptionsMember = lazy(() => import('./subscriptions-members'));
-const SignUp = lazy(() => import('./signup'));
+const HomeRoute = lazy(() => import('./home'));
+const AuthRoutes = lazy(() => import('./auth'));
+const AdminRoutes = lazy(() => import('./admins'));
+const SuperAdminRoutes = lazy(() => import('./superAdmins'));
+const MemberRoutes = lazy(() => import('./members'));
+const TrainerRoutes = lazy(() => import('./trainers'));
 
-const Layout = () => {
-  return (
-    <Router>
-      <div className={styles.container}>
-        <Header />
-        <Suspense fallback={Loader}>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={SignUp} />
-            <PrivateRoute exact path="/admins" role="SUPER_ADMIN" component={Admins} />
-            <PrivateRoute path="/admins/add" role="SUPER_ADMIN" component={AdminsForm} />
-            <PrivateRoute path="/admins/edit/:id" role="SUPER_ADMIN" component={AdminsForm} />
-            <PrivateRoute path="/admins/profile" role="ADMIN" component={AdminProfile} />
-            <PrivateRoute path="/activities" role="ADMIN" exact component={Activities} />
-            <PrivateRoute path="/activities/add" role="ADMIN" component={ActivitiesForm} />
-            <PrivateRoute path="/activities/edit/:id" role="ADMIN" component={ActivitiesForm} />
-            <PrivateRoute exact path="/classes" role="ADMIN" component={Classes} />
-            <PrivateRoute exact path="/classes/add" role="ADMIN" component={ClassForm} />
-            <PrivateRoute exact path="/classes/edit/:id" role="ADMIN" component={ClassForm} />
-            <PrivateRoute exact path="/members" role="ADMIN" component={Members} />
-            <PrivateRoute path="/members/add" role="ADMIN" component={MemberForm} />
-            <PrivateRoute path="/members/edit/:id" role="ADMIN" component={MemberForm} />
-            <PrivateRoute exact path="/subscriptions" role="ADMIN" component={Subscriptions} />
-            <PrivateRoute path="/subscriptions/add" role="ADMIN" component={SubscriptionsForm} />
-            <PrivateRoute
-              path="/subscriptions/edit/:id"
-              role="ADMIN"
-              component={SubscriptionsForm}
-            />
-            <PrivateRoute exact path="/trainers" role="ADMIN" component={Trainers} />
-            <PrivateRoute path="/trainers/add" role="ADMIN" component={TrainerForm} />
-            <PrivateRoute path="/trainers/edit/:id" role="ADMIN" component={TrainerForm} />
-            <PrivateRoute path="/user/member/profile/:id" role="MEMBER" component={MemberProfile} />
-            <PrivateRoute
-              exact
-              path="/user/members/subscribe-class"
-              role="MEMBER"
-              component={SubscribeActivities}
-            />
-            <PrivateRoute
-              path="/user/members/subscribe-class/:id"
-              role="MEMBER"
-              component={FormMemberSubscription}
-            />
+const Routes = () => {
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
+  const location = useLocation();
 
-            <PrivateRoute
-              path="/user/members/subscriptions"
-              role="MEMBER"
-              component={SubscriptionsMember}
-            />
-          </Switch>
-        </Suspense>
-        <Footer />
+  useEffect(() => {
+    const setupTokenListener = async () => {
+      await new Promise((resolve) => {
+        tokenListener(resolve);
+      });
+
+      const token = sessionStorage.getItem('token');
+      const role = sessionStorage.getItem('role');
+
+      if (location.pathname === '/') {
+        const paths = {
+          SUPER_ADMIN: '/user/super-admin',
+          ADMIN: '/user/admin',
+          TRAINER: '/user/trainer',
+          MEMBER: '/user/member'
+        };
+        if (role) {
+          history.push(paths[role]);
+        }
+      }
+
+      if (token) {
+        dispatch(getAuth(token));
+      }
+      setIsLoading(false);
+    };
+
+    setupTokenListener();
+  }, [dispatch]);
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Loader />
       </div>
-    </Router>
+    );
+  }
+
+  return (
+    <Suspense>
+      <Switch>
+        <Route exact path="/" component={HomeRoute} />
+        <Route path="/auth" component={AuthRoutes} />
+        <PrivateRoute path="/user/super-admin" role="SUPER_ADMIN" component={SuperAdminRoutes} />
+        <PrivateRoute path="/user/admin" role="ADMIN" component={AdminRoutes} />
+        <PrivateRoute path="/user/trainer" role="TRAINER" component={TrainerRoutes} />
+        <PrivateRoute path="/user/member" role="MEMBER" component={MemberRoutes} />
+      </Switch>
+    </Suspense>
   );
 };
 
-export default Layout;
+export default Routes;

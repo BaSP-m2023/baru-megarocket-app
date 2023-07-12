@@ -11,7 +11,9 @@ import {
   SET_AUTHENTICATION,
   GET_AUTH_PENDING,
   GET_AUTH_ERROR,
-  GET_AUTH_SUCCESS
+  GET_AUTH_SUCCESS,
+  RESET_STATE,
+  UPDATE_USER
 } from 'Redux/Auth/constants';
 
 const initialState = {
@@ -79,6 +81,35 @@ const authReducer = (state = initialState, action) => {
         email: action.payload.email
       };
     }
+    case RESET_STATE: {
+      return {
+        ...state,
+        error: false
+      };
+    }
+    case UPDATE_USER: {
+      let updatedUser;
+
+      if (action.payload.name) {
+        updatedUser = {
+          ...state.user,
+          name: action.payload.name,
+          lastName: action.payload.lastName
+        };
+      } else {
+        updatedUser = {
+          ...state.user,
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName
+        };
+      }
+
+      return {
+        ...state,
+        user: updatedUser
+      };
+    }
+
     default:
       return state;
   }

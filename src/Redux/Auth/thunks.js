@@ -10,11 +10,19 @@ import {
   getAuthenticationError,
   logoutSuccess,
   logoutError,
-  logoutPending
+  logoutPending,
+  resetState
 } from 'Redux/Auth/actions';
 import { setContentToast, handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
 import { firebaseApp } from 'Components/helper/firebase';
+
+const redirectByRole = {
+  SUPER_ADMIN: '/user/super-admin',
+  MEMBER: '/user/member',
+  ADMIN: '/user/admin',
+  TRAINER: '/user/trainer'
+};
 
 export const login = (credentials, history) => {
   return async (dispatch) => {
@@ -30,7 +38,8 @@ export const login = (credentials, history) => {
       dispatch(loginSuccess({ token, role }));
       dispatch(setContentToast({ message: 'Successful Login', state: 'success' }));
       dispatch(handleDisplayToast(true));
-      history.push('/');
+      dispatch(getAuth(token));
+      history.push(redirectByRole[role]);
     } catch (error) {
       dispatch(loginError(error));
       dispatch(setContentToast({ message: 'Wrong email or password', state: 'fail' }));
@@ -65,7 +74,6 @@ export const logOut = () => {
       sessionStorage.removeItem('role', '');
       return { error: false, message: 'Log Out Successfully' };
     } catch (error) {
-      console.error(error);
       dispatch(logoutError(error));
       return {
         error: true,
@@ -75,11 +83,11 @@ export const logOut = () => {
   };
 };
 
-export const signUpMember = (data) => {
+export const signUpMember = (data, history) => {
   return async (dispatch) => {
     dispatch(signUpPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/member`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -88,13 +96,19 @@ export const signUpMember = (data) => {
         body: JSON.stringify(data)
       });
       const res = await response.json();
-      if (response.error) {
-        throw new Error(response.message);
+      if (res.error) {
+        throw new Error(res.message);
       }
       await dispatch(signUpSuccess(data));
+      history.push('/auth/login', { email: data.email });
+      dispatch(setContentToast({ message: 'Sign up successfully', state: 'success' }));
+      dispatch(handleDisplayToast(true));
       return res;
     } catch (error) {
       dispatch(signUpError(error.toString()));
+      dispatch(resetState());
+      dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };

@@ -10,7 +10,8 @@ import {
   EDIT_MEMBER_ERROR,
   DELETE_MEMBER_PENDING,
   DELETE_MEMBER_SUCCESS,
-  DELETE_MEMBER_ERROR
+  DELETE_MEMBER_ERROR,
+  RESET_REDIRECT
 } from './constants';
 
 const INITIAL_STATE = {
@@ -73,13 +74,14 @@ const reducers = (state = INITIAL_STATE, action) => {
       };
     }
     case EDIT_MEMBER_SUCCESS: {
-      let updatedMembers = state.data.map((member) =>
-        member._id === action.payload.id ? action.payload : member
-      );
+      const updated = state.data.find((mem) => mem._id === action.payload._id);
+      const index = state.data.indexOf(updated);
+
+      state.data[index] = action.payload;
       return {
         ...state,
         isPending: false,
-        data: updatedMembers,
+        data: state.data,
         redirect: true
       };
     }
@@ -109,6 +111,12 @@ const reducers = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: false,
         error: action.payload
+      };
+    }
+    case RESET_REDIRECT: {
+      return {
+        ...state,
+        redirect: false
       };
     }
     default:

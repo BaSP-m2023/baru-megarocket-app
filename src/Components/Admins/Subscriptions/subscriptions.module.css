@@ -1,0 +1,9 @@
+.title {
+  font-size: 2rem;
+  text-align: center;
+  color: #373867;
+}
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+}
