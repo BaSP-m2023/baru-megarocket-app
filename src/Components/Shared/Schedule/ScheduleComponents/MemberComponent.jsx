@@ -7,14 +7,14 @@ const ScheduleMember = ({ props, click }) => {
       return (
         props.day === memC?.day &&
         props.hour === memC?.time &&
-        memC.activityName.includes(props.activityFilter) &&
-        memC.trainer === props.trainerFilter
+        memC?.activityName?.includes(props.activityFilter) &&
+        memC?.trainer === props.trainerFilter
       );
     } else {
       return (
         props.day === memC?.day &&
         props.hour === memC?.time &&
-        memC.activityName.includes(props.activityFilter)
+        memC?.activityName?.includes(props.activityFilter)
       );
     }
   });

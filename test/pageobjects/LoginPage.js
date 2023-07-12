@@ -4,7 +4,7 @@ class Login {
   }
 
   get loginBtn() {
-    return $("[data-testid='home-buttons-container']> div:nth-child(2) > button");
+    return $("[data-testid='routes-list']> li:nth-child(3)");
   }
 
   get loginDataContainer() {
@@ -24,7 +24,9 @@ class Login {
   }
 
   get loginPassInput() {
-    return $("[data-testid='login-password-container']> input");
+    return $("
+    #root > div > div > section > form > div.login_containerPassword__Nu596 > div.login_inputContainerPassword__rlprR > input"
+    );
   }
 
   get loginGreenBtn() {
