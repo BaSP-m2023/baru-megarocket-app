@@ -1,11 +1,3 @@
-.container{
-  margin-top: 13%;
-}
-.title {
-  font-size: 2rem;
-  text-align: center;
-  color: #242024;
-}
 .buttonContainer {
   display: flex;
   justify-content: center;

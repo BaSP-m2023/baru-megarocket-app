@@ -1,3 +1,9 @@
+.title {
+  font-size: 2rem;
+  text-align: center;
+  color: #373867;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -6,6 +12,8 @@
 
 .tableSubscription {
   width: 90%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
   border-spacing: 0 5px;
 }
 

@@ -25,8 +25,11 @@ const Schedule = () => {
     (state) => state.activities
   );
   const { data: trainers } = useSelector((state) => state.trainers);
+  const [activeMember, setActiveMember] = useState(null);
   const user = useSelector((state) => state.auth.user);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSchedule, setShowSchedule] = useState(null);
+  const [runHandleActiveMember, setRunHandleActiveMember] = useState(false);
   const [showForm, setShowForm] = useState({
     show: false,
     data: undefined,
@@ -49,6 +52,20 @@ const Schedule = () => {
     dispatch(getSubscriptions());
     dispatch(getTrainers());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      setActiveMember(user.isActive);
+      setRunHandleActiveMember(true);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (runHandleActiveMember) {
+      handleActiveMember();
+      setRunHandleActiveMember(false);
+    }
+  }, [runHandleActiveMember]);
 
   useEffect(() => {
     if (role === 'TRAINER') {
@@ -121,20 +138,28 @@ const Schedule = () => {
       });
       memberSubscription?.forEach((sub) => {
         arraySubs.push({
-          subId: sub._id,
-          activityName: sub.classes.activity.name,
-          day: sub.classes.day,
-          time: sub.classes.time,
-          desc: sub.classes.activity.description,
-          classId: sub.classes._id,
-          capacity: sub.classes.capacity,
-          subscribed: sub.classes.subscribed,
-          trainer: sub.classes.trainer?._id
+          subId: sub?._id,
+          activityName: sub?.classes?.activity?.name,
+          day: sub?.classes?.day,
+          time: sub?.classes?.time,
+          desc: sub?.classes?.activity?.description,
+          classId: sub?.classes?._id,
+          capacity: sub?.classes?.capacity,
+          subscribed: sub?.classes?.subscribed,
+          trainer: sub?.classes?.trainer?._id
         });
       });
       setMemberSubs(arraySubs);
     }
   }, [subscriptions]);
+
+  const handleActiveMember = () => {
+    if (role !== 'MEMBER') {
+      setShowSchedule(true);
+    } else if (role === 'MEMBER' && activeMember) {
+      setShowSchedule(true);
+    } else setShowSchedule(false);
+  };
 
   return (
     <>
@@ -143,12 +168,22 @@ const Schedule = () => {
           <Loader />
         </div>
       )}
+      {!pendingActivities &&
+        !pendingClasses &&
+        !pendingSubscriptions &&
+        role === 'MEMBER' &&
+        !activeMember && (
+          <p className={styles.text}>
+            Your membership is not active, please go to your nearest branch to activate it
+          </p>
+        )}
       {activities &&
         classes &&
         subscriptions &&
         !pendingActivities &&
         !pendingClasses &&
-        !pendingSubscriptions && (
+        !pendingSubscriptions &&
+        showSchedule && (
           <div className={styles.content}>
             <div className={styles.filter}>
               <label>Filter by Activity</label>
