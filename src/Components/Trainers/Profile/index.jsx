@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import styles from 'Components/Members/Profile/profile.module.css';
 
 import { getTrainers, updTrainer } from 'Redux/Trainers/thunks';
@@ -26,6 +27,7 @@ function TrainerProfile({ match }) {
   const { show, message, state } = useSelector((state) => state.toast);
   const trainerLogged = useSelector((state) => state.auth.user);
   const { data: trainers } = useSelector((state) => state.trainers);
+  const [editPass, setEditPass] = useState(false);
 
   const {
     register,
@@ -116,6 +118,33 @@ function TrainerProfile({ match }) {
     setShowConfirmModal(!showConfirmModal);
   };
 
+  const handleCloseModal = () => {
+    setShowConfirmModal(false);
+    setEditPass(false);
+  };
+
+  const handleEditPass = () => {
+    setEditPass(!editPass);
+    setShowConfirmModal(!showConfirmModal);
+  };
+
+  const handleSendEmail = () => {
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, trainerLogged.email)
+      .then(() => {
+        dispatch(setContentToast({ message: 'Email with reset link sent', state: 'success' }));
+        dispatch(handleDisplayToast(true));
+        setShowConfirmModal(false);
+        setEditPass(false);
+      })
+      .catch(() => {
+        dispatch(setContentToast({ message: 'Could not send email', state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+        setShowConfirmModal(false);
+        setEditPass(false);
+      });
+  };
+
   const formFields = [
     { labelText: 'First Name', type: 'text', name: 'firstName' },
     { labelText: 'Last Name', type: 'text', name: 'lastName' },
@@ -158,6 +187,11 @@ function TrainerProfile({ match }) {
                 />
               </div>
             ))}
+            <div className={styles.changePassContainer}>
+              <a onClick={handleEditPass} href="#">
+                Want to change your password?
+              </a>
+            </div>
           </div>
           {!disableEdit && (
             <>
@@ -177,12 +211,16 @@ function TrainerProfile({ match }) {
       </div>
       {showConfirmModal && (
         <ConfirmModal
-          title={'Edit my Profile'}
-          handler={() => setShowConfirmModal(false)}
-          onAction={handleSubmit(onSubmit)}
+          title={
+            editPass
+              ? 'Are you sure you want to change your password by sending you an email?'
+              : 'Edit my Profile'
+          }
+          handler={() => handleCloseModal()}
+          onAction={editPass ? handleSendEmail : handleSubmit(onSubmit)}
           reason={'submit'}
         >
-          {`Are you sure you wanna edit?`}
+          {editPass ? '' : `Are you sure you wanna edit?`}
         </ConfirmModal>
       )}
       {show && (
