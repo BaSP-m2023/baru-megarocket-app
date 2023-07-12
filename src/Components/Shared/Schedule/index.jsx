@@ -110,8 +110,11 @@ const Schedule = () => {
   };
 
   const clickTrainer = (data, date) => {
+    const subscribed = subscriptions.filter((subs) => {
+      return subs.date.slice(0, 10) === date && subs.classes._id === data._id;
+    });
     const membersSubscription = subscriptions?.filter((subs) => {
-      return subs.classes?._id === data._id;
+      return subs.date.slice(0, 10) === date && subs.classes?._id === data._id;
     });
     setMemberSubs(membersSubscription);
     // eslint-disable-next-line no-unused-vars
@@ -119,7 +122,8 @@ const Schedule = () => {
     setShowConfirmModal(true);
     setModalData({
       ...resData,
-      date
+      date,
+      subscribed: subscribed.length
     });
   };
 
