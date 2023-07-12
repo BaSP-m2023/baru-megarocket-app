@@ -53,7 +53,8 @@ const trainersReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: false,
         data: [...state.data, action.payload],
-        error: null
+        error: null,
+        redirect: true
       };
     case ADD_TRAINER_ERROR:
       return {
