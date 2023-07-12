@@ -39,10 +39,6 @@ class MembersCreateModal {
     return $('[data-testid="members-form-container"] > div:nth-child(8) > input');
   }
 
-  get membersCreateModalMemberInput() {
-    return $('[data-testid="members-form-container"] > div:nth-child(9) > select');
-  }
-
   get membersCreateModalPasswordInput() {
     return $('[data-testid="members-form-container"] > div:nth-child(10) > input');
   }
@@ -58,19 +54,27 @@ class MembersCreateModal {
   get membersCreateModalSubmitBtn() {
     return $('#root > div > div > div > div.form_container_button__2UZ+U > div > button');
   }
+  get membersCreateModalMembership() {
+    return $('#root > div > div > div > div > form > select');
+  }
+  get addMemberModalConfirmation() {
+    return $(
+      'body > div.modalConfirm_modal__PlIno > div > div.modalConfirm_modalButtons__J4uZX > div:nth-child(2) > button'
+    );
+  }
 
   async fillMembersCreateModalForm(
     firtName,
     lastName,
     dni,
     phone,
-    email,
     city,
-    date,
     zip,
-    membership,
+    email,
     password,
-    check
+    date,
+    check,
+    membership
   ) {
     await this.membersCreateModalNameInput.setValue(firtName);
     await this.membersCreateModalLastNameInput.setValue(lastName);
@@ -80,9 +84,9 @@ class MembersCreateModal {
     await this.membersCreateModalCityInput.setValue(city);
     await this.membersCreateModalDateInput.setValue(date);
     await this.membersCreateModalZipInput.setValue(zip);
-    await this.membersCreateModalMemberInput.setValue(membership);
     await this.membersCreateModalPasswordInput.setValue(password);
     await this.membersCreateModalCheckBtn.setValue(check);
+    await this.membersCreateModalMembership.selectByVisibleText(membership);
   }
 
   async membersCreateModalCrossBtnClick() {
@@ -96,6 +100,9 @@ class MembersCreateModal {
   async membersCreateModalSubmitBtnCLick() {
     await this.membersCreateModalSubmitBtn.click();
   }
+  async addMemberModalConfirmationBtnClick() {
+    await this.addMemberModalConfirmation.click();
+  }
 }
 
-export default MembersCreateModal;
+module.exports = new MembersCreateModal();

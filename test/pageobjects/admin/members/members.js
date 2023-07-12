@@ -1,4 +1,8 @@
 class Members {
+  get memberPageTitle() {
+    return $('#root > div > div > section > h1');
+  }
+
   get firstMemberInTable() {
     return $('[data-testid="members-list"] > tr:nth-child(1) > td:nth-child(1)');
   }
@@ -31,8 +35,8 @@ class Members {
     await this.searchMembersField.click();
   }
 
-  async searchMembersInputClick() {
-    await this.searchMembersInput.click();
+  async searchMembersInputValue(value) {
+    await this.searchMembersInput.setValue(value);
   }
 
   async editMembersBtnClick() {
@@ -44,4 +48,4 @@ class Members {
   }
 }
 
-export default Members;
+module.exports = new Members();

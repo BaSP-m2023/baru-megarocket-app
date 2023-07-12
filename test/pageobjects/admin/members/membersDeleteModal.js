@@ -35,4 +35,4 @@ class MembersDeleteModal {
     await this.deleteBtn.click();
   }
 }
-export default MembersDeleteModal;
+module.exports = new MembersDeleteModal();
