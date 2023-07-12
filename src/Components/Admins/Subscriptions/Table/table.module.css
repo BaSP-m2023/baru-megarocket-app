@@ -1,3 +1,9 @@
+.title {
+  font-size: 2rem;
+  text-align: center;
+  color: #373867;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -10,6 +16,7 @@
   flex: 1;
   width: 90%;
   border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
 .containerThead {
