@@ -7,7 +7,7 @@
 }
 
 .space {
-  width: 75%;
+  width:90%;
   padding: 2rem;
   border-collapse: collapse;
 }
@@ -20,7 +20,7 @@
   display: flex;
   flex-direction: column;
   margin-left: 13%;
-  margin-bottom: 1%;
+  margin-bottom: 2%;
 }
 
 .filter {

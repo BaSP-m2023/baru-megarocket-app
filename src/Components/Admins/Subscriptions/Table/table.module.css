@@ -32,13 +32,12 @@
 
 .filterContainer {
   display: flex;
+  margin: 0 0 2% 13%;
 }
 
 .inputContainer {
   display: flex;
   flex-direction: column;
-  margin-left: 5%;
-  margin-bottom: 1%;
 }
 
 .filter {
@@ -57,10 +56,6 @@
 
 .icon {
   margin-top: 37px;
-}
-
-.itemButtonEdit:hover {
-  background-color: #aace9e;
 }
 
 .item:not(.selected):nth-child(even) {
