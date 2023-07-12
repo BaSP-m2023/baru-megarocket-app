@@ -15,7 +15,7 @@ import ModalForm from './ScheduleComponents/Modals/ModalForm/ModalForm';
 import styles from 'Components/Shared/Schedule/schedule.module.css';
 import Loader from 'Components/Shared/Loader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const Schedule = () => {
   const dispatch = useDispatch();
@@ -55,6 +55,7 @@ const Schedule = () => {
     hours.push(i.toString().padStart(2, '0') + ':00');
   }
   const current = {
+    date: format(new Date(), 'yyyy-MM-dd'),
     day: format(new Date(), 'EEEE'),
     hour: format(new Date(), 'HH:mm'),
     dayNum: format(new Date(), 'i')
@@ -191,14 +192,14 @@ const Schedule = () => {
             <div className={styles.arrows} onClick={() => setNextPage(!nextPage)}>
               {!nextPage && (
                 <>
-                  <span>Next week</span>
-                  <FontAwesomeIcon icon={faArrowRight} className={styles.right} />
+                  <span>CURRENT WEEK</span>
+                  <FontAwesomeIcon icon={faArrowRightArrowLeft} className={styles.right} />
                 </>
               )}
               {nextPage && (
                 <>
-                  <span>Current week</span>
-                  <FontAwesomeIcon icon={faArrowLeft} className={styles.left} />
+                  <span>NEXT WEEK</span>
+                  <FontAwesomeIcon icon={faArrowRightArrowLeft} className={styles.left} />
                 </>
               )}
             </div>
@@ -324,7 +325,10 @@ const Schedule = () => {
               ? 'subscribe'
               : 'Full Class'
           }
-          disabled={!(modalData.subId || modalData.capacity > modalData.subscribed)}
+          disabled={
+            !(modalData.subId || modalData.capacity > modalData.subscribed) ||
+            !(new Date(modalData.date) >= new Date(current.date) && modalData.time > current.hour)
+          }
         />
       )}
       {showForm.show && (
