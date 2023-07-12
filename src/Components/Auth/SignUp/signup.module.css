@@ -8,6 +8,14 @@
   border-radius: 7px;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  height: auto;
+}
+
 .formContainer {
   display: flex;
   justify-content: center;

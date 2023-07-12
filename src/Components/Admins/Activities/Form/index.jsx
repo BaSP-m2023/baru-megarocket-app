@@ -76,9 +76,9 @@ const Form = () => {
 
   const onConfirm = async (data) => {
     if (location.pathname.includes('add')) {
-      await addActivity(dispatch, data);
+      dispatch(addActivity(data));
     } else {
-      await editActivity(dispatch, id, data);
+      dispatch(editActivity(id, data));
     }
   };
 
