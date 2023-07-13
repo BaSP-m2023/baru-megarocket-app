@@ -132,7 +132,7 @@ const ModalForm = ({
               </option>
               {activities?.map(
                 (act) =>
-                  classData?.activity._id !== act._id && (
+                  classData?.activity?._id !== act._id && (
                     <option value={act._id} key={act._id}>
                       {act.name}
                     </option>
@@ -149,7 +149,7 @@ const ModalForm = ({
               {!activityValue && <option>Select an activity first</option>}
               {trainers?.map((trainer) => (
                 <option
-                  selected={classData?.trainer?._id === trainer._id}
+                  selected={classData?.trainer?._id === trainer?._id}
                   value={trainer?._id}
                   key={trainer?._id}
                 >

@@ -28,8 +28,11 @@ const Schedule = () => {
     (state) => state.activities
   );
   const { data: trainers } = useSelector((state) => state.trainers);
+  const [activeMember, setActiveMember] = useState(null);
   const user = useSelector((state) => state.auth.user);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSchedule, setShowSchedule] = useState(null);
+  const [runHandleActiveMember, setRunHandleActiveMember] = useState(false);
   const [showForm, setShowForm] = useState({
     show: false,
     data: undefined,
@@ -69,6 +72,20 @@ const Schedule = () => {
     dispatch(getSubscriptions());
     dispatch(getTrainers());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      setActiveMember(user.isActive);
+      setRunHandleActiveMember(true);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (runHandleActiveMember) {
+      handleActiveMember();
+      setRunHandleActiveMember(false);
+    }
+  }, [runHandleActiveMember]);
 
   useEffect(() => {
     if (role === 'TRAINER') {
@@ -128,7 +145,6 @@ const Schedule = () => {
   };
 
   const handleSubmit = (data) => {
-    console.log(data);
     if (data.subId) {
       dispatch(deleteSubscription(data.subId));
     } else {
@@ -147,20 +163,20 @@ const Schedule = () => {
     let arraySubs = [];
     if (role === 'MEMBER') {
       const memberSubscription = subscriptions?.filter((subs) => {
-        return subs.members?._id === user._id;
+        return subs?.members?._id === user?._id;
       });
       memberSubscription?.forEach((sub) => {
         arraySubs.push({
-          subId: sub._id,
+          subId: sub?._id,
           activityName: sub.classes?.activity?.name,
-          day: sub.classes?.day,
-          time: sub.classes?.time,
-          date: sub.date.toString().slice(0, 10),
-          desc: sub.classes?.activity?.description,
-          _id: sub.classes?._id,
-          capacity: sub.classes?.capacity,
-          subscribed: sub.classes?.subscribed,
-          trainer: sub.classes?.trainer?._id
+          day: sub?.classes?.day,
+          time: sub?.classes?.time,
+          date: sub?.date?.toString().slice(0, 10),
+          desc: sub?.classes?.activity?.description,
+          _id: sub?.classes?._id,
+          capacity: sub?.classes?.capacity,
+          subscribed: sub?.classes?.subscribed,
+          trainer: sub?.classes?.trainer?._id
         });
       });
       setMemberSubs(arraySubs);
@@ -173,7 +189,6 @@ const Schedule = () => {
       const isPastHour =
         Number(current.dayNum) - 1 > index ||
         (Number(current.dayNum) - 1 === index && hour < current.hour);
-      console.log(isPastHour);
       const currentHourPercent =
         current.hour.split(':')[0] === hour.split(':')[0] &&
         Number(current.dayNum) - 1 === index &&
@@ -186,6 +201,14 @@ const Schedule = () => {
     };
   }, [current.day, current.hour, current.dayNum]);
 
+  const handleActiveMember = () => {
+    if (role !== 'MEMBER') {
+      setShowSchedule(true);
+    } else if (role === 'MEMBER' && activeMember) {
+      setShowSchedule(true);
+    } else setShowSchedule(false);
+  };
+
   return (
     <>
       {(pendingActivities || pendingClasses || pendingSubscriptions) && (
@@ -193,12 +216,22 @@ const Schedule = () => {
           <Loader />
         </div>
       )}
+      {!pendingActivities &&
+        !pendingClasses &&
+        !pendingSubscriptions &&
+        role === 'MEMBER' &&
+        !activeMember && (
+          <p className={styles.text}>
+            Your membership is not active, please go to your nearest branch to activate it
+          </p>
+        )}
       {activities &&
         classes &&
         subscriptions &&
         !pendingActivities &&
         !pendingClasses &&
-        !pendingSubscriptions && (
+        !pendingSubscriptions &&
+        showSchedule && (
           <>
             <div className={styles.content}>
               <div className={styles.filter}>

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const resetPasswordSchema = Joi.object({
+const forgotPasswordSchema = Joi.object({
   email: Joi.string()
     .pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z.-]+(?!\d)\.[a-zA-Z]{2,}$/)
     .required()
@@ -10,4 +10,4 @@ const resetPasswordSchema = Joi.object({
     })
 });
 
-export default resetPasswordSchema;
+export default forgotPasswordSchema;

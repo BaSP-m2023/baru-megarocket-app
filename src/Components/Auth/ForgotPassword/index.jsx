@@ -7,7 +7,7 @@ import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 import { joiResolver } from '@hookform/resolvers/joi';
-import resetPasswordSchema from 'Validations/forgotPassword';
+import forgotPasswordSchema from 'Validations/forgotPassword';
 
 import { Button } from 'Components/Shared/Button';
 import { Input } from 'Components/Shared/Inputs';
@@ -22,7 +22,7 @@ const ForgotPassword = () => {
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(resetPasswordSchema),
+    resolver: joiResolver(forgotPasswordSchema),
     defaultValues: {
       email: ''
     }
@@ -47,7 +47,7 @@ const ForgotPassword = () => {
       <form className={styles.form}>
         <div className={styles.titleContainer} data-testid="login-title-container">
           <h2 className={styles.h2}>MegaRocket</h2>
-          <h3 className={styles.h3}>Reset password</h3>
+          <h3 className={styles.h3}>Send link to the following mail</h3>
         </div>
         <div className={styles.inputContainer} data-testid="login-email-container">
           <Input

@@ -22,7 +22,7 @@ function Table({ filter, handleDeleteButton }) {
           {filter.length > 0 &&
             filter.map((admin) => {
               return (
-                <tr className={styles.tr} key={admin._id}>
+                <tr className={styles.row} key={admin._id}>
                   <td className={styles.td}>{admin.firstName}</td>
                   <td className={styles.td}>{admin.lastName}</td>
                   <td className={styles.td}>{admin.dni}</td>

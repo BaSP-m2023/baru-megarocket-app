@@ -1,44 +1,21 @@
 .container {
   position: fixed;
   width: 100%;
+  height: 100px;
   display: flex;
-  justify-content: space-between;
-  background-color: #231f21;
-  z-index: 1;
+  align-items: center;
+  background: linear-gradient(180deg, #242024 0%, rgba(35,31,33,1) 100%);
+  z-index: 100;
 }
 
 .container2{
   display: flex;
   align-items: center;
-  justify-content: space-around;
   padding-right: 2%;
-}
-
-.logoContainer{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.logo {
-  width: 80px;
-}
-
-.logo2 {
-  width: 180px;
-  height: 38px;
 }
 
 .socialIcon {
   margin-left: 15px;
-}
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5%;
-  min-height: 70px;
-  background-color: #D9D9D9;
 }
 
 .appName {
@@ -49,8 +26,6 @@
 .rutes {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  width: 90%;
   padding: 0;
   list-style-type: none;
 }
@@ -61,7 +36,7 @@
   font-weight: 600;
   text-decoration: none;
   text-transform: capitalize;
-  color: black;
+  color: #242024;
 }
 
 .optionContainer {
@@ -90,9 +65,78 @@
   border-radius: 50%;
 }
 
-.logoutButton button {
-  width: 6rem;
-  height: 2rem;
+.logOutButtonContainer{
+  display: flex;
+  justify-content: flex-end;
+  width: 150px;
+}
+
+.logOutButton {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: 2rem;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: .3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: rgb(255, 65, 65);
+}
+
+.sign {
+  width: 100%;
+  transition-duration: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign svg {
+  width: 17px;
+}
+
+.sign svg path {
+  fill: white;
+}
+
+.text {
+  position: absolute;
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 600;
+  transition-duration: .3s;
+}
+
+.logOutButton:hover {
+  width: 125px;
+  border-radius: 40px;
+  transition-duration: .3s;
+}
+
+.logOutButton:hover .sign {
+  width: 30%;
+  transition-duration: .3s;
+  padding-left: 8px;
+}
+
+.logOutButton:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: .3s;
+  padding-right: 10px;
+}
+
+.logOutButton:active {
+  transform: translate(2px ,2px);
 }
 
 @media screen and (min-width: 750px) {

@@ -6,7 +6,7 @@ const ScheduleTrainer = ({ props, click }) => {
     return (
       props.day === cl?.day &&
       props.hour === cl?.time &&
-      cl?.activity?.name.includes(props.activityFilter) &&
+      cl?.activity?.name?.includes(props.activityFilter) &&
       cl?.trainer?._id === props.trainerFilter
     );
   });

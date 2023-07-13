@@ -1,3 +1,7 @@
+.content {
+  margin-top: 60px;
+}
+
 .container {
   display: flex;
   align-self: center;
@@ -82,17 +86,24 @@
   width: 25vw;
   height: 30px;
   margin-right: 10px;
-  color: #373867;
-  border: 1px solid #373867;
+  color: #242024;
+  border: 1px solid #242024;
   border-radius: 5px;
 }
 
 .filter label {
   display: block;
   padding: 5px;
-  color: #373867;
+  color: #242024;
   font-weight: 700;
   font-size: 1rem;
+}
+
+.text {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #373867;
 }
 
 ::-webkit-scrollbar {
