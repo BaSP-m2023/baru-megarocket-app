@@ -113,12 +113,8 @@ function SignUp() {
                     type={inputData.type === 'password' && viewPassword ? 'text' : inputData.type}
                     name={inputData.name}
                     register={register}
+                    error={errors[inputData.name]?.message}
                   />
-                  <div className={styles.errorMessage}>
-                    {errors && errors[inputData.name]?.message
-                      ? errors[inputData.name]?.message
-                      : '\u00A0'}
-                  </div>
                 </div>
                 {inputData.type === 'password' && (
                   <div className={styles.btnVisibilityPassword}>

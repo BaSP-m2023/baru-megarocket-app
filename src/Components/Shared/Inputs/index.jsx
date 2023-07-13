@@ -27,7 +27,7 @@ export function Input({
         {...(register && { ...register(name) })}
         disabled={disabled || false}
       />
-      {error && <p className={styles.error}>{error}</p>}
+      <div className={styles.error}>{error ? error : '\u00A0'}</div>
     </>
   );
 }
