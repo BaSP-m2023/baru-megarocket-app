@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './header.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { logOut } from 'Redux/Auth/thunks';
 
 import ResponseModal from 'Components/Shared/ResponseModal';
 import NavBar from './NavBar';
+import { setDarkMode } from 'Redux/DarkMode/actions';
 
 function Header(props) {
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const [toggle, setToggle] = useState(false);
   const role = sessionStorage.getItem('role');
   const { user: userLogged } = useSelector((state) => state.auth);
 
@@ -25,6 +28,10 @@ function Header(props) {
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
   };
 
+  useEffect(() => {
+    dispatch(setDarkMode(toggle));
+  }, [toggle]);
+
   return (
     <header>
       <div className={styles.container}>
@@ -32,6 +39,21 @@ function Header(props) {
         <div className={styles.container2}>
           {role && userLogged && (
             <>
+              {toggle ? (
+                <FontAwesomeIcon
+                  icon={faToggleOn}
+                  onClick={() => setToggle(!toggle)}
+                  style={{ color: 'orange' }}
+                  size="2xl"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faToggleOff}
+                  onClick={() => setToggle(!toggle)}
+                  style={{ color: 'orange' }}
+                  size="2xl"
+                />
+              )}
               <Link
                 className={styles.profileLink}
                 to={

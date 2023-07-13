@@ -12,10 +12,13 @@ import {
   faCircle,
   faStar
 } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 function Landing() {
   const ref = useRef(null);
   const history = useHistory();
+  const { dark } = useSelector((state) => state.darkmode);
+  console.log(dark);
   const handleClick = () => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
