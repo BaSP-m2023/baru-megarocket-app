@@ -110,3 +110,9 @@
 .memberInactive {
   border-bottom: 3px solid #d10202;
 }
+.avatar {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  margin: auto;
+}

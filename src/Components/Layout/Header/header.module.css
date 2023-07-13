@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   background: linear-gradient(180deg, #242024 0%, rgba(35,31,33,1) 100%);
+  z-index: 1;
 }
 
 .container2{
@@ -57,7 +58,7 @@
 }
 
 .profileImg {
-  width: 2rem;
+  width: 3.5rem;
   margin-right: 1rem;
   background-color: #ffffff;
   border: 1px solid #000000;

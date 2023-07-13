@@ -21,7 +21,13 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
     <>
       <tr className={`${styles['row']}`}>
         <td>
-          {member.name} {member.lastName}
+          {member.name} {member.lastName}{' '}
+          {member.avatar && (
+            <img
+              className={styles.avatar}
+              src={`${process.env.PUBLIC_URL}/assets/avatars/${member.avatar}.jpg`}
+            />
+          )}
         </td>
         <td>
           <label
