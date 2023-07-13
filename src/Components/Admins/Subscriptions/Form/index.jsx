@@ -7,7 +7,7 @@ import styles from './form.module.css';
 
 import { resetState } from 'Redux/Subscriptions/actions';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
-import { addSubscribed, getClasses } from 'Redux/Classes/thunks';
+import { getClasses } from 'Redux/Classes/thunks';
 import { getMembers } from 'Redux/Members/thunks';
 import { addSubscriptions, getSubscriptions, editSubscription } from 'Redux/Subscriptions/thunks';
 import subscriptionSchema from 'Validations/subscription';
@@ -74,9 +74,7 @@ const Form = () => {
       } else {
         const subClass = classes.find((c) => c._id === data.classes) || '';
         if (subClass.capacity > subClass.subscribed) {
-          const subscribedPlusOne = subClass.subscribed + 1;
           dispatch(addSubscriptions(data));
-          dispatch(addSubscribed({ subscribed: subscribedPlusOne }, subClass._id));
           setShowConfirmModal(false);
         } else {
           dispatch(setContentToast({ message: 'Full Class', state: 'fail' }));
