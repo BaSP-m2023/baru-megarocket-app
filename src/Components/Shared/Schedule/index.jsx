@@ -67,7 +67,7 @@ const Schedule = () => {
   };
 
   useEffect(() => {
-    getActivities(dispatch);
+    dispatch(getActivities());
     dispatch(getClasses());
     dispatch(getSubscriptions());
     dispatch(getTrainers());
