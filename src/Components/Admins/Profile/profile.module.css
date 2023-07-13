@@ -16,6 +16,7 @@
   justify-content: center;
   margin-top: 130px;
 }
+
 .p {
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
@@ -23,6 +24,7 @@
   font-weight: 700;
   color: #242024;
 }
+
 .loader_container {
   display: flex;
   justify-content: center;
@@ -74,6 +76,10 @@
   line-height: 1.6;
 }
 
+.form input {
+  margin: 0;
+}
+
 .confirm_button {
   display: flex;
   margin: auto;
@@ -101,4 +107,10 @@
   color: #242024;
   font-weight: 700;
   font-size: 1rem;
+}
+
+.changePassContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
 }

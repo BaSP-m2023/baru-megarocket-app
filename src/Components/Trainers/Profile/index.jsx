@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import styles from 'Components/Members/Profile/profile.module.css';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+import styles from './profile.module.css';
 
 import { getTrainers, updTrainer } from 'Redux/Trainers/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
@@ -24,8 +25,9 @@ function TrainerProfile({ match }) {
   const dispatch = useDispatch();
   const redirect = useSelector((state) => state.trainers.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
-  const trainerLogged = useSelector((state) => state.auth.user);
+  const trainerLogged = useSelector((state) => state.auth.user || '');
   const { data: trainers } = useSelector((state) => state.trainers);
+  const [editPass, setEditPass] = useState(false);
 
   const {
     register,
@@ -47,7 +49,7 @@ function TrainerProfile({ match }) {
 
   useEffect(() => {
     dispatch(getTrainers());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (redirect) {
@@ -56,23 +58,12 @@ function TrainerProfile({ match }) {
   }, [redirect]);
 
   useEffect(() => {
-    const trainerUpdated = trainers && trainers?.find((tr) => tr._id === trainerLogged?._id);
-    setValue('firstName', trainerUpdated ? trainerUpdated.firstName : trainerLogged?.firstName);
-    setValue('lastName', trainerUpdated ? trainerUpdated.lastName : trainerLogged?.lastName);
-    setValue('dni', trainerUpdated ? trainerUpdated.dni : trainerLogged?.dni);
-    setValue('phone', trainerUpdated ? trainerUpdated.phone : trainerLogged?.phone);
+    const trainerUpdated = trainers && trainers?.find((tr) => tr._id === trainerLogged._id);
+    setValue('firstName', trainerUpdated ? trainerUpdated.firstName : trainerLogged.firstName);
+    setValue('lastName', trainerUpdated ? trainerUpdated.lastName : trainerLogged.lastName);
+    setValue('dni', trainerUpdated ? trainerUpdated.dni : trainerLogged.dni);
+    setValue('phone', trainerUpdated ? trainerUpdated.phone : trainerLogged.phone);
   }, [updated, trainerLogged]);
-
-  useEffect(() => {
-    if (trainerLogged) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = trainerLogged;
-      Object.entries(resMemberLogged).every(([key, value]) => {
-        setValue(key, value);
-        return true;
-      });
-    }
-  }, [trainerLogged, handleSubmit]);
 
   const onSubmit = (data) => {
     if (trainerId) {
@@ -93,6 +84,14 @@ function TrainerProfile({ match }) {
 
   const resetData = () => {
     reset();
+    if (trainerLogged) {
+      // eslint-disable-next-line no-unused-vars
+      const { _id, firebaseUid, email, __v, ...resDefaultAdmin } = trainerLogged;
+      Object.entries(resDefaultAdmin).every(([key, value]) => {
+        setValue(key, value);
+        return true;
+      });
+    }
   };
 
   const handleReset = () => {
@@ -116,6 +115,33 @@ function TrainerProfile({ match }) {
     setShowConfirmModal(!showConfirmModal);
   };
 
+  const handleCloseModal = () => {
+    setShowConfirmModal(false);
+    setEditPass(false);
+  };
+
+  const handleEditPass = () => {
+    setEditPass(!editPass);
+    setShowConfirmModal(!showConfirmModal);
+  };
+
+  const handleSendEmail = () => {
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, trainerLogged.email)
+      .then(() => {
+        dispatch(setContentToast({ message: 'Email with reset link sent', state: 'success' }));
+        dispatch(handleDisplayToast(true));
+        setShowConfirmModal(false);
+        setEditPass(false);
+      })
+      .catch(() => {
+        dispatch(setContentToast({ message: 'Could not send email', state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+        setShowConfirmModal(false);
+        setEditPass(false);
+      });
+  };
+
   const formFields = [
     { labelText: 'First Name', type: 'text', name: 'firstName' },
     { labelText: 'Last Name', type: 'text', name: 'lastName' },
@@ -123,76 +149,95 @@ function TrainerProfile({ match }) {
     { labelText: 'Phone', type: 'text', name: 'phone' }
   ];
   return (
-    <div className={styles.form}>
-      <div className={styles.content}>
-        <div className={styles.header}>
-          <h2>
-            {disableEdit
-              ? `${trainerLogged?.firstName} ${trainerLogged?.lastName} Profile`
-              : 'Edit Profile'}
-          </h2>
+    <section className={styles.section}>
+      <div className={styles.formContainer}>
+        <div className={styles.content}>
+          <div className={styles.formTitle}>
+            <h2>
+              {disableEdit
+                ? `${trainerLogged?.firstName} ${trainerLogged?.lastName} Profile`
+                : 'Edit Profile'}
+            </h2>
+            <div className={styles.editButton}>
+              {disableEdit && (
+                <Button
+                  classNameButton="addButton"
+                  action={() => setDisableEdit(false)}
+                  img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
+                />
+              )}
+            </div>
+            {!disableEdit && (
+              <span className={styles.closeButton} onClick={handleClose}>
+                &times;
+              </span>
+            )}
+          </div>
+          <form onSubmit={handleSubmit(onConfirm)} className={styles.form}>
+            <div>
+              {formFields.map((inputData, index) => (
+                <div className={styles.formGroup} key={index}>
+                  <Input
+                    labelText={inputData.labelText}
+                    type={inputData.type}
+                    name={inputData.name}
+                    disabled={disableEdit}
+                    register={register}
+                    error={errors[inputData.name]?.message}
+                  />
+                </div>
+              ))}
+              <div className={styles.changePassContainer}>
+                <a onClick={handleEditPass} href="#">
+                  Want to change your password?
+                </a>
+              </div>
+            </div>
+            {!disableEdit && (
+              <>
+                <div className={styles.buttons}>
+                  <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
+                  <Button classNameButton="cancelButton" text="Cancel" />
+                </div>
+                <div className={styles.resetContainer}>
+                  <Reset action={handleReset} text={'Reset'} />
+                </div>
+              </>
+            )}
+          </form>
           {disableEdit && (
-            <Button
-              classNameButton="addButton"
-              action={() => setDisableEdit(false)}
-              img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
-            />
-          )}
-          {!disableEdit && (
-            <button className={styles.close_button} onClick={handleClose}>
-              &times;
-            </button>
+            <div className={styles.buttons}>
+              <Button
+                classNameButton="addButton"
+                action={() => setDisableEdit(false)}
+                text="Edit"
+              />
+            </div>
           )}
         </div>
-        <form onSubmit={handleSubmit(onConfirm)} className={styles.body}>
-          <div>
-            {formFields.map((inputData, index) => (
-              <div className={styles.label_container} key={index}>
-                <Input
-                  labelText={inputData.labelText}
-                  type={inputData.type}
-                  name={inputData.name}
-                  disabled={disableEdit}
-                  register={register}
-                  error={errors[inputData.name]?.message}
-                />
-              </div>
-            ))}
-          </div>
-          {!disableEdit && (
-            <>
-              <div className={styles.buttons}>
-                <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
-                <Button classNameButton="cancelButton" text="Cancel" />
-              </div>
-              <Reset action={handleReset} text={'Reset'} />
-            </>
-          )}
-        </form>
-        {disableEdit && (
-          <div className={styles.buttons}>
-            <Button classNameButton="addButton" action={() => setDisableEdit(false)} text="Edit" />
-          </div>
+        {showConfirmModal && (
+          <ConfirmModal
+            title={
+              editPass
+                ? 'Are you sure you want to change your password by sending you an email?'
+                : 'Edit my Profile'
+            }
+            handler={() => handleCloseModal()}
+            onAction={editPass ? handleSendEmail : handleSubmit(onSubmit)}
+            reason={'submit'}
+          >
+            {editPass ? '' : `Are you sure you wanna edit?`}
+          </ConfirmModal>
+        )}
+        {show && (
+          <ResponseModal
+            handler={() => dispatch(handleDisplayToast(false))}
+            state={state}
+            message={message}
+          />
         )}
       </div>
-      {showConfirmModal && (
-        <ConfirmModal
-          title={'Edit my Profile'}
-          handler={() => setShowConfirmModal(false)}
-          onAction={handleSubmit(onSubmit)}
-          reason={'submit'}
-        >
-          {`Are you sure you wanna edit?`}
-        </ConfirmModal>
-      )}
-      {show && (
-        <ResponseModal
-          handler={() => dispatch(handleDisplayToast(false))}
-          state={state}
-          message={message}
-        />
-      )}
-    </div>
+    </section>
   );
 }
 

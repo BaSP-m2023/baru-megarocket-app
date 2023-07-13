@@ -6,13 +6,13 @@ const ScheduleTrainer = ({ props, click }) => {
     return (
       props.day === cl?.day &&
       props.hour === cl?.time &&
-      cl?.activity?.name.includes(props.activityFilter) &&
+      cl?.activity?.name?.includes(props.activityFilter) &&
       cl?.trainer?._id === props.trainerFilter
     );
   });
   if (oneClass) {
     return (
-      <div className={`${styles.div}`} onClick={() => click(oneClass)}>
+      <div className={`${styles.div}`} onClick={() => click(oneClass, props.date)}>
         {oneClass.activity.name}
       </div>
     );

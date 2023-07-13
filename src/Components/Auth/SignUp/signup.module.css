@@ -23,8 +23,45 @@
   align-items: center;
 }
 
-.formTitle {
+.inputPassword {
+  display: flex;
+  justify-content: center;
   width: 100%;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 5%;
+  width: 40%;
+}
+
+.btnVisibilityPassword {
+  display: flex;
+  align-items: center;
+  width: 5%;
+}
+
+.imgButtonPassword {
+  cursor: pointer;
+}
+
+.errorMessage {
+  padding: 10px;
+  color: red;
+  font-size: 0.8rem;
+}
+
+.header h2 {
+  margin: 0;
+  align-self: center;
+  font-size: 25px;
+  line-height: 2;
+}
+
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;

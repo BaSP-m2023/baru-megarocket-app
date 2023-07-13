@@ -10,7 +10,6 @@ import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import Loader from 'Components/Shared/Loader';
-import { addSubscribed } from 'Redux/Classes/thunks';
 
 const SubscriptionsMember = () => {
   const subscriptions = useSelector((state) => state.subscriptions.data);
@@ -20,6 +19,7 @@ const SubscriptionsMember = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
   const [idToDelete, setIdToDelete] = useState('');
+  const [activeMember, setActiveMember] = useState(null);
   const member = useSelector((state) => state.auth.user);
 
   useEffect(() => {
@@ -27,16 +27,16 @@ const SubscriptionsMember = () => {
   }, []);
 
   useEffect(() => {
+    if (member) setActiveMember(member.isActive);
+  }, [member]);
+
+  useEffect(() => {
     const filterSubscription = subscriptions.filter((item) => item.members?._id === member._id);
     setSubscription(filterSubscription);
   }, [pending]);
 
   const handleDeleteActivity = () => {
-    const subscription = subscriptions.find((sub) => sub._id === idToDelete) || '';
-    const unsubscribed = subscription.classes.subscribed - 1;
-    const subscriptionEdited = { subscribed: unsubscribed };
     dispatch(deleteSubscription(idToDelete));
-    dispatch(addSubscribed(subscriptionEdited, subscription.classes._id));
     setShowConfirmModal(false);
   };
 
@@ -52,7 +52,12 @@ const SubscriptionsMember = () => {
           <Loader />
         </div>
       )}
-      {!pending && (
+      {!pending && !activeMember && (
+        <p className={styles.text}>
+          Your membership is not active, please go to your nearest branch to activate it
+        </p>
+      )}
+      {!pending && activeMember && (
         <div className={styles.container}>
           <h2 className={styles.title}>Your subscriptions</h2>
           {subscription.length !== 0 ? (
@@ -60,6 +65,7 @@ const SubscriptionsMember = () => {
               <thead className={styles.thead}>
                 <tr>
                   <th className={styles.th}>Activity</th>
+                  <th className={styles.th}>Date</th>
                   <th className={styles.th}>Day</th>
                   <th className={styles.th}>Time</th>
                   <th className={styles.th}></th>
@@ -70,8 +76,10 @@ const SubscriptionsMember = () => {
                   return (
                     <tr className={styles.tr} key={item.members_id}>
                       <td className={styles.td}>{item.classes.activity.name}</td>
+                      <td className={styles.td}>{item.date.slice(0, 10)}</td>
                       <td className={styles.td}>{item.classes.day}</td>
                       <td className={styles.td}>{item.classes.time}</td>
+
                       <td className={styles.button}>
                         <div className={styles.buttonContainer}>
                           <Button
