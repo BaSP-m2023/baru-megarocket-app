@@ -53,7 +53,7 @@ const Schedule = () => {
     format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), index), 'yyyy-MM-dd')
   );
   const hours = [];
-  for (let i = 9; i <= 26; i++) {
+  for (let i = 9; i <= 21; i++) {
     hours.push(i.toString().padStart(2, '0') + ':00');
   }
   const current = {
