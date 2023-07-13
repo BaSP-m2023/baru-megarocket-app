@@ -71,7 +71,7 @@ const memberSchema = Joi.object({
     .pattern(/^[a-zA-Z0-9]{6,20}$/)
     .required()
     .messages({
-      'string.pattern.base': 'Password should have numbers and letters between 6 and 20 characters',
+      'string.pattern.base': 'Password should have between 6 and 20 characters',
       'string.empty': 'Password is required'
     })
 });

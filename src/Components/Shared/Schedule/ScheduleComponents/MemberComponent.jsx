@@ -7,14 +7,14 @@ const ScheduleMember = ({ props, click }) => {
       return (
         props.day === memC?.day &&
         props.hour === memC?.time &&
-        memC.activityName.includes(props.activityFilter) &&
-        memC.trainer === props.trainerFilter
+        memC?.activityName?.includes(props.activityFilter) &&
+        memC?.trainer === props.trainerFilter
       );
     } else {
       return (
         props.day === memC?.day &&
         props.hour === memC?.time &&
-        memC.activityName.includes(props.activityFilter)
+        memC?.activityName?.includes(props.activityFilter)
       );
     }
   });
@@ -34,16 +34,16 @@ const ScheduleMember = ({ props, click }) => {
   const findClass = props.classes.find((cl) => {
     if (props.trainerFilter !== '') {
       return (
-        cl.day === props.day &&
-        cl.time === props.hour &&
-        cl.activity.name.includes(props.activityFilter) &&
-        cl.trainer._id === props.trainerFilter
+        cl?.day === props.day &&
+        cl?.time === props.hour &&
+        cl?.activity?.name.includes(props.activityFilter) &&
+        cl?.trainer?._id === props.trainerFilter
       );
     } else {
       return (
-        cl.day === props.day &&
-        cl.time === props.hour &&
-        cl.activity.name.includes(props.activityFilter)
+        cl?.day === props.day &&
+        cl?.time === props.hour &&
+        cl?.activity?.name.includes(props.activityFilter)
       );
     }
   });

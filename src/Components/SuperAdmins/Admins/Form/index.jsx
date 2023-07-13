@@ -147,66 +147,71 @@ function AdminsForm({ match }) {
   return (
     <>
       <div className={styles.formContainer}>
-        <div className={styles.header} data-testid="admins-form-title-container">
+        <div className={styles.formTitle} data-testid="admins-form-title-container">
           <h2 className={styles.title}>{adminId ? 'Edit Admin' : 'Add admin'}</h2>
+          <span className={styles.closeButton} onClick={history.goBack}>
+            &times;
+          </span>
         </div>
-        <form
-          className={styles.form}
-          onSubmit={handleSubmit(onConfirm)}
-          data-testid="admins-form-container"
-        >
-          {formFields.map((field) => (
-            <div className={styles.labelInput} key={field.name}>
-              <Input
-                labelText={field.labelText}
-                name={field.name}
-                type={field.type}
-                register={register}
-                error={errors[field.name]?.message}
-              />
-            </div>
-          ))}
-          {!adminId && (
-            <>
-              <div className={styles.labelInput}>
+        <div className={styles.content}>
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit(onConfirm)}
+            data-testid="admins-form-container"
+          >
+            {formFields.map((field) => (
+              <div className={styles.formGroup} key={field.name}>
                 <Input
-                  labelText="Email"
-                  name="email"
-                  type="email"
+                  labelText={field.labelText}
+                  name={field.name}
+                  type={field.type}
                   register={register}
-                  error={errors.email?.message}
+                  error={errors[field.name]?.message}
                 />
               </div>
-              <div className={styles.labelInput}>
-                <Input
-                  labelText="Password"
-                  name="password"
-                  type="password"
-                  register={register}
-                  error={errors.password?.message}
-                />
-              </div>
-            </>
-          )}
+            ))}
+            {!adminId && (
+              <>
+                <div className={styles.formGroup}>
+                  <Input
+                    labelText="Email"
+                    name="email"
+                    type="email"
+                    register={register}
+                    error={errors.email?.message}
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <Input
+                    labelText="Password"
+                    name="password"
+                    type="password"
+                    register={register}
+                    error={errors.password?.message}
+                  />
+                </div>
+              </>
+            )}
 
-          <div className={styles.buttonContainer} data-testid="admin-form-buttons">
-            <div>
-              <Link to="/user/super-admin/admins">
-                <Button
-                  action={() => dispatch(resetState())}
-                  classNameButton="cancelButton"
-                  text="Cancel"
-                ></Button>
-              </Link>
+            <div className={styles.buttonContainer} data-testid="admin-form-buttons">
+              <div>
+                <Link to="/user/super-admin/admins">
+                  <Button
+                    action={() => dispatch(resetState())}
+                    classNameButton="cancelButton"
+                    text="Cancel"
+                  ></Button>
+                </Link>
+              </div>
+              <div>
+                <Button text={'Confirm'} action={onConfirm} classNameButton="submitButton" />
+              </div>
             </div>
-            <div>
-              <Button text={'Confirm'} action={onConfirm} classNameButton="submitButton" />
+            <div className={styles.resetContainer}>
+              <Reset action={handleReset} />
             </div>
-          </div>
-          <div className={styles.resetContainer}>
-            <Reset action={handleReset} />
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
       {showConfirmModal && (
         <ConfirmModal

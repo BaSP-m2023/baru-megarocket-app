@@ -13,6 +13,7 @@ import { Button, Reset } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import { useHistory } from 'react-router-dom';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import styles from './profile.module.css';
 
 function AdminProfile({ match }) {
@@ -26,6 +27,7 @@ function AdminProfile({ match }) {
   const { show, message, state } = useSelector((state) => state.toast);
   const defaultAdmin = useSelector((state) => state.auth.user || '');
   const { data: admins } = useSelector((state) => state.admins);
+  const [editPass, setEditPass] = useState(false);
 
   const {
     register,
@@ -117,6 +119,33 @@ function AdminProfile({ match }) {
     setShowConfirmModal(true);
   };
 
+  const handleCloseModal = () => {
+    setShowConfirmModal(false);
+    setEditPass(false);
+  };
+
+  const handleEditPass = () => {
+    setEditPass(!editPass);
+    setShowConfirmModal(!showConfirmModal);
+  };
+
+  const handleSendEmail = () => {
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, defaultAdmin.email)
+      .then(() => {
+        dispatch(setContentToast({ message: 'Email with reset link sent', state: 'success' }));
+        dispatch(handleDisplayToast(true));
+        setShowConfirmModal(false);
+        setEditPass(false);
+      })
+      .catch(() => {
+        dispatch(setContentToast({ message: 'Could not send email', state: 'fail' }));
+        dispatch(handleDisplayToast(true));
+        setShowConfirmModal(false);
+        setEditPass(false);
+      });
+  };
+
   const formFields = [
     { labelText: 'Name', type: 'text', name: 'firstName' },
     { labelText: 'Last Name', type: 'text', name: 'lastName' },
@@ -126,31 +155,33 @@ function AdminProfile({ match }) {
   ];
 
   return (
-    <div className={styles.form}>
+    <div className={styles.formContainer}>
       <div className={styles.content}>
-        <div className={styles.header}>
+        <div className={styles.formTitle}>
           <h2>
             {disableEdit
               ? `${defaultAdmin?.firstName} ${defaultAdmin?.lastName} Profile`
               : 'Edit Profile'}
           </h2>
-          {disableEdit && (
-            <Button
-              classNameButton="addButton"
-              action={() => setDisableEdit(false)}
-              img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
-            />
-          )}
+          <div className={styles.editButton}>
+            {disableEdit && (
+              <Button
+                classNameButton="addButton"
+                action={() => setDisableEdit(false)}
+                img={`${process.env.PUBLIC_URL}/assets/images/edit-icon-white.png`}
+              />
+            )}
+          </div>
           {!disableEdit && (
-            <button className={styles.close} onClick={handleClose}>
+            <span className={styles.closeButton} onClick={handleClose}>
               &times;
-            </button>
+            </span>
           )}
         </div>
-        <form onSubmit={handleSubmit(onConfirm)} className={styles.body}>
+        <form onSubmit={handleSubmit(onConfirm)} className={styles.form}>
           <div>
             {formFields.map((inputData, index) => (
-              <div className={styles.label_container} key={index}>
+              <div className={styles.formGroup} key={index}>
                 <Input
                   labelText={inputData.labelText}
                   type={inputData.type}
@@ -161,6 +192,11 @@ function AdminProfile({ match }) {
                 />
               </div>
             ))}
+            <div className={styles.changePassContainer}>
+              <a onClick={handleEditPass} href="#">
+                Want to change your password?
+              </a>
+            </div>
           </div>
           {!disableEdit && (
             <>
@@ -184,12 +220,16 @@ function AdminProfile({ match }) {
       </div>
       {showConfirmModal && (
         <ConfirmModal
-          title={'Edit my Profile'}
-          handler={() => setShowConfirmModal(false)}
-          onAction={handleSubmit(onSubmit)}
+          title={
+            editPass
+              ? 'Are you sure you want to change your password by sending you an email?'
+              : 'Edit my Profile'
+          }
+          handler={() => handleCloseModal()}
+          onAction={editPass ? handleSendEmail : handleSubmit(onSubmit)}
           reason={'submit'}
         >
-          {`Are you sure you wanna edit?`}
+          {editPass ? '' : `Are you sure you wanna edit?`}
         </ConfirmModal>
       )}
       {show && (

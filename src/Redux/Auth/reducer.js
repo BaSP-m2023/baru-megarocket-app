@@ -12,6 +12,7 @@ import {
   GET_AUTH_PENDING,
   GET_AUTH_ERROR,
   GET_AUTH_SUCCESS,
+  RESET_STATE,
   UPDATE_USER
 } from 'Redux/Auth/constants';
 
@@ -78,6 +79,12 @@ const authReducer = (state = initialState, action) => {
         authenticated: true,
         role: action.payload.role,
         email: action.payload.email
+      };
+    }
+    case RESET_STATE: {
+      return {
+        ...state,
+        error: false
       };
     }
     case UPDATE_USER: {

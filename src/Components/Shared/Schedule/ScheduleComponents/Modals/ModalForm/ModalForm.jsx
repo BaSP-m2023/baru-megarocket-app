@@ -11,7 +11,7 @@ import { refreshData } from 'Redux/Classes/actions';
 import { Button, Reset } from 'Components/Shared/Button';
 import { Input } from 'Components/Shared/Inputs';
 import styles from 'Components/Shared/ConfirmModal/modalConfirm.module.css';
-import stylesForm from 'Components/Shared/Schedule/ScheduleComponents/modalForm.module.css';
+import stylesForm from 'Components/Shared/Schedule/ScheduleComponents/Modals/ModalForm/modalForm.module.css';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import classSchema from 'Validations/class';
 
