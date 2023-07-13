@@ -76,18 +76,6 @@ function MemberProfile({ match }) {
     setValue('zip', memberUpdated ? memberUpdated.zip : memberLogged.zip);
   }, [updated, memberLogged]);
 
-  useEffect(() => {
-    if (memberLogged) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = memberLogged;
-      Object.entries(resMemberLogged).every(([key, value]) => {
-        setValue(key, value);
-        return true;
-      });
-      setValue('dob', dob.slice(0, 10));
-    }
-  }, [memberLogged, handleSubmit]);
-
   const onSubmit = (data) => {
     if (memberId) {
       setShowConfirmModal(false);

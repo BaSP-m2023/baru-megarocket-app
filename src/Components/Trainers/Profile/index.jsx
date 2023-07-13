@@ -25,7 +25,7 @@ function TrainerProfile({ match }) {
   const dispatch = useDispatch();
   const redirect = useSelector((state) => state.trainers.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
-  const trainerLogged = useSelector((state) => state.auth.user);
+  const trainerLogged = useSelector((state) => state.auth.user || '');
   const { data: trainers } = useSelector((state) => state.trainers);
   const [editPass, setEditPass] = useState(false);
 
@@ -49,7 +49,7 @@ function TrainerProfile({ match }) {
 
   useEffect(() => {
     dispatch(getTrainers());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (redirect) {
@@ -58,23 +58,12 @@ function TrainerProfile({ match }) {
   }, [redirect]);
 
   useEffect(() => {
-    const trainerUpdated = trainers && trainers?.find((tr) => tr._id === trainerLogged?._id);
-    setValue('firstName', trainerUpdated ? trainerUpdated.firstName : trainerLogged?.firstName);
-    setValue('lastName', trainerUpdated ? trainerUpdated.lastName : trainerLogged?.lastName);
-    setValue('dni', trainerUpdated ? trainerUpdated.dni : trainerLogged?.dni);
-    setValue('phone', trainerUpdated ? trainerUpdated.phone : trainerLogged?.phone);
+    const trainerUpdated = trainers && trainers?.find((tr) => tr._id === trainerLogged._id);
+    setValue('firstName', trainerUpdated ? trainerUpdated.firstName : trainerLogged.firstName);
+    setValue('lastName', trainerUpdated ? trainerUpdated.lastName : trainerLogged.lastName);
+    setValue('dni', trainerUpdated ? trainerUpdated.dni : trainerLogged.dni);
+    setValue('phone', trainerUpdated ? trainerUpdated.phone : trainerLogged.phone);
   }, [updated, trainerLogged]);
-
-  useEffect(() => {
-    if (trainerLogged) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = trainerLogged;
-      Object.entries(resMemberLogged).every(([key, value]) => {
-        setValue(key, value);
-        return true;
-      });
-    }
-  }, [trainerLogged, handleSubmit]);
 
   const onSubmit = (data) => {
     if (trainerId) {
@@ -95,6 +84,14 @@ function TrainerProfile({ match }) {
 
   const resetData = () => {
     reset();
+    if (trainerLogged) {
+      // eslint-disable-next-line no-unused-vars
+      const { _id, firebaseUid, email, __v, ...resDefaultAdmin } = trainerLogged;
+      Object.entries(resDefaultAdmin).every(([key, value]) => {
+        setValue(key, value);
+        return true;
+      });
+    }
   };
 
   const handleReset = () => {
