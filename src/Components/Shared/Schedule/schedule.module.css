@@ -20,9 +20,9 @@
 
 .table td {
   width: 100px;
-  height: 60px;
+  height: 50px;
   text-align: center;
-  border: 1px solid #000000;
+  border: 1px solid #b4b4b4;
 }
 
 .table th {
@@ -30,13 +30,13 @@
   top: 0;
   height: 50px;
   font-weight: 500;
-  background-color: #10151c;
+  background: linear-gradient(180deg, #242024 0%, rgba(35,31,33,1) 100%);
   color: #ffffff;
   z-index: 1;
 }
 
 .currentDate {
-  color: #fdc571;
+  color: #e4ac59;
 }
 
 .tr td:hover {
@@ -96,15 +96,6 @@
   font-size: 1rem;
 }
 
-.today {
-  background-color: #a8d2ff;
-}
-
-
-.pastHour {
-  background-color: #ff7e7e;
-}
-
 ::-webkit-scrollbar {
   width: 0.7rem; 
 }
@@ -129,12 +120,24 @@
 .current0::after {
   content: "";
   position: absolute;
-  bottom: 96%;
+  bottom: 95%;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(255, 0, 0);
+  background-color: #d11702;
   transform: translateY(50%);
+}
+
+.current0::before {
+  content: "";
+  position: absolute;
+  top: 5%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
 }
 
 .current1::after {
@@ -144,8 +147,20 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(255, 0, 0);
+  background-color: #d10202;
   transform: translateY(50%);
+}
+
+.current1::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
 }
 
 .current2::after {
@@ -155,8 +170,20 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(255, 0, 0);
+  background-color: #d10202;
   transform: translateY(50%);
+}
+
+.current2::before {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
 }
 
 .current3::after {
@@ -166,8 +193,20 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(255, 0, 0);
+  background-color: #d10202;
   transform: translateY(50%);
+}
+
+.current3::before {
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
 }
 
 .current4::after {
@@ -177,8 +216,20 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(255, 0, 0);
+  background-color: #d10202;
   transform: translateY(50%);
+}
+
+.current4::before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
 }
 
 .current5::after {
@@ -188,8 +239,20 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(255, 0, 0);
+  background-color: #d10202;
   transform: translateY(50%);
+}
+
+.current5::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
 }
 
 .current6::after {
@@ -199,8 +262,20 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(255, 0, 0);
+  background-color: #d10202;
   transform: translateY(50%);
+}
+
+.current6::before {
+  content: "";
+  position: absolute;
+  top: 60%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
 }
 
 .current7::after {
@@ -210,8 +285,20 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(255, 0, 0);
+  background-color: #d10202;
   transform: translateY(50%);
+}
+
+.current7::before {
+  content: "";
+  position: absolute;
+  top: 70%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
 }
 
 .current8::after {
@@ -221,8 +308,20 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(255, 0, 0);
+  background-color: #d10202;
   transform: translateY(50%);
+}
+
+.current8::before {
+  content: "";
+  position: absolute;
+  top: 80%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
 }
 
 .current9::after {
@@ -232,8 +331,43 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(255, 0, 0);
+  background-color: #d10202;
   transform: translateY(50%);
+}
+
+.current9::before {
+  content: "";
+  position: absolute;
+  top: 90%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
+}
+
+.current10::after {
+  content: "";
+  position: absolute;
+  bottom: 0%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #d10202;
+  transform: translateY(50%);
+}
+
+.current10::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0px; /* Ajusta la posición horizontal del círculo */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d10202;
+  transform: translate(-50%, -50%);
 }
 
 .arrows {
@@ -242,13 +376,11 @@
   align-items: center;
   justify-content: flex-end;
   width: 200px;
-  margin-bottom: 5px;
   cursor: pointer;
 }
 
 .arrows span {
   font-weight: 500;
-  margin-left: 10px;
 }
 
 .arrows:hover .left, .arrows:hover .right, .arrows:hover span {
@@ -264,10 +396,6 @@
   align-self: center;
   margin: 0;
 }
-.filtered{
-  opacity: 0.35;
-}
-
 
 
 

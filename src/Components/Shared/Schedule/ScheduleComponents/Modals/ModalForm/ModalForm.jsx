@@ -127,8 +127,8 @@ const ModalForm = ({
           <div className={stylesForm.inputContainer}>
             <label className={stylesForm.label}>Activity</label>
             <select name="activity" {...register('activity')}>
-              <option value={classData ? classData.activity._id : ''}>
-                {classData ? classData.activity.name : 'Select an activity'}
+              <option value={classData ? classData?.activity?._id : ''}>
+                {classData ? classData?.activity?.name : 'Select an activity'}
               </option>
               {activities?.map(
                 (act) =>
@@ -149,11 +149,11 @@ const ModalForm = ({
               {!activityValue && <option>Select an activity first</option>}
               {trainers?.map((trainer) => (
                 <option
-                  selected={classData?.trainer._id === trainer._id}
-                  value={trainer._id}
-                  key={trainer._id}
+                  selected={classData?.trainer?._id === trainer._id}
+                  value={trainer?._id}
+                  key={trainer?._id}
                 >
-                  {trainer.firstName} {trainer.lastName}
+                  {trainer?.firstName} {trainer?.lastName}
                 </option>
               ))}
             </select>

@@ -53,7 +53,7 @@ const Schedule = () => {
     format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), index), 'yyyy-MM-dd')
   );
   const hours = [];
-  for (let i = 9; i <= 21; i++) {
+  for (let i = 9; i <= 26; i++) {
     hours.push(i.toString().padStart(2, '0') + ':00');
   }
   const current = {
@@ -168,12 +168,19 @@ const Schedule = () => {
   }, [subscriptions]);
 
   const getClassName = useMemo(() => {
-    return (hour, index) => {
+    return (day, hour, index) => {
+      const isToday = day === current.day;
+      const isPastHour =
+        Number(current.dayNum) - 1 > index ||
+        (Number(current.dayNum) - 1 === index && hour < current.hour);
+      console.log(isPastHour);
       const currentHourPercent =
         current.hour.split(':')[0] === hour.split(':')[0] &&
         Number(current.dayNum) - 1 === index &&
         `current${Math.trunc((Number(current.hour.split(':')[1]) / 60) * 10)}`;
-      const className = `${currentHourPercent ? styles[currentHourPercent] : ''}`;
+      const className = `${isToday ? styles.today : ''} ${isPastHour ? styles.pastHour : ''} ${
+        currentHourPercent ? styles[currentHourPercent] : ''
+      }`;
 
       return className;
     };
@@ -278,8 +285,7 @@ const Schedule = () => {
                                 <td
                                   className={
                                     !nextPage &&
-                                    currentDate === current.date &&
-                                    `${getClassName(hour, index)} ${styles.current}`
+                                    `${getClassName(day, hour, index)} ${styles.current}`
                                   }
                                   key={`${day}-${hour}`}
                                 >
@@ -305,8 +311,7 @@ const Schedule = () => {
                                 <td
                                   className={
                                     !nextPage &&
-                                    currentDate === current.date &&
-                                    `${getClassName(hour, index)} ${styles.current}`
+                                    `${getClassName(day, hour, index)} ${styles.current}`
                                   }
                                   key={`${day}-${hour}`}
                                 >
@@ -325,9 +330,15 @@ const Schedule = () => {
                               );
                             }
                             if (role === 'TRAINER') {
-                              const currentDate = weekDate[index];
+                              const currentDate = !nextPage ? weekDate[index] : nextWeekDays[index];
                               return (
-                                <td key={`${day}-${hour}`}>
+                                <td
+                                  className={
+                                    !nextPage &&
+                                    `${getClassName(day, hour, index)} ${styles.current}`
+                                  }
+                                  key={`${day}-${hour}`}
+                                >
                                   <ScheduleTrainer
                                     props={{
                                       date: currentDate,
