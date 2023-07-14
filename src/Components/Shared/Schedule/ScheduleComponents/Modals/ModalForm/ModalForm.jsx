@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import styles from 'Components/Shared/ConfirmModal/modalConfirm.module.css';
-import stylesForm from 'Components/Shared/Schedule/ScheduleComponents/modalForm.module.css';
-import { Input } from 'Components/Shared/Inputs';
-import ConfirmModal from 'Components/Shared/ConfirmModal';
-import Button from 'Components/Shared/Button';
-import classSchema from 'Validations/class';
-import { useDispatch } from 'react-redux';
-import { addClass, deleteClass, putClass } from 'Redux/Classes/thunks';
-import { refreshData } from 'Redux/Classes/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const ModalForm = ({ handler, reason, activities, classData, createData, classes }) => {
+import { addClass, deleteClass, putClass } from 'Redux/Classes/thunks';
+import { useDispatch } from 'react-redux';
+import { refreshData } from 'Redux/Classes/actions';
+
+import { Button, Reset } from 'Components/Shared/Button';
+import { Input } from 'Components/Shared/Inputs';
+import styles from 'Components/Shared/ConfirmModal/modalConfirm.module.css';
+import stylesForm from 'Components/Shared/Schedule/ScheduleComponents/Modals/ModalForm/modalForm.module.css';
+import ConfirmModal from 'Components/Shared/ConfirmModal';
+import classSchema from 'Validations/class';
+
+const ModalForm = ({
+  handler,
+  reason,
+  activities,
+  classData,
+  createData,
+  classes,
+  subscribed,
+  date
+}) => {
   const [trainers, setTrainers] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -68,8 +79,7 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
     }
   };
 
-  const handleReset = (e) => {
-    e.preventDefault();
+  const handleReset = () => {
     reset();
   };
 
@@ -117,12 +127,12 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
           <div className={stylesForm.inputContainer}>
             <label className={stylesForm.label}>Activity</label>
             <select name="activity" {...register('activity')}>
-              <option value={classData ? classData.activity._id : ''}>
-                {classData ? classData.activity.name : 'Select an activity'}
+              <option value={classData ? classData?.activity?._id : ''}>
+                {classData ? classData?.activity?.name : 'Select an activity'}
               </option>
               {activities?.map(
                 (act) =>
-                  classData?.activity._id !== act._id && (
+                  classData?.activity?._id !== act._id && (
                     <option value={act._id} key={act._id}>
                       {act.name}
                     </option>
@@ -135,24 +145,18 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
           </div>
           <div className={stylesForm.inputContainer}>
             <label className={stylesForm.label}>Trainer</label>
-            <select
-              disabled={!activityValue}
-              name="trainer"
-              {...register('trainer')}
-              value={classData?.trainer?._id || ''}
-            >
+            <select disabled={!activityValue} name="trainer" {...register('trainer')}>
               {!activityValue && <option>Select an activity first</option>}
               {trainers?.map((trainer) => (
                 <option
-                  defaultValue={classData?.trainer?._id === trainer._id}
-                  value={trainer._id}
-                  key={trainer._id}
+                  selected={classData?.trainer?._id === trainer?._id}
+                  value={trainer?._id}
+                  key={trainer?._id}
                 >
-                  {trainer.firstName} {trainer.lastName}
+                  {trainer?.firstName} {trainer?.lastName}
                 </option>
               ))}
             </select>
-
             {errors.trainer?.message && (
               <span className={stylesForm.error}>{errors.trainer.message}</span>
             )}
@@ -167,6 +171,14 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
               error={errors.capacity?.message}
             />
           </div>
+          {classData && (
+            <div className={stylesForm.inputContainer}>
+              <label>Memebrs Subscribed: {subscribed}</label>
+            </div>
+          )}
+          <div className={stylesForm.inputContainer}>
+            <label>Date: {date}</label>
+          </div>
           <div
             className={`${styles.modalButtons} ${stylesForm.modalButtons}`}
             data-testid="confirm-modal-buttons"
@@ -178,10 +190,7 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
               text={reason === 'edit' ? 'Update' : 'Create'}
             />
           </div>
-          <div className={stylesForm.resetContainer} onClick={handleReset}>
-            <FontAwesomeIcon icon={faRotateLeft} className={stylesForm.reset} />
-            <h3>reset</h3>
-          </div>
+          <Reset action={handleReset} />
         </form>
       </div>
       {showConfirmModal && (

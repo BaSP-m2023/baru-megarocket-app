@@ -9,12 +9,12 @@
   cursor: pointer;
 }
 .addButton {
-  color: #373867;
-  background-color: #aace9b;
+  color: #242024;
+  background-color: #f88d5c;
 }
 .submitButton {
-  color: #373867;
-  background-color: #aace9b;
+  color: #242024;
+  background-color: #f88d5c;
 }
 .deleteButton {
   color: #fdfdfd;
@@ -30,4 +30,23 @@
 }
 .button[disabled] {
   cursor: auto;
+}
+
+.resetContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  align-self: center;
+  min-width: 4.5rem;
+  cursor: pointer;
+  font-family: 'Prompt', sans-serif;
+}
+
+.resetContainer:hover .reset {
+  color: #fd2020;
+}
+
+.reset {
+  height: 1.35rem;
+  color: #403f3f;
 }

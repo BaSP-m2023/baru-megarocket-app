@@ -1,23 +1,105 @@
-.container {
-  flex: 1;
-  min-height: 50vh;
+.section{
+  margin: 130px auto;
+}
+.content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 1em;
+  background-color: #f4f4f4;
+  margin: 10% auto;
+  margin-top: 30px;
+  height: 100%;
+  width: 70%;
+  border-radius: 7px;
+  box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
+  background-color: #f4f4f4;
 }
 
-.btn-new {
-  align-self: center;
-  width: 130px;
-  height: 36px;
-  margin: 15px;
-  border: 0;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  background-color: #aace9b;
-  color: #373867;
+.formTitle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #242024;
+  color: #fff;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+.formTitle h2 {
+  margin-left: 2%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form input {
+  margin: 0
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1%;
+}
+
+.editButton{
+  margin-right: 2%;
+}
+
+.closeButton {
+  margin-right: 2%;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.resetContainer {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 200px;
+  margin-bottom: 2rem;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  font-family: 'Roboto', Arial, serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.input {
+  width: 25vw;
+  height: 30px;
+  margin-right: 10px;
+  color: #373867;
+  border: 1px solid #373867;
+  border-radius: 5px;
+}
+
+.label {
+  display: block;
+  padding: 5px;
+  color: #373867;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.changePassContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
 }

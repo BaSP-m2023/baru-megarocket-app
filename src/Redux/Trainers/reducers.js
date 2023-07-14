@@ -10,14 +10,15 @@ import {
   EDIT_TRAINER_ERROR,
   DELETE_TRAINER_PENDING,
   DELETE_TRAINER_SUCCESS,
-  DELETE_TRAINER_ERROR
+  DELETE_TRAINER_ERROR,
+  SET_REDIRECT
 } from './constants';
 
 const INITIAL_STATE = {
   data: [],
   isPending: false,
   error: null,
-  responseModal: false
+  redirect: false
 };
 
 const trainersReducer = (state = INITIAL_STATE, action) => {
@@ -52,7 +53,8 @@ const trainersReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isPending: false,
         data: [...state.data, action.payload],
-        error: null
+        error: null,
+        redirect: true
       };
     case ADD_TRAINER_ERROR:
       return {
@@ -66,15 +68,19 @@ const trainersReducer = (state = INITIAL_STATE, action) => {
         isPending: true,
         error: null
       };
-    case EDIT_TRAINER_SUCCESS:
+    case EDIT_TRAINER_SUCCESS: {
+      const updated = state.data.find((trainer) => trainer._id === action.payload._id);
+      const index = state.data.indexOf(updated);
+
+      state.data[index] = action.payload;
       return {
         ...state,
+        data: state.data,
         isPending: false,
-        data: state.data.map((trainer) =>
-          trainer.id === action.payload.id ? action.payload : trainer
-        ),
-        error: null
+        error: null,
+        redirect: true
       };
+    }
     case EDIT_TRAINER_ERROR:
       return {
         ...state,
@@ -100,6 +106,12 @@ const trainersReducer = (state = INITIAL_STATE, action) => {
         isPending: false,
         error: action.payload
       };
+    case SET_REDIRECT: {
+      return {
+        ...state,
+        redirect: false
+      };
+    }
     default:
       return state;
   }

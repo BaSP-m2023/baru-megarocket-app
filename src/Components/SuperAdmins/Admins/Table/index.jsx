@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Button from 'Components/Shared/Button';
+import { Button } from 'Components/Shared/Button';
 import styles from './table.module.css';
 
 function Table({ filter, handleDeleteButton }) {
@@ -22,7 +22,7 @@ function Table({ filter, handleDeleteButton }) {
           {filter.length > 0 &&
             filter.map((admin) => {
               return (
-                <tr className={styles.tr} key={admin._id}>
+                <tr className={styles.row} key={admin._id}>
                   <td className={styles.td}>{admin.firstName}</td>
                   <td className={styles.td}>{admin.lastName}</td>
                   <td className={styles.td}>{admin.dni}</td>
@@ -31,7 +31,7 @@ function Table({ filter, handleDeleteButton }) {
                   <td className={styles.td}>{admin.city}</td>
                   <td></td>
                   <td className={styles.button}>
-                    <Link to={`admins/edit/${admin._id}`}>
+                    <Link to={`/user/super-admin/admins/edit/${admin._id}`}>
                       <Button
                         text="Edit Button"
                         img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}

@@ -12,7 +12,7 @@ const MemberActivityView = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getActivities(dispatch);
+    dispatch(getActivities());
   }, [dispatch]);
 
   return (
@@ -23,6 +23,7 @@ const MemberActivityView = () => {
         </div>
       ) : (
         <>
+          <h2 className={styles.title}>Our Activities</h2>
           <div>
             <div className={styles.cardContainer} data-testid="activities-cards-container">
               {activities.map((activity) => (

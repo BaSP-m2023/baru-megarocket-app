@@ -10,7 +10,8 @@ import {
   getAuthenticationError,
   logoutSuccess,
   logoutError,
-  logoutPending
+  logoutPending,
+  resetState
 } from 'Redux/Auth/actions';
 import { setContentToast, handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 
@@ -73,7 +74,6 @@ export const logOut = () => {
       sessionStorage.removeItem('role', '');
       return { error: false, message: 'Log Out Successfully' };
     } catch (error) {
-      console.error(error);
       dispatch(logoutError(error));
       return {
         error: true,
@@ -83,7 +83,7 @@ export const logOut = () => {
   };
 };
 
-export const signUpMember = (data) => {
+export const signUpMember = (data, history) => {
   return async (dispatch) => {
     dispatch(signUpPending());
     try {
@@ -96,15 +96,17 @@ export const signUpMember = (data) => {
         body: JSON.stringify(data)
       });
       const res = await response.json();
-      if (response.error) {
-        throw new Error(response.message);
+      if (res.error) {
+        throw new Error(res.message);
       }
+      await dispatch(signUpSuccess(data));
+      history.push('/auth/login', { email: data.email });
       dispatch(setContentToast({ message: 'Sign up successfully', state: 'success' }));
       dispatch(handleDisplayToast(true));
-      await dispatch(signUpSuccess(data));
       return res;
     } catch (error) {
       dispatch(signUpError(error.toString()));
+      dispatch(resetState());
       dispatch(setContentToast({ message: error.message, state: 'fail' }));
       dispatch(handleDisplayToast(true));
     }

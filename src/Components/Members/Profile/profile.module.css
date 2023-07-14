@@ -1,3 +1,6 @@
+.section{
+  margin: 130px auto;
+}
 .content {
   display: flex;
   flex-direction: column;
@@ -7,51 +10,60 @@
   height: 100%;
   width: 70%;
   border-radius: 7px;
-  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-  animation-name: modalopen;
-  animation-duration: 1.5s;
+  box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
+  background-color: #f4f4f4;
 }
 
-.header {
+.formTitle {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #373867;
-  padding: 15px;
+  justify-content: space-between;
+  background: #242024;
   color: #fff;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
 }
 
-.header h2 {
-  margin: 0;
-  align-self: center;
-  font-size: 25px;
-  line-height: 2;
+.formTitle h2 {
+  margin-left: 2%;
 }
 
-.label_container {
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form input {
+  margin: 0
+}
+
+.formGroup {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 1%;
 }
 
-.label_container input {
-  margin: 0;
+.editButton{
+  margin-right: 2%;
 }
 
-.close_button {
-  background-color: #373867;
-  border: none;
-  font-size: 1.7rem;
-  color: #FFFFFF;
-}
-
-.close_button:hover,
-.close_button:focus {
-  color: #000;
-  text-decoration: none;
+.closeButton {
+  margin-right: 2%;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.resetContainer {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 200px;
+  margin-bottom: 2rem;
 }
 
 .body {
@@ -84,4 +96,10 @@
   color: #373867;
   font-weight: 700;
   font-size: 1rem;
+}
+
+.changePassContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
 }

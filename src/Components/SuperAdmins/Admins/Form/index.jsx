@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import styles from './form.module.css';
 
 import { resetState } from 'Redux/Admins/actions';
-import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
-import { addAdmin, getAdminsById, editAdmin } from 'Redux/Admins/thunks';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { addAdmin, getAdmins, editAdmin } from 'Redux/Admins/thunks';
 import adminSchema from 'Validations/admin';
 import adminUpdate from 'Validations/adminUpdate';
 
 import { Input } from 'Components/Shared/Inputs';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
-function AdminsForm() {
+function AdminsForm({ match }) {
   const dispatch = useDispatch();
-  const adminToUpdate = useSelector((state) => state.admins.data);
-  const redirect = useSelector((state) => state.admins.redirect);
-  const params = useParams();
   const history = useHistory();
+  const adminId = match.params.id;
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
   const success = useSelector((state) => state.admins.success);
+  const { data: admins } = useSelector((state) => state.admins);
+  const adminToUpdate = admins.find((ad) => ad._id === adminId);
 
   const {
     register,
@@ -32,11 +33,19 @@ function AdminsForm() {
     reset,
     setValue,
     formState: { errors }
-  } = !params.id
+  } = !adminId
     ? useForm({
         mode: 'onChange',
-        resolver: joiResolver(adminSchema),
-        defaultValues: {
+        resolver: joiResolver(adminSchema)
+      })
+    : useForm({
+        mode: 'onChange',
+        resolver: joiResolver(adminUpdate)
+      });
+
+  const handleReset = () => {
+    const defaultValues = !adminId
+      ? {
           firstName: '',
           lastName: '',
           dni: '',
@@ -45,34 +54,30 @@ function AdminsForm() {
           email: '',
           password: ''
         }
-      })
-    : useForm({
-        mode: 'onChange',
-        resolver: joiResolver(adminUpdate),
-        defaultValues: {
-          firstName: '',
-          lastName: '',
-          dni: '',
-          phone: '',
-          city: ''
-        }
-      });
+      : {
+          firstName: adminToUpdate ? adminToUpdate.firstName : '',
+          lastName: adminToUpdate ? adminToUpdate.lastName : '',
+          dni: adminToUpdate ? adminToUpdate.dni : '',
+          phone: adminToUpdate ? adminToUpdate.phone : '',
+          city: adminToUpdate ? adminToUpdate.city : ''
+        };
+
+    reset(defaultValues);
+  };
 
   useEffect(() => {
-    if (params.id) {
-      dispatch(getAdminsById(params.id));
+    if (adminId) {
+      dispatch(getAdmins()).then((data) => {
+        const admin = data.find((item) => item._id === adminId);
+        // eslint-disable-next-line no-unused-vars
+        const { _id, firebaseUid, email, __v, createdAt, updatedAt, ...resAdmin } = admin;
+        Object.entries(resAdmin).every(([key, value]) => {
+          setValue(key, value);
+          return true;
+        });
+      });
     }
   }, []);
-
-  useEffect(() => {
-    if (params.id) {
-      setValue('firstName', adminToUpdate.firstName);
-      setValue('lastName', adminToUpdate.lastName);
-      setValue('dni', adminToUpdate.dni);
-      setValue('phone', adminToUpdate.phone);
-      setValue('city', adminToUpdate.city);
-    }
-  }, [adminToUpdate]);
 
   useEffect(() => {
     if (success) {
@@ -81,28 +86,50 @@ function AdminsForm() {
     }
   }, [success]);
 
+  useEffect(() => {
+    if (adminToUpdate) {
+      const adminUpdated = admins && admins?.find((ad) => ad._id === adminToUpdate._id);
+      setValue('firstName', adminUpdated ? adminUpdated.firstName : adminToUpdate.firstName);
+      setValue('lastName', adminUpdated ? adminUpdated.lastName : adminToUpdate.lastName);
+      setValue('dni', adminUpdated ? adminUpdated.dni : adminToUpdate.dni);
+      setValue('phone', adminUpdated ? adminUpdated.phone : adminToUpdate.phone);
+      setValue('city', adminUpdated ? adminUpdated.city : adminToUpdate.city);
+    }
+  }, [updated, adminToUpdate]);
+
   const onSubmit = (data) => {
-    if (params.id) {
-      dispatch(editAdmin(params.id, data));
+    if (adminId) {
       setShowConfirmModal(false);
+      dispatch(editAdmin(adminId, data))
+        .then(() => {
+          resetData();
+          setUpdated(!updated);
+        })
+        .catch((error) => {
+          dispatch(setContentToast({ message: error.message, state: 'fail' }));
+          dispatch(handleDisplayToast(true));
+        });
     } else {
       dispatch(addAdmin(data));
       setShowConfirmModal(false);
     }
   };
 
-  useEffect(() => {
-    if (redirect) {
-      history.push('/user/super-admin/admins');
+  const resetData = () => {
+    reset();
+    if (adminToUpdate) {
+      // eslint-disable-next-line no-unused-vars
+      const { _id, firebaseUid, email, __v, updatedAt, createdAt, ...resAdminUpdate } =
+        adminToUpdate;
+      Object.entries(resAdminUpdate).every(([key, value]) => {
+        setValue(key, value);
+        return true;
+      });
     }
-  }, [redirect]);
-
-  const handleButton = () => {
-    setShowConfirmModal(true);
   };
 
-  const closeConfirmModal = () => {
-    setShowConfirmModal(false);
+  const onConfirm = () => {
+    setShowConfirmModal(true);
   };
 
   const closeResponseModal = () => {
@@ -120,74 +147,80 @@ function AdminsForm() {
   return (
     <>
       <div className={styles.formContainer}>
-        <div className={styles.header} data-testid="admins-form-title-container">
-          <h2 className={styles.title}>{params.id ? 'Edit Admin' : 'Add admin'}</h2>
+        <div className={styles.formTitle} data-testid="admins-form-title-container">
+          <h2 className={styles.title}>{adminId ? 'Edit Admin' : 'Add admin'}</h2>
+          <span className={styles.closeButton} onClick={history.goBack}>
+            &times;
+          </span>
         </div>
-        <form className={styles.form} data-testid="admins-form-container">
-          {formFields.map((field) => (
-            <div className={styles.labelInput} key={field.name}>
-              <Input
-                labelText={field.labelText}
-                name={field.name}
-                type={field.type}
-                register={register}
-                error={errors[field.name]?.message}
-              />
+        <div className={styles.content}>
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit(onConfirm)}
+            data-testid="admins-form-container"
+          >
+            {formFields.map((field) => (
+              <div className={styles.formGroup} key={field.name}>
+                <Input
+                  labelText={field.labelText}
+                  name={field.name}
+                  type={field.type}
+                  register={register}
+                  error={errors[field.name]?.message}
+                />
+              </div>
+            ))}
+            {!adminId && (
+              <>
+                <div className={styles.formGroup}>
+                  <Input
+                    labelText="Email"
+                    name="email"
+                    type="email"
+                    register={register}
+                    error={errors.email?.message}
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <Input
+                    labelText="Password"
+                    name="password"
+                    type="password"
+                    register={register}
+                    error={errors.password?.message}
+                  />
+                </div>
+              </>
+            )}
+
+            <div className={styles.buttonContainer} data-testid="admin-form-buttons">
+              <div>
+                <Link to="/user/super-admin/admins">
+                  <Button
+                    action={() => dispatch(resetState())}
+                    classNameButton="cancelButton"
+                    text="Cancel"
+                  ></Button>
+                </Link>
+              </div>
+              <div>
+                <Button text={'Confirm'} action={onConfirm} classNameButton="submitButton" />
+              </div>
             </div>
-          ))}
-          {!params.id && (
-            <>
-              <div className={styles.labelInput}>
-                <Input
-                  labelText="Email"
-                  name="email"
-                  type="email"
-                  register={register}
-                  error={errors.email?.message}
-                />
-              </div>
-              <div className={styles.labelInput}>
-                <Input
-                  labelText="Password"
-                  name="password"
-                  type="password"
-                  register={register}
-                  error={errors.password?.message}
-                />
-              </div>
-            </>
-          )}
-          <div className={styles.container_button}>
-            <Button action={reset} text="Reset" classNameButton="deleteButton" />
-          </div>
-        </form>
-        <div className={styles.buttonContainer} data-testid="admin-form-buttons">
-          <div>
-            <Link to="/user/super-admin/admins">
-              <Button
-                action={() => dispatch(resetState())}
-                classNameButton="cancelButton"
-                text="Cancel"
-              ></Button>
-            </Link>
-          </div>
-          <div>
-            <Button
-              action={handleSubmit(handleButton)}
-              classNameButton="submitButton"
-              text="Submit"
-            />
-          </div>
+            <div className={styles.resetContainer}>
+              <Reset action={handleReset} />
+            </div>
+          </form>
         </div>
       </div>
       {showConfirmModal && (
         <ConfirmModal
-          handler={() => closeConfirmModal()}
-          title={params.id ? 'Update Admin' : 'Add admin'}
+          handler={() => setShowConfirmModal(false)}
+          title={adminId ? 'Update Admin' : 'Add admin'}
           reason="submit"
           onAction={handleSubmit(onSubmit)}
         >
-          Are you sure you want to {params.id ? 'update' : 'add'} admin?
+          Are you sure you want to {adminId ? 'update' : 'add'} admin?
         </ConfirmModal>
       )}
       {show && (

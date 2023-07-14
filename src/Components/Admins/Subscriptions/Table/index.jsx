@@ -1,34 +1,16 @@
 import { useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import styles from './table.module.css';
-import { deleteSubscription } from 'Redux/Subscriptions/thunks';
-import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
-import ConfirmModal from 'Components/Shared/ConfirmModal';
-import ResponseModal from 'Components/Shared/ResponseModal';
-import Button from 'Components/Shared/Button';
-import Loader from 'Components/Shared/Loader';
-import { Input } from 'Components/Shared/Inputs';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
+import styles from './table.module.css';
+
+import Loader from 'Components/Shared/Loader';
+import { Input } from 'Components/Shared/Inputs';
+
 const Table = ({ data }) => {
-  const [editingSubscriptionId, setEditingSubscriptionId] = useState(null);
-  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [filteredSubscriptions, setFilteredSubscriptions] = useState('');
-  const dispatch = useDispatch();
   const pending = useSelector((state) => state.subscriptions.isPending);
-  const { show, message, state } = useSelector((state) => state.toast);
-
-  const handleConfirmDelete = (subscriptionId) => {
-    setEditingSubscriptionId(subscriptionId);
-    setShowConfirmDeleteModal(true);
-  };
-
-  const handleDelete = (subscriptionId) => {
-    dispatch(deleteSubscription(subscriptionId));
-    setShowConfirmDeleteModal(false);
-  };
 
   const filterSubscriptions = useMemo(() => {
     return data.filter((subscription) => {
@@ -47,10 +29,6 @@ const Table = ({ data }) => {
     return date.toLocaleDateString();
   };
 
-  const closeModal = () => {
-    setShowConfirmDeleteModal(false);
-  };
-
   if (pending) {
     return (
       <div className={styles.container}>
@@ -60,6 +38,7 @@ const Table = ({ data }) => {
   }
   return (
     <div>
+      <h1 className={styles.title}>Subscriptions</h1>
       <div className={styles.filterContainer}>
         <div className={styles.inputContainer}>
           <Input
@@ -79,9 +58,9 @@ const Table = ({ data }) => {
           <thead className={styles.containerThead}>
             <tr className={styles.thead}>
               <th>Classes</th>
-              <th>Date</th>
+              <th>Day & Time</th>
               <th>Members</th>
-              <th>Creation Date</th>
+              <th>Date</th>
               <th colSpan="2"></th>
             </tr>
           </thead>
@@ -104,21 +83,6 @@ const Table = ({ data }) => {
                   <td>{`${subscription.members?.name} ${subscription.members?.lastName}`}</td>
                 )}
                 <td>{formatDate(subscription.date)}</td>
-                <td className={`${styles.itemButton} ${styles.itemButtonEdit}`}>
-                  <Link to={`/user/admin/subscriptions/edit/${subscription._id}`}>
-                    <Button
-                      img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
-                      testid="subscriptions-edit-btn"
-                    />
-                  </Link>
-                </td>
-                <td className={`${styles.itemButton} ${styles.itemButtonDelete}`}>
-                  <Button
-                    img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
-                    action={() => handleConfirmDelete(subscription._id)}
-                    testid="subscriptions-delete-btn"
-                  />
-                </td>
               </tr>
             ))}
           </tbody>
@@ -130,23 +94,6 @@ const Table = ({ data }) => {
         </div>
       ) : (
         ''
-      )}
-      {showConfirmDeleteModal && (
-        <ConfirmModal
-          title="Delete Subscription"
-          handler={closeModal}
-          onAction={() => handleDelete(editingSubscriptionId)}
-          reason="delete"
-        >
-          Are you sure to delete subscription?
-        </ConfirmModal>
-      )}
-      {show && (
-        <ResponseModal
-          handler={() => dispatch(handleDisplayToast())}
-          state={state}
-          message={message}
-        />
       )}
     </div>
   );

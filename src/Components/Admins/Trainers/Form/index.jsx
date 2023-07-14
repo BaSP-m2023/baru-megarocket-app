@@ -13,32 +13,59 @@ import trainerUpdate from 'Validations/trainerUpdate';
 import { Input } from 'Components/Shared/Inputs';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
-import Button from 'Components/Shared/Button';
+import { Button, Reset } from 'Components/Shared/Button';
 
 const Form = () => {
   const { id } = useParams();
-  const history = useHistory();
   const dispatch = useDispatch();
-
-  const trainers = useSelector((state) => state.trainers.data);
-  const trainerToEdit = trainers.find((trainer) => trainer._id === id);
+  const history = useHistory();
 
   const { show, message, state } = useSelector((state) => state.toast);
+  const redirect = useSelector((state) => state.trainers.redirect);
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [trainerToEdit, setTrainerToEdit] = useState([]);
 
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
-    getValues,
+    reset,
     formState: { errors }
   } = !id
     ? useForm({
         mode: 'onChange',
-        resolver: joiResolver(trainerSchema),
-        defaultValues: {
+        resolver: joiResolver(trainerSchema)
+      })
+    : useForm({
+        mode: 'onChange',
+        resolver: joiResolver(trainerUpdate)
+      });
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getTrainers()).then((data) => {
+        const trainer = data.find((item) => item._id === id);
+        // eslint-disable-next-line no-unused-vars
+        const { _id, firebaseUid, email, __v, password, ...resTrainer } = trainer;
+        setTrainerToEdit({ ...resTrainer });
+        Object.entries(resTrainer).every(([key, value]) => {
+          setValue(key, value);
+          return true;
+        });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (redirect) {
+      history.push('/user/admin/trainers');
+    }
+  }, [redirect]);
+
+  const handleReset = () => {
+    const defaultValues = !id
+      ? {
           firstName: '',
           lastName: '',
           dni: '',
@@ -47,42 +74,16 @@ const Form = () => {
           password: '',
           email: ''
         }
-      })
-    : useForm({
-        mode: 'onChange',
-        resolver: joiResolver(trainerUpdate),
-        defaultValues: {
-          firstName: trainerToEdit?.firstName,
-          lastName: trainerToEdit?.lastName,
-          dni: trainerToEdit?.dni,
-          phone: trainerToEdit?.phone,
-          salary: trainerToEdit?.salary
-        }
-      });
-  useEffect(() => {
-    dispatch(getTrainers());
-  }, []);
-  const getTrainer = async (id) => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/trainer/${id}`);
-      const { data } = await res.json();
-      setValue('firstName', data.firstName);
-      setValue('lastName', data.lastName);
-      setValue('dni', data.dni);
-      setValue('phone', data.phone);
-      setValue('email', data.email);
-      setValue('salary', data.salary);
-      setValue('password', data.password);
-    } catch (error) {
-      dispatch(handleDisplayToast(true));
-    }
-  };
+      : {
+          firstName: trainerToEdit ? trainerToEdit.firstName : '',
+          lastName: trainerToEdit ? trainerToEdit?.lastName : '',
+          dni: trainerToEdit ? trainerToEdit?.dni : '',
+          phone: trainerToEdit ? trainerToEdit?.phone : '',
+          salary: trainerToEdit ? trainerToEdit?.salary : ''
+        };
 
-  useEffect(() => {
-    if (id && getValues('firstName') === '') {
-      getTrainer(id);
-    }
-  }, []);
+    reset(defaultValues);
+  };
 
   const handleConfirm = (data) => {
     setShowConfirmModal(false);
@@ -90,19 +91,11 @@ const Form = () => {
   };
 
   const onSubmit = (data) => {
-    id
-      ? dispatch(updTrainer(trainerToEdit._id, data, history))
-      : dispatch(addTrainer(data, history));
+    id ? dispatch(updTrainer(id, data)) : dispatch(addTrainer(data));
   };
 
   const handleConfirmModal = () => {
     setShowConfirmModal(true);
-  };
-
-  const handleReset = (e) => {
-    e.preventDefault();
-    reset();
-    getTrainer(id);
   };
 
   const formCreate = [
@@ -125,46 +118,53 @@ const Form = () => {
 
   return (
     <>
-      <h2 className={styles.title} data-testid="trainers-form-title">
-        {id ? 'Edit Trainer' : 'Add Trainer'}
-      </h2>
-      <form className={styles.container} data-testid="trainers-form-container">
-        {id
-          ? formUpdate.map((field) => (
-              <div className={styles.flex} key={field.name}>
-                <Input
-                  labelText={field.labelText}
-                  name={field.name}
-                  type={field.type}
-                  register={register}
-                  error={errors[field.name]?.message}
-                />
-              </div>
-            ))
-          : formCreate.map((field) => (
-              <div className={styles.flex} key={field.name}>
-                <Input
-                  labelText={field.labelText}
-                  name={field.name}
-                  type={field.type}
-                  register={register}
-                  error={errors[field.name]?.message}
-                />
-              </div>
-            ))}
-        <Button text={'Reset'} classNameButton="deleteButton" action={handleReset} />
-      </form>
-      <div className={styles.btnContainer} data-testid="trainers-form-buttons">
-        <Link to="/user/admin/trainers">
-          <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
-        </Link>
-        <Button
-          text={id ? 'Update' : 'Submit'}
-          classNameButton="addButton"
-          action={handleSubmit(handleConfirmModal)}
-        >
-          {id ? 'Update' : 'Submit'}
-        </Button>
+      <div className={styles.formContainer}>
+        <div className={styles.formTitle}>
+          <h2 data-testid="trainers-form-title">{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
+          <span className={styles.closeButton} onClick={() => history.goBack()}>
+            &times;
+          </span>
+        </div>
+        <div className={styles.content}>
+          <form className={styles.form} data-testid="trainers-form-container">
+            {id
+              ? formUpdate.map((field) => (
+                  <div className={styles.formGroup} key={field.name}>
+                    <Input
+                      labelText={field.labelText}
+                      name={field.name}
+                      type={field.type}
+                      register={register}
+                      error={errors[field.name]?.message}
+                    />
+                  </div>
+                ))
+              : formCreate.map((field) => (
+                  <div className={styles.formGroup} key={field.name}>
+                    <Input
+                      labelText={field.labelText}
+                      name={field.name}
+                      type={field.type}
+                      register={register}
+                      error={errors[field.name]?.message}
+                    />
+                  </div>
+                ))}
+          </form>
+          <div className={styles.btnContainer} data-testid="trainers-form-buttons">
+            <Reset action={handleReset} />
+            <Link to="/user/admin/trainers">
+              <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
+            </Link>
+            <Button
+              text={id ? 'Update' : 'Submit'}
+              classNameButton="addButton"
+              action={handleSubmit(handleConfirmModal)}
+            >
+              {id ? 'Update' : 'Submit'}
+            </Button>
+          </div>
+        </div>
       </div>
       {showConfirmModal && (
         <ConfirmModal

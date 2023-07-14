@@ -10,7 +10,8 @@ import {
   editTrainerError,
   deleteTrainerPending,
   deleteTrainerSuccess,
-  deleteTrainerError
+  deleteTrainerError,
+  setRedirect
 } from 'Redux/Trainers/actions';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
@@ -31,20 +32,21 @@ export const getTrainers = () => {
       const { data, message, error } = await response.json();
       if (!error) {
         dispatch(getTrainersSuccess(data));
+        return data;
       } else {
         dispatch(getTrainersError(message));
-        dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'fail' }));
+        dispatch(handleDisplayToast(true));
       }
     } catch (error) {
       dispatch(getTrainersError(error));
-      dispatch(handleDisplayToast(true));
       dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };
 
-export const addTrainer = (trainer, history) => {
+export const addTrainer = (trainer) => {
   return async (dispatch) => {
     dispatch(addTrainerPending());
     try {
@@ -59,24 +61,24 @@ export const addTrainer = (trainer, history) => {
 
       const { data, message, error } = await response.json();
       if (!error) {
-        history.push('/user/admin/trainers');
         dispatch(addTrainerSuccess(data));
-        dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'success' }));
+        dispatch(handleDisplayToast(true));
+        dispatch(setRedirect());
       } else {
         dispatch(addTrainerError(message));
-        dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'fail' }));
+        dispatch(handleDisplayToast(true));
       }
     } catch (error) {
       dispatch(addTrainerError(error));
-      dispatch(handleDisplayToast(true));
       dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };
 
-export const updTrainer = (id, updatedTrainer, history) => {
+export const updTrainer = (id, updatedTrainer) => {
   return async (dispatch) => {
     dispatch(editTrainerPending());
     try {
@@ -90,19 +92,20 @@ export const updTrainer = (id, updatedTrainer, history) => {
       });
       const { data, message, error } = await response.json();
       if (!error) {
-        history.push('/user/admin/trainers');
         dispatch(editTrainerSuccess(data));
-        dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'success' }));
+        dispatch(handleDisplayToast(true));
+        dispatch(setRedirect());
+        return data;
       } else {
         dispatch(editTrainerError(message));
-        dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'fail' }));
+        dispatch(handleDisplayToast(true));
       }
     } catch (error) {
       dispatch(editTrainerError(error));
-      dispatch(handleDisplayToast(true));
       dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };
@@ -121,18 +124,18 @@ export const deleteTrainer = (id) => {
       const { data, message, error } = await response.json();
       if (!error) {
         dispatch(deleteTrainerSuccess(data));
-        dispatch(handleDisplayToast(true));
-        dispatch(setContentToast({ message, state: 'success' }));
         dispatch(getTrainers());
+        dispatch(setContentToast({ message, state: 'success' }));
+        dispatch(handleDisplayToast(true));
       } else {
         dispatch(deleteTrainerError(message));
-        dispatch(handleDisplayToast(true));
         dispatch(setContentToast({ message, state: 'fail' }));
+        dispatch(handleDisplayToast(true));
       }
     } catch (error) {
       dispatch(deleteTrainerError(error));
-      dispatch(handleDisplayToast(true));
       dispatch(setContentToast({ message: error.message, state: 'fail' }));
+      dispatch(handleDisplayToast(true));
     }
   };
 };
