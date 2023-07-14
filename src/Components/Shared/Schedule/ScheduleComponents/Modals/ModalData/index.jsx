@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from 'Components/Shared/Schedule/ScheduleComponents/Modals/ModalData/modalData.module.css';
 import { Button } from 'Components/Shared/Button';
+import { useSelector } from 'react-redux';
 
 const ModalData = ({
   data,
@@ -13,12 +14,13 @@ const ModalData = ({
   reason,
   disabled
 }) => {
+  const { dark } = useSelector((state) => state.darkmode);
   const currentDate = new Date(current.date).setHours(0, 0, 0, 0);
   const modalDate = new Date(data.date).setHours(0, 0, 0, 0);
   const notShow =
     (currentDate === modalDate && current.hour > data.time) || currentDate > modalDate;
   return (
-    <div className={styles.modal}>
+    <div className={!dark ? styles.modal : styles.darkModal}>
       <div className={styles.modalContent}>
         <div className={styles.headerModal}>
           <h3>Class Details</h3>

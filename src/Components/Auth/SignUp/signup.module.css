@@ -16,6 +16,16 @@
   height: auto;
 }
 
+.darksignup form, .darksignup .formTitle {
+  background-color: #19191B;
+  color: #fff;
+  box-shadow: 0px 2px 2px #ffffff40;
+}
+
+.darksignup label {
+  color: #fff;
+}
+
 .formContainer {
   display: flex;
   justify-content: center;
@@ -73,6 +83,11 @@
 
 .formTitle h2 {
   margin-left: 2%;
+}
+
+.formTitle {
+  display: flex;
+  justify-content: space-between;
 }
 
 .formGroup {

@@ -1,4 +1,7 @@
-.content {
+.content, .darkContent {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
   margin-top: 60px;
 }
 
@@ -26,7 +29,11 @@
   width: 100px;
   height: 50px;
   text-align: center;
-  border: 1px solid #b4b4b4;
+  border: 1px solid #c7c6c6;
+}
+
+.darkContent .table td {
+  border: 1px solid #565555;
 }
 
 .table th {
@@ -48,6 +55,12 @@
   cursor: pointer;
 }
 
+.darkContent .tr div:hover, .darkContent .tr td:hover {
+  background-color: #eeeeee;
+  cursor: pointer;
+  color: #19191B;
+}
+
 .div {
   display: flex;
   justify-content: center;
@@ -60,14 +73,9 @@
 .subscription {
   background-color: #cff9d2;
 }
+
 .subscription:hover {
   color: #000000;
-}
-
-.content {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
 }
 
 .content select {
@@ -116,6 +124,7 @@
 
 ::-webkit-scrollbar-thumb {
   background-color: #242024;
+  border-radius: 100px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -408,4 +417,13 @@
 
 .filtered{
   opacity: 0.3;
+}
+
+.darkContent h2, .darkContent span, .darkContent label, .darkContent .div, .darkContent td, .darkContent .right, .darkContent .left  {
+  color: #fff;
+}
+
+.darkContent .subscription {
+  color: #19191B;
+  background-color: #65d26c;
 }

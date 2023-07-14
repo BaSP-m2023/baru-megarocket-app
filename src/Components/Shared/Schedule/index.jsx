@@ -28,6 +28,7 @@ const Schedule = () => {
     (state) => state.activities
   );
   const { data: trainers } = useSelector((state) => state.trainers);
+  const { dark } = useSelector((state) => state.darkmode);
   const [activeMember, setActiveMember] = useState(null);
   const user = useSelector((state) => state.auth.user);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -233,7 +234,7 @@ const Schedule = () => {
         !pendingSubscriptions &&
         showSchedule && (
           <>
-            <div className={styles.content}>
+            <div className={!dark ? styles.content : styles.darkContent}>
               <div className={styles.filter}>
                 <label>Filter by Activity</label>
                 <select onChange={(e) => setActivityFilter(e.target.value)}>
