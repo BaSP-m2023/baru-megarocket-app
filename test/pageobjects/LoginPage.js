@@ -24,9 +24,7 @@ class Login {
   }
 
   get loginPassInput() {
-    return $("
-    #root > div > div > section > form > div.login_containerPassword__Nu596 > div.login_inputContainerPassword__rlprR > input"
-    );
+    return $("[data-testid='login-password-input']> input");
   }
 
   get loginGreenBtn() {

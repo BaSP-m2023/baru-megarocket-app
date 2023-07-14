@@ -72,8 +72,8 @@ function Login() {
         <span className={styles.errorMessage}>
           {errors && errors.email?.message ? errors.email.message : '\u00A0'}
         </span>
-        <div className={styles.containerPassword}>
-          <div className={styles.inputContainerPassword}>
+        <div className={styles.containerPassword} data-testid="login-password-container">
+          <div className={styles.inputContainerPassword} data-testid="login-password-input">
             <Input
               labelText="Password"
               type={showPassword ? 'text' : 'password'}
