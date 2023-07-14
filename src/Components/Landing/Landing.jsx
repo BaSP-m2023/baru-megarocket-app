@@ -115,10 +115,7 @@ function Landing() {
         <section className={styles.membershipsSection} ref={ref}>
           <h3 className={styles.h3}>Choose your plan</h3>
           <div className={styles.cardsContainer}>
-            <div
-              className={styles.membershipCard}
-              onClick={() => handleClickMembership('only_classes')}
-            >
+            <div className={styles.membershipCard}>
               <div className={styles.tier}>
                 <FontAwesomeIcon
                   icon={faUserAstronaut}
@@ -155,9 +152,19 @@ function Landing() {
                   Schedule visualization
                 </li>
               </ul>
-              <div className={styles.price}>$100</div>
+              <div className={styles.price}>
+                <p className={styles.priceDetail}>
+                  34,99<span>U$S/month</span>
+                </p>
+                <button
+                  onClick={() => handleClickMembership('only_classes')}
+                  className={styles.subscribeBtn}
+                >
+                  Subscribe now
+                </button>
+              </div>
             </div>
-            <div className={styles.membershipCard} onClick={() => handleClickMembership('classic')}>
+            <div className={styles.membershipCard}>
               <div className={styles.tier}>
                 <FontAwesomeIcon
                   icon={faCloud}
@@ -218,9 +225,19 @@ function Landing() {
                   Schedule visualization
                 </li>
               </ul>
-              <div className={styles.price}>$200</div>
+              <div className={styles.price}>
+                <p className={styles.priceDetail}>
+                  49,99<span>U$S/month</span>
+                </p>
+                <button
+                  onClick={() => handleClickMembership('classic')}
+                  className={styles.subscribeBtn}
+                >
+                  Subscribe now
+                </button>
+              </div>
             </div>
-            <div className={styles.membershipCard} onClick={() => handleClickMembership('black')}>
+            <div className={styles.membershipCard}>
               <div className={styles.tier}>
                 <FontAwesomeIcon icon={faCloud} style={{ color: '#6d15e8' }} size="lg" />
                 <FontAwesomeIcon
@@ -289,7 +306,17 @@ function Landing() {
                   Schedule visualization
                 </li>
               </ul>
-              <div className={styles.price}>$300</div>
+              <div className={styles.price}>
+                <p className={styles.priceDetail}>
+                  89,99<span>U$S/month</span>
+                </p>
+                <button
+                  onClick={() => handleClickMembership('black')}
+                  className={styles.subscribeBtn}
+                >
+                  Subscribe now
+                </button>
+              </div>
             </div>
           </div>
         </section>

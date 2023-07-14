@@ -177,7 +177,6 @@
   flex-wrap: wrap;
   justify-content: center;
   margin: 2% 0 5% 0;
-  cursor: pointer;
 }
 
 .membershipCard {
@@ -218,18 +217,48 @@
   transform: translateY(-10px);
 }
 
-.price{
-  margin: auto;
+/* .price { */
+  /* margin: auto;
   margin-bottom:0;
   bottom: 0;
+  border: none;
   background-color: #f88d5c;
   color: #fff;
   border-radius: 100px;
   width: fit-content;
   padding: 5% 10%;
-  font-size: 1.2rem;
+  font-weight: 600;
+  color: #242024; */
+/* } */
+
+.price{
+  margin: auto;
+  margin-bottom:0;
+  padding: 5% 10%;
+  color: #fff;
+  width: fit-content;
+}
+
+.subscribeBtn {
+  /* height: 3rem; */
+  padding: 10%;
+  cursor: pointer;
+  border: none;
+  border-radius: 100px;
+  background-color: #f88d5c;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #242024;
+}
+
+.priceDetail {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f88d5c
+}
+
+.priceDetail span {
+  font-size: 0.8rem;
 }
 
 .darkLanding .h3 {
