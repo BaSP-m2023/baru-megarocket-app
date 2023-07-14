@@ -31,6 +31,8 @@
   border-radius: 50px;
   box-shadow: 2px 2px 4px #00000033;
   text-align: center;
+  transition: background-color 0.4s ease-in;
+  transition: color 0.4s ease-in;
 }
 
 .card:nth-child(even){
@@ -46,6 +48,8 @@
   background-color: #19191B;
   color: #fff;
   box-shadow: 1px 1px 2px #ffffff33;
+  transition: background-color 0.4s ease-in;
+  transition: color 0.4s ease-in;
 }
 
 .darkActivities .card:nth-child(even){

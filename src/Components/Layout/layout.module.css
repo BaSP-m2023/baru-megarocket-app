@@ -4,11 +4,14 @@
   justify-content: space-between;
   min-height: 100vh;
   background-color: #302c30;
+  transition: background-color 1s;
 }
+
 
 .container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
+  transition: background-color 1s;
 }

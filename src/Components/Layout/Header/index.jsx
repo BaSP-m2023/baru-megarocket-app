@@ -32,17 +32,17 @@ function Header(props) {
       <div className={styles.container}>
         <NavBar routes={props.routes} />
         <div className={styles.container2}>
-          {!dark ? (
+          {dark ? (
             <FontAwesomeIcon
               icon={faToggleOn}
-              onClick={() => dispatch(setDarkMode(true))}
+              onClick={() => dispatch(setDarkMode(false))}
               style={{ color: 'orange' }}
               size="2xl"
             />
           ) : (
             <FontAwesomeIcon
               icon={faToggleOff}
-              onClick={() => dispatch(setDarkMode(false))}
+              onClick={() => dispatch(setDarkMode(true))}
               style={{ color: 'orange' }}
               size="2xl"
             />

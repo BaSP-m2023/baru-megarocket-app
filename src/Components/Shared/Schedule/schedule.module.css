@@ -154,7 +154,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -165,7 +165,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translateY(50%);
 }
 
@@ -177,7 +177,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -188,7 +188,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translateY(50%);
 }
 
@@ -200,7 +200,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -211,7 +211,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translateY(50%);
 }
 
@@ -223,7 +223,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -234,7 +234,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translateY(50%);
 }
 
@@ -246,7 +246,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -257,7 +257,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translateY(50%);
 }
 
@@ -269,7 +269,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -280,7 +280,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translateY(50%);
 }
 
@@ -292,7 +292,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -303,7 +303,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translateY(50%);
 }
 
@@ -315,7 +315,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -326,7 +326,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translateY(50%);
 }
 
@@ -338,7 +338,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -349,7 +349,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translateY(50%);
 }
 
@@ -361,7 +361,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -372,7 +372,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translateY(50%);
 }
 
@@ -384,7 +384,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #d10202;
+  background-color: #cb1d1d;
   transform: translate(-50%, -50%);
 }
 
@@ -419,8 +419,21 @@
   opacity: 0.3;
 }
 
-.darkContent h2, .darkContent span, .darkContent label, .darkContent .div, .darkContent td, .darkContent .right, .darkContent .left  {
+.darkContent select, .darkContent option {
+  background-color: #19191B;
   color: #fff;
+}
+
+.darkContent h2, .darkContent span, .darkContent label, .darkContent .div,
+.darkContent td, .darkContent .right, .darkContent .left, .darkContent option, .darkContent select {
+  color: #fff;
+  transition: background-color 1s;
+  transition: color 0.5s;
+}
+
+.content h2, .content span, .content label, .content .div, .content td, .content .right, .content .left  {
+  transition: background-color 1s;
+  transition: color 0.5s;
 }
 
 .darkContent .subscription {

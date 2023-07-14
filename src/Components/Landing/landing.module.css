@@ -194,6 +194,7 @@
   text-align: center;
   overflow: hidden;
   transition: transform 0.3s ease;
+  transition: background-color 1s;
 }
 
 .darkLanding .membershipCard {
@@ -210,6 +211,7 @@
   text-align: center;
   overflow: hidden;
   transition: transform 0.3s ease;
+  transition: background-color 1s;
 }
 
 .membershipCard:hover {
@@ -291,4 +293,20 @@
   .h3{
     font-size: 1.5rem;
   }
+}
+
+.darkLanding, .darkLanding p, .darkLanding .container, 
+.darkLanding .featuresSection, .darkLanding .h2,
+.darkLanding .h3, .darkLanding .ul, .darkLanding .membershipCard
+.darkLanding .about_col_1 img, .darkLanding .about_col_2 img {
+  transition: background-color 1s;
+  transition: color 1s;
+}
+
+.landing, .landing p, .container, 
+.landing .featuresSection, .landing .h2,
+.landing .h3, .landing .ul, .landing .membershipCard
+.landing .about_col_1 img, .landing .about_col_2 img {
+  transition: background-color 1s;
+  transition: color 1s;
 }

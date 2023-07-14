@@ -237,7 +237,7 @@ const Schedule = () => {
             <div className={!dark ? styles.content : styles.darkContent}>
               <div className={styles.filter}>
                 <label>Filter by Activity</label>
-                <select onChange={(e) => setActivityFilter(e.target.value)}>
+                <select value={activityFilter} onChange={(e) => setActivityFilter(e.target.value)}>
                   <option value={''}>All classes</option>
                   {activities.map((option) => (
                     <option key={option._id} value={option.name}>
@@ -248,7 +248,10 @@ const Schedule = () => {
                 {role !== 'TRAINER' && (
                   <>
                     <label>Filter by Trainer</label>
-                    <select onChange={(e) => setTrainerFilter(e.target.value)}>
+                    <select
+                      value={trainerFilter}
+                      onChange={(e) => setTrainerFilter(e.target.value)}
+                    >
                       <option value={''}>All trainers</option>
                       {trainers.map((option) => (
                         <option key={option._id} value={`${option._id}`}>
