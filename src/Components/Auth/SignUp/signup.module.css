@@ -23,7 +23,7 @@
   align-items: center;
 }
 
-.inputPassword {
+.inputContainer {
   display: flex;
   justify-content: center;
   width: 100%;
@@ -31,17 +31,19 @@
 
 .input {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 5%;
-  width: 40%;
+  justify-content: center;
+  width: 90%;
+  margin-left: 12%;
 }
 
 .btnVisibilityPassword {
   display: flex;
   align-items: center;
-  width: 5%;
+  width: 15%;
+}
+
+.imgButtonPassword {
+  margin-top: 30px;
 }
 
 .imgButtonPassword {
@@ -71,6 +73,11 @@
   border-top-right-radius: 7px;
 }
 
+.formTitle {
+  display: flex;
+  justify-content: space-between;
+}
+
 .formTitle h2 {
   margin-left: 2%;
 }
@@ -90,7 +97,7 @@
 
 .closeButton {
   margin-right: 2%;
-  color: #fff;
+  color:#242024;
   font-size: 30px;
   font-weight: 700;
   cursor: pointer;
@@ -126,6 +133,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .buttonContainer {
