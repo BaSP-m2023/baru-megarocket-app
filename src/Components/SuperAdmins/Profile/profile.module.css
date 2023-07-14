@@ -18,7 +18,7 @@
   font-size: 17px;
   line-height: 1.6;
   font-weight: 700;
-  color: #373867;
+  color: #242024;
 }
 .loader_container {
   display: flex;
@@ -31,7 +31,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #373867;
+  background: #242024;
   padding: 15px;
   color: #fff;
   border-top-left-radius: 7px;
@@ -48,7 +48,7 @@
   font-size: 1rem;
   font-weight: 700;
   color: #ffffff;
-  background-color: #373867;
+  background-color: #242024;
   border-width: 0;
   padding: 0;
 }
@@ -78,15 +78,15 @@
   width: 25vw;
   height: 30px;
   margin-right: 10px;
-  color: #373867;
-  border: 1px solid #373867;
+  color: #242024;
+  border: 1px solid #242024;
   border-radius: 5px;
 }
 
 .label {
   display: block;
   padding: 5px;
-  color: #373867;
+  color: #242024;
   font-weight: 700;
   font-size: 1rem;
 }

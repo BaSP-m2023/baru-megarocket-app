@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import styles from './form.module.css';
 
-import { addMember, updateMember } from 'Redux/Members/thunks';
+import { updateMember } from 'Redux/Members/thunks';
 import { handleDisplayToast } from 'Redux/Shared/ResponseToast/actions';
 import { getMembers } from 'Redux/Members/thunks';
 import memberSchema from 'Validations/member';
@@ -40,7 +40,6 @@ const MemberForm = ({ match }) => {
         mode: 'onChange',
         resolver: joiResolver(memberUpdate)
       });
-
   const handleReset = () => {
     const defaultValues = !memberId
       ? {
@@ -94,31 +93,13 @@ const MemberForm = ({ match }) => {
   }, [redirect]);
 
   const onSubmit = (data) => {
-    if (memberId) {
-      dispatch(updateMember(memberId, data));
-      setModalMessageOpen(false);
-    } else {
-      dispatch(addMember(data));
-      setModalMessageOpen(false);
-    }
+    dispatch(updateMember(memberId, data));
+    setModalMessageOpen(false);
   };
 
   const handleModal = () => {
     setModalMessageOpen(true);
   };
-
-  const formCreate = [
-    { labelText: 'First Name', name: 'name', type: 'text' },
-    { labelText: 'Last Name', name: 'lastName', type: 'text' },
-    { labelText: 'ID', name: 'dni', type: 'number' },
-    { labelText: 'Phone', name: 'phone', type: 'text' },
-    { labelText: 'City', name: 'city', type: 'text' },
-    { labelText: 'Zip', name: 'zip', type: 'number' },
-    { labelText: 'Email', name: 'email', type: 'email' },
-    { labelText: 'Password', name: 'password', type: 'password' },
-    { labelText: 'Date of birth', name: 'dob', type: 'date' },
-    { labelText: 'Is member active?', name: 'isActive', type: 'checkbox' }
-  ];
 
   const formEdit = [
     { labelText: 'First Name', name: 'name', type: 'text' },
@@ -127,50 +108,36 @@ const MemberForm = ({ match }) => {
     { labelText: 'Phone', name: 'phone', type: 'text' },
     { labelText: 'City', name: 'city', type: 'text' },
     { labelText: 'Zip', name: 'zip', type: 'number' },
-    { labelText: 'Date of birth', name: 'dob', type: 'date' },
-    { labelText: 'Is member active?', name: 'isActive', type: 'checkbox' }
+    { labelText: 'Date of birth', name: 'dob', type: 'date' }
   ];
 
   return (
-    <div className={styles.form}>
+    <div className={styles.formContainer}>
+      <div className={styles.formTitle} data-testid="members-form-title-container">
+        <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
+        <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
+          &times;
+        </span>
+      </div>
       <div className={styles.content}>
-        <div className={styles.header} data-testid="members-form-title-container">
-          <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
-          <span className={styles.close_button} onClick={() => history.push('/user/admin/members')}>
+        <div className={styles.title} data-testid="members-form-title-container">
+          <h2>Edit a member</h2>
+          <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
             &times;
           </span>
         </div>
-        <form className={styles.body} data-testid="members-form-container">
-          {!memberId
-            ? formCreate.map((field) => (
-                <div key={field.name}>
-                  <Input
-                    labelText={field.labelText}
-                    name={field.name}
-                    type={field.type}
-                    register={register}
-                    error={errors[field.name]?.message}
-                  />
-                </div>
-              ))
-            : formEdit.map((field) => (
-                <div className={styles.flex} key={field.name}>
-                  <Input
-                    labelText={field.labelText}
-                    name={field.name}
-                    type={field.type}
-                    register={register}
-                    error={errors[field.name]?.message}
-                  />
-                </div>
-              ))}
-          <label className={styles.label}>Membership</label>
-          <select className={styles.input} name="membership" {...register('membership')}>
-            <option value="default">Choose your membership</option>
-            <option value="classic">Classic</option>
-            <option value="only_classes">Only Classes</option>
-            <option value="black">Black</option>
-          </select>
+        <form className={styles.form} data-testid="members-form-container">
+          {formEdit.map((field) => (
+            <div className={styles.formGroup} key={field.name}>
+              <Input
+                labelText={field.labelText}
+                name={field.name}
+                type={field.type}
+                register={register}
+                error={errors[field.name]?.message}
+              />
+            </div>
+          ))}
         </form>
         <div className={styles.container_button} data-testid="members-form-button">
           <Button
@@ -178,24 +145,18 @@ const MemberForm = ({ match }) => {
             text={'Cancel'}
             classNameButton={'cancelButton'}
           />
-          <Button
-            classNameButton="addButton"
-            action={handleSubmit(handleModal)}
-            text={memberId ? 'Edit' : 'Submit'}
-          />
+          <Button classNameButton="addButton" action={handleSubmit(handleModal)} text={'Edit'} />
         </div>
         <Reset action={handleReset} />
       </div>
       {modalMessageOpen && (
         <ConfirmModal
-          title={memberId ? 'Edit member' : 'Add Member'}
+          title={'Edit member'}
           handler={() => setModalMessageOpen(false)}
           onAction={handleSubmit(onSubmit)}
           reason={'submit'}
         >
-          {memberId
-            ? `Are you sure you wanna edit this data?`
-            : `Are you sure you wanna add to the members list?`}
+          Are you sure you wanna edit this data?
         </ConfirmModal>
       )}
       {show && (

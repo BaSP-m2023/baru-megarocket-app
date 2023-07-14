@@ -19,7 +19,7 @@ const routes = [
   },
   {
     name: 'Activities',
-    path: '/user/member/subscribe-class'
+    path: '/user/member/activities'
   },
   {
     name: 'Subscriptions',
@@ -34,7 +34,7 @@ const MembersRoutes = () => {
       <Switch>
         <Route exact path={`${url}/home`} component={Home} />
 
-        <Route exact path={`${url}/subscribe-class`} component={SubscribeActivities} />
+        <Route exact path={`${url}/activities`} component={SubscribeActivities} />
         <Route exact path={`${url}/subscriptions`} component={SubscriptionsMember} />
         <Route exact path={`${url}/schedule`} component={Schedule} />
         <Route exact path={`${url}/profile/:id`} component={MemberProfile} />
