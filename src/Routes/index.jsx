@@ -7,6 +7,7 @@ import { getAuth } from 'Redux/Auth/thunks';
 import PrivateRoute from './privateRoute';
 import { tokenListener } from 'Components/helper/firebase';
 import Loader from 'Components/Shared/Loader';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 
 const HomeRoute = lazy(() => import('./home'));
 const AuthRoutes = lazy(() => import('./auth'));
@@ -70,11 +71,13 @@ const Routes = () => {
     <Suspense>
       <Switch>
         <Route exact path="/" component={HomeRoute} />
+        <Route exact path="/" component={HomeRoute} />
         <Route path="/auth" component={AuthRoutes} />
         <PrivateRoute path="/user/super-admin" role="SUPER_ADMIN" component={SuperAdminRoutes} />
         <PrivateRoute path="/user/admin" role="ADMIN" component={AdminRoutes} />
         <PrivateRoute path="/user/trainer" role="TRAINER" component={TrainerRoutes} />
         <PrivateRoute path="/user/member" role="MEMBER" component={MemberRoutes} />
+        <Redirect to="/auth/not-found" />
       </Switch>
     </Suspense>
   );
