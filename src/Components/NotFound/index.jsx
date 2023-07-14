@@ -1,7 +1,10 @@
 import React from 'react';
 import styles from './notfound.module.css';
+import { Button } from 'Components/Shared/Button';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 const NotFound = () => {
+  const history = useHistory();
   return (
     <div className={styles.container}>
       <section className={styles.errorContainer}>
@@ -14,6 +17,11 @@ const NotFound = () => {
         </span>
       </section>
       <h4>PAGE NOT FOUND</h4>
+      <Button
+        text="Go back to home"
+        classNameButton="submitButton"
+        action={() => history.push('/')}
+      />
     </div>
   );
 };
