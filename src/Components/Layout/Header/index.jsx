@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import styles from './header.module.css';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import { Link, useHistory } from 'react-router-dom';
 
-import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { logOut } from 'Redux/Auth/thunks';
-
-import ResponseModal from 'Components/Shared/ResponseModal';
-import NavBar from './NavBar';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import { setDarkMode } from 'Redux/DarkMode/actions';
+
+import NavBar from './NavBar';
+import styles from './header.module.css';
+import ResponseModal from 'Components/Shared/ResponseModal';
 
 function Header(props) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [toggle, setToggle] = useState(false);
   const role = sessionStorage.getItem('role');
   const { user: userLogged } = useSelector((state) => state.auth);
-
+  const { dark } = useSelector((state) => state.darkmode);
   const { show, message, state } = useSelector((state) => state.toast);
 
   const handleLogout = async () => {
@@ -28,26 +27,22 @@ function Header(props) {
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
   };
 
-  useEffect(() => {
-    dispatch(setDarkMode(toggle));
-  }, [toggle]);
-
   return (
     <header>
       <div className={styles.container}>
         <NavBar routes={props.routes} />
         <div className={styles.container2}>
-          {toggle ? (
+          {!dark ? (
             <FontAwesomeIcon
               icon={faToggleOn}
-              onClick={() => setToggle(!toggle)}
+              onClick={() => dispatch(setDarkMode(true))}
               style={{ color: 'orange' }}
               size="2xl"
             />
           ) : (
             <FontAwesomeIcon
               icon={faToggleOff}
-              onClick={() => setToggle(!toggle)}
+              onClick={() => dispatch(setDarkMode(false))}
               style={{ color: 'orange' }}
               size="2xl"
             />
