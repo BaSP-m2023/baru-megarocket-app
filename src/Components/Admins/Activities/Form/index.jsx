@@ -107,20 +107,6 @@ const Form = () => {
                 error={errors.name?.message}
               />
             </div>
-            <div className={styles.formGroup}>
-              <Textarea
-                labelText="Description"
-                name="description"
-                rows={10}
-                cols={40}
-                register={register}
-                placeholder={'Description for the activity'}
-                error={errors.description?.message}
-              />
-            </div>
-            <div className={`${styles.formGroup} ${styles.formGroupCheckbox}`}>
-              <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
-            </div>
             <div className={`${styles.formGroup}`}>
               <label className={styles.formLabel}>Asign trainers</label>
               <Select
@@ -132,6 +118,12 @@ const Form = () => {
                       }))
                     : ''
                 }
+                styles={{
+                  control: (baseStyles, state) => ({
+                    ...baseStyles,
+                    borderColor: state.isSelected ? 'black' : 'black'
+                  })
+                }}
                 className={styles.formSelect}
                 placeholder="Select trainer/s"
                 isMulti
@@ -140,6 +132,18 @@ const Form = () => {
                 onChange={(e) => trainerListOnChange(e.map((c) => c.value))}
               />
               {errors.trainers && <p className={styles.error}>{errors.trainers.message}</p>}
+            </div>
+            <div className={styles.formGroup}>
+              <Textarea
+                labelText="Description"
+                name="description"
+                register={register}
+                placeholder="Description for the activity"
+                error={errors.description?.message}
+              />
+            </div>
+            <div className={`${styles.isActive} ${styles.formGroupCheckbox}`}>
+              <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
             </div>
             <div className={styles.formButtons}>
               <Button text={'Submit'} classNameButton={'submitButton'} />
