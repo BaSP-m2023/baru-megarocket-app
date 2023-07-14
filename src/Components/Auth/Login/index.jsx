@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Link, useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
@@ -18,6 +18,7 @@ function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
+  const { dark } = useSelector((state) => state.darkmode);
   const [showPassword, setShowPassword] = useState(false);
 
   const memberData = location.state?.email;
@@ -55,10 +56,10 @@ function Login() {
   };
   return (
     <section className={styles.formContainer}>
-      <form className={styles.form}>
+      <form className={!dark ? styles.form : styles.darkForm}>
         <div className={styles.titleContainer} data-testid="login-title-container">
-          <h2 className={styles.h2}>MegaRocket</h2>
-          <h3 className={styles.h3}>Login</h3>
+          <h2 className={!dark ? styles.h2 : styles.darkh2}>MegaRocket</h2>
+          <h3 className={!dark ? styles.h3 : styles.darkh3}>Login</h3>
         </div>
         <div className={styles.inputContainerEmail} data-testid="login-email-container">
           <Input

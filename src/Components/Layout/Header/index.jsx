@@ -37,23 +37,23 @@ function Header(props) {
       <div className={styles.container}>
         <NavBar routes={props.routes} />
         <div className={styles.container2}>
+          {toggle ? (
+            <FontAwesomeIcon
+              icon={faToggleOn}
+              onClick={() => setToggle(!toggle)}
+              style={{ color: 'orange' }}
+              size="2xl"
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faToggleOff}
+              onClick={() => setToggle(!toggle)}
+              style={{ color: 'orange' }}
+              size="2xl"
+            />
+          )}
           {role && userLogged && (
             <>
-              {toggle ? (
-                <FontAwesomeIcon
-                  icon={faToggleOn}
-                  onClick={() => setToggle(!toggle)}
-                  style={{ color: 'orange' }}
-                  size="2xl"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faToggleOff}
-                  onClick={() => setToggle(!toggle)}
-                  style={{ color: 'orange' }}
-                  size="2xl"
-                />
-              )}
               <Link
                 className={styles.profileLink}
                 to={
