@@ -139,6 +139,14 @@
   transform: translate(2px ,2px);
 }
 
+.moon {
+  color: white;
+}
+
+.sun {
+  color: orange;
+}
+
 @media screen and (min-width: 750px) {
   .container {
     padding: 0 2rem;

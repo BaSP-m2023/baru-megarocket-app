@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { startOfWeek, addDays, format } from 'date-fns';
 import ScheduleMember from './ScheduleComponents/MemberComponent';
 import ScheduleAdmin from './ScheduleComponents/AdminComponent';
@@ -66,6 +66,7 @@ const Schedule = () => {
     hour: format(new Date(), 'HH:mm'),
     dayNum: format(new Date(), 'i')
   };
+  const percentage = Math.trunc((Number(current.hour.split(':')[1]) / 60) * 100);
 
   useEffect(() => {
     dispatch(getActivities());
@@ -183,24 +184,6 @@ const Schedule = () => {
       setMemberSubs(arraySubs);
     }
   }, [subscriptions]);
-
-  const getClassName = useMemo(() => {
-    return (day, hour, index) => {
-      const isToday = day === current.day;
-      const isPastHour =
-        Number(current.dayNum) - 1 > index ||
-        (Number(current.dayNum) - 1 === index && hour < current.hour);
-      const currentHourPercent =
-        current.hour.split(':')[0] === hour.split(':')[0] &&
-        Number(current.dayNum) - 1 === index &&
-        `current${Math.trunc((Number(current.hour.split(':')[1]) / 60) * 10)}`;
-      const className = `${isToday ? styles.today : ''} ${isPastHour ? styles.pastHour : ''} ${
-        currentHourPercent ? styles[currentHourPercent] : ''
-      }`;
-
-      return className;
-    };
-  }, [current.day, current.hour, current.dayNum]);
 
   const handleActiveMember = () => {
     if (role !== 'MEMBER') {
@@ -322,7 +305,22 @@ const Schedule = () => {
                                 <td
                                   className={
                                     !nextPage &&
-                                    `${getClassName(day, hour, index)} ${styles.current}`
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? `${styles.current}`
+                                      : ``
+                                  }
+                                  style={
+                                    !nextPage &&
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? {
+                                          '--percentage': `${Math.min(
+                                            100,
+                                            Math.max(0, percentage)
+                                          )}%`
+                                        }
+                                      : { '--percentage': '100%' }
                                   }
                                   key={`${day}-${hour}`}
                                 >
@@ -348,7 +346,22 @@ const Schedule = () => {
                                 <td
                                   className={
                                     !nextPage &&
-                                    `${getClassName(day, hour, index)} ${styles.current}`
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? `${styles.current}`
+                                      : ``
+                                  }
+                                  style={
+                                    !nextPage &&
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? {
+                                          '--percentage': `${Math.min(
+                                            100,
+                                            Math.max(0, percentage)
+                                          )}%`
+                                        }
+                                      : { '--percentage': '100%' }
                                   }
                                   key={`${day}-${hour}`}
                                 >
@@ -372,7 +385,22 @@ const Schedule = () => {
                                 <td
                                   className={
                                     !nextPage &&
-                                    `${getClassName(day, hour, index)} ${styles.current}`
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? `${styles.current}`
+                                      : ``
+                                  }
+                                  style={
+                                    !nextPage &&
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? {
+                                          '--percentage': `${Math.min(
+                                            100,
+                                            Math.max(0, percentage)
+                                          )}%`
+                                        }
+                                      : { '--percentage': '100%' }
                                   }
                                   key={`${day}-${hour}`}
                                 >

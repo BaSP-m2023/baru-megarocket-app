@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
 
 import { logOut } from 'Redux/Auth/thunks';
@@ -34,16 +34,16 @@ function Header(props) {
         <div className={styles.container2}>
           {dark ? (
             <FontAwesomeIcon
-              icon={faToggleOn}
+              icon={faMoon}
               onClick={() => dispatch(setDarkMode(false))}
-              style={{ color: 'orange' }}
+              className={styles.moon}
               size="2xl"
             />
           ) : (
             <FontAwesomeIcon
-              icon={faToggleOff}
+              icon={faSun}
               onClick={() => dispatch(setDarkMode(true))}
-              style={{ color: 'orange' }}
+              className={styles.sun}
               size="2xl"
             />
           )}
