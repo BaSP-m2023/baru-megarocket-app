@@ -66,7 +66,7 @@ const Schedule = () => {
     hour: format(new Date(), 'HH:mm'),
     dayNum: format(new Date(), 'i')
   };
-  const percentage = Math.trunc((Number(current.hour.split(':')[1]) / 60) * 100);
+  const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
     dispatch(getActivities());
@@ -81,6 +81,17 @@ const Schedule = () => {
       setRunHandleActiveMember(true);
     }
   }, [user]);
+
+  useEffect(() => {
+    const calculatePercentage = () => {
+      const currentMinute = new Date().getMinutes();
+      const newPercentage = Math.trunc((currentMinute / 60) * 100);
+      setPercentage(newPercentage);
+    };
+    calculatePercentage();
+    const interval = setInterval(calculatePercentage, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (runHandleActiveMember) {
