@@ -167,3 +167,11 @@
 .slider:before {
   border-radius: 50%;
 }
+.member{
+text-align: left;
+}
+
+@media (min-width:768px){
+  .member{
+    padding-left: 20%;}
+}
