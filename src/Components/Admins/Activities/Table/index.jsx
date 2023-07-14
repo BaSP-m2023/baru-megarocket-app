@@ -10,6 +10,7 @@ import Activity from '../Activity';
 const Table = () => {
   const [filter, setFilter] = useState([]);
   const { list } = useSelector((state) => state.activities);
+  const { dark } = useSelector((state) => state.darkmode);
 
   useEffect(() => {
     setFilter(list);
@@ -23,7 +24,10 @@ const Table = () => {
   return (
     <>
       <div className={styles.filterContainer}>
-        <div className={styles.inputContainer} data-testid="activities-search-container">
+        <div
+          className={!dark ? styles.inputContainer : styles.darkInputContainer}
+          data-testid="activities-search-container"
+        >
           <Input
             labelText="Filter Classes"
             name="filter-classes"
@@ -32,11 +36,11 @@ const Table = () => {
             change={(e) => filterList(e.target.value.toLowerCase())}
           />
         </div>
-        <div className={styles.icon}>
+        <div className={!dark ? styles.icon : styles.darkIcon}>
           <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
         </div>
       </div>
-      <div className={styles.tableContainer}>
+      <div className={!dark ? styles.tableContainer : styles.darkTableContainer}>
         <table className={styles.table}>
           <thead>
             <tr className={`${styles.tableHeader}`}>

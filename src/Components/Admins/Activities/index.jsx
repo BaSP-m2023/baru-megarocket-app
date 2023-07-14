@@ -15,6 +15,7 @@ import ResponseModal from 'Components/Shared/ResponseModal';
 function Activities() {
   const { list, isPending } = useSelector((state) => state.activities);
   const { show, message, state } = useSelector((state) => state.toast);
+  const { dark } = useSelector((state) => state.darkmode);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ function Activities() {
   }
   return (
     <section>
-      <h2 className={styles.title}>Activities</h2>
+      <h2 className={!dark ? styles.title : styles.darkTitle}>Activities</h2>
       {list.length !== 0 ? <Table /> : 'There are not activities yet, add new ones!!'}
       <div className={styles.button}>
         <Link to={'activities/add'} data-testid="add-activity-link">

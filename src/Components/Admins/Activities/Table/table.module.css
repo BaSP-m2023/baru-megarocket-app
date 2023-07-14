@@ -7,10 +7,24 @@
   overflow-y: scroll;
 }
 
+.darkTableContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  height: auto;
+  overflow-y: scroll;
+  background-color: #19191b;
+}
+
 .table {
   width: 90vw;
   border-spacing: 0 5px;
   margin: auto;
+}
+
+.darkTableContainer .tableHeader {
+  color: #ffffff;
 }
 
 .filterContainer {
@@ -24,6 +38,14 @@
   margin-bottom: 1%;
 }
 
+.darkInputContainer, .darkInputContainer label {
+  display: flex;
+  flex-direction: column;
+  margin-left: 13%;
+  margin-bottom: 1%;
+  color: #ffffff;
+}
+
 .filter {
   text-align: center;
   color:#242024;
@@ -35,12 +57,35 @@
   margin-top: 37px;
 }
 
+.darkIcon {
+  margin-top: 37px;
+  color: #ffffff;
+}
+
 .activityState {
   display: inline-block;
   padding: 4px;
   border-radius: 4px;
   color: #242024;
   font-weight: 600;
+}
+
+.darkTableContainer .activityState {
+  display: inline-block;
+  padding: 4px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.editButton, .deleteButton {
+  cursor: pointer;
+  color: #242024;
+}
+
+.darkTableContainer .editButton, .darkTableContainer .deleteButton {
+  cursor: pointer;
+  color: #ffffff;
 }
 
 .activityActive {
@@ -56,6 +101,15 @@
   text-align: center;
   color: #242024;
   background-color: #ebebeb;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.darkTableContainer .row td {
+  height: 40px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #242024;
   font-size: 1rem;
   font-weight: 400;
 }
