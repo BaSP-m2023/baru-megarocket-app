@@ -76,6 +76,10 @@
   line-height: 1.6;
 }
 
+.form input {
+  margin: 0;
+}
+
 .confirm_button {
   display: flex;
   margin: auto;

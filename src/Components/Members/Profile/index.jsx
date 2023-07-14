@@ -76,18 +76,6 @@ function MemberProfile({ match }) {
     setValue('zip', memberUpdated ? memberUpdated.zip : memberLogged.zip);
   }, [updated, memberLogged]);
 
-  useEffect(() => {
-    if (memberLogged) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, firebaseUid, email, __v, dob, ...resMemberLogged } = memberLogged;
-      Object.entries(resMemberLogged).every(([key, value]) => {
-        setValue(key, value);
-        return true;
-      });
-      setValue('dob', dob.slice(0, 10));
-    }
-  }, [memberLogged, handleSubmit]);
-
   const onSubmit = (data) => {
     if (memberId) {
       setShowConfirmModal(false);
@@ -221,15 +209,19 @@ function MemberProfile({ match }) {
               </div>
             </div>
             {!disableEdit && (
-              <div className={styles.buttons}>
-                <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
-                <Button
-                  classNameButton="cancelButton"
-                  action={() => setDisableEdit(true)}
-                  text="Cancel"
-                />
-                <Reset action={handleReset} />
-              </div>
+              <>
+                <div className={styles.buttons}>
+                  <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
+                  <Button
+                    classNameButton="cancelButton"
+                    action={() => setDisableEdit(true)}
+                    text="Cancel"
+                  />
+                </div>
+                <div className={styles.resetContainer}>
+                  <Reset action={handleReset} />
+                </div>
+              </>
             )}
           </form>
           {disableEdit && (

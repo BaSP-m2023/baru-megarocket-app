@@ -10,7 +10,6 @@ import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import Loader from 'Components/Shared/Loader';
-import { addSubscribed } from 'Redux/Classes/thunks';
 
 const SubscriptionsMember = () => {
   const subscriptions = useSelector((state) => state.subscriptions.data);
@@ -37,11 +36,7 @@ const SubscriptionsMember = () => {
   }, [pending]);
 
   const handleDeleteActivity = () => {
-    const subscription = subscriptions.find((sub) => sub._id === idToDelete) || '';
-    const unsubscribed = subscription.classes.subscribed - 1;
-    const subscriptionEdited = { subscribed: unsubscribed };
     dispatch(deleteSubscription(idToDelete));
-    dispatch(addSubscribed(subscriptionEdited, subscription.classes._id));
     setShowConfirmModal(false);
   };
 
@@ -70,6 +65,7 @@ const SubscriptionsMember = () => {
               <thead className={styles.thead}>
                 <tr>
                   <th className={styles.th}>Activity</th>
+                  <th className={styles.th}>Date</th>
                   <th className={styles.th}>Day</th>
                   <th className={styles.th}>Time</th>
                   <th className={styles.th}></th>
@@ -80,8 +76,10 @@ const SubscriptionsMember = () => {
                   return (
                     <tr className={styles.tr} key={item.members_id}>
                       <td className={styles.td}>{item.classes.activity.name}</td>
+                      <td className={styles.td}>{item.date.slice(0, 10)}</td>
                       <td className={styles.td}>{item.classes.day}</td>
                       <td className={styles.td}>{item.classes.time}</td>
+
                       <td className={styles.button}>
                         <div className={styles.buttonContainer}>
                           <Button

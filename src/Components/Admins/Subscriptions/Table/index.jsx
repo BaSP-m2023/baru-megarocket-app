@@ -58,9 +58,9 @@ const Table = ({ data }) => {
           <thead className={styles.containerThead}>
             <tr className={styles.thead}>
               <th>Classes</th>
-              <th>Date</th>
+              <th>Day & Time</th>
               <th>Members</th>
-              <th>Creation Date</th>
+              <th>Date</th>
               <th colSpan="2"></th>
             </tr>
           </thead>
