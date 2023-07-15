@@ -14,6 +14,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 
+import Loader from 'Components/Shared/Loader';
+
 function Landing() {
   const ref = useRef(null);
   const history = useHistory();
@@ -29,6 +31,85 @@ function Landing() {
       history.push('/auth/signup');
     }
   };
+
+  const membershipButton = (plan) => {
+    const price = {
+      black: '89,99',
+      classic: '49,99',
+      only_classes: '34,99'
+    };
+
+    if (sessionStorage.getItem('role') && sessionStorage.getItem('role') !== 'MEMBER') {
+      return (
+        <p className={styles.priceDetail}>
+          {`${price[plan]}`}
+          <span>U$S/month</span>
+        </p>
+      );
+    }
+
+    if (user?.membership === plan && user?.isActive) {
+      return (
+        <p className={styles.priceDetail}>
+          Actual membership <span>Your bill is {`${price[plan]}`}U$S per month</span>
+        </p>
+      );
+    }
+
+    if (user?.membership === plan && !user?.isActive) {
+      return (
+        <>
+          <p className={styles.priceDetail}>
+            <span>Your membership is being accepted...</span>
+          </p>
+          <Loader />
+        </>
+      );
+    }
+
+    if (user?.membership !== plan && user?.isActive) {
+      return (
+        <>
+          <p className={styles.priceDetail}>
+            {`${price[plan]}`}
+            <span>U$S/month</span>
+            <br />
+            <span className={styles.membershipChange}>
+              Talk with administration if you want to change your membership.
+            </span>
+          </p>
+        </>
+      );
+    }
+
+    if (user?.membership !== plan && !user?.isActive && user) {
+      return (
+        <>
+          <p className={styles.priceDetail}>
+            {`${price[plan]}`}
+            <span>U$S/month</span>
+            <br />
+            <span className={styles.membershipChange}>
+              You have already requested other membership.
+            </span>
+          </p>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <p className={styles.priceDetail}>
+          {`${price[plan]}`}
+          <span>U$S/month</span>
+        </p>
+        <button onClick={() => handleClickMembership(plan)} className={styles.subscribeBtn}>
+          Subscribe now
+        </button>
+      </>
+    );
+  };
+
   return (
     <div className={!dark ? styles.landing : styles.darkLanding}>
       <section
@@ -116,7 +197,13 @@ function Landing() {
         <section className={styles.membershipsSection} ref={ref}>
           <h3 className={styles.h3}>Choose your plan</h3>
           <div className={styles.cardsContainer}>
-            <div className={styles.membershipCard}>
+            <div
+              className={
+                user?.isActive && user.membership === 'only_classes'
+                  ? `${styles.membershipCard} ${styles.actualPlan}`
+                  : styles.membershipCard
+              }
+            >
               <div className={styles.tier}>
                 <FontAwesomeIcon
                   icon={faUserAstronaut}
@@ -153,27 +240,15 @@ function Landing() {
                   Schedule visualization
                 </li>
               </ul>
-              <div className={styles.price}>
-                {user?.membership === 'only_classes' ? (
-                  <p className={styles.priceDetail}>
-                    Actual membership <span>Your bill is 34,99U$S per month</span>
-                  </p>
-                ) : (
-                  <>
-                    <p className={styles.priceDetail}>
-                      34,99<span>U$S/month</span>
-                    </p>
-                    <button
-                      onClick={() => handleClickMembership('only_classes')}
-                      className={styles.subscribeBtn}
-                    >
-                      Subscribe now
-                    </button>
-                  </>
-                )}
-              </div>
+              <div className={styles.price}>{membershipButton('only_classes')}</div>
             </div>
-            <div className={styles.membershipCard}>
+            <div
+              className={
+                user?.isActive && user.membership === 'classic'
+                  ? `${styles.membershipCard} ${styles.actualPlan}`
+                  : styles.membershipCard
+              }
+            >
               <div className={styles.tier}>
                 <FontAwesomeIcon
                   icon={faCloud}
@@ -185,13 +260,8 @@ function Landing() {
                   style={!dark ? { color: '#242024' } : { color: '#FFF' }}
                   size="2xl"
                 />
-                <FontAwesomeIcon
-                  icon={faStar}
-                  style={!dark ? { color: '#dedeef93' } : { color: '#19191b' }}
-                  size="lg"
-                />
+                <FontAwesomeIcon icon={faStar} style={{ visibility: 'hidden' }} size="lg" />
               </div>
-
               <h3>Classic</h3>
               <ul className={styles.ul}>
                 <li>
@@ -234,27 +304,15 @@ function Landing() {
                   Schedule visualization
                 </li>
               </ul>
-              <div className={styles.price}>
-                {user?.membership === 'classic' ? (
-                  <p className={styles.priceDetail}>
-                    Actual membership <span>Your bill is 49,99U$S per month</span>
-                  </p>
-                ) : (
-                  <>
-                    <p className={styles.priceDetail}>
-                      49,99<span>U$S/month</span>
-                    </p>
-                    <button
-                      onClick={() => handleClickMembership('classic')}
-                      className={styles.subscribeBtn}
-                    >
-                      Subscribe now
-                    </button>
-                  </>
-                )}
-              </div>
+              <div className={styles.price}>{membershipButton('classic')}</div>
             </div>
-            <div className={styles.membershipCard}>
+            <div
+              className={
+                user?.isActive && user.membership === 'black'
+                  ? `${styles.membershipCard} ${styles.actualPlan}`
+                  : styles.membershipCard
+              }
+            >
               <div className={styles.tier}>
                 <FontAwesomeIcon icon={faCloud} style={{ color: '#6d15e8' }} size="lg" />
                 <FontAwesomeIcon
@@ -323,34 +381,7 @@ function Landing() {
                   Schedule visualization
                 </li>
               </ul>
-              <div className={styles.price}>
-                {user?.membership === 'black' ? (
-                  <p className={styles.priceDetail}>
-                    Actual membership <span>Your bill is 89,99U$S per month</span>
-                  </p>
-                ) : (
-                  <>
-                    <p className={styles.priceDetail}>
-                      89,99<span>U$S/month</span>
-                    </p>
-                    {user?.isActive ? (
-                      <button
-                        onClick={() => handleClickMembership('black')}
-                        className={styles.subscribeBtn}
-                      >
-                        Change my membership
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleClickMembership('black')}
-                        className={styles.subscribeBtn}
-                      >
-                        Subscribe now
-                      </button>
-                    )}
-                  </>
-                )}
-              </div>
+              <div className={styles.price}>{membershipButton('black')}</div>
             </div>
           </div>
         </section>

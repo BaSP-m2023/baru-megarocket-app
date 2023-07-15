@@ -217,20 +217,6 @@
   transform: translateY(-10px);
 }
 
-/* .price { */
-  /* margin: auto;
-  margin-bottom:0;
-  bottom: 0;
-  border: none;
-  background-color: #f88d5c;
-  color: #fff;
-  border-radius: 100px;
-  width: fit-content;
-  padding: 5% 10%;
-  font-weight: 600;
-  color: #242024; */
-/* } */
-
 .price{
   margin: auto;
   margin-bottom:0;
@@ -240,25 +226,40 @@
 }
 
 .subscribeBtn {
-  /* height: 3rem; */
   padding: 10%;
   cursor: pointer;
   border: none;
   border-radius: 100px;
-  background-color: #f88d5c;
+  background-color: #6d15e8;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #242024;
+  color: #f5e8e8;
 }
 
 .priceDetail {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #f88d5c
+  color: #6d15e8
 }
 
 .priceDetail span {
   font-size: 0.8rem;
+}
+
+.membershipChange {
+  font-style: italic;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.landing .actualPlan {
+  border: 2px solid;
+  border-color: #6d15e8
+}
+
+.darkLanding .actualPlan {
+  border: 2px solid;
+  border-color: #03c04a;
 }
 
 .darkLanding .h3 {
