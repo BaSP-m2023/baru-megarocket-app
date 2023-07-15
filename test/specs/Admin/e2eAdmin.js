@@ -34,17 +34,17 @@ describe('Verify login with user with valid credentials', () => {
     await browser.keys(['Enter']);
     await ActivitiesPage.ActivitiesSubmitBtn.click();
   });
-  // it('user should be able to edit an activity', async () => {
-  //   await ActivitiesPage.ActivitiesNavBar.click();
-  //   await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
-  //   await ActivitiesPage.ActivitiesEditBtn.click();
-  //   await expect(ActivitiesPage.ActivitiesEditTitle).toBeDisplayed();
-  //   await ActivitiesPage.ActivitiesEditName.setValue('Pilates');
-  //   await ActivitiesPage.ActivitiesEditDescription.setValue('shhsjslfoornsbsttersbbkoodkdjsggsgs');
-  // await ActivitiesPage.ActivitiesEditTrainerSelector.click();
-  // await ActivitiesPage.ActivitiesEditTrainer.click();
-  //   await ActivitiesPage.ActivitiesSubmitBtn.click();
-  // });
+  it('user should be able to edit an activity', async () => {
+    await ActivitiesPage.ActivitiesNavBar.click();
+    await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
+    await ActivitiesPage.ActivitiesEditBtn.click();
+    await expect(ActivitiesPage.ActivitiesEditTitle).toBeDisplayed();
+    await ActivitiesPage.ActivitiesEditName.setValue('Pilates');
+    await ActivitiesPage.ActivitiesEditDescription.setValue('shhsjslfoornsbsttersbbkoodkdjsggsgs');
+    await ActivitiesPage.ActivitiesEditTrainerSelector.click();
+    await ActivitiesPage.ActivitiesEditTrainer.click();
+    await ActivitiesPage.ActivitiesSubmitBtn.click();
+  });
   // it('user should delete an activity', async () => {
   // await ActivitiesPage.ActivitiesNavBar.click();
   // await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
