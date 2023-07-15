@@ -46,7 +46,15 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
   return (
     <>
       <tr className={`${styles['row']}`}>
-        <td>
+        <td className={styles.member}>
+          <img
+            className={styles.avatar}
+            src={
+              member.avatar
+                ? `${process.env.PUBLIC_URL}/assets/avatars/${member.avatar}.jpg`
+                : `${process.env.PUBLIC_URL}/assets/images/profile-icon.png`
+            }
+          />
           {member.name} {member.lastName}
         </td>
         <td>
