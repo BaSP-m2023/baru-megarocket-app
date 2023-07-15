@@ -51,6 +51,15 @@
   line-height: 1.6;
 }
 
+.inputContainer {
+  display: flex;
+  margin-top: 20px;
+}
+
+.inputForm {
+  margin-left: 20px;
+}
+
 .formGroup {
   display: flex;
   flex-direction: column;

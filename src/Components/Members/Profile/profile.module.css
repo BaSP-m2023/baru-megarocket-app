@@ -34,15 +34,14 @@
   flex-direction: column;
 }
 
-.form input {
-  margin: 0
-}
-
 .formGroup {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   margin-top: 1%;
+}
+
+.formFields {
+  margin-right: 5%;
 }
 
 .editButton{
@@ -101,5 +100,5 @@
 .changePassContainer {
   display: flex;
   justify-content: center;
-  margin-top: 14px;
+  margin-top: 4%;
 }

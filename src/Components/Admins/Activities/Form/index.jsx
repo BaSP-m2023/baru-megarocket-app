@@ -107,20 +107,6 @@ const Form = () => {
                 error={errors.name?.message}
               />
             </div>
-            <div className={styles.formGroup}>
-              <Textarea
-                labelText="Description"
-                name="description"
-                rows={10}
-                cols={40}
-                register={register}
-                placeholder={'Description for the activity'}
-                error={errors.description?.message}
-              />
-            </div>
-            <div className={`${styles.formGroup} ${styles.formGroupCheckbox}`}>
-              <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
-            </div>
             <div className={`${styles.formGroup}`}>
               <label className={styles.formLabel}>Asign trainers</label>
               <Select
@@ -132,6 +118,12 @@ const Form = () => {
                       }))
                     : ''
                 }
+                styles={{
+                  control: (baseStyles, state) => ({
+                    ...baseStyles,
+                    borderColor: state.isSelected ? 'black' : 'black'
+                  })
+                }}
                 className={styles.formSelect}
                 placeholder="Select trainer/s"
                 isMulti
@@ -139,7 +131,22 @@ const Form = () => {
                 value={trainer ? options.find((t) => t.value === trainer) : trainer}
                 onChange={(e) => trainerListOnChange(e.map((c) => c.value))}
               />
-              {errors.trainers && <p className={styles.error}>{errors.trainers.message}</p>}
+              <span className={styles.error}>
+                {errors.trainers ? errors.trainers.message : '\u00A0'}
+              </span>
+            </div>
+            <div className={styles.formGroup}>
+              <Textarea
+                labelText="Description"
+                rows={4}
+                name="description"
+                register={register}
+                placeholder="Description for the activity"
+                error={errors.description?.message}
+              />
+            </div>
+            <div className={`${styles.isActive} ${styles.formGroupCheckbox}`}>
+              <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
             </div>
             <div className={styles.formButtons}>
               <Button text={'Submit'} classNameButton={'submitButton'} />

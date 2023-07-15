@@ -73,12 +73,15 @@ function SignUp() {
     setShowConfirmModal(!showConfirmModal);
   };
 
-  const formFields = [
+  const firstFormFields = [
     { labelText: 'Name', type: 'text', name: 'name' },
     { labelText: 'Last name', type: 'text', name: 'lastName' },
     { labelText: 'DNI', type: 'number', name: 'dni' },
     { labelText: 'Phone', type: 'number', name: 'phone' },
-    { labelText: 'Email', type: 'email', name: 'email' },
+    { labelText: 'Email', type: 'email', name: 'email' }
+  ];
+
+  const secondFormFields = [
     { labelText: 'City', type: 'text', name: 'city' },
     { labelText: 'Date of birth', type: 'date', name: 'dob' },
     { labelText: 'Zip code', type: 'number', name: 'zip' },
@@ -103,43 +106,60 @@ function SignUp() {
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div data-testid="signup-members-inputs">
-            {formFields.map((inputData, index) => (
-              <div key={index} className={styles.inputPassword}>
-                <div
-                  className={inputData.type === 'password' ? styles.input : styles.label_container}
-                >
+            <div className={styles.inputContainer}>
+              <div className={styles.label_container}>
+                {firstFormFields.map((inputData, index) => (
                   <Input
+                    key={index}
                     labelText={inputData.labelText}
-                    type={inputData.type === 'password' && viewPassword ? 'text' : inputData.type}
+                    type={inputData.type}
                     name={inputData.name}
                     register={register}
+                    error={errors[inputData.name]?.message}
                   />
-                  <div className={styles.errorMessage}>
-                    {errors && errors[inputData.name]?.message
-                      ? errors[inputData.name]?.message
-                      : '\u00A0'}
-                  </div>
-                </div>
-                {inputData.type === 'password' && (
-                  <div className={styles.btnVisibilityPassword}>
-                    <FontAwesomeIcon
-                      icon={viewPassword ? faEyeSlash : faEye}
-                      onClick={handlePassword}
-                      className={styles.imgButtonPassword}
-                    />
-                  </div>
-                )}
+                ))}
               </div>
-            ))}
-            <div className={styles.label_container}>
-              <label className={styles.label}>Membership</label>
-              <select className={styles.select} name="membership" {...register('membership')}>
-                <option value="default">Choose your membership</option>
-                <option value="classic">Classic</option>
-                <option value="only_classes">Only Classes</option>
-                <option value="black">Black</option>
-              </select>
-              {errors.membership && <p className={styles.error}>Choose your membership</p>}
+              <div className={styles.label_container}>
+                {secondFormFields.map((inputData, index) => (
+                  <div
+                    key={index}
+                    className={
+                      inputData.type === 'password' ? styles.input : styles.label_container
+                    }
+                  >
+                    <div className={styles.label_container}>
+                      <Input
+                        labelText={inputData.labelText}
+                        type={
+                          inputData.type === 'password' && viewPassword ? 'text' : inputData.type
+                        }
+                        name={inputData.name}
+                        register={register}
+                        error={errors[inputData.name]?.message}
+                      />
+                    </div>
+                    <div className={styles.btnVisibilityPassword}>
+                      {inputData.type === 'password' && (
+                        <FontAwesomeIcon
+                          icon={viewPassword ? faEyeSlash : faEye}
+                          onClick={handlePassword}
+                          className={styles.imgButtonPassword}
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))}
+                <div className={styles.label_container}>
+                  <label className={styles.label}>Membership</label>
+                  <select className={styles.select} name="membership" {...register('membership')}>
+                    <option value="default">Choose your membership</option>
+                    <option value="classic">Classic</option>
+                    <option value="only_classes">Only Classes</option>
+                    <option value="black">Black</option>
+                  </select>
+                  {errors.membership && <p className={styles.error}>Choose your membership</p>}
+                </div>
+              </div>
             </div>
           </div>
 
