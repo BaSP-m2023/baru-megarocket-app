@@ -56,6 +56,11 @@
   margin-top: 20px;
 }
 
+.fieldContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 .inputForm {
   margin-left: 20px;
 }

@@ -42,17 +42,11 @@
 }
 
 .imgButtonPassword {
-  margin-top: 30px;
+  margin-top: 5px;
 }
 
 .imgButtonPassword {
   cursor: pointer;
-}
-
-.errorMessage {
-  padding: 10px;
-  color: red;
-  font-size: 0.8rem;
 }
 
 .header h2 {
@@ -75,6 +69,8 @@
 .formTitle {
   display: flex;
   justify-content: space-between;
+  background: #242024;
+  color: #fff;
 }
 
 .formTitle h2 {
@@ -95,8 +91,9 @@
 }
 
 .closeButton {
+  margin-top: 10px;
   margin-right: 2%;
-  color:#242024;
+  color: #fff;
   font-size: 30px;
   font-weight: 700;
   cursor: pointer;
@@ -131,7 +128,6 @@
 .label_container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 100%;
 }
 
@@ -154,4 +150,5 @@
 .error {
   color: red;
   font-size: 0.8rem;
+  margin-top: 10px;
 }

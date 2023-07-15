@@ -194,9 +194,9 @@ function MemberProfile({ match }) {
           </div>
           <form onSubmit={handleSubmit(onConfirm)} className={styles.form}>
             <div className={styles.formGroup}>
-              <div className={styles.formFields}>
+              <div className={styles.fieldsContainer}>
                 {firstFormFields.map((inputData, index) => (
-                  <div key={index}>
+                  <div key={index} className={styles.formFields}>
                     <Input
                       labelText={inputData.labelText}
                       type={inputData.type}
@@ -208,9 +208,9 @@ function MemberProfile({ match }) {
                   </div>
                 ))}
               </div>
-              <div>
+              <div className={styles.fieldsContainer}>
                 {secondFormFields.map((inputData, index) => (
-                  <div key={index}>
+                  <div key={index} className={styles.formFields}>
                     <Input
                       labelText={inputData.labelText}
                       type={inputData.type}

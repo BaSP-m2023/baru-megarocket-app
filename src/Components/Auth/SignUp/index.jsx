@@ -157,7 +157,9 @@ function SignUp() {
                     <option value="only_classes">Only Classes</option>
                     <option value="black">Black</option>
                   </select>
-                  {errors.membership && <p className={styles.error}>Choose your membership</p>}
+                  <span className={styles.error}>
+                    {errors.membership ? (errors.message = 'Choose your membership') : '\u00A0'}
+                  </span>
                 </div>
               </div>
             </div>

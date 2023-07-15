@@ -37,11 +37,16 @@
 .formGroup {
   display: flex;
   justify-content: center;
-  margin-top: 1%;
+  margin-top: 40px;
+}
+
+.fieldsContainer {
+  margin-right: 5%;
 }
 
 .formFields {
-  margin-right: 5%;
+  display: flex;
+  flex-direction: column;
 }
 
 .editButton{
@@ -100,5 +105,5 @@
 .changePassContainer {
   display: flex;
   justify-content: center;
-  margin-top: 4%;
+  margin-top: 20px;
 }

@@ -150,7 +150,7 @@ const Form = () => {
                 </div>
                 <div>
                   {secondFormUpdate.map((field) => (
-                    <div key={field.name}>
+                    <div key={field.name} className={styles.formFields}>
                       <Input
                         labelText={field.labelText}
                         name={field.name}
@@ -179,7 +179,7 @@ const Form = () => {
                 </div>
                 <div>
                   {secondFormCreate.map((field) => (
-                    <div key={field.name}>
+                    <div key={field.name} className={styles.formFields}>
                       <Input
                         labelText={field.labelText}
                         name={field.name}

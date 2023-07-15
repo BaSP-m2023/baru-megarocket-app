@@ -180,7 +180,7 @@ function AdminsForm({ match }) {
                 <div className={styles.inputContainer}>
                   <div>
                     {firstFormFieldsUpdate.map((field) => (
-                      <div key={field.name}>
+                      <div key={field.name} className={styles.fieldContainer}>
                         <Input
                           labelText={field.labelText}
                           name={field.name}
@@ -191,9 +191,9 @@ function AdminsForm({ match }) {
                       </div>
                     ))}
                   </div>
-                  <div>
+                  <div className={styles.inputForm}>
                     {secondFormFieldsUpdate.map((field) => (
-                      <div key={field.name}>
+                      <div key={field.name} className={styles.fieldContainer}>
                         <Input
                           labelText={field.labelText}
                           name={field.name}
@@ -211,7 +211,7 @@ function AdminsForm({ match }) {
               <div className={styles.inputContainer}>
                 <div>
                   {firstFormFieldsCreate.map((field) => (
-                    <div key={field.name}>
+                    <div key={field.name} className={styles.fieldContainer}>
                       <Input
                         labelText={field.labelText}
                         name={field.name}
@@ -224,7 +224,7 @@ function AdminsForm({ match }) {
                 </div>
                 <div className={styles.inputForm}>
                   {secondFormFieldsCreate.map((field) => (
-                    <div key={field.name}>
+                    <div key={field.name} className={styles.fieldContainer}>
                       <Input
                         labelText={field.labelText}
                         name={field.name}
