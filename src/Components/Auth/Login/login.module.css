@@ -73,12 +73,6 @@
   cursor: pointer;
 }
 
-.errorMessage {
-  padding: 10px;
-  color: red;
-  font-size: 0.8rem;
-}
-
 .buttonContainer {
   display: flex;
 }
