@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import styles from './header.module.css';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
@@ -24,9 +24,17 @@ function Header(props) {
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
   };
+
+  const location = useLocation();
+  const currentLocation =
+    location.pathname === '/' ||
+    location.pathname === '/user/member/home' ||
+    location.pathname === '/user/admin/home' ||
+    location.pathname === '/user/super-admin/home';
+
   return (
     <header>
-      <div className={styles.container}>
+      <div className={currentLocation ? styles.containerPage : styles.containerHome}>
         <NavBar routes={props.routes} />
         <div className={styles.container2}>
           {role && userLogged && (

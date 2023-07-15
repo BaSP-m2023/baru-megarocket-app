@@ -11,6 +11,9 @@ import Table from './Table';
 import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
+import { Input } from 'Components/Shared/Inputs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const Admins = () => {
   const [filter, setFilter] = useState([]);
@@ -64,13 +67,18 @@ const Admins = () => {
         <h2 className={styles.title}>Admins</h2>
         <div className={styles.searchContainer} data-testid="admins-search-container">
           {filter.length === 0 && <p className={styles.notFound}>Admin not found!</p>}
-          <input
-            className={styles.input}
-            name="search"
-            type="text"
-            placeholder="Search admin by name or last name"
-            onChange={(e) => filterAdmin(e.target.value.toLowerCase())}
-          />
+          <div className={styles.inputContainer} data-testid="trainers-search-container">
+            <Input
+              labelText="Filter Trainers"
+              type="text"
+              name="filter-trainer"
+              placeholder="Search by name or last name"
+              change={(e) => filterAdmin(e.target.value.toLowerCase())}
+            />
+          </div>
+          <div className={styles.icon}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+          </div>
         </div>
         {pending && <Loader />}
         {!pending && admins && admins.length > 0 && (
