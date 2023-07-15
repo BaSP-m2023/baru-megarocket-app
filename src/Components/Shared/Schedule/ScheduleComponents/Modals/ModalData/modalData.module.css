@@ -83,6 +83,7 @@
 .containerButtons{
   display: flex;
   justify-content: center;
+  margin-top: 12px;
 }
 
 .buttonPContainer {
@@ -92,6 +93,5 @@
 }
 
 .classicMembership {
-  margin-top: 32px;
   color: #ff4545;
 }

@@ -109,7 +109,7 @@ const ModalData = ({
             >
               {user?.membership === 'classic' && (
                 <p className={styles.classicMembership}>
-                  Upgrade your membership to sign up the activity
+                  Upgrade your membership to sign up for an activity
                 </p>
               )}
               {notShow ? (
