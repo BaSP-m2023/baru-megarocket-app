@@ -136,12 +136,28 @@ function AdminsForm({ match }) {
     dispatch(handleDisplayToast(false));
   };
 
-  const formFields = [
+  const firstFormFieldsUpdate = [
+    { labelText: 'First Name', name: 'firstName', type: 'text' },
+    { labelText: 'Last Name', name: 'lastName', type: 'text' },
+    { labelText: 'DNI', name: 'dni', type: 'text' }
+  ];
+
+  const secondFormFieldsUpdate = [
+    { labelText: 'Phone', name: 'phone', type: 'text' },
+    { labelText: 'City', name: 'city', type: 'text' }
+  ];
+
+  const firstFormFieldsCreate = [
     { labelText: 'First Name', name: 'firstName', type: 'text' },
     { labelText: 'Last Name', name: 'lastName', type: 'text' },
     { labelText: 'DNI', name: 'dni', type: 'text' },
-    { labelText: 'Phone', name: 'phone', type: 'text' },
-    { labelText: 'City', name: 'city', type: 'text' }
+    { labelText: 'Phone', name: 'phone', type: 'text' }
+  ];
+
+  const secondFormFieldsCreate = [
+    { labelText: 'City', name: 'city', type: 'text' },
+    { labelText: 'Email', name: 'email', type: 'email' },
+    { labelText: 'Password', name: 'password', type: 'password' }
   ];
 
   return (
@@ -159,38 +175,67 @@ function AdminsForm({ match }) {
             onSubmit={handleSubmit(onConfirm)}
             data-testid="admins-form-container"
           >
-            {formFields.map((field) => (
-              <div className={styles.formGroup} key={field.name}>
-                <Input
-                  labelText={field.labelText}
-                  name={field.name}
-                  type={field.type}
-                  register={register}
-                  error={errors[field.name]?.message}
-                />
-              </div>
-            ))}
+            <div>
+              {adminId && (
+                <div className={styles.inputContainer}>
+                  <div>
+                    {firstFormFieldsUpdate.map((field) => (
+                      <div key={field.name} className={styles.fieldContainer}>
+                        <Input
+                          labelText={field.labelText}
+                          name={field.name}
+                          type={field.type}
+                          register={register}
+                          error={errors[field.name]?.message}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    {secondFormFieldsUpdate.map((field) => (
+                      <div key={field.name} className={styles.fieldContainer}>
+                        <Input
+                          labelText={field.labelText}
+                          name={field.name}
+                          type={field.type}
+                          register={register}
+                          error={errors[field.name]?.message}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             {!adminId && (
-              <>
-                <div className={styles.formGroup}>
-                  <Input
-                    labelText="Email"
-                    name="email"
-                    type="email"
-                    register={register}
-                    error={errors.email?.message}
-                  />
+              <div className={styles.inputContainer}>
+                <div>
+                  {firstFormFieldsCreate.map((field) => (
+                    <div key={field.name} className={styles.fieldContainer}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
                 </div>
-                <div className={styles.formGroup}>
-                  <Input
-                    labelText="Password"
-                    name="password"
-                    type="password"
-                    register={register}
-                    error={errors.password?.message}
-                  />
+                <div className={styles.inputForm}>
+                  {secondFormFieldsCreate.map((field) => (
+                    <div key={field.name} className={styles.fieldContainer}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
                 </div>
-              </>
+              </div>
             )}
 
             <div className={styles.buttonContainer} data-testid="admin-form-buttons">
