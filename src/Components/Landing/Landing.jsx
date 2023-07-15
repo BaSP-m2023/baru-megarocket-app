@@ -45,7 +45,7 @@ function Landing() {
         </button>
       </section>
       <div className={styles.container}>
-        <div className={styles.aboutSection}>
+        <section className={styles.aboutSection}>
           <article className={styles.about_col_1}>
             <img src={`${process.env.PUBLIC_URL}/assets/images/img1.svg`} alt="Gym Image" />
 
@@ -61,14 +61,14 @@ function Landing() {
           <article className={styles.about_col_2}>
             <p className={styles.p}>
               Our gym values revolve around creating a welcoming and inclusive environment for all
-              members. We believe in empowering individuals through fitness and providing a
+              members. We believe in empowering insectioniduals through fitness and providing a
               supportive community where everyone can thrive. With a wide range of classes,
               specialized programs, and expert guidance, we are here to support you on your fitness
               journey.
             </p>
             <img src={`${process.env.PUBLIC_URL}/assets/images/img3.svg`} alt="Gym Image" />
           </article>
-        </div>
+        </section>
         <section className={styles.featuresSection}>
           <div className={styles.feature}>
             <div className={styles.icon}>

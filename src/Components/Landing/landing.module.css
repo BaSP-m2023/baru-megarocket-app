@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
   margin-top: 100px;
 }
 
@@ -11,7 +10,6 @@
   margin: auto;
   padding: 2%;
   font-family: 'Roboto', Arial, serif;
-  box-shadow: 0 2px 4px #00000033;
 }
 
 .welcomeSection {
