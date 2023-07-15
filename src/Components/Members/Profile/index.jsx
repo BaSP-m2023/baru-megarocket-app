@@ -28,6 +28,7 @@ function MemberProfile({ match }) {
   const { show, message, state } = useSelector((state) => state.toast);
   const memberLogged = useSelector((state) => state.auth.user || '');
   const { data: members } = useSelector((state) => state.members);
+  const { dark } = useSelector((state) => state.darkmode);
   const [editPass, setEditPass] = useState(false);
 
   const {
@@ -195,7 +196,7 @@ function MemberProfile({ match }) {
   ];
 
   return (
-    <section className={styles.section}>
+    <section className={!dark ? styles.section : styles.darkSection}>
       <div className={styles.formContainer}>
         <div className={styles.content}>
           <div className={styles.formTitle}>
