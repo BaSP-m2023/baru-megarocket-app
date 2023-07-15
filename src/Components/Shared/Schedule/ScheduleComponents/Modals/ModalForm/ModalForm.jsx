@@ -15,7 +15,16 @@ import stylesForm from 'Components/Shared/Schedule/ScheduleComponents/Modals/Mod
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import classSchema from 'Validations/class';
 
-const ModalForm = ({ handler, reason, activities, classData, createData, classes }) => {
+const ModalForm = ({
+  handler,
+  reason,
+  activities,
+  classData,
+  createData,
+  classes,
+  subscribed,
+  date
+}) => {
   const [trainers, setTrainers] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -118,12 +127,12 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
           <div className={stylesForm.inputContainer}>
             <label className={stylesForm.label}>Activity</label>
             <select name="activity" {...register('activity')}>
-              <option value={classData ? classData.activity._id : ''}>
-                {classData ? classData.activity.name : 'Select an activity'}
+              <option value={classData ? classData?.activity?._id : ''}>
+                {classData ? classData?.activity?.name : 'Select an activity'}
               </option>
               {activities?.map(
                 (act) =>
-                  classData?.activity._id !== act._id && (
+                  classData?.activity?._id !== act._id && (
                     <option value={act._id} key={act._id}>
                       {act.name}
                     </option>
@@ -140,11 +149,11 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
               {!activityValue && <option>Select an activity first</option>}
               {trainers?.map((trainer) => (
                 <option
-                  selected={classData?.trainer._id === trainer._id}
-                  value={trainer._id}
-                  key={trainer._id}
+                  selected={classData?.trainer?._id === trainer?._id}
+                  value={trainer?._id}
+                  key={trainer?._id}
                 >
-                  {trainer.firstName} {trainer.lastName}
+                  {trainer?.firstName} {trainer?.lastName}
                 </option>
               ))}
             </select>
@@ -164,9 +173,12 @@ const ModalForm = ({ handler, reason, activities, classData, createData, classes
           </div>
           {classData && (
             <div className={stylesForm.inputContainer}>
-              <label>Memebrs Subscribed: {classData.subscribed}</label>
+              <label>Memebrs Subscribed: {subscribed}</label>
             </div>
           )}
+          <div className={stylesForm.inputContainer}>
+            <label>Date: {date}</label>
+          </div>
           <div
             className={`${styles.modalButtons} ${stylesForm.modalButtons}`}
             data-testid="confirm-modal-buttons"

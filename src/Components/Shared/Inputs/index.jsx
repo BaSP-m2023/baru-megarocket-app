@@ -27,7 +27,7 @@ export function Input({
         {...(register && { ...register(name) })}
         disabled={disabled || false}
       />
-      {error && <p className={styles.error}>{error}</p>}
+      <span className={styles.error}>{error ? error : '\u00A0'}</span>
     </>
   );
 }
@@ -47,7 +47,7 @@ export function Textarea({ labelText, rows, cols, name, placeholder, blur, regis
         onBlur={blur && blur}
         {...(register && { ...register(name) })}
       ></textarea>
-      {error && <p className={styles.error}>{error}</p>}
+      <span className={styles.error}>{error ? error : '\u00A0'}</span>
     </>
   );
 }

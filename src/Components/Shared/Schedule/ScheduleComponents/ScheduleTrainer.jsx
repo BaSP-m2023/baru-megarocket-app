@@ -12,8 +12,8 @@ const ScheduleTrainer = ({ props, click }) => {
   });
   if (oneClass) {
     return (
-      <div className={`${styles.div}`} onClick={() => click(oneClass)}>
-        {oneClass.activity?.name}
+      <div className={`${styles.div}`} onClick={() => click(oneClass, props.date)}>
+        {oneClass.activity.name}
       </div>
     );
   }
