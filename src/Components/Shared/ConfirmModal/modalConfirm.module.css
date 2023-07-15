@@ -1,6 +1,6 @@
-.modal {
+.modal, .darkModal {
   position: fixed;
-  z-index: 1;
+  z-index: 100;
   left: 0;
   top: 0;
   display: flex;
@@ -11,12 +11,25 @@
   background-color: #00000066;
 }
 
-.modalContent {
+.modal .modalContent {
   margin: 15% auto;
   width: 400px;
   border: 1px solid #24202466;
   border-radius: 4px;
   background-color: #FFFFFF;
+  box-shadow: 0px 10px 23px #0000001f;
+}
+
+.darkModal .modalTitle, .darkModal .modalMessage {
+  color: #fff;
+}
+
+.darkModal .modalContent {
+  margin: 15% auto;
+  width: 400px;
+  border: 1px solid #24202466;
+  border-radius: 4px;
+  background-color: #19191b;
   box-shadow: 0px 10px 23px #0000001f;
 }
 

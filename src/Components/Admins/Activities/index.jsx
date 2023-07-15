@@ -30,7 +30,7 @@ function Activities() {
     );
   }
   return (
-    <section>
+    <section className={styles.activitySection}>
       <h2 className={!dark ? styles.title : styles.darkTitle}>Activities</h2>
       {list.length !== 0 ? <Table /> : 'There are not activities yet, add new ones!!'}
       <div className={styles.button}>

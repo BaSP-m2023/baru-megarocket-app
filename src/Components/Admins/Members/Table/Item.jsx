@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from './table.module.css';
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { deleteMember, updateMember } from 'Redux/Members/thunks';
 
 import ConfirmModal from 'Components/Shared/ConfirmModal';
-import { Button } from 'Components/Shared/Button';
 
 const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
   const dispatch = useDispatch();
@@ -62,17 +63,15 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
         </td>
         <td>
           <Link to={`members/edit/${member._id}`}>
-            <Button
-              img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
-              testid="members-edit-btn"
-            />
+            <FontAwesomeIcon icon={faPen} testid="members-edit-btn" className={styles.editButton} />
           </Link>
         </td>
         <td>
-          <Button
-            img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
-            action={() => handleModal()}
-            testid="members-delete-btn"
+          <FontAwesomeIcon
+            icon={faTrash}
+            testid="activities-delete-btn"
+            className={styles.deleteButton}
+            onClick={() => handleModal()}
           />
         </td>
       </tr>

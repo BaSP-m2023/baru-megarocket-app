@@ -29,7 +29,7 @@ const Table = () => {
           data-testid="activities-search-container"
         >
           <Input
-            labelText="Filter Classes"
+            labelText="Filter Activities"
             name="filter-classes"
             type="text"
             placeholder="Search By Activity"
@@ -40,24 +40,26 @@ const Table = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
         </div>
       </div>
-      <div className={!dark ? styles.tableContainer : styles.darkTableContainer}>
-        <table className={styles.table}>
-          <thead>
-            <tr className={`${styles.tableHeader}`}>
-              <th>Activity</th>
-              <th>Description</th>
-              <th>Trainers</th>
-              <th>Status</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody data-testid="activities-list">
-            {filter.map((activity) => (
-              <Activity key={activity._id} activity={activity} />
-            ))}
-          </tbody>
-        </table>
+      <div className={styles.container}>
+        <div className={!dark ? styles.tableContainer : styles.darkTableContainer}>
+          <table className={styles.table}>
+            <thead>
+              <tr className={`${styles.tableHeader}`}>
+                <th>Activity</th>
+                <th>Description</th>
+                <th>Trainers</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody data-testid="activities-list">
+              {filter.map((activity) => (
+                <Activity key={activity._id} activity={activity} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       {filter.length === 0 ? (
         <div className={styles.filter}>

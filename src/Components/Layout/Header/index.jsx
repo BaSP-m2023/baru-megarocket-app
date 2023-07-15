@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
 
 import { logOut } from 'Redux/Auth/thunks';
@@ -32,23 +32,23 @@ function Header(props) {
       <div className={styles.container}>
         <NavBar routes={props.routes} />
         <div className={styles.container2}>
-          {dark ? (
-            <FontAwesomeIcon
-              icon={faMoon}
-              onClick={() => dispatch(setDarkMode(false))}
-              className={styles.moon}
-              size="2xl"
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faSun}
-              onClick={() => dispatch(setDarkMode(true))}
-              className={styles.sun}
-              size="2xl"
-            />
-          )}
           {role && userLogged && (
-            <>
+            <div className={styles.userContainer}>
+              {dark ? (
+                <FontAwesomeIcon
+                  icon={faToggleOn}
+                  onClick={() => dispatch(setDarkMode(false))}
+                  className={styles.toggle}
+                  size="2xl"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faToggleOff}
+                  onClick={() => dispatch(setDarkMode(true))}
+                  className={styles.toggle}
+                  size="2xl"
+                />
+              )}
               <Link
                 className={styles.profileLink}
                 to={
@@ -82,7 +82,7 @@ function Header(props) {
                   <div className={styles.text}>Logout</div>
                 </button>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
