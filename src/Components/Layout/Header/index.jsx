@@ -26,7 +26,6 @@ function Header(props) {
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
   };
-
   return (
     <header>
       <div className={styles.container}>
@@ -61,7 +60,15 @@ function Header(props) {
                   <div className={styles.profileContainer}>
                     <img
                       className={styles.profileImg}
-                      src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
+                      src={
+                        role === 'ADMIN' || role === 'SUPER_ADMIN'
+                          ? `${process.env.PUBLIC_URL}/assets/avatars/admin.jpg`
+                          : role === 'TRAINER'
+                          ? `${process.env.PUBLIC_URL}/assets/avatars/rocket-trainer.jpg`
+                          : role === 'MEMBER' && userLogged.avatar
+                          ? `${process.env.PUBLIC_URL}/assets/avatars/${userLogged.avatar}.jpg`
+                          : `${process.env.PUBLIC_URL}/assets/images/profile-icon.png`
+                      }
                       alt="profile image"
                     />
                     {role === 'ADMIN' && `${userLogged?.firstName} ${userLogged?.lastName}`}

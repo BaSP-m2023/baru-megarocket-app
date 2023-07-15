@@ -58,12 +58,6 @@
   cursor: pointer;
 }
 
-.errorMessage {
-  padding: 10px;
-  color: red;
-  font-size: 0.8rem;
-}
-
 .header h2 {
   margin: 0;
   align-self: center;
