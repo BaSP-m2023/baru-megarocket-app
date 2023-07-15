@@ -46,6 +46,8 @@ const List = ({ members, handleModal }) => {
             <tr className={`${styles['table-row']}`}>
               <th>Members</th>
               <th>Membership Status</th>
+              <th>Membership</th>
+              <th></th>
               <th></th>
             </tr>
           </thead>

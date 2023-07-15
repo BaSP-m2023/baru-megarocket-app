@@ -44,10 +44,30 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
     }
   };
 
+  function capitalizeFirstLetter(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+  const membershipToUpper = () => {
+    let upperMembership = capitalizeFirstLetter(member.membership);
+    if (upperMembership === 'Only_classes') {
+      upperMembership = 'Only Classes';
+    }
+    return upperMembership;
+  };
+
   return (
     <>
       <tr className={`${styles['row']}`}>
-        <td>
+        <td className={styles.member}>
+          <img
+            className={styles.avatar}
+            src={
+              member.avatar
+                ? `${process.env.PUBLIC_URL}/assets/avatars/${member.avatar}.jpg`
+                : `${process.env.PUBLIC_URL}/assets/images/profile-icon.png`
+            }
+          />
           {member.name} {member.lastName}
         </td>
         <td>
@@ -61,6 +81,7 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
             <span className={styles.slider}></span>
           </label>
         </td>
+        <td>{membershipToUpper()}</td>
         <td>
           <Link to={`members/edit/${member._id}`}>
             <FontAwesomeIcon icon={faPen} testid="members-edit-btn" className={styles.editButton} />

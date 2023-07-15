@@ -81,12 +81,12 @@
 .memberTable table {
   width: 100%;
   border-collapse: collapse;
-  
+
 }
 
 .memberTable thead {
-  position: sticky; 
-  top: 0; 
+  position: sticky;
+  top: 0;
   background-color: #242024;
   color: white;
   z-index: 1;
@@ -102,4 +102,15 @@
 .containerButtons{
   display: flex;
   justify-content: center;
+  margin-top: 12px;
+}
+
+.buttonPContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.classicMembership {
+  color: #ff4545;
 }

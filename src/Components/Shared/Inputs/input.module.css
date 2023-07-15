@@ -16,6 +16,8 @@
 }
 
 .textarea {
+  width: 93%;
+  padding: 10px;
   padding: 12px;
   font-size: 1em;
   text-align: justify;
@@ -24,7 +26,9 @@
   border-radius: 5px;
   resize: none;
 }
+
 .error {
   color: red;
   font-size: 0.8rem;
+  margin-top: 10px;
 }

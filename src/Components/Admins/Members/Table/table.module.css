@@ -200,10 +200,28 @@
   transform: translateX(26px);
 }
 
+.memberInactive {
+  border-bottom: 3px solid #d10202;
+}
+.avatar {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  margin: auto;
+}
 .slider:before {
   border-radius: 50%;
 }
 
 .darkContainer h1 {
   color: #fff;
+}
+
+.member{
+text-align: left;
+}
+
+@media (min-width:768px){
+  .member{
+    padding-left: 20%;}
 }
