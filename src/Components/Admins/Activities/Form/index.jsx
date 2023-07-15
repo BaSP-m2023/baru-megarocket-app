@@ -85,13 +85,13 @@ const Form = () => {
   return (
     <section>
       <div className={styles.formContainer}>
-        <div className={styles.formTitle} data-testid="activities-form-title-container">
-          <h2>{location.pathname.includes('add') ? 'Add new activity' : `Edit activity `}</h2>
-          <span className={styles.closeButton} onClick={() => history.goBack()}>
-            &times;
-          </span>
-        </div>
         <div className={styles.content}>
+          <div className={styles.formTitle} data-testid="activities-form-title-container">
+            <h2>{location.pathname.includes('add') ? 'Add new activity' : `Edit activity `}</h2>
+            <span className={styles.closeButton} onClick={() => history.goBack()}>
+              &times;
+            </span>
+          </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className={styles.form}
@@ -111,8 +111,6 @@ const Form = () => {
               <Textarea
                 labelText="Description"
                 name="description"
-                rows={10}
-                cols={40}
                 register={register}
                 placeholder={'Description for the activity'}
                 error={errors.description?.message}

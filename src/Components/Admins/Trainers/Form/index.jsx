@@ -119,13 +119,13 @@ const Form = () => {
   return (
     <>
       <div className={styles.formContainer}>
-        <div className={styles.formTitle}>
-          <h2 data-testid="trainers-form-title">{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
-          <span className={styles.closeButton} onClick={() => history.goBack()}>
-            &times;
-          </span>
-        </div>
         <div className={styles.content}>
+          <div className={styles.formTitle}>
+            <h2 data-testid="trainers-form-title">{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
+            <span className={styles.closeButton} onClick={() => history.goBack()}>
+              &times;
+            </span>
+          </div>
           <form className={styles.form} data-testid="trainers-form-container">
             {id
               ? formUpdate.map((field) => (
@@ -151,7 +151,7 @@ const Form = () => {
                   </div>
                 ))}
           </form>
-          <div className={styles.btnContainer} data-testid="trainers-form-buttons">
+          <div className={styles.formButtons} data-testid="trainers-form-buttons">
             <Reset action={handleReset} />
             <Link to="/user/admin/trainers">
               <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />

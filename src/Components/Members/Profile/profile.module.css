@@ -32,7 +32,12 @@
 .form {
   display: flex;
   flex-direction: column;
+  padding: 10px 20px;
+  font-family: 'Roboto', Arial, serif;
+  font-size: 17px;
+  line-height: 1.6;
 }
+
 
 .form input {
   margin: 0

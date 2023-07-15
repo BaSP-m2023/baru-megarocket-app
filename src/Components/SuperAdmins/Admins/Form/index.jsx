@@ -147,13 +147,13 @@ function AdminsForm({ match }) {
   return (
     <>
       <div className={styles.formContainer}>
-        <div className={styles.formTitle} data-testid="admins-form-title-container">
-          <h2 className={styles.title}>{adminId ? 'Edit Admin' : 'Add admin'}</h2>
-          <span className={styles.closeButton} onClick={history.goBack}>
-            &times;
-          </span>
-        </div>
         <div className={styles.content}>
+          <div className={styles.formTitle} data-testid="admins-form-title-container">
+            <h2 className={styles.title}>{adminId ? 'Edit Admin' : 'Add admin'}</h2>
+            <span className={styles.closeButton} onClick={history.goBack}>
+              &times;
+            </span>
+          </div>
           <form
             className={styles.form}
             onSubmit={handleSubmit(onConfirm)}
@@ -193,7 +193,7 @@ function AdminsForm({ match }) {
               </>
             )}
 
-            <div className={styles.buttonContainer} data-testid="admin-form-buttons">
+            <div className={styles.formButtons} data-testid="admin-form-buttons">
               <div>
                 <Link to="/user/super-admin/admins">
                   <Button

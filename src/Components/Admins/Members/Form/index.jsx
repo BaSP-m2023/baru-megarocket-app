@@ -113,15 +113,9 @@ const MemberForm = ({ match }) => {
 
   return (
     <div className={styles.formContainer}>
-      <div className={styles.formTitle} data-testid="members-form-title-container">
-        <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
-        <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
-          &times;
-        </span>
-      </div>
       <div className={styles.content}>
-        <div className={styles.title} data-testid="members-form-title-container">
-          <h2>Edit a member</h2>
+        <div className={styles.formTitle} data-testid="members-form-title-container">
+          <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
           <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
             &times;
           </span>
@@ -139,7 +133,7 @@ const MemberForm = ({ match }) => {
             </div>
           ))}
         </form>
-        <div className={styles.container_button} data-testid="members-form-button">
+        <div className={styles.formButtons} data-testid="members-form-button">
           <Button
             action={() => history.push('/user/admin/members')}
             text={'Cancel'}

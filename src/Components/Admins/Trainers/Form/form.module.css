@@ -2,9 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin: 150px auto;
-  width: 70%;
+  margin-top: 130px;
 }
 
 .formTitle {
@@ -34,9 +32,12 @@
 .content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
+  background-color: #f4f4f4;
+  margin: 10% auto;
+  margin-top: 30px;
+  padding-bottom: 1.5rem;
   height: 100%;
+  width: 70%;
   border-radius: 0 0 7px 7px;
   box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
   background-color: #f4f4f4;
@@ -45,6 +46,7 @@
 .form {
   display: flex;
   flex-direction: column;
+  padding: 10px 20px;
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
   line-height: 1.6;
@@ -63,7 +65,7 @@
   color: #242024;
 }
 
-.btnContainer {
+.formButtons {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,4 +73,11 @@
 
 .resetContainer {
   flex-direction: column;
+}
+
+@media screen and (max-width: 700px) {
+  .formButtons{
+    flex-direction: column;
+    margin-top: 5%;
+  }
 }
