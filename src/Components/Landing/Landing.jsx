@@ -18,6 +18,7 @@ function Landing() {
   const ref = useRef(null);
   const history = useHistory();
   const { dark } = useSelector((state) => state.darkmode);
+  const { user } = useSelector((state) => state.auth);
 
   const handleClick = () => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
@@ -153,15 +154,23 @@ function Landing() {
                 </li>
               </ul>
               <div className={styles.price}>
-                <p className={styles.priceDetail}>
-                  34,99<span>U$S/month</span>
-                </p>
-                <button
-                  onClick={() => handleClickMembership('only_classes')}
-                  className={styles.subscribeBtn}
-                >
-                  Subscribe now
-                </button>
+                {user?.membership === 'only_classes' ? (
+                  <p className={styles.priceDetail}>
+                    Actual membership <span>Your bill is 34,99U$S per month</span>
+                  </p>
+                ) : (
+                  <>
+                    <p className={styles.priceDetail}>
+                      34,99<span>U$S/month</span>
+                    </p>
+                    <button
+                      onClick={() => handleClickMembership('only_classes')}
+                      className={styles.subscribeBtn}
+                    >
+                      Subscribe now
+                    </button>
+                  </>
+                )}
               </div>
             </div>
             <div className={styles.membershipCard}>
@@ -226,15 +235,23 @@ function Landing() {
                 </li>
               </ul>
               <div className={styles.price}>
-                <p className={styles.priceDetail}>
-                  49,99<span>U$S/month</span>
-                </p>
-                <button
-                  onClick={() => handleClickMembership('classic')}
-                  className={styles.subscribeBtn}
-                >
-                  Subscribe now
-                </button>
+                {user?.membership === 'classic' ? (
+                  <p className={styles.priceDetail}>
+                    Actual membership <span>Your bill is 49,99U$S per month</span>
+                  </p>
+                ) : (
+                  <>
+                    <p className={styles.priceDetail}>
+                      49,99<span>U$S/month</span>
+                    </p>
+                    <button
+                      onClick={() => handleClickMembership('classic')}
+                      className={styles.subscribeBtn}
+                    >
+                      Subscribe now
+                    </button>
+                  </>
+                )}
               </div>
             </div>
             <div className={styles.membershipCard}>
@@ -307,15 +324,32 @@ function Landing() {
                 </li>
               </ul>
               <div className={styles.price}>
-                <p className={styles.priceDetail}>
-                  89,99<span>U$S/month</span>
-                </p>
-                <button
-                  onClick={() => handleClickMembership('black')}
-                  className={styles.subscribeBtn}
-                >
-                  Subscribe now
-                </button>
+                {user?.membership === 'black' ? (
+                  <p className={styles.priceDetail}>
+                    Actual membership <span>Your bill is 89,99U$S per month</span>
+                  </p>
+                ) : (
+                  <>
+                    <p className={styles.priceDetail}>
+                      89,99<span>U$S/month</span>
+                    </p>
+                    {user?.isActive ? (
+                      <button
+                        onClick={() => handleClickMembership('black')}
+                        className={styles.subscribeBtn}
+                      >
+                        Change my membership
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleClickMembership('black')}
+                        className={styles.subscribeBtn}
+                      >
+                        Subscribe now
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>
