@@ -44,6 +44,15 @@
   border-top-right-radius: 7px;
 }
 
+.inputContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.inputFields {
+  margin-right: 20px;
+}
+
 .formTitle h2 {
   margin-left: 2%;
 }
@@ -112,5 +121,9 @@
 .changePassContainer {
   display: flex;
   justify-content: center;
-  margin-top: 14px;
+  margin-top: 40px;
+}
+
+.containerButton {
+  display: flex;
 }
