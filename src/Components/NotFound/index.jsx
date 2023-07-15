@@ -4,6 +4,7 @@ import { Button } from 'Components/Shared/Button';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 const NotFound = () => {
+  const role = sessionStorage.getItem('role');
   const history = useHistory();
   return (
     <div className={styles.container}>
@@ -17,11 +18,25 @@ const NotFound = () => {
         </span>
       </section>
       <h4>PAGE NOT FOUND</h4>
-      <Button
-        text="Go back to home"
-        classNameButton="submitButton"
-        action={() => history.push('/')}
-      />
+      {role === 'SUPER_ADMIN' ? (
+        <Button
+          text="Go back to home"
+          classNameButton="submitButton"
+          action={() => history.push('/user/super-admin/home')}
+        />
+      ) : role ? (
+        <Button
+          text="Go back to home"
+          classNameButton="submitButton"
+          action={() => history.push(`/user/${role.toLowerCase()}/home`)}
+        />
+      ) : (
+        <Button
+          text="Go back to home"
+          classNameButton="submitButton"
+          action={() => history.push('/')}
+        />
+      )}
     </div>
   );
 };
