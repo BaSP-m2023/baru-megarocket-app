@@ -19,13 +19,13 @@
 .formContainer {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
 }
 
 .inputContainer {
   display: flex;
-  justify-content: center;
+  margin-top: 2%;
+  margin-left: 8%;
+  margin-bottom: 2%;
   width: 100%;
 }
 
@@ -33,7 +33,6 @@
   display: flex;
   justify-content: center;
   width: 90%;
-  margin-left: 12%;
 }
 
 .btnVisibilityPassword {
@@ -132,7 +131,7 @@
 .label_container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
   width: 100%;
 }
 
