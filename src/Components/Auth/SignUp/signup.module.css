@@ -19,29 +19,30 @@
 .formContainer {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
 }
 
-.inputPassword {
+.inputContainer {
   display: flex;
-  justify-content: center;
+  margin-top: 2%;
+  margin-left: 8%;
+  margin-bottom: 2%;
   width: 100%;
 }
 
 .input {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 5%;
-  width: 40%;
+  justify-content: center;
+  width: 90%;
 }
 
 .btnVisibilityPassword {
   display: flex;
   align-items: center;
-  width: 5%;
+  width: 15%;
+}
+
+.imgButtonPassword {
+  margin-top: 5px;
 }
 
 .imgButtonPassword {
@@ -65,6 +66,13 @@
   border-top-right-radius: 7px;
 }
 
+.formTitle {
+  display: flex;
+  justify-content: space-between;
+  background: #242024;
+  color: #fff;
+}
+
 .formTitle h2 {
   margin-left: 2%;
 }
@@ -83,6 +91,7 @@
 }
 
 .closeButton {
+  margin-top: 10px;
   margin-right: 2%;
   color: #fff;
   font-size: 30px;
@@ -119,7 +128,7 @@
 .label_container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 100%;
 }
 
 .buttonContainer {
@@ -141,4 +150,5 @@
 .error {
   color: red;
   font-size: 0.8rem;
+  margin-top: 10px;
 }

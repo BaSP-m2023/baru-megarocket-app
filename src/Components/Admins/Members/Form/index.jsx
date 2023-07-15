@@ -101,11 +101,14 @@ const MemberForm = ({ match }) => {
     setModalMessageOpen(true);
   };
 
-  const formEdit = [
+  const firstFormEdit = [
     { labelText: 'First Name', name: 'name', type: 'text' },
     { labelText: 'Last Name', name: 'lastName', type: 'text' },
     { labelText: 'ID', name: 'dni', type: 'number' },
-    { labelText: 'Phone', name: 'phone', type: 'text' },
+    { labelText: 'Phone', name: 'phone', type: 'text' }
+  ];
+
+  const secondFormEdit = [
     { labelText: 'City', name: 'city', type: 'text' },
     { labelText: 'Zip', name: 'zip', type: 'number' },
     { labelText: 'Date of birth', name: 'dob', type: 'date' }
@@ -121,31 +124,36 @@ const MemberForm = ({ match }) => {
       </div>
       <div className={styles.content}>
         <div className={styles.title} data-testid="members-form-title-container">
-          <h2>Edit a member</h2>
           <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
             &times;
           </span>
         </div>
         <form className={styles.form} data-testid="members-form-container">
-          {formEdit.map((field) => (
-            <div className={styles.formGroup} key={field.name}>
-              <Input
-                labelText={field.labelText}
-                name={field.name}
-                type={field.type}
-                register={register}
-                error={errors[field.name]?.message}
-              />
-            </div>
-          ))}
-          <div className={styles.label_container}>
-            <label className={styles.label}>Membership</label>
-            <select className={styles.select} name="membership" {...register('membership')}>
-              <option value="classic">Classic</option>
-              <option value="only_classes">Only Classes</option>
-              <option value="black">Black</option>
-            </select>
-            {errors.membership && <p className={styles.error}>Choose your membership</p>}
+          <div className={styles.fieldContainer}>
+            {firstFormEdit.map((field) => (
+              <div className={styles.formGroup} key={field.name}>
+                <Input
+                  labelText={field.labelText}
+                  name={field.name}
+                  type={field.type}
+                  register={register}
+                  error={errors[field.name]?.message}
+                />
+              </div>
+            ))}
+          </div>
+          <div>
+            {secondFormEdit.map((field) => (
+              <div className={styles.formGroup} key={field.name}>
+                <Input
+                  labelText={field.labelText}
+                  name={field.name}
+                  type={field.type}
+                  register={register}
+                  error={errors[field.name]?.message}
+                />
+              </div>
+            ))}
           </div>
         </form>
         <div className={styles.container_button} data-testid="members-form-button">
