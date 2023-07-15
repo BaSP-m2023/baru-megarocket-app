@@ -8,32 +8,31 @@ const validEmail = 'secondadmin@gmail.com';
 const validPassword = 'Abc123456';
 
 describe('Admin Member CRUD', () => {
-  describe('Admin Login'),
-    () => {
-      beforeAll('Open browser Url', () => {
-        browser.setWindowSize(1920, 1080);
-        browser.url('https://baru-megarocket-app.vercel.app/login');
-      });
+  describe('Admin Login', () => {
+    beforeAll('Open browser Url', () => {
+      browser.setWindowSize(1920, 1080);
+      browser.url('https://baru-megarocket-app.vercel.app/auth/login');
+    });
 
-      it('Should have an error when trying to login with empty credentials', async () => {
-        await LoginPage.loginBtnClick();
+    it('Should have an error when trying to login with empty credentials', async () => {
+      await LoginPage.loginBtnClick();
 
-        await expect(LoginPage.loginErrors).toBeElementsArrayOfSize(2);
-        const emailError = await LoginPage.loginErrors[0];
-        const passwordError = await LoginPage.loginErrors[1];
+      await expect(LoginPage.loginErrors).toBeElementsArrayOfSize(2);
+      const emailError = await LoginPage.loginErrors[0];
+      const passwordError = await LoginPage.loginErrors[1];
 
-        await expect(emailError).toHaveTextContaining('Email is required');
-        await expect(passwordError).toHaveTextContaining('Password is required');
-      });
+      await expect(emailError).toHaveTextContaining('Email is required');
+      await expect(passwordError).toHaveTextContaining('Password is required');
+    });
 
-      it('Should login correcltly with valid credentials', async () => {
-        await LoginPage.enterEmail(validEmail);
-        await LoginPage.enterPassword(validPassword);
-        await LoginPage.loginBtnClick();
+    it('Should login correcltly with valid credentials', async () => {
+      await LoginPage.enterEmail(validEmail);
+      await LoginPage.enterPassword(validPassword);
+      await LoginPage.loginBtnClick();
 
-        await expect(HomePage.homeTitle).waitForDisplayed({ timeout: 2000 });
-      });
-    };
+      await expect(HomePage.homeTitle).waitForDisplayed({ timeout: 2000 });
+    });
+  });
 
   describe('Member panel functionality', () => {
     it('Should navigate to members table', async () => {
