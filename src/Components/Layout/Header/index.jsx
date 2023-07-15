@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './header.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { logOut } from 'Redux/Auth/thunks';
 
+import { Button } from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
 import NavBar from './NavBar';
 
@@ -13,10 +16,15 @@ function Header(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const role = sessionStorage.getItem('role');
   const { user: userLogged } = useSelector((state) => state.auth);
+  const role = sessionStorage.getItem('role');
 
   const { show, message, state } = useSelector((state) => state.toast);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleHamburger = () => {
+    setShowMenu(!showMenu);
+  };
 
   const handleLogout = async () => {
     await dispatch(logOut());
@@ -28,32 +36,37 @@ function Header(props) {
   return (
     <header>
       <div className={styles.container}>
-        <NavBar routes={props.routes} />
+        <Link to={props.routes[0].path} className={styles.link}>
+          <div data-testid="logo-container" className={styles.logoContainer}>
+            <img
+              src={`${process.env.PUBLIC_URL}/assets/images/logo3.png`}
+              alt="Rocket"
+              className={styles.logo}
+            />
+            <p className={styles.mega}>Mega</p>
+            <p className={styles.rocket}>Rocket</p>
+          </div>
+        </Link>
+        <div className={styles.buttonContainer} data-testid="home-buttons-container">
+          {!role && (
+            <>
+              <Button
+                text="Sign Up"
+                classNameButton="submitButton"
+                action={() => history.push('/auth/signup')}
+              />
+              <Button
+                text="Log In"
+                classNameButton="submitButton"
+                action={() => history.push('/auth/login')}
+              />
+            </>
+          )}
+        </div>
+        <NavBar routes={props.routes} showMenu={showMenu} setShowMenu={setShowMenu} />
         <div className={styles.container2}>
           {role && userLogged && (
             <>
-              <Link
-                className={styles.profileLink}
-                to={
-                  role === 'SUPER_ADMIN'
-                    ? `/user/super-admin/profile/${userLogged?._id}`
-                    : `/user/${role.toLowerCase()}/profile/${userLogged?._id}`
-                }
-              >
-                {userLogged?.lastName && (
-                  <div className={styles.profileContainer}>
-                    <img
-                      className={styles.profileImg}
-                      src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
-                      alt="profile image"
-                    />
-                    {role === 'ADMIN' && `${userLogged?.firstName} ${userLogged?.lastName}`}
-                    {role === 'MEMBER' && `${userLogged?.name} ${userLogged?.lastName}`}
-                    {role === 'TRAINER' && `${userLogged?.firstName} ${userLogged?.lastName}`}
-                    {role === 'SUPER_ADMIN' && 'SA'}
-                  </div>
-                )}
-              </Link>
               <div className={styles.logOutButtonContainer}>
                 <button className={styles.logOutButton} onClick={handleLogout}>
                   <div className={styles.sign}>
@@ -67,6 +80,9 @@ function Header(props) {
               </div>
             </>
           )}
+          <div className={styles.hamburger} onClick={handleHamburger}>
+            <FontAwesomeIcon icon={faBars} style={{ color: '#ffffff' }} size="xl" />
+          </div>
         </div>
       </div>
 

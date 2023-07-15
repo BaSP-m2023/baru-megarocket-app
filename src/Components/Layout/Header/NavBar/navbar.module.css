@@ -1,44 +1,8 @@
-
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 80%;
-}
-
-.link{
-  text-decoration: none;
-}
-
-.logoContainer{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-decoration: none;
-}
-
-.logo {
-  width: 90px;
-  transform: rotate(20deg);
-}
-
-.mega{
-  color:#e2e1e9;
-  font-size: 1.3rem;
-  font-weight: 650;
-  transform: translate(-10px, -10px);
-}
-
-.rocket{
-  color: #ddd8e9;
-  font-size: 1.4rem;
-  font-weight: 600;
-  transform: translate(-55px, 10px);
-
-}
-
-.buttonContainer{
-  display: flex;
 }
 
 .routes {
@@ -56,4 +20,65 @@
 }
 .active{
   text-decoration: underline;
+}
+
+.profileLink {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.profileContainer {
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.profileImg {
+  width: 2rem;
+  margin-right: 1rem;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 50%;
+}
+
+@media screen and (max-width: 1090px){
+  .navbar{
+    position: fixed;
+    flex-direction: column;
+    width: 100%;
+    top: 100px;
+    left: 0;
+    background-color: #242024;
+  }
+  .navbar *{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .hidden{
+    display: none;
+  }
+  .profileImg {
+    width: 2rem;
+    margin-right: 10px;
+  }
+  .routes{
+    flex-direction: column;
+    order: 2;
+    padding: 2;
+  }
+  .routes li{
+    border-bottom: 1px solid #f88d5c;
+    padding: 1%;
+    padding-left: 5%;
+  }
+  .profileContainer{
+    order: 1;
+    border-bottom: 1px solid #f88d5c;
+    padding: 2%;
+    padding-left: 5%;
+    color: #fff;
+  }
 }

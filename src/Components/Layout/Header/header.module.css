@@ -7,11 +7,44 @@
   background: linear-gradient(180deg, #242024 0%, rgba(35,31,33,1) 100%);
   z-index: 100;
 }
-
 .container2{
   display: flex;
   align-items: center;
   padding-right: 2%;
+}
+
+.link{
+  text-decoration: none;
+}
+
+.logoContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo {
+  width: 90px;
+  transform: rotate(20deg);
+}
+
+.mega{
+  color:#e2e1e9;
+  font-size: 1.3rem;
+  font-weight: 650;
+  transform: translate(-10px, -10px);
+}
+
+.rocket{
+  color: #ddd8e9;
+  font-size: 1.4rem;
+  font-weight: 600;
+  transform: translate(-55px, 10px);
+}
+
+.buttonContainer{
+  display: flex;
 }
 
 .socialIcon {
@@ -139,12 +172,24 @@
   transform: translate(2px ,2px);
 }
 
-@media screen and (min-width: 750px) {
-  .container {
-    padding: 0 2rem;
-  }
+.hamburger{
+  display: none;
+}
 
-  .navbar {
-    padding: 0 2rem;
+@media screen and (max-width: 1090px){
+  .container{
+    justify-content: space-between;
+  }
+  .hamburger{
+    display: block;
+  }
+}
+
+@media screen and (max-width: 396px){
+  .logoContainer p{
+    display: none;
+  }
+  .logOutButtonContainer{
+    width: 100px;
   }
 }
