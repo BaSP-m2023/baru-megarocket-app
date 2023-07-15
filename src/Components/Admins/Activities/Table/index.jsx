@@ -20,6 +20,8 @@ const Table = () => {
     setFilter(activitiesToShow);
   };
 
+  console.log('lsita', list);
+
   return (
     <>
       <div className={styles.filterContainer}>
@@ -43,7 +45,6 @@ const Table = () => {
               <th>Activity</th>
               <th>Description</th>
               <th>Trainers</th>
-              <th>Status</th>
               <th></th>
               <th></th>
             </tr>
