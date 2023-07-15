@@ -30,6 +30,20 @@
     margin: auto;
 }
 
+.tableHeader th {
+  position: sticky;
+  top: 0;
+  padding-bottom: 5px;
+  background-color: #fff;
+}
+
+.darkTableContainer .tableHeader th {
+  position: sticky;
+  top: 0;
+  padding-bottom: 5px;
+  background-color: #302c30;
+}
+
 .darkTableContainer .tableHeader {
   color: #ffffff;
 }
