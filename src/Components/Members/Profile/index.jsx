@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, useController } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import styles from './profile.module.css';
@@ -35,6 +36,7 @@ function MemberProfile({ match }) {
     reset,
     clearErrors,
     setValue,
+    control,
     formState: { errors }
   } = useForm({
     resolver: joiResolver(memberUpdate),
@@ -45,6 +47,7 @@ function MemberProfile({ match }) {
       dni: memberLogged?.dni,
       phone: memberLogged?.phone,
       city: memberLogged?.city,
+      avatar: memberLogged?.avatar,
       dob: memberLogged?.dob,
       zip: memberLogged?.zip,
       membership: memberLogged?.membership,
@@ -58,15 +61,16 @@ function MemberProfile({ match }) {
 
   useEffect(() => {
     if (redirect) {
-      history.push('/user/member/home');
+      history.push('/user/member/activities');
     }
-  }, [redirect]);
+  }, []);
 
   useEffect(() => {
     const memberUpdated = members && members?.find((mem) => mem._id === memberLogged._id);
     setValue('name', memberUpdated ? memberUpdated.name : memberLogged.name);
     setValue('lastName', memberUpdated ? memberUpdated.lastName : memberLogged.lastName);
     setValue('dni', memberUpdated ? memberUpdated.dni : memberLogged.dni);
+    setValue('avatar', memberUpdated ? memberUpdated.avatar : memberLogged.avatar);
     setValue('phone', memberUpdated ? memberUpdated.phone : memberLogged.phone);
     setValue('city', memberUpdated ? memberUpdated.city : memberLogged.city);
     setValue(
@@ -82,7 +86,7 @@ function MemberProfile({ match }) {
       dispatch(updateMember(memberId, data))
         .then(() => {
           resetData();
-          dispatch(updateUser({ name: data.name, lastName: data.lastName }));
+          dispatch(updateUser({ avatar: data.avatar, name: data.name, lastName: data.lastName }));
           setUpdated(!updated);
           setDisableEdit(true);
         })
@@ -126,6 +130,29 @@ function MemberProfile({ match }) {
     setDisableEdit(true);
     clearErrors();
   };
+  const avatars = [
+    { value: 'alien-bug' },
+    { value: 'alien-kid' },
+    { value: 'astrocat' },
+    { value: 'astrodog' },
+    { value: 'martian' },
+    { value: 'giraffe' },
+    { value: 'astrodog2' }
+  ];
+  const options = avatars.map((avatar) => ({
+    value: avatar.value,
+    label: (
+      <div className={styles.formSelect}>
+        <img
+          src={`${process.env.PUBLIC_URL}/assets/avatars/${avatar.value}.jpg`}
+          className={styles.avatar}
+        />
+      </div>
+    )
+  }));
+  const {
+    field: { value: avatar, onChange: avatarsOnChange }
+  } = useController({ name: 'avatar', control });
 
   const handleCloseModal = () => {
     setShowConfirmModal(false);
@@ -190,6 +217,27 @@ function MemberProfile({ match }) {
           </div>
           <form onSubmit={handleSubmit(onConfirm)} className={styles.form}>
             <div>
+              <div className={styles.formGroup}>
+                {!disableEdit ? (
+                  <Select
+                    defaultValue={memberLogged?.avatar ? memberLogged?.avatar : ''}
+                    className={styles.options}
+                    placeholder="Select an avatar"
+                    value={avatar ? options.find((t) => t.value === avatar) : avatar}
+                    options={options}
+                    onChange={(e) => avatarsOnChange(e.value)}
+                  />
+                ) : (
+                  <img
+                    src={
+                      avatar
+                        ? `${process.env.PUBLIC_URL}/assets/avatars/${avatar}.jpg`
+                        : `${process.env.PUBLIC_URL}/assets/images/profile-icon.png`
+                    }
+                    className={styles.avatar}
+                  />
+                )}
+              </div>
               {formFields.map((inputData, index) => (
                 <div className={styles.formGroup} key={index}>
                   <Input

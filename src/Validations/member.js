@@ -48,6 +48,7 @@ const memberSchema = Joi.object({
     'string.min': 'City should have a minimum length of 3',
     'string.empty': 'City is required'
   }),
+  avatar: Joi.string().min(3),
   dob: Joi.date().greater('1923-01-01').less('2005-01-01').required().messages({
     'date.greater': 'Date should be greater than 1923-01-01',
     'date.less': 'Date should be less than 2005-01-01',

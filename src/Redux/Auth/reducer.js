@@ -93,12 +93,14 @@ const authReducer = (state = initialState, action) => {
       if (action.payload.name) {
         updatedUser = {
           ...state.user,
+          avatar: action.payload.avatar,
           name: action.payload.name,
           lastName: action.payload.lastName
         };
       } else {
         updatedUser = {
           ...state.user,
+          avatar: action.payload.avatar,
           firstName: action.payload.firstName,
           lastName: action.payload.lastName
         };
