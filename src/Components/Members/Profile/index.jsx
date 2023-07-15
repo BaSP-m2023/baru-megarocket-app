@@ -229,7 +229,11 @@ function MemberProfile({ match }) {
                   />
                 ) : (
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/avatars/${avatar}.jpg`}
+                    src={
+                      avatar
+                        ? `${process.env.PUBLIC_URL}/assets/avatars/${avatar}.jpg`
+                        : `${process.env.PUBLIC_URL}/assets/images/profile-icon.png`
+                    }
                     className={styles.avatar}
                   />
                 )}

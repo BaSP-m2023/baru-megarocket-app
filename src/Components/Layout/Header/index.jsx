@@ -44,8 +44,10 @@ function Header(props) {
                     <img
                       className={styles.profileImg}
                       src={
-                        role === 'ADMIN' || role === 'SUPER_ADMIN' || role === 'trainer'
+                        role === 'ADMIN' || role === 'SUPER_ADMIN'
                           ? `${process.env.PUBLIC_URL}/assets/avatars/admin.jpg`
+                          : role === 'TRAINER'
+                          ? `${process.env.PUBLIC_URL}/assets/avatars/rocket-trainer.jpg`
                           : role === 'MEMBER' && userLogged.avatar
                           ? `${process.env.PUBLIC_URL}/assets/avatars/${userLogged.avatar}.jpg`
                           : `${process.env.PUBLIC_URL}/assets/images/profile-icon.png`
