@@ -98,12 +98,28 @@
   color: #242024;
 }
 
+.table-row th {
+  position: sticky;
+  top: 0;
+  padding-bottom: 5px;
+  z-index: 1;
+  transition: background-color 1s;
+  background-color: #fff;
+}
+
 .darkTableContainer tr th {
+  position: sticky;
+  top: 0;
+  padding-bottom: 5px;
+  z-index: 1;
+  background-color: #302c30;
   color: #fff;
+  transition: background-color 1s;
 }
 
 .row:not(.selected):nth-child(odd) {
   background-color: #ffffff;
+  transition: background-color 1s;
 }
 
 .row:not(.selected):nth-child(odd):hover {
@@ -112,6 +128,7 @@
 
 .row:not(.selected):nth-child(even) {
   background-color: #ebebeb;
+  transition: background-color 1s;
 }
 
 .row:not(.selected):nth-child(even):hover {
@@ -120,11 +137,13 @@
 
 .darkTableContainer .row:not(.selected):nth-child(even) {
   background-color: #19191b;
+  transition: background-color 1s;
   color: #fff;
 }
 
 .darkTableContainer .row:not(.selected):nth-child(odd) {
   background-color: #302c30;
+  transition: background-color 1s;
   color: #fff;
 }
 
