@@ -131,11 +131,14 @@ const Form = () => {
                 value={trainer ? options.find((t) => t.value === trainer) : trainer}
                 onChange={(e) => trainerListOnChange(e.map((c) => c.value))}
               />
-              {errors.trainers && <p className={styles.error}>{errors.trainers.message}</p>}
+              <span className={styles.error}>
+                {errors.trainers ? errors.trainers.message : '\u00A0'}
+              </span>
             </div>
             <div className={styles.formGroup}>
               <Textarea
                 labelText="Description"
+                rows={4}
                 name="description"
                 register={register}
                 placeholder="Description for the activity"
