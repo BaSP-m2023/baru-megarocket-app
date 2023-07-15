@@ -43,6 +43,18 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
     }
   };
 
+  function capitalizeFirstLetter(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+  const membershipToUpper = () => {
+    let upperMembership = capitalizeFirstLetter(member.membership);
+    if (upperMembership === 'Only_classes') {
+      upperMembership = 'Only Classes';
+    }
+    return upperMembership;
+  };
+
   return (
     <>
       <tr className={`${styles['row']}`}>
@@ -68,6 +80,7 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
             <span className={styles.slider}></span>
           </label>
         </td>
+        <td>{membershipToUpper()}</td>
         <td>
           <Link to={`members/edit/${member._id}`}>
             <Button
