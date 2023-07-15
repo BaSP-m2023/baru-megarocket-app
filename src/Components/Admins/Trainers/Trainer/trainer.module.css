@@ -8,6 +8,7 @@
 
 .row:not(.selected):nth-child(odd) {
   background-color: #ffffff;
+  transition: background-color 1s;
 }
 
 .row:not(.selected):nth-child(odd):hover {
@@ -16,6 +17,7 @@
 
 .row:not(.selected):nth-child(even) {
   background-color: #ebebeb;
+  transition: background-color 1s;
 }
 
 .row:not(.selected):nth-child(even):hover {
@@ -24,6 +26,7 @@
 
 .darkRow:not(.selected):nth-child(odd) {
   background-color: #302c30;
+  transition: background-color 1s;
   color: #fff;
 }
 
@@ -33,6 +36,7 @@
 
 .darkRow:not(.selected):nth-child(even) {
   background-color: #19191b;
+  transition: background-color 1s;
   color: #fff;
 }
 

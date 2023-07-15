@@ -29,6 +29,10 @@
   margin-bottom: 2%;
 }
 
+.inputContainer ::placeholder {
+  color: #000;
+}
+
 .filterContainer .filter {
   text-align: center;
   color:#242024;
@@ -54,5 +58,16 @@
 }
 
 .column {
-  padding: 0 1rem;
+  position: sticky;
+  top: 0;
+  padding: 0.33rem 1rem;
+  background-color: #fff;
+  transition: background-color 1s;
+}
+
+.darkContainer .column {
+  position: sticky;
+  top: 0;
+  padding: 0.33rem 1rem;
+  background-color: #302c30;
 }
