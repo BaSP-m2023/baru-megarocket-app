@@ -89,9 +89,4 @@
     background-color: #c95824;
     cursor: pointer;
   }
-
-  .navbar ul {
-    width: 30vw;
-    overflow-x: scroll;
-  }
 }

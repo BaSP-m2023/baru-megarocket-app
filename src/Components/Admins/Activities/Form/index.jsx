@@ -19,6 +19,7 @@ import Select from 'react-select';
 const Form = () => {
   const { list, success } = useSelector((state) => state.activities);
   const { show, message, state } = useSelector((state) => state.toast);
+  const { dark } = useSelector((state) => state.darkmode);
   const { data } = useSelector((state) => state.trainers);
 
   const [confirm, setConfirmModal] = useState(false);
@@ -84,7 +85,7 @@ const Form = () => {
 
   return (
     <section>
-      <div className={styles.formContainer}>
+      <div className={!dark ? styles.formContainer : styles.darkFormContainer}>
         <div className={styles.formTitle} data-testid="activities-form-title-container">
           <h2>{location.pathname.includes('add') ? 'Add new activity' : `Edit activity `}</h2>
           <span className={styles.closeButton} onClick={() => history.goBack()}>

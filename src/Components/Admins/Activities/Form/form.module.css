@@ -1,4 +1,4 @@
-.formContainer {
+.formContainer, .darkFormContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,6 +16,11 @@
   border-radius: 0 0 7px 7px;
   box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
   background-color: #f4f4f4;
+}
+
+.darkFormContainer .content {
+  background-color: #242024;
+  box-shadow: 0 2px 3px 0 #ffffff33, 0 3px 4px 0 #ffffff2b;
 }
 
 .form {
@@ -54,6 +59,10 @@
   color: #fff;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
+}
+
+.darkFormContainer .formTitle {
+  box-shadow: 0 2px 3px 0 #ffffff33, 0 3px 4px 0 #ffffff2b;
 }
 
 .formTitle h2 {

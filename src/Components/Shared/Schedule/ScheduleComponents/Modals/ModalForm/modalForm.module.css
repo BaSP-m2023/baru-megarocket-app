@@ -51,6 +51,14 @@
   color: #fff;
 }
 
+.darkForm ::placeholder {
+  color: #8d8d8d;
+}
+
+.form ::placeholder {
+  color: #615d61;
+}
+
 .label {
   display: block;
   padding: 5px;

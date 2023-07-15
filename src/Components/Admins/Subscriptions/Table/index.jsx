@@ -11,6 +11,7 @@ import { Input } from 'Components/Shared/Inputs';
 const Table = ({ data }) => {
   const [filteredSubscriptions, setFilteredSubscriptions] = useState('');
   const pending = useSelector((state) => state.subscriptions.isPending);
+  const { dark } = useSelector((state) => state.darkmode);
 
   const filterSubscriptions = useMemo(() => {
     return data.filter((subscription) => {
@@ -37,7 +38,7 @@ const Table = ({ data }) => {
     );
   }
   return (
-    <div>
+    <div className={!dark ? styles.subsContainer : styles.subsDarkContainer}>
       <h1 className={styles.title}>Subscriptions</h1>
       <div className={styles.filterContainer}>
         <div className={styles.inputContainer}>
@@ -53,40 +54,42 @@ const Table = ({ data }) => {
           <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
         </div>
       </div>
-      <div className={styles.container}>
-        <table className={styles.tableSubscription}>
-          <thead className={styles.containerThead}>
-            <tr className={styles.thead}>
-              <th>Classes</th>
-              <th>Day & Time</th>
-              <th>Members</th>
-              <th>Date</th>
-              <th colSpan="2"></th>
-            </tr>
-          </thead>
-          <tbody data-testid="subscriptions-list">
-            {filterSubscriptions.map((subscription) => (
-              <tr key={subscription._id} className={styles.item}>
-                {!subscription.classes ? (
-                  <td>{'empty'}</td>
-                ) : (
-                  <td>{`${subscription.classes?.activity?.name}`}</td>
-                )}
-                {!subscription.classes ? (
-                  <td>{'empty'}</td>
-                ) : (
-                  <td>{`${subscription.classes?.day} ${subscription.classes?.time}`}</td>
-                )}
-                {!subscription.members ? (
-                  <td>{'empty'}</td>
-                ) : (
-                  <td>{`${subscription.members?.name} ${subscription.members?.lastName}`}</td>
-                )}
-                <td>{formatDate(subscription.date)}</td>
+      <div className={styles.subTableContainer}>
+        <div className={styles.container}>
+          <table className={styles.tableSubscription}>
+            <thead className={styles.containerThead}>
+              <tr className={styles.thead}>
+                <th>Classes</th>
+                <th>Day & Time</th>
+                <th>Members</th>
+                <th>Date</th>
+                <th colSpan="2"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody data-testid="subscriptions-list">
+              {filterSubscriptions.map((subscription) => (
+                <tr key={subscription._id} className={styles.item}>
+                  {!subscription.classes ? (
+                    <td>{'empty'}</td>
+                  ) : (
+                    <td>{`${subscription.classes?.activity?.name}`}</td>
+                  )}
+                  {!subscription.classes ? (
+                    <td>{'empty'}</td>
+                  ) : (
+                    <td>{`${subscription.classes?.day} ${subscription.classes?.time}`}</td>
+                  )}
+                  {!subscription.members ? (
+                    <td>{'empty'}</td>
+                  ) : (
+                    <td>{`${subscription.members?.name} ${subscription.members?.lastName}`}</td>
+                  )}
+                  <td>{formatDate(subscription.date)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       {filterSubscriptions.length === 0 ? (
         <div className={styles.filter}>

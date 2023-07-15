@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './trainer.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { deleteTrainer } from 'Redux/Trainers/thunks';
 
-import { Button } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 
 const Trainer = ({ trainer }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
+  const { dark } = useSelector((state) => state.darkmode);
   const dispatch = useDispatch();
-
-  const handleDeleteClick = () => {
-    setShowDeleteModal(true);
-  };
 
   const handleConfirmDelete = () => {
     dispatch(deleteTrainer(trainer._id));
@@ -23,7 +20,7 @@ const Trainer = ({ trainer }) => {
   };
 
   return (
-    <tr className={styles.row}>
+    <tr className={!dark ? styles.row : styles.darkRow}>
       <td className={styles.align}>{trainer.firstName}</td>
       <td className={styles.align}>{trainer.lastName}</td>
       <td className={styles.align}>{trainer.dni}</td>
@@ -31,22 +28,16 @@ const Trainer = ({ trainer }) => {
       <td className={styles.align}>{trainer.email}</td>
       <td>
         <Link to={`trainers/edit/${trainer._id}`}>
-          <Button
-            img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
-            testid="trainers-edit-btn"
-          >
-            <img className={styles.icon} alt="pencil icon for edit a trainer" />
-          </Button>
+          <FontAwesomeIcon icon={faPen} className={styles.pen} testid="trainers-edit-btn" />
         </Link>
       </td>
       <td>
-        <Button
-          img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
-          action={handleDeleteClick}
+        <FontAwesomeIcon
+          icon={faTrash}
+          className={styles.trash}
           testid="trainers-delete-btn"
-        >
-          <img className={styles.delete} alt="trash icon for delete a trainer" />
-        </Button>
+          onClick={() => setShowDeleteModal(true)}
+        />
       </td>
       <td>
         {showDeleteModal && (
