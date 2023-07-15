@@ -191,7 +191,7 @@ function AdminsForm({ match }) {
                       </div>
                     ))}
                   </div>
-                  <div className={styles.inputForm}>
+                  <div>
                     {secondFormFieldsUpdate.map((field) => (
                       <div key={field.name} className={styles.fieldContainer}>
                         <Input
