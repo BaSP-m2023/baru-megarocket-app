@@ -48,7 +48,7 @@ class ClassesTable {
   }
 
   get errorMessages() {
-    return $$('[data-testid="confirm-modal-container"] form p');
+    return $$('[data-testid="confirm-modal-container"] form span');
   }
 
   async filterActivity(value) {

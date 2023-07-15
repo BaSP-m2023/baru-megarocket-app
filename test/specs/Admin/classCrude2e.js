@@ -86,8 +86,10 @@ describe('Admin Classes CRUD', () => {
       await expect(ClassesTable.confirmSubmitBtn).toBeDisplayed();
       await ClassesTable.clickConfirmBtn();
 
-      await expect(ClassesTable.tableList).toBeDisplayed();
       await expect(ResponseModal.modalText).toBeDisplayed();
+      await expect(ResponseModal.modalText).toHaveTextContaining('Class created successfully');
+      await ResponseModal.modalText.waitForDisplayed({ reverse: true });
+      await expect(ClassesTable.tableList).toBeDisplayed();
       await expect(ClassesTable.filterByActivityInput).toBeDisplayed();
       await expect(ClassesTable.filterByTrainerInput).toBeDisplayed();
     });
@@ -141,6 +143,7 @@ describe('Admin Classes CRUD', () => {
 
       await expect(ResponseModal.modalText).toBeDisplayed();
       await expect(ResponseModal.modalText).toHaveTextContaining('Class deleted');
+      await ResponseModal.modalText.waitForDisplayed({ reverse: true });
       await expect(ClassesTable.tableList).toBeDisplayed();
 
       const isExisting = await previouslyAddedClass.isExisting();

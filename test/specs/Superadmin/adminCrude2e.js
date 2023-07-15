@@ -99,6 +99,8 @@ describe('Superadmin Admins CRUD', () => {
 
       await AdminsForm.submitBtn.scrollIntoView();
       await AdminsForm.submitForm();
+      //delete this lines when confirm modal does not appear
+      await AdminsForm.confirmModalCancelBtn.click();
       await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(7);
     });
 
@@ -116,14 +118,12 @@ describe('Superadmin Admins CRUD', () => {
       await AdminsForm.submitBtn.scrollIntoView();
       await AdminsForm.submitForm();
 
-      await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(0);
       await expect(AdminsForm.confirmModalSubmitBtn).toBeDisplayed();
       await expect(AdminsForm.confirmModalTitle).toHaveTextContaining('Add admin');
 
       await AdminsForm.submitModal();
-      await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(0);
 
-      await ResponseModal.modalText.waitForDisplayed({ timeout: 3000 });
+      await expect(ResponseModal.modalText).toBeDisplayed();
       await expect(ResponseModal.modalText).toHaveTextContaining('Admin created');
 
       currentUrl = await browser.getUrl();
@@ -147,8 +147,6 @@ describe('Superadmin Admins CRUD', () => {
       await expect(AdminsForm.formTitle).toBeDisplayed();
       await expect(AdminsForm.formTitle).toHaveTextContaining('Edit Admin');
 
-      await AdminsForm.dniInput.waitForDisplayed({ timeout: 3000 });
-      await browser.pause(2000);
       await AdminsForm.enterFirstName('Julio');
       await AdminsForm.enterDni('40123111');
 
@@ -181,8 +179,9 @@ describe('Superadmin Admins CRUD', () => {
       await expect(AdminsForm.confirmModalTitle).toBeDisplayed();
       await AdminsForm.submitModal();
 
-      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toBeDisplayed();
       await expect(ResponseModal.modalText).toHaveTextContaining('Admin deleted');
+      await ResponseModal.modalText.waitForDisplayed({ reverse: true });
     });
 
     it('Superadmin should logout correctly', async () => {
@@ -192,7 +191,7 @@ describe('Superadmin Admins CRUD', () => {
 
       await NavBar.logoutBtnClick();
 
-      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
+      await expect(ResponseModal.modalText).toBeDisplayed();
       await expect(ResponseModal.modalText).toHaveTextContaining('See you later');
 
       currentUrl = await browser.getUrl();

@@ -36,7 +36,7 @@ class AdminsForm {
   }
 
   get errorMessages() {
-    return $$('[data-testid="admins-form-container"] p');
+    return $$('[data-testid="admins-form-container"] span');
   }
 
   get submitBtn() {
@@ -57,6 +57,10 @@ class AdminsForm {
 
   get confirmModalSubmitBtn() {
     return $('[data-testid="confirm-modal-buttons"] > div:last-child > button');
+  }
+
+  get confirmModalCancelBtn() {
+    return $('[data-testid="confirm-modal-buttons"] > div > button');
   }
 
   async enterFirstName(value) {

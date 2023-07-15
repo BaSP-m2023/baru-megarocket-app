@@ -4,7 +4,7 @@ class HomePage {
   }
 
   get loginBtn() {
-    return $('[data-testid="home-buttons-container"] > div:last-child > button');
+    return $('[data-testid="home-buttons-container"] div:last-child button');
   }
 
   async loginBtnClick() {

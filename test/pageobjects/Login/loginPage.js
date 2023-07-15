@@ -8,11 +8,11 @@ class LoginPage {
   }
 
   get passwordInput() {
-    return $('[data-testid="login-password-container"] [name="password"]');
+    return $('input[name="password"]');
   }
 
   get loginErrors() {
-    return $$('form p');
+    return $$('form span');
   }
 
   get loginBtn() {
