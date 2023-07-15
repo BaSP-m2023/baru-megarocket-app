@@ -1,13 +1,17 @@
 .subsContainer .title {
   font-size: 2rem;
   text-align: center;
-  color: #373867;
+  color: #000;
 }
 
 .subsDarkContainer .title {
   font-size: 2rem;
   text-align: center;
   color: #fff;
+}
+
+.subsContainer ::placeholder {
+  color: #000;
 }
 
 .subsDarkContainer label, .subsDarkContainer .icon {
@@ -58,6 +62,21 @@
   color: #fff;
 }
 
+.thead th {
+  position: sticky;
+  top: 0;
+  padding-bottom: 5px;
+  background-color: #fff;
+  transition: background-color 1s;
+}
+
+.subsDarkContainer .thead th {
+  position: sticky;
+  top: 0;
+  padding-bottom: 5px;
+  background-color: #302c30;
+}
+
 .item {
   height: 40px;
   text-align: center;
@@ -97,6 +116,7 @@
 
 .item:not(.selected):nth-child(odd) {
   background-color: #ffffff;
+  transition: background-color 1s;
 }
 
 .item:not(.selected):nth-child(odd):hover {
@@ -105,6 +125,7 @@
 
 .item:not(.selected):nth-child(even) {
   background-color: #ebebeb;
+  transition: background-color 1s;
 }
 
 .item:not(.selected):nth-child(even):hover {
@@ -113,10 +134,12 @@
 
 .subsDarkContainer .item:not(.selected):nth-child(odd) {
   background-color: #302c30;
+  transition: background-color 1s;
   color: #fff;
 }
 
 .subsDarkContainer .item:not(.selected):nth-child(even) {
   background-color: #19191b;
+  transition: background-color 1s;
   color: #fff;
 }

@@ -79,8 +79,9 @@
 .logOutButtonContainer{
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   margin-left: 5px;
-  width: 100px;
+  width: 180px;
 }
 
 .logOutButton {
