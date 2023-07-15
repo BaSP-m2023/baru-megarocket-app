@@ -4,7 +4,7 @@ class Login {
   }
 
   get loginBtn() {
-    return $("[data-testid='routes-list']> li:nth-child(3)");
+    return $("[data-testid='home-buttons-container']> div:nth-child(2) > button");
   }
 
   get loginDataContainer() {
@@ -20,21 +20,22 @@ class Login {
   }
 
   get loginPasswordContainer() {
-    return $("[data-testid='login-password-container']");
+    return $('#root > div > div > section > form > div.login_containerPassword__Nu596');
   }
 
   get loginPassInput() {
-    return $("[data-testid='login-password-input']> input");
+    return $(
+      '#root > div > div > section > form > div.login_containerPassword__Nu596 > div.login_inputContainerPassword__rlprR > input'
+    );
   }
 
   get loginGreenBtn() {
     return $("[data-testid='login-form-buttons-container']> div > button");
   }
 
-  get homePage() {
-    return $("[data-testid='routes-list']");
+  get homePageBtn() {
+    return $("[data-testid='login-form-buttons-container']> a > div > button");
   }
 }
 
 module.exports = new Login();
-// export default new Login();

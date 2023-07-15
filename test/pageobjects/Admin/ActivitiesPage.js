@@ -26,7 +26,7 @@ class Activities {
   }
 
   get ActivitiesAddTrainerSelector() {
-    return $('#react-select-7-input');
+    return $('#react-select-2-input');
   }
 
   get ActivitiesAddTrainer() {
@@ -50,20 +50,20 @@ class Activities {
     return $("[data-testid='activities-form-container']> div:nth-child(2) > textarea");
   }
 
-  //No se puede encontrar a los elementos en el codigo y esto deja trabado los AT
-  // get ActivitiesEditTrainerSelector() {
-  //   return $('#react-select-2-placeholder');
-  // }
+  //agregar el select del filtro
+  get ActivitiesEditTrainerSelector() {
+    return $('#react-select-2-placeholder');
+  }
 
-  // get ActivitiesEditTrainer() {
-  //   return $('#react-select-2-option-2');
-  // }
+  get ActivitiesEditTrainer() {
+    return $('#react-select-2-option-2');
+  }
 
   //buttons
 
   get ActivitiesSubmitBtn() {
     return $(
-      "[data-testid='activities-form-container']> div.form_formButtons__9jfXS > div > button"
+      "[data-testid='activities-form-container']> div.form_formButtons__5QntN > div > button"
     );
   }
 

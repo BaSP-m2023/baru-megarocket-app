@@ -4,6 +4,7 @@ const LogoutPage = require('../../pageobjects/LogoutPage');
 
 describe('Verify login with user with valid credentials', () => {
   beforeAll('Open browser', () => {
+    browser.setWindowSize(1300, 700);
     browser.url('https://baru-megarocket-app.vercel.app/');
   });
   it('user should log in correctly', async () => {
@@ -11,15 +12,13 @@ describe('Verify login with user with valid credentials', () => {
     await LoginPage.loginBtn.click();
     await expect(browser).toHaveUrl('https://baru-megarocket-app.vercel.app/auth/login');
   });
-  it('user should complete form', async () => {
+  it('user should log in as an admin', async () => {
     await expect(LoginPage.loginEmailContainer).toBeDisplayed();
+    await expect(LoginPage.loginPasswordContainer).toBeDisplayed();
     await LoginPage.loginEmailInput.setValue('secondadmin@gmail.com');
     await LoginPage.loginPassInput.setValue('Abc123456');
     await LoginPage.loginGreenBtn.click();
-  });
-  it('user should be redirected to home admin page', async () => {
     await expect(browser).toHaveUrl('https://baru-megarocket-app.vercel.app/user/admin/home');
-    await expect(LoginPage.homePage).toBeDisplayed();
   });
   it('user should be able to add a new activity', async () => {
     await ActivitiesPage.ActivitiesNavBar.click();
@@ -31,7 +30,8 @@ describe('Verify login with user with valid credentials', () => {
       'a progressive fitness program that blends Latin music and dynamic Latin-inspired dance moves to exercise your cardiovascular system and the whole body'
     );
     await ActivitiesPage.ActivitiesAddTrainerSelector.click();
-    await ActivitiesPage.ActivitiesAddTrainer.click();
+    await ActivitiesPage.ActivitiesAddTrainerSelector.setValue('Nico Prueba');
+    await browser.keys(['Enter']);
     await ActivitiesPage.ActivitiesSubmitBtn.click();
   });
   // it('user should be able to edit an activity', async () => {
