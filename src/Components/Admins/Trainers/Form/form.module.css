@@ -52,9 +52,14 @@
 
 .formGroup {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   margin-top: 2%;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
 }
 
 .label {

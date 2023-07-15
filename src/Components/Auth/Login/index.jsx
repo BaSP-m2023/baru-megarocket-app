@@ -67,19 +67,18 @@ function Login() {
             placeholder="Email"
             name="email"
             register={register}
+            error={errors.email?.message}
           />
         </div>
-        <span className={styles.errorMessage}>
-          {errors && errors.email?.message ? errors.email.message : '\u00A0'}
-        </span>
-        <div className={styles.containerPassword} data-testid="login-password-container">
-          <div className={styles.inputContainerPassword} data-testid="login-password-input">
+        <div className={styles.containerPassword}>
+          <div className={styles.inputContainerPassword}>
             <Input
               labelText="Password"
               type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Password"
               register={register}
+              error={errors.password?.message}
             />
           </div>
           <div className={styles.buttonVisibilityPassword}>
@@ -91,9 +90,6 @@ function Login() {
             />
           </div>
         </div>
-        <span className={styles.errorMessage}>
-          {errors && errors.password?.message ? errors.password.message : '\u00A0'}
-        </span>
         <div>
           <Link to="/auth/forgotPassword">
             <a href="#">Have you forgotten your password?</a>
