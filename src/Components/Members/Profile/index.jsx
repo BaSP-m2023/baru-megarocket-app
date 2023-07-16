@@ -282,12 +282,12 @@ function MemberProfile({ match }) {
             {!disableEdit && (
               <>
                 <div className={styles.buttons}>
-                  <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
                   <Button
                     classNameButton="cancelButton"
                     action={() => setDisableEdit(true)}
                     text="Cancel"
                   />
+                  <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
                 </div>
                 <div className={styles.resetContainer}>
                   <Reset action={handleReset} />

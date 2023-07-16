@@ -221,12 +221,12 @@ function AdminProfile({ match }) {
           {!disableEdit && (
             <>
               <div className={styles.buttons}>
-                <Button classNameButton="addButton" text={'Confirm'} />
                 <Button
                   classNameButton="cancelButton"
                   action={() => setDisableEdit(true)}
                   text="Cancel"
                 />
+                <Button classNameButton="addButton" text={'Confirm'} />
               </div>
               <div className={styles.reset}>
                 <Reset action={handleReset} />

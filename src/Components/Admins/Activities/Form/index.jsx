@@ -150,10 +150,10 @@ const Form = () => {
               <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
             </div>
             <div className={styles.formButtons}>
-              <Button text={'Submit'} classNameButton={'submitButton'} />
               <Link to="/user/admin/activities">
                 <Button text={'Back'} classNameButton={'cancelButton'} />
               </Link>
+              <Button text={'Submit'} classNameButton={'submitButton'} />
             </div>
           </form>
         </div>
