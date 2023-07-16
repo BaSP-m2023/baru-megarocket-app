@@ -331,6 +331,7 @@ const Schedule = () => {
                                       trainerFilter: trainerFilter,
                                       activityFilter: activityFilter,
                                       memberSubs: memberSubs,
+                                      subscriptions: subscriptions,
                                       classes: classes
                                     }}
                                     click={clickMember}

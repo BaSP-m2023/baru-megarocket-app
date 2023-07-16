@@ -49,6 +49,9 @@ const ScheduleMember = ({ props, click }) => {
       );
     }
   });
+  const subscribed = props.subscriptions.filter((subs) => {
+    return subs.date.slice(0, 10) === props.date && subs.classes?._id === findClass?._id;
+  });
   if (findClass) {
     return (
       <>
@@ -58,6 +61,9 @@ const ScheduleMember = ({ props, click }) => {
           id="class"
         >
           {findClass?.activity?.name}
+          <p>
+            Slots: {subscribed?.length}/{findClass.capacity}
+          </p>
         </div>
       </>
     );
