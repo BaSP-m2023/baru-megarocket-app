@@ -113,6 +113,7 @@
 
 .editButton, .deleteButton {
   cursor: pointer;
+  margin-right: 10px;
   color: #242024;
 }
 

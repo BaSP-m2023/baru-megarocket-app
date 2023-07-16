@@ -32,7 +32,7 @@ const Table = ({ data }) => {
 
   if (pending) {
     return (
-      <div className={styles.container}>
+      <div className={styles.containerLoader}>
         <Loader />
       </div>
     );

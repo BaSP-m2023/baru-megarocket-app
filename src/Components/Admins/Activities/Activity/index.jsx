@@ -30,17 +30,6 @@ const Activity = ({ activity }) => {
         <td>{activity.description}</td>
         <td>{activity.trainers.map((trainer) => `${trainer.firstName} ${trainer.lastName}, `)}</td>
         <td>
-          <label
-            className={
-              activity.isActive
-                ? `${styles.activityState} ${styles.activityActive}`
-                : `${styles.activityState} ${styles.activityInactive}`
-            }
-          >
-            {activity.isActive ? 'Active' : 'Inactive'}
-          </label>
-        </td>
-        <td>
           <Link to={`${url}/edit/${activity._id}`}>
             <FontAwesomeIcon
               icon={faPen}
