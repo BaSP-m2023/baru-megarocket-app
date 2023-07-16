@@ -34,17 +34,34 @@
   flex-direction: column;
 }
 
-.form input {
-  margin: 0
-}
-
 .formGroup {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1%;
+  justify-content: center;
+  margin-top: 40px;
 }
 
+.fieldsContainer {
+  margin-right: 5%;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1%;
+  z-index: 0;
+}
+.formSelect {
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 50%;
+}
+.options {
+  position: relative;
+  z-index: 0;
+  width: 8rem;
+}
 .editButton{
   margin-right: 2%;
 }
@@ -80,6 +97,12 @@
   justify-content: center;
   text-align: center;
 }
+.avatar {
+  height: 4rem;
+  width: 4rem;
+  border-radius: 5px;
+  margin: auto;
+}
 
 .input {
   width: 25vw;
@@ -101,5 +124,5 @@
 .changePassContainer {
   display: flex;
   justify-content: center;
-  margin-top: 14px;
+  margin-top: 20px;
 }

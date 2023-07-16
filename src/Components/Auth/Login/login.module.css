@@ -64,19 +64,13 @@
 }
 
 .buttonVisibilityPassword {
-  margin-top: 25px;
+  margin-top: 5px;
   margin-left: 3%;
   width: 20%;
 }
 
 .imgButtonPassword {
   cursor: pointer;
-}
-
-.errorMessage {
-  padding: 10px;
-  color: red;
-  font-size: 0.8rem;
 }
 
 .buttonContainer {
