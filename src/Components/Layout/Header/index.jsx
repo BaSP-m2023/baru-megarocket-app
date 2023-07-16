@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
@@ -20,6 +20,14 @@ function Header(props) {
   const { dark } = useSelector((state) => state.darkmode);
   const { show, message, state } = useSelector((state) => state.toast);
 
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('darkMode'))) {
+      dispatch(setDarkMode(true));
+    } else {
+      dispatch(setDarkMode(false));
+    }
+  }, []);
+
   const handleLogout = async () => {
     await dispatch(logOut());
     history.push('/');
@@ -36,14 +44,20 @@ function Header(props) {
               {dark ? (
                 <FontAwesomeIcon
                   icon={faToggleOn}
-                  onClick={() => dispatch(setDarkMode(false))}
+                  onClick={() => {
+                    dispatch(setDarkMode(false));
+                    localStorage.setItem('darkMode', JSON.stringify(false));
+                  }}
                   className={styles.toggle}
                   size="2xl"
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={faToggleOff}
-                  onClick={() => dispatch(setDarkMode(true))}
+                  onClick={() => {
+                    dispatch(setDarkMode(true));
+                    localStorage.setItem('darkMode', JSON.stringify(true));
+                  }}
                   className={styles.toggle}
                   size="2xl"
                 />
