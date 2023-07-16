@@ -20,8 +20,6 @@ const Table = () => {
     setFilter(activitiesToShow);
   };
 
-  console.log('lsita', list);
-
   return (
     <>
       <div className={styles.filterContainer}>
