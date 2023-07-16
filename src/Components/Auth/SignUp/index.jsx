@@ -99,10 +99,6 @@ function SignUp() {
     { labelText: 'Password', type: 'password', name: 'password' }
   ];
 
-  const handleMembership = (value) => {
-    console.log(value);
-  };
-
   if (loading) {
     return (
       <div className={styles.container}>
@@ -164,21 +160,18 @@ function SignUp() {
                     </div>
                   </div>
                 ))}
-              </div>
-              <div className={styles.label_container}>
-                <label className={styles.label}>Membership</label>
-                <select
-                  onChange={(e) => handleMembership(e)}
-                  className={styles.select}
-                  name="membership"
-                  {...register('membership')}
-                >
-                  <option value="default">Choose your membership</option>
-                  <option value="only_classes">Only Classes 34,99 U$S/month</option>
-                  <option value="classic">Classic 49,99 U$S/month</option>
-                  <option value="black">Black 89,99 U$S/month</option>
-                </select>
-                {errors.membership && <p className={styles.error}>Choose your membership</p>}
+                <div className={styles.label_container}>
+                  <label className={styles.label}>Membership</label>
+                  <select className={styles.select} name="membership" {...register('membership')}>
+                    <option value="default">Choose your membership</option>
+                    <option value="only_classes">Only Classes 34,99 U$S/month</option>
+                    <option value="classic">Classic 49,99 U$S/month</option>
+                    <option value="black">Black 89,99 U$S/month</option>
+                  </select>
+                  <span className={styles.error}>
+                    {errors.membership ? (errors.message = 'Choose your membership') : '\u00A0'}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
