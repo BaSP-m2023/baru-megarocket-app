@@ -39,7 +39,7 @@ const Trainer = ({ trainer }) => {
           onClick={() => setShowDeleteModal(true)}
         />
       </td>
-      <td>
+      <>
         {showDeleteModal && (
           <ConfirmModal
             title="Delete Trainer"
@@ -50,7 +50,7 @@ const Trainer = ({ trainer }) => {
             Are you sure you want to delete this trainer?
           </ConfirmModal>
         )}
-      </td>
+      </>
     </tr>
   );
 };

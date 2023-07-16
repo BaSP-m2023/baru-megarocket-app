@@ -48,6 +48,8 @@ const Table = ({ data = [] }) => {
               <th className={styles.column}>DNI</th>
               <th className={styles.column}>Phone Number</th>
               <th className={styles.column}>Email</th>
+              <th className={styles.column}></th>
+              <th className={styles.column}></th>
             </tr>
           </thead>
           <tbody data-testid="trainers-list">
