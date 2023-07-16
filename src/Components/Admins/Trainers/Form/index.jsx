@@ -98,20 +98,26 @@ const Form = () => {
     setShowConfirmModal(true);
   };
 
-  const formCreate = [
+  const firstFormCreate = [
     { labelText: 'First Name', name: 'firstName', type: 'text' },
     { labelText: 'Last Name', name: 'lastName', type: 'text' },
     { labelText: 'ID', name: 'dni', type: 'text' },
-    { labelText: 'Phone', name: 'phone', type: 'text' },
+    { labelText: 'Phone', name: 'phone', type: 'text' }
+  ];
+
+  const secondFormCreate = [
     { labelText: 'Email', name: 'email', type: 'email' },
     { labelText: 'Password', name: 'password', type: 'password' },
     { labelText: 'Salary', name: 'salary', type: 'text' }
   ];
 
-  const formUpdate = [
+  const firstFormUpdate = [
     { labelText: 'First Name', name: 'firstName', type: 'text' },
     { labelText: 'Last Name', name: 'lastName', type: 'text' },
-    { labelText: 'ID', name: 'dni', type: 'text' },
+    { labelText: 'ID', name: 'dni', type: 'text' }
+  ];
+
+  const secondFormUpdate = [
     { labelText: 'Phone', name: 'phone', type: 'text' },
     { labelText: 'Salary', name: 'salary', type: 'text' }
   ];
@@ -127,29 +133,65 @@ const Form = () => {
         </div>
         <div className={styles.content}>
           <form className={styles.form} data-testid="trainers-form-container">
-            {id
-              ? formUpdate.map((field) => (
-                  <div className={styles.formGroup} key={field.name}>
-                    <Input
-                      labelText={field.labelText}
-                      name={field.name}
-                      type={field.type}
-                      register={register}
-                      error={errors[field.name]?.message}
-                    />
-                  </div>
-                ))
-              : formCreate.map((field) => (
-                  <div className={styles.formGroup} key={field.name}>
-                    <Input
-                      labelText={field.labelText}
-                      name={field.name}
-                      type={field.type}
-                      register={register}
-                      error={errors[field.name]?.message}
-                    />
-                  </div>
-                ))}
+            {id ? (
+              <div className={styles.formGroup}>
+                <div>
+                  {firstFormUpdate.map((field) => (
+                    <div key={field.name} className={styles.formFields}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  {secondFormUpdate.map((field) => (
+                    <div key={field.name} className={styles.formFields}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className={styles.formGroup}>
+                <div>
+                  {firstFormCreate.map((field) => (
+                    <div key={field.name} className={styles.formFields}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  {secondFormCreate.map((field) => (
+                    <div key={field.name} className={styles.formFields}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </form>
           <div className={styles.btnContainer} data-testid="trainers-form-buttons">
             <Reset action={handleReset} />
