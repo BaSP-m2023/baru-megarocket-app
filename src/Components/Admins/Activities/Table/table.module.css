@@ -67,9 +67,13 @@
   color: #ffffff;
 }
 
-.darkInputContainer input, .darkInputContainer ::placeholder {
+.darkInputContainer input {
   background-color: #19191b;
   color: #fff;
+}
+
+.darkInputContainer ::placeholder {
+  color: #a1a1a1;
 }
 
 .inputContainer label {

@@ -25,12 +25,12 @@
   color: #fff;
 }
 
-.darkFilterContainer label, ::placeholder {
+.darkFilterContainer label {
   color: #fff;
 }
 
-.filterContainer ::placeholder {
-  color: #19191b;
+.darkFilterContainer ::placeholder {
+  color: #8f8e8e;
 }
 
 .filter {

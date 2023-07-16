@@ -20,6 +20,8 @@
   height: 500px;
 }
 
+
+
 .reset {
   display: flex;
   justify-content: center;
@@ -49,6 +51,11 @@
 .darkForm input {
   background-color: #312d31;
   color: #fff;
+}
+
+.form input, .darkForm input, .form select, .darkForm select, .darkForm label, .form label {
+  width: 70%;
+  align-self: center;
 }
 
 .darkForm ::placeholder {
