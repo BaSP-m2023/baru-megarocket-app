@@ -225,8 +225,8 @@
 .avatar {
   height: 3rem;
   width: 3rem;
+  margin-right: 2rem;
   border-radius: 50%;
-  margin: auto;
 }
 .slider:before {
   border-radius: 50%;
@@ -236,11 +236,15 @@
   color: #fff;
 }
 
-.member{
-text-align: left;
+.member {
+  display: flex;
+  justify-content: center;
 }
 
-@media (min-width:768px){
-  .member{
-    padding-left: 20%;}
+.avatarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 10%;
+  width: 300px;
 }

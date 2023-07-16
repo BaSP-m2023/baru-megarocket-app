@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from './table.module.css';
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { deleteMember, updateMember } from 'Redux/Members/thunks';
@@ -60,15 +60,18 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
     <>
       <tr className={`${styles['row']}`}>
         <td className={styles.member}>
-          <img
-            className={styles.avatar}
-            src={
-              member.avatar
-                ? `${process.env.PUBLIC_URL}/assets/avatars/${member.avatar}.jpg`
-                : `${process.env.PUBLIC_URL}/assets/images/profile-icon.png`
-            }
-          />
-          {member.name} {member.lastName}
+          <div className={styles.avatarContainer}>
+            {member.avatar && (
+              <img
+                className={styles.avatar}
+                src={`${process.env.PUBLIC_URL}/assets/avatars/${member.avatar}.jpg`}
+              />
+            )}
+            {!member.avatar && <FontAwesomeIcon icon={faUser} className={styles.avatar} />}{' '}
+            <p>
+              {member.name} {member.lastName}
+            </p>
+          </div>
         </td>
         <td>
           <label className={styles.switch}>
