@@ -60,8 +60,8 @@
 
 .button {
   padding: 15px 25px;
-  background-color: #f88d5c;
-  color:#13133c;
+  background-color: #6d15e8;
+  color:#f5e8e8;
   border: none;
   border-radius: 100px;
   font-size: 1rem;
@@ -102,7 +102,7 @@
 }
 .icon {
   font-size: 2rem;
-  color: #f88d5c;
+  color: #6d15e8;
   margin-bottom: 10px;
 }
 

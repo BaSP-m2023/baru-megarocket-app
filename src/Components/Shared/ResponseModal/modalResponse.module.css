@@ -9,7 +9,7 @@
   height: 70px;
   box-shadow: 0px 10px 23px #0000001f;
   border-radius: 5px;
-  color: #242024;
+  color: #f5e8e8;
   animation: 0.8s fadeIn;
 }
 
@@ -29,12 +29,11 @@
 }
 
 .toastSuccess {
-  background-color: #f88d5c;
+  background-color: #6d15e8;
 }
 
 .toastFail {
   background-color: #F13312;
-  color: #fff;
 }
 
 @keyframes fadeIn {
