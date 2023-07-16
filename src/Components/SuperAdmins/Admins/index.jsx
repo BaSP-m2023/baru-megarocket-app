@@ -69,7 +69,7 @@ const Admins = () => {
           {filter.length === 0 && <p className={styles.notFound}>Admin not found!</p>}
           <div className={styles.inputContainer} data-testid="trainers-search-container">
             <Input
-              labelText="Filter Trainers"
+              labelText="Filter Admins"
               type="text"
               name="filter-trainer"
               placeholder="Search by name or last name"
