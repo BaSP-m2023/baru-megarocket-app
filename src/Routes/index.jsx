@@ -30,7 +30,11 @@ const Routes = () => {
       const token = sessionStorage.getItem('token');
       const role = sessionStorage.getItem('role');
 
-      if (location.pathname === '/') {
+      const path = ['/', '/auth/login', '/auth/signup', '/auth/forgotpassword'];
+      const pathLowerCase = path.map((path) => path.toLowerCase());
+      const pathLowerCaseLocation = location.pathname.toLowerCase();
+
+      if (pathLowerCase.includes(pathLowerCaseLocation)) {
         const paths = {
           SUPER_ADMIN: '/user/super-admin',
           ADMIN: '/user/admin',
