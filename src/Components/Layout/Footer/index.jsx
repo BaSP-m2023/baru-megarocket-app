@@ -38,6 +38,9 @@ function Footer() {
           <ul>
             <li className={styles.itemList}>Monday to Saturday from 9am to 21pm</li>
             <li className={styles.itemList}>{`Location 3° 12' 43.2" N 5° 12' 39.6" E`}</li>
+            <li className={styles.itemList}>
+              Contact <span>contact@megarocket.space</span>
+            </li>
           </ul>
         </div>
         <div>

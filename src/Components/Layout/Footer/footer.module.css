@@ -6,7 +6,7 @@
   padding: 2%;
   gap: 15%;
   background-color: #242024;
-  color: #fff
+  color: #f5e8e8;
 }
 
 .mainTitle {
@@ -66,4 +66,9 @@
   border-bottom: 1px solid gray;
   font-size: 0.9rem;
   font-weight: 600;
+}
+
+.itemList > span {
+  font-style: italic;
+  font-weight: 500;
 }
