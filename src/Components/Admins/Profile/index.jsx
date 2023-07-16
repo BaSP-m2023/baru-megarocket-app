@@ -146,10 +146,13 @@ function AdminProfile({ match }) {
       });
   };
 
-  const formFields = [
+  const firstFormFields = [
     { labelText: 'Name', type: 'text', name: 'firstName' },
     { labelText: 'Last Name', type: 'text', name: 'lastName' },
-    { labelText: 'DNI', type: 'number', name: 'dni' },
+    { labelText: 'DNI', type: 'number', name: 'dni' }
+  ];
+
+  const secondFormFields = [
     { labelText: 'Phone', type: 'text', name: 'phone' },
     { labelText: 'City', type: 'text', name: 'city' }
   ];
@@ -179,24 +182,40 @@ function AdminProfile({ match }) {
           )}
         </div>
         <form onSubmit={handleSubmit(onConfirm)} className={styles.form}>
-          <div>
-            {formFields.map((inputData, index) => (
-              <div className={styles.formGroup} key={index}>
-                <Input
-                  labelText={inputData.labelText}
-                  type={inputData.type}
-                  name={inputData.name}
-                  disabled={disableEdit}
-                  register={register}
-                  error={errors[inputData.name]?.message}
-                />
-              </div>
-            ))}
-            <div className={styles.changePassContainer}>
-              <a onClick={handleEditPass} href="#">
-                Want to change your password?
-              </a>
+          <div className={styles.inputContainer}>
+            <div className={styles.inputFields}>
+              {firstFormFields.map((inputData, index) => (
+                <div className={styles.formGroup} key={index}>
+                  <Input
+                    labelText={inputData.labelText}
+                    type={inputData.type}
+                    name={inputData.name}
+                    disabled={disableEdit}
+                    register={register}
+                    error={errors[inputData.name]?.message}
+                  />
+                </div>
+              ))}
             </div>
+            <div>
+              {secondFormFields.map((inputData, index) => (
+                <div className={styles.formGroup} key={index}>
+                  <Input
+                    labelText={inputData.labelText}
+                    type={inputData.type}
+                    name={inputData.name}
+                    disabled={disableEdit}
+                    register={register}
+                    error={errors[inputData.name]?.message}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className={styles.changePassContainer}>
+            <a onClick={handleEditPass} href="#">
+              Want to change your password?
+            </a>
           </div>
           {!disableEdit && (
             <>

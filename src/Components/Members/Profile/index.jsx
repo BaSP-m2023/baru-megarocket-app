@@ -181,15 +181,19 @@ function MemberProfile({ match }) {
       });
   };
 
-  const formFields = [
+  const firstFormFields = [
     { labelText: 'Name', type: 'text', name: 'name' },
     { labelText: 'Last name', type: 'text', name: 'lastName' },
     { labelText: 'DNI', type: 'number', name: 'dni' },
-    { labelText: 'Phone', type: 'text', name: 'phone' },
+    { labelText: 'Phone', type: 'text', name: 'phone' }
+  ];
+
+  const secondFormFields = [
     { labelText: 'City', type: 'text', name: 'city' },
     { labelText: 'Date of birth', type: 'date', name: 'dob' },
     { labelText: 'Zip code', type: 'number', name: 'zip' }
   ];
+
   return (
     <section className={styles.section}>
       <div className={styles.formContainer}>
@@ -238,18 +242,36 @@ function MemberProfile({ match }) {
                   />
                 )}
               </div>
-              {formFields.map((inputData, index) => (
-                <div className={styles.formGroup} key={index}>
-                  <Input
-                    labelText={inputData.labelText}
-                    type={inputData.type}
-                    name={inputData.name}
-                    disabled={disableEdit}
-                    register={register}
-                    error={errors[inputData.name]?.message}
-                  />
+              <div className={styles.formGroup}>
+                <div className={styles.fieldsContainer}>
+                  {firstFormFields.map((inputData, index) => (
+                    <div className={styles.formFields} key={index}>
+                      <Input
+                        labelText={inputData.labelText}
+                        type={inputData.type}
+                        name={inputData.name}
+                        disabled={disableEdit}
+                        register={register}
+                        error={errors[inputData.name]?.message}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
+                <div className={styles.fieldsContainer}>
+                  {secondFormFields.map((inputData, index) => (
+                    <div className={styles.formFields} key={index}>
+                      <Input
+                        labelText={inputData.labelText}
+                        type={inputData.type}
+                        name={inputData.name}
+                        disabled={disableEdit}
+                        register={register}
+                        error={errors[inputData.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
               <div className={styles.changePassContainer}>
                 <a onClick={handleEditPass} href="#">
                   Want to change your password?
