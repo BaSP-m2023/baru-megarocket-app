@@ -18,20 +18,16 @@
   color: #fff;
 }
 
-.darkLanding .container {
-  max-width: 1100px;
+.container {
+  min-width: 390px;
+  max-width: 1500px;
   margin: auto;
-  padding: 2%;
+  padding: 5%;
   font-family: 'Roboto', Arial, serif;
-  box-shadow: 0 2px 4px #ffffff33;
 }
 
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 2%;
+.darkLanding .container {
   font-family: 'Roboto', Arial, serif;
-  box-shadow: 0 2px 4px #00000033;
 }
 
 .welcomeSection {
@@ -74,7 +70,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin: auto;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
   padding: 2% 0;
   background-color: #19191B;
 }
@@ -84,7 +80,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin: auto;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
   padding: 2% 0;
   background-color: #dedeef93;
 }
@@ -128,7 +124,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin: auto;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
 }
 .about_col_1, .about_col_2{
   display: flex;
@@ -136,7 +132,7 @@
   flex-wrap: nowrap;
 }
 .aboutSection p, .aboutSection img{
-  width: 45%;
+  width: 35%;
 }
 
 .about_col_1 p{
@@ -144,22 +140,18 @@
   align-self: flex-start;
   text-align: left;
   font-size: 1.2rem;
+  align-self: center;
 }
 .about_col_2 p{
   padding: 0 2% 0 0;
   align-self: flex-end;
   text-align: right;
   font-size: 1.2rem;
+  align-self: center;
 }
-
-.darkLanding .about_col_1 img, .darkLanding .about_col_2 img {
-  box-shadow: 0 1px 2px #ffffff80;
-}
-
 
 .about_col_1 img{
   border-radius: 100px 100px 100px 0;
-  box-shadow: 1px 0px 1px 0px #000000;
 }
 .about_col_2 img{
   border-radius: 100px 100px 0 100px;
@@ -177,7 +169,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin: 2% 0 5% 0;
-  cursor: pointer;
+  gap: 5%;
 }
 
 .membershipCard {
