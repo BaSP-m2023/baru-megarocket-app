@@ -39,7 +39,7 @@ const ScheduleMember = ({ props, click }) => {
         cl.day === props.day &&
         cl.time === props.hour &&
         cl.activity?.name?.includes(props.activityFilter) &&
-        cl.trainer._id === props.trainerFilter
+        cl.trainer?._id === props.trainerFilter
       );
     } else {
       return (
