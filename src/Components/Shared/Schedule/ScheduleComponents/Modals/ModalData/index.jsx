@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from 'Components/Shared/Schedule/ScheduleComponents/Modals/ModalData/modalData.module.css';
 import { Button } from 'Components/Shared/Button';
+import { useSelector } from 'react-redux';
 
 const ModalData = ({
   data,
@@ -13,12 +14,16 @@ const ModalData = ({
   reason,
   disabled
 }) => {
+  const { dark } = useSelector((state) => state.darkmode);
+  const user = useSelector((state) => state.auth.user);
   const currentDate = new Date(current.date).setHours(0, 0, 0, 0);
   const modalDate = new Date(data.date).setHours(0, 0, 0, 0);
   const notShow =
-    (currentDate === modalDate && current.hour > data.time) || currentDate > modalDate;
+    (currentDate === modalDate && current.hour > data.time) ||
+    currentDate > modalDate ||
+    user?.membership === 'classic';
   return (
-    <div className={styles.modal}>
+    <div className={!dark ? styles.modal : styles.darkModal}>
       <div className={styles.modalContent}>
         <div className={styles.headerModal}>
           <h3>Class Details</h3>
@@ -98,7 +103,16 @@ const ModalData = ({
         )}
         <div className={styles.containerButtons}>
           {role !== 'TRAINER' ? (
-            <>
+            <div
+              className={
+                user?.membership === 'classic' ? styles.buttonPContainer : styles.containerButtons
+              }
+            >
+              {user?.membership === 'classic' && (
+                <p className={styles.classicMembership}>
+                  Upgrade your membership to sign up for an activity
+                </p>
+              )}
               {notShow ? (
                 <Button action={closeModal} text={'Close'} classNameButton={'cancelButton'} />
               ) : (
@@ -112,7 +126,7 @@ const ModalData = ({
                   disabled={disabled}
                 />
               )}
-            </>
+            </div>
           ) : (
             <Button action={closeModal} text={'Close'} classNameButton={'cancelButton'} />
           )}

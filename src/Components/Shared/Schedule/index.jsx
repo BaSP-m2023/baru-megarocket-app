@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { startOfWeek, addDays, format } from 'date-fns';
 import ScheduleMember from './ScheduleComponents/MemberComponent';
 import ScheduleAdmin from './ScheduleComponents/AdminComponent';
@@ -28,6 +28,7 @@ const Schedule = () => {
     (state) => state.activities
   );
   const { data: trainers } = useSelector((state) => state.trainers);
+  const { dark } = useSelector((state) => state.darkmode);
   const [activeMember, setActiveMember] = useState(null);
   const user = useSelector((state) => state.auth.user);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -65,6 +66,7 @@ const Schedule = () => {
     hour: format(new Date(), 'HH:mm'),
     dayNum: format(new Date(), 'i')
   };
+  const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
     dispatch(getActivities());
@@ -79,6 +81,17 @@ const Schedule = () => {
       setRunHandleActiveMember(true);
     }
   }, [user]);
+
+  useEffect(() => {
+    const calculatePercentage = () => {
+      const currentMinute = new Date().getMinutes();
+      const newPercentage = Math.trunc((currentMinute / 60) * 100);
+      setPercentage(newPercentage);
+    };
+    calculatePercentage();
+    const interval = setInterval(calculatePercentage, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (runHandleActiveMember) {
@@ -183,24 +196,6 @@ const Schedule = () => {
     }
   }, [subscriptions]);
 
-  const getClassName = useMemo(() => {
-    return (day, hour, index) => {
-      const isToday = day === current.day;
-      const isPastHour =
-        Number(current.dayNum) - 1 > index ||
-        (Number(current.dayNum) - 1 === index && hour < current.hour);
-      const currentHourPercent =
-        current.hour.split(':')[0] === hour.split(':')[0] &&
-        Number(current.dayNum) - 1 === index &&
-        `current${Math.trunc((Number(current.hour.split(':')[1]) / 60) * 10)}`;
-      const className = `${isToday ? styles.today : ''} ${isPastHour ? styles.pastHour : ''} ${
-        currentHourPercent ? styles[currentHourPercent] : ''
-      }`;
-
-      return className;
-    };
-  }, [current.day, current.hour, current.dayNum]);
-
   const handleActiveMember = () => {
     if (role !== 'MEMBER') {
       setShowSchedule(true);
@@ -221,7 +216,7 @@ const Schedule = () => {
         !pendingSubscriptions &&
         role === 'MEMBER' &&
         !activeMember && (
-          <p className={styles.text}>
+          <p className={!dark ? styles.text : styles.darkText}>
             Your membership is not active, please go to your nearest branch to activate it
           </p>
         )}
@@ -233,10 +228,10 @@ const Schedule = () => {
         !pendingSubscriptions &&
         showSchedule && (
           <>
-            <div className={styles.content}>
+            <div className={!dark ? styles.content : styles.darkContent}>
               <div className={styles.filter} data-testid="classes-filters-container">
                 <label>Filter by Activity</label>
-                <select onChange={(e) => setActivityFilter(e.target.value)}>
+                <select value={activityFilter} onChange={(e) => setActivityFilter(e.target.value)}>
                   <option value={''}>All classes</option>
                   {activities.map((option) => (
                     <option key={option._id} value={option.name}>
@@ -247,7 +242,10 @@ const Schedule = () => {
                 {role !== 'TRAINER' && (
                   <>
                     <label>Filter by Trainer</label>
-                    <select onChange={(e) => setTrainerFilter(e.target.value)}>
+                    <select
+                      value={trainerFilter}
+                      onChange={(e) => setTrainerFilter(e.target.value)}
+                    >
                       <option value={''}>All trainers</option>
                       {trainers.map((option) => (
                         <option key={option._id} value={`${option._id}`}>
@@ -318,7 +316,22 @@ const Schedule = () => {
                                 <td
                                   className={
                                     !nextPage &&
-                                    `${getClassName(day, hour, index)} ${styles.current}`
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? `${styles.current}`
+                                      : ``
+                                  }
+                                  style={
+                                    !nextPage &&
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? {
+                                          '--percentage': `${Math.min(
+                                            100,
+                                            Math.max(0, percentage)
+                                          )}%`
+                                        }
+                                      : { '--percentage': '100%' }
                                   }
                                   key={`${day}-${hour}`}
                                 >
@@ -331,6 +344,7 @@ const Schedule = () => {
                                       trainerFilter: trainerFilter,
                                       activityFilter: activityFilter,
                                       memberSubs: memberSubs,
+                                      subscriptions: subscriptions,
                                       classes: classes
                                     }}
                                     click={clickMember}
@@ -344,7 +358,22 @@ const Schedule = () => {
                                 <td
                                   className={
                                     !nextPage &&
-                                    `${getClassName(day, hour, index)} ${styles.current}`
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? `${styles.current}`
+                                      : ``
+                                  }
+                                  style={
+                                    !nextPage &&
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? {
+                                          '--percentage': `${Math.min(
+                                            100,
+                                            Math.max(0, percentage)
+                                          )}%`
+                                        }
+                                      : { '--percentage': '100%' }
                                   }
                                   key={`${day}-${hour}`}
                                 >
@@ -368,7 +397,22 @@ const Schedule = () => {
                                 <td
                                   className={
                                     !nextPage &&
-                                    `${getClassName(day, hour, index)} ${styles.current}`
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? `${styles.current}`
+                                      : ``
+                                  }
+                                  style={
+                                    !nextPage &&
+                                    current.hour.split(':')[0] === hour.split(':')[0] &&
+                                    Number(current.dayNum) - 1 === index
+                                      ? {
+                                          '--percentage': `${Math.min(
+                                            100,
+                                            Math.max(0, percentage)
+                                          )}%`
+                                        }
+                                      : { '--percentage': '100%' }
                                   }
                                   key={`${day}-${hour}`}
                                 >

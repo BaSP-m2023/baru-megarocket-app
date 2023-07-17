@@ -36,18 +36,21 @@ const ScheduleMember = ({ props, click }) => {
   const findClass = props.classes.find((cl) => {
     if (props.trainerFilter !== '') {
       return (
-        cl.day === props.day &&
-        cl.time === props.hour &&
-        cl.activity?.name?.includes(props.activityFilter) &&
-        cl.trainer._id === props.trainerFilter
+        cl?.day === props.day &&
+        cl?.time === props.hour &&
+        cl?.activity?.name?.includes(props.activityFilter) &&
+        cl?.trainer?._id === props.trainerFilter
       );
     } else {
       return (
-        cl.day === props.day &&
-        cl.time === props.hour &&
-        cl.activity?.name?.includes(props.activityFilter)
+        cl?.day === props.day &&
+        cl?.time === props.hour &&
+        cl?.activity?.name?.includes(props.activityFilter)
       );
     }
+  });
+  const subscribed = props.subscriptions.filter((subs) => {
+    return subs.date.slice(0, 10) === props.date && subs.classes?._id === findClass?._id;
   });
   if (findClass) {
     return (
@@ -58,6 +61,9 @@ const ScheduleMember = ({ props, click }) => {
           id="class"
         >
           {findClass?.activity?.name}
+          <p>
+            Slots: {subscribed?.length}/{findClass.capacity}
+          </p>
         </div>
       </>
     );

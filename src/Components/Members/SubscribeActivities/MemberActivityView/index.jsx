@@ -7,6 +7,7 @@ import { getActivities } from 'Redux/Activities/thunks';
 import Loader from 'Components/Shared/Loader';
 
 const MemberActivityView = () => {
+  const { dark } = useSelector((state) => state.darkmode);
   const { isPending } = useSelector((state) => state.activities);
   const activities = useSelector((state) => state.activities.list);
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const MemberActivityView = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <div className={!dark ? styles.activities : styles.darkActivities}>
       {isPending ? (
         <div className={styles.containerLoader}>
           <Loader />
@@ -36,7 +37,7 @@ const MemberActivityView = () => {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 
