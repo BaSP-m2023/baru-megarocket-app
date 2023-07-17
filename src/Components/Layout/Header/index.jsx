@@ -41,26 +41,30 @@ function Header(props) {
         <div className={styles.container2}>
           {role && userLogged && (
             <div className={styles.userContainer}>
-              {dark ? (
-                <FontAwesomeIcon
-                  icon={faToggleOn}
-                  onClick={() => {
-                    dispatch(setDarkMode(false));
-                    localStorage.setItem('darkMode', JSON.stringify(false));
-                  }}
-                  className={styles.toggle}
-                  size="2xl"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faToggleOff}
-                  onClick={() => {
-                    dispatch(setDarkMode(true));
-                    localStorage.setItem('darkMode', JSON.stringify(true));
-                  }}
-                  className={styles.toggle}
-                  size="2xl"
-                />
+              {history.location.pathname.endsWith('/home') && (
+                <div className={styles.toggleContainer}>
+                  {dark ? (
+                    <FontAwesomeIcon
+                      icon={faToggleOn}
+                      onClick={() => {
+                        dispatch(setDarkMode(false));
+                        localStorage.setItem('darkMode', JSON.stringify(false));
+                      }}
+                      className={styles.toggle}
+                      size="2xl"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faToggleOff}
+                      onClick={() => {
+                        dispatch(setDarkMode(true));
+                        localStorage.setItem('darkMode', JSON.stringify(true));
+                      }}
+                      className={styles.toggle}
+                      size="2xl"
+                    />
+                  )}
+                </div>
               )}
               <Link
                 className={styles.profileLink}
