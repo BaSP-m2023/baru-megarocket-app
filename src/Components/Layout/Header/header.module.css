@@ -156,25 +156,3 @@
 .logOutButton:active {
   transform: translate(2px ,2px);
 }
-
-<<<<<<< HEAD
-/* @media screen and (min-width: 750px) {
-=======
-.moon {
-  color: white;
-}
-
-.sun {
-  color: orange;
-}
-
-@media screen and (min-width: 750px) {
->>>>>>> master
-  .container {
-    padding: 0 2rem;
-  }
-
-  .navbar {
-    padding: 0 2rem;
-  }
-} */

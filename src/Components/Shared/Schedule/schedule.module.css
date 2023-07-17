@@ -71,16 +71,15 @@
   background-color: #cff9d2;
 }
 
-<<<<<<< HEAD
+.subscription:hover {
+  background-color: #8dbd91;
+}
+
 .content {
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
   margin: 2% 0;
-=======
-.subscription:hover {
-  background-color: #8dbd91;
->>>>>>> master
 }
 
 .content select {
@@ -156,7 +155,6 @@
   background-color: #e4ac59;
 }
 
-<<<<<<< HEAD
 .current {
  position: relative;
 }
@@ -414,8 +412,6 @@
   transform: translate(-50%, -50%);
 }
 
-=======
->>>>>>> master
 .arrows {
   display: flex;
   flex-direction: row-reverse;
