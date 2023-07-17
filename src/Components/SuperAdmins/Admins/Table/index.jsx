@@ -1,13 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import { Button } from 'Components/Shared/Button';
+import { useSelector } from 'react-redux';
+
 import styles from './table.module.css';
 
 function Table({ filter, handleDeleteButton }) {
+  const { dark } = useSelector((state) => state.darkmode);
   return (
     <>
-      <table className={styles.table}>
+      <table className={!dark ? styles.table : styles.darkTable}>
         <thead>
           <tr>
             <th className={styles.th}>First Name</th>
@@ -32,21 +36,19 @@ function Table({ filter, handleDeleteButton }) {
                   <td></td>
                   <td className={styles.button}>
                     <Link to={`/user/super-admin/admins/edit/${admin._id}`}>
-                      <Button
-                        text="Edit Button"
-                        img={`${process.env.PUBLIC_URL}/assets/images/edit-icon.png`}
-                        classNameButton="icon"
+                      <FontAwesomeIcon
+                        icon={faPen}
                         testid="admins-edit-btn"
+                        className={styles.pen}
                       />
                     </Link>
                   </td>
-                  <td className={styles.button}>
-                    <Button
-                      action={() => handleDeleteButton(admin._id)}
-                      text="Delete Button"
-                      img={`${process.env.PUBLIC_URL}/assets/images/delete-icon.png`}
-                      classNameButton="icon"
+                  <td>
+                    <FontAwesomeIcon
+                      icon={faTrash}
                       testid="admins-delete-btn"
+                      onClick={() => handleDeleteButton(admin._id)}
+                      className={styles.trash}
                     />
                   </td>
                 </tr>

@@ -25,6 +25,7 @@ function AdminsForm({ match }) {
   const { show, message, state } = useSelector((state) => state.toast);
   const success = useSelector((state) => state.admins.success);
   const { data: admins } = useSelector((state) => state.admins);
+  const { dark } = useSelector((state) => state.darkmode);
   const adminToUpdate = admins.find((ad) => ad._id === adminId);
 
   const {
@@ -162,7 +163,7 @@ function AdminsForm({ match }) {
 
   return (
     <>
-      <div className={styles.formContainer}>
+      <div className={!dark ? styles.formContainer : styles.darkFormContainer}>
         <div className={styles.formTitle} data-testid="admins-form-title-container">
           <h2 className={styles.title}>{adminId ? 'Edit Admin' : 'Add admin'}</h2>
           <span className={styles.closeButton} onClick={history.goBack}>

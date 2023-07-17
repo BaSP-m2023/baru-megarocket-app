@@ -18,6 +18,7 @@ const Admins = () => {
   const [idToDelete, setIdToDelete] = useState('');
   const dispatch = useDispatch();
   const admins = useSelector((state) => state.admins.data);
+  const { dark } = useSelector((state) => state.darkmode);
   const pending = useSelector((state) => state.admins.isPending);
   const { show, message, state } = useSelector((state) => state.toast);
 
@@ -60,7 +61,7 @@ const Admins = () => {
   };
   return (
     <>
-      <section className={styles.container}>
+      <section className={!dark ? styles.container : styles.darkContainer}>
         <h2 className={styles.title}>Admins</h2>
         <div className={styles.searchContainer} data-testid="admins-search-container">
           {filter.length === 0 && <p className={styles.notFound}>Admin not found!</p>}

@@ -14,6 +14,7 @@ function Members() {
   const members = useSelector((state) => state.members.data);
   const pending = useSelector((state) => state.members.isPending);
   const { show, message, state } = useSelector((state) => state.toast);
+  const { dark } = useSelector((state) => state.darkmode);
 
   useEffect(() => {
     dispatch(getMembers());
@@ -27,10 +28,10 @@ function Members() {
     );
   }
   return (
-    <section className={styles.container}>
+    <section className={!dark ? styles.container : styles.darkContainer}>
       <h1 className={styles.title}>Members</h1>
-      {!pending && members.length === 0 && 'There are no members'}
-      {!pending && members.length > 0 ? <List members={members} /> : null}
+      {!pending && members?.length === 0 && 'There are no members'}
+      {!pending && members?.length > 0 ? <List members={members} /> : null}
       {show && (
         <ResponseModal
           handler={() => dispatch(handleDisplayToast(false))}

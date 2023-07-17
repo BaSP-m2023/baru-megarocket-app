@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { addClass, deleteClass, putClass } from 'Redux/Classes/thunks';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { refreshData } from 'Redux/Classes/actions';
 
 import { Button, Reset } from 'Components/Shared/Button';
@@ -25,6 +25,7 @@ const ModalForm = ({
   subscribed,
   date
 }) => {
+  const { dark } = useSelector((state) => state.darkmode);
   const [trainers, setTrainers] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -106,12 +107,12 @@ const ModalForm = ({
   };
 
   return (
-    <div className={styles.modal}>
+    <div className={!dark ? styles.modal : styles.darkModal}>
       <div
         className={`${styles.modalContent} ${stylesForm.modalContent}`}
         data-testid="confirm-modal-container"
       >
-        <form className={stylesForm.form}>
+        <form className={!dark ? stylesForm.form : stylesForm.darkForm}>
           <div className={stylesForm.headerModal}>
             {reason === 'edit' && (
               <FontAwesomeIcon
@@ -190,7 +191,9 @@ const ModalForm = ({
               text={reason === 'edit' ? 'Update' : 'Create'}
             />
           </div>
-          <Reset action={handleReset} />
+          <div className={stylesForm.reset}>
+            <Reset action={handleReset} />
+          </div>
         </form>
       </div>
       {showConfirmModal && (
@@ -211,7 +214,9 @@ const ModalForm = ({
           handler={() => setShowDeleteModal(false)}
           onAction={handleSubmit(handleDelete)}
           reason={'delete'}
-        />
+        >
+          Are you sure you want to delete this class?
+        </ConfirmModal>
       )}
     </div>
   );
