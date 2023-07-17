@@ -229,7 +229,7 @@ const Schedule = () => {
         showSchedule && (
           <>
             <div className={!dark ? styles.content : styles.darkContent}>
-              <div className={styles.filter}>
+              <div className={styles.filter} data-testid="classes-filters-container">
                 <label>Filter by Activity</label>
                 <select value={activityFilter} onChange={(e) => setActivityFilter(e.target.value)}>
                   <option value={''}>All classes</option>
