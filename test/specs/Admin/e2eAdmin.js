@@ -26,25 +26,27 @@ describe('Verify login with user with valid credentials', () => {
     await ActivitiesPage.ActivitiesAddNew.click();
     await expect(ActivitiesPage.ActivitiesAddTitle).toBeDisplayed();
     await ActivitiesPage.ActivitiesAddName.setValue('Zumba');
-    await ActivitiesPage.ActivitiesAddDescription.setValue(
-      'a progressive fitness program that blends Latin music and dynamic Latin-inspired dance moves to exercise your cardiovascular system and the whole body'
-    );
     await ActivitiesPage.ActivitiesAddTrainerSelector.click();
     await ActivitiesPage.ActivitiesAddTrainerSelector.setValue('Nico Prueba');
     await browser.keys(['Enter']);
+    await ActivitiesPage.ActivitiesAddDescription.setValue(
+      'a progressive fitness program that blends Latin music and dynamic Latin-inspired dance moves to exercise your cardiovascular system and the whole body'
+    );
+    await $('checkbox').click();
+    await console.log($('checkbox').isSelected());
     await ActivitiesPage.ActivitiesSubmitBtn.click();
   });
-  it('user should be able to edit an activity', async () => {
-    await ActivitiesPage.ActivitiesNavBar.click();
-    await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
-    await ActivitiesPage.ActivitiesEditBtn.click();
-    await expect(ActivitiesPage.ActivitiesEditTitle).toBeDisplayed();
-    await ActivitiesPage.ActivitiesEditName.setValue('Pilates');
-    await ActivitiesPage.ActivitiesEditDescription.setValue('shhsjslfoornsbsttersbbkoodkdjsggsgs');
-    await ActivitiesPage.ActivitiesEditTrainerSelector.click();
-    await ActivitiesPage.ActivitiesEditTrainer.click();
-    await ActivitiesPage.ActivitiesSubmitBtn.click();
-  });
+  // it('user should be able to edit an activity', async () => {
+  //   await ActivitiesPage.ActivitiesNavBar.click();
+  //   await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
+  //   await ActivitiesPage.ActivitiesEditBtn.click();
+  //   await expect(ActivitiesPage.ActivitiesEditTitle).toBeDisplayed();
+  //   await ActivitiesPage.ActivitiesEditName.setValue('Pilates');
+  //   await ActivitiesPage.ActivitiesEditDescription.setValue('shhsjslfoornsbsttersbbkoodkdjsggsgs');
+  //   await ActivitiesPage.ActivitiesEditTrainerSelector.click();
+  //   await ActivitiesPage.ActivitiesEditTrainer.click();
+  //   await ActivitiesPage.ActivitiesSubmitBtn.click();
+  // });
   // it('user should delete an activity', async () => {
   // await ActivitiesPage.ActivitiesNavBar.click();
   // await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();

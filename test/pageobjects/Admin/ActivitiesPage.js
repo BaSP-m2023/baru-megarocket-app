@@ -21,12 +21,14 @@ class Activities {
     return $("[data-testid='activities-form-container']> div:nth-child(1) > input");
   }
 
-  get ActivitiesAddDescription() {
-    return $("[data-testid='activities-form-container']> div:nth-child(2) > textarea");
+  get ActivitiesAddTrainerSelector() {
+    return $(
+      '#root > div > div > section > div > div.form_content__nXznx > form > div:nth-child(2) > div > div > div.css-1hb7zxy-IndicatorsContainer > div'
+    );
   }
 
-  get ActivitiesAddTrainerSelector() {
-    return $('#react-select-2-input');
+  get ActivitiesAddDescription() {
+    return $("[data-testid='activities-form-container']> div:nth-child(3) > textarea");
   }
 
   get ActivitiesAddTrainer() {
@@ -63,7 +65,7 @@ class Activities {
 
   get ActivitiesSubmitBtn() {
     return $(
-      "[data-testid='activities-form-container']> div.form_formButtons__5QntN > div > button"
+      "[data-testid='activities-form-container']> div.form_formButtons__zQ21o > div > button"
     );
   }
 
