@@ -91,17 +91,13 @@
   background-color: #8dbd91;
 }
 
-.content select {
-  width: 200px;
-  height: 30px;
-}
-
 .filter {
   display: flex;
   margin: 0 2%;
 }
 
 .filter select {
+  min-width: 200px;
   max-width: 15vw;
   height: 30px;
   margin-right: 10px;
