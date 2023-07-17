@@ -27,7 +27,6 @@
 .formContainer, .darkFormContainer {
   display: flex;
   justify-content: center;
-  margin-top: 130px;
 }
 
 .p {

@@ -60,8 +60,8 @@ const Table = ({ data = [] }) => {
         </table>
       </div>
       {filter.length === 0 ? (
-        <div className={styles.filter}>
-          <p>There is no trainer with that name or last name </p>
+        <div className={dark ? `${styles.filter} ${styles.filterDark}` : `${styles.filter}`}>
+          <p>There is not trainer with that name</p>
         </div>
       ) : (
         ''

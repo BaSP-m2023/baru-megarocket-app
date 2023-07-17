@@ -18,12 +18,13 @@
   color: #fff;
 }
 
-.subsDarkContainer input, .subsDarkContainer ::placeholder {
+.subsDarkContainer input {
   background-color: #242024;
+  color: #fff;
 }
 
-.subsDarkContainer, .subsContainer {
-  margin-top: 70px;
+.subsDarkContainer ::placeholder {
+  color: #a2a0a2;
 }
 
 .containerLoader {
@@ -89,6 +90,17 @@
 .filterContainer {
   display: flex;
   margin-left: 5%;
+}
+
+.filter {
+  text-align: center;
+  color: #242024;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.filterDark {
+  color: #fff;
 }
 
 .inputContainer {

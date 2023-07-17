@@ -92,8 +92,8 @@ const Table = ({ data }) => {
         </div>
       </div>
       {filterSubscriptions.length === 0 ? (
-        <div className={styles.filter}>
-          <p>There is no subscription with that member or activity</p>
+        <div className={dark ? `${styles.filter} ${styles.filterDark}` : `${styles.filter}`}>
+          <p>There are not subscriptions to show</p>
         </div>
       ) : (
         ''
