@@ -52,14 +52,14 @@
 .profileContainer {
   display: flex;
   align-items: center;
-  cursor: pointer;
+  margin: 0 1em;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .toggleContainer {
   display: flex;
   align-items: center;
-  margin-right: 2rem;
 }
 
 .toggle {
@@ -72,8 +72,6 @@
   margin: 0 0.4rem;
   width: 3.5rem;
   margin-right: 1rem;
-  background-color: #ffffff;
-  border: 1px solid #000000;
   border-radius: 50%;
 }
 
@@ -85,8 +83,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-left: 5px;
-  width: 180px;
+  width: 130px;
 }
 
 .logOutButton {
@@ -94,7 +91,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-right: 2rem;
   width: 45px;
   height: 45px;
   border: none;
