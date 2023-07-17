@@ -111,7 +111,14 @@
   text-align: center;
   font-size: 1rem;
   font-weight: 700;
-  color: #373867;
+  color: #242024;
+}
+
+.darkText {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
 }
 
 ::-webkit-scrollbar {
