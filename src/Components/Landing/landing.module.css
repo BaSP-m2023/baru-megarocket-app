@@ -213,15 +213,46 @@
 .price{
   margin: auto;
   margin-bottom:0;
-  bottom: 0;
-  background-color: #f88d5c;
-  color: #fff;
-  border-radius: 100px;
-  width: fit-content;
   padding: 5% 10%;
-  font-size: 1.2rem;
+  color: #fff;
+  width: fit-content;
+}
+
+.subscribeBtn {
+  padding: 10%;
+  cursor: pointer;
+  border: none;
+  border-radius: 100px;
+  background-color: #f88d5c;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #242024;
+  color: #13133c;
+}
+
+.priceDetail {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #13133c;
+}
+
+.priceDetail span {
+  font-size: 0.8rem;
+}
+
+.membershipChange {
+  font-style: italic;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.landing .actualPlan {
+  border: 2px solid;
+  border-color: #f88d5c
+}
+
+.darkLanding .actualPlan {
+  border: 2px solid;
+  border-color: #03c04a;
 }
 
 .darkLanding .h3 {

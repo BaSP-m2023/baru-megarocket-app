@@ -8,6 +8,7 @@ import Loader from 'Components/Shared/Loader';
 
 import { signUpMember } from 'Redux/Auth/thunks';
 import memberSchema from 'Validations/member';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 
 import { Input } from 'Components/Shared/Inputs';
 import { Button } from 'Components/Shared/Button';
@@ -15,6 +16,7 @@ import ConfirmModal from 'Components/Shared/ConfirmModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import ResponseModal from 'Components/Shared/ResponseModal';
 
 function SignUp() {
   const history = useHistory();
@@ -23,6 +25,7 @@ function SignUp() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.isLoading);
   const { dark } = useSelector((state) => state.darkmode);
+  const { show, message, state } = useSelector((state) => state.toast);
 
   const {
     register,
@@ -51,6 +54,13 @@ function SignUp() {
     const localStorageMembership = localStorage.getItem('membership');
     if (localStorageMembership) {
       setValue('membership', localStorageMembership);
+      dispatch(
+        setContentToast({
+          message: `${localStorageMembership.toLocaleUpperCase()} membership selected.`,
+          state: 'success'
+        })
+      );
+      dispatch(handleDisplayToast(true));
       localStorage.removeItem('membership');
     }
   }, [setValue]);
@@ -154,9 +164,9 @@ function SignUp() {
                   <label className={styles.label}>Membership</label>
                   <select className={styles.select} name="membership" {...register('membership')}>
                     <option value="default">Choose your membership</option>
-                    <option value="classic">Classic</option>
-                    <option value="only_classes">Only Classes</option>
-                    <option value="black">Black</option>
+                    <option value="only_classes">Only Classes 34,99 U$S/month</option>
+                    <option value="classic">Classic 49,99 U$S/month</option>
+                    <option value="black">Black 89,99 U$S/month</option>
                   </select>
                   <span className={styles.error}>
                     {errors.membership ? (errors.message = 'Choose your membership') : '\u00A0'}
@@ -180,6 +190,13 @@ function SignUp() {
           >
             {`Are you sure you want to sign up?`}
           </ConfirmModal>
+        )}
+        {show && (
+          <ResponseModal
+            handler={() => handleDisplayToast(false)}
+            message={message}
+            state={state}
+          />
         )}
       </div>
     </div>
