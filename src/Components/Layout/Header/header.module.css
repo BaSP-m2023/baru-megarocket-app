@@ -6,6 +6,7 @@
   width: 100%;
   padding: 1em 0;
   background: linear-gradient(180deg, #242024 0%, rgba(35,31,33,1) 100%);
+  z-index: 2;
 }
 
 .container2{
