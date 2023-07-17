@@ -1,4 +1,4 @@
-.formContainer {
+.formContainer, .darkFormContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -41,6 +41,14 @@
   border-radius: 0 0 7px 7px;
   box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
   background-color: #f4f4f4;
+}
+
+.darkFormContainer .content {
+  background-color: #242024;
+}
+
+.darkFormContainer label, .darkFormContainer .resetContainer {
+  color: #fff;
 }
 
 .form {
