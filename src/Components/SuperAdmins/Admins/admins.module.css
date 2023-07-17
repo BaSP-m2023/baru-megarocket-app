@@ -50,13 +50,32 @@
 }
 
 .searchContainer {
+    display: flex;
+    align-self: flex-start;
+    margin-left: 5%;
+    margin-bottom: 2%;
+}
+
+.icon {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 40px;
 }
 
-.darkContainer .searchContainer, .darkContainer input {
-  background-color: #242024;
+.darkContainer label, .darkContainer .icon  {
   color: #fff;
+}
+
+.darkContainer input {
+  color: #fff;
+  background-color:#242024;
+}
+
+.searchContainer{
+  display: flex;
+    align-self: flex-start;
+    margin-left: 5%;
+    margin-bottom: 2%;
 }

@@ -1,15 +1,15 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import styles from './header.module.css';
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
-import { Link, useHistory } from 'react-router-dom';
 
 import { logOut } from 'Redux/Auth/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
-import { useDispatch, useSelector } from 'react-redux';
 import { setDarkMode } from 'Redux/DarkMode/actions';
 
 import NavBar from './NavBar';
-import styles from './header.module.css';
 import ResponseModal from 'Components/Shared/ResponseModal';
 
 function Header(props) {
@@ -34,9 +34,18 @@ function Header(props) {
     dispatch(handleDisplayToast(true));
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
   };
+
+  const location = useLocation();
+  const currentLocation =
+    location.pathname === '/' ||
+    location.pathname === '/user/member/home' ||
+    location.pathname === '/user/admin/home' ||
+    location.pathname === '/user/super-admin/home' ||
+    location.pathname === '/user/trainer/home';
+
   return (
     <header>
-      <div className={styles.container}>
+      <div className={currentLocation ? styles.containerPage : styles.containerHome}>
         <NavBar routes={props.routes} />
         <div className={styles.container2}>
           {role && userLogged && (

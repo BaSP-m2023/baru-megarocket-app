@@ -18,12 +18,7 @@
   color: #fff;
 }
 
-.subsDarkContainer input {
-  border: 1px solid #b6b2b6;
-}
-
 .subsDarkContainer input, .subsDarkContainer ::placeholder {
-  color: #b6b2b6;
   background-color: #242024;
 }
 
@@ -93,7 +88,7 @@
 
 .filterContainer {
   display: flex;
-  margin: 0 0 2% 13%;
+  margin-left: 5%;
 }
 
 .inputContainer {
