@@ -1,8 +1,8 @@
 .container {
+  position: sticky;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  position: sticky;
   top: 0;
   padding: 0.5em 1em;
   background: linear-gradient(180deg, #242024 0%, rgba(35,31,33,1) 100%);
@@ -11,6 +11,7 @@
 .container2{
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .link{
@@ -88,6 +89,7 @@
   margin: 0 1em;
   font-weight: 600;
   cursor: pointer;
+  background-color: #d56423;
 }
 
 .toggleContainer {
@@ -98,14 +100,6 @@
 .toggle {
   align-self: center;
   color: #d56423;
-}
-
-.profileImg {
-  width: 2rem;
-  margin: 0 0.4rem;
-  width: 3.5rem;
-  margin-right: 1rem;
-  border-radius: 50%;
 }
 
 .userContainer {
@@ -238,13 +232,21 @@
   .hamburger{
     display: block;
   }
+  .logOutButtonContainer{
+    width: 150px;
+    margin-right: 2%;
+  }
 }
 
 @media screen and (max-width: 396px){
-  .logoContainer p{
+  .logoContainer p, .toggleContainer{
     display: none;
   }
+}
+
+@media screen and (max-width: 440px){
   .logOutButtonContainer{
-    width: 100px;
+    width: 50px;
+    height: 50px;
   }
 }

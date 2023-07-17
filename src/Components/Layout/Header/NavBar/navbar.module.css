@@ -42,9 +42,9 @@
 
 .profileImg {
   width: 2rem;
+  margin: 0 0.4rem;
+  width: 3.5rem;
   margin-right: 1rem;
-  background-color: #ffffff;
-  border: 1px solid #000000;
   border-radius: 50%;
 }
 

@@ -38,17 +38,27 @@ const NavBar = ({ routes = [], showMenu, setShowMenu }) => {
                 : `/user/${role.toLowerCase()}/profile/${userLogged?._id}`
             }
           >
-            <div className={styles.profileContainer}>
-              <img
-                className={styles.profileImg}
-                src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
-                alt="profile image"
-              />
-              {role === 'ADMIN' && `${userLogged?.firstName} ${userLogged?.lastName}`}
-              {role === 'MEMBER' && `${userLogged?.name} ${userLogged?.lastName}`}
-              {role === 'TRAINER' && `${userLogged?.firstName} ${userLogged?.lastName}`}
-              {role === 'SUPER_ADMIN' && 'SA'}
-            </div>
+            {userLogged?.lastName && (
+              <div className={styles.profileContainer}>
+                <img
+                  className={styles.profileImg}
+                  src={
+                    role === 'ADMIN' || role === 'SUPER_ADMIN'
+                      ? `${process.env.PUBLIC_URL}/assets/avatars/admin.jpg`
+                      : role === 'TRAINER'
+                      ? `${process.env.PUBLIC_URL}/assets/avatars/rocket-trainer.jpg`
+                      : role === 'MEMBER' && userLogged.avatar
+                      ? `${process.env.PUBLIC_URL}/assets/avatars/${userLogged.avatar}.jpg`
+                      : `${process.env.PUBLIC_URL}/assets/images/profile-icon.png`
+                  }
+                  alt="profile image"
+                />
+                {role === 'ADMIN' && `${userLogged?.firstName} ${userLogged?.lastName}`}
+                {role === 'MEMBER' && `${userLogged?.name} ${userLogged?.lastName}`}
+                {role === 'TRAINER' && `${userLogged?.firstName} ${userLogged?.lastName}`}
+                {role === 'SUPER_ADMIN' && 'SA'}
+              </div>
+            )}
           </Link>
         )}
       </nav>
