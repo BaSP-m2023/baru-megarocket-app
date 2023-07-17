@@ -16,12 +16,11 @@
 .inputContainer {
   display: flex;
   flex-direction: column;
-  margin-left: 13%;
   margin-bottom: 1%;
 }
 
 .darkFilterContainer input {
-  background-color: #19191b;
+  background-color: #242024;
   color: #fff;
 }
 
@@ -239,6 +238,8 @@
 .member {
   display: flex;
   justify-content: center;
+  text-align: left;
+  padding-left: 15%;
 }
 
 .avatarContainer {
