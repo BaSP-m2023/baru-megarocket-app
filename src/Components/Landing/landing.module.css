@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  margin-top: 100px;
 }
 
 .container {
@@ -17,10 +16,11 @@
 .welcomeSection {
   padding: 3% 0 8% 0;
   margin-top: 0;
-  text-align: center;
   margin-bottom: 5%;
+  min-height: 75vh;
   background-color: #13133c;
   background: linear-gradient(to bottom, #13133c, white);
+  text-align: center;
 }
 
 .brandName {
