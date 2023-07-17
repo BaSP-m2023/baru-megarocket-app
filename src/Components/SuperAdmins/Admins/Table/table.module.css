@@ -1,6 +1,7 @@
 .table {
-  width: 90%;
+  width: 100%;
   border-spacing: 0 5px;
+  overflow-x: scroll;
 }
 
 .row {
