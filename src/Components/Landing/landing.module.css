@@ -128,7 +128,7 @@
 }
 .about_col_1, .about_col_2{
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   flex-wrap: nowrap;
 }
 .aboutSection p, .aboutSection img{
@@ -168,7 +168,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 2% 0 5% 0;
+  margin-top: 2%;
   gap: 5%;
 }
 
