@@ -12,10 +12,13 @@ import {
   faCircle,
   faStar
 } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 function Landing() {
   const ref = useRef(null);
   const history = useHistory();
+  const { dark } = useSelector((state) => state.darkmode);
+
   const handleClick = () => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -26,12 +29,18 @@ function Landing() {
     }
   };
   return (
-    <div className={styles.landing}>
+    <div className={!dark ? styles.landing : styles.darkLanding}>
       <section
         className={styles.welcomeSection}
-        style={{
-          backgroundImage: `linear-gradient(180deg, rgba(35,31,32,0) 0%, rgba(96,96,180,0.20211834733893552) 82%, rgba(106,106,204,0.19091386554621848) 95%, rgba(255,255,255,1) 100%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
-        }}
+        style={
+          !dark
+            ? {
+                backgroundImage: `linear-gradient(180deg, rgba(35,31,32,0) 0%, rgba(96,96,180,0.20211834733893552) 82%, rgba(106,106,204,0.19091386554621848) 95%, rgba(255,255,255,1) 100%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
+              }
+            : {
+                backgroundImage: `linear-gradient(rgba(35, 31, 32, 0) 0%, rgba(96, 96, 180, 0.204) 82%, rgba(106, 106, 204, 0.192) 95%, #19191b 100%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
+              }
+        }
       >
         <h1 className={styles.brandName}>MegaRocket Web</h1>
         <p className={styles.brandDescription}>
@@ -111,16 +120,38 @@ function Landing() {
               onClick={() => handleClickMembership('only_classes')}
             >
               <div className={styles.tier}>
-                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#242024' }} size="2xl" />
+                <FontAwesomeIcon
+                  icon={faUserAstronaut}
+                  style={!dark ? { color: '#242024' } : { color: '#FFF' }}
+                  size="2xl"
+                />
               </div>
               <h3>Only Classes</h3>
               <ul className={styles.ul}>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Access to classes with prior registration
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Schedule visualization
                 </li>
               </ul>
@@ -133,22 +164,57 @@ function Landing() {
                   style={{ color: '#6d15e8', alignSelf: 'center' }}
                   size="lg"
                 />
-                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#242024' }} size="2xl" />
-                <FontAwesomeIcon icon={faStar} style={{ color: '#dedeef93' }} size="lg" />
+                <FontAwesomeIcon
+                  icon={faUserAstronaut}
+                  style={!dark ? { color: '#242024' } : { color: '#FFF' }}
+                  size="2xl"
+                />
+                <FontAwesomeIcon
+                  icon={faStar}
+                  style={!dark ? { color: '#dedeef93' } : { color: '#19191b' }}
+                  size="lg"
+                />
               </div>
 
               <h3>Classic</h3>
               <ul className={styles.ul}>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Access to the gym area
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Personalized training guidance by a coach
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Schedule visualization
                 </li>
               </ul>
@@ -157,7 +223,11 @@ function Landing() {
             <div className={styles.membershipCard} onClick={() => handleClickMembership('black')}>
               <div className={styles.tier}>
                 <FontAwesomeIcon icon={faCloud} style={{ color: '#6d15e8' }} size="lg" />
-                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#242024' }} size="2xl" />
+                <FontAwesomeIcon
+                  icon={faUserAstronaut}
+                  style={!dark ? { color: '#242024' } : { color: '#FFF' }}
+                  size="2xl"
+                />
                 <FontAwesomeIcon
                   icon={faStar}
                   style={{ color: '#e8b315', alignSelf: 'flex-end' }}
@@ -167,19 +237,55 @@ function Landing() {
               <h3>Black</h3>
               <ul className={styles.ul}>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Access to the gym area
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Access to classes with prior registration
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Personalized training guidance by a coach
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Schedule visualization
                 </li>
               </ul>

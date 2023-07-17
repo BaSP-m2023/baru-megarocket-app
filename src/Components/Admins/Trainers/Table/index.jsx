@@ -4,9 +4,11 @@ import { Input } from 'Components/Shared/Inputs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Trainer from '../Trainer';
+import { useSelector } from 'react-redux';
 
 const Table = ({ data = [] }) => {
   const [filter, setFilter] = useState([]);
+  const { dark } = useSelector((state) => state.darkmode);
 
   useEffect(() => {
     setFilter(data);
@@ -22,7 +24,7 @@ const Table = ({ data = [] }) => {
   };
 
   return (
-    <>
+    <div className={!dark ? styles.trainerContainer : styles.trainerDarkContainer}>
       <div className={styles.filterContainer}>
         <div className={styles.inputContainer} data-testid="trainers-search-container">
           <Input
@@ -37,7 +39,7 @@ const Table = ({ data = [] }) => {
           <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
         </div>
       </div>
-      <div className={styles.container}>
+      <div className={!dark ? styles.container : styles.darkContainer}>
         <table className={styles.space}>
           <thead>
             <tr>
@@ -46,6 +48,8 @@ const Table = ({ data = [] }) => {
               <th className={styles.column}>DNI</th>
               <th className={styles.column}>Phone Number</th>
               <th className={styles.column}>Email</th>
+              <th className={styles.column}></th>
+              <th className={styles.column}></th>
             </tr>
           </thead>
           <tbody data-testid="trainers-list">
@@ -62,7 +66,7 @@ const Table = ({ data = [] }) => {
       ) : (
         ''
       )}
-    </>
+    </div>
   );
 };
 

@@ -22,6 +22,7 @@ function SignUp() {
   const [viewPassword, setViewPassword] = useState(false);
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.isLoading);
+  const { dark } = useSelector((state) => state.darkmode);
 
   const {
     register,
@@ -96,7 +97,7 @@ function SignUp() {
     );
   }
   return (
-    <div>
+    <div className={!dark ? styles.signup : styles.darksignup}>
       <div className={styles.content}>
         <div className={styles.formTitle} data-testid="signup-members-header">
           <h2>Member Register</h2>

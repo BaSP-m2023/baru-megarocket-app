@@ -1,5 +1,6 @@
 .container {
   display: flex;
+  justify-content: space-evenly;
   align-items: center;
   position: sticky;
   top: 0;
@@ -51,12 +52,24 @@
 .profileContainer {
   display: flex;
   align-items: center;
-  margin: 0 1rem;
   cursor: pointer;
   font-weight: 600;
 }
 
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.toggle {
+  align-self: center;
+  color: #d56423;
+}
+
 .profileImg {
+  width: 2rem;
+  margin: 0 0.4rem;
   width: 3.5rem;
   margin-right: 1rem;
   background-color: #ffffff;
@@ -64,10 +77,16 @@
   border-radius: 50%;
 }
 
+.userContainer {
+  display: flex;
+}
+
 .logOutButtonContainer{
   display: flex;
   justify-content: flex-end;
-  width: 150px;
+  align-items: center;
+  margin-left: 5px;
+  width: 180px;
 }
 
 .logOutButton {
@@ -138,7 +157,19 @@
   transform: translate(2px ,2px);
 }
 
+<<<<<<< HEAD
 /* @media screen and (min-width: 750px) {
+=======
+.moon {
+  color: white;
+}
+
+.sun {
+  color: orange;
+}
+
+@media screen and (min-width: 750px) {
+>>>>>>> master
   .container {
     padding: 0 2rem;
   }

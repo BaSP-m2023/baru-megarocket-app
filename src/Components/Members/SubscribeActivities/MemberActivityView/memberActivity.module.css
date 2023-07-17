@@ -4,11 +4,15 @@
   align-items: center;
 }
 
+.darkActivities .title, .title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
 .title {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #373867;
+  color: #19191B;
 }
 
 .cardContainer{
@@ -16,6 +20,7 @@
   justify-content: center;
   flex-wrap: wrap;
 }
+
 .card {
   display: flex;
   flex-direction: column;
@@ -26,15 +31,35 @@
   border-radius: 50px;
   box-shadow: 2px 2px 4px #00000033;
   text-align: center;
-	-webkit-animation: rollInTop 1.2s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
-	        animation: rollInTop 1.2s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+  transition: background-color 0.4s ease-in;
+  transition: color 0.4s ease-in;
+  -webkit-animation: rollInTop 1.2s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+  animation: rollInTop 1.2s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
 }
+
+.card:nth-child(even){
+  background-color: #f88d5ca1;
+}
+
+
 
 .card:hover{
   background-color: #7c7cc0;
   color: #fff;
 }
 
+.darkActivities .card {
+  background-color: #19191B;
+  color: #fff;
+  box-shadow: 1px 1px 2px #ffffff33;
+  transition: background-color 0.4s ease-in;
+  transition: color 0.4s ease-in;
+}
+
+.darkActivities .card:nth-child(even){
+  background-color: #d0602c;
+}
+  
 .card:nth-child(even){
   background-color: #f88d5ca1;
 	-webkit-animation: rollInBottom 1.2s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
