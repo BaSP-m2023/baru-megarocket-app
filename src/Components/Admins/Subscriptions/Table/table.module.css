@@ -18,12 +18,7 @@
   color: #fff;
 }
 
-.subsDarkContainer input {
-  border: 1px solid #b6b2b6;
-}
-
 .subsDarkContainer input, .subsDarkContainer ::placeholder {
-  color: #b6b2b6;
   background-color: #242024;
 }
 

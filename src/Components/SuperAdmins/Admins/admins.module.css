@@ -64,8 +64,16 @@
   margin-top: 40px;
 }
 
-.darkContainer label, .darkContainer .searchContainer{
+.darkContainer label, .darkContainer .icon  {
   color: #fff;
+}
+
+.darkContainer input {
+  color: #fff;
+  background-color:#242024;
+}
+
+.searchContainer{
   display: flex;
     align-self: flex-start;
     margin-left: 5%;
