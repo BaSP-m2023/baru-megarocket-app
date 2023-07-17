@@ -21,6 +21,7 @@ const Admins = () => {
   const [idToDelete, setIdToDelete] = useState('');
   const dispatch = useDispatch();
   const admins = useSelector((state) => state.admins.data);
+  const { dark } = useSelector((state) => state.darkmode);
   const pending = useSelector((state) => state.admins.isPending);
   const { show, message, state } = useSelector((state) => state.toast);
 
@@ -63,10 +64,9 @@ const Admins = () => {
   };
   return (
     <>
-      <section className={styles.container}>
+      <section className={!dark ? styles.container : styles.darkContainer}>
         <h2 className={styles.title}>Admins</h2>
         <div className={styles.searchContainer} data-testid="admins-search-container">
-          {filter.length === 0 && <p className={styles.notFound}>Admin not found!</p>}
           <div className={styles.inputContainer} data-testid="trainers-search-container">
             <Input
               labelText="Filter Admins"
@@ -84,6 +84,7 @@ const Admins = () => {
         {!pending && admins && admins.length > 0 && (
           <Table filter={filter || []} handleDeleteButton={handleDeleteButton} />
         )}
+        {filter.length === 0 && <p className={styles.notFound}>Admin not found!</p>}
         <Link to="admins/add" data-testid="add-admin-link">
           <Button text="+ Add new" classNameButton="addButton"></Button>
         </Link>

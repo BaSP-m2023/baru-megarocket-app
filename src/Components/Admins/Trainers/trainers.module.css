@@ -2,10 +2,17 @@
   display: flex;
   justify-content: center;
   }
+
   .title {
     font-size: 2rem;
     text-align: center;
     color: #242024;
+  }
+
+  .darkTitle {
+    font-size: 2rem;
+    text-align: center;
+    color: #fff;
   }
 
   .button {

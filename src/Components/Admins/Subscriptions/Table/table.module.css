@@ -1,24 +1,85 @@
-.title {
+.subsContainer .title {
   font-size: 2rem;
   text-align: center;
-  color: #373867;
+  color: #000;
 }
 
-.container {
+.subsDarkContainer .title {
+  font-size: 2rem;
+  text-align: center;
+  color: #fff;
+}
+
+.subsContainer ::placeholder {
+  color: #000;
+}
+
+.subsDarkContainer label, .subsDarkContainer .icon {
+  color: #fff;
+}
+
+.subsDarkContainer input {
+  border: 1px solid #b6b2b6;
+}
+
+.subsDarkContainer input, .subsDarkContainer ::placeholder {
+  color: #b6b2b6;
+  background-color: #242024;
+}
+
+.subsDarkContainer, .subsContainer {
+  margin-top: 70px;
+}
+
+.containerLoader {
+  display: flex;
+  justify-content: center;
+}
+
+.subsContainer .container, .subsDarkContainer .container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: center;
+  width: 90vw;
+  min-height: 300px;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.subTableContainer {
+  display: flex;
+  justify-content: center;
 }
 
 .tableSubscription {
-  width: 90%;
+  width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
   border-spacing: 0 5px;
 }
 
-.containerThead th {
+.subsContainer .containerThead th {
   text-align: center;
+}
+
+.subsDarkContainer .containerThead th {
+  color: #fff;
+}
+
+.thead th {
+  position: sticky;
+  top: 0;
+  padding-bottom: 5px;
+  background-color: #fff;
+  transition: background-color 1s;
+}
+
+.subsDarkContainer .thead th {
+  position: sticky;
+  top: 0;
+  padding-bottom: 5px;
+  background-color: #302c30;
 }
 
 .item {
@@ -28,14 +89,6 @@
   background-color: #ebebeb;
   font-size: 1rem;
   font-weight: 400;
-}
-
-.item:not(.selected):nth-child(odd) {
-  background-color: #ffffff;
-}
-
-.item:not(.selected):nth-child(odd):hover {
-  background-color: #c4bcbc;
 }
 
 .filterContainer {
@@ -48,7 +101,7 @@
   flex-direction: column;
 }
 
-.filter {
+.subsContainer .filter {
   text-align: center;
   color:#242024;
   font-size: 21px;
@@ -66,10 +119,32 @@
   margin-top: 37px;
 }
 
+.item:not(.selected):nth-child(odd) {
+  background-color: #ffffff;
+  transition: background-color 1s;
+}
+
+.item:not(.selected):nth-child(odd):hover {
+  background-color: #c4bcbc;
+}
+
 .item:not(.selected):nth-child(even) {
   background-color: #ebebeb;
+  transition: background-color 1s;
 }
 
 .item:not(.selected):nth-child(even):hover {
   background-color: #c0b6b6;
+}
+
+.subsDarkContainer .item:not(.selected):nth-child(odd) {
+  background-color: #302c30;
+  transition: background-color 1s;
+  color: #fff;
+}
+
+.subsDarkContainer .item:not(.selected):nth-child(even) {
+  background-color: #19191b;
+  transition: background-color 1s;
+  color: #fff;
 }
