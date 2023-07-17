@@ -3,8 +3,7 @@
   align-items: center;
   position: sticky;
   top: 0;
-  width: 100%;
-  padding: 1em 0;
+  padding: 1em;
   background: linear-gradient(180deg, #242024 0%, rgba(35,31,33,1) 100%);
   z-index: 2;
 }
@@ -12,7 +11,6 @@
 .container2{
   display: flex;
   align-items: center;
-  padding-right: 2%;
 }
 
 .socialIcon {
