@@ -110,6 +110,7 @@ const Form = () => {
             <div className={`${styles.formGroup}`}>
               <label className={styles.formLabel}>Asign trainers</label>
               <Select
+                data-testid="activities-form-asign-trainer"
                 defaultValue={
                   activity
                     ? activity.trainers.map((trainer) => ({

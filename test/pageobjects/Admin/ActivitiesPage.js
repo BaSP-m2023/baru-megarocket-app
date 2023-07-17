@@ -1,86 +1,84 @@
-class Activities {
-  get ActivitiesNavBar() {
-    return $("[data-testid='routes-list']> li:nth-child(1) > a");
-  }
+// class Activities {
+//   get ActivitiesNavBar() {
+//     return $("[data-testid='routes-list']> li:nth-child(1) > a");
+//   }
 
-  get ActivitiesSearch() {
-    return $("[data-testid='activities-search-container']");
-  }
+//   get ActivitiesSearch() {
+//     return $("[data-testid='activities-search-container']");
+//   }
 
-  //add new activity
+//   //add new activity
 
-  get ActivitiesAddNew() {
-    return $("[data-testid='add-activity-link']> div > button");
-  }
+//   get ActivitiesAddNew() {
+//     return $("[data-testid='add-activity-link']> div > button");
+//   }
 
-  get ActivitiesAddTitle() {
-    return $("[data-testid='activities-form-title-container']");
-  }
+//   get ActivitiesAddTitle() {
+//     return $("[data-testid='activities-form-title-container']");
+//   }
 
-  get ActivitiesAddName() {
-    return $("[data-testid='activities-form-container']> div:nth-child(1) > input");
-  }
+//   get ActivitiesAddName() {
+//     return $("[data-testid='activities-form-container']> div:nth-child(1) > input");
+//   }
 
-  get ActivitiesAddTrainerSelector() {
-    return $(
-      '#root > div > div > section > div > div.form_content__nXznx > form > div:nth-child(2) > div > div > div.css-1hb7zxy-IndicatorsContainer > div'
-    );
-  }
+//   get ActivitiesAddTrainerSelector() {
+//     return $('//*[@id="react-select-3-input"]');
+//   }
 
-  get ActivitiesAddDescription() {
-    return $("[data-testid='activities-form-container']> div:nth-child(3) > textarea");
-  }
+//   get ActivitiesAddDescription() {
+//     return $("[data-testid='activities-form-container']> div:nth-child(3) > textarea");
+//   }
 
-  get ActivitiesAddTrainer() {
-    return $('#react-select-7-option-0');
-  }
+//   get ActivitiesAddTrainer() {
+//     return $('#react-select-7-option-0');
+//   }
 
-  //Edit
-  get ActivitiesEditBtn() {
-    return $("[data-testid='activities-edit-btn']");
-  }
+//   //Edit
+//   get ActivitiesEditBtn() {
+//     return $("[data-testid='activities-edit-btn']");
+//   }
 
-  get ActivitiesEditTitle() {
-    return $("[data-testid='activities-form-title-container']");
-  }
+//   get ActivitiesEditTitle() {
+//     return $("[data-testid='activities-form-title-container']");
+//   }
 
-  get ActivitiesEditName() {
-    return $("[data-testid='activities-form-container']> div:nth-child(1) > input");
-  }
+//   get ActivitiesEditName() {
+//     return $("[data-testid='activities-form-container']> div:nth-child(1) > input");
+//   }
 
-  get ActivitiesEditDescription() {
-    return $("[data-testid='activities-form-container']> div:nth-child(2) > textarea");
-  }
+//   get ActivitiesEditDescription() {
+//     return $("[data-testid='activities-form-container']> div:nth-child(2) > textarea");
+//   }
 
-  //agregar el select del filtro
-  get ActivitiesEditTrainerSelector() {
-    return $('#react-select-2-placeholder');
-  }
+//   //agregar el select del filtro
+//   get ActivitiesEditTrainerSelector() {
+//     return $('#react-select-2-placeholder');
+//   }
 
-  get ActivitiesEditTrainer() {
-    return $('#react-select-2-option-2');
-  }
+//   get ActivitiesEditTrainer() {
+//     return $('#react-select-2-option-2');
+//   }
 
-  //buttons
+//   //buttons
 
-  get ActivitiesSubmitBtn() {
-    return $(
-      "[data-testid='activities-form-container']> div.form_formButtons__zQ21o > div > button"
-    );
-  }
+//   get ActivitiesSubmitBtn() {
+//     return $(
+//       "[data-testid='activities-form-container']> div.form_formButtons__zQ21o > div > button"
+//     );
+//   }
 
-  get ActivitiesDeleteIcon() {
-    return $("[data-testid='activities-delete-button']");
-  }
+//   get ActivitiesDeleteIcon() {
+//     return $("[data-testid='activities-delete-button']");
+//   }
 
-  //Modal
-  get ActivitiesModal() {
-    return $("[data-testid='confirm-modal-buttons']");
-  }
+//   //Modal
+//   get ActivitiesModal() {
+//     return $("[data-testid='confirm-modal-buttons']");
+//   }
 
-  get ActivitiesDeleteBtn() {
-    return $("[data-testid='confirm-modal-buttons']> div:nth-child(2) > button");
-  }
-}
+//   get ActivitiesDeleteBtn() {
+//     return $("[data-testid='confirm-modal-buttons']> div:nth-child(2) > button");
+//   }
+// }
 
-module.exports = new Activities();
+// module.exports = new Activities();
