@@ -60,8 +60,8 @@
 
 .button {
   padding: 15px 25px;
-  background-color: #6d15e8;
-  color:#f5e8e8;
+  background-color: #f88d5c;
+  color:#13133c;
   border: none;
   border-radius: 100px;
   font-size: 1rem;
@@ -102,7 +102,7 @@
 }
 .icon {
   font-size: 2rem;
-  color: #6d15e8;
+  color: #f88d5c;
   margin-bottom: 10px;
 }
 
@@ -230,16 +230,16 @@
   cursor: pointer;
   border: none;
   border-radius: 100px;
-  background-color: #6d15e8;
+  background-color: #f88d5c;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #f5e8e8;
+  color: #13133c;
 }
 
 .priceDetail {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #6d15e8
+  color: #13133c;
 }
 
 .priceDetail span {
@@ -254,7 +254,7 @@
 
 .landing .actualPlan {
   border: 2px solid;
-  border-color: #6d15e8
+  border-color: #f88d5c
 }
 
 .darkLanding .actualPlan {
