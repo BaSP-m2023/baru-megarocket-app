@@ -27,6 +27,7 @@ function TrainerProfile({ match }) {
   const { show, message, state } = useSelector((state) => state.toast);
   const trainerLogged = useSelector((state) => state.auth.user || '');
   const { data: trainers } = useSelector((state) => state.trainers);
+  const { dark } = useSelector((state) => state.darkmode);
   const [editPass, setEditPass] = useState(false);
 
   const {
@@ -149,7 +150,7 @@ function TrainerProfile({ match }) {
     { labelText: 'Phone', type: 'text', name: 'phone' }
   ];
   return (
-    <section className={styles.section}>
+    <section className={!dark ? styles.section : styles.darkSection}>
       <div className={styles.formContainer}>
         <div className={styles.content}>
           <div className={styles.formTitle}>
@@ -196,8 +197,12 @@ function TrainerProfile({ match }) {
             {!disableEdit && (
               <>
                 <div className={styles.buttons}>
+                  <Button
+                    classNameButton="cancelButton"
+                    text="Cancel"
+                    action={() => setDisableEdit(true)}
+                  />
                   <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
-                  <Button classNameButton="cancelButton" text="Cancel" />
                 </div>
                 <div className={styles.resetContainer}>
                   <Reset action={handleReset} text={'Reset'} />

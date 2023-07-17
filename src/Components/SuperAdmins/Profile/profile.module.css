@@ -9,11 +9,21 @@
   border-radius: 7px;
   box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
 }
-.form {
+
+.form, .darkForm {
   display: flex;
   justify-content: center;
-}
-.p {
+} 
+
+.darkForm .p {
+  font-family: 'Roboto', Arial, serif;
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 700;
+  color: #fff;
+} 
+
+.form .p {
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
   line-height: 1.6;
@@ -59,13 +69,10 @@
   align-items: center;
 }
 
-.body {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 20px;
-  font-family: 'Roboto', Arial, serif;
-  font-size: 17px;
-  line-height: 1.6;
+.darkForm .body {
+  background-color: #242024;
+  color: #fff;
+  box-shadow: 0 5px 8px 0 #ffffff33, 0 7px 20px 0 #ffffff2b;
 }
 
 .confirm_button {

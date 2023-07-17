@@ -1,6 +1,8 @@
+import { useSelector } from 'react-redux';
 import styles from './loader.module.css';
 import React from 'react';
 
 export default function Loader() {
-  return <span className={styles.loader}></span>;
+  const { dark } = useSelector((state) => state.darkmode);
+  return <span className={!dark ? styles.loader : styles.darkLoader}></span>;
 }

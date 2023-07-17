@@ -25,6 +25,7 @@ function AdminProfile({ match }) {
   const [updated, setUpdated] = useState(false);
   const redirect = useSelector((state) => state.admins.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
+  const { dark } = useSelector((state) => state.darkmode);
   const defaultAdmin = useSelector((state) => state.auth.user || '');
   const { data: admins } = useSelector((state) => state.admins);
   const [editPass, setEditPass] = useState(false);
@@ -158,7 +159,7 @@ function AdminProfile({ match }) {
   ];
 
   return (
-    <div className={styles.formContainer}>
+    <div className={!dark ? styles.formContainer : styles.darkFormContainer}>
       <div className={styles.content}>
         <div className={styles.formTitle}>
           <h2>
@@ -220,14 +221,16 @@ function AdminProfile({ match }) {
           {!disableEdit && (
             <>
               <div className={styles.buttons}>
-                <Button classNameButton="addButton" text={'Confirm'} />
                 <Button
                   classNameButton="cancelButton"
                   action={() => setDisableEdit(true)}
                   text="Cancel"
                 />
+                <Button classNameButton="addButton" text={'Confirm'} />
               </div>
-              <Reset action={handleReset} />
+              <div className={styles.reset}>
+                <Reset action={handleReset} />
+              </div>
             </>
           )}
         </form>

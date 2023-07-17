@@ -1,4 +1,4 @@
-.table {
+.table, .darkTable {
   width: 90%;
   border-spacing: 0 5px;
 }
@@ -14,6 +14,7 @@
 
 .row:not(.selected):nth-child(odd) {
   background-color: #ffffff;
+  transition: background-color 1s;
 }
 
 .row:not(.selected):nth-child(odd):hover {
@@ -22,9 +23,38 @@
 
 .row:not(.selected):nth-child(even) {
   background-color: #ebebeb;
+  transition: background-color 1s;
 }
 
 .row:not(.selected):nth-child(even):hover {
   background-color: #c0b6b6;
+}
+
+.darkTable .row:not(.selected):nth-child(odd) {
+  background-color: #302c30;
+  color: #fff;
+  transition: background-color 1s;
+}
+
+.darkTable .row:not(.selected):nth-child(even) {
+  background-color: #19191b;
+  color: #fff;
+  transition: background-color 1s;
+}
+
+.darkTable .row:not(.selected):nth-child(odd):hover {
+  background-color: #727070;
+}
+
+.darkTable .row:not(.selected):nth-child(even):hover {
+  background-color: #363535;
+}
+
+.darkTable .pen, .darkTable .trash {
+  color: #fff;
+}
+
+.table .pen, .table .trash {
+  color: #242024;
 }
 

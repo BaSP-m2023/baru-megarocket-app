@@ -23,6 +23,7 @@ const MemberForm = ({ match }) => {
   let memberId = match.params.id;
   const dispatch = useDispatch();
   const redirect = useSelector((state) => state.members.redirect);
+  const { dark } = useSelector((state) => state.darkmode);
   const { show, message, state } = useSelector((state) => state.toast);
 
   const {
@@ -115,7 +116,7 @@ const MemberForm = ({ match }) => {
   ];
 
   return (
-    <div className={styles.formContainer}>
+    <div className={!dark ? styles.formContainer : styles.darkFormContainer}>
       <div className={styles.formTitle} data-testid="members-form-title-container">
         <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
         <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
@@ -123,11 +124,7 @@ const MemberForm = ({ match }) => {
         </span>
       </div>
       <div className={styles.content}>
-        <div className={styles.title} data-testid="members-form-title-container">
-          <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
-            &times;
-          </span>
-        </div>
+        <div className={styles.title} data-testid="members-form-title-container"></div>
         <form className={styles.form} data-testid="members-form-container">
           <div className={styles.fieldContainer}>
             {firstFormEdit.map((field) => (
@@ -173,7 +170,9 @@ const MemberForm = ({ match }) => {
           />
           <Button classNameButton="addButton" action={handleSubmit(handleModal)} text={'Edit'} />
         </div>
-        <Reset action={handleReset} />
+        <div className={styles.resetButton}>
+          <Reset action={handleReset} />
+        </div>
       </div>
       {modalMessageOpen && (
         <ConfirmModal

@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import styles from './button.module.css';
+import { useSelector } from 'react-redux';
 
 export function Button({ action, text, img, classNameButton, disabled, testid, icon }) {
   return (
@@ -31,9 +32,10 @@ export function Button({ action, text, img, classNameButton, disabled, testid, i
 }
 
 export function Reset({ action }) {
+  const { dark } = useSelector((state) => state.darkmode);
   return (
     <div className={styles.resetContainer} onClick={() => action()}>
-      <FontAwesomeIcon icon={faRotateLeft} className={styles.reset} />
+      <FontAwesomeIcon icon={faRotateLeft} className={!dark ? styles.reset : styles.darkReset} />
       reset
     </div>
   );

@@ -22,6 +22,7 @@ const Form = () => {
 
   const { show, message, state } = useSelector((state) => state.toast);
   const redirect = useSelector((state) => state.trainers.redirect);
+  const { dark } = useSelector((state) => state.darkmode);
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [trainerToEdit, setTrainerToEdit] = useState([]);
@@ -124,7 +125,7 @@ const Form = () => {
 
   return (
     <>
-      <div className={styles.formContainer}>
+      <div className={!dark ? styles.formContainer : styles.darkFormContainer}>
         <div className={styles.formTitle}>
           <h2 data-testid="trainers-form-title">{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
           <span className={styles.closeButton} onClick={() => history.goBack()}>
@@ -194,7 +195,6 @@ const Form = () => {
             )}
           </form>
           <div className={styles.btnContainer} data-testid="trainers-form-buttons">
-            <Reset action={handleReset} />
             <Link to="/user/admin/trainers">
               <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
             </Link>
@@ -205,6 +205,9 @@ const Form = () => {
             >
               {id ? 'Update' : 'Submit'}
             </Button>
+          </div>
+          <div className={styles.resetButton}>
+            <Reset action={handleReset} />
           </div>
         </div>
       </div>
