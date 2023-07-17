@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import styles from './navbar.module.css';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { useSelector } from 'react-redux';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const NavBar = ({ routes = [], showMenu, setShowMenu }) => {
   const role = sessionStorage.getItem('role');
-  const location = useLocation();
   const { user: userLogged } = useSelector((state) => state.auth);
 
   const privateRoutes = routes.filter((route) => route.name !== 'Home');
@@ -18,15 +18,14 @@ const NavBar = ({ routes = [], showMenu, setShowMenu }) => {
         <ul className={styles.routes} data-testid="routes-list">
           {privateRoutes.map((route) => (
             <li key={route.name}>
-              <Link
+              <NavLink
+                activeClassName={styles.activeLink}
+                className={styles.a}
                 to={route.path}
-                className={`${styles.a} ${
-                  location.pathname.includes(route.name.toLowerCase()) && styles.active
-                }`}
                 onClick={handleClick}
               >
                 {route.name}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>

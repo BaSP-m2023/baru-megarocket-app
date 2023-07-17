@@ -1,4 +1,4 @@
-.formContainer {
+.formContainer, .darkFormContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,6 +44,15 @@
   box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
   background-color: #f4f4f4;
 }
+
+.darkFormContainer .content {
+  background-color: #242024;
+}
+
+.darkFormContainer label, .darkFormContainer .resetContainer {
+  color: #fff;
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -51,6 +60,20 @@
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
   line-height: 1.6;
+}
+
+.inputContainer {
+  display: flex;
+  margin-top: 20px;
+}
+
+.fieldContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputForm {
+  margin-left: 20px;
 }
 
 .formGroup {

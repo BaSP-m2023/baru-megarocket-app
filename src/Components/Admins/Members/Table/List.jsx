@@ -6,8 +6,11 @@ import { Input } from 'Components/Shared/Inputs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
+import { useSelector } from 'react-redux';
+
 const List = ({ members, handleModal }) => {
   const [filter, setFilter] = useState([]);
+  const { dark } = useSelector((state) => state.darkmode);
 
   const filterList = (value) => {
     const membersToShow = members.filter(
@@ -23,7 +26,7 @@ const List = ({ members, handleModal }) => {
 
   return (
     <div>
-      <div className={styles.filterContainer}>
+      <div className={!dark ? styles.filterContainer : styles.darkFilterContainer}>
         <div className={styles.inputContainer} data-testid="members-search-container">
           <Input
             labelText="Filter Members"
@@ -37,12 +40,14 @@ const List = ({ members, handleModal }) => {
           <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
         </div>
       </div>
-      <div className={styles.container}>
-        <table className={`${styles.table}`}>
+      <div className={!dark ? styles.tableContainer : styles.darkTableContainer}>
+        <table className={styles.table}>
           <thead className={`${styles['table-header']}`}>
             <tr className={`${styles['table-row']}`}>
               <th>Members</th>
               <th>Membership Status</th>
+              <th>Membership</th>
+              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -54,7 +59,7 @@ const List = ({ members, handleModal }) => {
         </table>
       </div>
       {filter.length === 0 ? (
-        <div className={styles.filter}>
+        <div className={dark ? `${styles.filter} ${styles.filterDark}` : `${styles.filter}`}>
           <p>There is no member with that name</p>
         </div>
       ) : (

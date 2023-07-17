@@ -1,4 +1,4 @@
-.modal {
+.modal, .darkModal {
   position: fixed;
   z-index: 1;
   left: 0;
@@ -8,9 +8,21 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: #00000066;
+  background-color: #00000090;
   z-index: 100;
 }
+
+.darkModal .modalContent {
+  background-color: #19191b;
+  border-radius: 5px;
+  padding: 20px;
+  width: 30%;
+  max-width: 90%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  padding: 0 16px;
+}
+
 .modalContent {
   background-color: #fff;
   border-radius: 5px;
@@ -32,6 +44,13 @@
   cursor: pointer;
   color: black;
 }
+
+.darkModal span {
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+}
+
 .containerInfo {
   display: flex;
   flex-wrap: wrap;
@@ -52,7 +71,6 @@
   margin: 0;
 }
 
-
 .memberTable {
   margin-top: 25px;
   max-height: 150px;
@@ -63,11 +81,12 @@
 .memberTable table {
   width: 100%;
   border-collapse: collapse;
-  
+
 }
+
 .memberTable thead {
-  position: sticky; 
-  top: 0; 
+  position: sticky;
+  top: 0;
   background-color: #242024;
   color: white;
   z-index: 1;
@@ -83,4 +102,15 @@
 .containerButtons{
   display: flex;
   justify-content: center;
+  margin-top: 12px;
+}
+
+.buttonPContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.classicMembership {
+  color: #ff4545;
 }

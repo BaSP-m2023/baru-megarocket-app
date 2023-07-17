@@ -1,14 +1,14 @@
-.row {
+.row, .darkRow {
   height: 40px;
   text-align: center;
   color: #242024;
-  background-color: #ebebeb;
   font-size: 1rem;
   font-weight: 400;
 }
 
 .row:not(.selected):nth-child(odd) {
   background-color: #ffffff;
+  transition: background-color 1s;
 }
 
 .row:not(.selected):nth-child(odd):hover {
@@ -17,16 +17,49 @@
 
 .row:not(.selected):nth-child(even) {
   background-color: #ebebeb;
+  transition: background-color 1s;
 }
 
 .row:not(.selected):nth-child(even):hover {
   background-color: #c0b6b6;
 }
 
-.edit {
+.darkRow:not(.selected):nth-child(odd) {
+  background-color: #302c30;
+  transition: background-color 1s;
+  color: #fff;
+}
+
+.darkRow:not(.selected):nth-child(odd):hover {
+  background-color: #7a7676;
+}
+
+.darkRow:not(.selected):nth-child(even) {
+  background-color: #19191b;
+  transition: background-color 1s;
+  color: #fff;
+}
+
+.darkRow:not(.selected):nth-child(even):hover {
+  background-color: #676363;
+}
+
+.row .pen {
+  cursor: pointer;
+  color: #242024;
+}
+
+.row .trash {
+  color: #242024;
   cursor: pointer;
 }
 
-.delete {
+.darkRow .pen {
+  cursor: pointer;
+  color: #fff;
+}
+
+.darkRow .trash {
+  color: #fff;
   cursor: pointer;
 }

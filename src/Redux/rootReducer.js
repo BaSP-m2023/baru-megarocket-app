@@ -10,8 +10,10 @@ import membersReducer from 'Redux/Members/reducers';
 import adminsReducer from 'Redux/Admins/reducers';
 import subscriptionsReducer from 'Redux/Subscriptions/reducers';
 import authReducer from 'Redux/Auth/reducer';
+import darkReducer from 'Redux/DarkMode/reducer';
 
 const rootReducers = combineReducers({
+  darkmode: darkReducer,
   superadmins: superadminsReducer,
   activities: activititesReducer,
   toast: toastReducer,

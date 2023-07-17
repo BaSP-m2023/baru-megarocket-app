@@ -2,7 +2,27 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  margin: 4% auto;
   margin-top: 130px;
+  background-color: #f4f4f4;
+  height: 100%;
+  width: 70%;
+  border-radius: 7px;
+  box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
+}
+
+.darkFormContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 150px auto;
+  background-color: #242024;
+  height: 100%;
+  width: 70%;
+  border-radius: 7px;
+  box-shadow: 0 2px 3px 0 #ffffff33, 0 3px 4px 0 #ffffff2b;
 }
 
 .formTitle {
@@ -39,8 +59,18 @@
   height: 100%;
   width: 70%;
   border-radius: 0 0 7px 7px;
-  box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
   background-color: #f4f4f4;
+}
+
+.darkFormContainer .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 2% 0;
+  border-radius: 0 0 7px 7px;
+  background-color: #242024;
 }
 
 .form {
@@ -49,14 +79,20 @@
   padding: 10px 20px;
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
-  line-height: 1.6;
+}
+
+.fieldContainer {
+  margin-right: 20px;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2%;
+}
+
+.darkFormContainer .formGroup label {
+  color: #fff;
 }
 
 .formGroupCheckbox {
@@ -75,6 +111,10 @@
   display: flex;
   justify-content: center;
   text-align: center;
+}
+
+.darkFormContainer .resetButton {
+  color: #fff;
 }
 
 .input {
@@ -98,4 +138,23 @@
   .formButtons{
     flex-direction: column;
   }
+}
+.label_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.select {
+  width: 25.5vw;
+  height: 36px;
+  margin-right: 10px;
+  color: #242024;
+  border: 1px solid #242024;
+  border-radius: 5px;
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
 }

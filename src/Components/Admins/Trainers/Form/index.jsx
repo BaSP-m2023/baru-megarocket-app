@@ -22,6 +22,7 @@ const Form = () => {
 
   const { show, message, state } = useSelector((state) => state.toast);
   const redirect = useSelector((state) => state.trainers.redirect);
+  const { dark } = useSelector((state) => state.darkmode);
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [trainerToEdit, setTrainerToEdit] = useState([]);
@@ -98,27 +99,39 @@ const Form = () => {
     setShowConfirmModal(true);
   };
 
-  const formCreate = [
+  const firstFormCreate = [
     { labelText: 'First Name', name: 'firstName', type: 'text' },
     { labelText: 'Last Name', name: 'lastName', type: 'text' },
     { labelText: 'ID', name: 'dni', type: 'text' },
-    { labelText: 'Phone', name: 'phone', type: 'text' },
+    { labelText: 'Phone', name: 'phone', type: 'text' }
+  ];
+
+  const secondFormCreate = [
     { labelText: 'Email', name: 'email', type: 'email' },
     { labelText: 'Password', name: 'password', type: 'password' },
     { labelText: 'Salary', name: 'salary', type: 'text' }
   ];
 
-  const formUpdate = [
+  const firstFormUpdate = [
     { labelText: 'First Name', name: 'firstName', type: 'text' },
     { labelText: 'Last Name', name: 'lastName', type: 'text' },
-    { labelText: 'ID', name: 'dni', type: 'text' },
+    { labelText: 'ID', name: 'dni', type: 'text' }
+  ];
+
+  const secondFormUpdate = [
     { labelText: 'Phone', name: 'phone', type: 'text' },
     { labelText: 'Salary', name: 'salary', type: 'text' }
   ];
 
   return (
     <>
-      <div className={styles.formContainer}>
+      <div className={!dark ? styles.formContainer : styles.darkFormContainer}>
+        <div className={styles.formTitle}>
+          <h2 data-testid="trainers-form-title">{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
+          <span className={styles.closeButton} onClick={() => history.goBack()}>
+            &times;
+          </span>
+        </div>
         <div className={styles.content}>
           <div className={styles.formTitle}>
             <h2 data-testid="trainers-form-title">{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
@@ -127,32 +140,67 @@ const Form = () => {
             </span>
           </div>
           <form className={styles.form} data-testid="trainers-form-container">
-            {id
-              ? formUpdate.map((field) => (
-                  <div className={styles.formGroup} key={field.name}>
-                    <Input
-                      labelText={field.labelText}
-                      name={field.name}
-                      type={field.type}
-                      register={register}
-                      error={errors[field.name]?.message}
-                    />
-                  </div>
-                ))
-              : formCreate.map((field) => (
-                  <div className={styles.formGroup} key={field.name}>
-                    <Input
-                      labelText={field.labelText}
-                      name={field.name}
-                      type={field.type}
-                      register={register}
-                      error={errors[field.name]?.message}
-                    />
-                  </div>
-                ))}
+            {id ? (
+              <div className={styles.formGroup}>
+                <div>
+                  {firstFormUpdate.map((field) => (
+                    <div key={field.name} className={styles.formFields}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  {secondFormUpdate.map((field) => (
+                    <div key={field.name} className={styles.formFields}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className={styles.formGroup}>
+                <div>
+                  {firstFormCreate.map((field) => (
+                    <div key={field.name} className={styles.formFields}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  {secondFormCreate.map((field) => (
+                    <div key={field.name} className={styles.formFields}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </form>
           <div className={styles.formButtons} data-testid="trainers-form-buttons">
-            <Reset action={handleReset} />
             <Link to="/user/admin/trainers">
               <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
             </Link>
@@ -163,6 +211,9 @@ const Form = () => {
             >
               {id ? 'Update' : 'Submit'}
             </Button>
+          </div>
+          <div className={styles.resetButton}>
+            <Reset action={handleReset} />
           </div>
         </div>
       </div>

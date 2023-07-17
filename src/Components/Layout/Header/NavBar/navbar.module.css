@@ -1,22 +1,27 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   width: 80%;
 }
 
 .routes {
   display: flex;
+  justify-content: space-around;
+  width: 70%;
+  margin: 0;
+  padding: 0;
   list-style-type: none;
 }
 
 .a {
-  margin-left: 25px;
+  padding: 4px;
   font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;
   text-transform: capitalize;
-  color: #fff;
+  color: #f3e6e6;
+  transition: .2s ease-in;
 }
 .active{
   text-decoration: underline;
@@ -80,5 +85,49 @@
     padding: 2%;
     padding-left: 5%;
     color: #fff;
+  }
+}
+
+.a:hover {
+  border-radius: 4px;
+  background: linear-gradient(#242023, #f88d5c);
+  color: #242023;
+  border-bottom: 2px solid;
+}
+
+.activeLink {
+  border-radius: 4px;
+  transform: translate(10px, 10px);
+  background: linear-gradient(#242023,#f88d5c);
+}
+
+@media only screen and (max-width: 1000px) {
+  .navbar {
+    justify-content: flex-start;
+  }
+
+  .navbar a, .navbar ul {
+    padding: 5px;
+    margin-left: 8px;
+  }
+
+  .navbar ::-webkit-scrollbar {
+    padding-top: 2px;
+    width: 0.2rem;
+    height: 0.4rem;
+  }
+
+  .navbar ::-webkit-scrollbar-track {
+    background-color: #cdcdcd;
+  }
+
+  .navbar ::-webkit-scrollbar-thumb {
+    background-color: #242024;
+    border-radius: 100px;
+  }
+
+  .navbar ::-webkit-scrollbar-thumb:hover {
+    background-color: #c95824;
+    cursor: pointer;
   }
 }

@@ -12,10 +12,16 @@ import {
   faCircle,
   faStar
 } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
+
+import Loader from 'Components/Shared/Loader';
 
 function Landing() {
   const ref = useRef(null);
   const history = useHistory();
+  const { dark } = useSelector((state) => state.darkmode);
+  const { user } = useSelector((state) => state.auth);
+
   const handleClick = () => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -25,13 +31,98 @@ function Landing() {
       history.push('/auth/signup');
     }
   };
+
+  const membershipButton = (plan) => {
+    const price = {
+      black: '89,99',
+      classic: '49,99',
+      only_classes: '34,99'
+    };
+
+    if (sessionStorage.getItem('role') && sessionStorage.getItem('role') !== 'MEMBER') {
+      return (
+        <p className={styles.priceDetail}>
+          {`${price[plan]}`}
+          <span>U$S/month</span>
+        </p>
+      );
+    }
+
+    if (user?.membership === plan && user?.isActive) {
+      return (
+        <p className={styles.priceDetail}>
+          Actual membership <span>Your bill is {`${price[plan]}`}U$S per month</span>
+        </p>
+      );
+    }
+
+    if (user?.membership === plan && !user?.isActive) {
+      return (
+        <>
+          <p className={styles.priceDetail}>
+            <span>Your membership is being accepted...</span>
+          </p>
+          <Loader />
+        </>
+      );
+    }
+
+    if (user?.membership !== plan && user?.isActive) {
+      return (
+        <>
+          <p className={styles.priceDetail}>
+            {`${price[plan]}`}
+            <span>U$S/month</span>
+            <br />
+            <span className={styles.membershipChange}>
+              Talk with administration if you want to change your membership.
+            </span>
+          </p>
+        </>
+      );
+    }
+
+    if (user?.membership !== plan && !user?.isActive && user) {
+      return (
+        <>
+          <p className={styles.priceDetail}>
+            {`${price[plan]}`}
+            <span>U$S/month</span>
+            <br />
+            <span className={styles.membershipChange}>
+              You have already requested other membership.
+            </span>
+          </p>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <p className={styles.priceDetail}>
+          {`${price[plan]}`}
+          <span>U$S/month</span>
+        </p>
+        <button onClick={() => handleClickMembership(plan)} className={styles.subscribeBtn}>
+          Subscribe now
+        </button>
+      </>
+    );
+  };
+
   return (
-    <div className={styles.landing}>
+    <div className={!dark ? styles.landing : styles.darkLanding}>
       <section
         className={styles.welcomeSection}
-        style={{
-          backgroundImage: `linear-gradient(180deg, rgba(35,31,32,0) 0%, rgba(96,96,180,0.20211834733893552) 82%, rgba(106,106,204,0.19091386554621848) 95%, rgba(255,255,255,1) 100%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
-        }}
+        style={
+          !dark
+            ? {
+                backgroundImage: `linear-gradient(180deg, rgba(35,31,32,0) 0%, rgba(96,96,180,0.20211834733893552) 82%, rgba(106,106,204,0.19091386554621848) 95%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
+              }
+            : {
+                backgroundImage: `linear-gradient(rgba(35, 31, 32, 0) 0%, rgba(96, 96, 180, 0.204) 82%, rgba(106, 106, 204, 0.192) 95%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
+              }
+        }
       >
         <h1 className={styles.brandName}>MegaRocket Web</h1>
         <p className={styles.brandDescription}>
@@ -107,57 +198,128 @@ function Landing() {
           <h3 className={styles.h3}>Choose your plan</h3>
           <div className={styles.cardsContainer}>
             <div
-              className={styles.membershipCard}
-              onClick={() => handleClickMembership('only_classes')}
+              className={
+                user?.isActive && user.membership === 'only_classes'
+                  ? `${styles.membershipCard} ${styles.actualPlan}`
+                  : styles.membershipCard
+              }
             >
               <div className={styles.tier}>
-                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#242024' }} size="2xl" />
+                <FontAwesomeIcon
+                  icon={faUserAstronaut}
+                  style={!dark ? { color: '#242024' } : { color: '#FFF' }}
+                  size="2xl"
+                />
               </div>
               <h3>Only Classes</h3>
               <ul className={styles.ul}>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Access to classes with prior registration
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Schedule visualization
                 </li>
               </ul>
-              <div className={styles.price}>$100</div>
+              <div className={styles.price}>{membershipButton('only_classes')}</div>
             </div>
-            <div className={styles.membershipCard} onClick={() => handleClickMembership('classic')}>
+            <div
+              className={
+                user?.isActive && user.membership === 'classic'
+                  ? `${styles.membershipCard} ${styles.actualPlan}`
+                  : styles.membershipCard
+              }
+            >
               <div className={styles.tier}>
                 <FontAwesomeIcon
                   icon={faCloud}
                   style={{ color: '#6d15e8', alignSelf: 'center' }}
                   size="lg"
                 />
-                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#242024' }} size="2xl" />
-                <FontAwesomeIcon icon={faStar} style={{ color: '#dedeef93' }} size="lg" />
+                <FontAwesomeIcon
+                  icon={faUserAstronaut}
+                  style={!dark ? { color: '#242024' } : { color: '#FFF' }}
+                  size="2xl"
+                />
+                <FontAwesomeIcon icon={faStar} style={{ visibility: 'hidden' }} size="lg" />
               </div>
-
               <h3>Classic</h3>
               <ul className={styles.ul}>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Access to the gym area
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Personalized training guidance by a coach
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Schedule visualization
                 </li>
               </ul>
-              <div className={styles.price}>$200</div>
+              <div className={styles.price}>{membershipButton('classic')}</div>
             </div>
-            <div className={styles.membershipCard} onClick={() => handleClickMembership('black')}>
+            <div
+              className={
+                user?.isActive && user.membership === 'black'
+                  ? `${styles.membershipCard} ${styles.actualPlan}`
+                  : styles.membershipCard
+              }
+            >
               <div className={styles.tier}>
                 <FontAwesomeIcon icon={faCloud} style={{ color: '#6d15e8' }} size="lg" />
-                <FontAwesomeIcon icon={faUserAstronaut} style={{ color: '#242024' }} size="2xl" />
+                <FontAwesomeIcon
+                  icon={faUserAstronaut}
+                  style={!dark ? { color: '#242024' } : { color: '#FFF' }}
+                  size="2xl"
+                />
                 <FontAwesomeIcon
                   icon={faStar}
                   style={{ color: '#e8b315', alignSelf: 'flex-end' }}
@@ -167,23 +329,59 @@ function Landing() {
               <h3>Black</h3>
               <ul className={styles.ul}>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Access to the gym area
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Access to classes with prior registration
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Personalized training guidance by a coach
                 </li>
                 <li>
-                  <FontAwesomeIcon icon={faCircle} style={{ paddingRight: '10' }} fade size="2xs" />
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    style={
+                      !dark
+                        ? { color: '#242024', paddingRight: '10px' }
+                        : { color: '#FFF', paddingRight: '10px' }
+                    }
+                    fade
+                    size="2xs"
+                  />
                   Schedule visualization
                 </li>
               </ul>
-              <div className={styles.price}>$300</div>
+              <div className={styles.price}>{membershipButton('black')}</div>
             </div>
           </div>
         </section>

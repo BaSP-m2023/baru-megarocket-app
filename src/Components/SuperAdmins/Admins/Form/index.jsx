@@ -25,6 +25,7 @@ function AdminsForm({ match }) {
   const { show, message, state } = useSelector((state) => state.toast);
   const success = useSelector((state) => state.admins.success);
   const { data: admins } = useSelector((state) => state.admins);
+  const { dark } = useSelector((state) => state.darkmode);
   const adminToUpdate = admins.find((ad) => ad._id === adminId);
 
   const {
@@ -136,17 +137,39 @@ function AdminsForm({ match }) {
     dispatch(handleDisplayToast(false));
   };
 
-  const formFields = [
+  const firstFormFieldsUpdate = [
     { labelText: 'First Name', name: 'firstName', type: 'text' },
     { labelText: 'Last Name', name: 'lastName', type: 'text' },
-    { labelText: 'DNI', name: 'dni', type: 'text' },
+    { labelText: 'DNI', name: 'dni', type: 'text' }
+  ];
+
+  const secondFormFieldsUpdate = [
     { labelText: 'Phone', name: 'phone', type: 'text' },
     { labelText: 'City', name: 'city', type: 'text' }
   ];
 
+  const firstFormFieldsCreate = [
+    { labelText: 'First Name', name: 'firstName', type: 'text' },
+    { labelText: 'Last Name', name: 'lastName', type: 'text' },
+    { labelText: 'DNI', name: 'dni', type: 'text' },
+    { labelText: 'Phone', name: 'phone', type: 'text' }
+  ];
+
+  const secondFormFieldsCreate = [
+    { labelText: 'City', name: 'city', type: 'text' },
+    { labelText: 'Email', name: 'email', type: 'email' },
+    { labelText: 'Password', name: 'password', type: 'password' }
+  ];
+
   return (
     <>
-      <div className={styles.formContainer}>
+      <div className={!dark ? styles.formContainer : styles.darkFormContainer}>
+        <div className={styles.formTitle} data-testid="admins-form-title-container">
+          <h2 className={styles.title}>{adminId ? 'Edit Admin' : 'Add admin'}</h2>
+          <span className={styles.closeButton} onClick={history.goBack}>
+            &times;
+          </span>
+        </div>
         <div className={styles.content}>
           <div className={styles.formTitle} data-testid="admins-form-title-container">
             <h2 className={styles.title}>{adminId ? 'Edit Admin' : 'Add admin'}</h2>
@@ -159,38 +182,67 @@ function AdminsForm({ match }) {
             onSubmit={handleSubmit(onConfirm)}
             data-testid="admins-form-container"
           >
-            {formFields.map((field) => (
-              <div className={styles.formGroup} key={field.name}>
-                <Input
-                  labelText={field.labelText}
-                  name={field.name}
-                  type={field.type}
-                  register={register}
-                  error={errors[field.name]?.message}
-                />
-              </div>
-            ))}
+            <div>
+              {adminId && (
+                <div className={styles.inputContainer}>
+                  <div>
+                    {firstFormFieldsUpdate.map((field) => (
+                      <div key={field.name} className={styles.fieldContainer}>
+                        <Input
+                          labelText={field.labelText}
+                          name={field.name}
+                          type={field.type}
+                          register={register}
+                          error={errors[field.name]?.message}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    {secondFormFieldsUpdate.map((field) => (
+                      <div key={field.name} className={styles.fieldContainer}>
+                        <Input
+                          labelText={field.labelText}
+                          name={field.name}
+                          type={field.type}
+                          register={register}
+                          error={errors[field.name]?.message}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             {!adminId && (
-              <>
-                <div className={styles.formGroup}>
-                  <Input
-                    labelText="Email"
-                    name="email"
-                    type="email"
-                    register={register}
-                    error={errors.email?.message}
-                  />
+              <div className={styles.inputContainer}>
+                <div>
+                  {firstFormFieldsCreate.map((field) => (
+                    <div key={field.name} className={styles.fieldContainer}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
                 </div>
-                <div className={styles.formGroup}>
-                  <Input
-                    labelText="Password"
-                    name="password"
-                    type="password"
-                    register={register}
-                    error={errors.password?.message}
-                  />
+                <div className={styles.inputForm}>
+                  {secondFormFieldsCreate.map((field) => (
+                    <div key={field.name} className={styles.fieldContainer}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
                 </div>
-              </>
+              </div>
             )}
 
             <div className={styles.formButtons} data-testid="admin-form-buttons">

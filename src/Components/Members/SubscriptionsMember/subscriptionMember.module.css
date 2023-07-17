@@ -1,8 +1,13 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  min-height: 50vh;
+}
+
+.darkContainer {
+  min-height: 50vh;
+  background-color: #302c30;
+  transition: background-color 1s;
 }
 
 .text {
@@ -12,11 +17,26 @@
   color: #242024;
 }
 
+.darkText {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
 .title {
+  margin-top: 0;
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
   color: #242024;
+}
+
+.darkContainer .title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
 }
 
 .loader {
@@ -26,12 +46,20 @@
 }
 
 .table {
+  max-width: 1000px;
   margin: 0 auto;
   border-collapse: collapse;
 }
 
 .thead {
-  background-color: #f2f2f2;
+  background-color: #d9d9d9;
+  transition: background-color 1s;
+}
+
+.darkContainer .thead {
+  background-color: #19191b;
+  transition: background-color 1s;
+
 }
 
 .th {
@@ -39,6 +67,15 @@
   padding: 13px;
   vertical-align: middle;
   color: #242024;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.darkContainer .th {
+  width: 25%;
+  padding: 13px;
+  vertical-align: middle;
+  color: #fff;
   font-size: 1rem;
   font-weight: 700;
 }
@@ -52,8 +89,25 @@
   font-weight: 600;
 }
 
+.darkContainer .td {
+  padding: 13px 22px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+}
+
 .tr:nth-child(2n) {
   background-color: #f2f2f2;
+  transition: background-color 1s;
+
+}
+
+.darkContainer .tr:nth-child(2n) {
+  background-color: #19191b;
+  transition: background-color 1s;
+
 }
 
 .button {

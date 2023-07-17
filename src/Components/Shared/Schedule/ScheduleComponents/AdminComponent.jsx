@@ -33,7 +33,7 @@ const ScheduleAdmin = ({ props, click }) => {
         className={!classFilter ? `${styles.div} ${styles.filtered}` : styles.div}
         onClick={() => click({ oneClass, reason: 'edit', date: props.date })}
       >
-        {oneClass.activity.name}
+        {oneClass.activity?.name}
       </div>
     );
   } else {

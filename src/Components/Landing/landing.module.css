@@ -3,22 +3,43 @@
   flex-direction: column;
   justify-content: center;
   margin-top: 100px;
+  width: 100%;
+}
+
+.darkLanding {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  background-color: #302c30;
+  color: #fff;
+}
+
+.darkLanding p {
+  color: #fff;
 }
 
 .container {
-  max-width: 1100px;
+  min-width: 390px;
+  max-width: 1500px;
   margin: auto;
-  padding: 2%;
+  padding: 5%;
+  font-family: 'Roboto', Arial, serif;
+}
+
+.darkLanding .container {
   font-family: 'Roboto', Arial, serif;
 }
 
 .welcomeSection {
   padding: 3% 0 8% 0;
   margin-top: 0;
-  text-align: center;
-  margin-bottom: 5%;
+  min-height: 75vh;
   background-color: #13133c;
   background: linear-gradient(to bottom, #13133c, white);
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
 }
 
 .brandName {
@@ -45,12 +66,22 @@
   cursor: pointer;
 }
 
+.darkLanding .featuresSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 5%;
+  padding: 2% 0;
+  background-color: #19191B;
+}
+
 .featuresSection {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin: auto;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
   padding: 2% 0;
   background-color: #dedeef93;
 }
@@ -72,6 +103,12 @@
   margin-bottom: 10px;
 }
 
+.darkLanding .h2 {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
 .h2 {
   font-size: 1.2rem;
   color: #242024;
@@ -88,15 +125,15 @@
   flex-wrap: wrap;
   justify-content: center;
   margin: auto;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
 }
 .about_col_1, .about_col_2{
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   flex-wrap: nowrap;
 }
 .aboutSection p, .aboutSection img{
-  width: 45%;
+  width: 35%;
 }
 
 .about_col_1 p{
@@ -104,18 +141,22 @@
   align-self: flex-start;
   text-align: left;
   font-size: 1.2rem;
+  align-self: center;
 }
 .about_col_2 p{
   padding: 0 2% 0 0;
   align-self: flex-end;
   text-align: right;
   font-size: 1.2rem;
+  align-self: center;
 }
+
 .about_col_1 img{
   border-radius: 100px 100px 100px 0;
 }
 .about_col_2 img{
   border-radius: 100px 100px 0 100px;
+  box-shadow: 1px 1px 1px 1px #000000;
 }
 
 .membershipsSection{
@@ -128,8 +169,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 2% 0 5% 0;
-  cursor: pointer;
+  margin-top: 2%;
+  gap: 5%;
 }
 
 .membershipCard {
@@ -146,6 +187,24 @@
   text-align: center;
   overflow: hidden;
   transition: transform 0.3s ease;
+  transition: background-color 1s;
+}
+
+.darkLanding .membershipCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 300px;
+  margin: 10px;
+  padding: 10px;
+  padding-top: 5%;
+  background-color: #19191b ;
+  border-radius: 50px;
+  box-shadow: 2px 2px 4px #8d8d8d33;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  transition: background-color 1s;
 }
 
 .membershipCard:hover {
@@ -155,15 +214,53 @@
 .price{
   margin: auto;
   margin-bottom:0;
-  bottom: 0;
-  background-color: #f88d5c;
-  color: #fff;
-  border-radius: 100px;
-  width: fit-content;
   padding: 5% 10%;
-  font-size: 1.2rem;
+  color: #fff;
+  width: fit-content;
+}
+
+.subscribeBtn {
+  padding: 10%;
+  cursor: pointer;
+  border: none;
+  border-radius: 100px;
+  background-color: #f88d5c;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #242024;
+  color: #13133c;
+}
+
+.priceDetail {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #13133c;
+}
+
+.priceDetail span {
+  font-size: 0.8rem;
+}
+
+.membershipChange {
+  font-style: italic;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.landing .actualPlan {
+  border: 2px solid;
+  border-color: #f88d5c
+}
+
+.darkLanding .actualPlan {
+  border: 2px solid;
+  border-color: #03c04a;
+}
+
+.darkLanding .h3 {
+  font-size: 2rem;
+  color: #fff;
+  margin: auto;
+  margin-bottom: 20px;
 }
 
 .h3 {
@@ -171,6 +268,12 @@
   color: #242024;
   margin: auto;
   margin-bottom: 20px;
+}
+
+.darkLanding .ul {
+  text-align: left;
+  font-size: 1.1rem;
+  color: #ffffff;
 }
 
 .ul {
@@ -214,4 +317,20 @@
   .h3{
     font-size: 1.5rem;
   }
+}
+
+.darkLanding, .darkLanding p, .darkLanding .container, 
+.darkLanding .featuresSection, .darkLanding .h2,
+.darkLanding .h3, .darkLanding .ul, .darkLanding .membershipCard
+.darkLanding .about_col_1 img, .darkLanding .about_col_2 img {
+  transition: background-color 1s;
+  transition: color 1s;
+}
+
+.landing, .landing p, .container, 
+.landing .featuresSection, .landing .h2,
+.landing .h3, .landing .ul, .landing .membershipCard
+.landing .about_col_1 img, .landing .about_col_2 img {
+  transition: background-color 1s;
+  transition: color 1s;
 }

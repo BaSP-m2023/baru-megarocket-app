@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   background-color: #f4f4f4;
-  margin: 15% auto 5%;
+  margin: 5% auto 5%;
   height: 100%;
   width: 70%;
   border-radius: 7px;
@@ -16,42 +16,47 @@
   height: auto;
 }
 
+.darksignup form, .darksignup .formTitle {
+  background-color: #19191B;
+  color: #fff;
+  box-shadow: 0px 2px 2px #ffffff40;
+}
+
+.darksignup label {
+  color: #fff;
+}
+
 .formContainer {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
 }
 
-.inputPassword {
+.inputContainer {
   display: flex;
-  justify-content: center;
+  margin-top: 2%;
+  margin-left: 8%;
+  margin-bottom: 2%;
   width: 100%;
 }
 
 .input {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 5%;
-  width: 40%;
+  justify-content: center;
+  width: 90%;
 }
 
 .btnVisibilityPassword {
   display: flex;
   align-items: center;
-  width: 5%;
+  width: 15%;
+}
+
+.imgButtonPassword {
+  margin-top: 5px;
 }
 
 .imgButtonPassword {
   cursor: pointer;
-}
-
-.errorMessage {
-  padding: 10px;
-  color: red;
-  font-size: 0.8rem;
 }
 
 .header h2 {
@@ -71,8 +76,20 @@
   border-top-right-radius: 7px;
 }
 
+.formTitle {
+  display: flex;
+  justify-content: space-between;
+  background: #242024;
+  color: #fff;
+}
+
 .formTitle h2 {
   margin-left: 2%;
+}
+
+.formTitle {
+  display: flex;
+  justify-content: space-between;
 }
 
 .formGroup {
@@ -89,6 +106,7 @@
 }
 
 .closeButton {
+  margin-top: 10px;
   margin-right: 2%;
   color: #fff;
   font-size: 30px;
@@ -125,7 +143,7 @@
 .label_container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 100%;
 }
 
 .buttonContainer {
@@ -147,4 +165,5 @@
 .error {
   color: red;
   font-size: 0.8rem;
+  margin-top: 10px;
 }

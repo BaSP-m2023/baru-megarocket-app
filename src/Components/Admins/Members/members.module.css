@@ -1,15 +1,18 @@
-.container {
+.container, .darkContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  min-height: 50vh;
-  margin-top: 10%;
+  min-height: 80vh;
 }
+
 .title {
   font-size: 2rem;
   text-align: center;
   color: #242024;
+}
+
+.darkContainer .title {
+  color: #fff;
 }
 
 .button {

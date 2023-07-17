@@ -1,13 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import styles from 'Components/Admins/Profile/profile.module.css';
+import styles from 'Components/SuperAdmins/Profile/profile.module.css';
 
 function SuperAdminProfile() {
   const superAdmin = useSelector((state) => state.auth.user || '');
+  const { dark } = useSelector((state) => state.darkmode);
 
   return (
     <>
-      <div className={styles.form}>
+      <div className={!dark ? styles.form : styles.darkForm}>
         {Object.keys(superAdmin).length === 0 && (
           <p className={styles.p}>There are no Super Admins to show</p>
         )}

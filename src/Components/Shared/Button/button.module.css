@@ -8,26 +8,32 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
 .addButton {
   color: #242024;
   background-color: #f88d5c;
 }
+
 .submitButton {
   color: #242024;
   background-color: #f88d5c;
 }
+
 .deleteButton {
   color: #fdfdfd;
   background-color: #d10202;
 }
+
 .cancelButton {
   color: #fdfdfd;
   background-color: #403f3f;
 }
+
 .icon {
   width: 1rem;
   cursor: pointer;
 }
+
 .button[disabled] {
   cursor: auto;
 }
@@ -42,7 +48,7 @@
   font-family: 'Prompt', sans-serif;
 }
 
-.resetContainer:hover .reset {
+.resetContainer:hover .reset, .resetContainer:hover .darkReset {
   color: #fd2020;
 }
 
@@ -62,4 +68,8 @@
     border-radius: 5px;
     cursor: pointer;
   }
+}
+.darkReset {
+  height: 1.35rem;
+  color: #fdfdfd;
 }

@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from './table.module.css';
+import { faPen, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { deleteMember, updateMember } from 'Redux/Members/thunks';
 
 import ConfirmModal from 'Components/Shared/ConfirmModal';
-import { Button } from 'Components/Shared/Button';
 
 const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
   const dispatch = useDispatch();
@@ -43,11 +44,34 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
     }
   };
 
+  function capitalizeFirstLetter(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+  const membershipToUpper = () => {
+    let upperMembership = capitalizeFirstLetter(member.membership);
+    if (upperMembership === 'Only_classes') {
+      upperMembership = 'Only Classes';
+    }
+    return upperMembership;
+  };
+
   return (
     <>
       <tr className={`${styles['row']}`}>
-        <td>
-          {member.name} {member.lastName}
+        <td className={styles.member}>
+          <div className={styles.avatarContainer}>
+            {member.avatar && (
+              <img
+                className={styles.avatar}
+                src={`${process.env.PUBLIC_URL}/assets/avatars/${member.avatar}.jpg`}
+              />
+            )}
+            {!member.avatar && <FontAwesomeIcon icon={faUser} className={styles.avatar} />}{' '}
+            <p>
+              {member.name} {member.lastName}
+            </p>
+          </div>
         </td>
         <td>
           <label className={styles.switch}>
@@ -60,19 +84,18 @@ const Item = ({ member = { name: 'Nothing match', isActive: false } }) => {
             <span className={styles.slider}></span>
           </label>
         </td>
+        <td>{membershipToUpper()}</td>
         <td>
           <Link to={`members/edit/${member._id}`}>
-            <Button
-              img={process.env.PUBLIC_URL + '/assets/images/edit-icon.png'}
-              testid="members-edit-btn"
-            />
+            <FontAwesomeIcon icon={faPen} testid="members-edit-btn" className={styles.editButton} />
           </Link>
         </td>
         <td>
-          <Button
-            img={process.env.PUBLIC_URL + '/assets/images/delete-icon.png'}
-            action={() => handleModal()}
-            testid="members-delete-btn"
+          <FontAwesomeIcon
+            icon={faTrash}
+            testid="activities-delete-btn"
+            className={styles.deleteButton}
+            onClick={() => handleModal()}
           />
         </td>
       </tr>
