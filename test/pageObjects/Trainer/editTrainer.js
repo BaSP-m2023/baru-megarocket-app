@@ -3,31 +3,31 @@ class EditTrainer {
     return $('[data-testid="trainers-list"] div:nth-child(1) img');
   }
 
-  get inputPassword() {
-    return $('[data-testid="trainers-form-container"]> div:nth-child(6) > input');
+  get inputId() {
+    return $('[data-testid="trainers-form-container"] div:nth-child(3) input');
   }
 
   get updateBtn() {
-    return $('[data-testid="trainers-form-buttons"]  div:nth-child(2) > button');
+    return $('[data-testid="trainers-form-buttons"]  DIV:nth-child(3) button');
   }
 
   get cancelBtn() {
-    return $('[data-testid="trainers-form-buttons"]  div:nth-child(1) > button');
+    return $('[data-testid="trainers-form-buttons"] > a > div > button');
   }
 
   async EditBtnClick() {
     await this.editBtn.click();
   }
 
-  async completeForm(Password) {
-    await this.inputPassword.setValue(Password);
+  async completeForm(Id) {
+    await this.inputId.setValue(Id);
   }
 
   async UpdateBtnClick() {
     await this.updateBtn.click();
   }
 
-  async CancelBtnClick() {
+  async cancelBtnClick() {
     await this.cancelBtn.click();
   }
 }

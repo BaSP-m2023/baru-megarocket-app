@@ -1,4 +1,5 @@
 const LoginPage = require('../pageObjects/loginPage');
+const addNewTrainer = require('../pageObjects/Trainer/addNewTrainer');
 const AddNewTrainer = require('../pageObjects/Trainer/addNewTrainer');
 const deleteTrainer = require('../pageObjects/Trainer/deleteTrainer');
 const EditTrainer = require('../pageObjects/Trainer/editTrainer');
@@ -13,13 +14,13 @@ describe('Trainer', () => {
       await LoginPage.loginBtnClick();
     });
     it('Open the log in screen', async () => {
-      await expect(browser).toHaveUrl('http://localhost:3000/login');
+      await expect(browser).toHaveUrl('http://localhost:3000/auth/login');
     });
     it('complete fields', async () => {
       await LoginPage.login('secondadmin@gmail.com', 'Abc123456');
     });
     it('Open the home screen', async () => {
-      await expect(browser).toHaveUrl('http://localhost:3000/');
+      await expect(browser).toHaveUrl('http://localhost:3000/user/admin/home');
     });
     it('Login successful and open the screen for trainers', async () => {
       await expect(LoginPage.confirmLogin).toBeDisplayed();
@@ -36,12 +37,12 @@ describe('Trainer', () => {
     });
     it('complete fields', async () => {
       await AddNewTrainer.completeForm(
-        'Matias',
-        'Peter',
-        '41579722',
-        '3329339237',
-        'marcos@gmail.com',
-        'Casa2020',
+        'Jose',
+        'Probados',
+        '45798566',
+        '3441568989',
+        'joseprueba@gmail.com',
+        'Pruebados123',
         '25000'
       );
     });
@@ -56,26 +57,26 @@ describe('Trainer', () => {
       await expect(AddNewTrainer.submitConfirmBtn).toBeDisplayed();
       await AddNewTrainer.SubmitConfirmBtnClick();
     });
-    it('cancel', async () => {
-      await expect(AddNewTrainer.cancelBtn).toBeDisplayed();
-      await AddNewTrainer.CancelBtnClick();
-    });
   });
   describe('Edit Trainer', () => {
     it('Click on edit button', async () => {
-      await expect(EditTrainer.editBtn).toBeDisplayed();
+      await expect(EditTrainer.editBtn).toBeDisplayed({ timeout: 2000 });
       await EditTrainer.EditBtnClick();
     });
-    it('complete fields to edit', async () => {
-      await EditTrainer.completeForm('Matias123');
+    it('edit id', async () => {
+      await EditTrainer.completeForm('5569887745');
     });
     it('Update click button', async () => {
       await expect(EditTrainer.updateBtn).toBeDisplayed();
       await EditTrainer.UpdateBtnClick();
     });
-    it('cancel', async () => {
+    it('submit click button', async () => {
+      await expect(addNewTrainer.submitConfirmBtn).toBeDisplayed();
+      await addNewTrainer.SubmitConfirmBtnClick();
+    });
+    it('Cancel click button', async () => {
       await expect(EditTrainer.cancelBtn).toBeDisplayed();
-      await EditTrainer.CancelBtnClick();
+      await EditTrainer.cancelBtnClick();
     });
   });
   describe('Delete Trainer', () => {

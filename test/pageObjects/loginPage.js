@@ -1,6 +1,6 @@
 class LoginPage {
   get loginbtn() {
-    return $('[data-testid="home-buttons-container"] div:nth-child(2) button');
+    return $('[data-testid="home-buttons-container"]  div:nth-child(2) > button');
   }
 
   get inputEmail() {
@@ -8,7 +8,7 @@ class LoginPage {
   }
 
   get inputPassword() {
-    return $('[data-testid="login-password-container"] input');
+    return $('input[name="password"]');
   }
 
   get loginbtn2() {

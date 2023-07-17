@@ -1,6 +1,6 @@
 class AddNewTrainer {
   get trainerbtn() {
-    return $('[data-testid="routes-list"] a:nth-child(6)');
+    return $('[data-testid="routes-list"] li:nth-child(5) > a');
   }
 
   get addNewbtn() {
@@ -8,7 +8,7 @@ class AddNewTrainer {
   }
 
   get inputFirstName() {
-    return $('[data-testid="trainers-form-container"] div:nth-child(1) input');
+    return $('[data-testid="trainers-form-container"] div:nth-child(1) div  input');
   }
 
   get inputLastName() {
@@ -24,19 +24,19 @@ class AddNewTrainer {
   }
 
   get inputEmail() {
-    return $('[data-testid="trainers-form-container"] div:nth-child(5) input');
+    return $('[name=email] ');
   }
 
   get inputPassword() {
-    return $('[data-testid="trainers-form-container"] div:nth-child(6) input');
+    return $('[name=password] ');
   }
 
   get inputSalary() {
-    return $('[data-testid="trainers-form-container"] div:nth-child(7) input');
+    return $('[name=salary] ');
   }
 
   get submitBtn() {
-    return $('[data-testid="trainers-form-buttons"] div:nth-child(2) button');
+    return $('[data-testid="trainers-form-buttons"] div:nth-child(3) button');
   }
 
   get confirmAlert() {
@@ -44,11 +44,7 @@ class AddNewTrainer {
   }
 
   get submitConfirmBtn() {
-    return $('[data-testid="confirm-modal-buttons"] div:nth-child(2) button');
-  }
-
-  get cancelBtn() {
-    return $('[data-testid="trainers-form-buttons"] div:nth-child(1) button');
+    return $('[data-testid="confirm-modal-buttons"]  div:nth-child(2) > button');
   }
 
   async completeForm(firstName, lastName, iD, phone, email, password, salary) {

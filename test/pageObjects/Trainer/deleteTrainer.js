@@ -1,6 +1,6 @@
 class DeleteTrainer {
   get deleteBtn() {
-    return $('[data-testid="trainers-list"] tr:nth-child(1) > td:nth-child(7) > div > img');
+    return $('[data-testid="trainers-list"] td:nth-child(7) > div > img');
   }
 
   get deleteAlert() {
@@ -10,6 +10,7 @@ class DeleteTrainer {
   get deleteConfirmBtn() {
     return $('[data-testid="confirm-modal-container"] div >div:nth-child(2) button');
   }
+
   async DeleteBtnClick() {
     await this.deleteBtn.click();
   }
