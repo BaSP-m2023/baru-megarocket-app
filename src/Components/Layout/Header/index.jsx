@@ -1,22 +1,32 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import styles from './header.module.css';
+import React, { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 
-import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { logOut } from 'Redux/Auth/thunks';
+import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
+import { setDarkMode } from 'Redux/DarkMode/actions';
 
-import ResponseModal from 'Components/Shared/ResponseModal';
 import NavBar from './NavBar';
+import ResponseModal from 'Components/Shared/ResponseModal';
 
 function Header(props) {
   const dispatch = useDispatch();
   const history = useHistory();
-
   const role = sessionStorage.getItem('role');
   const { user: userLogged } = useSelector((state) => state.auth);
-
+  const { dark } = useSelector((state) => state.darkmode);
   const { show, message, state } = useSelector((state) => state.toast);
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('darkMode'))) {
+      dispatch(setDarkMode(true));
+    } else {
+      dispatch(setDarkMode(false));
+    }
+  }, []);
 
   const handleLogout = async () => {
     await dispatch(logOut());
@@ -25,13 +35,46 @@ function Header(props) {
     dispatch(setContentToast({ message: 'See you later', state: 'success' }));
   };
 
+  const location = useLocation();
+  const currentLocation =
+    location.pathname === '/' ||
+    location.pathname === '/user/member/home' ||
+    location.pathname === '/user/admin/home' ||
+    location.pathname === '/user/super-admin/home' ||
+    location.pathname === '/user/trainer/home';
+
   return (
     <header>
-      <div className={styles.container}>
+      <div className={currentLocation ? styles.containerPage : styles.containerHome}>
         <NavBar routes={props.routes} />
         <div className={styles.container2}>
           {role && userLogged && (
-            <>
+            <div className={styles.userContainer}>
+              {history.location.pathname.endsWith('/home') && (
+                <div className={styles.toggleContainer}>
+                  {dark ? (
+                    <FontAwesomeIcon
+                      icon={faToggleOn}
+                      onClick={() => {
+                        dispatch(setDarkMode(false));
+                        localStorage.setItem('darkMode', JSON.stringify(false));
+                      }}
+                      className={styles.toggle}
+                      size="2xl"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faToggleOff}
+                      onClick={() => {
+                        dispatch(setDarkMode(true));
+                        localStorage.setItem('darkMode', JSON.stringify(true));
+                      }}
+                      className={styles.toggle}
+                      size="2xl"
+                    />
+                  )}
+                </div>
+              )}
               <Link
                 className={styles.profileLink}
                 to={
@@ -44,7 +87,15 @@ function Header(props) {
                   <div className={styles.profileContainer}>
                     <img
                       className={styles.profileImg}
-                      src={`${process.env.PUBLIC_URL}/assets/images/profile-icon.png`}
+                      src={
+                        role === 'ADMIN' || role === 'SUPER_ADMIN'
+                          ? `${process.env.PUBLIC_URL}/assets/avatars/admin.jpg`
+                          : role === 'TRAINER'
+                          ? `${process.env.PUBLIC_URL}/assets/avatars/rocket-trainer.jpg`
+                          : role === 'MEMBER' && userLogged.avatar
+                          ? `${process.env.PUBLIC_URL}/assets/avatars/${userLogged.avatar}.jpg`
+                          : `${process.env.PUBLIC_URL}/assets/images/profile-icon.png`
+                      }
                       alt="profile image"
                     />
                     {role === 'ADMIN' && `${userLogged?.firstName} ${userLogged?.lastName}`}
@@ -65,7 +116,7 @@ function Header(props) {
                   <div className={styles.text}>Logout</div>
                 </button>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

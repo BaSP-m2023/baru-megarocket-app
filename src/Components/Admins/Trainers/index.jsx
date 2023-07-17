@@ -16,6 +16,7 @@ const Trainers = () => {
   const trainers = useSelector((state) => state.trainers.data);
   const pending = useSelector((state) => state.trainers.isPending);
   const { show, message, state } = useSelector((state) => state.toast);
+  const { dark } = useSelector((state) => state.darkmode);
 
   useEffect(() => {
     dispatch(getTrainers());
@@ -30,7 +31,7 @@ const Trainers = () => {
   }
   return (
     <section>
-      <h1 className={styles.title}>Trainers</h1>
+      <h1 className={!dark ? styles.title : styles.darkTitle}>Trainers</h1>
       {!pending && trainers.length > 0 ? <Table data={trainers} /> : null}
       {!pending && !trainers.length && 'There are no trainers to show'}
       <div className={styles.button}>
