@@ -8,7 +8,6 @@ const NavBar = ({ routes = [] }) => {
   const role = sessionStorage.getItem('role');
   const history = useHistory();
   const location = useLocation();
-
   const privateRoutes = routes.filter((route) => route.name !== 'Home');
 
   return (

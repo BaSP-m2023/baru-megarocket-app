@@ -42,11 +42,16 @@
   font-family: 'Prompt', sans-serif;
 }
 
-.resetContainer:hover .reset {
+.resetContainer:hover .reset, .resetContainer:hover .darkReset {
   color: #fd2020;
 }
 
 .reset {
   height: 1.35rem;
   color: #403f3f;
+}
+
+.darkReset {
+  height: 1.35rem;
+  color: #fdfdfd;
 }
