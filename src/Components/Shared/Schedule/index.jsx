@@ -216,7 +216,7 @@ const Schedule = () => {
         !pendingSubscriptions &&
         role === 'MEMBER' &&
         !activeMember && (
-          <p className={styles.text}>
+          <p className={!dark ? styles.text : styles.darkText}>
             Your membership is not active, please go to your nearest branch to activate it
           </p>
         )}
@@ -344,6 +344,7 @@ const Schedule = () => {
                                       trainerFilter: trainerFilter,
                                       activityFilter: activityFilter,
                                       memberSubs: memberSubs,
+                                      subscriptions: subscriptions,
                                       classes: classes
                                     }}
                                     click={clickMember}

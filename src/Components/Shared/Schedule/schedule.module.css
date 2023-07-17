@@ -1,8 +1,11 @@
+
 .content, .darkContent {
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
-  margin-top: 60px;
+  max-height: 80vh;
+  margin-top: 3%;
+  margin-bottom: 3%;
 }
 
 .container {
@@ -63,11 +66,17 @@
 
 .div {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   width: 100%;
   height: 100%;
+}
+
+.div p{
+  font-size: 0.7rem;
+  margin: 0px;
 }
 
 .subscription {
@@ -111,7 +120,14 @@
   text-align: center;
   font-size: 1rem;
   font-weight: 700;
-  color: #373867;
+  color: #242024;
+}
+
+.darkText {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
 }
 
 ::-webkit-scrollbar {
@@ -161,7 +177,7 @@
 
 .arrows:hover .left, .arrows:hover .right, .arrows:hover span {
   color: #ff4545;
-} 
+}
 
 .titleContainer {
   display: flex;
@@ -174,7 +190,7 @@
 }
 
 .filtered{
-  opacity: 0.3;
+  opacity: 0.35;
 }
 
 .darkContent select, .darkContent option {
