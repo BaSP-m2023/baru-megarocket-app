@@ -57,6 +57,12 @@
   font-weight: 600;
 }
 
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+}
+
 .toggle {
   align-self: center;
   color: #d56423;
