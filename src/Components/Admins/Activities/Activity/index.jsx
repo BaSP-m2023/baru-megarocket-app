@@ -27,17 +27,12 @@ const Activity = ({ activity }) => {
       <tr className={styles.row}>
         <td>{activity.name}</td>
         <td>{activity.description}</td>
-        <td>{activity.trainers.map((trainer) => `${trainer.firstName} ${trainer.lastName}, `)}</td>
         <td>
-          <label
-            className={
-              activity.isActive
-                ? `${styles.activityState} ${styles.activityActive}`
-                : `${styles.activityState} ${styles.activityInactive}`
-            }
-          >
-            {activity.isActive ? 'Active' : 'Inactive'}
-          </label>
+          {activity.trainers.map((trainer, index) => (
+            <span className={styles.spanTrainer} key={index}>
+              {trainer.firstName} {trainer.lastName}
+            </span>
+          ))}
         </td>
         <td>
           <Link to={`${url}/edit/${activity._id}`}>

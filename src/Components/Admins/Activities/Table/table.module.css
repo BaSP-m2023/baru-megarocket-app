@@ -43,14 +43,6 @@
   font-weight: 600;
 }
 
-.activityActive {
-  border-bottom: 3px solid #f88d5c;
-}
-
-.activityInactive {
-  border-bottom: 3px solid #d10202;
-}
-
 .row {
   height: 40px;
   text-align: center;
@@ -74,4 +66,12 @@
 
 .row:not(.selected):nth-child(even):hover {
   background-color: #c0b6b6;
+}
+
+.spanTrainer::before {
+  content: " - ";
+}
+
+.spanTrainer:first-child::before {
+  content: "";
 }
