@@ -184,14 +184,6 @@
   text-decoration: none;
 }
 
-.logoContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 150px;
-  text-decoration: none;
-}
-
 .logo {
   width: 90px;
   transform: rotate(20deg);
@@ -242,6 +234,7 @@
   .logoContainer p, .toggleContainer{
     display: none;
   }
+  
 }
 
 @media screen and (max-width: 440px){
