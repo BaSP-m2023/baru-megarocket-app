@@ -66,11 +66,17 @@
 
 .div {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   width: 100%;
   height: 100%;
+}
+
+.div p{
+  font-size: 0.7rem;
+  margin: 0px;
 }
 
 .subscription {
@@ -184,7 +190,7 @@
 }
 
 .filtered{
-  opacity: 0.3;
+  opacity: 0.35;
 }
 
 .darkContent select, .darkContent option {

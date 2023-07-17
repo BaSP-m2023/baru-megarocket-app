@@ -151,6 +151,15 @@ const MemberForm = ({ match }) => {
                 />
               </div>
             ))}
+            <div className={styles.label_container}>
+              <label className={styles.label}>Membership</label>
+              <select className={styles.select} name="membership" {...register('membership')}>
+                <option value="classic">Classic</option>
+                <option value="only_classes">Only Classes</option>
+                <option value="black">Black</option>
+              </select>
+              {errors.membership && <p className={styles.error}>Choose your membership</p>}
+            </div>
           </div>
         </form>
         <div className={styles.container_button} data-testid="members-form-button">

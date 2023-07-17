@@ -37,7 +37,6 @@ const Form = () => {
   const {
     register,
     handleSubmit,
-    //getValues,
     reset,
     formState: { errors },
     control
