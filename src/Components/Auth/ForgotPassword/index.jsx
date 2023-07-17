@@ -1,6 +1,6 @@
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './forgotPassword.module.css';
 
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
@@ -15,6 +15,7 @@ import { Input } from 'Components/Shared/Inputs';
 const ForgotPassword = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { dark } = useSelector((state) => state.darkmode);
 
   const {
     register,
@@ -43,7 +44,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <section className={styles.formContainer}>
+    <section className={!dark ? styles.formContainer : styles.formDarkContainer}>
       <form className={styles.form}>
         <div className={styles.titleContainer} data-testid="login-title-container">
           <h2 className={styles.h2}>MegaRocket</h2>

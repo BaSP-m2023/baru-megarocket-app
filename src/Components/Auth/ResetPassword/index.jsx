@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './resetPassword.module.css';
 import { getAuth, confirmPasswordReset } from 'firebase/auth';
 import { logOut } from 'Redux/Auth/thunks';
@@ -18,6 +18,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 const NewPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { dark } = useSelector((state) => state.darkmode);
 
   const {
     register,
@@ -64,7 +65,7 @@ const NewPassword = () => {
   };
 
   return (
-    <section className={styles.formContainer}>
+    <section className={!dark ? styles.formContainer : styles.formDarkContainer}>
       <form className={styles.form}>
         <div className={styles.titleContainer} data-testid="login-title-container">
           <h2 className={styles.h2}>MegaRocket</h2>
