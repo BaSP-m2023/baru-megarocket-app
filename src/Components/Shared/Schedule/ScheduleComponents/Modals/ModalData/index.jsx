@@ -14,6 +14,7 @@ const ModalData = ({
   reason,
   disabled
 }) => {
+  const { dark } = useSelector((state) => state.darkmode);
   const user = useSelector((state) => state.auth.user);
   const currentDate = new Date(current.date).setHours(0, 0, 0, 0);
   const modalDate = new Date(data.date).setHours(0, 0, 0, 0);
@@ -22,7 +23,7 @@ const ModalData = ({
     currentDate > modalDate ||
     user?.membership === 'classic';
   return (
-    <div className={styles.modal}>
+    <div className={!dark ? styles.modal : styles.darkModal}>
       <div className={styles.modalContent}>
         <div className={styles.headerModal}>
           <h3>Class Details</h3>
