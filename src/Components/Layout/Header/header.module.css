@@ -4,7 +4,7 @@
   align-items: center;
   position: sticky;
   top: 0;
-  padding: 1em;
+  padding: 0.5em 1em;
   background: linear-gradient(180deg, #242024 0%, rgba(35,31,33,1) 100%);
   z-index: 2;
 }
@@ -155,4 +155,45 @@
 
 .logOutButton:active {
   transform: translate(2px ,2px);
+}
+
+.link {
+  text-decoration: none;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 150px;
+  text-decoration: none;
+}
+
+.logo {
+  width: 90px;
+  transform: rotate(20deg);
+}
+
+.mega {
+  color: #e2e1e9;
+  font-size: 1.3rem;
+  font-weight: 650;
+  transform: translate(-10px, -10px);
+}
+
+.rocket {
+  color: #ddd8e9;
+  font-size: 1.4rem;
+  font-weight: 600;
+  transform: translate(-55px, 10px);
+}
+
+.iconMode {
+  color: #ddd8e9;
+  height: 1.2em;
+  margin: 0 5px;
+}
+
+.moon {
+  color: #242024;
 }
