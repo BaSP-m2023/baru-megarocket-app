@@ -174,3 +174,11 @@
 .darkTableContainer .row:not(.selected):nth-child(even) {
   background-color: #302c30;
 }
+
+.spanTrainer::before {
+  content: " - ";
+}
+
+.spanTrainer:first-child::before {
+  content: "";
+}

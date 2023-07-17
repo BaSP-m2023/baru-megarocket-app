@@ -33,11 +33,15 @@
   text-align: center;
   transition: background-color 0.4s ease-in;
   transition: color 0.4s ease-in;
+  -webkit-animation: rollInTop 1.2s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+  animation: rollInTop 1.2s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
 }
 
 .card:nth-child(even){
   background-color: #f88d5ca1;
 }
+
+
 
 .card:hover{
   background-color: #7c7cc0;
@@ -55,6 +59,12 @@
 .darkActivities .card:nth-child(even){
   background-color: #d0602c;
 }
+  
+.card:nth-child(even){
+  background-color: #f88d5ca1;
+	-webkit-animation: rollInBottom 1.2s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+	        animation: rollInBottom 1.2s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+}
 
 .card h3 {
   font-size: 18px;
@@ -63,4 +73,66 @@
 
 .card p {
   font-size: 14px;
+}
+
+@-webkit-keyframes rollInBottom {
+  0% {
+    -webkit-transform: translateY(800px) rotate(720deg);
+            transform: translateY(800px) rotate(720deg);
+    -webkit-filter: blur(50px);
+            filter: blur(50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) rotate(0deg);
+            transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+@keyframes rollInBottom {
+  0% {
+    -webkit-transform: translateY(800px) rotate(720deg);
+            transform: translateY(800px) rotate(720deg);
+    -webkit-filter: blur(50px);
+            filter: blur(50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) rotate(0deg);
+            transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes rollInTop {
+  0% {
+    -webkit-transform: translateY(-800px) rotate(-720deg);
+            transform: translateY(-800px) rotate(-720deg);
+    -webkit-filter: blur(50px);
+            filter: blur(50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) rotate(0deg);
+            transform: translateY(0) rotate(0deg);
+    -webkit-filter: blur(0);
+            filter: blur(0);
+    opacity: 1;
+  }
+}
+@keyframes rollInTop {
+  0% {
+    -webkit-transform: translateY(-800px) rotate(-720deg);
+            transform: translateY(-800px) rotate(-720deg);
+    -webkit-filter: blur(50px);
+            filter: blur(50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) rotate(0deg);
+            transform: translateY(0) rotate(0deg);
+    -webkit-filter: blur(0);
+            filter: blur(0);
+    opacity: 1;
+  }
 }

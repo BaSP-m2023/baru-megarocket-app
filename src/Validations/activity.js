@@ -14,9 +14,7 @@ const activitySchema = Joi.object({
   description: Joi.string()
     .min(20)
     .max(100)
-    .pattern(/^[A-Za-z\s]+$/)
     .messages({
-      'string.pattern.base': 'Description should must contains only letters.',
       'string.min': 'Description should have a minimun of 20 characters',
       'string.empty': 'Description is required'
     })

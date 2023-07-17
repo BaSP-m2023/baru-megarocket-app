@@ -146,9 +146,6 @@ const Form = () => {
                 error={errors.description?.message}
               />
             </div>
-            <div className={`${styles.isActive} ${styles.formGroupCheckbox}`}>
-              <Input labelText="Is active?" type="checkbox" name="isActive" register={register} />
-            </div>
             <div className={styles.formButtons}>
               <Link to="/user/admin/activities">
                 <Button text={'Back'} classNameButton={'cancelButton'} />
