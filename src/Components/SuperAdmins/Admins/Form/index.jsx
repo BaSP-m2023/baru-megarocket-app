@@ -176,38 +176,36 @@ function AdminsForm({ match }) {
             onSubmit={handleSubmit(onConfirm)}
             data-testid="admins-form-container"
           >
-            <div>
-              {adminId && (
-                <div className={styles.inputContainer}>
-                  <div>
-                    {firstFormFieldsUpdate.map((field) => (
-                      <div key={field.name} className={styles.fieldContainer}>
-                        <Input
-                          labelText={field.labelText}
-                          name={field.name}
-                          type={field.type}
-                          register={register}
-                          error={errors[field.name]?.message}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <div>
-                    {secondFormFieldsUpdate.map((field) => (
-                      <div key={field.name} className={styles.fieldContainer}>
-                        <Input
-                          labelText={field.labelText}
-                          name={field.name}
-                          type={field.type}
-                          register={register}
-                          error={errors[field.name]?.message}
-                        />
-                      </div>
-                    ))}
-                  </div>
+            {adminId && (
+              <div className={styles.inputContainer}>
+                <div>
+                  {firstFormFieldsUpdate.map((field) => (
+                    <div key={field.name} className={styles.fieldContainer}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
                 </div>
-              )}
-            </div>
+                <div>
+                  {secondFormFieldsUpdate.map((field) => (
+                    <div key={field.name} className={styles.fieldContainer}>
+                      <Input
+                        labelText={field.labelText}
+                        name={field.name}
+                        type={field.type}
+                        register={register}
+                        error={errors[field.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             {!adminId && (
               <div className={styles.inputContainer}>
                 <div>
@@ -239,7 +237,7 @@ function AdminsForm({ match }) {
               </div>
             )}
 
-            <div className={styles.buttonContainer} data-testid="admin-form-buttons">
+            <div className={styles.formButtons} data-testid="admin-form-buttons">
               <div>
                 <Link to="/user/super-admin/admins">
                   <Button

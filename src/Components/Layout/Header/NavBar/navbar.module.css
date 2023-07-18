@@ -1,13 +1,8 @@
-
 .navbar {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 100%;
-}
-
-.buttonContainer{
-  display: flex;
+  width: 80%;
 }
 
 .routes {
@@ -27,6 +22,70 @@
   text-transform: capitalize;
   color: #f3e6e6;
   transition: .2s ease-in;
+}
+.active{
+  text-decoration: underline;
+}
+
+.profileLink {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.profileContainer {
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.profileImg {
+  width: 2rem;
+  margin: 0 0.4rem;
+  width: 3.5rem;
+  margin-right: 1rem;
+  border-radius: 50%;
+}
+
+@media screen and (max-width: 1090px){
+  .navbar{
+    position: fixed;
+    flex-direction: column;
+    width: 100%;
+    top: 100px;
+    left: 0;
+    background-color: #242024;
+  }
+  .navbar *{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .hidden{
+    display: none;
+  }
+  .profileImg {
+    width: 2rem;
+    margin-right: 10px;
+  }
+  .routes{
+    flex-direction: column;
+    order: 2;
+    padding: 2;
+  }
+  .routes li{
+    border-bottom: 1px solid #f88d5c;
+    padding: 1%;
+    padding-left: 5%;
+  }
+  .profileContainer{
+    order: 1;
+    border-bottom: 1px solid #f88d5c;
+    padding: 2%;
+    padding-left: 5%;
+    color: #fff;
+  }
 }
 
 .a:hover {

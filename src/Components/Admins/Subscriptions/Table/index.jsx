@@ -42,16 +42,18 @@ const Table = ({ data }) => {
       <h1 className={styles.title}>Subscriptions</h1>
       <div className={styles.filterContainer}>
         <div className={styles.inputContainer}>
-          <Input
-            labelText="Filter Subscription"
-            type="text"
-            name="filter-subscription"
-            placeholder="Search by activities or members"
-            change={(e) => setFilteredSubscriptions(e.target.value.toLowerCase())}
-          />
-        </div>
-        <div className={styles.icon}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+          <div className={styles.searchInput}>
+            <Input
+              labelText="Filter Subscription"
+              type="text"
+              name="filter-subscription"
+              placeholder="Search by activities or members"
+              change={(e) => setFilteredSubscriptions(e.target.value.toLowerCase())}
+            />
+          </div>
+          <div className={styles.icon}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+          </div>
         </div>
       </div>
       <div className={styles.subTableContainer}>

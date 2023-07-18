@@ -3,7 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 4% auto;
+  margin: 150px auto;
+  margin-top: 130px;
   background-color: #f4f4f4;
   height: 100%;
   width: 70%;
@@ -51,10 +52,12 @@
 .content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
+  background-color: #f4f4f4;
+  margin: 10% auto;
+  margin-top: 30px;
+  padding-bottom: 1.5rem;
   height: 100%;
-  padding: 2% 0;
+  width: 70%;
   border-radius: 0 0 7px 7px;
   background-color: #f4f4f4;
 }
@@ -72,18 +75,21 @@
 
 .form {
   display: flex;
+  padding: 10px 20px;
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
 }
 
 .fieldContainer {
   margin-right: 20px;
+  width: 50%;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .darkFormContainer .formGroup label {
@@ -106,6 +112,12 @@
   display: flex;
   justify-content: center;
   text-align: center;
+}
+.resetButton {
+  margin-bottom: 2rem;
+  justify-content: center;
+  width: 100px;
+  margin: auto;
 }
 
 .darkFormContainer .resetButton {
@@ -136,9 +148,11 @@
 }
 
 .select {
-  width: 25.5vw;
-  height: 36px;
+  width: 100%;
+  max-width: 400px;
+  height: 34px;
   margin-right: 10px;
+  margin-top: 2px;
   color: #242024;
   border: 1px solid #242024;
   border-radius: 5px;
@@ -147,4 +161,20 @@
 .error {
   color: red;
   font-size: 0.8rem;
+}
+
+@media screen and (max-width: 800px) {
+  .form{
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+  }
+  .fieldContainer {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 550px) {
+  .formButtons{
+    flex-direction: column;
+  }
 }

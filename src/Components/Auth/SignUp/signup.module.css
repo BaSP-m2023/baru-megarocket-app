@@ -2,10 +2,32 @@
   display: flex;
   flex-direction: column;
   background-color: #f4f4f4;
-  margin: 5% auto 5%;
+  margin: 5% auto;
+  margin-top: 30px;
   height: 100%;
   width: 70%;
   border-radius: 7px;
+  box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
+  background-color: #f4f4f4;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  max-width: 1000px;
+  padding: 30px 20px;
+  font-family: 'Roboto', Arial, serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .container {
@@ -33,22 +55,12 @@
 
 .inputContainer {
   display: flex;
-  margin-top: 2%;
-  margin-left: 8%;
-  margin-bottom: 2%;
-  width: 100%;
+  justify-content: space-between;
 }
 
 .input {
   display: flex;
   justify-content: center;
-  width: 90%;
-}
-
-.btnVisibilityPassword {
-  display: flex;
-  align-items: center;
-  width: 15%;
 }
 
 .imgButtonPassword {
@@ -88,15 +100,14 @@
 }
 
 .formTitle {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-}
-
-.formGroup {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  margin-top: 1%;
+  justify-content: space-between;
+  background: #242024;
+  color: #fff;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 
 .h3 {
@@ -106,7 +117,6 @@
 }
 
 .closeButton {
-  margin-top: 10px;
   margin-right: 2%;
   color: #fff;
   font-size: 30px;
@@ -117,15 +127,16 @@
 .label {
   display: block;
   padding: 5px;
+  margin-top: 6px;
   color: #242024;
   font-weight: 700;
   font-size: 1rem;
 }
 
 .select {
-  width: 25.5vw;
-  height: 36px;
-  margin-right: 10px;
+  width: 100%;
+  max-width: 400px;
+  height: 34px;
   color: #242024;
   border: 1px solid #242024;
   border-radius: 5px;
@@ -143,7 +154,7 @@
 .label_container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 45%;
 }
 
 .buttonContainer {
@@ -158,6 +169,20 @@
   align-items: center;
 }
 
+.passwordInput{
+  display: flex;
+}
+
+.passwordField {
+  width: 90%
+}
+
+/* Styling for the eye icon */
+.btnVisibilityPassword {
+  transform: translate(10px, 40px);
+
+}
+
 .close_button {
   cursor: pointer;
 }
@@ -166,4 +191,14 @@
   color: red;
   font-size: 0.8rem;
   margin-top: 10px;
+}
+
+@media screen and (max-width: 800px) {
+  .inputContainer, .buttonContainer{
+    flex-direction: column;
+    max-width: 100%;
+  }
+  .label_container {
+    width: 100%;
+  }
 }

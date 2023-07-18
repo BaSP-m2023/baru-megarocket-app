@@ -1,16 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './header.module.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faToggleOff, faToggleOn, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faToggleOff, faToggleOn, faMoon, faSun, faBars } from '@fortawesome/free-solid-svg-icons';
 
 import { logOut } from 'Redux/Auth/thunks';
 import { handleDisplayToast, setContentToast } from 'Redux/Shared/ResponseToast/actions';
 import { setDarkMode } from 'Redux/DarkMode/actions';
 
-import NavBar from './NavBar';
+import { Button } from 'Components/Shared/Button';
 import ResponseModal from 'Components/Shared/ResponseModal';
+import NavBar from './NavBar';
 
 function Header(props) {
   const dispatch = useDispatch();
@@ -19,6 +20,11 @@ function Header(props) {
   const { user: userLogged } = useSelector((state) => state.auth);
   const { dark } = useSelector((state) => state.darkmode);
   const { show, message, state } = useSelector((state) => state.toast);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleHamburger = () => {
+    setShowMenu(!showMenu);
+  };
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('darkMode'))) {
@@ -48,7 +54,9 @@ function Header(props) {
           <p className={styles.rocket}>Rocket</p>
         </div>
       </Link>
-      <NavBar routes={props.routes} />
+
+      <NavBar routes={props.routes} showMenu={showMenu} setShowMenu={setShowMenu} />
+
       <div className={styles.container2}>
         {role && userLogged && (
           <div className={styles.userContainer}>
@@ -77,36 +85,7 @@ function Header(props) {
               )}
               <FontAwesomeIcon icon={faMoon} className={`${styles.iconMode} ${styles.moon}}`} />
             </div>
-            <Link
-              className={styles.profileLink}
-              to={
-                role === 'SUPER_ADMIN'
-                  ? `/user/super-admin/profile/${userLogged?._id}`
-                  : `/user/${role.toLowerCase()}/profile/${userLogged?._id}`
-              }
-            >
-              {userLogged?.lastName && (
-                <div className={styles.profileContainer}>
-                  <img
-                    className={styles.profileImg}
-                    src={
-                      role === 'ADMIN' || role === 'SUPER_ADMIN'
-                        ? `${process.env.PUBLIC_URL}/assets/avatars/admin.jpg`
-                        : role === 'TRAINER'
-                        ? `${process.env.PUBLIC_URL}/assets/avatars/rocket-trainer.jpg`
-                        : role === 'MEMBER' && userLogged.avatar
-                        ? `${process.env.PUBLIC_URL}/assets/avatars/${userLogged.avatar}.jpg`
-                        : `${process.env.PUBLIC_URL}/assets/images/profile-icon.png`
-                    }
-                    alt="profile image"
-                  />
-                  {role === 'ADMIN' && `${userLogged?.firstName} ${userLogged?.lastName}`}
-                  {role === 'MEMBER' && `${userLogged?.name} ${userLogged?.lastName}`}
-                  {role === 'TRAINER' && `${userLogged?.firstName} ${userLogged?.lastName}`}
-                  {role === 'SUPER_ADMIN' && 'SA'}
-                </div>
-              )}
-            </Link>
+
             <div className={styles.logOutButtonContainer}>
               <button className={styles.logOutButton} onClick={handleLogout}>
                 <div className={styles.sign}>
@@ -117,8 +96,27 @@ function Header(props) {
                 <div className={styles.text}>Logout</div>
               </button>
             </div>
+            <div className={styles.hamburger} onClick={handleHamburger}>
+              <FontAwesomeIcon icon={faBars} style={{ color: '#ffffff' }} size="xl" />
+            </div>
           </div>
         )}
+        <div className={styles.buttonContainer} data-testid="home-buttons-container">
+          {!role && (
+            <>
+              <Button
+                text="Sign Up"
+                classNameButton="submitButton"
+                action={() => history.push('/auth/signup')}
+              />
+              <Button
+                text="Log In"
+                classNameButton="submitButton"
+                action={() => history.push('/auth/login')}
+              />
+            </>
+          )}
+        </div>
       </div>
 
       {show && (

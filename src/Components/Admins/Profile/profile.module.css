@@ -85,6 +85,9 @@
 .formGroup {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin-top: 2%;
+  max-width: 100%;
 }
 
 .form {
@@ -155,4 +158,10 @@
 
 .darkFormContainer .reset {
   color: #fff;
+}
+
+@media screen and (max-width: 600px) {
+  .inputContainer{
+    flex-direction: column;
+  }
 }
