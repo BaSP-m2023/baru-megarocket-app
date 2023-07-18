@@ -133,12 +133,6 @@ const Form = () => {
           </span>
         </div>
         <div className={styles.content}>
-          <div className={styles.formTitle}>
-            <h2 data-testid="trainers-form-title">{id ? 'Edit Trainer' : 'Add Trainer'}</h2>
-            <span className={styles.closeButton} onClick={() => history.goBack()}>
-              &times;
-            </span>
-          </div>
           <form className={styles.form} data-testid="trainers-form-container">
             {id ? (
               <div className={styles.formGroup}>

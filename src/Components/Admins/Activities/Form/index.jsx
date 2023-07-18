@@ -92,12 +92,6 @@ const Form = () => {
           </span>
         </div>
         <div className={styles.content}>
-          <div className={styles.formTitle} data-testid="activities-form-title-container">
-            <h2>{location.pathname.includes('add') ? 'Add new activity' : `Edit activity `}</h2>
-            <span className={styles.closeButton} onClick={() => history.goBack()}>
-              &times;
-            </span>
-          </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className={styles.form}
@@ -144,7 +138,6 @@ const Form = () => {
             <div className={styles.formGroup}>
               <Textarea
                 labelText="Description"
-                rows={4}
                 name="description"
                 register={register}
                 placeholder="Description for the activity"

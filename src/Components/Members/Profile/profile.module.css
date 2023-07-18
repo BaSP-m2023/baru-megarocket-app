@@ -1,3 +1,6 @@
+.section{
+  margin: 50px auto 90px
+}
 .content {
   display: flex;
   flex-direction: column;
@@ -163,4 +166,10 @@
 
 .darkSection .changePassContainer a {
   color: #fff;
+}
+
+@media screen and (max-width: 600px) {
+  .formGroup{
+    flex-direction: column;
+  }
 }

@@ -95,8 +95,7 @@ function SignUp() {
   const secondFormFields = [
     { labelText: 'City', type: 'text', name: 'city' },
     { labelText: 'Date of birth', type: 'date', name: 'dob' },
-    { labelText: 'Zip code', type: 'number', name: 'zip' },
-    { labelText: 'Password', type: 'password', name: 'password' }
+    { labelText: 'Zip code', type: 'number', name: 'zip' }
   ];
 
   if (loading) {
@@ -132,46 +131,44 @@ function SignUp() {
               </div>
               <div className={styles.label_container}>
                 {secondFormFields.map((inputData, index) => (
-                  <div
+                  <Input
                     key={index}
-                    className={
-                      inputData.type === 'password' ? styles.input : styles.label_container
-                    }
-                  >
-                    <div className={styles.label_container}>
-                      <Input
-                        labelText={inputData.labelText}
-                        type={
-                          inputData.type === 'password' && viewPassword ? 'text' : inputData.type
-                        }
-                        name={inputData.name}
-                        register={register}
-                        error={errors[inputData.name]?.message}
-                      />
-                    </div>
-                    <div className={styles.btnVisibilityPassword}>
-                      {inputData.type === 'password' && (
-                        <FontAwesomeIcon
-                          icon={viewPassword ? faEyeSlash : faEye}
-                          onClick={handlePassword}
-                          className={styles.imgButtonPassword}
-                        />
-                      )}
-                    </div>
-                  </div>
+                    labelText={inputData.labelText}
+                    type={inputData.type === 'password' && viewPassword ? 'text' : inputData.type}
+                    name={inputData.name}
+                    register={register}
+                    error={errors[inputData.name]?.message}
+                  />
                 ))}
-                <div className={styles.label_container}>
-                  <label className={styles.label}>Membership</label>
-                  <select className={styles.select} name="membership" {...register('membership')}>
-                    <option value="default">Choose your membership</option>
-                    <option value="only_classes">Only Classes 34,99 U$S/month</option>
-                    <option value="classic">Classic 49,99 U$S/month</option>
-                    <option value="black">Black 89,99 U$S/month</option>
-                  </select>
-                  <span className={styles.error}>
-                    {errors.membership ? (errors.message = 'Choose your membership') : '\u00A0'}
-                  </span>
+
+                <div className={styles.passwordInput}>
+                  <div className={styles.passwordField}>
+                    <Input
+                      labelText={'Password'}
+                      type={viewPassword ? 'text' : 'password'}
+                      name={'password'}
+                      register={register}
+                      error={errors['password']?.message}
+                    />
+                  </div>
+                  <div className={styles.btnVisibilityPassword}>
+                    <FontAwesomeIcon
+                      icon={viewPassword ? faEyeSlash : faEye}
+                      onClick={handlePassword}
+                      className={styles.imgButtonPassword}
+                    />
+                  </div>
                 </div>
+                <label className={styles.label}>Membership</label>
+                <select className={styles.select} name="membership" {...register('membership')}>
+                  <option value="default">Choose your membership</option>
+                  <option value="only_classes">Only Classes 34,99 U$S/month</option>
+                  <option value="classic">Classic 49,99 U$S/month</option>
+                  <option value="black">Black 89,99 U$S/month</option>
+                </select>
+                <span className={styles.error}>
+                  {errors.membership ? (errors.message = 'Choose your membership') : '\u00A0'}
+                </span>
               </div>
             </div>
           </div>
