@@ -95,7 +95,6 @@ describe('Superadmin Admins CRUD', () => {
 
       await AdminsForm.submitBtn.scrollIntoView();
       await AdminsForm.submitForm();
-      //delete this lines when confirm modal does not appear
       await AdminsForm.confirmModalCancelBtn.click();
       await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(7);
     });
