@@ -66,12 +66,12 @@ const Admins = () => {
     <>
       <section className={!dark ? styles.container : styles.darkContainer}>
         <h2 className={styles.title}>Admins</h2>
-        <div className={styles.searchContainer} data-testid="admins-search-container">
-          <div className={styles.inputContainer} data-testid="trainers-search-container">
+        <div className={styles.searchContainer}>
+          <div className={styles.inputContainer} data-testid="admins-search-container">
             <Input
               labelText="Filter Admins"
               type="text"
-              name="filter-trainer"
+              name="filter-admin"
               placeholder="Search by name or last name"
               change={(e) => filterAdmin(e.target.value.toLowerCase())}
             />

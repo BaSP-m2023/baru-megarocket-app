@@ -4,7 +4,7 @@ class AdminsTable {
   }
 
   get searchInput() {
-    return $('[data-testid="admins-search-container"] > [name="search"]');
+    return $('[data-testid="admins-search-container"] > [name="filter-admin"]');
   }
 
   get tableList() {
