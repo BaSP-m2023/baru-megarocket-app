@@ -1,6 +1,8 @@
 class Logout {
   get LogOutBtn() {
-    return $('header > div > div:last-child > div button');
+    return $(
+      '#root > div > header > div > div.header_userContainer__bJyO9 > div.header_logOutButtonContainer__gbZkL > button'
+    );
   }
 }
 

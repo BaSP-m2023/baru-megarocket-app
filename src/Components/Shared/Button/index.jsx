@@ -22,6 +22,7 @@ export function Button({ action, text, img, classNameButton, disabled, testid, i
           }`}
           onClick={action ? action : undefined}
           disabled={disabled}
+          data-testid={testid}
         >
           {text}
           {icon}
