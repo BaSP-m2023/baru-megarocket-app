@@ -15,7 +15,6 @@
 
 .inputContainer {
   display: flex;
-  flex-direction: column;
   margin-bottom: 1%;
 }
 
@@ -45,6 +44,7 @@
 
 .icon {
   margin-top: 37px;
+  margin-left: 10px;
 }
 
 .tableContainer, .darkTableContainer {

@@ -138,7 +138,6 @@ const Form = () => {
             <div className={styles.formGroup}>
               <Textarea
                 labelText="Description"
-                rows={4}
                 name="description"
                 register={register}
                 placeholder="Description for the activity"
