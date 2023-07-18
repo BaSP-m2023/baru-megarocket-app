@@ -28,6 +28,7 @@ function MemberProfile({ match }) {
   const { show, message, state } = useSelector((state) => state.toast);
   const memberLogged = useSelector((state) => state.auth.user || '');
   const { data: members } = useSelector((state) => state.members);
+  const { dark } = useSelector((state) => state.darkmode);
   const [editPass, setEditPass] = useState(false);
 
   const {
@@ -181,17 +182,21 @@ function MemberProfile({ match }) {
       });
   };
 
-  const formFields = [
+  const firstFormFields = [
     { labelText: 'Name', type: 'text', name: 'name' },
     { labelText: 'Last name', type: 'text', name: 'lastName' },
     { labelText: 'DNI', type: 'number', name: 'dni' },
-    { labelText: 'Phone', type: 'text', name: 'phone' },
+    { labelText: 'Phone', type: 'text', name: 'phone' }
+  ];
+
+  const secondFormFields = [
     { labelText: 'City', type: 'text', name: 'city' },
     { labelText: 'Date of birth', type: 'date', name: 'dob' },
     { labelText: 'Zip code', type: 'number', name: 'zip' }
   ];
+
   return (
-    <section className={styles.section}>
+    <section className={!dark ? styles.section : styles.darkSection}>
       <div className={styles.formContainer}>
         <div className={styles.content}>
           <div className={styles.formTitle}>
@@ -238,18 +243,36 @@ function MemberProfile({ match }) {
                   />
                 )}
               </div>
-              {formFields.map((inputData, index) => (
-                <div className={styles.formGroup} key={index}>
-                  <Input
-                    labelText={inputData.labelText}
-                    type={inputData.type}
-                    name={inputData.name}
-                    disabled={disableEdit}
-                    register={register}
-                    error={errors[inputData.name]?.message}
-                  />
+              <div className={styles.formGroup}>
+                <div className={styles.fieldsContainer}>
+                  {firstFormFields.map((inputData, index) => (
+                    <div className={styles.formFields} key={index}>
+                      <Input
+                        labelText={inputData.labelText}
+                        type={inputData.type}
+                        name={inputData.name}
+                        disabled={disableEdit}
+                        register={register}
+                        error={errors[inputData.name]?.message}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
+                <div className={styles.fieldsContainer}>
+                  {secondFormFields.map((inputData, index) => (
+                    <div className={styles.formFields} key={index}>
+                      <Input
+                        labelText={inputData.labelText}
+                        type={inputData.type}
+                        name={inputData.name}
+                        disabled={disableEdit}
+                        register={register}
+                        error={errors[inputData.name]?.message}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
               <div className={styles.changePassContainer}>
                 <a onClick={handleEditPass} href="#">
                   Want to change your password?
@@ -259,12 +282,12 @@ function MemberProfile({ match }) {
             {!disableEdit && (
               <>
                 <div className={styles.buttons}>
-                  <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
                   <Button
                     classNameButton="cancelButton"
                     action={() => setDisableEdit(true)}
                     text="Cancel"
                   />
+                  <Button classNameButton="addButton" text={'Confirm'} disabled={disableEdit} />
                 </div>
                 <div className={styles.resetContainer}>
                   <Reset action={handleReset} />

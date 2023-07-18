@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from '../Table/table.module.css';
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { deleteActivity } from 'Redux/Activities/thunks';
 
 import ConfirmModal from 'Components/Shared/ConfirmModal';
-import { Button } from 'Components/Shared/Button';
 
 const Activity = ({ activity }) => {
   const [confirm, setConfirmModal] = useState(false);
@@ -27,35 +28,28 @@ const Activity = ({ activity }) => {
       <tr className={styles.row}>
         <td>{activity.name}</td>
         <td>{activity.description}</td>
-        <td>{activity.trainers.map((trainer) => `${trainer.firstName} ${trainer.lastName}, `)}</td>
         <td>
-          <label
-            className={
-              activity.isActive
-                ? `${styles.activityState} ${styles.activityActive}`
-                : `${styles.activityState} ${styles.activityInactive}`
-            }
-          >
-            {activity.isActive ? 'Active' : 'Inactive'}
-          </label>
+          {activity.trainers.map((trainer, index) => (
+            <span className={styles.spanTrainer} key={index}>
+              {trainer.firstName} {trainer.lastName}
+            </span>
+          ))}
         </td>
         <td>
           <Link to={`${url}/edit/${activity._id}`}>
-            <Button
-              img="/assets/images/edit-icon.png"
-              text="edit icon"
-              classNameButton={`${styles.button}`}
+            <FontAwesomeIcon
+              icon={faPen}
               testid="activities-edit-btn"
+              className={styles.editButton}
             />
           </Link>
         </td>
         <td>
-          <Button
-            action={handleConfirm}
-            img="/assets/images/delete-icon.png"
-            text="delete icon"
-            classNameButton="icon"
+          <FontAwesomeIcon
+            icon={faTrash}
             testid="activities-delete-btn"
+            onClick={handleConfirm}
+            className={styles.deleteButton}
           />
         </td>
       </tr>

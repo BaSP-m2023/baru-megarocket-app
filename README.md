@@ -71,4 +71,4 @@ You will also see any lint errors in the console.
 
 ### License & Copyright
 
-© Radium Rocket "Become a Software Professional 2022"
+© Radium Rocket "Become a Software Professional 2023"

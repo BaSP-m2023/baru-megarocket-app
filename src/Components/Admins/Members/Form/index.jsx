@@ -23,6 +23,7 @@ const MemberForm = ({ match }) => {
   let memberId = match.params.id;
   const dispatch = useDispatch();
   const redirect = useSelector((state) => state.members.redirect);
+  const { dark } = useSelector((state) => state.darkmode);
   const { show, message, state } = useSelector((state) => state.toast);
 
   const {
@@ -101,18 +102,21 @@ const MemberForm = ({ match }) => {
     setModalMessageOpen(true);
   };
 
-  const formEdit = [
+  const firstFormEdit = [
     { labelText: 'First Name', name: 'name', type: 'text' },
     { labelText: 'Last Name', name: 'lastName', type: 'text' },
     { labelText: 'ID', name: 'dni', type: 'number' },
-    { labelText: 'Phone', name: 'phone', type: 'text' },
+    { labelText: 'Phone', name: 'phone', type: 'text' }
+  ];
+
+  const secondFormEdit = [
     { labelText: 'City', name: 'city', type: 'text' },
     { labelText: 'Zip', name: 'zip', type: 'number' },
     { labelText: 'Date of birth', name: 'dob', type: 'date' }
   ];
 
   return (
-    <div className={styles.formContainer}>
+    <div className={!dark ? styles.formContainer : styles.darkFormContainer}>
       <div className={styles.formTitle} data-testid="members-form-title-container">
         <h2>{memberId ? 'Edit a member' : 'Create a new member'}</h2>
         <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
@@ -120,24 +124,43 @@ const MemberForm = ({ match }) => {
         </span>
       </div>
       <div className={styles.content}>
-        <div className={styles.title} data-testid="members-form-title-container">
-          <h2>Edit a member</h2>
-          <span className={styles.closeButton} onClick={() => history.push('/user/admin/members')}>
-            &times;
-          </span>
-        </div>
+        <div className={styles.title} data-testid="members-form-title-container"></div>
         <form className={styles.form} data-testid="members-form-container">
-          {formEdit.map((field) => (
-            <div className={styles.formGroup} key={field.name}>
-              <Input
-                labelText={field.labelText}
-                name={field.name}
-                type={field.type}
-                register={register}
-                error={errors[field.name]?.message}
-              />
+          <div className={styles.fieldContainer}>
+            {firstFormEdit.map((field) => (
+              <div className={styles.formGroup} key={field.name}>
+                <Input
+                  labelText={field.labelText}
+                  name={field.name}
+                  type={field.type}
+                  register={register}
+                  error={errors[field.name]?.message}
+                />
+              </div>
+            ))}
+          </div>
+          <div>
+            {secondFormEdit.map((field) => (
+              <div className={styles.formGroup} key={field.name}>
+                <Input
+                  labelText={field.labelText}
+                  name={field.name}
+                  type={field.type}
+                  register={register}
+                  error={errors[field.name]?.message}
+                />
+              </div>
+            ))}
+            <div className={styles.label_container}>
+              <label className={styles.label}>Membership</label>
+              <select className={styles.select} name="membership" {...register('membership')}>
+                <option value="classic">Classic</option>
+                <option value="only_classes">Only Classes</option>
+                <option value="black">Black</option>
+              </select>
+              {errors.membership && <p className={styles.error}>Choose your membership</p>}
             </div>
-          ))}
+          </div>
         </form>
         <div className={styles.container_button} data-testid="members-form-button">
           <Button
@@ -147,7 +170,9 @@ const MemberForm = ({ match }) => {
           />
           <Button classNameButton="addButton" action={handleSubmit(handleModal)} text={'Edit'} />
         </div>
-        <Reset action={handleReset} />
+        <div className={styles.resetButton}>
+          <Reset action={handleReset} />
+        </div>
       </div>
       {modalMessageOpen && (
         <ConfirmModal

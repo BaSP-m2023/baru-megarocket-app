@@ -25,6 +25,7 @@ function AdminProfile({ match }) {
   const [updated, setUpdated] = useState(false);
   const redirect = useSelector((state) => state.admins.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
+  const { dark } = useSelector((state) => state.darkmode);
   const defaultAdmin = useSelector((state) => state.auth.user || '');
   const { data: admins } = useSelector((state) => state.admins);
   const [editPass, setEditPass] = useState(false);
@@ -146,16 +147,19 @@ function AdminProfile({ match }) {
       });
   };
 
-  const formFields = [
+  const firstFormFields = [
     { labelText: 'Name', type: 'text', name: 'firstName' },
     { labelText: 'Last Name', type: 'text', name: 'lastName' },
-    { labelText: 'DNI', type: 'number', name: 'dni' },
+    { labelText: 'DNI', type: 'number', name: 'dni' }
+  ];
+
+  const secondFormFields = [
     { labelText: 'Phone', type: 'text', name: 'phone' },
     { labelText: 'City', type: 'text', name: 'city' }
   ];
 
   return (
-    <div className={styles.formContainer}>
+    <div className={!dark ? styles.formContainer : styles.darkFormContainer}>
       <div className={styles.content}>
         <div className={styles.formTitle}>
           <h2>
@@ -179,36 +183,54 @@ function AdminProfile({ match }) {
           )}
         </div>
         <form onSubmit={handleSubmit(onConfirm)} className={styles.form}>
-          <div>
-            {formFields.map((inputData, index) => (
-              <div className={styles.formGroup} key={index}>
-                <Input
-                  labelText={inputData.labelText}
-                  type={inputData.type}
-                  name={inputData.name}
-                  disabled={disableEdit}
-                  register={register}
-                  error={errors[inputData.name]?.message}
-                />
-              </div>
-            ))}
-            <div className={styles.changePassContainer}>
-              <a onClick={handleEditPass} href="#">
-                Want to change your password?
-              </a>
+          <div className={styles.inputContainer}>
+            <div className={styles.inputFields}>
+              {firstFormFields.map((inputData, index) => (
+                <div className={styles.formGroup} key={index}>
+                  <Input
+                    labelText={inputData.labelText}
+                    type={inputData.type}
+                    name={inputData.name}
+                    disabled={disableEdit}
+                    register={register}
+                    error={errors[inputData.name]?.message}
+                  />
+                </div>
+              ))}
             </div>
+            <div>
+              {secondFormFields.map((inputData, index) => (
+                <div className={styles.formGroup} key={index}>
+                  <Input
+                    labelText={inputData.labelText}
+                    type={inputData.type}
+                    name={inputData.name}
+                    disabled={disableEdit}
+                    register={register}
+                    error={errors[inputData.name]?.message}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className={styles.changePassContainer}>
+            <a onClick={handleEditPass} href="#">
+              Want to change your password?
+            </a>
           </div>
           {!disableEdit && (
             <>
               <div className={styles.buttons}>
-                <Button classNameButton="addButton" text={'Confirm'} />
                 <Button
                   classNameButton="cancelButton"
                   action={() => setDisableEdit(true)}
                   text="Cancel"
                 />
+                <Button classNameButton="addButton" text={'Confirm'} />
               </div>
-              <Reset action={handleReset} />
+              <div className={styles.reset}>
+                <Reset action={handleReset} />
+              </div>
             </>
           )}
         </form>

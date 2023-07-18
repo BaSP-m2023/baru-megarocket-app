@@ -18,6 +18,7 @@ const SubscriptionsMember = () => {
   const [subscription, setSubscription] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { show, message, state } = useSelector((state) => state.toast);
+  const { dark } = useSelector((state) => state.darkmode);
   const [idToDelete, setIdToDelete] = useState('');
   const [activeMember, setActiveMember] = useState(null);
   const member = useSelector((state) => state.auth.user);
@@ -53,12 +54,12 @@ const SubscriptionsMember = () => {
         </div>
       )}
       {!pending && !activeMember && (
-        <p className={styles.text}>
+        <p className={!dark ? styles.text : styles.darkText}>
           Your membership is not active, please go to your nearest branch to activate it
         </p>
       )}
       {!pending && activeMember && (
-        <div className={styles.container}>
+        <div className={!dark ? styles.container : styles.darkContainer}>
           <h2 className={styles.title}>Your subscriptions</h2>
           {subscription.length !== 0 ? (
             <table className={styles.table}>

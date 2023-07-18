@@ -9,9 +9,22 @@
   width: 70%;
   border-radius: 0 0 7px 7px;
   box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
-  background-color: #f4f4f4;
 }
-.formContainer {
+
+.darkFormContainer .content {
+  display: flex;
+  flex-direction: column;
+  background-color: #242024;
+  margin: 10% auto;
+  margin-top: 30px;
+  padding-bottom: 1.5rem;
+  height: 100%;
+  width: 70%;
+  border-radius: 7px;
+  box-shadow: 0px 2px 2px #ffffff40;
+}
+
+.formContainer, .darkFormContainer {
   display: flex;
   justify-content: center;
   margin-top: 130px;
@@ -44,6 +57,15 @@
   border-top-right-radius: 7px;
 }
 
+.inputContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.inputFields {
+  margin-right: 20px;
+}
+
 .formTitle h2 {
   margin-left: 2%;
 }
@@ -64,7 +86,6 @@
 .formGroup {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .form {
@@ -74,6 +95,15 @@
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
   line-height: 1.6;
+}
+
+.darkFormContainer .form input {
+  background-color: #fff;
+  color: #19191b;
+}
+
+.darkFormContainer label, .darkFormContainer a {
+  color: #fff;
 }
 
 .form input {
@@ -112,5 +142,18 @@
 .changePassContainer {
   display: flex;
   justify-content: center;
-  margin-top: 14px;
+  margin-top: 40px;
+}
+
+.containerButton {
+  display: flex;
+}
+
+.reset {
+  display: flex;
+  justify-content: center;
+}
+
+.darkFormContainer .reset {
+  color: #fff;
 }
