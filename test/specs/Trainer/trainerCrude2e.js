@@ -1,8 +1,8 @@
-const LoginPage = require('../pageObjects/loginPage');
-const addNewTrainer = require('../pageObjects/Trainer/addNewTrainer');
-const AddNewTrainer = require('../pageObjects/Trainer/addNewTrainer');
-const deleteTrainer = require('../pageObjects/Trainer/deleteTrainer');
-const EditTrainer = require('../pageObjects/Trainer/editTrainer');
+const LoginPage = require('../../pageObjects/loginPage');
+const addNewTrainer = require('../../pageObjects/Trainer/addNewTrainer');
+const AddNewTrainer = require('../../pageObjects/Trainer/addNewTrainer');
+const deleteTrainer = require('../../pageObjects/Trainer/deleteTrainer');
+const EditTrainer = require('../../pageObjects/Trainer/editTrainer');
 
 describe('Trainer', () => {
   beforeAll('browser', () => {

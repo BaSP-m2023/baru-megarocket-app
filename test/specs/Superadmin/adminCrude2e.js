@@ -1,9 +1,9 @@
-const HomePage = require('../../pageobjects/Home/homePage');
-const LoginPage = require('../../pageobjects/Login/loginPage');
-const NavBar = require('../../pageobjects/Shared/navBarComponent');
-const AdminsTable = require('../../pageobjects/Admins/adminsTable');
-const AdminsForm = require('../../pageobjects/Admins/adminsForm');
-const ResponseModal = require('../../pageobjects/Shared/responseModalComponent');
+const HomePage = require('../../pageObjects/Home/homePage');
+const LoginPage = require('../../pageObjects/Login/loginPage');
+const NavBar = require('../../pageObjects/Shared/navBarComponent');
+const AdminsTable = require('../../pageObjects/Admins/adminsTable');
+const AdminsForm = require('../../pageObjects/Admins/adminsForm');
+const ResponseModal = require('../../pageObjects/Shared/responseModalComponent');
 
 let currentUrl = '';
 const validEmail = 'superadmin2@gmail.com';
@@ -12,7 +12,7 @@ const validPassword = 'Abc123456';
 describe('Superadmin Admins CRUD', () => {
   describe('Superadmin login functionality', () => {
     beforeAll('Open Browser Url', () => {
-      browser.url('https://baru-megarocket-app.vercel.app/');
+      browser.url('http://localhost:3000/');
       browser.setWindowSize(1920, 1080);
     });
 
@@ -23,7 +23,7 @@ describe('Superadmin Admins CRUD', () => {
       await HomePage.loginBtnClick();
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/auth/login');
+      await expect(currentUrl).toEqual('http://localhost:3000/auth/login');
       await expect(LoginPage.loginTitle).toBeDisplayed();
       await expect(LoginPage.emailInput).toBeDisplayed();
       await expect(LoginPage.passwordInput).toBeDisplayed();
@@ -76,9 +76,7 @@ describe('Superadmin Admins CRUD', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual(
-        'https://baru-megarocket-app.vercel.app/user/super-admin/admins'
-      );
+      await expect(currentUrl).toEqual('http://localhost:3000/user/super-admin/admins');
 
       await expect(AdminsTable.searchInput).toBeDisplayed();
       await expect(AdminsTable.tableList).toBeDisplayed();
@@ -91,9 +89,7 @@ describe('Superadmin Admins CRUD', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual(
-        'https://baru-megarocket-app.vercel.app/user/super-admin/admins/add'
-      );
+      await expect(currentUrl).toEqual('http://localhost:3000/user/super-admin/admins/add');
       await expect(AdminsForm.formTitle).toHaveTextContaining('Add admin');
       await expect(AdminsForm.form).toBeDisplayed();
 
@@ -127,9 +123,7 @@ describe('Superadmin Admins CRUD', () => {
       await expect(ResponseModal.modalText).toHaveTextContaining('Admin created');
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual(
-        'https://baru-megarocket-app.vercel.app/user/super-admin/admins'
-      );
+      await expect(currentUrl).toEqual('http://localhost:3000/user/super-admin/admins');
     });
   });
 
@@ -147,6 +141,7 @@ describe('Superadmin Admins CRUD', () => {
       await expect(AdminsForm.formTitle).toBeDisplayed();
       await expect(AdminsForm.formTitle).toHaveTextContaining('Edit Admin');
 
+      await browser.pause(2000);
       await AdminsForm.enterFirstName('Julio');
       await AdminsForm.enterDni('40123111');
 
@@ -162,9 +157,7 @@ describe('Superadmin Admins CRUD', () => {
       await expect(ResponseModal.modalText).toHaveTextContaining('Admin updated');
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual(
-        'https://baru-megarocket-app.vercel.app/user/super-admin/admins'
-      );
+      await expect(currentUrl).toEqual('http://localhost:3000/user/super-admin/admins');
     });
   });
 
@@ -196,7 +189,7 @@ describe('Superadmin Admins CRUD', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
+      await expect(currentUrl).toEqual('http://localhost:3000/');
       await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
     });
   });

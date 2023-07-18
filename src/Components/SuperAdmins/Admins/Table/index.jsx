@@ -34,19 +34,14 @@ function Table({ filter, handleDeleteButton }) {
                   <td className={styles.td}>{admin.email}</td>
                   <td className={styles.td}>{admin.city}</td>
                   <td></td>
-                  <td className={styles.button}>
+                  <td className={styles.button} data-testid="admins-edit-btn">
                     <Link to={`/user/super-admin/admins/edit/${admin._id}`}>
-                      <FontAwesomeIcon
-                        icon={faPen}
-                        testid="admins-edit-btn"
-                        className={styles.pen}
-                      />
+                      <FontAwesomeIcon icon={faPen} className={styles.pen} />
                     </Link>
                   </td>
-                  <td>
+                  <td data-testid="admins-delete-btn">
                     <FontAwesomeIcon
                       icon={faTrash}
-                      testid="admins-delete-btn"
                       onClick={() => handleDeleteButton(admin._id)}
                       className={styles.trash}
                     />
