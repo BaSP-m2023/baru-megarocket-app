@@ -117,10 +117,10 @@ function Landing() {
         style={
           !dark
             ? {
-                backgroundImage: `linear-gradient(180deg, rgba(35,31,32,0) 0%, rgba(96,96,180,0.20211834733893552) 82%, rgba(106,106,204,0.19091386554621848) 95%, rgba(255,255,255,1) 100%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
+                backgroundImage: `linear-gradient(180deg, rgba(35,31,32,0) 0%, rgba(96,96,180,0.20211834733893552) 82%, rgba(106,106,204,0.19091386554621848) 95%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
               }
             : {
-                backgroundImage: `linear-gradient(rgba(35, 31, 32, 0) 0%, rgba(96, 96, 180, 0.204) 82%, rgba(106, 106, 204, 0.192) 95%, #19191b 100%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
+                backgroundImage: `linear-gradient(rgba(35, 31, 32, 0) 0%, rgba(96, 96, 180, 0.204) 82%, rgba(106, 106, 204, 0.192) 95%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
               }
         }
       >
