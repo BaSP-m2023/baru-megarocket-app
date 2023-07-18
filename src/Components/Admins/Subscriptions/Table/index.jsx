@@ -42,16 +42,18 @@ const Table = ({ data }) => {
       <h1 className={styles.title}>Subscriptions</h1>
       <div className={styles.filterContainer}>
         <div className={styles.inputContainer}>
-          <Input
-            labelText="Filter Subscription"
-            type="text"
-            name="filter-subscription"
-            placeholder="Search by activities or members"
-            change={(e) => setFilteredSubscriptions(e.target.value.toLowerCase())}
-          />
-        </div>
-        <div className={styles.icon}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+          <div className={styles.searchInput}>
+            <Input
+              labelText="Filter Subscription"
+              type="text"
+              name="filter-subscription"
+              placeholder="Search by activities or members"
+              change={(e) => setFilteredSubscriptions(e.target.value.toLowerCase())}
+            />
+          </div>
+          <div className={styles.icon}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+          </div>
         </div>
       </div>
       <div className={styles.subTableContainer}>
@@ -92,8 +94,8 @@ const Table = ({ data }) => {
         </div>
       </div>
       {filterSubscriptions.length === 0 ? (
-        <div className={styles.filter}>
-          <p>There is no subscription with that member or activity</p>
+        <div className={dark ? `${styles.filter} ${styles.filterDark}` : `${styles.filter}`}>
+          <p>There are not subscriptions to show</p>
         </div>
       ) : (
         ''

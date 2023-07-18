@@ -229,7 +229,15 @@ const Schedule = () => {
         showSchedule && (
           <>
             <div className={!dark ? styles.content : styles.darkContent}>
+<<<<<<< HEAD
               <div className={styles.filter} data-testid="classes-filters-container">
+=======
+              <h2 className={styles.monthTitle}>{`${format(
+                new Date(current.date),
+                'MMMM yyyy'
+              )}`}</h2>
+              <div className={styles.filter}>
+>>>>>>> 3ed68840f290355e8ac2d051df56bb71d2955251
                 <label>Filter by Activity</label>
                 <select value={activityFilter} onChange={(e) => setActivityFilter(e.target.value)}>
                   <option value={''}>All classes</option>
@@ -257,8 +265,7 @@ const Schedule = () => {
                 )}
               </div>
               <div>
-                <div className={styles.titleContainer}>
-                  <h2>{`${format(new Date(current.date), 'MMMM yyyy')}`}</h2>
+                <div className={styles.arrowsContainer}>
                   <div className={styles.arrows} onClick={() => setNextPage(!nextPage)}>
                     {!nextPage && (
                       <>

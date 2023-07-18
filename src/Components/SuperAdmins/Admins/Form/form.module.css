@@ -34,10 +34,10 @@
 .content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
+  justify-content: center;
+  background-color: #f4f4f4;
   height: 100%;
-  padding: 2% 0;
+  width: 100%;
   border-radius: 0 0 7px 7px;
   box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
   background-color: #f4f4f4;
@@ -54,6 +54,8 @@
 .form {
   display: flex;
   flex-direction: column;
+  max-width: 1500px;
+  padding: 10px 20px;
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
   line-height: 1.6;
@@ -62,26 +64,22 @@
 .inputContainer {
   display: flex;
   margin-top: 20px;
-}
-
-.fieldContainer {
-  display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .inputForm {
   margin-left: 20px;
 }
 
-.formGroup {
+.fieldContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.buttonContainer {
+.formButtons {
   display: flex;
-  margin: auto;
+  justify-content: center;
 }
 
 .resetContainer {
@@ -91,4 +89,13 @@
 
 .disabled {
   display: none;
+}
+
+@media screen and (max-width: 680px) {
+  .formButtons, .inputContainer{
+    flex-direction: column;
+    margin-top: 5%;
+    margin: auto;
+  }
+
 }

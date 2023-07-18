@@ -194,7 +194,7 @@ const Form = () => {
               </div>
             )}
           </form>
-          <div className={styles.btnContainer} data-testid="trainers-form-buttons">
+          <div className={styles.formButtons} data-testid="trainers-form-buttons">
             <Link to="/user/admin/trainers">
               <Button action={() => reset()} classNameButton={'cancelButton'} text={'Cancel'} />
             </Link>

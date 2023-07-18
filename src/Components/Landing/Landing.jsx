@@ -117,10 +117,10 @@ function Landing() {
         style={
           !dark
             ? {
-                backgroundImage: `linear-gradient(180deg, rgba(35,31,32,0) 0%, rgba(96,96,180,0.20211834733893552) 82%, rgba(106,106,204,0.19091386554621848) 95%, rgba(255,255,255,1) 100%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
+                backgroundImage: `linear-gradient(180deg, rgba(35,31,32,0) 0%, rgba(96,96,180,0.20211834733893552) 82%, rgba(106,106,204,0.19091386554621848) 95%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
               }
             : {
-                backgroundImage: `linear-gradient(rgba(35, 31, 32, 0) 0%, rgba(96, 96, 180, 0.204) 82%, rgba(106, 106, 204, 0.192) 95%, #19191b 100%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
+                backgroundImage: `linear-gradient(rgba(35, 31, 32, 0) 0%, rgba(96, 96, 180, 0.204) 82%, rgba(106, 106, 204, 0.192) 95%), url(${process.env.PUBLIC_URL}/assets/images/background.jpg)`
               }
         }
       >
@@ -136,7 +136,7 @@ function Landing() {
         </button>
       </section>
       <div className={styles.container}>
-        <div className={styles.aboutSection}>
+        <section className={styles.aboutSection}>
           <article className={styles.about_col_1}>
             <img src={`${process.env.PUBLIC_URL}/assets/images/img1.svg`} alt="Gym Image" />
 
@@ -152,14 +152,14 @@ function Landing() {
           <article className={styles.about_col_2}>
             <p className={styles.p}>
               Our gym values revolve around creating a welcoming and inclusive environment for all
-              members. We believe in empowering individuals through fitness and providing a
+              members. We believe in empowering insectioniduals through fitness and providing a
               supportive community where everyone can thrive. With a wide range of classes,
               specialized programs, and expert guidance, we are here to support you on your fitness
               journey.
             </p>
             <img src={`${process.env.PUBLIC_URL}/assets/images/img3.svg`} alt="Gym Image" />
           </article>
-        </div>
+        </section>
         <section className={styles.featuresSection}>
           <div className={styles.feature}>
             <div className={styles.icon}>

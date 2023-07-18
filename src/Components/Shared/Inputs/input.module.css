@@ -1,5 +1,6 @@
 .input {
-  width: 25vw;
+  width: 100%;
+  max-width: 400px;
   height: 30px;
   margin-right: 10px;
   color: #242024;
@@ -25,6 +26,9 @@
   border: 1px solid #242024;
   border-radius: 5px;
   resize: none;
+  width: 100%;
+  max-width: 400px;
+  height: 150px;
 }
 
 .error {

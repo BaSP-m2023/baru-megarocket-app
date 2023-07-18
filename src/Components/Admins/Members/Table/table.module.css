@@ -15,7 +15,6 @@
 
 .inputContainer {
   display: flex;
-  flex-direction: column;
   margin-bottom: 1%;
 }
 
@@ -39,25 +38,26 @@
   font-weight: bold;
 }
 
+.filterDark {
+  color: #fff;
+}
+
 .icon {
   margin-top: 37px;
+  margin-left: 10px;
 }
 
 .tableContainer, .darkTableContainer {
   display: flex;
   flex-direction: column;
   width: 90vw;
-  min-height: 300px;
-  height: 300px;
-  max-height: 300px;
+  max-height: 500px;
   overflow: auto;
 }
 
 .table {
   width: 100%;
-  height: 100%;
   border-spacing: 0 5px;
-  margin: auto;
 }
 
 .table-filter {
@@ -246,6 +246,5 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-left: 10%;
   width: 300px;
 }
