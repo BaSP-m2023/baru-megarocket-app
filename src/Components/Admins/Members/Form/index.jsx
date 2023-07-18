@@ -139,7 +139,7 @@ const MemberForm = ({ match }) => {
               </div>
             ))}
           </div>
-          <div>
+          <div className={styles.fieldContainer}>
             {secondFormEdit.map((field) => (
               <div className={styles.formGroup} key={field.name}>
                 <Input

@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 4% auto;
+  margin: 150px auto;
   margin-top: 130px;
   background-color: #f4f4f4;
   height: 100%;
@@ -75,7 +75,6 @@
 
 .form {
   display: flex;
-  flex-direction: column;
   padding: 10px 20px;
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
@@ -83,12 +82,14 @@
 
 .fieldContainer {
   margin-right: 20px;
+  width: 50%;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .darkFormContainer .formGroup label {
@@ -140,11 +141,6 @@
   font-size: 1rem;
 }
 
-@media screen and (max-width: 550px) {
-  .formButtons{
-    flex-direction: column;
-  }
-}
 .label_container {
   display: flex;
   flex-direction: column;
@@ -152,9 +148,11 @@
 }
 
 .select {
-  width: 25.5vw;
-  height: 36px;
+  width: 100%;
+  max-width: 400px;
+  height: 34px;
   margin-right: 10px;
+  margin-top: 2px;
   color: #242024;
   border: 1px solid #242024;
   border-radius: 5px;
@@ -163,4 +161,20 @@
 .error {
   color: red;
   font-size: 0.8rem;
+}
+
+@media screen and (max-width: 800px) {
+  .form{
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+  }
+  .fieldContainer {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 550px) {
+  .formButtons{
+    flex-direction: column;
+  }
 }

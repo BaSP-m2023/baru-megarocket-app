@@ -127,14 +127,16 @@
 .label {
   display: block;
   padding: 5px;
+  margin-top: 6px;
   color: #242024;
   font-weight: 700;
   font-size: 1rem;
 }
 
 .select {
-  height: 36px;
-  margin-right: 10px;
+  width: 100%;
+  max-width: 400px;
+  height: 34px;
   color: #242024;
   border: 1px solid #242024;
   border-radius: 5px;
