@@ -114,8 +114,8 @@ function SignUp() {
             &times;
           </span>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          <div data-testid="signup-members-inputs">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div data-testid="signup-members-inputs" className={styles.form}>
             <div className={styles.inputContainer}>
               <div className={styles.label_container}>
                 {firstFormFields.map((inputData, index) => (

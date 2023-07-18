@@ -28,16 +28,18 @@ const List = ({ members, handleModal }) => {
     <div>
       <div className={!dark ? styles.filterContainer : styles.darkFilterContainer}>
         <div className={styles.inputContainer} data-testid="members-search-container">
-          <Input
-            labelText="Filter Members"
-            name="filter-members"
-            type="text"
-            placeholder="Search by name"
-            change={(e) => filterList(e.target.value.toLowerCase())}
-          />
-        </div>
-        <div className={styles.icon}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+          <div className={styles.searchInput}>
+            <Input
+              labelText="Filter Members"
+              name="filter-members"
+              type="text"
+              placeholder="Search by name"
+              change={(e) => filterList(e.target.value.toLowerCase())}
+            />
+          </div>
+          <div className={styles.icon}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+          </div>
         </div>
       </div>
       <div className={!dark ? styles.tableContainer : styles.darkTableContainer}>

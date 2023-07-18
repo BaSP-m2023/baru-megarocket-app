@@ -34,12 +34,10 @@
 .content {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   background-color: #f4f4f4;
-  margin: 10% auto;
-  margin-top: 30px;
-  padding-bottom: 1.5rem;
   height: 100%;
-  width: 70%;
+  width: 100%;
   border-radius: 0 0 7px 7px;
   box-shadow: 0 5px 8px 0 #33333333, 0 7px 20px 0 #2b2b2b2b;
   background-color: #f4f4f4;
@@ -56,6 +54,7 @@
 .form {
   display: flex;
   flex-direction: column;
+  max-width: 1500px;
   padding: 10px 20px;
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
@@ -65,18 +64,14 @@
 .inputContainer {
   display: flex;
   margin-top: 20px;
-}
-
-.fieldContainer {
-  display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .inputForm {
   margin-left: 20px;
 }
 
-.formGroup {
+.fieldContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,9 +91,11 @@
   display: none;
 }
 
-@media screen and (max-width: 700px) {
-  .formButtons{
+@media screen and (max-width: 680px) {
+  .formButtons, .inputContainer{
     flex-direction: column;
     margin-top: 5%;
+    margin: auto;
   }
+
 }

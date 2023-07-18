@@ -14,6 +14,9 @@
 .form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  max-width: 1000px;
   padding: 30px 20px;
   font-family: 'Roboto', Arial, serif;
   font-size: 17px;
@@ -24,7 +27,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 100%;
+  width: 100%;
 }
 
 .container {
@@ -52,7 +55,7 @@
 
 .inputContainer {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .input {
@@ -149,8 +152,7 @@
 .label_container {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: 5%;
+  width: 45%;
 }
 
 .buttonContainer {
@@ -192,5 +194,9 @@
 @media screen and (max-width: 800px) {
   .inputContainer, .buttonContainer{
     flex-direction: column;
+    max-width: 100%;
+  }
+  .label_container {
+    width: 100%;
   }
 }
