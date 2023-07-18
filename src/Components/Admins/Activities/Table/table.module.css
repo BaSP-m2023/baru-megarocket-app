@@ -9,7 +9,7 @@
   justify-content: center;
   width: 90%;
   min-height: 300px;
-  max-height: 300px;
+  max-height: 500px;
   overflow-y: auto;
 }
 
@@ -19,7 +19,7 @@
   justify-content: center;
   width: 90%;
   min-height: 300px;
-  max-height: 300px;
+  max-height: 500px;
   overflow-y: auto;
   background-color: #302c30;
 }

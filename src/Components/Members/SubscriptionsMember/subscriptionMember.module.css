@@ -1,14 +1,13 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  min-height: 50vh;
 }
 
 .darkContainer {
+  min-height: 50vh;
   background-color: #302c30;
   transition: background-color 1s;
-
 }
 
 .text {
@@ -26,6 +25,7 @@
 }
 
 .title {
+  margin-top: 0;
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
@@ -46,14 +46,14 @@
 }
 
 .table {
+  max-width: 1000px;
   margin: 0 auto;
   border-collapse: collapse;
 }
 
 .thead {
-  background-color: #fff;
+  background-color: #d9d9d9;
   transition: background-color 1s;
-
 }
 
 .darkContainer .thead {

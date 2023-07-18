@@ -59,7 +59,7 @@ const List = ({ members, handleModal }) => {
         </table>
       </div>
       {filter.length === 0 ? (
-        <div className={styles.filter}>
+        <div className={dark ? `${styles.filter} ${styles.filterDark}` : `${styles.filter}`}>
           <p>There is no member with that name</p>
         </div>
       ) : (

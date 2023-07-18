@@ -1,7 +1,3 @@
-.section, .darkSection {
-  margin: 130px auto;
-}
-
 .content {
   display: flex;
   flex-direction: column;
