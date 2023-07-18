@@ -2,7 +2,7 @@ const LoginPage = require('../../pageobjects/LoginPage');
 const SchedulePage = require('../../pageobjects/Member/SchedulePage');
 const ActivitiesPage = require('../../pageobjects/Member/ActivitiesPage');
 const SubscriptionPage = require('../../pageobjects/Member/SubscriptionPage');
-const LogoutPage = require('../../pageobjects/Member/LogoutPage');
+const LogoutPage = require('../../pageobjects/LogoutPage');
 describe('Verify login with user with valid credentials', () => {
   beforeAll('Open browser', () => {
     browser.setWindowSize(1300, 700);

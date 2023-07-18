@@ -4,7 +4,7 @@
 //   }
 
 //   get ActivitiesSearch() {
-//     return $("[data-testid='activities-search-container']");
+//     return $("[data-testid='activities-search-container']> input");
 //   }
 
 //   //add new activity
@@ -22,7 +22,7 @@
 //   }
 
 //   get ActivitiesAddTrainerSelector() {
-//     return $('//*[@id="react-select-3-input"]');
+//     return $('form > div:nth-child(2) input');
 //   }
 
 //   get ActivitiesAddDescription() {
@@ -35,11 +35,11 @@
 
 //   //Edit
 //   get ActivitiesEditBtn() {
-//     return $("[data-testid='activities-edit-btn']");
+//     return $("[data-testid='activities-list']> tr > td:nth-child(4) > a > svg");
 //   }
 
 //   get ActivitiesEditTitle() {
-//     return $("[data-testid='activities-form-title-container']");
+//     return $("[data-testid='activities-form-container']");
 //   }
 
 //   get ActivitiesEditName() {
@@ -47,7 +47,7 @@
 //   }
 
 //   get ActivitiesEditDescription() {
-//     return $("[data-testid='activities-form-container']> div:nth-child(2) > textarea");
+//     return $("[data-testid='activities-form-container']> div:nth-child(3) > textarea");
 //   }
 
 //   //agregar el select del filtro
@@ -62,18 +62,16 @@
 //   //buttons
 
 //   get ActivitiesSubmitBtn() {
-//     return $(
-//       "[data-testid='activities-form-container']> div.form_formButtons__zQ21o > div > button"
-//     );
+//     return $("[data-testid='activities-form-container'] > div:last-child > div button");
 //   }
 
 //   get ActivitiesDeleteIcon() {
-//     return $("[data-testid='activities-delete-button']");
+//     return $("[data-testid='activities-list']> tr > td:nth-child(5) > svg");
 //   }
 
 //   //Modal
 //   get ActivitiesModal() {
-//     return $("[data-testid='confirm-modal-buttons']");
+//     return $("[data-testid='confirm-modal-buttons']:last-child > div:last-child > button");
 //   }
 
 //   get ActivitiesDeleteBtn() {

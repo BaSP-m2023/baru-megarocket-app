@@ -27,36 +27,38 @@
 //     await expect(ActivitiesPage.ActivitiesAddTitle).toBeDisplayed();
 //     await ActivitiesPage.ActivitiesAddName.setValue('Zumba');
 //     await ActivitiesPage.ActivitiesAddTrainerSelector.click();
-//     await ActivitiesPage.ActivitiesAddTrainerSelector.setValue('Nico Prueba');
+//     await ActivitiesPage.ActivitiesAddTrainerSelector.setValue('Santi Menendez');
 //     await browser.keys(['Enter']);
 //     await ActivitiesPage.ActivitiesAddDescription.setValue(
-//       'a progressive fitness program that blends Latin music and dynamic Latin-inspired dance moves to exercise your cardiovascular system and the whole body'
+//       'a progressive fitness program that blends Latin music and dynamic Latin-inspired dance moves'
 //     );
-//     await $('checkbox').click();
-//     await console.log($('checkbox').isSelected());
 //     await ActivitiesPage.ActivitiesSubmitBtn.click();
+//     await ActivitiesPage.ActivitiesModal.click();
 //   });
-//   // it('user should be able to edit an activity', async () => {
-//   //   await ActivitiesPage.ActivitiesNavBar.click();
-//   //   await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
-//   //   await ActivitiesPage.ActivitiesEditBtn.click();
-//   //   await expect(ActivitiesPage.ActivitiesEditTitle).toBeDisplayed();
-//   //   await ActivitiesPage.ActivitiesEditName.setValue('Pilates');
-//   //   await ActivitiesPage.ActivitiesEditDescription.setValue('shhsjslfoornsbsttersbbkoodkdjsggsgs');
-//   //   await ActivitiesPage.ActivitiesEditTrainerSelector.click();
-//   //   await ActivitiesPage.ActivitiesEditTrainer.click();
-//   //   await ActivitiesPage.ActivitiesSubmitBtn.click();
-//   // });
-//   // it('user should delete an activity', async () => {
-//   // await ActivitiesPage.ActivitiesNavBar.click();
-//   // await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
-//   // await ActivitiesPage.ActivitiesDeleteIcon.click();
-//   // await expect(ActivitiesPage.ActivitiesModal).toBeDisplayed();
-//   // await ActivitiesPage.ActivitiesDeleteBtn.click();
-//   //   await expect(browser).toHaveUrl(
-//   //     'https://baru-megarocket-app.vercel.app/activities'
-//   //   );
-//   // });
+//   it('user should be able to edit an activity', async () => {
+//     await ActivitiesPage.ActivitiesSearch.click();
+//     await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
+//     await ActivitiesPage.ActivitiesSearch.setValue('Zumba');
+//     await browser.keys(['Enter']);
+//     await ActivitiesPage.ActivitiesEditBtn.click();
+//     await expect(ActivitiesPage.ActivitiesEditTitle).toBeDisplayed();
+//     await ActivitiesPage.ActivitiesEditName.setValue('Pilates');
+//     await ActivitiesPage.ActivitiesEditDescription.setValue(
+//       'exercise performed lying down that stretches and lengthens the muscles'
+//     );
+//     await ActivitiesPage.ActivitiesSubmitBtn.click();
+//     await ActivitiesPage.ActivitiesModal.click();
+//   });
+//   it('user should delete an activity', async () => {
+//     await ActivitiesPage.ActivitiesSearch.click();
+//     await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
+//     await ActivitiesPage.ActivitiesSearch.setValue('Pilates');
+//     await browser.keys(['Enter']);
+//     await ActivitiesPage.ActivitiesDeleteIcon.click();
+//     await expect(ActivitiesPage.ActivitiesModal).toBeDisplayed();
+//     await ActivitiesPage.ActivitiesDeleteBtn.click();
+//     await expect(browser).toHaveUrl('https://baru-megarocket-app.vercel.app/user/admin/activities');
+//   });
 //   it('user should be able to logout', async () => {
 //     await LogoutPage.LogOutBtn.click();
 //     await expect(browser).toHaveUrl('https://baru-megarocket-app.vercel.app/');
