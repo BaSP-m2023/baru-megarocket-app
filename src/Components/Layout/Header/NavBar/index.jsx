@@ -37,6 +37,7 @@ const NavBar = ({ routes = [], showMenu, setShowMenu }) => {
                 ? `/user/super-admin/profile/${userLogged?._id}`
                 : `/user/${role.toLowerCase()}/profile/${userLogged?._id}`
             }
+            onClick={handleClick}
           >
             {userLogged?.lastName && (
               <div className={styles.profileContainer}>
