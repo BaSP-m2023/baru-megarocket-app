@@ -139,7 +139,7 @@ const MemberForm = ({ match }) => {
               </div>
             ))}
           </div>
-          <div>
+          <div className={styles.fieldContainer}>
             {secondFormEdit.map((field) => (
               <div className={styles.formGroup} key={field.name}>
                 <Input
@@ -162,7 +162,7 @@ const MemberForm = ({ match }) => {
             </div>
           </div>
         </form>
-        <div className={styles.container_button} data-testid="members-form-button">
+        <div className={styles.formButtons} data-testid="members-form-button">
           <Button
             action={() => history.push('/user/admin/members')}
             text={'Cancel'}

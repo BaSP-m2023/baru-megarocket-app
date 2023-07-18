@@ -1,33 +1,39 @@
 .button {
   width: 8rem;
   height: 2.8rem;
-  margin: 2rem;
+  margin: 1rem;
   font-weight: 600;
   font-size: 1rem;
   border: 0;
   border-radius: 5px;
   cursor: pointer;
 }
+
 .addButton {
   color: #242024;
   background-color: #f88d5c;
 }
+
 .submitButton {
   color: #242024;
   background-color: #f88d5c;
 }
+
 .deleteButton {
   color: #fdfdfd;
   background-color: #d10202;
 }
+
 .cancelButton {
   color: #fdfdfd;
   background-color: #403f3f;
 }
+
 .icon {
   width: 1rem;
   cursor: pointer;
 }
+
 .button[disabled] {
   cursor: auto;
 }
@@ -54,4 +60,16 @@
 .darkReset {
   height: 1.35rem;
   color: #fdfdfd;
+}
+@media screen and (max-width: 500px) {
+  .button {
+    width: 5rem;
+    height: 2.5rem;
+    margin: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 }

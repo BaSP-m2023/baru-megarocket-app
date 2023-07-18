@@ -27,16 +27,18 @@ const Table = ({ data = [] }) => {
     <div className={!dark ? styles.trainerContainer : styles.trainerDarkContainer}>
       <div className={styles.filterContainer}>
         <div className={styles.inputContainer} data-testid="trainers-search-container">
-          <Input
-            labelText="Filter Trainers"
-            type="text"
-            name="filter-trainer"
-            placeholder="Search by name or last name"
-            change={(e) => filterList(e.target.value.toLowerCase())}
-          />
-        </div>
-        <div className={styles.icon}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+          <div className={styles.searchInput}>
+            <Input
+              labelText="Filter Trainers"
+              type="text"
+              name="filter-trainer"
+              placeholder="Search by name or last name"
+              change={(e) => filterList(e.target.value.toLowerCase())}
+            />
+          </div>
+          <div className={styles.icon}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
+          </div>
         </div>
       </div>
       <div className={!dark ? styles.container : styles.darkContainer}>
@@ -60,8 +62,8 @@ const Table = ({ data = [] }) => {
         </table>
       </div>
       {filter.length === 0 ? (
-        <div className={styles.filter}>
-          <p>There is no trainer with that name or last name </p>
+        <div className={dark ? `${styles.filter} ${styles.filterDark}` : `${styles.filter}`}>
+          <p>There is not trainer with that name</p>
         </div>
       ) : (
         ''

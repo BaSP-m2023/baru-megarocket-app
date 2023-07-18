@@ -229,6 +229,10 @@ const Schedule = () => {
         showSchedule && (
           <>
             <div className={!dark ? styles.content : styles.darkContent}>
+              <h2 className={styles.monthTitle}>{`${format(
+                new Date(current.date),
+                'MMMM yyyy'
+              )}`}</h2>
               <div className={styles.filter} data-testid="classes-filters-container">
                 <label>Filter by Activity</label>
                 <select value={activityFilter} onChange={(e) => setActivityFilter(e.target.value)}>
@@ -257,8 +261,7 @@ const Schedule = () => {
                 )}
               </div>
               <div>
-                <div className={styles.titleContainer}>
-                  <h2>{`${format(new Date(current.date), 'MMMM yyyy')}`}</h2>
+                <div className={styles.arrowsContainer}>
                   <div className={styles.arrows} onClick={() => setNextPage(!nextPage)}>
                     {!nextPage && (
                       <>

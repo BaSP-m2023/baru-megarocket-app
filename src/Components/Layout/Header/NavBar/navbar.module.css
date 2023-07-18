@@ -1,63 +1,104 @@
-
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   width: 80%;
 }
 
-.link{
-  text-decoration: none;
-}
-
-.logoContainer{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 150px;
-  text-decoration: none;
-}
-
-.logo {
-  width: 90px;
-  transform: rotate(20deg);
-}
-
-.mega{
-  color:#e2e1e9;
-  font-size: 1.3rem;
-  font-weight: 650;
-  transform: translate(-10px, -10px);
-}
-
-.rocket{
-  color: #ddd8e9;
-  font-size: 1.4rem;
-  font-weight: 600;
-  transform: translate(-55px, 10px);
-
-}
-
-.buttonContainer{
-  display: flex;
-}
-
 .routes {
   display: flex;
+  justify-content: space-around;
+  width: 70%;
+  margin: 0;
+  padding: 0;
   list-style-type: none;
 }
 
 .a {
-  margin-left: 25px;
+  padding: 4px;
   font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;
   text-transform: capitalize;
-  color: #fff;
+  color: #f3e6e6;
+  transition: .2s ease-in;
 }
-
 .active{
   text-decoration: underline;
+}
+
+.profileLink {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.profileContainer {
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.profileImg {
+  width: 2rem;
+  margin: 0 0.4rem;
+  width: 3.5rem;
+  margin-right: 1rem;
+  border-radius: 50%;
+}
+
+@media screen and (max-width: 1090px){
+  .navbar{
+    position: fixed;
+    flex-direction: column;
+    width: 100%;
+    top: 100px;
+    left: 0;
+    background-color: #242024;
+  }
+  .navbar *{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .hidden{
+    display: none;
+  }
+  .profileImg {
+    width: 2rem;
+    margin-right: 10px;
+  }
+  .routes{
+    flex-direction: column;
+    order: 2;
+    padding: 2;
+  }
+  .routes li{
+    border-bottom: 1px solid #f88d5c;
+    padding: 1%;
+    padding-left: 5%;
+  }
+  .profileContainer{
+    order: 1;
+    border-bottom: 1px solid #f88d5c;
+    padding: 2%;
+    padding-left: 5%;
+    color: #fff;
+  }
+}
+
+.a:hover {
+  border-radius: 4px;
+  background: linear-gradient(#242023, #f88d5c);
+  color: #242023;
+  border-bottom: 2px solid;
+}
+
+.activeLink {
+  border-radius: 4px;
+  transform: translate(10px, 10px);
+  background: linear-gradient(#242023,#f88d5c);
 }
 
 @media only screen and (max-width: 1000px) {
@@ -73,13 +114,13 @@
   .navbar ::-webkit-scrollbar {
     padding-top: 2px;
     width: 0.2rem;
-    height: 0.4rem; 
+    height: 0.4rem;
   }
-  
+
   .navbar ::-webkit-scrollbar-track {
     background-color: #cdcdcd;
   }
-  
+
   .navbar ::-webkit-scrollbar-thumb {
     background-color: #242024;
     border-radius: 100px;

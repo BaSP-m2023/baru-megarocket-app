@@ -1,27 +1,51 @@
-.containerHome {
-  width: 100%;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  background: linear-gradient(180deg, #242024 0%, rgba(35,31,33,1) 100%);
-  z-index: 100;
-}
-
-.containerPage {
-  position: fixed;
-  width: 100%;
-  height: 100px;
+.container {
+  position: sticky;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  top: 0;
+  padding: 0.5em 1em;
   background: linear-gradient(180deg, #242024 0%, rgba(35,31,33,1) 100%);
-  z-index: 100;
+  z-index: 2;
 }
-
 .container2{
   display: flex;
   align-items: center;
-  padding-right: 2%;
+  justify-content: space-between;
+}
+
+.link{
+  text-decoration: none;
+}
+
+.logoContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo {
+  width: 90px;
+  transform: rotate(20deg);
+}
+
+.mega{
+  color:#e2e1e9;
+  font-size: 1.3rem;
+  font-weight: 650;
+  transform: translate(-10px, -10px);
+}
+
+.rocket{
+  color: #ddd8e9;
+  font-size: 1.4rem;
+  font-weight: 600;
+  transform: translate(-55px, 10px);
+}
+
+.buttonContainer{
+  display: flex;
 }
 
 .socialIcon {
@@ -62,14 +86,15 @@
 .profileContainer {
   display: flex;
   align-items: center;
-  cursor: pointer;
+  margin: 0 1em;
   font-weight: 600;
+  cursor: pointer;
+  background-color: #d56423;
 }
 
 .toggleContainer {
   display: flex;
   align-items: center;
-  margin-right: 2rem;
 }
 
 .toggle {
@@ -77,26 +102,16 @@
   color: #d56423;
 }
 
-.profileImg {
-  width: 2rem;
-  margin: 0 0.4rem;
-  width: 3.5rem;
-  margin-right: 1rem;
-  background-color: #ffffff;
-  border: 1px solid #000000;
-  border-radius: 50%;
-}
-
 .userContainer {
   display: flex;
+  align-items: center;
 }
 
 .logOutButtonContainer{
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-left: 5px;
-  width: 180px;
+  width: 130px;
 }
 
 .logOutButton {
@@ -104,7 +119,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-right: 2rem;
   width: 45px;
   height: 45px;
   border: none;
@@ -167,20 +181,65 @@
   transform: translate(2px ,2px);
 }
 
+.link {
+  text-decoration: none;
+}
+
+.logo {
+  width: 90px;
+  transform: rotate(20deg);
+}
+
+.mega {
+  color: #e2e1e9;
+  font-size: 1.3rem;
+  font-weight: 650;
+  transform: translate(-10px, -10px);
+}
+
+.rocket {
+  color: #ddd8e9;
+  font-size: 1.4rem;
+  font-weight: 600;
+  transform: translate(-55px, 10px);
+}
+
+.iconMode {
+  color: #ddd8e9;
+  height: 1.2em;
+  margin: 0 5px;
+}
+
 .moon {
-  color: white;
+  color: #242024;
 }
 
-.sun {
-  color: orange;
+.hamburger{
+  display: none;
 }
 
-@media screen and (min-width: 750px) {
-  .container {
-    padding: 0 2rem;
+@media screen and (max-width: 1090px){
+  .container{
+    justify-content: space-between;
   }
+  .hamburger{
+    display: block;
+  }
+  .logOutButtonContainer{
+    width: 150px;
+    margin-right: 2%;
+  }
+}
 
-  .navbar {
-    padding: 0 2rem;
+@media screen and (max-width: 396px){
+  .logoContainer p, .toggleContainer{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 509px){
+  .logOutButtonContainer{
+    width: 50px;
+    height: 50px;
   }
 }

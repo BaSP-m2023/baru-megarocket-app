@@ -18,13 +18,28 @@
   display: flex;
 }
 
+.filter {
+  text-align: center;
+  color: #242024;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.filterDark {
+  color: #fff;
+}
+
 .trainerDarkContainer {
   color: #fff;
 }
 
-.inputContainer {
+.searchInput{
   display: flex;
   flex-direction: column;
+}
+
+.inputContainer {
+  display: flex;
   margin-left: 5%;
   margin-bottom: 2%;
 }
@@ -55,6 +70,7 @@
 
 .icon {
   margin-top: 37px;
+  margin-left: 10px;
 }
 
 .column {
