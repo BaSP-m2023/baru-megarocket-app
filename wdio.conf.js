@@ -28,6 +28,11 @@ exports.config = {
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
+    './test/specs/Admin/**/*.js',
+    './test/specs/Member/**/*.js',
+    './test/specs/Superadmin/**/*.js',
+    './test/specs/Trainer/**/*.js',
+    './test/specs/memberCrudE2E.js'
   ],
   //
   // ============

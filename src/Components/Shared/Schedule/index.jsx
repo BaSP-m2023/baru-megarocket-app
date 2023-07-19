@@ -233,7 +233,7 @@ const Schedule = () => {
                 new Date(current.date),
                 'MMMM yyyy'
               )}`}</h2>
-              <div className={styles.filter}>
+              <div className={styles.filter} data-testid="classes-filters-container">
                 <label>Filter by Activity</label>
                 <select value={activityFilter} onChange={(e) => setActivityFilter(e.target.value)}>
                   <option value={''}>All classes</option>
@@ -308,7 +308,7 @@ const Schedule = () => {
                         ))}
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody data-testid="classes-list">
                       {hours.map((hour) => (
                         <tr key={hour} className={styles.tr}>
                           <td>{hour}</td>

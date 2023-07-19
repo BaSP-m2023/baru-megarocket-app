@@ -124,6 +124,7 @@ const ModalData = ({
                   text={`${reason.charAt(0).toUpperCase()}${reason.substring(1)}`}
                   classNameButton={reason === 'subscribe' ? 'submitButton' : 'deleteButton'}
                   disabled={disabled}
+                  testid="activities-subscribe"
                 />
               )}
             </div>
