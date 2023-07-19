@@ -1,4 +1,4 @@
-.table {
+.table, .darkTable {
   width: 100%;
   border-spacing: 0 5px;
   overflow-x: scroll;
