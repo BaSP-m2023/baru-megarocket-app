@@ -98,7 +98,7 @@ describe('Application E2E', () => {
 
       await AdminsForm.submitBtn.scrollIntoView();
       await AdminsForm.submitForm();
-      await AdminsForm.confirmModalCancelBtn.click();
+      // await AdminsForm.confirmModalCancelBtn.click();
       await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(7);
     });
 
@@ -245,7 +245,7 @@ describe('Application E2E', () => {
 
     it('Should give an error when trying to create a new class with empty info', async () => {
       const emptyHoursArray = await ClassesTable.lastEmptyHours;
-      const lastEmptyHour = await emptyHoursArray[emptyHoursArray.length - 4];
+      const lastEmptyHour = await emptyHoursArray[emptyHoursArray.length - 1];
       await lastEmptyHour.scrollIntoView();
       await lastEmptyHour.click();
 
@@ -321,6 +321,7 @@ describe('Application E2E', () => {
       await SchedulePage.allActivities.scrollIntoView();
       await SchedulePage.allActivities.click();
       await SchedulePage.subscribeBtn.click();
+      await ResponseModal.modalText.waitForDisplayed({ reverse: true });
     });
 
     it('user should logout correctly', async () => {
