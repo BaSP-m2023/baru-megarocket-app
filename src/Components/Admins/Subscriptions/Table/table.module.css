@@ -105,6 +105,15 @@
 
 .inputContainer {
   display: flex;
+  margin-bottom: 2%;
+}
+
+.inputContainer input{
+  width: 250px;
+}
+
+.inputContainer input::placeholder {
+  color: #8f8e8e;
 }
 
 .subsContainer .filter {

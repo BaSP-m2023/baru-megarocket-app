@@ -74,16 +74,21 @@
 .darkInputContainer input {
   background-color: #242024;
   color: #fff;
+  width: 250px;
 }
 
 .darkInputContainer ::placeholder {
-  color: #a1a1a1;
+  color: #8f8e8e;
 }
 
 .inputContainer label {
   display: flex;
   flex-direction: column;
   margin-bottom: 1%;
+}
+
+.inputContainer input {
+  width: 250px;
 }
 
 .filter {
@@ -100,6 +105,7 @@
 
 .darkIcon {
   margin-top: 37px;
+  margin-left: 10px;
   color: #ffffff;
 }
 

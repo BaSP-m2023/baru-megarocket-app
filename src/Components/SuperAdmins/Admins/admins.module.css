@@ -46,7 +46,6 @@
 .searchContainer {
     display: flex;
     align-self: flex-start;
-    margin-left: 5%;
     margin-bottom: 2%;
 }
 
@@ -56,7 +55,7 @@
   align-items: center;
   justify-content: center;
   margin-left: 10px;
-  margin-top: 8px;
+  margin-top: 30px;
 }
 
 .darkContainer label, .darkContainer .icon  {
@@ -68,9 +67,6 @@
   background-color:#242024;
 }
 
-.searchContainer{
-  display: flex;
-    align-self: flex-start;
-    margin-left: 5%;
-    margin-bottom: 2%;
+.searchContainer input {
+  width: 250px;
 }
