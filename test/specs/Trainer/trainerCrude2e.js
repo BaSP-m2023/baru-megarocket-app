@@ -46,7 +46,7 @@ describe('Trainer', () => {
         '25000'
       );
     });
-    it('add new trainer button', async () => {
+    it('add new trainer button confirm', async () => {
       await expect(AddNewTrainer.submitBtn).toBeDisplayed();
       await AddNewTrainer.SubmitBtnClick();
     });
@@ -64,7 +64,7 @@ describe('Trainer', () => {
       await EditTrainer.EditBtnClick();
     });
     it('edit id', async () => {
-      await EditTrainer.completeForm('5569887745');
+      await EditTrainer.completeForm('41579728');
     });
     it('Update click button', async () => {
       await expect(EditTrainer.updateBtn).toBeDisplayed();

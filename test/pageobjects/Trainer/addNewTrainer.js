@@ -36,7 +36,7 @@ class AddNewTrainer {
   }
 
   get submitBtn() {
-    return $('[data-testid="trainers-form-buttons"] div:nth-child(3) button');
+    return $('[data-testid="trainers-form-buttons"] div:nth-child(2) button');
   }
 
   get confirmAlert() {

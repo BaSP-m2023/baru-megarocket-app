@@ -1,6 +1,6 @@
 class EditTrainer {
   get editBtn() {
-    return $('[data-testid="trainers-list"] div:nth-child(1) img');
+    return $('[data-testid="trainers-list"] tr:nth-child(2) td:nth-child(6)');
   }
 
   get inputId() {
@@ -8,7 +8,7 @@ class EditTrainer {
   }
 
   get updateBtn() {
-    return $('[data-testid="trainers-form-buttons"]  DIV:nth-child(3) button');
+    return $('[data-testid="trainers-form-buttons"] div:nth-child(2) button');
   }
 
   get cancelBtn() {
