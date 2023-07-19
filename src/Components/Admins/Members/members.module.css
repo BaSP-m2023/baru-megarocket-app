@@ -2,7 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 80vh;
+  min-height: 70vh;
+}
+
+.containerLoader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {

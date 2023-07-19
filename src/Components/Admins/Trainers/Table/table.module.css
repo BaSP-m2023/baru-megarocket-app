@@ -44,8 +44,12 @@
   margin-bottom: 2%;
 }
 
+.inputContainer input {
+  width: 250px;
+}
+
 .inputContainer ::placeholder {
-  color: #000;
+  color: #8f8e8e;
 }
 
 .filterContainer .filter {
