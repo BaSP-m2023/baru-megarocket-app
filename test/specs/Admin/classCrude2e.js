@@ -1,8 +1,8 @@
-const HomePage = require('../../pageObjects/Home/homePage');
-const LoginPage = require('../../pageObjects/Login/loginPage');
-const NavBar = require('../../pageObjects/Shared/navBarComponent');
-const ClassesTable = require('../../pageObjects/Classes/classesTable');
-const ResponseModal = require('../../pageObjects/Shared/responseModalComponent');
+const HomePage = require('../../pageobjects/Home/homePage');
+const LoginPage = require('../../pageobjects/Login/loginPage');
+const NavBar = require('../../pageobjects/Shared/navBarComponent');
+const ClassesTable = require('../../pageobjects/Classes/classesTable');
+const ResponseModal = require('../../pageobjects/Shared/responseModalComponent');
 
 let currentUrl = '';
 const validEmail = 'secondadmin@gmail.com';
