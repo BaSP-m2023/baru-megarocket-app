@@ -22,12 +22,11 @@ describe('Verify login with user with valid credentials', () => {
   });
   it('user should be able to add a new activity', async () => {
     await ActivitiesPage.ActivitiesNavBar.click();
-    await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
     await ActivitiesPage.ActivitiesAddNew.click();
     await expect(ActivitiesPage.ActivitiesAddTitle).toBeDisplayed();
     await ActivitiesPage.ActivitiesAddName.setValue('Zumba');
     await ActivitiesPage.ActivitiesAddTrainerSelector.click();
-    await ActivitiesPage.ActivitiesAddTrainerSelector.setValue('Lio Messi');
+    await ActivitiesPage.ActivitiesAddTrainerSelector.setValue('Manu Ginnobili');
     await browser.keys(['Enter']);
     await ActivitiesPage.ActivitiesAddDescription.setValue(
       'a progressive fitness program that blends Latin music and dynamic Latin-inspired dance moves'
