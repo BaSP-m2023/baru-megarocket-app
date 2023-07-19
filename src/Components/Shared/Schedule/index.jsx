@@ -107,23 +107,23 @@ const Schedule = () => {
   }, [user]);
 
   const clickMember = (data, date) => {
-    const subscribed = subscriptions.filter((subs) => {
-      return subs.date.slice(0, 10) === date && subs.classes._id === data._id;
+    const subscribed = subscriptions?.filter((subs) => {
+      return subs?.date?.slice(0, 10) === date && subs?.classes?._id === data._id;
     });
     setShowConfirmModal(true);
     if (data.subId) {
-      const trainer = trainers.find((trainer) => trainer._id === data.trainer);
+      const trainer = trainers?.find((trainer) => trainer._id === data.trainer);
       setModalData({
         ...data,
         trainer,
         date,
-        subscribed: subscribed.length
+        subscribed: subscribed?.length
       });
     } else {
       setModalData({
         ...data,
         date,
-        subscribed: subscribed.length
+        subscribed: subscribed?.length
       });
     }
   };
