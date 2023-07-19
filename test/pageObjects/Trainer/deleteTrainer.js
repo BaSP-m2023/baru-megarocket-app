@@ -1,6 +1,6 @@
 class DeleteTrainer {
   get deleteBtn() {
-    return $('[data-testid="trainers-list"] td:nth-child(7) > div > img');
+    return $('[data-testid="trainers-list"] tr:nth-child(2) td:nth-child(7)');
   }
 
   get deleteAlert() {
