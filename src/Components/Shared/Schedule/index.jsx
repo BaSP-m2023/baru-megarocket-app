@@ -107,30 +107,30 @@ const Schedule = () => {
   }, [user]);
 
   const clickMember = (data, date) => {
-    const subscribed = subscriptions.filter((subs) => {
-      return subs.date.slice(0, 10) === date && subs.classes._id === data._id;
+    const subscribed = subscriptions?.filter((subs) => {
+      return subs?.date?.slice(0, 10) === date && subs?.classes?._id === data._id;
     });
     setShowConfirmModal(true);
     if (data.subId) {
-      const trainer = trainers.find((trainer) => trainer._id === data.trainer);
+      const trainer = trainers?.find((trainer) => trainer._id === data.trainer);
       setModalData({
         ...data,
         trainer,
         date,
-        subscribed: subscribed.length
+        subscribed: subscribed?.length
       });
     } else {
       setModalData({
         ...data,
         date,
-        subscribed: subscribed.length
+        subscribed: subscribed?.length
       });
     }
   };
 
   const clickAdmin = ({ oneClass, reason, createData, date }) => {
     const subscribed = subscriptions.filter((subs) => {
-      return subs.date.slice(0, 10) === date && subs.classes._id === oneClass?._id;
+      return subs?.date?.slice(0, 10) === date && subs?.classes?._id === oneClass?._id;
     });
     if (reason === 'edit') {
       setShowForm({ show: true, data: oneClass, reason, subscribed: subscribed.length, date });
@@ -141,10 +141,10 @@ const Schedule = () => {
 
   const clickTrainer = (data, date) => {
     const subscribed = subscriptions.filter((subs) => {
-      return subs.date.slice(0, 10) === date && subs.classes._id === data._id;
+      return subs?.date?.slice(0, 10) === date && subs?.classes?._id === data._id;
     });
     const membersSubscription = subscriptions?.filter((subs) => {
-      return subs.date.slice(0, 10) === date && subs.classes?._id === data._id;
+      return subs?.date?.slice(0, 10) === date && subs?.classes?._id === data._id;
     });
     setMemberSubs(membersSubscription);
     // eslint-disable-next-line no-unused-vars
