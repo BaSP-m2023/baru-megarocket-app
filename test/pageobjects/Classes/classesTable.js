@@ -11,8 +11,8 @@ class ClassesTable {
     return $('[data-testid="classes-list"]');
   }
 
-  get lastEmptyHour() {
-    return $('[data-testid="classes-list"] tr:last-child td div:empty');
+  get lastEmptyHours() {
+    return $$('[data-testid="classes-list"] tr:last-child td div:empty');
   }
 
   get modalForm() {

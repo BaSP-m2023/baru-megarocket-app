@@ -3,6 +3,10 @@ class Activities {
     return $("[data-testid='routes-list']> li:nth-child(1) > a");
   }
 
+  get ActivitesFilter() {
+    return $('[data-testid="activities-search-container"] input');
+  }
+
   //add new activity
 
   get ActivitiesAddNew() {

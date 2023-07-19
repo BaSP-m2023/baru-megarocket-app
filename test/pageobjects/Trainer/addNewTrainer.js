@@ -3,6 +3,10 @@ class AddNewTrainer {
     return $('[data-testid="routes-list"] li:nth-child(5) > a');
   }
 
+  get trainerFilter() {
+    return $('[data-testid="trainers-search-container"] input');
+  }
+
   get addNewbtn() {
     return $('[data-testid="trainer-add-link"] >   div  > button');
   }

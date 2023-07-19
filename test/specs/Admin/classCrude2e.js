@@ -65,8 +65,10 @@ describe('Admin Classes CRUD', () => {
     });
 
     it('Should give an error when trying to create a new class with empty info', async () => {
-      await ClassesTable.lastEmptyHour.scrollIntoView();
-      await ClassesTable.clickLastEmptyHour();
+      const emptyHoursArray = await ClassesTable.lastEmptyHours;
+      const lastEmptyHour = await emptyHoursArray[emptyHoursArray.length - 1];
+      await lastEmptyHour.scrollIntoView();
+      await lastEmptyHour.click();
 
       await expect(ClassesTable.modalForm).toBeDisplayed();
       await expect(ClassesTable.modalFormTitle).toHaveTextContaining('Create class');

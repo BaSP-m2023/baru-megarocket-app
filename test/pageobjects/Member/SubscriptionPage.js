@@ -16,7 +16,7 @@ class Subscription {
   }
 
   get deleteBtnmodal() {
-    return $("[data-testid='confirm-modal-buttons']:last-child > div:last-child > button");
+    return $("[data-testid='confirm-modal-buttons']:last-child > div:last-child  button");
   }
 }
 

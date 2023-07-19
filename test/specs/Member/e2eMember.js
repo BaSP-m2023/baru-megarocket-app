@@ -1,4 +1,4 @@
-const LoginPage = require('../../pageobjects/LoginPage');
+const LoginPage = require('../../pageobjects/loginPage');
 const SchedulePage = require('../../pageobjects/Member/SchedulePage');
 const ActivitiesPage = require('../../pageobjects/Member/ActivitiesPage');
 const SubscriptionPage = require('../../pageobjects/Member/SubscriptionPage');
