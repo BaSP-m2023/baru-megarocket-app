@@ -248,7 +248,11 @@ function AdminsForm({ match }) {
                 </Link>
               </div>
               <div>
-                <Button text={'Confirm'} action={onConfirm} classNameButton="submitButton" />
+                <Button
+                  text={'Confirm'}
+                  action={handleSubmit(onConfirm)}
+                  classNameButton="submitButton"
+                />
               </div>
             </div>
             <div className={styles.resetContainer}>
