@@ -12,18 +12,15 @@ import { Input } from 'Components/Shared/Inputs';
 import { Button, Reset } from 'Components/Shared/Button';
 import ConfirmModal from 'Components/Shared/ConfirmModal';
 import ResponseModal from 'Components/Shared/ResponseModal';
-import { useHistory } from 'react-router-dom';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import styles from './profile.module.css';
 
 function AdminProfile({ match }) {
-  const history = useHistory();
   const dispatch = useDispatch();
   const adminId = match.params.id;
   const [disableEdit, setDisableEdit] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const redirect = useSelector((state) => state.admins.redirect);
   const { show, message, state } = useSelector((state) => state.toast);
   const { dark } = useSelector((state) => state.darkmode);
   const defaultAdmin = useSelector((state) => state.auth.user || '');
@@ -52,12 +49,6 @@ function AdminProfile({ match }) {
   useEffect(() => {
     dispatch(getAdmins());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (redirect) {
-      history.push('/user/admin/home');
-    }
-  }, [redirect]);
 
   useEffect(() => {
     const adminUpdated = admins && admins?.find((ad) => ad._id === defaultAdmin._id);
