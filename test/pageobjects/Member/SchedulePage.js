@@ -8,7 +8,7 @@ class Schedule {
   }
 
   get allActivities() {
-    return $('table > tbody > tr > td > div:not(:empty)');
+    return $('[data-testid="classes-list"] tr:last-child td:last-child');
   }
 
   get subscribeBtn() {

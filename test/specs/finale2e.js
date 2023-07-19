@@ -5,7 +5,7 @@ const AdminsTable = require('../pageobjects/Admins/adminsTable');
 const AdminsForm = require('../pageobjects/Admins/adminsForm');
 const ResponseModal = require('../pageobjects/Shared/responseModalComponent');
 const AddNewTrainer = require('../pageObjects/Trainer/addNewTrainer');
-const ActivitiesPage = require('../pageobjects/Admin/ActivitiesPage');
+const ActivitiesPage = require('../pageobjects/Admins/ActivitiesPage');
 const ClassesTable = require('../pageobjects/Classes/classesTable');
 const SchedulePage = require('../pageobjects/Member/SchedulePage');
 const DeleteTrainer = require('../pageObjects/Trainer/deleteTrainer');
@@ -17,7 +17,7 @@ const validPassword = 'Abc123456';
 describe('Application E2E', () => {
   describe('Superadmin functionality', () => {
     beforeAll('Open Browser Url', () => {
-      browser.url('http://localhost:3000/');
+      browser.url('https://baru-megarocket-app.vercel.app/');
       browser.setWindowSize(1920, 1080);
     });
 
@@ -28,7 +28,7 @@ describe('Application E2E', () => {
       await HomePage.loginBtnClick();
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('http://localhost:3000/auth/login');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/auth/login');
       await expect(LoginPage.loginTitle).toBeDisplayed();
       await expect(LoginPage.emailInput).toBeDisplayed();
       await expect(LoginPage.passwordInput).toBeDisplayed();
@@ -79,7 +79,9 @@ describe('Application E2E', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/user/super-admin/admins');
+      await expect(currentUrl).toEqual(
+        'https://baru-megarocket-app.vercel.app/user/super-admin/admins'
+      );
 
       await expect(AdminsTable.searchInput).toBeDisplayed();
       await expect(AdminsTable.tableList).toBeDisplayed();
@@ -92,7 +94,9 @@ describe('Application E2E', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/user/super-admin/admins/add');
+      await expect(currentUrl).toEqual(
+        'https://baru-megarocket-app.vercel.app/user/super-admin/admins/add'
+      );
       await expect(AdminsForm.formTitle).toHaveTextContaining('Add admin');
       await expect(AdminsForm.form).toBeDisplayed();
 
@@ -126,7 +130,9 @@ describe('Application E2E', () => {
       await ResponseModal.modalText.waitForDisplayed({ reverse: true });
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('http://localhost:3000/user/super-admin/admins');
+      await expect(currentUrl).toEqual(
+        'https://baru-megarocket-app.vercel.app/user/super-admin/admins'
+      );
     });
 
     it('Superadmin should logout correctly', async () => {
@@ -141,7 +147,7 @@ describe('Application E2E', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
       await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
     });
   });
@@ -154,7 +160,7 @@ describe('Application E2E', () => {
       await HomePage.loginBtnClick();
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('http://localhost:3000/auth/login');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/auth/login');
       await expect(LoginPage.loginTitle).toBeDisplayed();
       await expect(LoginPage.emailInput).toBeDisplayed();
       await expect(LoginPage.passwordInput).toBeDisplayed();
@@ -236,7 +242,7 @@ describe('Application E2E', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/user/admin/classes');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/user/admin/classes');
 
       await expect(ClassesTable.filterByActivityInput).toBeDisplayed();
       await expect(ClassesTable.filterByTrainerInput).toBeDisplayed();
@@ -287,7 +293,7 @@ describe('Application E2E', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
       await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
     });
   });
@@ -300,7 +306,7 @@ describe('Application E2E', () => {
       await HomePage.loginBtnClick();
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('http://localhost:3000/auth/login');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/auth/login');
       await expect(LoginPage.loginTitle).toBeDisplayed();
       await expect(LoginPage.emailInput).toBeDisplayed();
       await expect(LoginPage.passwordInput).toBeDisplayed();
@@ -336,7 +342,7 @@ describe('Application E2E', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
       await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
     });
   });
@@ -349,7 +355,7 @@ describe('Application E2E', () => {
       await HomePage.loginBtnClick();
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('http://localhost:3000/auth/login');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/auth/login');
       await expect(LoginPage.loginTitle).toBeDisplayed();
       await expect(LoginPage.emailInput).toBeDisplayed();
       await expect(LoginPage.passwordInput).toBeDisplayed();
@@ -371,7 +377,7 @@ describe('Application E2E', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/user/admin/classes');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/user/admin/classes');
 
       await expect(ClassesTable.filterByActivityInput).toBeDisplayed();
       await expect(ClassesTable.filterByTrainerInput).toBeDisplayed();
@@ -412,7 +418,9 @@ describe('Application E2E', () => {
       await ActivitiesPage.ActivitiesDeleteIcon.click();
       await expect(ActivitiesPage.ActivitiesModal).toBeDisplayed();
       await ActivitiesPage.ActivitiesDeleteBtn.click();
-      await expect(browser).toHaveUrl('http://localhost:3000/user/admin/activities');
+      await expect(browser).toHaveUrl(
+        'https://baru-megarocket-app.vercel.app/user/admin/activities'
+      );
     });
 
     it('should navigate and delete trainer', async () => {
@@ -436,7 +444,7 @@ describe('Application E2E', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
       await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
     });
   });
@@ -449,7 +457,7 @@ describe('Application E2E', () => {
       await HomePage.loginBtnClick();
 
       currentUrl = await browser.getUrl();
-      await expect(currentUrl).toEqual('http://localhost:3000/auth/login');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/auth/login');
       await expect(LoginPage.loginTitle).toBeDisplayed();
       await expect(LoginPage.emailInput).toBeDisplayed();
       await expect(LoginPage.passwordInput).toBeDisplayed();
@@ -471,7 +479,9 @@ describe('Application E2E', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/user/super-admin/admins');
+      await expect(currentUrl).toEqual(
+        'https://baru-megarocket-app.vercel.app/user/super-admin/admins'
+      );
 
       await expect(AdminsTable.searchInput).toBeDisplayed();
       await expect(AdminsTable.tableList).toBeDisplayed();
@@ -506,7 +516,7 @@ describe('Application E2E', () => {
 
       currentUrl = await browser.getUrl();
 
-      await expect(currentUrl).toEqual('http://localhost:3000/');
+      await expect(currentUrl).toEqual('https://baru-megarocket-app.vercel.app/');
       await expect(HomePage.homeTitle).toHaveTextContaining('MegaRocket Web');
     });
   });
