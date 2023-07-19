@@ -35,10 +35,6 @@ describe('Verify login with user with valid credentials', () => {
     await ActivitiesPage.ActivitiesModal.click();
   });
   it('user should be able to edit an activity', async () => {
-    // await ActivitiesPage.ActivitiesSearch.click();
-    // await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
-    // await ActivitiesPage.ActivitiesSearch.setValue('Zumba');
-    // await browser.keys(['Enter']);
     await ActivitiesPage.ActivitiesEditBtn.click();
     await expect(ActivitiesPage.ActivitiesEditTitle).toBeDisplayed();
     await ActivitiesPage.ActivitiesEditName.setValue('Pilates');
@@ -49,10 +45,6 @@ describe('Verify login with user with valid credentials', () => {
     await ActivitiesPage.ActivitiesModal.click();
   });
   it('user should delete an activity', async () => {
-    // await ActivitiesPage.ActivitiesSearch.click();
-    // await expect(ActivitiesPage.ActivitiesSearch).toBeDisplayed();
-    // await ActivitiesPage.ActivitiesSearch.setValue('Pilates');
-    // await browser.keys(['Enter']);
     await ActivitiesPage.ActivitiesDeleteIcon.click();
     await expect(ActivitiesPage.ActivitiesModal).toBeDisplayed();
     await ActivitiesPage.ActivitiesDeleteBtn.click();

@@ -11,22 +11,12 @@ class Login {
     return $("[data-testid='login-title-container']");
   }
 
-  get loginEmailContainer() {
-    return $("[data-testid='login-email-container']");
-  }
-
   get loginEmailInput() {
     return $("[data-testid='login-email-container']> input");
   }
 
-  get loginPasswordContainer() {
-    return $('#root > div > div > section > form > div.login_containerPassword__Nu596');
-  }
-
   get loginPassInput() {
-    return $(
-      '#root > div > div > section > form > div.login_containerPassword__Nu596 > div.login_inputContainerPassword__rlprR > input'
-    );
+    return $('input[name="password"]');
   }
 
   get loginGreenBtn() {
