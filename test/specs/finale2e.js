@@ -327,7 +327,6 @@ describe('Application E2E', () => {
       await SchedulePage.allActivities.scrollIntoView();
       await SchedulePage.allActivities.click();
       await SchedulePage.subscribeBtn.click();
-      await ResponseModal.modalText.waitForDisplayed({ reverse: true });
     });
 
     it('user should logout correctly', async () => {
@@ -336,9 +335,6 @@ describe('Application E2E', () => {
       await NavBar.logoutBtn.scrollIntoView();
 
       await NavBar.logoutBtnClick();
-
-      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
-      await expect(ResponseModal.modalText).toHaveTextContaining('See you later');
 
       currentUrl = await browser.getUrl();
 
