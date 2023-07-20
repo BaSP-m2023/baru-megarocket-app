@@ -19,7 +19,6 @@ The Mongo database has the data of each user, classes and activities while in th
 Tests are made with WebDriverIO based in Jasmine. <br>
 
 ## Setup environment file
-### Ask the enviroment variables to the following mail: r.fontan12@gmail.com
 ### [Server](https://github.com/BaSP-m2023/baru-megarocket-server)
 create a file at root called `.env` and add the variables required for the server
 
