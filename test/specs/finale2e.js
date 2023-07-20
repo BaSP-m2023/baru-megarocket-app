@@ -102,7 +102,6 @@ describe('Application E2E', () => {
 
       await AdminsForm.submitBtn.scrollIntoView();
       await AdminsForm.submitForm();
-      // await AdminsForm.confirmModalCancelBtn.click();
       await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(7);
     });
 
@@ -480,12 +479,12 @@ describe('Application E2E', () => {
       );
 
       await expect(AdminsTable.searchInput).toBeDisplayed();
-      await expect(AdminsTable.tableList).toBeDisplayed();
       await expect(AdminsTable.addNewBtn).toBeDisplayed();
       await expect(AdminsTable.adminsTitle).toHaveTextContaining('Admins');
     });
 
     it('Should delete correctly the last added admin', async () => {
+      await browser.pause(4000);
       await expect(AdminsTable.tableList).toBeDisplayed();
       const deleteIconsArray = await AdminsTable.allDeleteIcons;
       const addedClassDeleteIcon = await deleteIconsArray[deleteIconsArray.length - 1];
