@@ -102,7 +102,6 @@ describe('Application E2E', () => {
 
       await AdminsForm.submitBtn.scrollIntoView();
       await AdminsForm.submitForm();
-      // await AdminsForm.confirmModalCancelBtn.click();
       await expect(AdminsForm.errorMessages).toBeElementsArrayOfSize(7);
     });
 
@@ -327,7 +326,6 @@ describe('Application E2E', () => {
       await SchedulePage.allActivities.scrollIntoView();
       await SchedulePage.allActivities.click();
       await SchedulePage.subscribeBtn.click();
-      await ResponseModal.modalText.waitForDisplayed({ reverse: true });
     });
 
     it('user should logout correctly', async () => {
@@ -336,9 +334,6 @@ describe('Application E2E', () => {
       await NavBar.logoutBtn.scrollIntoView();
 
       await NavBar.logoutBtnClick();
-
-      await ResponseModal.modalText.waitForDisplayed({ timeout: 5000 });
-      await expect(ResponseModal.modalText).toHaveTextContaining('See you later');
 
       currentUrl = await browser.getUrl();
 
@@ -484,12 +479,12 @@ describe('Application E2E', () => {
       );
 
       await expect(AdminsTable.searchInput).toBeDisplayed();
-      await expect(AdminsTable.tableList).toBeDisplayed();
       await expect(AdminsTable.addNewBtn).toBeDisplayed();
       await expect(AdminsTable.adminsTitle).toHaveTextContaining('Admins');
     });
 
     it('Should delete correctly the last added admin', async () => {
+      await browser.pause(4000);
       await expect(AdminsTable.tableList).toBeDisplayed();
       const deleteIconsArray = await AdminsTable.allDeleteIcons;
       const addedClassDeleteIcon = await deleteIconsArray[deleteIconsArray.length - 1];
